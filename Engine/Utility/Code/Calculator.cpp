@@ -473,6 +473,219 @@ _bool  CCalculator::PickingOnTransform(HWND hWnd, const CCubeTex * pCubeTexBuffe
 	return false;
 }
 
+_int CCalculator::PickingOnCube(HWND hWnd, const CCubeTex * pCubeTexBufferCom, const CTransform * pCubeTransCom)
+{
+	
+	POINT		ptMouse{};
+
+	GetCursorPos(&ptMouse);
+	ScreenToClient(hWnd, &ptMouse);
+
+	_vec3		vPoint;
+
+	D3DVIEWPORT9		ViewPort;
+	ZeroMemory(&ViewPort, sizeof(D3DVIEWPORT9));
+	m_pGraphicDev->GetViewport(&ViewPort);
+
+	// 뷰포트 -> 투영
+	vPoint.x = ptMouse.x / (ViewPort.Width * 0.5f) - 1.f;
+	vPoint.y = ptMouse.y / -(ViewPort.Height * 0.5f) + 1.f;
+	vPoint.z = 0.f;
+
+	// 투영 -> 뷰 스페이스
+	_matrix		matProj;
+
+	m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &matProj);
+	D3DXMatrixInverse(&matProj, nullptr, &matProj);
+	D3DXVec3TransformCoord(&vPoint, &vPoint, &matProj);
+
+	_vec3	vRayDir, vRayPos;		// 뷰 스페이스 영역에 있는 상태
+
+	vRayPos = { 0.f, 0.f, 0.f };
+	vRayDir = vPoint - vRayPos;
+
+	// 뷰 스페이스 -> 월드
+
+	_matrix		matView;
+	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
+	D3DXMatrixInverse(&matView, nullptr, &matView);
+	D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matView);
+	D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matView);
+
+	// 월드 -> 로컬
+	_matrix		matWorld;
+
+	pCubeTransCom->Get_WorldMatrix(&matWorld);
+	D3DXMatrixInverse(&matWorld, nullptr, &matWorld);
+	D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matWorld);
+	D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matWorld);
+
+	const _vec3*	pCubtVtx = pCubeTexBufferCom->Get_VtxPos();
+
+	_ulong	dwVtxIdx[3]{};
+	_float	fU, fV, fDist;
+	// +X
+	dwVtxIdx[0] = 1;
+	dwVtxIdx[1] = 5;
+	dwVtxIdx[2] = 6;
+	if (D3DXIntersectTri(&pCubtVtx[dwVtxIdx[1]],
+		&pCubtVtx[dwVtxIdx[0]],
+		&pCubtVtx[dwVtxIdx[2]],
+		&vRayPos, &vRayDir,
+		&fU, &fV, &fDist))
+	{
+		return true;
+	}
+	dwVtxIdx[0] = 1;
+	dwVtxIdx[1] = 6;
+	dwVtxIdx[2] = 2;
+	if (D3DXIntersectTri(&pCubtVtx[dwVtxIdx[1]],
+		&pCubtVtx[dwVtxIdx[0]],
+		&pCubtVtx[dwVtxIdx[2]],
+		&vRayPos, &vRayDir,
+		&fU, &fV, &fDist))
+	{
+		return true;
+	}
+	// ~+X
+
+	// -X
+	dwVtxIdx[0] = 4;
+	dwVtxIdx[1] = 0;
+	dwVtxIdx[2] = 3;
+	if (D3DXIntersectTri(&pCubtVtx[dwVtxIdx[1]],
+		&pCubtVtx[dwVtxIdx[0]],
+		&pCubtVtx[dwVtxIdx[2]],
+		&vRayPos, &vRayDir,
+		&fU, &fV, &fDist))
+	{
+		return true;
+	}
+	dwVtxIdx[0] = 4;
+	dwVtxIdx[1] = 3;
+	dwVtxIdx[2] = 7;
+	if (D3DXIntersectTri(&pCubtVtx[dwVtxIdx[1]],
+		&pCubtVtx[dwVtxIdx[0]],
+		&pCubtVtx[dwVtxIdx[2]],
+		&vRayPos, &vRayDir,
+		&fU, &fV, &fDist))
+	{
+		return true;
+	}
+	// ~-X
+
+	// Y
+	dwVtxIdx[0] = 4;
+	dwVtxIdx[1] = 5;
+	dwVtxIdx[2] = 1;
+
+	if (D3DXIntersectTri(&pCubtVtx[dwVtxIdx[1]],
+		&pCubtVtx[dwVtxIdx[0]],
+		&pCubtVtx[dwVtxIdx[2]],
+		&vRayPos, &vRayDir,
+		&fU, &fV, &fDist))
+	{
+		return 1;
+	}
+
+	dwVtxIdx[0] = 4;
+	dwVtxIdx[1] = 1;
+	dwVtxIdx[2] = 0;
+
+	if (D3DXIntersectTri(&pCubtVtx[dwVtxIdx[1]],
+		&pCubtVtx[dwVtxIdx[0]],
+		&pCubtVtx[dwVtxIdx[2]],
+		&vRayPos, &vRayDir,
+		&fU, &fV, &fDist))
+	{
+		return 1;
+	}
+	// ~ +Y
+
+	// ~ -Y
+	dwVtxIdx[0] = 3;
+	dwVtxIdx[1] = 2;
+	dwVtxIdx[2] = 6;
+	if (D3DXIntersectTri(&pCubtVtx[dwVtxIdx[1]],
+		&pCubtVtx[dwVtxIdx[0]],
+		&pCubtVtx[dwVtxIdx[2]],
+		&vRayPos, &vRayDir,
+		&fU, &fV, &fDist))
+	{
+		return true;
+	}
+
+	dwVtxIdx[0] = 3;
+	dwVtxIdx[1] = 6;
+	dwVtxIdx[2] = 7;
+	if (D3DXIntersectTri(&pCubtVtx[dwVtxIdx[1]],
+		&pCubtVtx[dwVtxIdx[0]],
+		&pCubtVtx[dwVtxIdx[2]],
+		&vRayPos, &vRayDir,
+		&fU, &fV, &fDist))
+	{
+		return true;
+	}
+	// ~ -Y
+
+	// Z+
+	dwVtxIdx[0] = 7;
+	dwVtxIdx[1] = 6;
+	dwVtxIdx[2] = 5;
+	if (D3DXIntersectTri(&pCubtVtx[dwVtxIdx[1]],
+		&pCubtVtx[dwVtxIdx[0]],
+		&pCubtVtx[dwVtxIdx[2]],
+		&vRayPos, &vRayDir,
+		&fU, &fV, &fDist))
+	{
+		return true;
+	}
+
+	dwVtxIdx[0] = 7;
+	dwVtxIdx[1] = 5;
+	dwVtxIdx[2] = 4;
+	if (D3DXIntersectTri(&pCubtVtx[dwVtxIdx[1]],
+		&pCubtVtx[dwVtxIdx[0]],
+		&pCubtVtx[dwVtxIdx[2]],
+		&vRayPos, &vRayDir,
+		&fU, &fV, &fDist))
+	{
+		return true;
+	}
+
+	// ~Z+
+
+	// Z-
+	dwVtxIdx[0] = 0;
+	dwVtxIdx[1] = 1;
+	dwVtxIdx[2] = 2;
+	if (D3DXIntersectTri(&pCubtVtx[dwVtxIdx[1]],
+		&pCubtVtx[dwVtxIdx[0]],
+		&pCubtVtx[dwVtxIdx[2]],
+		&vRayPos, &vRayDir,
+		&fU, &fV, &fDist))
+	{
+		return true;
+	}
+
+	dwVtxIdx[0] = 0;
+	dwVtxIdx[1] = 2;
+	dwVtxIdx[2] = 3;
+	if (D3DXIntersectTri(&pCubtVtx[dwVtxIdx[1]],
+		&pCubtVtx[dwVtxIdx[0]],
+		&pCubtVtx[dwVtxIdx[2]],
+		&vRayPos, &vRayDir,
+		&fU, &fV, &fDist))
+	{
+		return true;
+	}
+
+	// ~Z-
+	
+	
+	return 0;
+}
+
 
 
 

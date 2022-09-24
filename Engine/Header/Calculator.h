@@ -29,6 +29,11 @@ public:
 
 
 	_bool	PickingOnTransform(HWND hWnd, const CCubeTex* pCubeTexBufferCom, const CTransform* pCubeTransCom);
+	_int	PickingOnCube(HWND hWnd, const CCubeTex * pCubeTexBufferCom, const CTransform * pCubeTransCom);
+
+
+
+
 
 public:
 	virtual CComponent* Clone(void) override;

@@ -288,29 +288,39 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 
 			CLayer* MyLayer = pScene->GetLayer(L"TestLayer2");
 			map<const _tchar*, CGameObject*> test = MyLayer->Get_GameObjectMap();
-
+			CGameObject *pTestCube = nullptr;
+			_int iCount = 0;
+			
 			for (auto iter = test.begin(); iter != test.end(); ++iter)
 			{
-				if (dynamic_cast<CTestCube*>(iter->second)->Set_SelectGizmo())
+				if (dynamic_cast<CTestCube*>(iter->second)->Set_SelectGizmo() == 1)
 				{
 					isUpcube = true;
+					pTestCube = iter->second;
+					iCount++;
 				}
+
 			}
+			
+			if (iCount > 1)
+			{
+				ImGui::End();
+				return;
+			}
+		
+			pGameObject = CTestCube::Create(pGrahicDev, temp.x, temp.y);
+			NULL_CHECK_RETURN(pGameObject, );
 
 			if (isUpcube)
 			{
+				CTransform* pCubeTrnasform = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
 
+				CTransform* pPreCubeTransform = dynamic_cast<CTransform*>(pTestCube->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+				_vec3 vPrePos;
+				pPreCubeTransform->Get_Info(INFO_POS, &vPrePos);
+
+				pCubeTrnasform->Set_Pos(vPrePos.x, vPrePos.y + 1.f, vPrePos.z);
 			}
-
-			else
-			{
-				pGameObject = CTestCube::Create(pGrahicDev, temp.x, temp.y);
-				NULL_CHECK_RETURN(pGameObject, );
-
-				MyLayer = pScene->GetLayer(L"TestLayer2");
-			}
-
-
 			
 
 			FAILED_CHECK_RETURN(MyLayer->Add_GameObject(test1, pGameObject), );

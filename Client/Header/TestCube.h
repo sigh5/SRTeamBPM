@@ -41,7 +41,7 @@ public:
 
 private:
 	_bool				m_bWireFrame = false;
-
+	_bool				m_bIsOnterrrain = false;
 
 	//_vec3	vRayDir, vRayPos;
 public:
