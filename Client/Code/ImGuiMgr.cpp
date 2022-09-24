@@ -276,26 +276,48 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 		ImGui::Text("if double click Create Cube");
 		if (ImGui::IsMouseDoubleClicked(0))
 		{
-			ImVec2 temp = ImGui::GetMousePos();
+			ImVec2 temp = ImGui::GetMousePos();		
 			CGameObject *pGameObject = nullptr;
-
 			_tchar* test1 = new _tchar[20];
 
 			wstring t = L"Test%d";
 			wsprintfW(test1, t.c_str(), m_iIndex);
-
 			NameList.push_back(test1);
 
-			pGameObject = CTestCube::Create(pGrahicDev, temp.x, temp.y);
-			NULL_CHECK_RETURN(pGameObject, );
-			
-			CLayer* pCubelayer = pScene->GetLayer(L"TestLayer2");
+			_bool	isUpcube = false;
 
-			FAILED_CHECK_RETURN(pCubelayer->Add_GameObject(test1, pGameObject), );
+			CLayer* MyLayer = pScene->GetLayer(L"TestLayer2");
+			map<const _tchar*, CGameObject*> test = MyLayer->Get_GameObjectMap();
+
+			for (auto iter = test.begin(); iter != test.end(); ++iter)
+			{
+				if (dynamic_cast<CTestCube*>(iter->second)->Set_SelectGizmo())
+				{
+					isUpcube = true;
+				}
+			}
+
+			if (isUpcube)
+			{
+
+			}
+
+			else
+			{
+				pGameObject = CTestCube::Create(pGrahicDev, temp.x, temp.y);
+				NULL_CHECK_RETURN(pGameObject, );
+
+				MyLayer = pScene->GetLayer(L"TestLayer2");
+			}
+
+
+			
+
+			FAILED_CHECK_RETURN(MyLayer->Add_GameObject(test1, pGameObject), );
 
 			++m_iIndex;
 
-			pScene->Add_Layer(pCubelayer, L"TestLayer2");
+			pScene->Add_Layer(MyLayer, L"TestLayer2");
 		}
 	}
 
