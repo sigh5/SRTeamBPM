@@ -17,14 +17,17 @@ private:
 	virtual ~CMonster();
 
 public:
-	virtual HRESULT Ready_Object(_vec3 vPos);
+	virtual HRESULT Ready_Object(int Posx, int Posy);
 	virtual _int	Update_Object(const _float& fTimeDelta) override;
 	virtual void	LateUpdate_Object(void) override;
 	virtual void	Render_Obejct(void) override;
 	virtual void	Set_Pos(_vec3 vPos);
+
+
 private:
 	HRESULT				Add_Component(void);
 	void				Set_OnTerrain(void);
+	void				Set_TransformPositon();
 
 private:
 	CRcTex*				m_pBufferCom = nullptr;
@@ -43,7 +46,7 @@ private:
 
 
 public:
-	static CMonster*		Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos);
+	static CMonster*		Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx = 0, int Posy = 0);
 	virtual void	Free(void);
 };
 

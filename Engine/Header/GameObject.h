@@ -24,9 +24,6 @@ public:
 	virtual		_int		Update_Object(const _float& fTimeDelta);
 	virtual		void		LateUpdate_Object(void);
 	virtual		void		Render_Obejct(void);
-	
-	// Ãß°¡
-	virtual		void		Set_Pos(_vec3 vPos) {}
 
 private:
 	CComponent*		Find_Component(const _tchar* pComponentTag, COMPONENTID eID);
@@ -40,7 +37,6 @@ protected:
 
 
 public:
-	static CGameObject*		Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos);
 	virtual void	Free(void);
 };
 

@@ -4,13 +4,13 @@
 USING(Engine)
 
 CCubeTex::CCubeTex(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CVIBuffer(pGraphicDev),m_vPos(nullptr), m_bClone(false)
+	: CVIBuffer(pGraphicDev),m_vPos(nullptr)
 {
 }
 
 
 Engine::CCubeTex::CCubeTex(const CCubeTex& rhs)
-	: CVIBuffer(rhs), m_vPos(rhs.m_vPos), m_bClone(true)
+	: CVIBuffer(rhs), m_vPos(rhs.m_vPos)
 {
 
 }
@@ -167,9 +167,4 @@ CComponent * CCubeTex::Clone(void)
 void CCubeTex::Free(void)
 {
 	CVIBuffer::Free();
-
-	if (false == m_bClone) // 원본 컴포넌트를 삭제할 때 메모리 해제
-	{
-		Safe_Delete_Array(m_vPos);
-	}
 }
