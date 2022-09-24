@@ -25,6 +25,10 @@ HRESULT CToolTest::Ready_Scene()
 	// 필요한 기능 생성
 	CImGuiMgr::GetInstance()->Ready_MapTool(m_pGraphicDev, this);
 	CImGuiMgr::GetInstance()->Ready_MonsterTool(m_pGraphicDev, this);
+
+
+
+
 	//////////////
 
 	Engine::CLayer*		pLayer = Engine::CLayer::Create();
