@@ -76,9 +76,6 @@
     <ClCompile Include="..\Code\TestPlayer.cpp">
       <Filter>02. GameObject\01. For_Stage\01. TestPlayer</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Monster.cpp">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\TestMonster.cpp">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster</Filter>
     </ClCompile>
@@ -96,6 +93,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\ImGuiMgr.cpp">
       <Filter>97imGuiMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Monster.cpp">
+      <Filter>02. GameObject\01. For_Stage\06. Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\HpPotion.cpp">
+      <Filter>02. GameObject\01. For_Stage\07. Item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -183,9 +186,6 @@
     <ClInclude Include="..\Header\TestPlayer.h">
       <Filter>02. GameObject\01. For_Stage\01. TestPlayer</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Monster.h">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\TestMonster.h">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster</Filter>
     </ClInclude>
@@ -209,6 +209,12 @@
     </ClInclude>
     <ClInclude Include="..\Header\ImGuiMgr.h">
       <Filter>97imGuiMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Monster.h">
+      <Filter>02. GameObject\01. For_Stage\06. Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\HpPotion.h">
+      <Filter>02. GameObject\01. For_Stage\07. Item</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -285,6 +291,12 @@
     </Filter>
     <Filter Include="97imGuiMgr">
       <UniqueIdentifier>{8448f349-9e02-4b0c-8424-35bc5e8d5a7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\06. Monster">
+      <UniqueIdentifier>{dacddf42-881a-4ada-8680-d56843c3bc0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\07. Item">
+      <UniqueIdentifier>{c3d15f6b-2e7b-47b8-b5a4-b068c86b1355}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

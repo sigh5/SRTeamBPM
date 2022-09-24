@@ -1,5 +1,7 @@
 #pragma once
+
 #include "GameObject.h"
+
 
 namespace Engine
 {
@@ -9,19 +11,20 @@ namespace Engine
 	class CTexture;
 	class CAnimation;
 }
-
-class CMonster :public CGameObject
+class CHpPotion :public CGameObject
 {
 private:
-	explicit CMonster(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual ~CMonster();
+	explicit CHpPotion(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual ~CHpPotion();
 
 public:
 	virtual HRESULT Ready_Object(_vec3 vPos);
-	virtual _int	Update_Object(const _float& fTimeDelta) override;
-	virtual void	LateUpdate_Object(void) override;
-	virtual void	Render_Obejct(void) override;
+	virtual _int	Update_Object(const _float& fTimeDelta);
+	virtual void	LateUpdate_Object(void);
+	virtual void	Render_Obejct(void);
 	virtual void	Set_Pos(_vec3 vPos);
+	//플레이어와 충돌 시 실행할 함수를 추가해야 함
+
 private:
 	HRESULT				Add_Component(void);
 	void				Set_OnTerrain(void);
@@ -33,17 +36,7 @@ private:
 	CTexture*			m_pTextureCom = nullptr;
 	CAnimation*			m_pAnimationCom = nullptr;
 
-	//_vec3				m_vDirection;
-	_float				m_fTimeDelta = 0.f;
-	_float				m_fSpeed = 0.f;
-
-	//int					m_iMotion = 0; //모션번호
-	//_float				m_fMotionChangeCounter = 0.f;
-	//_float				m_fBeetweenMotion = 0.f;
-
-
 public:
-	static CMonster*		Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos);
+	static CHpPotion*		Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos);
 	virtual void	Free(void);
 };
-

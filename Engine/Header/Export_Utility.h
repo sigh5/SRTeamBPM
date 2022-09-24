@@ -12,8 +12,14 @@
 #include "Calculator.h"
 #include "Texture.h"
 
+
+//#include "ObjectPool.h"
+
 #include "Camera.h"
 
+
+#include "Animation.h"
+#include "ObjectMgr.h"
 #include "ProtoMgr.h"
 #include "Management.h"
 #include "Renderer.h"
@@ -55,6 +61,12 @@ inline void		Clear_RenderGroup(void);
 inline HRESULT	Ready_Light(LPDIRECT3DDEVICE9 pGraphicDev, const D3DLIGHT9* pLightInfo, const _uint& iIndex);
 
 inline void			Release_Utility(void);
+
+// ObjectMgr
+inline void				Collect_Obj(CGameObject* pObj);
+inline CGameObject*		Reuse_Obj(LPDIRECT3DDEVICE9 pGraphicDev, const D3DXVECTOR3& vPos);
+
+
 
 #include "Export_Utility.inl"
 

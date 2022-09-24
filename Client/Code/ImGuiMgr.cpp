@@ -560,5 +560,6 @@ void CImGuiMgr::Load_Transform(LPDIRECT3DDEVICE9 pGrahicDev,CScene *pScene)
 
 void CImGuiMgr::Free()
 {
-	Release();
+	//Release();
+	
 }
