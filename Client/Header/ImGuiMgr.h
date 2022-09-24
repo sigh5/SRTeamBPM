@@ -58,6 +58,10 @@ public:
 	void  Load_Transform(LPDIRECT3DDEVICE9 pGrahicDev, CScene *pScene);// 큐브 오브젝트 로드
 
 	// ~Map_Tool 기능 생성
+	void  MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCamera *pCam);
+	void  Save_Monster(CScene* pScene);
+	void  Load_Monster(LPDIRECT3DDEVICE9 pGrahicDev, CScene *pScene);
+	// Monster_Tool 기능 생성
 
 	// 각툴의 기능 쓰기
 
@@ -80,12 +84,17 @@ private:
 	CTransform* m_pSelectedTransform = nullptr;
 	// ~Map_Tool 변수
 
+	// Monster_Tool 변수
+	_bool	m_bMonsterCreateCheck = false;
+	_bool	m_bMonsterSelectCheck = false;
+
 public:
 	//  window창 생성시 필요한 불변수
 	static  bool Show_Terrain_Window;
 	static	bool Show_Player_Window;
 	static  bool Show_Main_Menu_Window;
 	static  bool Show_Cube_Tool;
+	static	bool Show_Monster_Tool;
 	static ImVec4 clear_color;
 	// ~ window창 생성시 필요한 불변수
 	

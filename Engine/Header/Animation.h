@@ -15,10 +15,10 @@ public:
 	void	Move_Animation(float fTimeDelta);
 
 public:
-
+	
 	int		m_iMinMotion = 0;		//시작 스프라이트
 	int		m_iMaxMotion = 0;		//마지막 스프라이트
-
+	
 	int		m_iMotion = 0;			//현재 스프라이트
 	_float	m_fMotionChangeCounter = 0.f;
 	_float	m_fIntervalMotion = 0.f;	//스프라이트 간 간격

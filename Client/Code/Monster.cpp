@@ -13,16 +13,19 @@ CMonster::~CMonster()
 {
 }
 
-HRESULT CMonster::Ready_Object(_vec3 vPos)
+HRESULT CMonster::Ready_Object(int Posx, int Posy)
 {
 	m_fSpeed = 5.f;
 
-	//m_fBeetweenMotion = 0.2f;
-
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransCom->Set_Pos(vPos.x, vPos.y, vPos.z);
-
+	if (Posx == 0 && Posy == 0) {}
+	else
+	{
+		Set_TransformPositon();
+	}
+	//_vec3 vScale = { 0.5f,0.5f,0.5f };
+	//m_pTransCom->Set_Scale(&vScale);
 	return S_OK;
 }
 
@@ -36,6 +39,9 @@ _int CMonster::Update_Object(const _float & fTimeDelta)
 
 	_int iResult = Engine::CGameObject::Update_Object(fTimeDelta);
 
+#ifdef _DEBUG
+
+#else
 	CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC));
 	NULL_CHECK(pPlayerTransformCom);
 
@@ -60,6 +66,8 @@ _int CMonster::Update_Object(const _float & fTimeDelta)
 	{
 		m_pAnimationCom->m_iMotion = 0;
 	}
+#endif
+	
 	//if (m_fBeetweenMotion < m_fMotionChangeCounter)
 	//{//모션 체인지 카운터에 timedelta가 누적된다. beetweenmotion보다 커지면 모션을 바꾸고 0으로 초기화한다.
 	//	m_fMotionChangeCounter = 0;
@@ -188,11 +196,26 @@ void CMonster::Set_OnTerrain(void)
 	m_pTransCom->Set_Pos(vPos.x, fHeight + 1.f, vPos.z);
 }
 
-CMonster * CMonster::Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos)
+void CMonster::Set_TransformPositon()
 {
-	CMonster *	pInstance = new CMonster(pGraphicDev);
+	CTerrainTex*	pTerrainBufferCom = dynamic_cast<CTerrainTex*>(Engine::Get_Component(L"TestLayer", L"TestMap", L"Proto_TerrainTexCom", ID_STATIC));
+	NULL_CHECK_RETURN(pTerrainBufferCom, );
 
-	if (FAILED(pInstance->Ready_Object(vPos)))
+	CTransform*		pTerrainTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"TestLayer", L"TestMap", L"Proto_TransformCom", ID_DYNAMIC));
+	NULL_CHECK_RETURN(pTerrainTransformCom, );
+
+
+	_vec3 Temp = m_pCalculatorCom->PickingOnTerrainCube(g_hWnd, pTerrainBufferCom, pTerrainTransformCom);
+
+	m_pTransCom->Set_Pos(Temp.x, Temp.y, Temp.z);
+}
+
+CMonster* CMonster::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)
+{
+	CMonster*	pInstance = new CMonster(pGraphicDev);
+
+
+	if (FAILED(pInstance->Ready_Object(Posx, Posy)))
 	{
 		Safe_Release(pInstance);
 		return nullptr;
@@ -200,6 +223,7 @@ CMonster * CMonster::Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos)
 
 	return pInstance;
 }
+
 
 void CMonster::Free(void)
 {

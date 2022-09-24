@@ -39,7 +39,7 @@ Engine::_float CCalculator::HeightOnTerrain(_vec3* pPos, const _vec3* pTerrainVt
 
 	D3DXPLANE		Plane;
 
-	// ¿À¸¥ÂÊ À§ »ï°¢Çü
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï°¢ï¿½ï¿½
 	if (fWidth > fHeight)
 	{
 		D3DXPlaneFromPoints(&Plane,
@@ -48,7 +48,7 @@ Engine::_float CCalculator::HeightOnTerrain(_vec3* pPos, const _vec3* pTerrainVt
 			&pTerrainVtxPos[dwIndex + 1]);
 
 	}
-	// ¿ÞÂÊ ¾Æ·¡ »ï°¢Çü
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½Æ·ï¿½ ï¿½ï°¢ï¿½ï¿½
 	else
 	{
 		D3DXPlaneFromPoints(&Plane,
@@ -80,24 +80,24 @@ Engine::_vec3 Engine::CCalculator::PickingOnTerrain(HWND hWnd, const CTerrainTex
 	ZeroMemory(&ViewPort, sizeof(D3DVIEWPORT9));
 	m_pGraphicDev->GetViewport(&ViewPort);
 
-	// ºäÆ÷Æ® -> Åõ¿µ
+	// ï¿½ï¿½ï¿½ï¿½Æ® -> ï¿½ï¿½ï¿½ï¿½
 	vPoint.x = ptMouse.x / (ViewPort.Width * 0.5f) - 1.f;
 	vPoint.y = ptMouse.y / -(ViewPort.Height * 0.5f) + 1.f;
 	vPoint.z = 0.f;
 
-	// Åõ¿µ -> ºä ½ºÆäÀÌ½º
+	// ï¿½ï¿½ï¿½ï¿½ -> ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì½ï¿½
 	_matrix		matProj;
 
 	m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &matProj);
 	D3DXMatrixInverse(&matProj, nullptr, &matProj);
 	D3DXVec3TransformCoord(&vPoint, &vPoint, &matProj);
 
-	_vec3	vRayDir, vRayPos;		// ºä ½ºÆäÀÌ½º ¿µ¿ª¿¡ ÀÖ´Â »óÅÂ
+	_vec3	vRayDir, vRayPos;		// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 	vRayPos = { 0.f, 0.f, 0.f };
 	vRayDir = vPoint - vRayPos;	
 
-	// ºä ½ºÆäÀÌ½º -> ¿ùµå
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì½ï¿½ -> ï¿½ï¿½ï¿½ï¿½
 
 	_matrix		matView;
 	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
@@ -105,7 +105,7 @@ Engine::_vec3 Engine::CCalculator::PickingOnTerrain(HWND hWnd, const CTerrainTex
 	D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matView);
 	D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matView);
 
-	// ¿ùµå -> ·ÎÄÃ
+	// ï¿½ï¿½ï¿½ï¿½ -> ï¿½ï¿½ï¿½ï¿½
 	_matrix		matWorld;
 	
 	pTerrainTransformCom->Get_WorldMatrix(&matWorld);
@@ -127,7 +127,7 @@ Engine::_vec3 Engine::CCalculator::PickingOnTerrain(HWND hWnd, const CTerrainTex
 		{
 			_ulong dwIndex = i * dwVtxCntX + j;
 
-			// ¿À¸¥ÂÊ À§
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 			dwVtxIdx[0] = dwIndex + dwVtxCntX;
 			dwVtxIdx[1] = dwIndex + dwVtxCntX + 1;
 			dwVtxIdx[2] = dwIndex + 1;
@@ -143,7 +143,7 @@ Engine::_vec3 Engine::CCalculator::PickingOnTerrain(HWND hWnd, const CTerrainTex
 							 pTerrainVtx[dwVtxIdx[1]].z + (pTerrainVtx[dwVtxIdx[2]].z - pTerrainVtx[dwVtxIdx[1]].z) * fV);
 			}
 			
-			// ¿ÞÂÊ ¾Æ·¡
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½Æ·ï¿½
 			dwVtxIdx[0] = dwIndex + dwVtxCntX;
 			dwVtxIdx[1] = dwIndex + 1;
 			dwVtxIdx[2] = dwIndex;
@@ -177,24 +177,24 @@ _vec3 CCalculator::PickingOnTerrainCube(HWND hWnd, const CTerrainTex * pTerrainB
 	ZeroMemory(&ViewPort, sizeof(D3DVIEWPORT9));
 	m_pGraphicDev->GetViewport(&ViewPort);
 
-	// ºäÆ÷Æ® -> Åõ¿µ
+	// ï¿½ï¿½ï¿½ï¿½Æ® -> ï¿½ï¿½ï¿½ï¿½
 	vPoint.x = ptMouse.x / (ViewPort.Width * 0.5f) - 1.f;
 	vPoint.y = ptMouse.y / -(ViewPort.Height * 0.5f) + 1.f;
 	vPoint.z = 0.f;
 
-	// Åõ¿µ -> ºä ½ºÆäÀÌ½º
+	// ï¿½ï¿½ï¿½ï¿½ -> ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì½ï¿½
 	_matrix		matProj;
 
 	m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &matProj);
 	D3DXMatrixInverse(&matProj, nullptr, &matProj);
 	D3DXVec3TransformCoord(&vPoint, &vPoint, &matProj);
 
-	_vec3	vRayDir, vRayPos;		// ºä ½ºÆäÀÌ½º ¿µ¿ª¿¡ ÀÖ´Â »óÅÂ
+	_vec3	vRayDir, vRayPos;		// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 	vRayPos = { 0.f, 0.f, 0.f };
 	vRayDir = vPoint - vRayPos;
 
-	// ºä ½ºÆäÀÌ½º -> ¿ùµå
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì½ï¿½ -> ï¿½ï¿½ï¿½ï¿½
 
 	_matrix		matView;
 	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
@@ -202,7 +202,7 @@ _vec3 CCalculator::PickingOnTerrainCube(HWND hWnd, const CTerrainTex * pTerrainB
 	D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matView);
 	D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matView);
 
-	// ¿ùµå -> ·ÎÄÃ
+	// ï¿½ï¿½ï¿½ï¿½ -> ï¿½ï¿½ï¿½ï¿½
 	_matrix		matWorld;
 
 	pTerrainTransformCom->Get_WorldMatrix(&matWorld);
@@ -224,7 +224,7 @@ _vec3 CCalculator::PickingOnTerrainCube(HWND hWnd, const CTerrainTex * pTerrainB
 		{
 			_ulong dwIndex = i * dwVtxCntX + j;
 
-			// ¿À¸¥ÂÊ À§
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 			dwVtxIdx[0] = dwIndex + dwVtxCntX;
 			dwVtxIdx[1] = dwIndex + dwVtxCntX + 1;
 			dwVtxIdx[2] = dwIndex + 1;
@@ -241,7 +241,7 @@ _vec3 CCalculator::PickingOnTerrainCube(HWND hWnd, const CTerrainTex * pTerrainB
 				return Normal;
 			}
 
-			// ¿ÞÂÊ ¾Æ·¡
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½Æ·ï¿½
 			dwVtxIdx[0] = dwIndex + dwVtxCntX;
 			dwVtxIdx[1] = dwIndex + 1;
 			dwVtxIdx[2] = dwIndex;
@@ -274,24 +274,24 @@ _bool  CCalculator::PickingOnTransform(HWND hWnd, const CCubeTex * pCubeTexBuffe
 	ZeroMemory(&ViewPort, sizeof(D3DVIEWPORT9));
 	m_pGraphicDev->GetViewport(&ViewPort);
 
-	// ºäÆ÷Æ® -> Åõ¿µ
+	// ï¿½ï¿½ï¿½ï¿½Æ® -> ï¿½ï¿½ï¿½ï¿½
 	vPoint.x = ptMouse.x / (ViewPort.Width * 0.5f) - 1.f;
 	vPoint.y = ptMouse.y / -(ViewPort.Height * 0.5f) + 1.f;
 	vPoint.z = 0.f;
 
-	// Åõ¿µ -> ºä ½ºÆäÀÌ½º
+	// ï¿½ï¿½ï¿½ï¿½ -> ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì½ï¿½
 	_matrix		matProj;
 
 	m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &matProj);
 	D3DXMatrixInverse(&matProj, nullptr, &matProj);
 	D3DXVec3TransformCoord(&vPoint, &vPoint, &matProj);
 
-	_vec3	vRayDir, vRayPos;		// ºä ½ºÆäÀÌ½º ¿µ¿ª¿¡ ÀÖ´Â »óÅÂ
+	_vec3	vRayDir, vRayPos;		// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 	vRayPos = { 0.f, 0.f, 0.f };
 	vRayDir = vPoint - vRayPos;
 
-	// ºä ½ºÆäÀÌ½º -> ¿ùµå
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì½ï¿½ -> ï¿½ï¿½ï¿½ï¿½
 
 	_matrix		matView;
 	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
@@ -299,7 +299,7 @@ _bool  CCalculator::PickingOnTransform(HWND hWnd, const CCubeTex * pCubeTexBuffe
 	D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matView);
 	D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matView);
 
-	// ¿ùµå -> ·ÎÄÃ
+	// ï¿½ï¿½ï¿½ï¿½ -> ï¿½ï¿½ï¿½ï¿½
 	_matrix		matWorld;
 
 	pCubeTransCom->Get_WorldMatrix(&matWorld);
@@ -487,24 +487,24 @@ _int CCalculator::PickingOnCube(HWND hWnd, const CCubeTex * pCubeTexBufferCom, c
 	ZeroMemory(&ViewPort, sizeof(D3DVIEWPORT9));
 	m_pGraphicDev->GetViewport(&ViewPort);
 
-	// ºäÆ÷Æ® -> Åõ¿µ
+	// ï¿½ï¿½ï¿½ï¿½Æ® -> ï¿½ï¿½ï¿½ï¿½
 	vPoint.x = ptMouse.x / (ViewPort.Width * 0.5f) - 1.f;
 	vPoint.y = ptMouse.y / -(ViewPort.Height * 0.5f) + 1.f;
 	vPoint.z = 0.f;
 
-	// Åõ¿µ -> ºä ½ºÆäÀÌ½º
+	// ï¿½ï¿½ï¿½ï¿½ -> ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì½ï¿½
 	_matrix		matProj;
 
 	m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &matProj);
 	D3DXMatrixInverse(&matProj, nullptr, &matProj);
 	D3DXVec3TransformCoord(&vPoint, &vPoint, &matProj);
 
-	_vec3	vRayDir, vRayPos;		// ºä ½ºÆäÀÌ½º ¿µ¿ª¿¡ ÀÖ´Â »óÅÂ
+	_vec3	vRayDir, vRayPos;		// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 	vRayPos = { 0.f, 0.f, 0.f };
 	vRayDir = vPoint - vRayPos;
 
-	// ºä ½ºÆäÀÌ½º -> ¿ùµå
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì½ï¿½ -> ï¿½ï¿½ï¿½ï¿½
 
 	_matrix		matView;
 	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
@@ -512,7 +512,7 @@ _int CCalculator::PickingOnCube(HWND hWnd, const CCubeTex * pCubeTexBufferCom, c
 	D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matView);
 	D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matView);
 
-	// ¿ùµå -> ·ÎÄÃ
+	// ï¿½ï¿½ï¿½ï¿½ -> ï¿½ï¿½ï¿½ï¿½
 	_matrix		matWorld;
 
 	pCubeTransCom->Get_WorldMatrix(&matWorld);

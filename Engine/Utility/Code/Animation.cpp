@@ -55,7 +55,7 @@ CAnimation * CAnimation::Create(LPDIRECT3DDEVICE9 pGraphicDev, int _iMaxMotion, 
 {
 	CAnimation*	pInstance = new CAnimation(pGraphicDev);
 
-	if (FAILED(pInstance->Ready_Animation(_iMaxMotion, _iMinMotion, _fInterval)))
+	if (FAILED(pInstance->Ready_Animation( _iMaxMotion, _iMinMotion, _fInterval)))
 	{
 		MSG_BOX("Animation Create Failed");
 		Safe_Release(pInstance);

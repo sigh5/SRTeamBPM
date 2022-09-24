@@ -24,6 +24,7 @@ HRESULT CToolTest::Ready_Scene()
 {
 	// 필요한 기능 생성
 	CImGuiMgr::GetInstance()->Ready_MapTool(m_pGraphicDev, this);
+	CImGuiMgr::GetInstance()->Ready_MonsterTool(m_pGraphicDev, this);
 	//////////////
 
 	Engine::CLayer*		pLayer = Engine::CLayer::Create();
@@ -57,7 +58,7 @@ _int CToolTest::Update_Scene(const _float& fTimeDelta)
 	CImGuiMgr::GetInstance()->WindowLayOut();
 	CImGuiMgr::GetInstance()->TerrainTool(m_pGraphicDev, this);
 	CImGuiMgr::GetInstance()->CreateObject(m_pGraphicDev, this, m_pCam);
-
+	CImGuiMgr::GetInstance()->MonsterTool(m_pGraphicDev, this, m_pCam);
 
 
 	return CScene::Update_Scene(fTimeDelta);

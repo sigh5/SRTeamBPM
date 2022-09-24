@@ -7,6 +7,7 @@
 #include "Terrain.h"
 #include "TestCube.h"
 #include "Texture.h"
+#include "Monster.h"
 IMPLEMENT_SINGLETON(CImGuiMgr)
 
 ImGuiTextBuffer CImGuiMgr::log;
@@ -15,6 +16,7 @@ bool CImGuiMgr::Show_Terrain_Window = true;
 bool CImGuiMgr::Show_Player_Window = false;
 bool CImGuiMgr::Show_Main_Menu_Window = false;
 bool CImGuiMgr::Show_Cube_Tool = false;
+bool CImGuiMgr::Show_Monster_Tool = false;
 
 _int CImGuiMgr::m_iInterval = 100;
 _int CImGuiMgr::m_iWidth = 100;
@@ -54,6 +56,11 @@ HRESULT CImGuiMgr::Ready_PlayerTool(LPDIRECT3DDEVICE9 pGraphicDev, CScene * pSce
 
 HRESULT CImGuiMgr::Ready_MonsterTool(LPDIRECT3DDEVICE9 pGraphicDev, CScene * pScene)
 {
+	CLayer *pLayer = Engine::CLayer::Create();
+	pScene->Add_Layer(pLayer, L"TestLayer3");
+
+
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MonsterTexture1", CTexture::Create(pGraphicDev, L"../Bin/Resource/Texture/Monster/Example/Example_%d.png", TEX_NORMAL, 3)), E_FAIL);
 	return S_OK;
 }
 
@@ -218,6 +225,7 @@ void CImGuiMgr::WindowLayOut()
 	ImGui::Checkbox("PlayerTool", &Show_Player_Window);
 	ImGui::Checkbox("Main_MenuTool", &Show_Main_Menu_Window);
 	ImGui::Checkbox("Cube_Tool", &Show_Cube_Tool);
+	ImGui::Checkbox("Monster_Tool", &Show_Monster_Tool);
 
 	if (ImGui::Button("Clear"))
 	{
@@ -225,6 +233,7 @@ void CImGuiMgr::WindowLayOut()
 		Show_Terrain_Window = false;
 		Show_Main_Menu_Window = false;
 		Show_Cube_Tool = false;
+		Show_Monster_Tool = false;
 	}
 
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
@@ -590,8 +599,227 @@ void CImGuiMgr::Load_Transform(LPDIRECT3DDEVICE9 pGrahicDev,CScene *pScene)
 
 }
 
+void CImGuiMgr::MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCamera *pCam)
+{
+	if (!Show_Monster_Tool)
+		return;
+
+	ImGui::Begin("Monster Settings");
+
+	ImGui::Text("this is Transform_ButtonMenu");
+	if (ImGui::Button("Save"))
+	{
+		Save_Monster(pScene);
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Load"))
+	{
+		Load_Monster(pGrahicDev, pScene);
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Delete"))
+	{
+		CLayer* MyLayer = pScene->GetLayer(L"TestLayer3");
+		MyLayer->Delete_GameObject(m_CurrentSelectGameObjectObjKey.c_str());
+	}
+	//일단 세이브 로드 말고 몬스터 생성 부터
+
+	if (ImGui::CollapsingHeader("Monster Create & Chose Button", ImGuiTreeNodeFlags_DefaultOpen))
+	{
+		if (ImGui::Button("MonsterDeploy"))
+		{
+			m_bMonsterCreateCheck = true;
+			m_bMonsterSelectCheck = false;
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("SelectMonster"))
+		{
+			m_bMonsterSelectCheck = true;
+			m_bMonsterCreateCheck = false;
+		}
+	}
+
+	CTransform * pTranscom = nullptr;
+	if (m_bMonsterCreateCheck)
+	{
+		ImGui::Text("if double click Create Cube");
+		if (ImGui::IsMouseDoubleClicked(0))
+		{
+			ImVec2 temp = ImGui::GetMousePos();
+			
+			//_vec3 vTemp = temp.x
+			CGameObject *pGameObject = nullptr;
+
+			_tchar* test1 = new _tchar[20];
+
+			wstring t = L"Test%d";
+			wsprintfW(test1, t.c_str(), m_iIndex);
+
+			NameList.push_back(test1);
+
+			pGameObject = CMonster::Create(pGrahicDev, temp.x, temp.y);
+			NULL_CHECK_RETURN(pGameObject, );
+
+			CLayer* pMonsterlayer = pScene->GetLayer(L"TestLayer3");
+
+			FAILED_CHECK_RETURN(pMonsterlayer->Add_GameObject(test1, pGameObject), );
+
+			++m_iIndex;
+
+			pScene->Add_Layer(pMonsterlayer, L"TestLayer3");
+		}
+	}
+
+	if (m_bMonsterSelectCheck)
+	{
+		if (ImGui::IsMouseClicked(0))
+		{
+			CLayer* pMonsterlayer = pScene->GetLayer(L"TestLayer3");
+
+			map<const _tchar*, CGameObject*> test = pMonsterlayer->Get_GameObjectMap();
+
+			for (auto iter = test.begin(); iter != test.end(); ++iter)
+			{
+				if (dynamic_cast<CTestCube*>(iter->second)->Set_SelectGizmo())
+				{
+					pTranscom = dynamic_cast<CTransform*>(iter->second->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+					m_CurrentSelectGameObjectObjKey = iter->first;
+				}
+			}
+		}
+	}
+
+	ImGui::NewLine();
+	//셀렉트 한 다음 가능 혹은 미리 선택해서 create 해야함
+	//if (ImGui::CollapsingHeader("Monster Texture", ImGuiTreeNodeFlags_DefaultOpen))
+	//{
+	//	CTexture* pTextureCom = dynamic_cast<CTexture*>(pGameObject->Get_Component(L"Proto_TerrainTexture2", ID_STATIC));
+
+	//	vector<IDirect3DBaseTexture9*> vecTexture = pTextureCom->Get_Texture();
+
+	//	for (_uint i = 0; i < 18; ++i)
+	//	{
+	//		if (ImGui::ImageButton((void*)vecTexture[i], ImVec2(32.f, 32.f)))
+	//		{
+	//			//pTextureCom->Set_Texture(i);
+	//			pGameObject->m_iTerrainIdx = i;
+	//		}
+	//		if (i == 0 || (i + 1) % 6)
+	//			ImGui::SameLine();
+	//	}
+	//}
+
+	ImGui::End();
+}
+
+void CImGuiMgr::Save_Monster(CScene* pScene)
+{
+	wstring Directory = L"../../Data/Monster.dat";
+
+	HANDLE      hFile = CreateFile(Directory.c_str(),
+		// 파일의 경로와 이름
+		GENERIC_WRITE,         // 파일 접근 모드 (GENERIC_WRITE : 쓰기 전용, GENERIC_READ : 읽기 전용)
+		NULL,               // 공유 방식(파일이 열려있는 상태에서 다른 프로세스가 오픈할 때 허용할 것인가)    
+		NULL,               // 보안 속성(NULL을 지정하면 기본값 상태)
+		CREATE_ALWAYS,         // CREATE_ALWAYS : 파일이 없다면 생성, 있다면 덮어쓰기, OPEN_EXISTING  : 파일이 있을 경우에만 열기
+		FILE_ATTRIBUTE_NORMAL,  // 파일 속성(읽기 전용, 숨김 등) : FILE_ATTRIBUTE_NORMAL : 아무런 속성이 없는 파일
+		NULL);               // 생성될 파일의 속성을 제공할 템플릿 파일(안쓰니깐 NULL)
+
+	if (INVALID_HANDLE_VALUE == hFile)
+	{
+		return;
+	}
+
+	CLayer* MyLayer = pScene->GetLayer(L"TestLayer3");
+	DWORD   dwByte = 0;
+
+	map<const _tchar*, CGameObject*> test = MyLayer->Get_GameObjectMap();
+	for (auto iter = test.begin(); iter != test.end(); ++iter)
+	{
+
+		CTransform* Transcom = dynamic_cast<CTransform*>(iter->second->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+
+		_vec3   vPos, vScale;
+	//	_int	iDrawNum = 0;
+
+		Transcom->Get_Info(INFO_POS, &vPos);
+		memcpy(vScale, Transcom->m_vScale, sizeof(_vec3));
+		//iDrawNum = iter->second->Get_DrawTexIndex();
+
+		WriteFile(hFile, &vPos, sizeof(_vec3), &dwByte, nullptr);
+		WriteFile(hFile, &vScale, sizeof(_vec3), &dwByte, nullptr);
+		//WriteFile(hFile, &iDrawNum, sizeof(_int), &dwByte, nullptr);
+
+	}
+
+	CloseHandle(hFile);
+	MSG_BOX("Save_Complete");
+}
+
+void CImGuiMgr::Load_Monster(LPDIRECT3DDEVICE9 pGrahicDev, CScene *pScene)
+{
+	wstring Directory = L"../../Data/Monster.dat";
+
+	HANDLE      hFile = CreateFile(Directory.c_str(),      // 파일의 경로와 이름
+		GENERIC_READ,         // 파일 접근 모드 (GENERIC_WRITE : 쓰기 전용, GENERIC_READ : 읽기 전용)
+		NULL,               // 공유 방식(파일이 열려있는 상태에서 다른 프로세스가 오픈할 때 허용할 것인가)    
+		NULL,               // 보안 속성(NULL을 지정하면 기본값 상태)
+		OPEN_EXISTING,         // CREATE_ALWAYS : 파일이 없다면 생성, 있다면 덮어쓰기, OPEN_EXISTING  : 파일이 있을 경우에만 열기
+		FILE_ATTRIBUTE_NORMAL,  // 파일 속성(읽기 전용, 숨김 등) : FILE_ATTRIBUTE_NORMAL : 아무런 속성이 없는 파일
+		NULL);               // 생성될 파일의 속성을 제공할 템플릿 파일(안쓰니깐 NULL)
+
+	if (INVALID_HANDLE_VALUE == hFile)
+	{
+		return;
+	}
+
+	DWORD   dwByte = 0;
+
+	_vec3   vPos, vScale;
+	//_int	iDrawIndex = 0;
+	CLayer* pMyLayer = nullptr;
+
+	while (true)
+	{
+
+		ReadFile(hFile, &vPos, sizeof(_vec3), &dwByte, nullptr);
+		ReadFile(hFile, &vScale, sizeof(_vec3), &dwByte, nullptr);
+
+		CGameObject *pGameObject = nullptr;
+		_tchar* test1 = new _tchar[20];
+		wstring t = L"Test%d";
+		wsprintfW(test1, t.c_str(), m_iIndex);
+		NameList.push_back(test1);
+
+		pGameObject = CMonster::Create(pGrahicDev);
+		pMyLayer = pScene->GetLayer(L"TestLayer3");
+
+		FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(test1, pGameObject), );
+		//pGameObject->Set_DrawTexIndex(iDrawIndex);
+		++m_iIndex;
+
+		CTransform* Transcom = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+
+
+		Transcom->Set_Info(INFO_POS, &vPos);
+		Transcom->Set_Scale(&vScale);
+
+		Transcom->Update_Component(0.01f);
+
+		//   받아온 정보 입력해줘야함
+
+		if (0 == dwByte)
+			break;
+
+	}
+	MSG_BOX("Load_Complete");
+	pScene->Add_Layer(pMyLayer, L"TestLayer3");
+
+
+	CloseHandle(hFile);
+}
+
 void CImGuiMgr::Free()
 {
-	//Release();
-	
+	Release();
 }
