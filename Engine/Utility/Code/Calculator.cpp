@@ -472,10 +472,6 @@ _bool  CCalculator::PickingOnTransform(HWND hWnd, const CCubeTex * pCubeTexBuffe
 
 	return false;
 }
-
-
-
-
 CComponent* CCalculator::Clone(void)
 {
 	return new CCalculator(*this);
