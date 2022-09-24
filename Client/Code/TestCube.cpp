@@ -30,8 +30,6 @@ HRESULT CTestCube::Ready_Object(int Posx, int Posy)
 
 _int CTestCube::Update_Object(const _float& fTimeDelta)
 {
-
-	
 	CGameObject::Update_Object(fTimeDelta);
 
 	Add_RenderGroup(RENDER_PRIORITY, this);
@@ -59,11 +57,11 @@ void CTestCube::Set_TransformPositon()
 	CTransform*		pTerrainTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"TestLayer", L"TestMap", L"Proto_TransformCom", ID_DYNAMIC));
 	NULL_CHECK_RETURN(pTerrainTransformCom, );
 
-
 	_vec3 Temp = m_pCalculatorCom->PickingOnTerrainCube(g_hWnd, pTerrainBufferCom, pTerrainTransformCom);
 
 	m_pTransCom->Set_Pos(Temp.x, Temp.y, Temp.z);
 
+	
 }
 
 bool CTestCube::Set_SelectGizmo()
