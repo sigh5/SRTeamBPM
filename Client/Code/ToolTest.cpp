@@ -61,7 +61,7 @@ _int CToolTest::Update_Scene(const _float& fTimeDelta)
 {
 	CImGuiMgr::GetInstance()->WindowLayOut();
 	CImGuiMgr::GetInstance()->TerrainTool(m_pGraphicDev, this);
-	CImGuiMgr::GetInstance()->CreateObject(m_pGraphicDev, this, m_pCam);
+	CImGuiMgr::GetInstance()->CreateObject(m_pGraphicDev, this, m_pCam,L"TestCube");
 	CImGuiMgr::GetInstance()->MonsterTool(m_pGraphicDev, this, m_pCam);
 
 

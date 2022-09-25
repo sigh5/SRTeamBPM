@@ -95,7 +95,10 @@
       <Filter>02. GameObject\01. For_Stage\06. Effect</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\ImGuiMgr.cpp">
-      <Filter>97imGuiMgr</Filter>
+      <Filter>97. imGuiMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FileIOMgr.cpp">
+      <Filter>96. FileIOMgr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -208,7 +211,10 @@
       <Filter>02. GameObject\01. For_Stage\06. Effect</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\ImGuiMgr.h">
-      <Filter>97imGuiMgr</Filter>
+      <Filter>97. imGuiMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\FileIOMgr.h">
+      <Filter>96. FileIOMgr</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -283,8 +289,11 @@
     <Filter Include="02. GameObject\01. For_Stage\06. Effect">
       <UniqueIdentifier>{c0dcfb63-2ccf-4a8c-a4ad-e9bc022881ef}</UniqueIdentifier>
     </Filter>
-    <Filter Include="97imGuiMgr">
+    <Filter Include="97. imGuiMgr">
       <UniqueIdentifier>{8448f349-9e02-4b0c-8424-35bc5e8d5a7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96. FileIOMgr">
+      <UniqueIdentifier>{6fb57a60-c0de-4743-b0d4-9df6b888636f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

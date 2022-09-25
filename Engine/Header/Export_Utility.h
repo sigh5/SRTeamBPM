@@ -22,6 +22,7 @@
 #include "ObjectMgr.h"
 
 
+
 #include "LightMgr.h"
 
 BEGIN(Engine)
@@ -62,6 +63,9 @@ inline HRESULT	Ready_Light(LPDIRECT3DDEVICE9 pGraphicDev, const D3DLIGHT9* pLigh
 // ObjectMgr
 inline void				Collect_Obj(CGameObject* pObj);
 inline CGameObject*		Reuse_Obj(LPDIRECT3DDEVICE9 pGraphicDev, const D3DXVECTOR3& vPos);
+
+
+// FileMgr
 
 
 

@@ -11,6 +11,7 @@ BEGIN(Engine)
 class CCamera;
 class CTransform;
 
+
 END
 // TexturePath 를 위한 Struct
 struct TexturePath
@@ -52,10 +53,9 @@ public:
 	// Map_Tool 기능 생성
 	// 창생성
 	void  WindowLayOut(); // 맨처음 버튼
-	void  CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene,CCamera *pCam);// 오브젝트 생성
+
+	void  CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene,CCamera *pCam, wstring pObjectName);// 오브젝트 생성및 저장하고 불러오기
 	void  TerrainTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene);	// Terrain Tool
-	void  Save_Transform(CScene* pScene);	// 큐브 오브젝트 저장
-	void  Load_Transform(LPDIRECT3DDEVICE9 pGrahicDev, CScene *pScene);// 큐브 오브젝트 로드
 
 	// ~Map_Tool 기능 생성
 	void  MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCamera *pCam);

@@ -8,6 +8,7 @@
 #include "TestCube.h"
 #include "Texture.h"
 #include "Monster.h"
+#include "FileIOMgr.h"
 IMPLEMENT_SINGLETON(CImGuiMgr)
 
 ImGuiTextBuffer CImGuiMgr::log;
@@ -93,7 +94,6 @@ void CImGuiMgr::TransformEdit(CCamera* pCamera, CTransform* pTransform, _bool& W
 		return;
 	}
 
-
 	float matrixTranslation[3], matrixRotation[3], matrixScale[3];
 	_matrix matWorld = pTransform->m_matWorld;
 
@@ -176,17 +176,16 @@ void CImGuiMgr::LoggerWindow()
 	ImGui::Text("Buffer contents: %d lines, %d bytes", lines, log.size());
 	if (ImGui::Button("Clear")) { log.clear(); lines = 0; }
 	ImGui::SameLine();
-	// if (ImGui::Button("Add 1000 lines"))
-	// {
-	//     for (int i = 0; i < 1000; i++)
-	//         log.appendf("%i The quick brown fox jumps over the lazy dog\n", lines + i);
-	//     lines += 1000;
-	// }
+	 if (ImGui::Button("Add 1000 lines"))
+	 {
+	     for (int i = 0; i < 1000; i++)
+	         log.appendf("%i The quick brown fox jumps over the lazy dog\n", lines + i);
+	     lines += 1000;
+	 }
 	ImGui::BeginChild("Log");
 	switch (test_type)
 	{
 	case 0:
-		// Single call to TextUnformatted() with a big buffer
 		ImGui::TextUnformatted(log.begin(), log.end());
 		break;
 	case 1:
@@ -240,7 +239,7 @@ void CImGuiMgr::WindowLayOut()
 	ImGui::End();
 }
 
-void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCamera* pCam)
+void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCamera* pCam,wstring pObjectName)
 {
 	if (!Show_Cube_Tool)
 		return;
@@ -250,12 +249,19 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 	ImGui::Text("this is Transform_ButtonMenu");
 	if (ImGui::Button("Save"))
 	{
-		Save_Transform(pScene);
+		CFileIOMgr::GetInstance()->Save_FileData(pScene, L"TestLayer2", L"../../Data/",L"TESp.dat",OBJ_CUBE);
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Load"))
 	{
-		Load_Transform(pGrahicDev,pScene);
+		CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev,
+			pScene, 
+			L"TestLayer2",
+			L"../../Data/",
+			L"TESp.dat", 
+			L"TestCube",
+			OBJ_CUBE);
+
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Delete"))
@@ -287,17 +293,17 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 		{
 			cubePlane = CREATECUBE_UP;
 		}
-
+		ImGui::SameLine();
 		if (ImGui::Button("Down"))
 		{
 			cubePlane = CREATECUBE_DOWN;
 		}
-
+		ImGui::SameLine();
 		if (ImGui::Button("Left"))
 		{
 			cubePlane = CREATECUBE_LEFT;
 		}
-
+		ImGui::SameLine();
 		if (ImGui::Button("Right"))
 		{
 			cubePlane = CREATECUBE_RIGHT;
@@ -310,15 +316,16 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 		{
 			ImVec2 temp = ImGui::GetMousePos();		
 			CGameObject *pGameObject = nullptr;
+			CLayer* MyLayer = pScene->GetLayer(L"TestLayer2");
+		
 			_tchar* test1 = new _tchar[20];
 
-			wstring t = L"Test%d";
+			wstring t = pObjectName + L"%d";
 			wsprintfW(test1, t.c_str(), m_iIndex);
-			NameList.push_back(test1);
+			MyLayer->AddNameList(test1);
 
 			_bool	isUpcube = false;
 		
-			CLayer* MyLayer = pScene->GetLayer(L"TestLayer2");
 			map<const _tchar*, CGameObject*> test = MyLayer->Get_GameObjectMap();
 			CGameObject *pTestCube = nullptr;
 			_int iCount = 0;
@@ -371,13 +378,9 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 				}
 			}
 			
-			
-			
-
 			FAILED_CHECK_RETURN(MyLayer->Add_GameObject(test1, pGameObject), );
 
 			++m_iIndex;
-
 			pScene->Add_Layer(MyLayer, L"TestLayer2");
 		}
 	}
@@ -513,132 +516,6 @@ void CImGuiMgr::TerrainTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene)
 
 
 	ImGui::End();
-}
-
-void CImGuiMgr::Save_Transform(CScene* pScene)
-{
-	wstring Directory = L"../../Data/Map.dat";
-
-	HANDLE      hFile = CreateFile(Directory.c_str(),
-		// ������ ��ο� �̸�
-		GENERIC_WRITE,         // ���� ���� ��� (GENERIC_WRITE : ���� ����, GENERIC_READ : �б� ����)
-		NULL,               // ���� ���(������ �����ִ� ���¿��� �ٸ� ���μ����� ������ �� ����� ���ΰ�)    
-		NULL,               // ���� �Ӽ�(NULL�� �����ϸ� �⺻�� ����)
-		CREATE_ALWAYS,         // CREATE_ALWAYS : ������ ���ٸ� ����, �ִٸ� �����, OPEN_EXISTING  : ������ ���� ��쿡�� ����
-		FILE_ATTRIBUTE_NORMAL,  // ���� �Ӽ�(�б� ����, ���� ��) : FILE_ATTRIBUTE_NORMAL : �ƹ��� �Ӽ��� ���� ����
-		NULL);               // ������ ������ �Ӽ��� ������ ���ø� ����(�Ⱦ��ϱ� NULL)
-
-	if (INVALID_HANDLE_VALUE == hFile)
-	{
-		return;
-	}
-
-	CLayer* MyLayer = pScene->GetLayer(L"TestLayer2");
-	DWORD   dwByte = 0;
-	
-	map<const _tchar*, CGameObject*> test = MyLayer->Get_GameObjectMap();
-	for (auto iter = test.begin(); iter != test.end(); ++iter)
-	{
-
-		CTransform* Transcom = dynamic_cast<CTransform*>(iter->second->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
-
-		_vec3   vRight, vUp, vLook, vPos, vScale, vAngle;
-		_int	iDrawNum = 0;
-
-		Transcom->Get_Info(INFO_RIGHT, &vRight);
-		Transcom->Get_Info(INFO_UP, &vUp);
-		Transcom->Get_Info(INFO_LOOK, &vLook);
-		Transcom->Get_Info(INFO_POS, &vPos);
-		memcpy(vScale, Transcom->m_vScale, sizeof(_vec3));
-		memcpy(vAngle, Transcom->m_vAngle, sizeof(_vec3));
-		iDrawNum = iter->second->Get_DrawTexIndex();
-
-		WriteFile(hFile, &vRight, sizeof(_vec3), &dwByte, nullptr);
-		WriteFile(hFile, &vUp, sizeof(_vec3), &dwByte, nullptr);
-		WriteFile(hFile, &vLook, sizeof(_vec3), &dwByte, nullptr);
-		WriteFile(hFile, &vPos, sizeof(_vec3), &dwByte, nullptr);
-		WriteFile(hFile, &vScale, sizeof(_vec3), &dwByte, nullptr);
-		WriteFile(hFile, &vAngle, sizeof(_vec3), &dwByte, nullptr);
-		WriteFile(hFile, &iDrawNum, sizeof(_int), &dwByte, nullptr);
-
-	}
-
-	CloseHandle(hFile);
-	MSG_BOX("Save_Complete");
-
-}
-
-void CImGuiMgr::Load_Transform(LPDIRECT3DDEVICE9 pGrahicDev,CScene *pScene)
-{
-	wstring Directory = L"../../Data/Map.dat";
-
-	HANDLE      hFile = CreateFile(Directory.c_str(),      // ������ ��ο� �̸�
-		GENERIC_READ,         // ���� ���� ��� (GENERIC_WRITE : ���� ����, GENERIC_READ : �б� ����)
-		NULL,               // ���� ���(������ �����ִ� ���¿��� �ٸ� ���μ����� ������ �� ����� ���ΰ�)    
-		NULL,               // ���� �Ӽ�(NULL�� �����ϸ� �⺻�� ����)
-		OPEN_EXISTING,         // CREATE_ALWAYS : ������ ���ٸ� ����, �ִٸ� �����, OPEN_EXISTING  : ������ ���� ��쿡�� ����
-		FILE_ATTRIBUTE_NORMAL,  // ���� �Ӽ�(�б� ����, ���� ��) : FILE_ATTRIBUTE_NORMAL : �ƹ��� �Ӽ��� ���� ����
-		NULL);               // ������ ������ �Ӽ��� ������ ���ø� ����(�Ⱦ��ϱ� NULL)
-
-	if (INVALID_HANDLE_VALUE == hFile)
-	{
-		return;
-	}
-
-	DWORD   dwByte = 0;
-
-	_vec3   vRight, vUp, vLook, vPos, vScale, vAngle;
-	_int	iDrawIndex = 0;
-	CLayer* pMyLayer = nullptr;
-
-	while (true)
-	{
-		ReadFile(hFile, &vRight, sizeof(_vec3), &dwByte, nullptr);
-		ReadFile(hFile, &vUp, sizeof(_vec3), &dwByte, nullptr);
-		ReadFile(hFile, &vLook, sizeof(_vec3), &dwByte, nullptr);
-		ReadFile(hFile, &vPos, sizeof(_vec3), &dwByte, nullptr);
-		ReadFile(hFile, &vScale, sizeof(_vec3), &dwByte, nullptr);
-		ReadFile(hFile, &vAngle, sizeof(_vec3), &dwByte, nullptr);
-		ReadFile(hFile, &iDrawIndex, sizeof(_int), &dwByte, nullptr);
-
-		CGameObject *pGameObject = nullptr;
-		_tchar* test1 = new _tchar[20];
-		wstring t = L"Test%d";
-		wsprintfW(test1, t.c_str(), m_iIndex);
-		NameList.push_back(test1);
-		
-		pGameObject = CTestCube::Create(pGrahicDev);
-		pMyLayer = pScene->GetLayer(L"TestLayer2");
-		
-		FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(test1, pGameObject), );
-		pGameObject->Set_DrawTexIndex(iDrawIndex);
-		++m_iIndex;
-
-		CTransform* Transcom = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
-
-		Transcom->Set_Info(INFO_RIGHT, &vRight);
-		Transcom->Set_Info(INFO_UP, &vUp);
-		Transcom->Set_Info(INFO_LOOK, &vLook);
-		Transcom->Set_Info(INFO_POS, &vPos);
-		Transcom->Set_Angle(&vAngle);
-		Transcom->Set_Scale(&vScale);
-
-		Transcom->Update_Component(0.01f);
-
-		//   �޾ƿ� ���� �Է��������
-
-		if (0 == dwByte)
-			break;
-
-	}
-	MSG_BOX("Save_Complete");
-	pScene->Add_Layer(pMyLayer, L"TestLayer2");
-
-
-	CloseHandle(hFile);
-
-
-
 }
 
 void CImGuiMgr::MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCamera *pCam)
@@ -983,5 +860,4 @@ void CImGuiMgr::TransformEdit_Monster(CCamera * pCamera, CTransform * pTransform
 
 void CImGuiMgr::Free()
 {
-	
 }
