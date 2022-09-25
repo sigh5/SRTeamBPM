@@ -64,6 +64,7 @@ public:
 	void  MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCamera *pCam);
 	void  Save_Monster(CScene* pScene);
 	void  Load_Monster(LPDIRECT3DDEVICE9 pGrahicDev, CScene *pScene);
+	void  TransformEdit_Monster(CCamera* pCamera, CTransform* pTransform, _bool& Window);
 	// Monster_Tool 기능 생성
 
 	// 각툴의 기능 쓰기

@@ -108,13 +108,13 @@ HRESULT CStage::Ready_Layer_UI(const _tchar * pLayerTag)
 
 	CGameObject*		pGameObject = nullptr;
 
-	for(_uint i = 0; i < 50; ++i)
-	{
-		// testPlayer
-		pGameObject = CEffect::Create(m_pGraphicDev);
-		NULL_CHECK_RETURN(pGameObject, E_FAIL);
-		FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Effect", pGameObject), E_FAIL);
-	}
+	//for(_uint i = 0; i < 50; ++i)
+	//{
+	//	// testPlayer
+	//	pGameObject = CEffect::Create(m_pGraphicDev);
+	//	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Effect", pGameObject), E_FAIL);
+	//}
 
 
 
