@@ -24,6 +24,14 @@ HRESULT CTestCube::Ready_Object(int Posx, int Posy)
 		Set_TransformPositon();
 	}
 	_vec3 vScale = { 0.5f,0.5f,0.5f };
+	
+	_vec3 vPos;
+	m_pTransCom->Get_Info(INFO_POS, &vPos);
+
+	vPos.y += 0.5f;
+
+	m_pTransCom->Set_Y(vPos.y);
+
 	m_pTransCom->Set_Scale(&vScale);
 	return S_OK;
 }
@@ -64,16 +72,12 @@ void CTestCube::Set_TransformPositon()
 	
 }
 
-bool CTestCube::Set_SelectGizmo()
+_bool CTestCube::Set_SelectGizmo()
 {
-
-	if (m_pCalculatorCom->PickingOnTransform(g_hWnd, m_pBufferCom, m_pTransCom))
-		return true;
-
-
-	return false;
-
+	return m_pCalculatorCom->PickingOnTransform(g_hWnd, m_pBufferCom, m_pTransCom);
 }
+
+
 
 HRESULT CTestCube::Add_Component()
 {

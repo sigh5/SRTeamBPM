@@ -106,6 +106,7 @@ public:
 private:
 	// 예시
 	static ImGuiTextBuffer log;
+	CREATECUBE cubePlane = CREATECUBE_END;
 	virtual void Free() override;
 	// ~예시
 };
