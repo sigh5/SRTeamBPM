@@ -70,6 +70,9 @@
     <Filter Include="00. Component\04. Animation">
       <UniqueIdentifier>{bbce4e91-1596-40cc-a34d-62f0274d7e2f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. Manager\05. ObjPoolMgr">
+      <UniqueIdentifier>{eda220cd-d75d-402e-ac74-c394976ed2ec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\TriCol.h">
@@ -138,6 +141,9 @@
     <ClInclude Include="..\..\Header\Animation.h">
       <Filter>00. Component\04. Animation</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Header\ObjectMgr.h">
+      <Filter>04. Manager\05. ObjPoolMgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\TriCol.cpp">
@@ -202,6 +208,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Animation.cpp">
       <Filter>00. Component\04. Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ObjectMgr.cpp">
+      <Filter>04. Manager\05. ObjPoolMgr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
