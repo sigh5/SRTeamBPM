@@ -280,8 +280,31 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 	}
 
 	CTransform * pTranscom = nullptr;
+	
 	if (m_bCubeCreateCheck)
 	{
+		if( ImGui::Button("UP"))
+		{
+			cubePlane = CREATECUBE_UP;
+		}
+
+		if (ImGui::Button("Down"))
+		{
+			cubePlane = CREATECUBE_DOWN;
+		}
+
+		if (ImGui::Button("Left"))
+		{
+			cubePlane = CREATECUBE_LEFT;
+		}
+
+		if (ImGui::Button("Right"))
+		{
+			cubePlane = CREATECUBE_RIGHT;
+		}
+
+
+
 		ImGui::Text("if double click Create Cube");
 		if (ImGui::IsMouseDoubleClicked(0))
 		{
@@ -294,7 +317,7 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 			NameList.push_back(test1);
 
 			_bool	isUpcube = false;
-
+		
 			CLayer* MyLayer = pScene->GetLayer(L"TestLayer2");
 			map<const _tchar*, CGameObject*> test = MyLayer->Get_GameObjectMap();
 			CGameObject *pTestCube = nullptr;
@@ -302,13 +325,12 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 			
 			for (auto iter = test.begin(); iter != test.end(); ++iter)
 			{
-				if (dynamic_cast<CTestCube*>(iter->second)->Set_SelectGizmo() == 1)
-				{
+				if(dynamic_cast<CTestCube*>(iter->second)->Set_SelectGizmo())
+				{ 
 					isUpcube = true;
 					pTestCube = iter->second;
 					iCount++;
 				}
-
 			}
 			
 			if (iCount > 1)
@@ -320,16 +342,36 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 			pGameObject = CTestCube::Create(pGrahicDev, temp.x, temp.y);
 			NULL_CHECK_RETURN(pGameObject, );
 
+			
 			if (isUpcube)
 			{
 				CTransform* pCubeTrnasform = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
-
 				CTransform* pPreCubeTransform = dynamic_cast<CTransform*>(pTestCube->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
 				_vec3 vPrePos;
 				pPreCubeTransform->Get_Info(INFO_POS, &vPrePos);
 
-				pCubeTrnasform->Set_Pos(vPrePos.x, vPrePos.y + 1.f, vPrePos.z);
+				switch (cubePlane)
+				{
+				case Engine::CREATECUBE_LEFT:
+					pCubeTrnasform->Set_Pos(vPrePos.x - 1.f, vPrePos.y, vPrePos.z);
+					break;
+				case Engine::CREATECUBE_RIGHT:
+					pCubeTrnasform->Set_Pos(vPrePos.x + 1.f, vPrePos.y, vPrePos.z);
+					break;
+				case Engine::CREATECUBE_UP:
+					pCubeTrnasform->Set_Pos(vPrePos.x, vPrePos.y + 1.f, vPrePos.z);
+					break;
+				case Engine::CREATECUBE_DOWN:
+					pCubeTrnasform->Set_Pos(vPrePos.x, vPrePos.y - 1.f, vPrePos.z);
+					break;
+				case Engine::CREATECUBE_END:
+					break;
+				default:
+					break;
+				}
 			}
+			
+			
 			
 
 			FAILED_CHECK_RETURN(MyLayer->Add_GameObject(test1, pGameObject), );
@@ -821,5 +863,5 @@ void CImGuiMgr::Load_Monster(LPDIRECT3DDEVICE9 pGrahicDev, CScene *pScene)
 
 void CImGuiMgr::Free()
 {
-	Release();
+	//Release();
 }

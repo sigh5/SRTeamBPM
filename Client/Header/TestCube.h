@@ -22,7 +22,10 @@ public:
 	virtual void	Render_Obejct(void) override;
 
 	void				Set_TransformPositon();
-	bool				Set_SelectGizmo();
+	_bool				Set_SelectGizmo();
+	CREATECUBE			Set_CreateCubePlane();
+
+
 
 	_bool*	Get_WireFrame() { return &m_bWireFrame; }
 	void	Set_WireFrame(_bool bWireFrame) { m_bWireFrame = bWireFrame; }
