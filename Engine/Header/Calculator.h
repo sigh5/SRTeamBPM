@@ -6,6 +6,7 @@ BEGIN(Engine)
 class CTerrainTex;
 class CTransform;
 class CCubeTex;
+class CRcTex;
 
 class ENGINE_DLL CCalculator :	public CComponent
 {
@@ -30,7 +31,7 @@ public:
 	// Cal CubeRayHit
 	_bool	PickingOnTransform(HWND hWnd, const CCubeTex* pCubeTexBufferCom, const CTransform* pCubeTransCom);
 
-
+	_bool	PickingOnTransform_Monster(HWND hWnd, const CRcTex* pMonsterTexBuffer, const CTransform* pMonsterTransCom);
 
 public:
 	virtual CComponent* Clone(void) override;

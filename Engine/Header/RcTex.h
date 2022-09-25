@@ -16,6 +16,16 @@ public:
 	virtual void Render_Buffer(void) override;
 
 public:
+	const _vec3*		Get_VtxPos(void) const { return m_pPos; }
+	//_ulong		Get_VtxCntX(void) const { return m_iH.biWidth; }
+	//_ulong		Get_VtxCntZ(void) const { return m_iH.biHeight; }
+
+
+private:
+	_vec3*				m_pPos;
+	_bool				m_bClone;
+
+public:
 	static CRcTex*	Create(LPDIRECT3DDEVICE9 pGraphicDev);
 	CComponent*	Clone(void);
 	virtual void Free(void) override;
