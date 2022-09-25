@@ -175,6 +175,7 @@ void CMainApp::Free(void)
 	CImGuiMgr::GetInstance()->DestroyInstance();
 #endif // _DEBUG
 
+	
 	Safe_Release(m_pGraphicDev);
 	Safe_Release(m_pDeviceClass);
 	Safe_Release(m_pManagementClass);

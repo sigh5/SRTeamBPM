@@ -24,14 +24,20 @@ HRESULT CTestCube::Ready_Object(int Posx, int Posy)
 		Set_TransformPositon();
 	}
 	_vec3 vScale = { 0.5f,0.5f,0.5f };
+	
+	_vec3 vPos;
+	m_pTransCom->Get_Info(INFO_POS, &vPos);
+
+	vPos.y += 0.5f;
+
+	m_pTransCom->Set_Y(vPos.y);
+
 	m_pTransCom->Set_Scale(&vScale);
 	return S_OK;
 }
 
 _int CTestCube::Update_Object(const _float& fTimeDelta)
 {
-
-	
 	CGameObject::Update_Object(fTimeDelta);
 
 	Add_RenderGroup(RENDER_PRIORITY, this);
@@ -59,23 +65,19 @@ void CTestCube::Set_TransformPositon()
 	CTransform*		pTerrainTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"TestLayer", L"TestMap", L"Proto_TransformCom", ID_DYNAMIC));
 	NULL_CHECK_RETURN(pTerrainTransformCom, );
 
-
 	_vec3 Temp = m_pCalculatorCom->PickingOnTerrainCube(g_hWnd, pTerrainBufferCom, pTerrainTransformCom);
 
 	m_pTransCom->Set_Pos(Temp.x, Temp.y, Temp.z);
 
+	
 }
 
-bool CTestCube::Set_SelectGizmo()
+_bool CTestCube::Set_SelectGizmo()
 {
-
-	if (m_pCalculatorCom->PickingOnTransform(g_hWnd, m_pBufferCom, m_pTransCom))
-		return true;
-
-
-	return false;
-
+	return m_pCalculatorCom->PickingOnTransform(g_hWnd, m_pBufferCom, m_pTransCom);
 }
+
+
 
 HRESULT CTestCube::Add_Component()
 {

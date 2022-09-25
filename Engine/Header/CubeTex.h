@@ -25,7 +25,7 @@ public:
 
 private:
 	_vec3*		m_vPos;
-	_bool		m_bClone;
+	_bool				m_bClone;
 };
 
 END

@@ -280,31 +280,105 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 	}
 
 	CTransform * pTranscom = nullptr;
+	
 	if (m_bCubeCreateCheck)
 	{
+		if( ImGui::Button("UP"))
+		{
+			cubePlane = CREATECUBE_UP;
+		}
+
+		if (ImGui::Button("Down"))
+		{
+			cubePlane = CREATECUBE_DOWN;
+		}
+
+		if (ImGui::Button("Left"))
+		{
+			cubePlane = CREATECUBE_LEFT;
+		}
+
+		if (ImGui::Button("Right"))
+		{
+			cubePlane = CREATECUBE_RIGHT;
+		}
+
+
+
 		ImGui::Text("if double click Create Cube");
 		if (ImGui::IsMouseDoubleClicked(0))
 		{
-			ImVec2 temp = ImGui::GetMousePos();
+			ImVec2 temp = ImGui::GetMousePos();		
 			CGameObject *pGameObject = nullptr;
-
 			_tchar* test1 = new _tchar[20];
 
 			wstring t = L"Test%d";
 			wsprintfW(test1, t.c_str(), m_iIndex);
-
 			NameList.push_back(test1);
 
+			_bool	isUpcube = false;
+		
+			CLayer* MyLayer = pScene->GetLayer(L"TestLayer2");
+			map<const _tchar*, CGameObject*> test = MyLayer->Get_GameObjectMap();
+			CGameObject *pTestCube = nullptr;
+			_int iCount = 0;
+			
+			for (auto iter = test.begin(); iter != test.end(); ++iter)
+			{
+				if(dynamic_cast<CTestCube*>(iter->second)->Set_SelectGizmo())
+				{ 
+					isUpcube = true;
+					pTestCube = iter->second;
+					iCount++;
+				}
+			}
+			
+			if (iCount > 1)
+			{
+				ImGui::End();
+				return;
+			}
+		
 			pGameObject = CTestCube::Create(pGrahicDev, temp.x, temp.y);
 			NULL_CHECK_RETURN(pGameObject, );
-			
-			CLayer* pCubelayer = pScene->GetLayer(L"TestLayer2");
 
-			FAILED_CHECK_RETURN(pCubelayer->Add_GameObject(test1, pGameObject), );
+			
+			if (isUpcube)
+			{
+				CTransform* pCubeTrnasform = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+				CTransform* pPreCubeTransform = dynamic_cast<CTransform*>(pTestCube->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+				_vec3 vPrePos;
+				pPreCubeTransform->Get_Info(INFO_POS, &vPrePos);
+
+				switch (cubePlane)
+				{
+				case Engine::CREATECUBE_LEFT:
+					pCubeTrnasform->Set_Pos(vPrePos.x - 1.f, vPrePos.y, vPrePos.z);
+					break;
+				case Engine::CREATECUBE_RIGHT:
+					pCubeTrnasform->Set_Pos(vPrePos.x + 1.f, vPrePos.y, vPrePos.z);
+					break;
+				case Engine::CREATECUBE_UP:
+					pCubeTrnasform->Set_Pos(vPrePos.x, vPrePos.y + 1.f, vPrePos.z);
+					break;
+				case Engine::CREATECUBE_DOWN:
+					pCubeTrnasform->Set_Pos(vPrePos.x, vPrePos.y - 1.f, vPrePos.z);
+					break;
+				case Engine::CREATECUBE_END:
+					break;
+				default:
+					break;
+				}
+			}
+			
+			
+			
+
+			FAILED_CHECK_RETURN(MyLayer->Add_GameObject(test1, pGameObject), );
 
 			++m_iIndex;
 
-			pScene->Add_Layer(pCubelayer, L"TestLayer2");
+			pScene->Add_Layer(MyLayer, L"TestLayer2");
 		}
 	}
 
@@ -364,7 +438,7 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 	}
 
 	TransformEdit(pCam, m_pSelectedTransform, Show_Cube_Tool);
-	// ¼¿·º¹öÆ°À» À§ÇÑ°Í
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½ï¿½Ñ°ï¿½
 	if (pTranscom != nullptr)
 		m_pSelectedTransform = pTranscom;
 
@@ -446,13 +520,13 @@ void CImGuiMgr::Save_Transform(CScene* pScene)
 	wstring Directory = L"../../Data/Map.dat";
 
 	HANDLE      hFile = CreateFile(Directory.c_str(),
-		// ÆÄÀÏÀÇ °æ·Î¿Í ÀÌ¸§
-		GENERIC_WRITE,         // ÆÄÀÏ Á¢±Ù ¸ðµå (GENERIC_WRITE : ¾²±â Àü¿ë, GENERIC_READ : ÀÐ±â Àü¿ë)
-		NULL,               // °øÀ¯ ¹æ½Ä(ÆÄÀÏÀÌ ¿­·ÁÀÖ´Â »óÅÂ¿¡¼­ ´Ù¸¥ ÇÁ·Î¼¼½º°¡ ¿ÀÇÂÇÒ ¶§ Çã¿ëÇÒ °ÍÀÎ°¡)    
-		NULL,               // º¸¾È ¼Ó¼º(NULLÀ» ÁöÁ¤ÇÏ¸é ±âº»°ª »óÅÂ)
-		CREATE_ALWAYS,         // CREATE_ALWAYS : ÆÄÀÏÀÌ ¾ø´Ù¸é »ý¼º, ÀÖ´Ù¸é µ¤¾î¾²±â, OPEN_EXISTING  : ÆÄÀÏÀÌ ÀÖÀ» °æ¿ì¿¡¸¸ ¿­±â
-		FILE_ATTRIBUTE_NORMAL,  // ÆÄÀÏ ¼Ó¼º(ÀÐ±â Àü¿ë, ¼û±è µî) : FILE_ATTRIBUTE_NORMAL : ¾Æ¹«·± ¼Ó¼ºÀÌ ¾ø´Â ÆÄÀÏ
-		NULL);               // »ý¼ºµÉ ÆÄÀÏÀÇ ¼Ó¼ºÀ» Á¦°øÇÒ ÅÛÇÃ¸´ ÆÄÀÏ(¾È¾²´Ï±ñ NULL)
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î¿ï¿½ ï¿½Ì¸ï¿½
+		GENERIC_WRITE,         // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ (GENERIC_WRITE : ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, GENERIC_READ : ï¿½Ð±ï¿½ ï¿½ï¿½ï¿½ï¿½)
+		NULL,               // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½Â¿ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½Î¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î°ï¿½)    
+		NULL,               // ï¿½ï¿½ï¿½ï¿½ ï¿½Ó¼ï¿½(NULLï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½âº»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
+		CREATE_ALWAYS,         // CREATE_ALWAYS : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½Ö´Ù¸ï¿½ ï¿½ï¿½ï¿½î¾²ï¿½ï¿½, OPEN_EXISTING  : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		FILE_ATTRIBUTE_NORMAL,  // ï¿½ï¿½ï¿½ï¿½ ï¿½Ó¼ï¿½(ï¿½Ð±ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½) : FILE_ATTRIBUTE_NORMAL : ï¿½Æ¹ï¿½ï¿½ï¿½ ï¿½Ó¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		NULL);               // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ó¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ã¸ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½È¾ï¿½ï¿½Ï±ï¿½ NULL)
 
 	if (INVALID_HANDLE_VALUE == hFile)
 	{
@@ -498,13 +572,13 @@ void CImGuiMgr::Load_Transform(LPDIRECT3DDEVICE9 pGrahicDev,CScene *pScene)
 {
 	wstring Directory = L"../../Data/Map.dat";
 
-	HANDLE      hFile = CreateFile(Directory.c_str(),      // ÆÄÀÏÀÇ °æ·Î¿Í ÀÌ¸§
-		GENERIC_READ,         // ÆÄÀÏ Á¢±Ù ¸ðµå (GENERIC_WRITE : ¾²±â Àü¿ë, GENERIC_READ : ÀÐ±â Àü¿ë)
-		NULL,               // °øÀ¯ ¹æ½Ä(ÆÄÀÏÀÌ ¿­·ÁÀÖ´Â »óÅÂ¿¡¼­ ´Ù¸¥ ÇÁ·Î¼¼½º°¡ ¿ÀÇÂÇÒ ¶§ Çã¿ëÇÒ °ÍÀÎ°¡)    
-		NULL,               // º¸¾È ¼Ó¼º(NULLÀ» ÁöÁ¤ÇÏ¸é ±âº»°ª »óÅÂ)
-		OPEN_EXISTING,         // CREATE_ALWAYS : ÆÄÀÏÀÌ ¾ø´Ù¸é »ý¼º, ÀÖ´Ù¸é µ¤¾î¾²±â, OPEN_EXISTING  : ÆÄÀÏÀÌ ÀÖÀ» °æ¿ì¿¡¸¸ ¿­±â
-		FILE_ATTRIBUTE_NORMAL,  // ÆÄÀÏ ¼Ó¼º(ÀÐ±â Àü¿ë, ¼û±è µî) : FILE_ATTRIBUTE_NORMAL : ¾Æ¹«·± ¼Ó¼ºÀÌ ¾ø´Â ÆÄÀÏ
-		NULL);               // »ý¼ºµÉ ÆÄÀÏÀÇ ¼Ó¼ºÀ» Á¦°øÇÒ ÅÛÇÃ¸´ ÆÄÀÏ(¾È¾²´Ï±ñ NULL)
+	HANDLE      hFile = CreateFile(Directory.c_str(),      // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î¿ï¿½ ï¿½Ì¸ï¿½
+		GENERIC_READ,         // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ (GENERIC_WRITE : ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, GENERIC_READ : ï¿½Ð±ï¿½ ï¿½ï¿½ï¿½ï¿½)
+		NULL,               // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½Â¿ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½Î¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î°ï¿½)    
+		NULL,               // ï¿½ï¿½ï¿½ï¿½ ï¿½Ó¼ï¿½(NULLï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½âº»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
+		OPEN_EXISTING,         // CREATE_ALWAYS : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½Ö´Ù¸ï¿½ ï¿½ï¿½ï¿½î¾²ï¿½ï¿½, OPEN_EXISTING  : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		FILE_ATTRIBUTE_NORMAL,  // ï¿½ï¿½ï¿½ï¿½ ï¿½Ó¼ï¿½(ï¿½Ð±ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½) : FILE_ATTRIBUTE_NORMAL : ï¿½Æ¹ï¿½ï¿½ï¿½ ï¿½Ó¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		NULL);               // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ó¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ã¸ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½È¾ï¿½ï¿½Ï±ï¿½ NULL)
 
 	if (INVALID_HANDLE_VALUE == hFile)
 	{
@@ -551,7 +625,7 @@ void CImGuiMgr::Load_Transform(LPDIRECT3DDEVICE9 pGrahicDev,CScene *pScene)
 
 		Transcom->Update_Component(0.01f);
 
-		//   ¹Þ¾Æ¿Â Á¤º¸ ÀÔ·ÂÇØÁà¾ßÇÔ
+		//   ï¿½Þ¾Æ¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 		if (0 == dwByte)
 			break;
@@ -590,7 +664,7 @@ void CImGuiMgr::MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 		CLayer* MyLayer = pScene->GetLayer(L"TestLayer3");
 		MyLayer->Delete_GameObject(m_CurrentSelectGameObjectObjKey.c_str());
 	}
-	//ÀÏ´Ü ¼¼ÀÌºê ·Îµå ¸»°í ¸ó½ºÅÍ »ý¼º ºÎÅÍ
+	//ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½Ìºï¿½ ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 	if (ImGui::CollapsingHeader("Monster Create & Chose Button", ImGuiTreeNodeFlags_DefaultOpen))
 	{
@@ -659,7 +733,7 @@ void CImGuiMgr::MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 	CMonster* pGameObject = dynamic_cast<CMonster*>(Engine::Get_GameObject(L"TestLayer3", m_CurrentSelectGameObjectObjKey.c_str()));
 	
 	ImGui::NewLine();
-	//¼¿·ºÆ® ÇÑ ´ÙÀ½ °¡´É È¤Àº ¹Ì¸® ¼±ÅÃÇØ¼­ create ÇØ¾ßÇÔ
+	//ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È¤ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ create ï¿½Ø¾ï¿½ï¿½ï¿½
 	//if (ImGui::CollapsingHeader("Monster Texture", ImGuiTreeNodeFlags_DefaultOpen))
 	//{
 	//	CTexture* pTextureCom = dynamic_cast<CTexture*>(pGameObject->Get_Component(L"Proto_TerrainTexture2", ID_STATIC));
@@ -678,7 +752,7 @@ void CImGuiMgr::MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 	//	}
 	//}
 	TransformEdit_Monster(pCam, m_pSelectedTransform, Show_Monster_Tool);
-	// ¼¿·º¹öÆ°À» À§ÇÑ°Í
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½ï¿½Ñ°ï¿½
 	if (pTranscom != nullptr)
 		m_pSelectedTransform = pTranscom;
 
@@ -693,7 +767,7 @@ void CImGuiMgr::MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 		ImGui::InputInt("Hp", &monInfo->_Hp);
 		ImGui::InputInt("AttackPower", &monInfo->_AttackPower);
 		ImGui::InputInt("MonsterIndex", &monInfo->_MonsterIndex);
-		//½ºÅÈÀ» ¹Þ¾Æ¿À°í ¼öÁ¤ÇÒ ¼ö ÀÖ´Â ±â´ÉÀ» ¸¸µé¾î¾ß ÇÔ
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾Æ¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 
 		ImGui::End();
 	}
@@ -704,13 +778,13 @@ void CImGuiMgr::Save_Monster(CScene* pScene)
 	wstring Directory = L"../../Data/Monster.dat";
 
 	HANDLE      hFile = CreateFile(Directory.c_str(),
-		// ÆÄÀÏÀÇ °æ·Î¿Í ÀÌ¸§
-		GENERIC_WRITE,         // ÆÄÀÏ Á¢±Ù ¸ðµå (GENERIC_WRITE : ¾²±â Àü¿ë, GENERIC_READ : ÀÐ±â Àü¿ë)
-		NULL,               // °øÀ¯ ¹æ½Ä(ÆÄÀÏÀÌ ¿­·ÁÀÖ´Â »óÅÂ¿¡¼­ ´Ù¸¥ ÇÁ·Î¼¼½º°¡ ¿ÀÇÂÇÒ ¶§ Çã¿ëÇÒ °ÍÀÎ°¡)    
-		NULL,               // º¸¾È ¼Ó¼º(NULLÀ» ÁöÁ¤ÇÏ¸é ±âº»°ª »óÅÂ)
-		CREATE_ALWAYS,         // CREATE_ALWAYS : ÆÄÀÏÀÌ ¾ø´Ù¸é »ý¼º, ÀÖ´Ù¸é µ¤¾î¾²±â, OPEN_EXISTING  : ÆÄÀÏÀÌ ÀÖÀ» °æ¿ì¿¡¸¸ ¿­±â
-		FILE_ATTRIBUTE_NORMAL,  // ÆÄÀÏ ¼Ó¼º(ÀÐ±â Àü¿ë, ¼û±è µî) : FILE_ATTRIBUTE_NORMAL : ¾Æ¹«·± ¼Ó¼ºÀÌ ¾ø´Â ÆÄÀÏ
-		NULL);               // »ý¼ºµÉ ÆÄÀÏÀÇ ¼Ó¼ºÀ» Á¦°øÇÒ ÅÛÇÃ¸´ ÆÄÀÏ(¾È¾²´Ï±ñ NULL)
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î¿ï¿½ ï¿½Ì¸ï¿½
+		GENERIC_WRITE,         // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ (GENERIC_WRITE : ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, GENERIC_READ : ï¿½Ð±ï¿½ ï¿½ï¿½ï¿½ï¿½)
+		NULL,               // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½Â¿ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½Î¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î°ï¿½)    
+		NULL,               // ï¿½ï¿½ï¿½ï¿½ ï¿½Ó¼ï¿½(NULLï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½âº»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
+		CREATE_ALWAYS,         // CREATE_ALWAYS : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½Ö´Ù¸ï¿½ ï¿½ï¿½ï¿½î¾²ï¿½ï¿½, OPEN_EXISTING  : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		FILE_ATTRIBUTE_NORMAL,  // ï¿½ï¿½ï¿½ï¿½ ï¿½Ó¼ï¿½(ï¿½Ð±ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½) : FILE_ATTRIBUTE_NORMAL : ï¿½Æ¹ï¿½ï¿½ï¿½ ï¿½Ó¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		NULL);               // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ó¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ã¸ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½È¾ï¿½ï¿½Ï±ï¿½ NULL)
 
 	if (INVALID_HANDLE_VALUE == hFile)
 	{
@@ -747,13 +821,13 @@ void CImGuiMgr::Load_Monster(LPDIRECT3DDEVICE9 pGrahicDev, CScene *pScene)
 {
 	wstring Directory = L"../../Data/Monster.dat";
 
-	HANDLE      hFile = CreateFile(Directory.c_str(),      // ÆÄÀÏÀÇ °æ·Î¿Í ÀÌ¸§
-		GENERIC_READ,         // ÆÄÀÏ Á¢±Ù ¸ðµå (GENERIC_WRITE : ¾²±â Àü¿ë, GENERIC_READ : ÀÐ±â Àü¿ë)
-		NULL,               // °øÀ¯ ¹æ½Ä(ÆÄÀÏÀÌ ¿­·ÁÀÖ´Â »óÅÂ¿¡¼­ ´Ù¸¥ ÇÁ·Î¼¼½º°¡ ¿ÀÇÂÇÒ ¶§ Çã¿ëÇÒ °ÍÀÎ°¡)    
-		NULL,               // º¸¾È ¼Ó¼º(NULLÀ» ÁöÁ¤ÇÏ¸é ±âº»°ª »óÅÂ)
-		OPEN_EXISTING,         // CREATE_ALWAYS : ÆÄÀÏÀÌ ¾ø´Ù¸é »ý¼º, ÀÖ´Ù¸é µ¤¾î¾²±â, OPEN_EXISTING  : ÆÄÀÏÀÌ ÀÖÀ» °æ¿ì¿¡¸¸ ¿­±â
-		FILE_ATTRIBUTE_NORMAL,  // ÆÄÀÏ ¼Ó¼º(ÀÐ±â Àü¿ë, ¼û±è µî) : FILE_ATTRIBUTE_NORMAL : ¾Æ¹«·± ¼Ó¼ºÀÌ ¾ø´Â ÆÄÀÏ
-		NULL);               // »ý¼ºµÉ ÆÄÀÏÀÇ ¼Ó¼ºÀ» Á¦°øÇÒ ÅÛÇÃ¸´ ÆÄÀÏ(¾È¾²´Ï±ñ NULL)
+	HANDLE      hFile = CreateFile(Directory.c_str(),      // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î¿ï¿½ ï¿½Ì¸ï¿½
+		GENERIC_READ,         // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ (GENERIC_WRITE : ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, GENERIC_READ : ï¿½Ð±ï¿½ ï¿½ï¿½ï¿½ï¿½)
+		NULL,               // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½Â¿ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½Î¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î°ï¿½)    
+		NULL,               // ï¿½ï¿½ï¿½ï¿½ ï¿½Ó¼ï¿½(NULLï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½âº»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
+		OPEN_EXISTING,         // CREATE_ALWAYS : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½Ö´Ù¸ï¿½ ï¿½ï¿½ï¿½î¾²ï¿½ï¿½, OPEN_EXISTING  : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		FILE_ATTRIBUTE_NORMAL,  // ï¿½ï¿½ï¿½ï¿½ ï¿½Ó¼ï¿½(ï¿½Ð±ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½) : FILE_ATTRIBUTE_NORMAL : ï¿½Æ¹ï¿½ï¿½ï¿½ ï¿½Ó¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		NULL);               // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ó¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ã¸ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½È¾ï¿½ï¿½Ï±ï¿½ NULL)
 
 	if (INVALID_HANDLE_VALUE == hFile)
 	{
@@ -780,7 +854,7 @@ void CImGuiMgr::Load_Monster(LPDIRECT3DDEVICE9 pGrahicDev, CScene *pScene)
 		NameList.push_back(test1);
 
 		pGameObject = CMonster::Create(pGrahicDev);
-		//switch(iMonsterType) À¸·Î ¸ó½ºÅÍ Á¾·ù °¥¶ó¼­ »ý¼ºÇÏ±â
+		//switch(iMonsterType) ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 		pMyLayer = pScene->GetLayer(L"TestLayer3");
 
 		FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(test1, pGameObject), );
@@ -795,7 +869,7 @@ void CImGuiMgr::Load_Monster(LPDIRECT3DDEVICE9 pGrahicDev, CScene *pScene)
 
 		Transcom->Update_Component(0.01f);
 
-		//   ¹Þ¾Æ¿Â Á¤º¸ ÀÔ·ÂÇØÁà¾ßÇÔ
+		//   ï¿½Þ¾Æ¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 		if (0 == dwByte)
 			break;
