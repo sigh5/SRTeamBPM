@@ -27,6 +27,7 @@ namespace Engine
 
 	enum DIR {DIR_UP,DIR_DOWN,DIR_LEFT,DIR_RIGHT, DIR_END};
 	
+	enum OBJ_TYPE { OBJ_CUBE, OBJ_PLAYER,OBJ_MONSTER, OBJ_TYPE_END};
 }
 
 #endif // Engine_Enum_h__
