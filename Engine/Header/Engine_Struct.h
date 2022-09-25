@@ -48,7 +48,14 @@ namespace Engine
 
 	}INDEX32;
 
+	typedef struct tagMonsterINFO
+	{
+		int _Hp;
+		int _AttackPower;
+		int _MonsterIndex;
+	}MonsterInfo;
 }
+
 
 
 #endif // Engine_Struct_h__

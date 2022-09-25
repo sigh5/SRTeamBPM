@@ -17,6 +17,10 @@ HRESULT CMonster::Ready_Object(int Posx, int Posy)
 {
 	m_fSpeed = 5.f;
 
+	m_Info._Hp = 100;
+	m_Info._AttackPower = 10;
+	m_Info._MonsterIndex = 0;
+
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	if (Posx == 0 && Posy == 0) {}
@@ -40,6 +44,30 @@ _int CMonster::Update_Object(const _float & fTimeDelta)
 	_int iResult = Engine::CGameObject::Update_Object(fTimeDelta);
 
 #ifdef _DEBUG
+
+	CTexture*	pComponent = nullptr;
+	if (m_iPreIndex != m_Info._MonsterIndex)
+	{
+		m_iPreIndex = m_Info._MonsterIndex;
+		switch (m_Info._MonsterIndex)
+		{
+		case 0:
+			pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_MonsterTexture"));
+			NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
+			m_mapComponent[ID_STATIC].insert({ L"Proto_MonsterTexture", pComponent });
+			break;
+
+		case 1:
+			pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_MonsterTexture2"));
+			NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
+			m_mapComponent[ID_STATIC].insert({ L"Proto_MonsterTexture2", pComponent });
+			break;
+
+		case 2:
+
+			break;
+		}
+	}
 
 #else
 	CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC));
@@ -196,7 +224,7 @@ void CMonster::Set_OnTerrain(void)
 	m_pTransCom->Set_Pos(vPos.x, fHeight + 1.f, vPos.z);
 }
 
-void CMonster::Set_TransformPositon()
+bool CMonster::Set_TransformPositon()
 {
 	CTerrainTex*	pTerrainBufferCom = dynamic_cast<CTerrainTex*>(Engine::Get_Component(L"TestLayer", L"TestMap", L"Proto_TerrainTexCom", ID_STATIC));
 	NULL_CHECK_RETURN(pTerrainBufferCom, );
@@ -208,6 +236,15 @@ void CMonster::Set_TransformPositon()
 	_vec3 Temp = m_pCalculatorCom->PickingOnTerrainCube(g_hWnd, pTerrainBufferCom, pTerrainTransformCom);
 
 	m_pTransCom->Set_Pos(Temp.x, Temp.y, Temp.z);
+}
+
+bool CMonster::Set_SelectGizmo()
+{
+	if (m_pCalculatorCom->PickingOnTransform_Monster(g_hWnd, m_pBufferCom, m_pTransCom))
+		return true;
+
+
+	return false;
 }
 
 CMonster* CMonster::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)

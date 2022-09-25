@@ -648,7 +648,7 @@ void CImGuiMgr::MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 
 			for (auto iter = test.begin(); iter != test.end(); ++iter)
 			{
-				if (dynamic_cast<CTestCube*>(iter->second)->Set_SelectGizmo())
+				if (dynamic_cast<CMonster*>(iter->second)->Set_SelectGizmo())
 				{
 					pTranscom = dynamic_cast<CTransform*>(iter->second->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
 					m_CurrentSelectGameObjectObjKey = iter->first;
@@ -656,7 +656,8 @@ void CImGuiMgr::MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 			}
 		}
 	}
-
+	CMonster* pGameObject = dynamic_cast<CMonster*>(Engine::Get_GameObject(L"TestLayer3", m_CurrentSelectGameObjectObjKey.c_str()));
+	
 	ImGui::NewLine();
 	//셀렉트 한 다음 가능 혹은 미리 선택해서 create 해야함
 	//if (ImGui::CollapsingHeader("Monster Texture", ImGuiTreeNodeFlags_DefaultOpen))
@@ -676,8 +677,26 @@ void CImGuiMgr::MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 	//			ImGui::SameLine();
 	//	}
 	//}
+	TransformEdit_Monster(pCam, m_pSelectedTransform, Show_Monster_Tool);
+	// 셀렉버튼을 위한것
+	if (pTranscom != nullptr)
+		m_pSelectedTransform = pTranscom;
 
 	ImGui::End();
+	if (pGameObject != nullptr)
+	{
+		MonsterInfo* monInfo = nullptr;
+		monInfo = static_cast<CMonster*>(pGameObject)->Get_Info();
+		ImGui::Begin("Monster Stat");
+
+		ImGui::Text("Monster Stat Setting Window");
+		ImGui::InputInt("Hp", &monInfo->_Hp);
+		ImGui::InputInt("AttackPower", &monInfo->_AttackPower);
+		ImGui::InputInt("MonsterIndex", &monInfo->_MonsterIndex);
+		//스탯을 받아오고 수정할 수 있는 기능을 만들어야 함
+
+		ImGui::End();
+	}
 }
 
 void CImGuiMgr::Save_Monster(CScene* pScene)
@@ -708,15 +727,15 @@ void CImGuiMgr::Save_Monster(CScene* pScene)
 		CTransform* Transcom = dynamic_cast<CTransform*>(iter->second->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
 
 		_vec3   vPos, vScale;
-	//	_int	iDrawNum = 0;
+		_int	iMonsterType = 0;
 
 		Transcom->Get_Info(INFO_POS, &vPos);
 		memcpy(vScale, Transcom->m_vScale, sizeof(_vec3));
-		//iDrawNum = iter->second->Get_DrawTexIndex();
+		iMonsterType = static_cast<CMonster*>(iter->second)->Get_Info()->_MonsterIndex;
 
 		WriteFile(hFile, &vPos, sizeof(_vec3), &dwByte, nullptr);
 		WriteFile(hFile, &vScale, sizeof(_vec3), &dwByte, nullptr);
-		//WriteFile(hFile, &iDrawNum, sizeof(_int), &dwByte, nullptr);
+		WriteFile(hFile, &iMonsterType, sizeof(_int), &dwByte, nullptr);
 
 	}
 
@@ -744,7 +763,7 @@ void CImGuiMgr::Load_Monster(LPDIRECT3DDEVICE9 pGrahicDev, CScene *pScene)
 	DWORD   dwByte = 0;
 
 	_vec3   vPos, vScale;
-	//_int	iDrawIndex = 0;
+	_int	iMonsterType = 0;
 	CLayer* pMyLayer = nullptr;
 
 	while (true)
@@ -752,6 +771,7 @@ void CImGuiMgr::Load_Monster(LPDIRECT3DDEVICE9 pGrahicDev, CScene *pScene)
 
 		ReadFile(hFile, &vPos, sizeof(_vec3), &dwByte, nullptr);
 		ReadFile(hFile, &vScale, sizeof(_vec3), &dwByte, nullptr);
+		ReadFile(hFile, &iMonsterType, sizeof(_int), &dwByte, nullptr);
 
 		CGameObject *pGameObject = nullptr;
 		_tchar* test1 = new _tchar[20];
@@ -760,10 +780,11 @@ void CImGuiMgr::Load_Monster(LPDIRECT3DDEVICE9 pGrahicDev, CScene *pScene)
 		NameList.push_back(test1);
 
 		pGameObject = CMonster::Create(pGrahicDev);
+		//switch(iMonsterType) 으로 몬스터 종류 갈라서 생성하기
 		pMyLayer = pScene->GetLayer(L"TestLayer3");
 
 		FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(test1, pGameObject), );
-		//pGameObject->Set_DrawTexIndex(iDrawIndex);
+		static_cast<CMonster*>(pGameObject)->Get_Info()->_MonsterIndex = iMonsterType;
 		++m_iIndex;
 
 		CTransform* Transcom = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
@@ -787,7 +808,106 @@ void CImGuiMgr::Load_Monster(LPDIRECT3DDEVICE9 pGrahicDev, CScene *pScene)
 	CloseHandle(hFile);
 }
 
+void CImGuiMgr::TransformEdit_Monster(CCamera * pCamera, CTransform * pTransform, _bool & Window)
+{
+	ImGui::Begin("Transform");
+	ImGuizmo::BeginFrame();
+	static float snap[3] = { 1.f, 1.f, 1.f };
+	static ImGuizmo::OPERATION mCurrentGizmoOperation(ImGuizmo::ROTATE);
+	static ImGuizmo::MODE mCurrentGizmoMode(ImGuizmo::WORLD);
+	if (ImGui::IsKeyPressed(90))
+		mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
+	//if (ImGui::IsKeyPressed(69))
+	//	mCurrentGizmoOperation = ImGuizmo::ROTATE;
+	if (ImGui::IsKeyPressed(82)) // r Key
+		mCurrentGizmoOperation = ImGuizmo::SCALE;
+	if (ImGui::RadioButton("Translate", mCurrentGizmoOperation == ImGuizmo::TRANSLATE))
+		mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
+	ImGui::SameLine();
+	/*if (ImGui::RadioButton("Rotate", mCurrentGizmoOperation == ImGuizmo::ROTATE))
+		mCurrentGizmoOperation = ImGuizmo::ROTATE;*/
+	ImGui::SameLine();
+	if (ImGui::RadioButton("Scale", mCurrentGizmoOperation == ImGuizmo::SCALE))
+		mCurrentGizmoOperation = ImGuizmo::SCALE;
+
+	if (pTransform == nullptr)
+	{
+		ImGui::Text("Object Delete or nullptr");
+		ImGui::End();
+		return;
+	}
+
+
+	float matrixTranslation[3], matrixRotation[3], matrixScale[3];
+	_matrix matWorld = pTransform->m_matWorld;
+
+	ImGuizmo::DecomposeMatrixToComponents(matWorld, matrixTranslation, matrixRotation, matrixScale);
+	ImGui::InputFloat3("Tr", matrixTranslation);
+	//ImGui::InputFloat3("Rt", matrixRotation);
+	ImGui::InputFloat3("Sc", matrixScale);
+	ImGuizmo::RecomposeMatrixFromComponents(matrixTranslation, matrixRotation, matrixScale, matWorld);
+
+	if (mCurrentGizmoOperation != ImGuizmo::SCALE)
+	{
+		if (ImGui::RadioButton("Local", mCurrentGizmoMode == ImGuizmo::LOCAL))
+			mCurrentGizmoMode = ImGuizmo::LOCAL;
+		ImGui::SameLine();
+		if (ImGui::RadioButton("World", mCurrentGizmoMode == ImGuizmo::WORLD))
+			mCurrentGizmoMode = ImGuizmo::WORLD;
+	}
+
+	static bool useSnap(false);
+	if (ImGui::IsKeyPressed(83))
+		useSnap = !useSnap;
+	ImGui::Checkbox("##something", &useSnap);
+	ImGui::SameLine();
+	switch (mCurrentGizmoOperation)
+	{
+	case ImGuizmo::TRANSLATE:
+		ImGui::InputFloat3("Snap", &snap[0]);
+		break;
+	//case ImGuizmo::ROTATE:
+	//	ImGui::InputFloat("Angle Snap", &snap[0]);
+		break;
+	case ImGuizmo::SCALE:
+		ImGui::InputFloat("Scale Snap", &snap[0]);
+		break;
+	}
+
+	if (ImGui::Button("Close"))
+	{
+		Window = false;
+	}
+
+
+	_matrix matId;
+	D3DXMatrixIdentity(&matId);
+
+	ImGuiIO& io = ImGui::GetIO();
+	RECT rt;
+	GetClientRect(g_hWnd, &rt);
+	POINT lt{ rt.left, rt.top };
+	ClientToScreen(g_hWnd, &lt);
+	ImGuizmo::SetRect(lt.x, lt.y, io.DisplaySize.x, io.DisplaySize.y);
+
+	// ImGuizmo::DrawGrid(m_pCam->GetView(), m_pCam->GetPrj(), matId, 100.f);
+
+	ImGuizmo::Manipulate(pCamera->GetView(), pCamera->GetProj(), mCurrentGizmoOperation, mCurrentGizmoMode, matWorld, NULL, useSnap ? &snap[0] : NULL);
+
+	pTransform->m_matWorld = matWorld;
+
+	ImGuizmo::DecomposeMatrixToComponents(matWorld, matrixTranslation, matrixRotation, matrixScale);
+	memcpy(&pTransform->m_vInfo[INFO_POS], matrixTranslation, sizeof(matrixTranslation));
+	/*memcpy(&pTransform->m_vAngle, matrixRotation, sizeof(matrixRotation));*/
+	memcpy(&pTransform->m_vScale, matrixScale, sizeof(matrixScale));
+
+
+
+
+	ImGui::End();
+}
+
 void CImGuiMgr::Free()
 {
-	Release();
+	
 }
