@@ -23,6 +23,13 @@ CComponent* Engine::CManagement::Get_Component(const _tchar* pLayerTag, const _t
 	return m_pScene->Get_Component(pLayerTag, pObjTag, pComponentTag, eID);
 }
 
+HRESULT CManagement::Add_GameObject(const _tchar* pLayerTag, const _tchar * pObjTag, CGameObject * pInstance)
+{
+	m_pScene->Get_MapLayer()[pLayerTag]->Add_GameObject(pObjTag, pInstance);
+
+	return S_OK;
+}
+
 HRESULT CManagement::Set_Scene(CScene * pScene)
 {
 	Safe_Release(m_pScene);	 // 기존 scene을 삭제

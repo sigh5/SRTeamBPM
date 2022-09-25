@@ -20,12 +20,15 @@ public:
 		const _tchar* pComponentTag,
 		COMPONENTID eID);
 
+	HRESULT			Add_GameObject(const _tchar* pLayerTag, const _tchar* pObjTag, CGameObject* pInstance);
+
 public:
 	HRESULT		Set_Scene(CScene* pScene);
 	_int		Update_Scene(const _float& fTimeDelta);
 	void		LateUpdate_Scene(void);
 	void		Render_Scene(LPDIRECT3DDEVICE9 pGraphicDev);
 	CGameObject*			Get_GameObject(const _tchar* pLayerTag, const _tchar* pObjTag);
+	CScene*		Get_Scene() { return m_pScene; }
 
 private:
 	CScene*		m_pScene;

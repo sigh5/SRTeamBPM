@@ -4,6 +4,7 @@
 #include "Scene.h"
 
 #include "TestPlayer.h"
+#include "Bullet.h"  // Player's
 #include "Terrain.h"
 #include "StaticCamera.h"
 #include "DynamicCamera.h"
@@ -29,6 +30,11 @@ private:
 
 	HRESULT			Ready_Proto(void);
 	HRESULT			Ready_Light(void);
+
+	// Effect : multimap -> map issue
+private:
+	list<_tchar*>		m_szEffectName;
+	_uint				m_iCount = 0;
 
 public:
 	static CStage*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

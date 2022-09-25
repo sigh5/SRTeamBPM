@@ -17,6 +17,13 @@ public:
 	_matrix GetView() const { return m_matView; }
 	_matrix GetProj() const { return m_matProj; }
 
+public:		// UI 뷰 포트(스크린 좌표)를 따기 위해 투영 좌표를 따는 함수
+	_matrix*		Get_ProjMatrix(_matrix* matProj) { return matProj = &m_matProj; }
+
+	_matrix*		Get_ViewMatrix(_matrix* matView) { return matView = &m_matView; }
+
+	_matrix*		CalculateOrtho(_matrix* pMatOrtho);
+
 protected:
 	_vec3		m_vEye, m_vAt, m_vUp;
 	_float		m_fFov, m_fAspect, m_fNear, m_fFar;
