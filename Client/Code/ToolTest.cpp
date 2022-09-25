@@ -23,7 +23,7 @@ CToolTest::~CToolTest()
 
 HRESULT CToolTest::Ready_Scene()
 {
-	// ÇÊ¿äÇÑ ±â´É »ý¼º
+	// ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 	CImGuiMgr::GetInstance()->Ready_MapTool(m_pGraphicDev, this);
 	CImGuiMgr::GetInstance()->Ready_MonsterTool(m_pGraphicDev, this);
@@ -68,9 +68,9 @@ HRESULT CToolTest::Ready_Scene()
 _int CToolTest::Update_Scene(const _float& fTimeDelta)
 {
 	CImGuiMgr::GetInstance()->WindowLayOut();
-	//CImGuiMgr::GetInstance()->TerrainTool(m_pGraphicDev, this);
-	//CImGuiMgr::GetInstance()->CreateObject(m_pGraphicDev, this, m_pCam);
-	//CImGuiMgr::GetInstance()->MonsterTool(m_pGraphicDev, this, m_pCam);
+	CImGuiMgr::GetInstance()->TerrainTool(m_pGraphicDev, this);
+	CImGuiMgr::GetInstance()->CreateObject(m_pGraphicDev, this, m_pCam,L"TestCube");
+	CImGuiMgr::GetInstance()->MonsterTool(m_pGraphicDev, this, m_pCam);
 
 	// Tool Test Purpose's Player
 	CImGuiMgr::GetInstance()->Player_Tool(m_pGraphicDev, this, m_PpDirectory, L"TestLayer", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC);

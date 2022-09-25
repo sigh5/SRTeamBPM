@@ -19,6 +19,9 @@
 #include "Management.h"
 #include "Renderer.h"
 #include "Pipeline.h"
+#include "ObjectMgr.h"
+
+
 
 #include "LightMgr.h"
 
@@ -54,6 +57,17 @@ inline void		Clear_RenderGroup(void);
 // lightMgr
 
 inline HRESULT	Ready_Light(LPDIRECT3DDEVICE9 pGraphicDev, const D3DLIGHT9* pLightInfo, const _uint& iIndex);
+
+
+
+// ObjectMgr
+inline void				Collect_Obj(CGameObject* pObj);
+inline CGameObject*		Reuse_Obj(LPDIRECT3DDEVICE9 pGraphicDev, const D3DXVECTOR3& vPos);
+
+
+// FileMgr
+
+
 
 inline void			Release_Utility(void);
 

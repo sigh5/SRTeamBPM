@@ -77,8 +77,20 @@ HRESULT	Ready_Light(LPDIRECT3DDEVICE9 pGraphicDev, const D3DLIGHT9* pLightInfo, 
 }
 
 
+void Collect_Obj(CGameObject * pObj)
+{
+	CObjectMgr::GetInstance()->Collect_Obj(pObj);
+}
+
+CGameObject * Reuse_Obj(LPDIRECT3DDEVICE9 pGraphicDev, const D3DXVECTOR3 & vPos)
+{
+	return CObjectMgr::GetInstance()->Reuse_Obj(pGraphicDev, vPos);
+}
+
+
 inline void			Release_Utility(void)
 {
+	CObjectMgr::GetInstance()->DestroyInstance();
 	CLightMgr::GetInstance()->DestroyInstance();
 	CRenderer::GetInstance()->DestroyInstance();
 	CProtoMgr::GetInstance()->DestroyInstance();

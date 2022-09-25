@@ -163,6 +163,7 @@
     <ClInclude Include="..\Header\Bullet.h" />
     <ClInclude Include="..\Header\DynamicCamera.h" />
     <ClInclude Include="..\Header\Effect.h" />
+    <ClInclude Include="..\Header\FileIOMgr.h" />
     <ClInclude Include="..\Header\ImGuiMgr.h" />
     <ClInclude Include="..\Header\Loading.h" />
     <ClInclude Include="..\Header\Logo.h" />
@@ -203,6 +204,7 @@
     <ClCompile Include="..\Code\Bullet.cpp" />
     <ClCompile Include="..\Code\DynamicCamera.cpp" />
     <ClCompile Include="..\Code\Effect.cpp" />
+    <ClCompile Include="..\Code\FileIOMgr.cpp" />
     <ClCompile Include="..\Code\ImGuiMgr.cpp" />
     <ClCompile Include="..\Code\Loading.cpp" />
     <ClCompile Include="..\Code\Logo.cpp" />

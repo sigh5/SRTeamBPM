@@ -72,6 +72,8 @@
     </Filter>
     <Filter Include="01. GameObject\UI">
       <UniqueIdentifier>{857f0ca9-0e27-4da9-94c7-2a2a1eb56adf}</UniqueIdentifier>
+    <Filter Include="04. Manager\05. ObjPoolMgr">
+      <UniqueIdentifier>{eda220cd-d75d-402e-ac74-c394976ed2ec}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -143,6 +145,8 @@
     </ClInclude>
     <ClInclude Include="..\..\Header\UserInterface.h">
       <Filter>01. GameObject\UI</Filter>
+    <ClInclude Include="..\..\Header\ObjectMgr.h">
+      <Filter>04. Manager\05. ObjPoolMgr</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -211,6 +215,8 @@
     </ClCompile>
     <ClCompile Include="..\Code\UserInterface.cpp">
       <Filter>01. GameObject\UI</Filter>
+    <ClCompile Include="..\Code\ObjectMgr.cpp">
+      <Filter>04. Manager\05. ObjPoolMgr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

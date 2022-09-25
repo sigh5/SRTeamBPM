@@ -30,7 +30,7 @@ namespace Engine
 
 	}VTXCUBE;
 
-	const _ulong		FVF_CUBE = D3DFVF_XYZ | D3DFVF_TEX1 | D3DFVF_TEXCOORDSIZE3(0);		// D3DFVF_TEXCOORDSIZE3 : ÅØ½ºÃ³ÀÇ UV°ªÀÌ FLOAT Çü 3°³ÀÇ Å©±â¸¸Å­ÀÌ¸ç, °ýÈ£»êÀÇ ¼ýÀÚ 0ÀÇ ÀÇ¹Ì´Â º»·¡ ¹öÅØ½º¿¡ ÅØ½ºÃ³ UV °ªÀÌ ¿©·¯°³°¡ ¿Ã ¼ö ÀÖ´Âµ¥ ±×Áß 0¹øÂ° °ÍÀÌ °ªÀ» ÁöÁ¤ÇÏ°Ú´Ù´Â ÀÇ¹ÌÀÌ´Ù.
+	const _ulong		FVF_CUBE = D3DFVF_XYZ | D3DFVF_TEX1 | D3DFVF_TEXCOORDSIZE3(0);		// D3DFVF_TEXCOORDSIZE3 : ï¿½Ø½ï¿½Ã³ï¿½ï¿½ UVï¿½ï¿½ï¿½ï¿½ FLOAT ï¿½ï¿½ 3ï¿½ï¿½ï¿½ï¿½ Å©ï¿½â¸¸Å­ï¿½Ì¸ï¿½, ï¿½ï¿½È£ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 0ï¿½ï¿½ ï¿½Ç¹Ì´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Ã³ UV ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´Âµï¿½ ï¿½ï¿½ï¿½ï¿½ 0ï¿½ï¿½Â° ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°Ú´Ù´ï¿½ ï¿½Ç¹ï¿½ï¿½Ì´ï¿½.
 
 	typedef	struct tagIndex16
 	{
@@ -48,7 +48,16 @@ namespace Engine
 
 	}INDEX32;
 
+	
+
+	typedef struct tagMonsterINFO
+	{
+		int _Hp;
+		int _AttackPower;
+		int _MonsterIndex;
+	}MonsterInfo;
 }
+
 
 
 #endif // Engine_Struct_h__

@@ -8,6 +8,7 @@ CLayer::CLayer()
 
 CLayer::~CLayer()
 {
+	Free();
 }
 
 CComponent * CLayer::Get_Component(const _tchar * pObjTag, const _tchar * pComponentTag, COMPONENTID eID)
@@ -110,6 +111,17 @@ CLayer* CLayer::Create(void)
 
 void CLayer::Free(void)
 {
+
+	for (auto iter : NameList)
+	{
+		Safe_Delete_Array(iter);
+	}
+	NameList.clear();
+
 	for_each(m_mapObject.begin(), m_mapObject.end(), CDeleteMap());
 	m_mapObject.clear();
+
+	
+	
+
 }
