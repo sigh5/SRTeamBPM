@@ -8,6 +8,7 @@ namespace Engine
 	class CTransform;
 	class CRcTex;
 	class CTexture;
+	class CUserInterface;
 }
 
 class CEffect : public CGameObject
@@ -30,7 +31,11 @@ private:
 	CTransform*			m_pTransCom = nullptr;
 	CTexture*			m_pTextureCom = nullptr;
 
+	CUserInterface*		m_pUserInterfaceCom = nullptr;
+
+public:
 	_float				m_fFrame = 0.f;
+	_matrix				m_matEffectProj;
 
 public:
 	static CEffect*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

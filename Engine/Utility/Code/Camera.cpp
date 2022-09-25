@@ -22,6 +22,23 @@ void Engine::CCamera::LateUpdate_Object(void)
 	
 }
 
+_matrix* CCamera::CalculateOrtho(_matrix* pMatOrtho)
+{
+	_float fFar = 1.f;
+	_float fNear = 0.f;
+
+	_float fWidth = 2.f / WINCX;
+	_float fHeight = 2.f / WINCY;
+
+	_matrix matOrthogonal;
+
+	D3DXMatrixOrthoLH(&matOrthogonal, fWidth, fHeight, fNear, fFar);
+
+	pMatOrtho = &matOrthogonal;
+
+	return  pMatOrtho;
+}
+
 Engine::_int Engine::CCamera::Update_Object(const _float& fTimeDelta)
 {
 	D3DXMatrixLookAtLH(&m_matView, &m_vEye, &m_vAt, &m_vUp);

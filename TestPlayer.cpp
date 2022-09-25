@@ -2,14 +2,16 @@
 #include "..\Header\TestPlayer.h"
 
 #include "Export_Function.h"
+
 #include "Bullet.h"
+
 
 CTestPlayer::CTestPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
 	, m_vDirection(0.f, 0.f, 0.f)
 	, m_fJumpPower(5.0f)
-	, m_fDashPower(0.3f)
-{
+
+{	 
 }
 
 
@@ -27,11 +29,7 @@ HRESULT CTestPlayer::Ready_Object(void)
 _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 {
 
-	Key_Input(fTimeDelta);
-
-
-	Engine::CGameObject::Update_Object(fTimeDelta);
-
+	
 	if (m_bJump == TRUE)
 	{
 		m_pTransCom->Jump(m_fJumpPower, fTimeDelta);
@@ -50,9 +48,9 @@ _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 		Set_OnTerrain();
 	}
 
-
+	Key_Input(fTimeDelta);
 	Dash(fTimeDelta);
-	
+
 	m_fFrame += 1.f * fTimeDelta;
 
 	if (m_fFrame >= 1.f)
@@ -61,7 +59,7 @@ _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 	
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
-	// ï¿½ï¿½ï¿½Ì³ï¿½ï¿½ï¿½ Ä«ï¿½Þ¶ï¿½ ï¿½Ù¶óº¸´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	// ´ÙÀÌ³»¹Í Ä«¸Þ¶ó ¹Ù¶óº¸´Â ºôº¸µå
 	_matrix		matWorld, matView, matBill;
 	D3DXMatrixIdentity(&matBill);
 
@@ -75,9 +73,9 @@ _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 
 	D3DXMatrixInverse(&matBill, 0, &matBill);
 
-	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Úµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ß¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	// ÇöÀç Áö±Ý ÀÌ ÄÚµå´Â ¹®Á¦°¡ ¾øÁö¸¸ ³ªÁß¿¡ ¹®Á¦°¡ µÉ ¼ö ÀÖÀ½
 	m_pTransCom->Set_WorldMatrix(&(matBill * matWorld));
-	
+
 	Add_RenderGroup(RENDER_ALPHA, this);
 
 	return 0;
@@ -85,21 +83,37 @@ _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 
 void CTestPlayer::LateUpdate_Object(void)
 {
-	Set_OnTerrain();
+
 }
 
 void CTestPlayer::Render_Obejct(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
+
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0xcc);
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER); // Z°ª Æ¯Á¤°ªº¸´Ù ³·Àº°Ç ´Ù ÀúÀå
+
+	m_pTextureCom->Set_Texture(0);	// ÅØ½ºÃ³ Á¤º¸ ¼¼ÆÃÀ» ¿ì¼±ÀûÀ¸·Î ÇÑ´Ù.
+	m_pBufferCom->Render_Buffer();
+
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+	
+	/*
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	//m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
-	//m_pTextureCom->Set_Texture(0);	// Stage ìš©
-	m_pTextureCom->Set_Texture(m_iTexIndex); // TestTool ìš©
+	m_pTextureCom->Set_Texture(0);	// ÅØ½ºÃ³ Á¤º¸ ¼¼ÆÃÀ» ¿ì¼±ÀûÀ¸·Î ÇÑ´Ù.
 	m_pBufferCom->Render_Buffer();
+
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	//m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	*/
 }
 
 HRESULT CTestPlayer::Add_Component(void)
@@ -110,15 +124,9 @@ HRESULT CTestPlayer::Add_Component(void)
 	NULL_CHECK_RETURN(m_pBufferCom, E_FAIL);
 	m_mapComponent[ID_STATIC].insert({ L"Proto_RcTexCom", pComponent });
 
-	// TestToolìš©
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_PlayerTexture2"));
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_PlayerTexture"));
 	NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
-	m_mapComponent[ID_STATIC].insert({ L"Proto_PlayerTexture2", pComponent });
-
-	// Stage ìš©
-	//pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_PlayerTexture"));
-	//NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
-	//m_mapComponent[ID_STATIC].insert({ L"Proto_PlayerTexture", pComponent });
+	m_mapComponent[ID_STATIC].insert({ L"Proto_PlayerTexture", pComponent });
 
 	pComponent = m_pTransCom = dynamic_cast<CTransform*>(Clone_Proto(L"Proto_TransformCom"));
 	NULL_CHECK_RETURN(m_pTransCom, E_FAIL);
@@ -133,76 +141,11 @@ HRESULT CTestPlayer::Add_Component(void)
 
 void CTestPlayer::Key_Input(const _float& fTimeDelta)
 {
-	m_pTransCom->Get_Info(INFO_LOOK, &m_vDirection);	
+	m_pTransCom->Get_Info(INFO_LOOK, &m_vDirection);
 	m_pTransCom->Get_Info(INFO_UP, &m_vUp);
 	m_pTransCom->Get_Info(INFO_POS, &m_vPos);
 
-
-
-
-	// if (CInputDev::GetInstance()->Key_Pressing(DIK_LSHIFT))
-	// {
-	// 	m_bDash = TRUE;
-	// }
-	// else
-	// {
-	// 	m_bDash = FALSE;
-	// }
-
-	// if (m_bDash == FALSE)
-	// {
-	// 	if (GetAsyncKeyState(VK_UP) & 0x8000)
-	// 	{
-	// 		if (m_fBuffDashPower > 0.f)
-	// 			m_fBuffDashPower -= m_fDashPower;
-	// 		else if (m_fBuffDashPower < 0.f)
-	// 		{
-	// 			m_fBuffDashPower = 0.f;
-	// 		}
-
-	// 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
-	// 		m_pTransCom->Move_Pos(&(m_vDirection * (10.f + m_fBuffDashPower) * fTimeDelta));
-	// 	}
-	// }
-	// else
-	// {
-	// 	if (GetAsyncKeyState(VK_UP) & 0x8000)
-	// 	{
-	// 		if (m_fBuffDashPower < 20.f)
-	// 			m_fBuffDashPower += m_fDashPower;
-
-	// 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
-	// 		m_pTransCom->Move_Pos(&(m_vDirection * (10.f + m_fBuffDashPower) * fTimeDelta));
-	// 	}
-	// }
-	// if (GetAsyncKeyState(VK_DOWN) & 0x8000)
-	// {
-	// 	D3DXVec3Normalize(&m_vDirection, &m_vDirection);
-	// 	m_pTransCom->Move_Pos(&(m_vDirection * -10.f * fTimeDelta));
-	// }
-
-	// if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
-	// 	m_pTransCom->Rotation(ROT_Y, D3DXToRadian(180.f * fTimeDelta));
-
-	// if (GetAsyncKeyState(VK_LEFT) & 0x8000)
-	// 	m_pTransCom->Rotation(ROT_Y, D3DXToRadian(-180.f * fTimeDelta));
-
-	// if (Engine::Get_DIMouseState(DIM_LB) & 0X80)
-	// {
-	// 	_vec3	vPickPos = PickUp_OnTerrain();
-	// 	_vec3	vPlayerPos, vDir;
-	// 	m_pTransCom->Get_Info(INFO_POS, &vPlayerPos);
-	// 	vDir = vPickPos - vPlayerPos;
-	// 	D3DXVec3Normalize(&vDir, &vDir);
-	// 	m_pTransCom->Move_Pos(&(vDir * 5.f * fTimeDelta));
-	// }
-
-	// if (Engine::Get_DIKeyState(DIK_SPACE) & 0X80)
-	// {
-	// 	m_bJump = TRUE;
-	// }
-
-if (Get_DIKeyState(DIK_W) & 0X80)
+	if (Get_DIKeyState(DIK_W) & 0X80)
 	{
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
 		m_pTransCom->Move_Pos(&(m_vDirection * 10.f * fTimeDelta));
@@ -240,7 +183,7 @@ if (Get_DIKeyState(DIK_W) & 0X80)
 		m_bDash = true;
 
 
-	if (Engine::Get_DIMouseState(DIM_LB) & 0X80) // ï¿½ï¿½ ï¿½ß»ï¿½
+	if (Engine::Get_DIMouseState(DIM_LB) & 0X80) // ÃÑ ¹ß»ç
 	{
 		Create_Bullet(m_vPos);
 		
@@ -258,7 +201,7 @@ if (Get_DIKeyState(DIK_W) & 0X80)
 	}
 
 
-	// ï¿½ï¿½Å·
+	// ÇÇÅ·
 	/*if (Engine::Get_DIMouseState(DIM_LB) & 0X80)
 	{
 		_vec3	vPickPos = PickUp_OnTerrain();
@@ -269,66 +212,46 @@ if (Get_DIKeyState(DIK_W) & 0X80)
 		m_pTransCom->Move_Pos(&(vDir * 5.f * fTimeDelta));
 	}*/
 	
-
 }
 
 void CTestPlayer::Set_OnTerrain(void)
 {
 	_vec3		vPos;
 	m_pTransCom->Get_Info(INFO_POS, &vPos);
-	
-	// TestTool ìš©
-	Engine::CTerrainTex*	pTerrainTexCom = dynamic_cast<Engine::CTerrainTex*>(Engine::Get_Component(L"TestLayer", L"TestMap", L"Proto_TerrainTexCom", ID_STATIC));
+
+	Engine::CTerrainTex*	pTerrainTexCom = dynamic_cast<Engine::CTerrainTex*>(Engine::Get_Component(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC));
 	NULL_CHECK(pTerrainTexCom);
-	// Stage ìš©
-	/*Engine::CTerrainTex*	pTerrainTexCom = dynamic_cast<Engine::CTerrainTex*>(Engine::Get_Component(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC));
-	NULL_CHECK(pTerrainTexCom);*/
 	
 	_float fHeight = m_pCalculatorCom->HeightOnTerrain(&vPos, pTerrainTexCom->Get_VtxPos(), VTXCNTX, VTXCNTZ);
 
-	m_pTransCom->Set_Pos(vPos.x, fHeight, vPos.z);
+	m_pTransCom->Set_Pos(vPos.x, fHeight+1.f, vPos.z);
 
-	
 }
 
-Engine::_vec3 CTestPlayer::PickUp_OnTerrain(void)
-{
-	// Stage ìš©
-	/*
-	CTerrainTex*	pTerrainBufferCom = dynamic_cast<CTerrainTex*>(Engine::Get_Component(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC));
-	NULL_CHECK_RETURN(pTerrainBufferCom, _vec3());
-
-	CTransform*		pTerrainTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_Environment", L"Terrain", L"Proto_TransformCom", ID_DYNAMIC));
-	NULL_CHECK_RETURN(pTerrainTransformCom, _vec3());
-	*/
-
-	// TestTool ìš©
-	CTerrainTex*	pTerrainBufferCom = dynamic_cast<CTerrainTex*>(Engine::Get_Component(L"TestLayer", L"TestMap", L"Proto_TerrainTexCom", ID_STATIC));
-	NULL_CHECK_RETURN(pTerrainBufferCom, _vec3());
-
-	CTransform*		pTerrainTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"TestLayer", L"TestMap", L"Proto_TransformCom", ID_DYNAMIC));
-	NULL_CHECK_RETURN(pTerrainTransformCom, _vec3());
-
-	return m_pCalculatorCom->PickingOnTerrain(g_hWnd, pTerrainBufferCom, pTerrainTransformCom);
-}
-
-float CTestPlayer::Get_TerrainY(void)
+_float CTestPlayer::Get_TerrainY(void)
 {
 	_vec3		vPos;
 	m_pTransCom->Get_Info(INFO_POS, &vPos);
 
-	// TestTool ìš©
-	Engine::CTerrainTex*	pTerrainTexCom = dynamic_cast<Engine::CTerrainTex*>(Engine::Get_Component(L"TestLayer", L"TestMap", L"Proto_TerrainTexCom", ID_STATIC));
+	Engine::CTerrainTex*	pTerrainTexCom = dynamic_cast<Engine::CTerrainTex*>(Engine::Get_Component(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC));
 	NULL_CHECK(pTerrainTexCom);
-
-	// Stage ìš©
-	/*Engine::CTerrainTex*	pTerrainTexCom = dynamic_cast<Engine::CTerrainTex*>(Engine::Get_Component(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC));
-	NULL_CHECK(pTerrainTexCom);*/
 
 	_float fHeight = m_pCalculatorCom->HeightOnTerrain(&vPos, pTerrainTexCom->Get_VtxPos(), VTXCNTX, VTXCNTZ);
 
 
 	return fHeight;
+}
+
+Engine::_vec3 CTestPlayer::PickUp_OnTerrain(void)
+{
+	CTerrainTex*	pTerrainBufferCom = dynamic_cast<CTerrainTex*>(Engine::Get_Component(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC));
+	NULL_CHECK_RETURN(pTerrainBufferCom, _vec3());
+
+	CTransform*		pTerrainTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_Environment", L"Terrain", L"Proto_TransformCom", ID_DYNAMIC));
+	NULL_CHECK_RETURN(pTerrainTransformCom, _vec3());
+
+
+	return m_pCalculatorCom->PickingOnTerrain(g_hWnd, pTerrainBufferCom, pTerrainTransformCom);
 }
 
 HRESULT CTestPlayer::Create_Bullet(_vec3 vPos)
@@ -340,7 +263,7 @@ HRESULT CTestPlayer::Create_Bullet(_vec3 vPos)
 		CBullet* pBullet = CBullet::Create(m_pGraphicDev, vPos);
 		NULL_CHECK(pBullet);
 
-		_tchar*         szFinalName = new _tchar[128]; // ï¿½ï¿½ï¿½ï¿½ï¿½â°ª
+		_tchar*         szFinalName = new _tchar[128]; // ¾²·¹±â°ª
 		wsprintf(szFinalName, L"");
 
 		const _tchar*   szBulletName = L"Bullet_%d";
@@ -348,8 +271,7 @@ HRESULT CTestPlayer::Create_Bullet(_vec3 vPos)
 		wsprintf(szFinalName, szBulletName, m_iCount);
 
 		//_tchar*	szBullet = L"Bullet1";
-		//FAILED_CHECK_RETURN(Engine::Add_GameObject(L"Layer_GameLogic", szFinalName, pBullet), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::Add_GameObject(L"TestLayer", szFinalName, pBullet), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::Add_GameObject(L"Layer_GameLogic", szFinalName, pBullet), E_FAIL);
 
 		if (szBulletName != nullptr)
 			m_iMagazine -= 1;
@@ -363,7 +285,7 @@ HRESULT CTestPlayer::Create_Bullet(_vec3 vPos)
 
 #ifdef _DEBUG
 
-	//cout << "ï¿½Ñ¾ï¿½ ï¿½ï¿½ï¿½ï¿½ : " << m_iTest << endl;
+	//cout << "ÃÑ¾Ë °³¼ö : " << m_iTest << endl;
 
 #endif	// _DEBUG
 
@@ -373,7 +295,7 @@ HRESULT CTestPlayer::Create_Bullet(_vec3 vPos)
 	/*CTransform*		pBulletCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", szFinalName, L"Proto_TransformCom", ID_DYNAMIC));
 	NULL_CHECK_RETURN(pBulletCom, );
 	pBulletCom->Chase_Target(&vPlayerPos, 2.f, 2.f);*/
-	//pBulletCom->Set_Pos(vPlayerPos.x, vPlayerPos.y, vPlayerPos.z);  // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ vec3
+	//pBulletCom->Set_Pos(vPlayerPos.x, vPlayerPos.y, vPlayerPos.z);  // »ý¼º À§Ä¡ vec3
 
 	//return pBulletCom->Set_Dir(vPos);
 	
@@ -425,7 +347,6 @@ void CTestPlayer::Dash(const _float& fTimeDelta)
 	}
 }
 
-
 CTestPlayer * CTestPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
 	CTestPlayer *	pInstance = new CTestPlayer(pGraphicDev);
@@ -437,15 +358,16 @@ CTestPlayer * CTestPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 	}
 
 	return pInstance;
-
 }
 
 void CTestPlayer::Free(void)
 {
-		for (auto iter : m_szBulletName)
+	for (auto iter : m_szBulletName)
 		delete iter;
 
 	if(m_szBulletName.size() == 0)
 	m_szBulletName.clear();
+
 	CGameObject::Free();
 }
+

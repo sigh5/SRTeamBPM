@@ -14,6 +14,7 @@ protected:
 
 public:
 	CComponent*				Get_Component(const _tchar* pLayerTag, const _tchar* pObjTag, const _tchar* pComponentTag, COMPONENTID eID);
+	map<const _tchar*, CLayer*> Get_MapLayer() { return m_mapLayer; }
 
 public:
 	virtual		HRESULT		Ready_Scene(void);
@@ -35,6 +36,11 @@ public:
 	}
 	
 	void Add_Layer(CLayer* pLayer, _tchar* LayerName)
+	{
+		m_mapLayer.insert({ LayerName,pLayer });
+	}
+
+	void Add_Layer2(CLayer* pLayer, const _tchar* LayerName)
 	{
 		m_mapLayer.insert({ LayerName,pLayer });
 	}

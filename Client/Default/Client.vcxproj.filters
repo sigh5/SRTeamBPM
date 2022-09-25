@@ -97,6 +97,9 @@
     <ClCompile Include="..\Code\ImGuiMgr.cpp">
       <Filter>97imGuiMgr</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\Bullet.cpp">
+      <Filter>02. GameObject\01. For_Stage\07. Bullet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Imgui\GraphEditor.h">
@@ -210,6 +213,9 @@
     <ClInclude Include="..\Header\ImGuiMgr.h">
       <Filter>97imGuiMgr</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Bullet.h">
+      <Filter>02. GameObject\01. For_Stage\07. Bullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -285,6 +291,9 @@
     </Filter>
     <Filter Include="97imGuiMgr">
       <UniqueIdentifier>{8448f349-9e02-4b0c-8424-35bc5e8d5a7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\07. Bullet">
+      <UniqueIdentifier>{1914f535-edd0-4505-8c71-762bd4a337c9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

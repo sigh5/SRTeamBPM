@@ -10,6 +10,7 @@
 #include "SkyBox.h"
 #include "TestMonster.h"
 
+#include "TestPlayer.h"
 
 CToolTest::CToolTest(LPDIRECT3DDEVICE9 pGraphicDev) : CScene(pGraphicDev)
 {
@@ -23,10 +24,11 @@ CToolTest::~CToolTest()
 HRESULT CToolTest::Ready_Scene()
 {
 	// 필요한 기능 생성
+
 	CImGuiMgr::GetInstance()->Ready_MapTool(m_pGraphicDev, this);
 	CImGuiMgr::GetInstance()->Ready_MonsterTool(m_pGraphicDev, this);
 
-
+	CImGuiMgr::GetInstance()->Ready_PlayerTool(m_pGraphicDev, this);
 
 
 	//////////////
@@ -41,6 +43,12 @@ HRESULT CToolTest::Ready_Scene()
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"DynamicCamera", pGameObject), E_FAIL);
 
+
+	// Tool Test Purpose's Player
+	pGameObject = CTestPlayer::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestPlayer", pGameObject), E_FAIL);
+	
 
 	pGameObject = CTerrain::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, );
@@ -60,10 +68,12 @@ HRESULT CToolTest::Ready_Scene()
 _int CToolTest::Update_Scene(const _float& fTimeDelta)
 {
 	CImGuiMgr::GetInstance()->WindowLayOut();
-	CImGuiMgr::GetInstance()->TerrainTool(m_pGraphicDev, this);
-	CImGuiMgr::GetInstance()->CreateObject(m_pGraphicDev, this, m_pCam);
-	CImGuiMgr::GetInstance()->MonsterTool(m_pGraphicDev, this, m_pCam);
+	//CImGuiMgr::GetInstance()->TerrainTool(m_pGraphicDev, this);
+	//CImGuiMgr::GetInstance()->CreateObject(m_pGraphicDev, this, m_pCam);
+	//CImGuiMgr::GetInstance()->MonsterTool(m_pGraphicDev, this, m_pCam);
 
+	// Tool Test Purpose's Player
+	CImGuiMgr::GetInstance()->Player_Tool(m_pGraphicDev, this, m_PpDirectory, L"TestLayer", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC);
 
 	return CScene::Update_Scene(fTimeDelta);
 }

@@ -70,6 +70,9 @@
     <Filter Include="00. Component\04. Animation">
       <UniqueIdentifier>{bbce4e91-1596-40cc-a34d-62f0274d7e2f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. GameObject\UI">
+      <UniqueIdentifier>{857f0ca9-0e27-4da9-94c7-2a2a1eb56adf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\TriCol.h">
@@ -138,6 +141,9 @@
     <ClInclude Include="..\..\Header\Animation.h">
       <Filter>00. Component\04. Animation</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Header\UserInterface.h">
+      <Filter>01. GameObject\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\TriCol.cpp">
@@ -202,6 +208,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Animation.cpp">
       <Filter>00. Component\04. Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UserInterface.cpp">
+      <Filter>01. GameObject\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

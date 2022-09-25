@@ -14,6 +14,11 @@ private:
 public:
 	CComponent*				Get_Component(const _tchar* pObjTag, const _tchar* pComponentTag, COMPONENTID eID);
 	CGameObject*			Get_GameObject(const _tchar * pObjTag);
+
+	// PJW insert code : 작업하면서 쓸거 같아서 만들었어요.
+	map<const _tchar*, CGameObject*>			Get_MapObject() { return m_mapObject; } // map 접근용
+	// ~PJW insert code
+
 public:
 	HRESULT			Add_GameObject(const _tchar* pObjTag, CGameObject* pInstance);
 	HRESULT			Ready_Layer(void);
