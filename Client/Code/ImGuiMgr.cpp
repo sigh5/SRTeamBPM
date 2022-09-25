@@ -895,15 +895,18 @@ void CImGuiMgr::Load_Obj_Transform(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene
 	ReadFile(hFile, &vScale, sizeof(_vec3), &dwByte, nullptr);
 	ReadFile(hFile, &vAngle, sizeof(_vec3), &dwByte, nullptr);
 	ReadFile(hFile, &iDrawIndex, sizeof(_int), &dwByte, nullptr);
-
+	
+	pMyLayer = pScene->GetLayer(pLayerTag);
+	
 	CGameObject *pGameObject = nullptr;
 	_tchar* szObjName = new _tchar[20];
 	szObjName = L"Player";
 
-	pList.push_back(szObjName);
+	//pList.push_back(szObjName);
+	pMyLayer->AddNameList(szObjName);
 
 	pGameObject = CTestPlayer::Create(pGrahicDev);
-	pMyLayer = pScene->GetLayer(pLayerTag);
+	
 
 	FAILED_CHECK_RETURN(pMyLayer->Delete_GameObject(pObjTag));
 	FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(szObjName, pGameObject), );
@@ -1039,4 +1042,8 @@ void CImGuiMgr::TransformEdit_Monster(CCamera * pCamera, CTransform * pTransform
 
 void CImGuiMgr::Free()
 {
+	for (auto iter : PlayerList)
+	{
+		Safe_Delete_Array(iter);
+	}
 }
