@@ -45,6 +45,9 @@ inline 	CComponent*				Get_Component(const _tchar* pLayerTag,
 inline CGameObject*				Get_GameObject(const _tchar* pLayerTag, const _tchar* pObjTag);
 inline HRESULT			Add_GameObject(const _tchar* pLayerTag, const _tchar* pObjTag, CGameObject* pInstance);
 
+// Test
+//inline CScene*		Get_Scene();
+
 
 // ProtoMgr
 inline HRESULT			Ready_Proto(const _tchar* pProtoTag, CComponent* pComponent);

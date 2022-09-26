@@ -900,7 +900,7 @@ void CImGuiMgr::Load_Obj_Transform(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene
 	
 	CGameObject *pGameObject = nullptr;
 	_tchar* szObjName = new _tchar[20];
-	szObjName = L"Player";
+	szObjName = L"TestPlayer";
 
 	//pList.push_back(szObjName);
 	pMyLayer->AddNameList(szObjName);

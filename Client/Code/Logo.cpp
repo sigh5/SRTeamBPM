@@ -9,7 +9,7 @@
 #include "ColliderStage.h"
 
 CLogo::CLogo(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CScene(pGraphicDev)
+	: Engine::CScene(pGraphicDev), m_SceneType(SCENE_END) // 현재 어떤 씬인지 알기 위한 ENUM 타입 변수
 {
 }
 
@@ -47,6 +47,8 @@ Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 		{
 			CScene*		pScene = CColliderStage::Create(m_pGraphicDev);
 			NULL_CHECK_RETURN(pScene, E_FAIL);
+
+			m_SceneType = SCENE_TOOLTEST;
 
 			FAILED_CHECK_RETURN(Engine::Set_Scene(pScene), E_FAIL);
 
