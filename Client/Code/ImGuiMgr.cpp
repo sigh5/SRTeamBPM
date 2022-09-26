@@ -157,12 +157,15 @@ void CImGuiMgr::TransformEdit(CCamera* pCamera, CTransform* pTransform, _bool& W
 	pTransform->m_matWorld = matWorld;
 
 	ImGuizmo::DecomposeMatrixToComponents(matWorld, matrixTranslation, matrixRotation, matrixScale);
+	matrixRotation[0] = D3DXToRadian(matrixRotation[0]);
+	matrixRotation[1] = D3DXToRadian(matrixRotation[1]);
+	matrixRotation[2] = D3DXToRadian(matrixRotation[2]);
 	memcpy(&pTransform->m_vInfo[INFO_POS], matrixTranslation, sizeof(matrixTranslation));
 	memcpy(&pTransform->m_vAngle, matrixRotation, sizeof(matrixRotation));
 	memcpy(&pTransform->m_vScale, matrixScale, sizeof(matrixScale));
 
 
-
+	
 
 	ImGui::End();
 }
