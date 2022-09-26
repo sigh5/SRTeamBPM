@@ -140,6 +140,7 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 	wstring pObjectName,
 	OBJ_TYPE eObjType)
 {
+<<<<<<< Updated upstream
 	//wstring Directory = filePath + FileName;
 
 	//HANDLE      hFile = CreateFile(Directory.c_str(),      // 파일의 경로와 이름
@@ -331,6 +332,144 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 
 
 	//CloseHandle(hFile);
+=======
+	wstring Directory = filePath + FileName;
+
+	HANDLE      hFile = CreateFile(Directory.c_str(),      // 파일의 경로와 이름
+		GENERIC_READ,         // 파일 접근 모드 (GENERIC_WRITE : 쓰기 전용, GENERIC_READ : 읽기 전용)
+		NULL,               // 공유 방식(파일이 열려있는 상태에서 다른 프로세스가 오픈할 때 허용할 것인가)    
+		NULL,               // 보안 속성(NULL을 지정하면 기본값 상태)
+		OPEN_EXISTING,         // CREATE_ALWAYS : 파일이 없다면 생성, 있다면 덮어쓰기, OPEN_EXISTING  : 파일이 있을 경우에만 열기
+		FILE_ATTRIBUTE_NORMAL,  // 파일 속성(읽기 전용, 숨김 등) : FILE_ATTRIBUTE_NORMAL : 아무런 속성이 없는 파일
+		NULL);               // 생성될 파일의 속성을 제공할 템플릿 파일(안쓰니깐 NULL)
+
+	if (INVALID_HANDLE_VALUE == hFile)
+	{
+		return;
+	}
+
+	DWORD   dwByte = 0;
+
+	_vec3   vRight, vUp, vLook, vPos, vScale, vAngle;
+	_int	iDrawIndex = 0;
+	CLayer* pMyLayer = nullptr;
+	pMyLayer = pScene->GetLayer(LayerName);
+	_int	 iIndex = 0;
+	_int iMonsterType = 0;
+
+	if (eObjType == OBJ_CUBE)
+	{
+		while (true)
+		{
+			ReadFile(hFile, &vRight, sizeof(_vec3), &dwByte, nullptr);
+			ReadFile(hFile, &vUp, sizeof(_vec3), &dwByte, nullptr);
+			ReadFile(hFile, &vLook, sizeof(_vec3), &dwByte, nullptr);
+			ReadFile(hFile, &vPos, sizeof(_vec3), &dwByte, nullptr);
+			ReadFile(hFile, &vScale, sizeof(_vec3), &dwByte, nullptr);
+			ReadFile(hFile, &vAngle, sizeof(_vec3), &dwByte, nullptr);
+			ReadFile(hFile, &iDrawIndex, sizeof(_int), &dwByte, nullptr);
+			CGameObject *pGameObject = nullptr;
+			_tchar* test1 = new _tchar[20];
+			wstring t = pObjectName + L"%d";
+			wsprintfW(test1, t.c_str(), iIndex);
+			pMyLayer->AddNameList(test1);
+			++iIndex;
+			pGameObject = CTestCube::Create(pGrahicDev);
+			FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(test1, pGameObject), );
+			pGameObject->Set_DrawTexIndex(iDrawIndex);
+			CTransform* Transcom = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+			Transcom->Set_Info(INFO_RIGHT, &vRight);
+			Transcom->Set_Info(INFO_UP, &vUp);
+			Transcom->Set_Info(INFO_LOOK, &vLook);
+			Transcom->Set_Info(INFO_POS, &vPos);
+			Transcom->Set_Angle(&vAngle);
+			Transcom->Set_Scale(&vScale);
+			Transcom->Update_Component(0.01f);
+			//   받아온 정보 입력해줘야함
+			if (0 == dwByte)
+				break;
+		}
+
+	}
+
+	else if (eObjType == OBJ_MONSTER)
+	{
+		while (true)
+		{
+
+			ReadFile(hFile, &vPos, sizeof(_vec3), &dwByte, nullptr);
+			ReadFile(hFile, &vScale, sizeof(_vec3), &dwByte, nullptr);
+			ReadFile(hFile, &iMonsterType, sizeof(_int), &dwByte, nullptr);
+
+			CGameObject *pGameObject = nullptr;
+			_tchar* test1 = new _tchar[20];
+			wstring t = L"Test%d";
+			wsprintfW(test1, t.c_str(), m_iIndex);
+			pMyLayer->AddNameList(test1);
+
+			pGameObject = CMonster::Create(pGrahicDev);
+			//switch(iMonsterType) ???? ???? ???? ???? ???????
+			pMyLayer = pScene->GetLayer(L"TestLayer3");
+
+			FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(test1, pGameObject), );
+			static_cast<CMonster*>(pGameObject)->Get_Info()->_MonsterIndex = iMonsterType;
+			++m_iIndex;
+
+			CTransform* Transcom = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+
+
+			Transcom->Set_Info(INFO_POS, &vPos);
+			Transcom->Set_Scale(&vScale);
+
+			Transcom->Update_Component(0.01f);
+
+			if (0 == dwByte)
+				break;
+		}
+	}
+	
+	else if (eObjType == OBJ_PLAYER)
+	{
+		ReadFile(hFile, &vRight, sizeof(_vec3), &dwByte, nullptr);
+		ReadFile(hFile, &vUp, sizeof(_vec3), &dwByte, nullptr);
+		ReadFile(hFile, &vLook, sizeof(_vec3), &dwByte, nullptr);
+		ReadFile(hFile, &vPos, sizeof(_vec3), &dwByte, nullptr);
+		ReadFile(hFile, &vScale, sizeof(_vec3), &dwByte, nullptr);
+		ReadFile(hFile, &vAngle, sizeof(_vec3), &dwByte, nullptr);
+		ReadFile(hFile, &iDrawIndex, sizeof(_int), &dwByte, nullptr);
+
+		FAILED_CHECK_RETURN(pMyLayer->Delete_GameObject(pObjectName.c_str()));
+		CGameObject *pGameObject = nullptr;
+		_tchar* szObjName = new _tchar[20];
+
+		memcpy(szObjName, pObjectName.c_str(), sizeof(pObjectName));
+
+		pMyLayer->AddNameList(szObjName);
+		pGameObject = CTestPlayer::Create(pGrahicDev);
+		FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(szObjName, pGameObject), );
+		pGameObject->Set_DrawTexIndex(iDrawIndex);
+		++m_iIndex;
+
+		CTransform* Transcom = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+
+		Transcom->Set_Info(INFO_RIGHT, &vRight);
+		Transcom->Set_Info(INFO_UP, &vUp);
+		Transcom->Set_Info(INFO_LOOK, &vLook);
+		Transcom->Set_Info(INFO_POS, &vPos);
+		Transcom->Set_Angle(&vAngle);
+		Transcom->Set_Scale(&vScale);
+
+		Transcom->Update_Component(0.01f);
+	}
+
+
+
+	MSG_BOX("Load_Complete");
+	pScene->Add_Layer(pMyLayer, LayerName);
+
+
+	CloseHandle(hFile);
+>>>>>>> Stashed changes
 }
 
 

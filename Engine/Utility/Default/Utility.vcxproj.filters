@@ -228,5 +228,8 @@
     <Filter Include="00. Component\05. Collider">
       <UniqueIdentifier>{d46a5c8a-d54a-4c3d-810a-a19eba545aeb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. GameObject\NewFilter1">
+      <UniqueIdentifier>{2e234b79-4398-4954-bc39-0486bf7cada1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
