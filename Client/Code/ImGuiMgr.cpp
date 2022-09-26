@@ -799,12 +799,33 @@ void CImGuiMgr::Player_Tool(LPDIRECT3DDEVICE9 pGraphicDev, CScene * pScene, wstr
 		ImGui::Text("this is Transform_ButtonMenu");
 		if (ImGui::Button("Save"))
 		{
-			Save_Obj_Transform(pScene, pDirectory, pLayerTag, pObjTag, pComponentTag, eId);
+			//CFileIOMgr::GetInstance()->Save_FileData(pScene, L"TestLayer2", L"../../Data/", L"TESp.dat", OBJ_CUBE);
+			CFileIOMgr::GetInstance()->Save_FileData(pScene, pLayerTag, L"../../Data/",L"Player.dat", OBJ_PLAYER);
+			//Save_Obj_Transform(pScene, pDirectory, pLayerTag, pObjTag, pComponentTag, eId);
+
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("Load"))
 		{
 			//Load_Obj_Transform(pGraphicDev, pScene, pDirectory, pLayerTag, pComponentTag, eId, PlayerList, pObjTag);
+	
+			/*CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev,
+				pScene,
+				L"TestLayer2",
+				L"../../Data/",
+				L"TESp.dat",
+				L"TestCube",
+				OBJ_CUBE);*/
+
+			CFileIOMgr::GetInstance()->Load_FileData(pGraphicDev,
+				pScene,
+				const_cast<_tchar*>(pLayerTag),
+				L"../../Data/",
+				L"Player.dat",
+				L"TestPlayer",
+				OBJ_PLAYER);
+
+
 		}
 	}
 	ImGui::End();

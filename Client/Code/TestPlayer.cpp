@@ -75,7 +75,7 @@ _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 
 	D3DXMatrixInverse(&matBill, 0, &matBill);
 
-	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Úµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ß¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Úµï¿½ï¿? ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ß¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	m_pTransCom->Set_WorldMatrix(&(matBill * matWorld));
 	
 	Add_RenderGroup(RENDER_ALPHA, this);
@@ -95,8 +95,8 @@ void CTestPlayer::Render_Obejct(void)
 
 	//m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
-	//m_pTextureCom->Set_Texture(0);	// Stage ìš©
-	m_pTextureCom->Set_Texture(m_iTexIndex); // TestTool ìš©
+	//m_pTextureCom->Set_Texture(0);	// Stage ?š©
+	m_pTextureCom->Set_Texture(m_iTexIndex); // TestTool ?š©
 	m_pBufferCom->Render_Buffer();
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	//m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
@@ -110,12 +110,12 @@ HRESULT CTestPlayer::Add_Component(void)
 	NULL_CHECK_RETURN(m_pBufferCom, E_FAIL);
 	m_mapComponent[ID_STATIC].insert({ L"Proto_RcTexCom", pComponent });
 
-	// TestToolìš©
+	// TestTool?š©
 	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_PlayerTexture2"));
 	NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
 	m_mapComponent[ID_STATIC].insert({ L"Proto_PlayerTexture2", pComponent });
 
-	// Stage ìš©
+	// Stage ?š©
 	//pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_PlayerTexture"));
 	//NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
 	//m_mapComponent[ID_STATIC].insert({ L"Proto_PlayerTexture", pComponent });
@@ -277,10 +277,10 @@ void CTestPlayer::Set_OnTerrain(void)
 	_vec3		vPos;
 	m_pTransCom->Get_Info(INFO_POS, &vPos);
 	
-	 //TestTool ìš©
+	 //TestTool ?š©
 	Engine::CTerrainTex*	pTerrainTexCom = dynamic_cast<Engine::CTerrainTex*>(Engine::Get_Component(L"TestLayer", L"TestMap", L"Proto_TerrainTexCom", ID_STATIC));
 	NULL_CHECK(pTerrainTexCom);
-	// Stage ìš©
+	// Stage ?š©
 	/*Engine::CTerrainTex*	pTerrainTexCom = dynamic_cast<Engine::CTerrainTex*>(Engine::Get_Component(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC));
 	NULL_CHECK(pTerrainTexCom);*/
 	
@@ -293,7 +293,7 @@ void CTestPlayer::Set_OnTerrain(void)
 
 Engine::_vec3 CTestPlayer::PickUp_OnTerrain(void)
 {
-	// Stage ìš©
+	// Stage ?š©
 	/*
 	CTerrainTex*	pTerrainBufferCom = dynamic_cast<CTerrainTex*>(Engine::Get_Component(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC));
 	NULL_CHECK_RETURN(pTerrainBufferCom, _vec3());
@@ -302,7 +302,7 @@ Engine::_vec3 CTestPlayer::PickUp_OnTerrain(void)
 	NULL_CHECK_RETURN(pTerrainTransformCom, _vec3());
 	*/
 
-	// TestTool ìš©
+	// TestTool ?š©
 	CTerrainTex*	pTerrainBufferCom = dynamic_cast<CTerrainTex*>(Engine::Get_Component(L"TestLayer", L"TestMap", L"Proto_TerrainTexCom", ID_STATIC));
 	NULL_CHECK_RETURN(pTerrainBufferCom, _vec3());
 
@@ -317,11 +317,11 @@ float CTestPlayer::Get_TerrainY(void)
 	_vec3		vPos;
 	m_pTransCom->Get_Info(INFO_POS, &vPos);
 
-	// TestTool ìš©
+	// TestTool ?š©
 	Engine::CTerrainTex*	pTerrainTexCom = dynamic_cast<Engine::CTerrainTex*>(Engine::Get_Component(L"TestLayer", L"TestMap", L"Proto_TerrainTexCom", ID_STATIC));
 	NULL_CHECK(pTerrainTexCom);
 
-	// Stage ìš©
+	// Stage ?š©
 	/*Engine::CTerrainTex*	pTerrainTexCom = dynamic_cast<Engine::CTerrainTex*>(Engine::Get_Component(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC));
 	NULL_CHECK(pTerrainTexCom);*/
 
