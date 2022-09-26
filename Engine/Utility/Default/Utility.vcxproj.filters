@@ -40,9 +40,6 @@
     <ClCompile Include="..\Code\Camera.cpp">
       <Filter>01. GameObject\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\UserInterface.cpp">
-      <Filter>01. GameObject\UI</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\Layer.cpp">
       <Filter>02. Layer</Filter>
     </ClCompile>
@@ -114,9 +111,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Header\Camera.h">
       <Filter>01. GameObject\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Header\UserInterface.h">
-      <Filter>01. GameObject\UI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\Layer.h">
       <Filter>02. Layer</Filter>
@@ -197,9 +191,6 @@
     </Filter>
     <Filter Include="01. GameObject\Camera">
       <UniqueIdentifier>{237dec40-88bb-4845-9c69-12d78d07bbae}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. GameObject\UI">
-      <UniqueIdentifier>{6bcb1e13-07b3-4166-a33a-adc180236a0b}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. Layer">
       <UniqueIdentifier>{057bb484-6aa6-4cbb-b039-777b9a65256c}</UniqueIdentifier>
