@@ -804,7 +804,7 @@ void CImGuiMgr::Player_Tool(LPDIRECT3DDEVICE9 pGraphicDev, CScene * pScene, wstr
 		ImGui::SameLine();
 		if (ImGui::Button("Load"))
 		{
-			Load_Obj_Transform(pGraphicDev, pScene, pDirectory, pLayerTag, pComponentTag, eId, PlayerList, pObjTag);
+			//Load_Obj_Transform(pGraphicDev, pScene, pDirectory, pLayerTag, pComponentTag, eId, PlayerList, pObjTag);
 		}
 	}
 	ImGui::End();

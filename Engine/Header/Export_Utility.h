@@ -11,6 +11,9 @@
 #include "Transform.h"
 #include "Calculator.h"
 #include "Texture.h"
+#include "Collider.h"
+
+
 
 #include "Animation.h"
 #include "Camera.h"

@@ -103,6 +103,12 @@
     <ClCompile Include="..\Code\FileIOMgr.cpp">
       <Filter>96. FileIOMgr</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\HWPlayer.cpp">
+      <Filter>02. GameObject\01. For_Stage\01. TestPlayer\00. HwPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ColliderStage.cpp">
+      <Filter>01. Scene\98.ColliderStage</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Imgui\GraphEditor.h">
@@ -222,6 +228,12 @@
     <ClInclude Include="..\Header\FileIOMgr.h">
       <Filter>96. FileIOMgr</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\HWPlayer.h">
+      <Filter>02. GameObject\01. For_Stage\01. TestPlayer\00. HwPlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\ColliderStage.h">
+      <Filter>01. Scene\98.ColliderStage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -303,6 +315,12 @@
     </Filter>
     <Filter Include="96. FileIOMgr">
       <UniqueIdentifier>{f845e707-2be3-4642-ad63-add3c6cde812}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\98.ColliderStage">
+      <UniqueIdentifier>{1ace2984-9bb2-4c38-bfb2-a838c8ffe854}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\01. TestPlayer\00. HwPlayer">
+      <UniqueIdentifier>{31b2702b-9647-4332-8cf8-8ed23be3550b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
