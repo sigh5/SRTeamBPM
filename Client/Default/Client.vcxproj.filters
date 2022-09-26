@@ -73,9 +73,6 @@
     <ClCompile Include="..\Code\MainApp.cpp">
       <Filter>00. MainApp</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Monster.cpp">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\SkyBox.cpp">
       <Filter>02. GameObject\01. For_Stage\04. SkyBox</Filter>
     </ClCompile>
@@ -108,6 +105,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\ColliderStage.cpp">
       <Filter>01. Scene\98.ColliderStage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Monster.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -192,9 +192,6 @@
     <ClInclude Include="..\Header\MainApp.h">
       <Filter>00. MainApp</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Monster.h">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\SkyBox.h">
       <Filter>02. GameObject\01. For_Stage\04. SkyBox</Filter>
     </ClInclude>
@@ -233,6 +230,9 @@
     </ClInclude>
     <ClInclude Include="..\Header\ColliderStage.h">
       <Filter>01. Scene\98.ColliderStage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Monster.h">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -321,6 +321,15 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\01. TestPlayer\00. HwPlayer">
       <UniqueIdentifier>{31b2702b-9647-4332-8cf8-8ed23be3550b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\00. Anubis">
+      <UniqueIdentifier>{40c900b5-9523-467c-8eb4-ab3a60708003}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\01. Fatbat">
+      <UniqueIdentifier>{562fcc35-093e-442d-9fa8-703ef239403b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\02. Spider">
+      <UniqueIdentifier>{d93392dd-0764-4a8a-8e31-5ba1ef786f14}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
