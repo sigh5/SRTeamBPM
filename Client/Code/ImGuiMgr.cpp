@@ -996,6 +996,7 @@ void CImGuiMgr::TransformEdit_Monster(CCamera * pCamera, CTransform * pTransform
 	_matrix matWorld = pTransform->m_matWorld;
 
 	ImGuizmo::DecomposeMatrixToComponents(matWorld, matrixTranslation, matrixRotation, matrixScale);
+	matrixScale[2] = 1.0f;    //부동소수점 문제로 인해 일단 잠굼
 	ImGui::InputFloat3("Tr", matrixTranslation);
 	//ImGui::InputFloat3("Rt", matrixRotation);
 	ImGui::InputFloat3("Sc", matrixScale);

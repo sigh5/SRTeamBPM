@@ -30,6 +30,7 @@ HRESULT CLogo::Ready_Scene(void)
 
 	// 로딩 클래스 생성
 	// Loading ID Check!!!!!!!!!
+	//Loading collider
 
 	m_pLoading = CLoading::Create(m_pGraphicDev, LOADING_STAGE);
 	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
@@ -48,7 +49,7 @@ Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 			CScene*		pScene = CToolTest::Create(m_pGraphicDev);
 			NULL_CHECK_RETURN(pScene, E_FAIL);
 
-			m_SceneType = SCENE_TOOLTEST;
+			m_SceneType = SCENE_TOOLTEST;//SCENE_COLLIDER
 
 			FAILED_CHECK_RETURN(Engine::Set_Scene(pScene), E_FAIL);
 
