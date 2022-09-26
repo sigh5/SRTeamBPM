@@ -17,8 +17,7 @@ public:
 
 public:
 	const _vec3*		Get_VtxPos(void) const { return m_pPos; }
-	//_ulong		Get_VtxCntX(void) const { return m_iH.biWidth; }
-	//_ulong		Get_VtxCntZ(void) const { return m_iH.biHeight; }
+
 
 
 private:

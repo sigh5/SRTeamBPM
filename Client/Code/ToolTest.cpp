@@ -8,7 +8,7 @@
 
 #include "Terrain.h"
 #include "SkyBox.h"
-#include "TestMonster.h"
+#include "TestAnubis.h"
 
 #include "TestPlayer.h"
 
