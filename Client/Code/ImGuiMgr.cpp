@@ -535,12 +535,22 @@ void CImGuiMgr::MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 	ImGui::Text("this is Transform_ButtonMenu");
 	if (ImGui::Button("Save"))
 	{
-		Save_Monster(pScene);
+		CFileIOMgr::GetInstance()->Save_FileData(pScene, 
+			L"TestLayer3",
+			L"../../Data/",
+			L"Monster.dat", 
+			OBJ_MONSTER);
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Load"))
 	{
-		Load_Monster(pGrahicDev, pScene);
+		CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev,
+			pScene,
+			L"TestLayer3",
+			L"../../Data/",
+			L"Monster.dat",
+			L"TestMonster",
+			OBJ_MONSTER);
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Delete"))
@@ -657,118 +667,117 @@ void CImGuiMgr::MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 	}
 }
 
-void CImGuiMgr::Save_Monster(CScene* pScene)
-{
-	wstring Directory = L"../../Data/Monster.dat";
+//void CImGuiMgr::Save_Monster(CScene* pScene)
+//{
+//	wstring Directory = L"../../Data/Monster.dat";
+//
+//	HANDLE      hFile = CreateFile(Directory.c_str(),
+//		// ������ ��ο� �̸�
+//		GENERIC_WRITE,         // ���� ���� ��� (GENERIC_WRITE : ���� ����, GENERIC_READ : �б� ����)
+//		NULL,               // ���� ���(������ �����ִ� ���¿��� �ٸ� ���μ����� ������ �� ����� ���ΰ�)    
+//		NULL,               // ���� �Ӽ�(NULL�� �����ϸ� �⺻�� ����)
+//		CREATE_ALWAYS,         // CREATE_ALWAYS : ������ ���ٸ� ����, �ִٸ� �����, OPEN_EXISTING  : ������ ���� ��쿡�� ����
+//		FILE_ATTRIBUTE_NORMAL,  // ���� �Ӽ�(�б� ����, ���� ��) : FILE_ATTRIBUTE_NORMAL : �ƹ��� �Ӽ��� ���� ����
+//		NULL);               // ������ ������ �Ӽ��� ������ ���ø� ����(�Ⱦ��ϱ� NULL)
+//
+//	if (INVALID_HANDLE_VALUE == hFile)
+//	{
+//		return;
+//	}
+//
+//	CLayer* MyLayer = pScene->GetLayer(L"TestLayer3");
+//	DWORD   dwByte = 0;
+//
+//	map<const _tchar*, CGameObject*> test = MyLayer->Get_GameObjectMap();
+//	for (auto iter = test.begin(); iter != test.end(); ++iter)
+//	{
+//
+//		CTransform* Transcom = dynamic_cast<CTransform*>(iter->second->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+//
+//		_vec3   vPos, vScale;
+//		_int	iMonsterType = 0;
+//
+//		Transcom->Get_Info(INFO_POS, &vPos);
+//		memcpy(vScale, Transcom->m_vScale, sizeof(_vec3));
+//		iMonsterType = static_cast<CMonster*>(iter->second)->Get_Info()->_MonsterIndex;
+//
+//		WriteFile(hFile, &vPos, sizeof(_vec3), &dwByte, nullptr);
+//		WriteFile(hFile, &vScale, sizeof(_vec3), &dwByte, nullptr);
+//		WriteFile(hFile, &iMonsterType, sizeof(_int), &dwByte, nullptr);
+//
+//	}
+//
+//	CloseHandle(hFile);
+//	MSG_BOX("Save_Complete");
+//}
 
-	HANDLE      hFile = CreateFile(Directory.c_str(),
-		// ������ ��ο� �̸�
-		GENERIC_WRITE,         // ���� ���� ��� (GENERIC_WRITE : ���� ����, GENERIC_READ : �б� ����)
-		NULL,               // ���� ���(������ �����ִ� ���¿��� �ٸ� ���μ����� ������ �� ����� ���ΰ�)    
-		NULL,               // ���� �Ӽ�(NULL�� �����ϸ� �⺻�� ����)
-		CREATE_ALWAYS,         // CREATE_ALWAYS : ������ ���ٸ� ����, �ִٸ� �����, OPEN_EXISTING  : ������ ���� ��쿡�� ����
-		FILE_ATTRIBUTE_NORMAL,  // ���� �Ӽ�(�б� ����, ���� ��) : FILE_ATTRIBUTE_NORMAL : �ƹ��� �Ӽ��� ���� ����
-		NULL);               // ������ ������ �Ӽ��� ������ ���ø� ����(�Ⱦ��ϱ� NULL)
-
-	if (INVALID_HANDLE_VALUE == hFile)
-	{
-		return;
-	}
-
-	CLayer* MyLayer = pScene->GetLayer(L"TestLayer3");
-	DWORD   dwByte = 0;
-
-	map<const _tchar*, CGameObject*> test = MyLayer->Get_GameObjectMap();
-	for (auto iter = test.begin(); iter != test.end(); ++iter)
-	{
-
-		CTransform* Transcom = dynamic_cast<CTransform*>(iter->second->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
-
-		_vec3   vPos, vScale;
-		_int	iMonsterType = 0;
-
-		Transcom->Get_Info(INFO_POS, &vPos);
-		memcpy(vScale, Transcom->m_vScale, sizeof(_vec3));
-		iMonsterType = static_cast<CMonster*>(iter->second)->Get_Info()->_MonsterIndex;
-
-		WriteFile(hFile, &vPos, sizeof(_vec3), &dwByte, nullptr);
-		WriteFile(hFile, &vScale, sizeof(_vec3), &dwByte, nullptr);
-		WriteFile(hFile, &iMonsterType, sizeof(_int), &dwByte, nullptr);
-
-	}
-
-	CloseHandle(hFile);
-	MSG_BOX("Save_Complete");
-}
-
-void CImGuiMgr::Load_Monster(LPDIRECT3DDEVICE9 pGrahicDev, CScene *pScene)
-{
-	wstring Directory = L"../../Data/Monster.dat";
-
-	HANDLE      hFile = CreateFile(Directory.c_str(),      // ������ ��ο� �̸�
-		GENERIC_READ,         // ���� ���� ��� (GENERIC_WRITE : ���� ����, GENERIC_READ : �б� ����)
-		NULL,               // ���� ���(������ �����ִ� ���¿��� �ٸ� ���μ����� ������ �� ����� ���ΰ�)    
-		NULL,               // ���� �Ӽ�(NULL�� �����ϸ� �⺻�� ����)
-		OPEN_EXISTING,         // CREATE_ALWAYS : ������ ���ٸ� ����, �ִٸ� �����, OPEN_EXISTING  : ������ ���� ��쿡�� ����
-		FILE_ATTRIBUTE_NORMAL,  // ���� �Ӽ�(�б� ����, ���� ��) : FILE_ATTRIBUTE_NORMAL : �ƹ��� �Ӽ��� ���� ����
-		NULL);               // ������ ������ �Ӽ��� ������ ���ø� ����(�Ⱦ��ϱ� NULL)
-
-	if (INVALID_HANDLE_VALUE == hFile)
-	{
-		return;
-	}
-
-	DWORD   dwByte = 0;
-
-	_vec3   vPos, vScale;
-	_int	iMonsterType = 0;
-	CLayer* pMyLayer = nullptr;
-
-	while (true)
-	{
-
-		ReadFile(hFile, &vPos, sizeof(_vec3), &dwByte, nullptr);
-		ReadFile(hFile, &vScale, sizeof(_vec3), &dwByte, nullptr);
-		ReadFile(hFile, &iMonsterType, sizeof(_int), &dwByte, nullptr);
-
-		CGameObject *pGameObject = nullptr;
-		_tchar* test1 = new _tchar[20];
-		wstring t = L"Test%d";
-		wsprintfW(test1, t.c_str(), m_iIndex);
-		NameList.push_back(test1);
-
-		pGameObject = CMonster::Create(pGrahicDev);
-		//switch(iMonsterType) ���� ���� ���� ���� �����ϱ�
-		pMyLayer = pScene->GetLayer(L"TestLayer3");
-
-		FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(test1, pGameObject), );
-		static_cast<CMonster*>(pGameObject)->Get_Info()->_MonsterIndex = iMonsterType;
-		++m_iIndex;
-
-		CTransform* Transcom = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
-
-
-		Transcom->Set_Info(INFO_POS, &vPos);
-		Transcom->Set_Scale(&vScale);
-
-		Transcom->Update_Component(0.01f);
-
-		//   �޾ƿ� ���� �Է��������
-
-		if (0 == dwByte)
-			break;
-
-	}
-	MSG_BOX("Load_Complete");
-	pScene->Add_Layer(pMyLayer, L"TestLayer3");
-
-
-	CloseHandle(hFile);
-}
+//void CImGuiMgr::Load_Monster(LPDIRECT3DDEVICE9 pGrahicDev, CScene *pScene)
+//{
+//	wstring Directory = L"../../Data/Monster.dat";
+//
+//	HANDLE      hFile = CreateFile(Directory.c_str(),      // ������ ��ο� �̸�
+//		GENERIC_READ,         // ���� ���� ��� (GENERIC_WRITE : ���� ����, GENERIC_READ : �б� ����)
+//		NULL,               // ���� ���(������ �����ִ� ���¿��� �ٸ� ���μ����� ������ �� ����� ���ΰ�)    
+//		NULL,               // ���� �Ӽ�(NULL�� �����ϸ� �⺻�� ����)
+//		OPEN_EXISTING,         // CREATE_ALWAYS : ������ ���ٸ� ����, �ִٸ� �����, OPEN_EXISTING  : ������ ���� ��쿡�� ����
+//		FILE_ATTRIBUTE_NORMAL,  // ���� �Ӽ�(�б� ����, ���� ��) : FILE_ATTRIBUTE_NORMAL : �ƹ��� �Ӽ��� ���� ����
+//		NULL);               // ������ ������ �Ӽ��� ������ ���ø� ����(�Ⱦ��ϱ� NULL)
+//
+//	if (INVALID_HANDLE_VALUE == hFile)
+//	{
+//		return;
+//	}
+//
+//	DWORD   dwByte = 0;
+//
+//	_vec3   vPos, vScale;
+//	_int	iMonsterType = 0;
+//	CLayer* pMyLayer = nullptr;
+//
+//	while (true)
+//	{
+//
+//		ReadFile(hFile, &vPos, sizeof(_vec3), &dwByte, nullptr);
+//		ReadFile(hFile, &vScale, sizeof(_vec3), &dwByte, nullptr);
+//		ReadFile(hFile, &iMonsterType, sizeof(_int), &dwByte, nullptr);
+//
+//		CGameObject *pGameObject = nullptr;
+//		_tchar* test1 = new _tchar[20];
+//		wstring t = L"Test%d";
+//		wsprintfW(test1, t.c_str(), m_iIndex);
+//		NameList.push_back(test1);
+//
+//		pGameObject = CMonster::Create(pGrahicDev);
+//		//switch(iMonsterType) ���� ���� ���� ���� �����ϱ�
+//		pMyLayer = pScene->GetLayer(L"TestLayer3");
+//
+//		FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(test1, pGameObject), );
+//		static_cast<CMonster*>(pGameObject)->Get_Info()->_MonsterIndex = iMonsterType;
+//		++m_iIndex;
+//
+//		CTransform* Transcom = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+//
+//
+//		Transcom->Set_Info(INFO_POS, &vPos);
+//		Transcom->Set_Scale(&vScale);
+//
+//		Transcom->Update_Component(0.01f);
+//
+//		//   �޾ƿ� ���� �Է��������
+//
+//		if (0 == dwByte)
+//			break;
+//
+//	}
+//	MSG_BOX("Load_Complete");
+//	pScene->Add_Layer(pMyLayer, L"TestLayer3");
+//
+//
+//	CloseHandle(hFile);
+//}
 
 
 // Player Tool
-
 void CImGuiMgr::Player_Tool(LPDIRECT3DDEVICE9 pGraphicDev, CScene * pScene, wstring pDirectory, const _tchar* pLayerTag, const _tchar* pObjTag, const _tchar * pComponentTag, COMPONENTID eId)
 {
 	if (!Show_Player_Window)
@@ -1056,10 +1065,7 @@ void CImGuiMgr::TransformEdit_Monster(CCamera * pCamera, CTransform * pTransform
 
 	ImGuizmo::DecomposeMatrixToComponents(matWorld, matrixTranslation, matrixRotation, matrixScale);
 	memcpy(&pTransform->m_vInfo[INFO_POS], matrixTranslation, sizeof(matrixTranslation));
-	/*memcpy(&pTransform->m_vAngle, matrixRotation, sizeof(matrixRotation));*/
 	memcpy(&pTransform->m_vScale, matrixScale, sizeof(matrixScale));
-
-
 
 
 	ImGui::End();

@@ -40,9 +40,6 @@
     <ClCompile Include="..\Code\Camera.cpp">
       <Filter>01. GameObject\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\UserInterface.cpp">
-      <Filter>00. Component\06. UI</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\Layer.cpp">
       <Filter>02. Layer</Filter>
     </ClCompile>
@@ -75,6 +72,8 @@
     </ClCompile>
     <ClCompile Include="..\Code\Dynamic_Transform.cpp">
       <Filter>00. Component\01. Transform\Dynamic_Transform</Filter>
+    <ClCompile Include="..\Code\OrthoTransform.cpp">
+      <Filter>00. Component\01. Transform\97. OrthTransform</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -103,9 +102,6 @@
     <ClInclude Include="..\..\Header\TerrainTex.h">
       <Filter>00. Component\00. VIBuffer\03.TerrainTex</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Header\Transform.h">
-      <Filter>00. Component\01. Transform</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Header\Texture.h">
       <Filter>00. Component\02. Texture</Filter>
     </ClInclude>
@@ -117,9 +113,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Header\Camera.h">
       <Filter>01. GameObject\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Header\UserInterface.h">
-      <Filter>00. Component\06. UI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\Layer.h">
       <Filter>02. Layer</Filter>
@@ -153,6 +146,11 @@
     </ClInclude>
     <ClInclude Include="..\..\Header\Dynamic_Transform.h">
       <Filter>00. Component\01. Transform\Dynamic_Transform</Filter>
+    <ClInclude Include="..\..\Header\OrthoTransform.h">
+      <Filter>00. Component\01. Transform\97. OrthTransform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\Transform.h">
+      <Filter>00. Component\02. Texture</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -236,6 +234,8 @@
     </Filter>
     <Filter Include="00. Component\01. Transform\Dynamic_Transform">
       <UniqueIdentifier>{2924e929-375d-43f7-881b-d7474953ef06}</UniqueIdentifier>
+    <Filter Include="00. Component\01. Transform\97. OrthTransform">
+      <UniqueIdentifier>{bb8e0552-ac8c-4183-a015-d2685b1f9dde}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

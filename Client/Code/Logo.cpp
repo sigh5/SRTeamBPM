@@ -9,7 +9,7 @@
 #include "ColliderStage.h"
 
 CLogo::CLogo(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CScene(pGraphicDev), m_SceneType(SCENE_END) // ÇöÀç ¾î¶² ¾ÀÀÎÁö ¾Ë±â À§ÇÑ ENUM Å¸ÀÔ º¯¼ö
+	: Engine::CScene(pGraphicDev), m_SceneType(SCENE_END) // ï¿½ï¿½ï¿½ï¿½ ï¿½î¶² ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë±ï¿½ ï¿½ï¿½ï¿½ï¿½ ENUM Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 {
 }
 
@@ -28,11 +28,11 @@ HRESULT CLogo::Ready_Scene(void)
 
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(L"Ready_Layer_Environment"), E_FAIL);
 
-	// ·Îµù Å¬·¡½º »ý¼º
+	// ï¿½Îµï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	// Loading ID Check!!!!!!!!!
 	//Loading collider
 
-	m_pLoading = CLoading::Create(m_pGraphicDev, LOADING_STAGE);
+	m_pLoading = CLoading::Create(m_pGraphicDev, LOADING_COLLIDER);
 	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
 		
 	return S_OK;
@@ -67,7 +67,7 @@ void CLogo::LateUpdate_Scene(void)
 
 void CLogo::Render_Scene(void)
 {
-	// °³¹ßÀÚ ¸ðµå Ãâ·Â ÇÔ¼ö
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
 	Render_Font(L"Font_Jinji", m_pLoading->Get_String(), &_vec2(50.f, 50.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 
 }

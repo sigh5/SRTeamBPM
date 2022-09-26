@@ -182,6 +182,7 @@ call CopyUtility.bat</Command>
     <ClInclude Include="..\..\Header\LightMgr.h" />
     <ClInclude Include="..\..\Header\Management.h" />
     <ClInclude Include="..\..\Header\ObjectMgr.h" />
+    <ClInclude Include="..\..\Header\OrthoTransform.h" />
     <ClInclude Include="..\..\Header\Pipeline.h" />
     <ClInclude Include="..\..\Header\ProtoMgr.h" />
     <ClInclude Include="..\..\Header\RcCol.h" />
@@ -192,7 +193,6 @@ call CopyUtility.bat</Command>
     <ClInclude Include="..\..\Header\Texture.h" />
     <ClInclude Include="..\..\Header\Transform.h" />
     <ClInclude Include="..\..\Header\TriCol.h" />
-    <ClInclude Include="..\..\Header\UserInterface.h" />
     <ClInclude Include="..\..\Header\VIBuffer.h" />
   </ItemGroup>
   <ItemGroup>
@@ -209,6 +209,7 @@ call CopyUtility.bat</Command>
     <ClCompile Include="..\Code\LightMgr.cpp" />
     <ClCompile Include="..\Code\Management.cpp" />
     <ClCompile Include="..\Code\ObjectMgr.cpp" />
+    <ClCompile Include="..\Code\OrthoTransform.cpp" />
     <ClCompile Include="..\Code\Pipeline.cpp" />
     <ClCompile Include="..\Code\ProtoMgr.cpp" />
     <ClCompile Include="..\Code\RcCol.cpp" />
@@ -219,7 +220,6 @@ call CopyUtility.bat</Command>
     <ClCompile Include="..\Code\Texture.cpp" />
     <ClCompile Include="..\Code\Transform.cpp" />
     <ClCompile Include="..\Code\TriCol.cpp" />
-    <ClCompile Include="..\Code\UserInterface.cpp" />
     <ClCompile Include="..\Code\VIBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
