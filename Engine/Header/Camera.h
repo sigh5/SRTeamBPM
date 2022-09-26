@@ -24,10 +24,10 @@ public:		// UI 뷰 포트(스크린 좌표)를 따기 위해 투영 좌표를 따는 함수
 
 	_matrix*		CalculateOrtho(_matrix* pMatOrtho);
 
-protected:
+public:
 	_vec3		m_vEye, m_vAt, m_vUp;
 	_float		m_fFov, m_fAspect, m_fNear, m_fFar;
-	_matrix		m_matView, m_matProj;
+	_matrix		m_matView, m_matProj,m_matOrth;
 	
 protected:
 	virtual void		Free(void);

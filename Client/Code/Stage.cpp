@@ -107,38 +107,6 @@ HRESULT CStage::Ready_Layer_UI(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 
 	CGameObject*		pGameObject = nullptr;
-
-	//for(_uint i = 0; i < 50; ++i)
-	//{
-	//	// testPlayer
-	//	pGameObject = CEffect::Create(m_pGraphicDev);
-	//	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Effect", pGameObject), E_FAIL);
-	//}
-
-	// ToolTest 씬 말고 Stage씬을 쓰게 될 때 CLayer였나 multimap 컨테이너 map으로 바꿔서 위 코드가 문제가 생기면 아래 코드 주석 풀고 사용하면 됨
-	/*
-	for (_uint i = 0; i < 50; ++i)
-	{
-		// Effect
-		pGameObject = CEffect::Create(m_pGraphicDev);
-		NULL_CHECK_RETURN(pGameObject, E_FAIL);
-
-		_tchar*         szFinalEffectName = new _tchar[128]; // 쓰레기값
-		wsprintf(szFinalEffectName, L"");
-
-		const _tchar*   szEffectName = L"Effect_%d";
-
-		wsprintf(szFinalEffectName, szEffectName, m_iCount);
-
-		FAILED_CHECK_RETURN(pLayer->Add_GameObject(szFinalEffectName, pGameObject), E_FAIL);
-
-		m_szEffectName.push_back(szFinalEffectName);
-		m_iCount++;
-	}
-	*/
-
-
 	m_mapLayer.insert({ pLayerTag, pLayer });
 
 	return S_OK;

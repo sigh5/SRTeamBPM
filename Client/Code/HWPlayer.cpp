@@ -18,8 +18,9 @@ CHWPlayer::~CHWPlayer()
 HRESULT CHWPlayer::Ready_Object(void)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-
+	_vec3 vScale = { 0.5f, 0.5f, 0.5f };
 	m_pTransCom->Set_Pos(10.f, 0.f, 10.f);
+	m_pTransCom->Set_Scale(&vScale);
 	m_pTransCom->Update_Component(1.f);
 	// 움직이기 위한 변수
 	return S_OK;
@@ -61,7 +62,7 @@ HRESULT CHWPlayer::Add_Component(void)
 	pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Clone_Proto(L"Proto_RcTexCom"));
 	NULL_CHECK_RETURN(m_pBufferCom, E_FAIL);
 	m_mapComponent[ID_STATIC].insert({ L"Proto_RcTexCom", pComponent });
-
+	
 	// Stage 용
 	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_PlayerTexture"));
 	NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
@@ -136,7 +137,7 @@ void CHWPlayer::Set_OnTerrain(void)
 
 	_float fHeight = m_pCalculatorCom->HeightOnTerrain(&vPos, pTerrainTexCom->Get_VtxPos(), VTXCNTX, VTXCNTZ);
 
-	m_pTransCom->Set_Pos(vPos.x, fHeight, vPos.z);
+	m_pTransCom->Set_Pos(vPos.x, fHeight + 1.f, vPos.z);
 }
 
 _vec3 CHWPlayer::PickUp_OnTerrain(void)

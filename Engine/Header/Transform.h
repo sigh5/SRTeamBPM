@@ -64,7 +64,7 @@ public:
 public:
 	static CTransform*		Create(void);
 	virtual CComponent*	Clone(void);
-private:
+protected:
 	virtual void Free(void);
 
 };

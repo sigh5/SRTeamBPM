@@ -19,7 +19,11 @@ public:
 	virtual		void		LateUpdate_Object(void)						override;
 	virtual		void		Render_Obejct(void)							override;
 
+
+public:
 	void					UpdateOrthogonal(_float fTextureSizeX, _float fTextureSizeY);
+	void					CalculateOrtho();
+
 
 private:
 	CCamera*		m_pCameraCom = nullptr;
