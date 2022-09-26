@@ -15,6 +15,8 @@
 
 #include "UserInterface.h"
 
+#include "Dynamic_Transform.h"
+
 #include "Animation.h"
 #include "Camera.h"
 
