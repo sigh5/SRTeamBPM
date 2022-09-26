@@ -17,6 +17,7 @@
 
 #include "Animation.h"
 #include "Camera.h"
+#include "UserInterface.h"
 
 #include "ProtoMgr.h"
 #include "Management.h"

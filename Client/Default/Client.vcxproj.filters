@@ -331,6 +331,12 @@
     <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\02. Spider">
       <UniqueIdentifier>{d93392dd-0764-4a8a-8e31-5ba1ef786f14}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\02 For_Public\UI">
+      <UniqueIdentifier>{c73334a1-1d93-4373-b6ec-e6a93a511b94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\02 For_Public\UI\00. HpBar">
+      <UniqueIdentifier>{96397ce7-3828-405c-a3d0-3f4b98a1352f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="Imgui\imgui.ini">
