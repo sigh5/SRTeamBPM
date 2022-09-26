@@ -50,12 +50,14 @@ namespace Engine
 
 	
 
-	typedef struct tagMonsterINFO
+	typedef struct tagCharacterInfo
 	{
-		int _Hp;
-		int _AttackPower;
-		int _MonsterIndex;
-	}MonsterInfo;
+		int _iHp;
+		int _iAttackPower;
+		int _iCoin;
+		int _iKey;
+		float _fSpeed;
+	}CharacterInfo;
 }
 
 
