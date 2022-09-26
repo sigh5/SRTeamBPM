@@ -6,6 +6,7 @@
 #include "TestMonster.h"
 #include "Stage.h"
 #include "ToolTest.h"
+#include "ColliderStage.h"
 
 CLogo::CLogo(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -28,7 +29,9 @@ HRESULT CLogo::Ready_Scene(void)
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(L"Ready_Layer_Environment"), E_FAIL);
 
 	// 로딩 클래스 생성
-	m_pLoading = CLoading::Create(m_pGraphicDev, LOADING_STAGE);
+	// Loading ID Check!!!!!!!!!
+
+	m_pLoading = CLoading::Create(m_pGraphicDev, LOADING_COLLIDER);
 	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
 		
 	return S_OK;
@@ -42,7 +45,7 @@ Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 	{
 		if (GetAsyncKeyState(VK_RETURN) & 0x8000)
 		{
-			CScene*		pScene =CToolTest::Create(m_pGraphicDev);
+			CScene*		pScene = CColliderStage::Create(m_pGraphicDev);
 			NULL_CHECK_RETURN(pScene, E_FAIL);
 
 			FAILED_CHECK_RETURN(Engine::Set_Scene(pScene), E_FAIL);
