@@ -37,7 +37,7 @@ HRESULT CStaticCamera::Ready_Object(const _vec3* pEye,
 
 Engine::_int CStaticCamera::Update_Object(const _float& fTimeDelta)
 {
-	Key_Input(fTimeDelta);
+	//Key_Input(fTimeDelta);
 
 	Target_Renewal();
 
