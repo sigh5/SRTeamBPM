@@ -158,6 +158,12 @@ void CImGuiMgr::TransformEdit(CCamera* pCamera, CTransform* pTransform, _bool& W
 
 	ImGuizmo::DecomposeMatrixToComponents(matWorld, matrixTranslation, matrixRotation, matrixScale);
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+	/*matrixRotation[0] = D3DXToRadian(matrixRotation[0]);
+	matrixRotation[1] = D3DXToRadian(matrixRotation[1]);
+	matrixRotation[2] = D3DXToRadian(matrixRotation[2]);*/
+>>>>>>> Stashed changes
 =======
 	/*matrixRotation[0] = D3DXToRadian(matrixRotation[0]);
 	matrixRotation[1] = D3DXToRadian(matrixRotation[1]);
