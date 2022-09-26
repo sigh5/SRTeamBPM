@@ -13,6 +13,8 @@
 #include "FileIOMgr.h"
 #include "MyCamera.h"
 #include "TestUI.h"
+#include "TestCube.h"
+
 
 CColliderStage::CColliderStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -52,17 +54,20 @@ _int CColliderStage::Update_Scene(const _float & fTimeDelta)
 
 void CColliderStage::LateUpdate_Scene(void)
 {
-	//CLayer *pLayer1 = GetLayer(L"Layer_GameLogic");
-	//CHWPlayer* pPlayer = dynamic_cast<CHWPlayer*>(pLayer1->Get_GameObject(L"TestPlayer"));
+	CLayer *pLayer = GetLayer(L"Layer_GameLogic");
+	CHWPlayer* pPlayer = dynamic_cast<CHWPlayer*>(pLayer->Get_GameObject(L"TestPlayer"));
 
-	//CLayer * pLayer2 = GetLayer(L"Layer_UI");
+	pLayer = GetLayer(L"Layer_Environment");
 
-	//pLayer2->Get_GameObjectMap();
+	pLayer->Get_GameObjectMap();
 
-	//for (auto iter = pLayer2->Get_GameObjectMap().begin(); iter != pLayer2->Get_GameObjectMap().end(); ++iter)
-	//{
-	//	pPlayer->Collsion_CubeMap(iter->second);
-	//}
+	for (auto iter = pLayer->Get_GameObjectMap().begin(); iter != pLayer->Get_GameObjectMap().end(); ++iter)
+	{
+		CTestCube* pTestCube = dynamic_cast<CTestCube*>(iter->second);
+		
+		if(pTestCube!= nullptr)
+			pPlayer->Collsion_CubeMap(pTestCube);
+	}
 
 
 	Engine::CScene::LateUpdate_Scene();
@@ -81,16 +86,6 @@ HRESULT CColliderStage::Ready_Layer_Environment(const _tchar * pLayerTag)
 
 	CGameObject*		pGameObject = nullptr;
 
-	//// DynamicCamera
-	//pGameObject = CDynamicCamera::Create(m_pGraphicDev, &_vec3(0.f, 10.f, -10.f), &_vec3(0.f, 0.f, 0.f), &_vec3(0.f, 1.f, 0.f));
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"DynamicCamera", pGameObject), E_FAIL);
-
-	// StaticCamera
-	//pGameObject = CStaticCamera::Create(m_pGraphicDev, &_vec3(0.f, 1.f, -1.f), &_vec3(0.f, 0.f, 0.f), &_vec3(0.f, 1.f, 0.f));
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"StaticCamera", pGameObject), E_FAIL);
-
 	pGameObject = CMyCamera::Create(m_pGraphicDev, &_vec3(0.f, 10.f, -10.f), &_vec3(0.f, 0.f, 0.f), &_vec3(0.f, 1.f, 0.f));
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"CMyCamera", pGameObject), E_FAIL);
@@ -105,21 +100,17 @@ HRESULT CColliderStage::Ready_Layer_Environment(const _tchar * pLayerTag)
 	pGameObject = CTerrain::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Terrain", pGameObject), E_FAIL);
-
-
-	
-
-
-
 	m_mapLayer.insert({ pLayerTag, pLayer });
 
-	//CFileIOMgr::GetInstance()->Load_FileData(m_pGraphicDev,
-	//	this,
-	//	const_cast<_tchar*>(pLayerTag),
-	//	L"../../Data/",
-	//	L"Map.dat",
-	//	L"TestCube",
-	//	OBJ_CUBE);
+
+	CFileIOMgr::GetInstance()->Load_FileData(m_pGraphicDev,
+		this,
+		const_cast<_tchar*>(pLayerTag),
+		L"../../Data/",
+		L"Map.dat",
+		L"TestCube",
+		OBJ_CUBE);
+
 
 
 	return S_OK;
@@ -133,9 +124,9 @@ HRESULT CColliderStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	CGameObject*		pGameObject = nullptr;
 
 	// testPlayer
-	/*pGameObject = CHWPlayer::Create(m_pGraphicDev);
+	pGameObject = CHWPlayer::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestPlayer", pGameObject), E_FAIL);*/
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestPlayer", pGameObject), E_FAIL);
 
 	m_mapLayer.insert({ pLayerTag, pLayer });
 
@@ -151,14 +142,6 @@ HRESULT CColliderStage::Ready_Layer_UI(const _tchar * pLayerTag)
 
 	m_mapLayer.insert({ pLayerTag, pLayer });
 	
-	CFileIOMgr::GetInstance()->Load_FileData(m_pGraphicDev,
-		this,
-		const_cast<_tchar*>(pLayerTag),
-		L"../../Data/",
-		L"Map.dat",
-		L"TestCube",
-		OBJ_CUBE);
-
 
 	pGameObject = CTestUI::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
