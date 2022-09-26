@@ -21,7 +21,7 @@ HRESULT CBullet::Ready_Object(_vec3 vPos)
 
 	/*CTransform* pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC));
 	NULL_CHECK_RETURN(pPlayerTransformCom, E_FAIL);*/
-
+	//m_pManagementCom->Get_Scene()->
 	// Test Tool ¿ë
 	CTransform* pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"TestLayer", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC));
 	NULL_CHECK_RETURN(pPlayerTransformCom, E_FAIL);
