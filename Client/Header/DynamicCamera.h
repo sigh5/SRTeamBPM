@@ -17,7 +17,7 @@ public:
 		const _float& fFar);
 
 	virtual _int Update_Object(const _float& fTimeDelta) override;
-
+	
 	virtual void LateUpdate_Object(void) override;
 
 private:

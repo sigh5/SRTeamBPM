@@ -9,7 +9,7 @@
 #include "ColliderStage.h"
 
 CLogo::CLogo(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CScene(pGraphicDev), m_SceneType(SCENE_END) // ÇöÀç ¾î¶² ¾ÀÀÎÁö ¾Ë±â À§ÇÑ ENUM Å¸ÀÔ º¯¼ö
+	: Engine::CScene(pGraphicDev), m_SceneType(SCENE_END) // ï¿½ï¿½ï¿½ï¿½ ï¿½î¶² ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë±ï¿½ ï¿½ï¿½ï¿½ï¿½ ENUM Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 {
 }
 
@@ -28,7 +28,7 @@ HRESULT CLogo::Ready_Scene(void)
 
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(L"Ready_Layer_Environment"), E_FAIL);
 
-	// ·Îµù Å¬·¡½º »ý¼º
+	// ï¿½Îµï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	// Loading ID Check!!!!!!!!!
 	//Loading collider
 
@@ -46,7 +46,7 @@ Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 	{
 		if (GetAsyncKeyState(VK_RETURN) & 0x8000)
 		{
-			CScene*		pScene = CColliderStage::Create(m_pGraphicDev);
+			CScene*		pScene = CStage::Create(m_pGraphicDev);
 			NULL_CHECK_RETURN(pScene, E_FAIL);
 
 			m_SceneType = SCENE_TOOLTEST;//SCENE_COLLIDER
@@ -67,7 +67,7 @@ void CLogo::LateUpdate_Scene(void)
 
 void CLogo::Render_Scene(void)
 {
-	// °³¹ßÀÚ ¸ðµå Ãâ·Â ÇÔ¼ö
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
 	Render_Font(L"Font_Jinji", m_pLoading->Get_String(), &_vec2(50.f, 50.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 
 }

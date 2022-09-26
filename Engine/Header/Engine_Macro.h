@@ -3,11 +3,14 @@
 
 namespace Engine
 {
-#define		WINCMAX		480000
+#define		AX_X		0
+#define		AX_Y		1
+#define		AX_Z		2
+#define		AX_MAX		3
 
 #define		WINCX		800
 #define		WINCY		600
-#define		WINCZ		1
+
 
 #define		VTXCNTX		129
 #define		VTXCNTZ		129

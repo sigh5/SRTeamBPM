@@ -109,6 +109,8 @@
     <ClCompile Include="..\Code\Monster.cpp">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\HpBar.cpp">
+      <Filter>02. GameObject\02 For_Public\UI\00. HpBar</Filter>
     <ClCompile Include="..\Code\MyCamera.cpp">
       <Filter>02. GameObject\02 For_Public\02. MyCamera</Filter>
     </ClCompile>
@@ -240,6 +242,8 @@
     <ClInclude Include="..\Header\Monster.h">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\HpBar.h">
+      <Filter>02. GameObject\02 For_Public\UI\00. HpBar</Filter>
     <ClInclude Include="..\Header\MyCamera.h">
       <Filter>02. GameObject\02 For_Public\02. MyCamera</Filter>
     </ClInclude>

@@ -165,6 +165,7 @@
     <ClInclude Include="..\Header\DynamicCamera.h" />
     <ClInclude Include="..\Header\Effect.h" />
     <ClInclude Include="..\Header\FileIOMgr.h" />
+    <ClInclude Include="..\Header\HpBar.h" />
     <ClInclude Include="..\Header\HWPlayer.h" />
     <ClInclude Include="..\Header\ImGuiMgr.h" />
     <ClInclude Include="..\Header\Loading.h" />
@@ -210,6 +211,7 @@
     <ClCompile Include="..\Code\DynamicCamera.cpp" />
     <ClCompile Include="..\Code\Effect.cpp" />
     <ClCompile Include="..\Code\FileIOMgr.cpp" />
+    <ClCompile Include="..\Code\HpBar.cpp" />
     <ClCompile Include="..\Code\HWPlayer.cpp" />
     <ClCompile Include="..\Code\ImGuiMgr.cpp" />
     <ClCompile Include="..\Code\Loading.cpp" />

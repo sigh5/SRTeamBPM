@@ -963,7 +963,16 @@ void CImGuiMgr::Player_Tool(LPDIRECT3DDEVICE9 pGraphicDev, CScene * pScene, wstr
 //
 //
 //	CloseHandle(hFile);
+//
 //}
+
+
+
+
+
+
+
+
 
 void CImGuiMgr::TransformEdit_Monster(CCamera * pCamera, CTransform * pTransform, _bool & Window)
 {
