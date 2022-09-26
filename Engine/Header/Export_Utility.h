@@ -13,11 +13,11 @@
 #include "Texture.h"
 #include "Collider.h"
 
-
+#include "UserInterface.h"
 
 #include "Animation.h"
 #include "Camera.h"
-#include "UserInterface.h"
+
 
 #include "ProtoMgr.h"
 #include "Management.h"

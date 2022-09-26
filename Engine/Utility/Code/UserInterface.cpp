@@ -3,8 +3,12 @@
 
 USING(Engine)
 
-CUserInterface::CUserInterface(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CGameObject(pGraphicDev)
+CUserInterface::CUserInterface()
+{
+}
+
+CUserInterface::CUserInterface(const CUserInterface & rhs)
+	: CComponent(rhs)
 {
 }
 
@@ -12,88 +16,80 @@ CUserInterface::~CUserInterface()
 {
 }
 
-HRESULT CUserInterface::Ready_Object(void)
+HRESULT CUserInterface::Ready_UserInterface(void)
 {
-	/*D3DXMatrixIdentity(&m_matProj);
-	
-	_matrix		matTest;
-	D3DXMatrixIdentity(&matTest);
-
-	m_pCameraCom->Get_ProjMatrix(&matTest);
-	
-	m_matProj = matTest;*/
-
-	//_matrix		matWorld;
-	//D3DXMatrixIdentity(&matWorld);
-
-	//// World Matrix
-	//m_pTransformCom->Get_WorldMatrix(&matWorld);
-	//
-	//// View Matrix
-	//_matrix		matView;
-	//D3DXMatrixIdentity(&matView);
-
-	//m_pCameraCom->Get_ViewMatrix(&matView);
-	//D3DXMatrixIdentity(&matView);
-
-	UpdateOrthogonal(150.f, 150.f);
-
-
 	return S_OK;
 }
 
-_int CUserInterface::Update_Object(const _float & fTimeDelta)
+_int CUserInterface::Update_Component(const _float & fTimeDelta)
 {
-	UpdateOrthogonal(150.f, 150.f);
-
-
-	return _int();
+	CComponent::Update_Component(fTimeDelta);
+	return 0;
 }
 
-void CUserInterface::LateUpdate_Object(void)
+void CUserInterface::LateUpdate_Component(void)
 {
-	CGameObject::LateUpdate_Object();
+	CComponent::LateUpdate_Component();
 }
 
-void CUserInterface::Render_Obejct(void)
-{
-	CGameObject::Render_Obejct();
-}
 
-void CUserInterface::UpdateOrthogonal(_float fTextureSizeX, _float fTextureSizeY)
+_matrix* CUserInterface::UpdateOrthogonal(_float fTextureSizeX, _float fTextureSizeY, _matrix* pMatrix)
 {
-	_matrix		matWorld, matView, matProj;
+	D3DXMatrixIdentity(pMatrix);
+
+	m_pTransformCom->Get_WorldMatrix(pMatrix);
+	D3DXMatrixIdentity(pMatrix);
+
+	m_pGraphicDev->GetTransform(D3DTS_VIEW, pMatrix);
+	D3DXMatrixIdentity(pMatrix);
+
+	m_pGraphicDev->GetTransform(D3DTS_PROJECTION, pMatrix);
 	
-	D3DXMatrixIdentity(&matWorld);
-	D3DXMatrixIdentity(&matView);
-	D3DXMatrixIdentity(&matProj);
-
 	_matrix		matOrtho;
 	D3DXMatrixIdentity(&matOrtho);
 	// 직교행렬 얻어옴
 	m_pCameraCom->CalculateOrtho(&matOrtho);
 
-	matProj = matOrtho;
+	pMatrix = &matOrtho;
 
-	_float fScale[WINCMAX];
+	_float fScale[AX_MAX];
 
-	fScale[WINCX] = fTextureSizeX;
-	fScale[WINCY] = fTextureSizeY;
-	fScale[WINCZ] = 1.f;
+	fScale[AX_X] = fTextureSizeX;
+	fScale[AX_Y] = fTextureSizeY;
+	fScale[AX_Z] = 1.f;
 
-	for (_int i = 0; i < WINCMAX; ++i)
+	for (_int i = 0; i < AX_MAX; ++i)
 	{
 		for (_int j = 0; j < 3; ++j)
-			matView(i, j) *= fScale[i];
+			(i, j) *= fScale[i];
 	}
 	
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &matWorld);
-	m_pGraphicDev->SetTransform(D3DTS_VIEW, &matView);
-	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, pMatrix);
+	m_pGraphicDev->SetTransform(D3DTS_VIEW, pMatrix);
+	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, pMatrix);
 
+	return pMatrix;
+}
+
+CUserInterface * CUserInterface::Create(void)
+{
+	CUserInterface* pInstance = new CUserInterface;
+
+	if (FAILED(pInstance->Ready_UserInterface()))
+	{
+		Safe_Release(pInstance);
+		return nullptr;
+	}
+
+	return pInstance;
+}
+
+CComponent * CUserInterface::Clone(void)
+{
+	return new CUserInterface(*this);
 }
 
 void CUserInterface::Free(void)
 {
-	CGameObject::Free();
+	CComponent::Free();
 }

@@ -41,7 +41,7 @@
       <Filter>01. GameObject\Camera</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\UserInterface.cpp">
-      <Filter>01. GameObject\UI</Filter>
+      <Filter>00. Component\06. UI</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Layer.cpp">
       <Filter>02. Layer</Filter>
@@ -72,6 +72,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Collider.cpp">
       <Filter>00. Component\05. Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Dynamic_Transform.cpp">
+      <Filter>00. Component\01. Transform\Dynamic_Transform</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -116,7 +119,7 @@
       <Filter>01. GameObject\Camera</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\UserInterface.h">
-      <Filter>01. GameObject\UI</Filter>
+      <Filter>00. Component\06. UI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\Layer.h">
       <Filter>02. Layer</Filter>
@@ -147,6 +150,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Header\Collider.h">
       <Filter>00. Component\05. Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\Dynamic_Transform.h">
+      <Filter>00. Component\01. Transform\Dynamic_Transform</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -192,9 +198,6 @@
     <Filter Include="01. GameObject\Camera">
       <UniqueIdentifier>{237dec40-88bb-4845-9c69-12d78d07bbae}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. GameObject\UI">
-      <UniqueIdentifier>{6bcb1e13-07b3-4166-a33a-adc180236a0b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. Layer">
       <UniqueIdentifier>{057bb484-6aa6-4cbb-b039-777b9a65256c}</UniqueIdentifier>
     </Filter>
@@ -227,6 +230,12 @@
     </Filter>
     <Filter Include="00. Component\05. Collider">
       <UniqueIdentifier>{d46a5c8a-d54a-4c3d-810a-a19eba545aeb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Component\06. UI">
+      <UniqueIdentifier>{6bcb1e13-07b3-4166-a33a-adc180236a0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Component\01. Transform\Dynamic_Transform">
+      <UniqueIdentifier>{2924e929-375d-43f7-881b-d7474953ef06}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

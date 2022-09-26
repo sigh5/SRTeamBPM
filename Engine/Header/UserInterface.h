@@ -1,5 +1,5 @@
 #pragma once
-#include "GameObject.h"
+#include "Component.h"
 #include "Engine_Include.h"
 
 BEGIN(Engine)
@@ -7,19 +7,20 @@ BEGIN(Engine)
 class CCamera;
 class CTransform;
 
-class ENGINE_DLL CUserInterface : public CGameObject
+class ENGINE_DLL CUserInterface : public CComponent
 {
 protected:
-	explicit CUserInterface(LPDIRECT3DDEVICE9 pGraphicDev);
+	explicit CUserInterface();
+	explicit CUserInterface(const CUserInterface& rhs);
 	virtual ~CUserInterface();
 
 public:
-	virtual		HRESULT		Ready_Object(void)							override;
-	virtual		_int		Update_Object(const _float& fTimeDelta)		override;
-	virtual		void		LateUpdate_Object(void)						override;
-	virtual		void		Render_Obejct(void)							override;
+	HRESULT					Ready_UserInterface(void);
 
-	void					UpdateOrthogonal(_float fTextureSizeX, _float fTextureSizeY);
+	virtual _int			Update_Component(const _float& fTimeDelta);
+	virtual void			LateUpdate_Component(void)	override;
+
+	_matrix*				UpdateOrthogonal(_float fTextureSizeX, _float fTextureSizeY, _matrix* pMatrix);
 
 private:
 	CCamera*		m_pCameraCom = nullptr;
@@ -29,8 +30,12 @@ protected:
 	_vec3		m_vPos;
 	
 	//_matrix		m_matWorld, m_matView, m_matProj, m_matViewPortUI;
+
+private:
+	static CUserInterface*		Create(void);
 	
 public:
+	virtual CComponent*	Clone(void);
 	virtual void	Free(void);
 };
 

@@ -64,6 +64,8 @@ _uint CLoading::Loading_ForStage(void)
 	
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_AnimationCom", CAnimation::Create(m_pGraphicDev, 0, 0, 0.f)), E_FAIL);
 
+	//FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UserInterfaceCom", CUserInterface::Create()), E_FAIL);
+
 	m_bFinish = true;
 
 	lstrcpy(m_szLoading, L"Loading Complete!!!!!!!!!!!");

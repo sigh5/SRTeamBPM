@@ -363,19 +363,9 @@ HRESULT CTestPlayer::Create_Bullet(_vec3 vPos)
 
 #ifdef _DEBUG
 
-	//cout << "�Ѿ� ���� : " << m_iTest << endl;
+	//cout << "Bullet Count : " << m_iTest << endl;
 
 #endif	// _DEBUG
-
-	/*_vec3		vPlayerPos;
-	m_pTransCom->Get_Info(INFO_POS, &vPlayerPos);*/
-		
-	/*CTransform*		pBulletCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", szFinalName, L"Proto_TransformCom", ID_DYNAMIC));
-	NULL_CHECK_RETURN(pBulletCom, );
-	pBulletCom->Chase_Target(&vPlayerPos, 2.f, 2.f);*/
-	//pBulletCom->Set_Pos(vPlayerPos.x, vPlayerPos.y, vPlayerPos.z);  // ���� ��ġ vec3
-
-	//return pBulletCom->Set_Dir(vPos);
 	
 	return S_OK;
 }
