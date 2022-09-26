@@ -103,11 +103,11 @@
     <ClCompile Include="..\Code\FileIOMgr.cpp">
       <Filter>96. FileIOMgr</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\ColliderStage.cpp">
-      <Filter>01. Scene\98.ColliderStage</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\HWPlayer.cpp">
       <Filter>02. GameObject\01. For_Stage\01. TestPlayer\00. HwPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ColliderStage.cpp">
+      <Filter>01. Scene\98.ColliderStage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -228,11 +228,11 @@
     <ClInclude Include="..\Header\FileIOMgr.h">
       <Filter>96. FileIOMgr</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\ColliderStage.h">
-      <Filter>01. Scene\98.ColliderStage</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\HWPlayer.h">
       <Filter>02. GameObject\01. For_Stage\01. TestPlayer\00. HwPlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\ColliderStage.h">
+      <Filter>01. Scene\98.ColliderStage</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
