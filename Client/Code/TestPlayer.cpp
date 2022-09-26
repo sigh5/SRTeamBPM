@@ -85,7 +85,7 @@ _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 
 void CTestPlayer::LateUpdate_Object(void)
 {
-	Set_OnTerrain();
+	//Set_OnTerrain();
 }
 
 void CTestPlayer::Render_Obejct(void)
@@ -111,14 +111,14 @@ HRESULT CTestPlayer::Add_Component(void)
 	m_mapComponent[ID_STATIC].insert({ L"Proto_RcTexCom", pComponent });
 
 	// TestTool?š©
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_PlayerTexture2"));
-	NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
-	m_mapComponent[ID_STATIC].insert({ L"Proto_PlayerTexture2", pComponent });
+	//pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_PlayerTexture2"));
+	//NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
+	//m_mapComponent[ID_STATIC].insert({ L"Proto_PlayerTexture2", pComponent });
 
 	// Stage ?š©
-	//pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_PlayerTexture"));
-	//NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
-	//m_mapComponent[ID_STATIC].insert({ L"Proto_PlayerTexture", pComponent });
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_PlayerTexture"));
+	NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
+	m_mapComponent[ID_STATIC].insert({ L"Proto_PlayerTexture", pComponent });
 
 	pComponent = m_pTransCom = dynamic_cast<CTransform*>(Clone_Proto(L"Proto_TransformCom"));
 	NULL_CHECK_RETURN(m_pTransCom, E_FAIL);
@@ -233,7 +233,7 @@ if (Get_DIKeyState(DIK_W) & 0X80)
 	}
 
 	if (Get_DIKeyState(DIK_SPACE) & 0X80)	
-		m_bJump = true;
+		m_bJump = TRUE;
 	
 
 	if (Get_DIKeyState(DIK_LSHIFT) & 0X80)		
@@ -278,11 +278,11 @@ void CTestPlayer::Set_OnTerrain(void)
 	m_pTransCom->Get_Info(INFO_POS, &vPos);
 	
 	 //TestTool ?š©
-	Engine::CTerrainTex*	pTerrainTexCom = dynamic_cast<Engine::CTerrainTex*>(Engine::Get_Component(L"TestLayer", L"TestMap", L"Proto_TerrainTexCom", ID_STATIC));
-	NULL_CHECK(pTerrainTexCom);
+	//Engine::CTerrainTex*	pTerrainTexCom = dynamic_cast<Engine::CTerrainTex*>(Engine::Get_Component(L"TestLayer", L"TestMap", L"Proto_TerrainTexCom", ID_STATIC));
+	//NULL_CHECK(pTerrainTexCom);
 	// Stage ?š©
-	/*Engine::CTerrainTex*	pTerrainTexCom = dynamic_cast<Engine::CTerrainTex*>(Engine::Get_Component(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC));
-	NULL_CHECK(pTerrainTexCom);*/
+	Engine::CTerrainTex*	pTerrainTexCom = dynamic_cast<Engine::CTerrainTex*>(Engine::Get_Component(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC));
+	NULL_CHECK(pTerrainTexCom);
 	
 	_float fHeight = m_pCalculatorCom->HeightOnTerrain(&vPos, pTerrainTexCom->Get_VtxPos(), VTXCNTX, VTXCNTZ);
 
@@ -294,20 +294,20 @@ void CTestPlayer::Set_OnTerrain(void)
 Engine::_vec3 CTestPlayer::PickUp_OnTerrain(void)
 {
 	// Stage ?š©
-	/*
+	
 	CTerrainTex*	pTerrainBufferCom = dynamic_cast<CTerrainTex*>(Engine::Get_Component(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC));
 	NULL_CHECK_RETURN(pTerrainBufferCom, _vec3());
 
 	CTransform*		pTerrainTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_Environment", L"Terrain", L"Proto_TransformCom", ID_DYNAMIC));
 	NULL_CHECK_RETURN(pTerrainTransformCom, _vec3());
-	*/
+	
 
 	// TestTool ?š©
-	CTerrainTex*	pTerrainBufferCom = dynamic_cast<CTerrainTex*>(Engine::Get_Component(L"TestLayer", L"TestMap", L"Proto_TerrainTexCom", ID_STATIC));
+	/*CTerrainTex*	pTerrainBufferCom = dynamic_cast<CTerrainTex*>(Engine::Get_Component(L"TestLayer", L"TestMap", L"Proto_TerrainTexCom", ID_STATIC));
 	NULL_CHECK_RETURN(pTerrainBufferCom, _vec3());
 
 	CTransform*		pTerrainTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"TestLayer", L"TestMap", L"Proto_TransformCom", ID_DYNAMIC));
-	NULL_CHECK_RETURN(pTerrainTransformCom, _vec3());
+	NULL_CHECK_RETURN(pTerrainTransformCom, _vec3());*/
 
 	return m_pCalculatorCom->PickingOnTerrain(g_hWnd, pTerrainBufferCom, pTerrainTransformCom);
 }
@@ -318,12 +318,12 @@ float CTestPlayer::Get_TerrainY(void)
 	m_pTransCom->Get_Info(INFO_POS, &vPos);
 
 	// TestTool ?š©
-	Engine::CTerrainTex*	pTerrainTexCom = dynamic_cast<Engine::CTerrainTex*>(Engine::Get_Component(L"TestLayer", L"TestMap", L"Proto_TerrainTexCom", ID_STATIC));
-	NULL_CHECK(pTerrainTexCom);
+	/*Engine::CTerrainTex*	pTerrainTexCom = dynamic_cast<Engine::CTerrainTex*>(Engine::Get_Component(L"TestLayer", L"TestMap", L"Proto_TerrainTexCom", ID_STATIC));
+	NULL_CHECK(pTerrainTexCom);*/
 
 	// Stage ?š©
-	/*Engine::CTerrainTex*	pTerrainTexCom = dynamic_cast<Engine::CTerrainTex*>(Engine::Get_Component(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC));
-	NULL_CHECK(pTerrainTexCom);*/
+	Engine::CTerrainTex*	pTerrainTexCom = dynamic_cast<Engine::CTerrainTex*>(Engine::Get_Component(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC));
+	NULL_CHECK(pTerrainTexCom);
 
 	_float fHeight = m_pCalculatorCom->HeightOnTerrain(&vPos, pTerrainTexCom->Get_VtxPos(), VTXCNTX, VTXCNTZ);
 
@@ -348,8 +348,8 @@ HRESULT CTestPlayer::Create_Bullet(_vec3 vPos)
 		wsprintf(szFinalName, szBulletName, m_iCount);
 
 		//_tchar*	szBullet = L"Bullet1";
-		//FAILED_CHECK_RETURN(Engine::Add_GameObject(L"Layer_GameLogic", szFinalName, pBullet), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::Add_GameObject(L"TestLayer", szFinalName, pBullet), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::Add_GameObject(L"Layer_GameLogic", szFinalName, pBullet), E_FAIL);
+		//FAILED_CHECK_RETURN(Engine::Add_GameObject(L"TestLayer", szFinalName, pBullet), E_FAIL); // ToolTest
 
 		if (szBulletName != nullptr)
 			m_iMagazine -= 1;

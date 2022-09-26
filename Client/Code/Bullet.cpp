@@ -19,16 +19,16 @@ HRESULT CBullet::Ready_Object(_vec3 vPos)
 	
 	//m_pTransCom->Set_Scale(0.1f, 0.1f, 0.1f);
 
-	/*CTransform* pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC));
-	NULL_CHECK_RETURN(pPlayerTransformCom, E_FAIL);*/
-	//m_pManagementCom->Get_Scene()->
-	// Test Tool 용
-	CTransform* pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"TestLayer", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC));
+	CTransform* pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC));
 	NULL_CHECK_RETURN(pPlayerTransformCom, E_FAIL);
+	
+	// Test Tool 용
+	//CTransform* pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"TestLayer", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC));
+	//NULL_CHECK_RETURN(pPlayerTransformCom, E_FAIL);
 		
 	m_pTransCom->Set_Pos(vPos.x, vPos.y, vPos.z);
 
-	//pPlayerTransformCom->Get_Info(INFO_LOOK, &m_vPlayerLook);
+	pPlayerTransformCom->Get_Info(INFO_LOOK, &m_vPlayerLook);
 
 	// 추후에 카메라랑 플레이어 합치면 카메라 좌표 따기 위해 써둔 코드. 건들지 말아줭...
 	/*_matrix		matCamView;

@@ -73,7 +73,7 @@ _int CToolTest::Update_Scene(const _float& fTimeDelta)
 	CImGuiMgr::GetInstance()->MonsterTool(m_pGraphicDev, this, m_pCam);
 
 	// Tool Test Purpose's Player
-	CImGuiMgr::GetInstance()->Player_Tool(m_pGraphicDev, this, m_PpDirectory, L"TestLayer", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC);
+//	CImGuiMgr::GetInstance()->Player_Tool(m_pGraphicDev, this, m_PpDirectory, L"TestLayer", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC);
 
 	return CScene::Update_Scene(fTimeDelta);
 }
