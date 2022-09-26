@@ -26,17 +26,17 @@ HRESULT CTestPlayer::Ready_Object(void)
 
 _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 {
-
+	++m_iCountDash;
 	Key_Input(fTimeDelta);
-
 
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
 	if (m_bJump == TRUE)
 	{
-		m_pTransCom->Jump(m_fJumpPower, fTimeDelta);
-		m_fJumpPower -= 0.25f;
-		m_fNowPosHeight = Get_TerrainY();
+		m_pDynamicTransCom->Jumping(m_fJumpPower, fTimeDelta, m_pTransCom);
+		
+		m_fJumpPower -= 0.25f;					// const _tchar * pLayerTag, const _tchar * pObjTag, const _tchar * pComponentTag, COMPONENTID eID, CCalculator* pCalculator, CTransform* pTransform
+		m_fNowPosHeight = m_pDynamicTransCom->Get_TerrainY1(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC, m_pCalculatorCom, m_pTransCom); 
 		_vec3 vNowPlayerPos;
 		m_pTransCom->Get_Info(INFO_POS, &vNowPlayerPos);
 		if (vNowPlayerPos.y <= m_fNowPosHeight)
@@ -61,7 +61,7 @@ _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 	
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
-	// ï¿½ï¿½ï¿½Ì³ï¿½ï¿½ï¿½ Ä«ï¿½Þ¶ï¿½ ï¿½Ù¶óº¸´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	
 	_matrix		matWorld, matView, matBill;
 	D3DXMatrixIdentity(&matBill);
 
@@ -75,7 +75,7 @@ _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 
 	D3DXMatrixInverse(&matBill, 0, &matBill);
 
-	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Úµï¿½ï¿? ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ß¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+
 	m_pTransCom->Set_WorldMatrix(&(matBill * matWorld));
 	
 	Add_RenderGroup(RENDER_ALPHA, this);
@@ -124,8 +124,12 @@ HRESULT CTestPlayer::Add_Component(void)
 	NULL_CHECK_RETURN(m_pTransCom, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].insert({ L"Proto_TransformCom", pComponent });
 
+	pComponent = m_pDynamicTransCom = dynamic_cast<CDynamic_Transform*>(Clone_Proto(L"Proto_DynamicTransformCom"));
+	NULL_CHECK_RETURN(m_pDynamicTransCom, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].insert({ L"Proto_DynamicTransformCom", pComponent });
+
 	pComponent = m_pCalculatorCom = dynamic_cast<CCalculator*>(Clone_Proto(L"Proto_CalculatorCom"));
-	NULL_CHECK_RETURN(m_pTransCom, E_FAIL);
+	NULL_CHECK_RETURN(m_pCalculatorCom, E_FAIL);
 	m_mapComponent[ID_STATIC].insert({ L"Proto_CalculatorCom", pComponent });
 
 	return S_OK;
@@ -202,19 +206,19 @@ void CTestPlayer::Key_Input(const _float& fTimeDelta)
 	// 	m_bJump = TRUE;
 	// }
 
-if (Get_DIKeyState(DIK_W) & 0X80)
+	if (Get_DIKeyState(DIK_W) & 0X80 && !m_bShift)
 	{
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
 		m_pTransCom->Move_Pos(&(m_vDirection * 10.f * fTimeDelta));
 	}
 
-	if (Get_DIKeyState(DIK_S) & 0X80)
+	if (Get_DIKeyState(DIK_S) & 0X80 && !m_bShift)
 	{
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
 		m_pTransCom->Move_Pos(&(m_vDirection * -10.f * fTimeDelta));	
 	}
 
-	if (Get_DIKeyState(DIK_A) & 0X80)
+	if (Get_DIKeyState(DIK_A) & 0X80 && !m_bShift)
 	{
 		_vec3	vRight;
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
@@ -223,7 +227,7 @@ if (Get_DIKeyState(DIK_W) & 0X80)
 		m_pTransCom->Move_Pos(&(vRight * 10.f * fTimeDelta));
 	}
 	
-	if (Get_DIKeyState(DIK_D) & 0X80)
+	if (Get_DIKeyState(DIK_D) & 0X80 && !m_bShift)
 	{
 		_vec3	vRight;
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
@@ -233,32 +237,30 @@ if (Get_DIKeyState(DIK_W) & 0X80)
 	}
 
 	if (Get_DIKeyState(DIK_SPACE) & 0X80)	
-		m_bJump = TRUE;
-	
+		m_bJump = TRUE;	
 
-	if (Get_DIKeyState(DIK_LSHIFT) & 0X80)		
-		m_bDash = true;
+	if (Get_DIKeyState(DIK_LSHIFT) & 0X80)	
+	{
+		m_bDash = TRUE;
+	}
 
-
-	if (Engine::Get_DIMouseState(DIM_LB) & 0X80) // ï¿½ï¿½ ï¿½ß»ï¿½
+	if (Engine::Get_DIMouseState(DIM_LB) & 0X80) // Picking
 	{
 		Create_Bullet(m_vPos);
 		
-		m_bOneShot = true;
+		m_bOneShot = TRUE;
 
 		// Magazine 0 = Don't Shoot
 		if (m_iMagazine == 0)
-			m_bOneShot = false;
+			m_bOneShot = FALSE;
 	}
-
 
 	if (Get_DIKeyState(DIK_R) & 0X80)
 	{
 		m_iMagazine = 8;
 	}
 
-
-	// ï¿½ï¿½Å·
+	// Picking to LeftButton
 	/*if (Engine::Get_DIMouseState(DIM_LB) & 0X80)
 	{
 		_vec3	vPickPos = PickUp_OnTerrain();
@@ -268,8 +270,6 @@ if (Get_DIKeyState(DIK_W) & 0X80)
 		D3DXVec3Normalize(&vDir, &vDir);
 		m_pTransCom->Move_Pos(&(vDir * 5.f * fTimeDelta));
 	}*/
-	
-
 }
 
 void CTestPlayer::Set_OnTerrain(void)
@@ -312,24 +312,6 @@ Engine::_vec3 CTestPlayer::PickUp_OnTerrain(void)
 	return m_pCalculatorCom->PickingOnTerrain(g_hWnd, pTerrainBufferCom, pTerrainTransformCom);
 }
 
-float CTestPlayer::Get_TerrainY(void)
-{
-	_vec3		vPos;
-	m_pTransCom->Get_Info(INFO_POS, &vPos);
-
-	// TestTool ?š©
-	/*Engine::CTerrainTex*	pTerrainTexCom = dynamic_cast<Engine::CTerrainTex*>(Engine::Get_Component(L"TestLayer", L"TestMap", L"Proto_TerrainTexCom", ID_STATIC));
-	NULL_CHECK(pTerrainTexCom);*/
-
-	// Stage ?š©
-	Engine::CTerrainTex*	pTerrainTexCom = dynamic_cast<Engine::CTerrainTex*>(Engine::Get_Component(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC));
-	NULL_CHECK(pTerrainTexCom);
-
-	_float fHeight = m_pCalculatorCom->HeightOnTerrain(&vPos, pTerrainTexCom->Get_VtxPos(), VTXCNTX, VTXCNTZ);
-
-
-	return fHeight;
-}
 
 HRESULT CTestPlayer::Create_Bullet(_vec3 vPos)
 {
@@ -372,46 +354,43 @@ HRESULT CTestPlayer::Create_Bullet(_vec3 vPos)
 
 void CTestPlayer::Dash(const _float& fTimeDelta)
 {	
-	++m_iCountDash;
-
-	if (m_bDash && m_iCountDash > 20)
+	if (m_bDash)
 	{
 		m_pTransCom->Get_Info(INFO_LOOK, &m_vDirection);
 		m_pTransCom->Get_Info(INFO_UP, &m_vUp);
 		_float fSpeed = 4.f;
 
-		if (Get_DIKeyState(DIK_W) & 0X80)
+		if (Engine::CInputDev::GetInstance()->Key_Down(DIK_W))
 		{
 			D3DXVec3Normalize(&m_vDirection, &m_vDirection);
-			m_pTransCom->Move_Pos(&(m_vDirection * 4.f));
+			m_pTransCom->Move_Pos(&(m_vDirection * fSpeed));
 		}
 
-		if (Get_DIKeyState(DIK_S) & 0X80)
+		if (Engine::CInputDev::GetInstance()->Key_Down(DIK_S))
 		{
 			D3DXVec3Normalize(&m_vDirection, &m_vDirection);
-			m_pTransCom->Move_Pos(&(m_vDirection * -4.f));
+			m_pTransCom->Move_Pos(&(m_vDirection * -fSpeed));
 		}
 
-		if (Get_DIKeyState(DIK_A) & 0X80)
+		if (Engine::CInputDev::GetInstance()->Key_Down(DIK_A))
 		{
 			_vec3	vRight;
 			D3DXVec3Normalize(&m_vDirection, &m_vDirection);
 			D3DXVec3Normalize(&m_vUp, &m_vUp);
 			D3DXVec3Cross(&vRight, &m_vDirection, &m_vUp);
-			m_pTransCom->Move_Pos(&(vRight * fSpeed * fTimeDelta));
+			m_pTransCom->Move_Pos(&(vRight * fSpeed));
 		}
 
-		if (Get_DIKeyState(DIK_D) & 0X80)
+		if (Engine::CInputDev::GetInstance()->Key_Down(DIK_D))
 		{
 			_vec3	vRight;
 			D3DXVec3Normalize(&m_vDirection, &m_vDirection);
 			D3DXVec3Normalize(&m_vUp, &m_vUp);
 			D3DXVec3Cross(&vRight, &m_vDirection, &m_vUp);
-			m_pTransCom->Move_Pos(&(vRight * -fSpeed * fTimeDelta));
+			m_pTransCom->Move_Pos(&(vRight * -fSpeed));
 		}		
 
 		m_bDash = false;
-		m_iCountDash = 0;
 	}
 }
 

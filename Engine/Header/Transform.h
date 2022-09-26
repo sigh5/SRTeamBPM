@@ -44,7 +44,7 @@ public:
 	void				Get_WorldMatrix(_matrix* pWorld) const { *pWorld = m_matWorld; }
 	void				Set_WorldMatrix(_matrix* pWorld) {  m_matWorld = *pWorld; }
 
-	void				Jump(_float _JumpPower, _float _TimeDelta);
+//	void				Jump(_float _JumpPower, _float _TimeDelta);
 
 public:
 	void				Chase_Target(const _vec3* pTargetPos, const _float& fSpeed, const _float& fTimeDelta);

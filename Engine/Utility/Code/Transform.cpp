@@ -123,14 +123,14 @@ _int CTransform::Update_Component(const _float & fTimeDelta)
 	return 0;
 }
 
-void CTransform::Jump(_float _JumpPower, _float _TimeDelta)
-{
-	_vec3 vWorldUp = { 0.f, 1.f, 0.f };
-
-	vWorldUp = vWorldUp *_JumpPower * _TimeDelta;
-
-	Move_Pos(&vWorldUp);
-}
+//void CTransform::Jump(_float _JumpPower, _float _TimeDelta)
+//{
+//	_vec3 vWorldUp = { 0.f, 1.f, 0.f };
+//
+//	vWorldUp = vWorldUp *_JumpPower * _TimeDelta;
+//
+//	Move_Pos(&vWorldUp);
+//}
 
 CTransform * CTransform::Create(void)
 {
