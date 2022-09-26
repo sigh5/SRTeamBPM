@@ -109,6 +109,12 @@
     <ClCompile Include="..\Code\Monster.cpp">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\MyCamera.cpp">
+      <Filter>02. GameObject\02 For_Public\02. MyCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\TestUI.cpp">
+      <Filter>02. GameObject\02 For_Public\03. UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Imgui\GraphEditor.h">
@@ -234,6 +240,12 @@
     <ClInclude Include="..\Header\Monster.h">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\MyCamera.h">
+      <Filter>02. GameObject\02 For_Public\02. MyCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\TestUI.h">
+      <Filter>02. GameObject\02 For_Public\03. UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -330,6 +342,12 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\02. Spider">
       <UniqueIdentifier>{d93392dd-0764-4a8a-8e31-5ba1ef786f14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\02 For_Public\02. MyCamera">
+      <UniqueIdentifier>{34ec88b5-6439-4645-81fe-1c675c39cb1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\02 For_Public\03. UI">
+      <UniqueIdentifier>{caa16c4b-70e2-4622-aaa5-21b465a0b0ed}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

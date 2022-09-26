@@ -34,6 +34,7 @@ protected:
 
 protected:
 	_int				m_iTexIndex = 0;
+
 public:
 	static CGameObject*		Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos);
 
