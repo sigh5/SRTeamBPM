@@ -20,9 +20,25 @@ CCharacterInfo::~CCharacterInfo()
 {
 }
 
-HRESULT CCharacterInfo::Ready_CharacterInfo()
+HRESULT CCharacterInfo::Ready_CharacterInfo(int _hp, int _Attack, float _fSpeed)
 {
-	return E_NOTIMPL;
+	memcpy(&m_Info._iHp, &_hp, sizeof(int));
+	memcpy(&m_Info._iAttackPower, &_Attack, sizeof(int));
+	memcpy(&m_Info._fSpeed, &_fSpeed, sizeof(float));
+	m_Info._iCoin = 0;
+	m_Info._iKey = 0;
+
+	return S_OK;
+}
+
+void CCharacterInfo::Receive_Damage(int _Damage)
+{
+	m_Info._iHp -= _Damage;
+}
+
+int CCharacterInfo::Get_AttackPower(void)
+{
+	return m_Info._iAttackPower;
 }
 
 CCharacterInfo * CCharacterInfo::Clone(void)
@@ -42,4 +58,9 @@ CCharacterInfo * CCharacterInfo::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 	}
 
 	return pInstance;
+}
+
+void CCharacterInfo::Free(void)
+{
+	CComponent::Free();
 }

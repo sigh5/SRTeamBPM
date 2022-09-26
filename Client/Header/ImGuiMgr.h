@@ -59,7 +59,7 @@ public:
 
 	// ~Map_Tool 기능 생성
 	void  MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCamera *pCam);
-	void  TransformEdit_Monster(CCamera* pCamera, CTransform* pTransform, _bool& Window);
+	
 	// Monster_Tool 기능 생성
 
 	// 각툴의 기능 쓰기

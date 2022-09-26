@@ -1,32 +1,32 @@
-#include "..\..\Header\Monster.h"
+#include "..\..\Header\MonsterBase.h"
 
 USING(Engine)
 
-CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphicDev)
+CMonsterBase::CMonsterBase(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CGameObject(pGraphicDev)
 {
 }
 
 
-CMonster::~CMonster()
+CMonsterBase::~CMonsterBase()
 {
 }
 
-HRESULT CMonster::Ready_Object(void)
+HRESULT CMonsterBase::Ready_Object(void)
 {
 	return S_OK;
 }
 
-_int CMonster::Update_Object(const _float & fTimeDelta)
+_int CMonsterBase::Update_Object(const _float & fTimeDelta)
 {
 	return _int();
 }
 
-void CMonster::LateUpdate_Object(void)
+void CMonsterBase::LateUpdate_Object(void)
 {
 }
 
-bool CMonster::Set_SelectGizmo()
+bool CMonsterBase::Set_SelectGizmo()
 {
 	if (m_pCalculatorCom->PickingOnTransform_Monster(g_hWnd, m_pBufferCom, m_pTransCom))
 		return true;
@@ -34,12 +34,12 @@ bool CMonster::Set_SelectGizmo()
 
 	return false;
 }
-void Engine::CMonster::Free(void)
+void Engine::CMonsterBase::Free(void)
 {
 	CGameObject::Free();
 }
 
-HRESULT CMonster::Add_Component(void)
+HRESULT CMonsterBase::Add_Component(void)
 {
 	CComponent* pComponent = nullptr;
 

@@ -73,11 +73,11 @@
     <ClCompile Include="..\Code\Collider.cpp">
       <Filter>00. Component\05. Collider</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Monster.cpp">
-      <Filter>01. GameObject\Monster</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\CharacterInfo.cpp">
       <Filter>00. Component\06. Character Infomation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MonsterBase.cpp">
+      <Filter>01. GameObject\Monster</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -154,11 +154,11 @@
     <ClInclude Include="..\..\Header\Collider.h">
       <Filter>00. Component\05. Collider</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Header\Monster.h">
-      <Filter>01. GameObject\Monster</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Header\CharacterInfo.h">
       <Filter>00. Component\06. Character Infomation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\MonsterBase.h">
+      <Filter>01. GameObject\Monster</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

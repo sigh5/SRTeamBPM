@@ -183,6 +183,11 @@ void CAnubis::Set_Pos(_vec3 vPos)
 	m_pTransCom->Set_Pos(vPos.x, vPos.y, vPos.z);
 }
 
+bool CAnubis::why_ziral()
+{
+	return false;
+}
+
 HRESULT CAnubis::Add_Component(void)
 {
 	CComponent* pComponent = nullptr;
@@ -238,14 +243,14 @@ bool CAnubis::Set_TransformPositon()
 	m_pTransCom->Set_Pos(Temp.x, Temp.y, Temp.z);
 }
 
-bool CAnubis::Set_SelectGizmo()
-{
-	if (m_pCalculatorCom->PickingOnTransform_Monster(g_hWnd, m_pBufferCom, m_pTransCom))
-		return true;
-
-
-	return false;
-}
+//bool CAnubis::Set_SelectGizmo()
+//{
+//	if (m_pCalculatorCom->PickingOnTransform_Monster(g_hWnd, m_pBufferCom, m_pTransCom))
+//		return true;
+//
+//
+//	return false;
+//}
 
 CAnubis* CAnubis::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)
 {

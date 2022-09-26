@@ -12,7 +12,8 @@
 #include "Calculator.h"
 #include "Texture.h"
 #include "Collider.h"
-
+#include "CharacterInfo.h"
+#include "MonsterBase.h"
 
 
 #include "Animation.h"

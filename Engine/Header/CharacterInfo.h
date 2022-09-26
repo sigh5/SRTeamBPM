@@ -11,14 +11,15 @@ private:
 	virtual ~CCharacterInfo();
 
 public:
-	HRESULT	 Ready_CharacterInfo();
+	HRESULT	 Ready_CharacterInfo(int _hp, int _Attack, float _fSpeed);
+
+	void	Receive_Damage(int _Damage);		//데미지를 입는다.
+	int		Get_AttackPower(void);				//공격력(데이터)을 얻어온다.
+	void	Add_Coin(void) { ++m_Info._iCoin; } //코인 추가
+	void	Add_Key(void) { ++m_Info._iKey; }	//키 추가
 
 private:
-	int		m_iHp;
-	int		m_iAttackPower;
-	int		m_iCoin;
-	int		m_iKey;
-	float	m_fSpeed;
+	CharacterInfo m_Info;
 
 
 public:
@@ -28,6 +29,9 @@ public:
 
 private:
 	bool		m_bClone;
+
+private:
+	virtual void Free(void) override;
 };
 
 END
