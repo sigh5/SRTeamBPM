@@ -106,7 +106,7 @@
     <ClCompile Include="..\Code\ColliderStage.cpp">
       <Filter>01. Scene\98.ColliderStage</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Monster.cpp">
+    <ClCompile Include="..\Code\Anubis.cpp">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
     </ClCompile>
   </ItemGroup>
@@ -231,7 +231,7 @@
     <ClInclude Include="..\Header\ColliderStage.h">
       <Filter>01. Scene\98.ColliderStage</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Monster.h">
+    <ClInclude Include="..\Header\Anubis.h">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
     </ClInclude>
   </ItemGroup>

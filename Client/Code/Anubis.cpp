@@ -1,19 +1,19 @@
 #include "stdafx.h"
-#include "..\Header\Monster.h"
+#include "..\Header\Anubis.h"
 
 #include "Export_Function.h"
 
-CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphicDev)
+CAnubis::CAnubis(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CGameObject(pGraphicDev)
 {
 }
 
 
-CMonster::~CMonster()
+CAnubis::~CAnubis()
 {
 }
 
-HRESULT CMonster::Ready_Object(int Posx, int Posy)
+HRESULT CAnubis::Ready_Object(int Posx, int Posy)
 {
 	m_fSpeed = 5.f;
 
@@ -33,7 +33,7 @@ HRESULT CMonster::Ready_Object(int Posx, int Posy)
 	return S_OK;
 }
 
-_int CMonster::Update_Object(const _float & fTimeDelta)
+_int CAnubis::Update_Object(const _float & fTimeDelta)
 {
 	//플레이어를 추적해야 함
 	//테스트 해서 버벅거리는 현상 잡아야 함
@@ -135,14 +135,14 @@ _int CMonster::Update_Object(const _float & fTimeDelta)
 	return _int();
 }
 
-void CMonster::LateUpdate_Object(void)
+void CAnubis::LateUpdate_Object(void)
 {
 
 
 	Engine::CGameObject::LateUpdate_Object();
 }
 
-void CMonster::Render_Obejct(void)
+void CAnubis::Render_Obejct(void)
 {
 	//알파블렌딩
 
@@ -178,12 +178,12 @@ void CMonster::Render_Obejct(void)
 
 }
 
-void CMonster::Set_Pos(_vec3 vPos)
+void CAnubis::Set_Pos(_vec3 vPos)
 {
 	m_pTransCom->Set_Pos(vPos.x, vPos.y, vPos.z);
 }
 
-HRESULT CMonster::Add_Component(void)
+HRESULT CAnubis::Add_Component(void)
 {
 	CComponent* pComponent = nullptr;
 
@@ -211,7 +211,7 @@ HRESULT CMonster::Add_Component(void)
 	return S_OK;
 }
 
-void CMonster::Set_OnTerrain(void)
+void CAnubis::Set_OnTerrain(void)
 {
 	_vec3		vPos;
 	m_pTransCom->Get_Info(INFO_POS, &vPos);
@@ -224,7 +224,7 @@ void CMonster::Set_OnTerrain(void)
 	m_pTransCom->Set_Pos(vPos.x, fHeight + 1.f, vPos.z);
 }
 
-bool CMonster::Set_TransformPositon()
+bool CAnubis::Set_TransformPositon()
 {
 	CTerrainTex*	pTerrainBufferCom = dynamic_cast<CTerrainTex*>(Engine::Get_Component(L"TestLayer", L"TestMap", L"Proto_TerrainTexCom", ID_STATIC));
 	NULL_CHECK_RETURN(pTerrainBufferCom, );
@@ -238,7 +238,7 @@ bool CMonster::Set_TransformPositon()
 	m_pTransCom->Set_Pos(Temp.x, Temp.y, Temp.z);
 }
 
-bool CMonster::Set_SelectGizmo()
+bool CAnubis::Set_SelectGizmo()
 {
 	if (m_pCalculatorCom->PickingOnTransform_Monster(g_hWnd, m_pBufferCom, m_pTransCom))
 		return true;
@@ -247,9 +247,9 @@ bool CMonster::Set_SelectGizmo()
 	return false;
 }
 
-CMonster* CMonster::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)
+CAnubis* CAnubis::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)
 {
-	CMonster*	pInstance = new CMonster(pGraphicDev);
+	CAnubis*	pInstance = new CAnubis(pGraphicDev);
 
 
 	if (FAILED(pInstance->Ready_Object(Posx, Posy)))
@@ -262,7 +262,7 @@ CMonster* CMonster::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)
 }
 
 
-void CMonster::Free(void)
+void CAnubis::Free(void)
 {
 	CGameObject::Free();
 }

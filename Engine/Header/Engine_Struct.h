@@ -54,7 +54,8 @@ namespace Engine
 	{
 		int _Hp;
 		int _AttackPower;
-		int _MonsterIndex;
+		int _Coin;
+		//int _
 	}MonsterInfo;
 }
 
