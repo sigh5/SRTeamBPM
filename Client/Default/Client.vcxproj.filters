@@ -106,7 +106,9 @@
     <ClCompile Include="..\Code\ColliderStage.cpp">
       <Filter>01. Scene\98.ColliderStage</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\HWPlayer.cpp" />
+    <ClCompile Include="..\Code\HWPlayer.cpp">
+      <Filter>02. GameObject\01. For_Stage\01. TestPlayer\00. HwPlayer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Imgui\GraphEditor.h">
@@ -229,7 +231,9 @@
     <ClInclude Include="..\Header\ColliderStage.h">
       <Filter>01. Scene\98.ColliderStage</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\HWPlayer.h" />
+    <ClInclude Include="..\Header\HWPlayer.h">
+      <Filter>02. GameObject\01. For_Stage\01. TestPlayer\00. HwPlayer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">

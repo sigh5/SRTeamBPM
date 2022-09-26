@@ -38,6 +38,7 @@ _int CHWPlayer::Update_Object(const _float & fTimeDelta)
 
 void CHWPlayer::LateUpdate_Object(void)
 {
+
 	Set_OnTerrain();
 }
 
@@ -70,10 +71,14 @@ HRESULT CHWPlayer::Add_Component(void)
 	NULL_CHECK_RETURN(m_pTransCom, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].insert({ L"Proto_TransformCom", pComponent });
 
-
 	pComponent = m_pCalculatorCom = dynamic_cast<CCalculator*>(Clone_Proto(L"Proto_CalculatorCom"));
-	NULL_CHECK_RETURN(m_pTransCom, E_FAIL);
+	NULL_CHECK_RETURN(m_pCalculatorCom, E_FAIL);
 	m_mapComponent[ID_STATIC].insert({ L"Proto_CalculatorCom", pComponent });
+
+	pComponent = m_pColliderCom = dynamic_cast<CCollider*>(Clone_Proto(L"Proto_ColliderCom"));
+	NULL_CHECK_RETURN(m_pColliderCom, E_FAIL);
+	m_mapComponent[ID_STATIC].insert({ L"Proto_ColliderCom", pComponent });
+
 
 	return S_OK;
 }
@@ -88,12 +93,14 @@ void CHWPlayer::Key_Input(const _float & fTimeDelta)
 	{
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
 		m_pTransCom->Move_Pos(&(m_vDirection * 10.f * fTimeDelta));
+		m_eDirType = DIR_UP;
 	}
 
 	if (Get_DIKeyState(DIK_S) & 0X80)
 	{
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
 		m_pTransCom->Move_Pos(&(m_vDirection * -10.f * fTimeDelta));
+		m_eDirType = DIR_DOWN;
 	}
 
 	if (Get_DIKeyState(DIK_A) & 0X80)
@@ -102,7 +109,9 @@ void CHWPlayer::Key_Input(const _float & fTimeDelta)
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
 		D3DXVec3Normalize(&m_vUp, &m_vUp);
 		D3DXVec3Cross(&vRight, &m_vDirection, &m_vUp);
+		
 		m_pTransCom->Move_Pos(&(vRight * 10.f * fTimeDelta));
+		m_eDirType = DIR_LEFT;
 	}
 
 	if (Get_DIKeyState(DIK_D) & 0X80)
@@ -111,7 +120,9 @@ void CHWPlayer::Key_Input(const _float & fTimeDelta)
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
 		D3DXVec3Normalize(&m_vUp, &m_vUp);
 		D3DXVec3Cross(&vRight, &m_vDirection, &m_vUp);
+		
 		m_pTransCom->Move_Pos(&(vRight * -10.f * fTimeDelta));
+		m_eDirType = DIR_RIGHT;
 	}
 }
 
@@ -156,6 +167,54 @@ float CHWPlayer::Get_TerrainY(void)
 
 
 	return fHeight;
+}
+
+void CHWPlayer::Collsion_CubeMap(CGameObject * pGameObject)
+{
+	CTransform *pTrnasform = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+
+	_vec3 vCenter1Pos;
+	_vec3 vPos; 
+
+	pTrnasform->Get_Info(INFO_POS, &vCenter1Pos);
+	m_pTransCom->Get_Info(INFO_POS, &vPos);
+
+	if (m_pColliderCom->Check_Sphere_InterSect(vCenter1Pos, vPos, 1.f, 1.f))
+	{
+		m_pTransCom->Get_Info(INFO_LOOK, &m_vDirection);
+		m_pTransCom->Get_Info(INFO_UP, &m_vUp);
+		m_pTransCom->Get_Info(INFO_POS, &m_vPos);
+		_vec3	vRight;
+		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
+		switch (m_eDirType)
+		{
+		case Engine::DIR_UP:
+			m_pTransCom->Move_Pos(&(m_vDirection * -0.1f));
+			break;
+		case Engine::DIR_DOWN:
+			m_pTransCom->Move_Pos(&(m_vDirection * 0.1f));
+			break;
+		case Engine::DIR_LEFT:
+			D3DXVec3Normalize(&m_vDirection, &m_vDirection);
+			D3DXVec3Normalize(&m_vUp, &m_vUp);
+			D3DXVec3Cross(&vRight, &m_vDirection, &m_vUp);
+			m_pTransCom->Move_Pos(&(vRight * -0.1f));
+			break;
+		case Engine::DIR_RIGHT:
+			D3DXVec3Normalize(&m_vDirection, &m_vDirection);
+			D3DXVec3Normalize(&m_vUp, &m_vUp);
+			D3DXVec3Cross(&vRight, &m_vDirection, &m_vUp);
+			m_pTransCom->Move_Pos(&(vRight * 0.1f ));
+			break;
+		case Engine::DIR_END:
+			break;
+		default:
+			break;
+		}
+		m_pTransCom->Update_Component(1.f);
+	}
+	
+	return;
 }
 
 CHWPlayer * CHWPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)

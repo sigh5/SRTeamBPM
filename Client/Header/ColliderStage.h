@@ -36,6 +36,8 @@ private:
 private:
 	list<_tchar*>		m_szEffectName;
 	_uint				m_iCount = 0;
+	_float				m_fTimeDelta = 0.f;
+
 
 public:
 	static CColliderStage*	Create(LPDIRECT3DDEVICE9 pGraphicDev);

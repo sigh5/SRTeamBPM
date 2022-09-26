@@ -9,6 +9,7 @@ namespace Engine
 	class CCalculator;
 	class CScene;
 	class CManagement;
+	class CCollider;
 }
 
 
@@ -34,12 +35,17 @@ private:
 	float				Get_TerrainY(void);		//지형의 Y값으로 설정하는 대신 리턴
 
 
+public:
+	void				Collsion_CubeMap(CGameObject* pGameObject);
+
+
+
 private:
 	CRcTex*				m_pBufferCom = nullptr;
 	CTransform*			m_pTransCom = nullptr;
 	CTexture*			m_pTextureCom = nullptr;
 	CCalculator*		m_pCalculatorCom = nullptr;
-
+	CCollider*			m_pColliderCom = nullptr;
 
 private:
 	// _vec3
@@ -50,6 +56,8 @@ private:
 	// Alpha Blending 용도 (리소스 얻은 뒤 쓰일 예정)
 	_float				m_fFrame = 0.f;
 	// ~Alpha Blending 용도
+	
+	DIR					m_eDirType = DIR_END;
 
 public:
 	static CHWPlayer*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

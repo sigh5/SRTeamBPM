@@ -39,11 +39,29 @@ HRESULT CColliderStage::Ready_Scene(void)
 
 _int CColliderStage::Update_Scene(const _float & fTimeDelta)
 {
+
+
+
 	return Engine::CScene::Update_Scene(fTimeDelta);
+	m_fTimeDelta = fTimeDelta;
+
+
 }
 
 void CColliderStage::LateUpdate_Scene(void)
 {
+	CLayer *pLayer1 = GetLayer(L"Layer_GameLogic");
+	CHWPlayer* pPlayer = dynamic_cast<CHWPlayer*>(pLayer1->Get_GameObject(L"TestPlayer"));
+
+	CLayer * pLayer2 = GetLayer(L"Layer_UI");
+
+	pLayer2->Get_GameObjectMap();
+
+	for (auto iter = pLayer2->Get_GameObjectMap().begin(); iter != pLayer2->Get_GameObjectMap().end(); ++iter)
+	{
+		pPlayer->Collsion_CubeMap(iter->second);
+	}
+
 
 	Engine::CScene::LateUpdate_Scene();
 }
@@ -71,7 +89,6 @@ HRESULT CColliderStage::Ready_Layer_Environment(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"SkyBox", pGameObject), E_FAIL);
 
-
 	// Terrain
 	pGameObject = CTerrain::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -79,13 +96,13 @@ HRESULT CColliderStage::Ready_Layer_Environment(const _tchar * pLayerTag)
 
 	m_mapLayer.insert({ pLayerTag, pLayer });
 
-	CFileIOMgr::GetInstance()->Load_FileData(m_pGraphicDev,
-		this,
-		const_cast<_tchar*>(pLayerTag),
-		L"../../Data/",
-		L"Map.dat",
-		L"TestCube",
-		OBJ_CUBE);
+	//CFileIOMgr::GetInstance()->Load_FileData(m_pGraphicDev,
+	//	this,
+	//	const_cast<_tchar*>(pLayerTag),
+	//	L"../../Data/",
+	//	L"Map.dat",
+	//	L"TestCube",
+	//	OBJ_CUBE);
 
 
 	return S_OK;
@@ -116,6 +133,14 @@ HRESULT CColliderStage::Ready_Layer_UI(const _tchar * pLayerTag)
 	CGameObject*		pGameObject = nullptr;
 
 	m_mapLayer.insert({ pLayerTag, pLayer });
+	
+	CFileIOMgr::GetInstance()->Load_FileData(m_pGraphicDev,
+		this,
+		const_cast<_tchar*>(pLayerTag),
+		L"../../Data/",
+		L"Map.dat",
+		L"TestCube",
+		OBJ_CUBE);
 
 	return S_OK;
 }
