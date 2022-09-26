@@ -33,6 +33,7 @@ public:
 		m_vScale= *pInfo;
 	}
 
+
 	void				Set_Angle(_vec3* pInfo)
 	{
 		m_vAngle = *pInfo;

@@ -9,7 +9,7 @@
 class CTestPlayer;
 class CTerrain;
 class CDynamicCamera;
-class CAnubis;
+class CMonster;
 
 class CColliderStage :public CScene
 {

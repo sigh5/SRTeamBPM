@@ -10,11 +10,11 @@ namespace Engine
 	class CAnimation;
 }
 
-class CAnubis :public CGameObject
+class CMonster :public CGameObject
 {
 private:
-	explicit CAnubis(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual ~CAnubis();
+	explicit CMonster(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual ~CMonster();
 
 public:
 	virtual HRESULT		Ready_Object(int Posx, int Posy);
@@ -48,9 +48,11 @@ private:
 
 	int					m_iPreIndex = 0; //반복적 재할당 방지용 변수
 
+private:
+	MonsterInfo			m_Info;
 
 public:
-	static CAnubis*		Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx = 0, int Posy = 0);
+	static CMonster*		Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx = 0, int Posy = 0);
 	virtual void	Free(void);
 };
 

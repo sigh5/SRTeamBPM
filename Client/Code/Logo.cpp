@@ -3,7 +3,7 @@
 
 #include "Export_Function.h"
 #include "TestPlayer.h"
-#include "TestAnubis.h"
+#include "TestMonster.h"
 #include "Stage.h"
 #include "ToolTest.h"
 #include "ColliderStage.h"

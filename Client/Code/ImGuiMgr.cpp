@@ -7,7 +7,7 @@
 #include "Terrain.h"
 #include "TestCube.h"
 #include "Texture.h"
-#include "Anubis.h"
+#include "Monster.h"
 #include "TestPlayer.h"
 
 #include "FileIOMgr.h"
@@ -157,11 +157,11 @@ void CImGuiMgr::TransformEdit(CCamera* pCamera, CTransform* pTransform, _bool& W
 	pTransform->m_matWorld = matWorld;
 
 	ImGuizmo::DecomposeMatrixToComponents(matWorld, matrixTranslation, matrixRotation, matrixScale);
-	/*matrixRotation[0] = D3DXToRadian(matrixRotation[0]);
+	matrixRotation[0] = D3DXToRadian(matrixRotation[0]);
 	matrixRotation[1] = D3DXToRadian(matrixRotation[1]);
-	matrixRotation[2] = D3DXToRadian(matrixRotation[2]);*/
+	matrixRotation[2] = D3DXToRadian(matrixRotation[2]);
 	memcpy(&pTransform->m_vInfo[INFO_POS], matrixTranslation, sizeof(matrixTranslation));
-	//memcpy(&pTransform->m_vAngle, matrixRotation, sizeof(matrixRotation));
+	memcpy(&pTransform->m_vAngle, matrixRotation, sizeof(matrixRotation));
 	memcpy(&pTransform->m_vScale, matrixScale, sizeof(matrixScale));
 
 
@@ -533,22 +533,14 @@ void CImGuiMgr::MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 	ImGui::Begin("Monster Settings");
 
 	ImGui::Text("this is Transform_ButtonMenu");
-
 	if (ImGui::Button("Save"))
 	{
-		CFileIOMgr::GetInstance()->Save_FileData(pScene, L"TestLayer3", L"../../Data/", L"Monster.dat", OBJ_MONSTER);
-	}																	
+		Save_Monster(pScene);
+	}
 	ImGui::SameLine();
 	if (ImGui::Button("Load"))
 	{
-		CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev,
-			pScene,
-			L"TestLayer3",
-			L"../../Data/",
-			L"Monster.dat",
-			L"Monster",
-			OBJ_MONSTER);
-
+		Load_Monster(pGrahicDev, pScene);
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Delete"))
@@ -591,7 +583,7 @@ void CImGuiMgr::MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 
 			NameList.push_back(test1);
 
-			pGameObject = CAnubis::Create(pGrahicDev, temp.x, temp.y);
+			pGameObject = CMonster::Create(pGrahicDev, temp.x, temp.y);
 			NULL_CHECK_RETURN(pGameObject, );
 
 			CLayer* pMonsterlayer = pScene->GetLayer(L"TestLayer3");
@@ -614,7 +606,7 @@ void CImGuiMgr::MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 
 			for (auto iter = test.begin(); iter != test.end(); ++iter)
 			{
-				if (dynamic_cast<CAnubis*>(iter->second)->Set_SelectGizmo())
+				if (dynamic_cast<CMonster*>(iter->second)->Set_SelectGizmo())
 				{
 					pTranscom = dynamic_cast<CTransform*>(iter->second->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
 					m_CurrentSelectGameObjectObjKey = iter->first;
@@ -622,10 +614,27 @@ void CImGuiMgr::MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 			}
 		}
 	}
-	CAnubis* pGameObject = dynamic_cast<CAnubis*>(Engine::Get_GameObject(L"TestLayer3", m_CurrentSelectGameObjectObjKey.c_str()));
+	CMonster* pGameObject = dynamic_cast<CMonster*>(Engine::Get_GameObject(L"TestLayer3", m_CurrentSelectGameObjectObjKey.c_str()));
 	
 	ImGui::NewLine();
-	
+	//����Ʈ �� ���� ���� Ȥ�� �̸� �����ؼ� create �ؾ���
+	//if (ImGui::CollapsingHeader("Monster Texture", ImGuiTreeNodeFlags_DefaultOpen))
+	//{
+	//	CTexture* pTextureCom = dynamic_cast<CTexture*>(pGameObject->Get_Component(L"Proto_TerrainTexture2", ID_STATIC));
+
+	//	vector<IDirect3DBaseTexture9*> vecTexture = pTextureCom->Get_Texture();
+
+	//	for (_uint i = 0; i < 18; ++i)
+	//	{
+	//		if (ImGui::ImageButton((void*)vecTexture[i], ImVec2(32.f, 32.f)))
+	//		{
+	//			//pTextureCom->Set_Texture(i);
+	//			pGameObject->m_iTerrainIdx = i;
+	//		}
+	//		if (i == 0 || (i + 1) % 6)
+	//			ImGui::SameLine();
+	//	}
+	//}
 	TransformEdit_Monster(pCam, m_pSelectedTransform, Show_Monster_Tool);
 	// ������ư�� ���Ѱ�
 	if (pTranscom != nullptr)
@@ -635,7 +644,7 @@ void CImGuiMgr::MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 	if (pGameObject != nullptr)
 	{
 		MonsterInfo* monInfo = nullptr;
-		monInfo = static_cast<CAnubis*>(pGameObject)->Get_Info();
+		monInfo = static_cast<CMonster*>(pGameObject)->Get_Info();
 		ImGui::Begin("Monster Stat");
 
 		ImGui::Text("Monster Stat Setting Window");
@@ -648,6 +657,114 @@ void CImGuiMgr::MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 	}
 }
 
+void CImGuiMgr::Save_Monster(CScene* pScene)
+{
+	wstring Directory = L"../../Data/Monster.dat";
+
+	HANDLE      hFile = CreateFile(Directory.c_str(),
+		// ������ ��ο� �̸�
+		GENERIC_WRITE,         // ���� ���� ��� (GENERIC_WRITE : ���� ����, GENERIC_READ : �б� ����)
+		NULL,               // ���� ���(������ �����ִ� ���¿��� �ٸ� ���μ����� ������ �� ����� ���ΰ�)    
+		NULL,               // ���� �Ӽ�(NULL�� �����ϸ� �⺻�� ����)
+		CREATE_ALWAYS,         // CREATE_ALWAYS : ������ ���ٸ� ����, �ִٸ� �����, OPEN_EXISTING  : ������ ���� ��쿡�� ����
+		FILE_ATTRIBUTE_NORMAL,  // ���� �Ӽ�(�б� ����, ���� ��) : FILE_ATTRIBUTE_NORMAL : �ƹ��� �Ӽ��� ���� ����
+		NULL);               // ������ ������ �Ӽ��� ������ ���ø� ����(�Ⱦ��ϱ� NULL)
+
+	if (INVALID_HANDLE_VALUE == hFile)
+	{
+		return;
+	}
+
+	CLayer* MyLayer = pScene->GetLayer(L"TestLayer3");
+	DWORD   dwByte = 0;
+
+	map<const _tchar*, CGameObject*> test = MyLayer->Get_GameObjectMap();
+	for (auto iter = test.begin(); iter != test.end(); ++iter)
+	{
+
+		CTransform* Transcom = dynamic_cast<CTransform*>(iter->second->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+
+		_vec3   vPos, vScale;
+		_int	iMonsterType = 0;
+
+		Transcom->Get_Info(INFO_POS, &vPos);
+		memcpy(vScale, Transcom->m_vScale, sizeof(_vec3));
+		iMonsterType = static_cast<CMonster*>(iter->second)->Get_Info()->_MonsterIndex;
+
+		WriteFile(hFile, &vPos, sizeof(_vec3), &dwByte, nullptr);
+		WriteFile(hFile, &vScale, sizeof(_vec3), &dwByte, nullptr);
+		WriteFile(hFile, &iMonsterType, sizeof(_int), &dwByte, nullptr);
+
+	}
+
+	CloseHandle(hFile);
+	MSG_BOX("Save_Complete");
+}
+
+void CImGuiMgr::Load_Monster(LPDIRECT3DDEVICE9 pGrahicDev, CScene *pScene)
+{
+	wstring Directory = L"../../Data/Monster.dat";
+
+	HANDLE      hFile = CreateFile(Directory.c_str(),      // ������ ��ο� �̸�
+		GENERIC_READ,         // ���� ���� ��� (GENERIC_WRITE : ���� ����, GENERIC_READ : �б� ����)
+		NULL,               // ���� ���(������ �����ִ� ���¿��� �ٸ� ���μ����� ������ �� ����� ���ΰ�)    
+		NULL,               // ���� �Ӽ�(NULL�� �����ϸ� �⺻�� ����)
+		OPEN_EXISTING,         // CREATE_ALWAYS : ������ ���ٸ� ����, �ִٸ� �����, OPEN_EXISTING  : ������ ���� ��쿡�� ����
+		FILE_ATTRIBUTE_NORMAL,  // ���� �Ӽ�(�б� ����, ���� ��) : FILE_ATTRIBUTE_NORMAL : �ƹ��� �Ӽ��� ���� ����
+		NULL);               // ������ ������ �Ӽ��� ������ ���ø� ����(�Ⱦ��ϱ� NULL)
+
+	if (INVALID_HANDLE_VALUE == hFile)
+	{
+		return;
+	}
+
+	DWORD   dwByte = 0;
+
+	_vec3   vPos, vScale;
+	_int	iMonsterType = 0;
+	CLayer* pMyLayer = nullptr;
+
+	while (true)
+	{
+
+		ReadFile(hFile, &vPos, sizeof(_vec3), &dwByte, nullptr);
+		ReadFile(hFile, &vScale, sizeof(_vec3), &dwByte, nullptr);
+		ReadFile(hFile, &iMonsterType, sizeof(_int), &dwByte, nullptr);
+
+		CGameObject *pGameObject = nullptr;
+		_tchar* test1 = new _tchar[20];
+		wstring t = L"Test%d";
+		wsprintfW(test1, t.c_str(), m_iIndex);
+		NameList.push_back(test1);
+
+		pGameObject = CMonster::Create(pGrahicDev);
+		//switch(iMonsterType) ���� ���� ���� ���� �����ϱ�
+		pMyLayer = pScene->GetLayer(L"TestLayer3");
+
+		FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(test1, pGameObject), );
+		static_cast<CMonster*>(pGameObject)->Get_Info()->_MonsterIndex = iMonsterType;
+		++m_iIndex;
+
+		CTransform* Transcom = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+
+
+		Transcom->Set_Info(INFO_POS, &vPos);
+		Transcom->Set_Scale(&vScale);
+
+		Transcom->Update_Component(0.01f);
+
+		//   �޾ƿ� ���� �Է��������
+
+		if (0 == dwByte)
+			break;
+
+	}
+	MSG_BOX("Load_Complete");
+	pScene->Add_Layer(pMyLayer, L"TestLayer3");
+
+
+	CloseHandle(hFile);
+}
 
 
 // Player Tool
@@ -907,7 +1024,8 @@ void CImGuiMgr::TransformEdit_Monster(CCamera * pCamera, CTransform * pTransform
 	case ImGuizmo::TRANSLATE:
 		ImGui::InputFloat3("Snap", &snap[0]);
 		break;
-
+	//case ImGuizmo::ROTATE:
+	//	ImGui::InputFloat("Angle Snap", &snap[0]);
 		break;
 	case ImGuizmo::SCALE:
 		ImGui::InputFloat("Scale Snap", &snap[0]);
@@ -930,14 +1048,15 @@ void CImGuiMgr::TransformEdit_Monster(CCamera * pCamera, CTransform * pTransform
 	ClientToScreen(g_hWnd, &lt);
 	ImGuizmo::SetRect(lt.x, lt.y, io.DisplaySize.x, io.DisplaySize.y);
 
+	// ImGuizmo::DrawGrid(m_pCam->GetView(), m_pCam->GetPrj(), matId, 100.f);
 
 	ImGuizmo::Manipulate(pCamera->GetView(), pCamera->GetProj(), mCurrentGizmoOperation, mCurrentGizmoMode, matWorld, NULL, useSnap ? &snap[0] : NULL);
 
 	pTransform->m_matWorld = matWorld;
 
 	ImGuizmo::DecomposeMatrixToComponents(matWorld, matrixTranslation, matrixRotation, matrixScale);
-
 	memcpy(&pTransform->m_vInfo[INFO_POS], matrixTranslation, sizeof(matrixTranslation));
+	/*memcpy(&pTransform->m_vAngle, matrixRotation, sizeof(matrixRotation));*/
 	memcpy(&pTransform->m_vScale, matrixScale, sizeof(matrixScale));
 
 

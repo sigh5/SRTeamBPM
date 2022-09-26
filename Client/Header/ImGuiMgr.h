@@ -59,6 +59,8 @@ public:
 
 	// ~Map_Tool 扁瓷 积己
 	void  MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCamera *pCam);
+	void  Save_Monster(CScene* pScene);
+	void  Load_Monster(LPDIRECT3DDEVICE9 pGrahicDev, CScene *pScene);
 	void  TransformEdit_Monster(CCamera* pCamera, CTransform* pTransform, _bool& Window);
 	// Monster_Tool 扁瓷 积己
 

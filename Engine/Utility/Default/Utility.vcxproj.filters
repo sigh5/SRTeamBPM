@@ -73,12 +73,6 @@
     <ClCompile Include="..\Code\Collider.cpp">
       <Filter>00. Component\05. Collider</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Monster.cpp">
-      <Filter>01. GameObject\Monster</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\CharacterInfo.cpp">
-      <Filter>00. Component\06. Character Infomation</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Export_Utility.h" />
@@ -153,12 +147,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Header\Collider.h">
       <Filter>00. Component\05. Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Header\Monster.h">
-      <Filter>01. GameObject\Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Header\CharacterInfo.h">
-      <Filter>00. Component\06. Character Infomation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -239,12 +227,6 @@
     </Filter>
     <Filter Include="00. Component\05. Collider">
       <UniqueIdentifier>{d46a5c8a-d54a-4c3d-810a-a19eba545aeb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. GameObject\Monster">
-      <UniqueIdentifier>{2e234b79-4398-4954-bc39-0486bf7cada1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Component\06. Character Infomation">
-      <UniqueIdentifier>{6aa3a7c2-1aab-4154-b2a7-4481cfdd9c86}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
