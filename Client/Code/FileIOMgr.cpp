@@ -4,6 +4,7 @@
 
 #include "Export_Function.h"
 #include "TestCube.h"
+#include "Monster.h"
 
 IMPLEMENT_SINGLETON(CFileIOMgr)
 
@@ -72,6 +73,23 @@ void CFileIOMgr::Save_FileData(CScene * pScene,
 	case Engine::OBJ_PLAYER:
 		break;
 	case Engine::OBJ_MONSTER:
+		for (auto iter = test.begin(); iter != test.end(); ++iter)
+		{
+
+			CTransform* Transcom = dynamic_cast<CTransform*>(iter->second->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+
+			_vec3   vPos, vScale;
+			_int	iMonsterType = 0;
+
+			Transcom->Get_Info(INFO_POS, &vPos);
+			memcpy(vScale, Transcom->m_vScale, sizeof(_vec3));
+			iMonsterType = static_cast<CMonster*>(iter->second)->Get_Info()->_MonsterIndex;
+
+			WriteFile(hFile, &vPos, sizeof(_vec3), &dwByte, nullptr);
+			WriteFile(hFile, &vScale, sizeof(_vec3), &dwByte, nullptr);
+			WriteFile(hFile, &iMonsterType, sizeof(_int), &dwByte, nullptr);
+
+		}
 		break;
 	case Engine::OBJ_TYPE_END:
 		break;
@@ -115,6 +133,7 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 	CLayer* pMyLayer = nullptr;
 	pMyLayer = pScene->GetLayer(LayerName);
 	_int	 iIndex = 0;
+	_int iMonsterType = 0;
 
 	switch (eObjType)
 	{
@@ -166,6 +185,42 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 		break;
 	case Engine::OBJ_MONSTER:
 		// exForMONSTERLoad
+		
+		while (true)
+		{
+
+			ReadFile(hFile, &vPos, sizeof(_vec3), &dwByte, nullptr);
+			ReadFile(hFile, &vScale, sizeof(_vec3), &dwByte, nullptr);
+			ReadFile(hFile, &iMonsterType, sizeof(_int), &dwByte, nullptr);
+
+			CGameObject *pGameObject = nullptr;
+			_tchar* test1 = new _tchar[20];
+			wstring t = L"Test%d";
+			wsprintfW(test1, t.c_str(), m_iIndex);
+			pMyLayer->AddNameList(test1);
+
+			pGameObject = CMonster::Create(pGrahicDev);
+			//switch(iMonsterType) ???? ???? ???? ???? ???????
+			pMyLayer = pScene->GetLayer(L"TestLayer3");
+
+			FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(test1, pGameObject), );
+			static_cast<CMonster*>(pGameObject)->Get_Info()->_MonsterIndex = iMonsterType;
+			++m_iIndex;
+
+			CTransform* Transcom = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+
+
+			Transcom->Set_Info(INFO_POS, &vPos);
+			Transcom->Set_Scale(&vScale);
+
+			Transcom->Update_Component(0.01f);
+
+			//   ???? ???? ??????????
+
+			if (0 == dwByte)
+				break;
+
+		}
 		break;
 	case Engine::OBJ_TYPE_END:
 		break;

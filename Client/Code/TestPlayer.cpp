@@ -277,12 +277,12 @@ void CTestPlayer::Set_OnTerrain(void)
 	_vec3		vPos;
 	m_pTransCom->Get_Info(INFO_POS, &vPos);
 	
-	//// TestTool 용
-	//Engine::CTerrainTex*	pTerrainTexCom = dynamic_cast<Engine::CTerrainTex*>(Engine::Get_Component(L"TestLayer", L"TestMap", L"Proto_TerrainTexCom", ID_STATIC));
-	//NULL_CHECK(pTerrainTexCom);
-	// Stage 용
-	Engine::CTerrainTex*	pTerrainTexCom = dynamic_cast<Engine::CTerrainTex*>(Engine::Get_Component(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC));
+	 //TestTool 용
+	Engine::CTerrainTex*	pTerrainTexCom = dynamic_cast<Engine::CTerrainTex*>(Engine::Get_Component(L"TestLayer", L"TestMap", L"Proto_TerrainTexCom", ID_STATIC));
 	NULL_CHECK(pTerrainTexCom);
+	// Stage 용
+	/*Engine::CTerrainTex*	pTerrainTexCom = dynamic_cast<Engine::CTerrainTex*>(Engine::Get_Component(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC));
+	NULL_CHECK(pTerrainTexCom);*/
 	
 	_float fHeight = m_pCalculatorCom->HeightOnTerrain(&vPos, pTerrainTexCom->Get_VtxPos(), VTXCNTX, VTXCNTZ);
 
