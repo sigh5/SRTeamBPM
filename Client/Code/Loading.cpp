@@ -114,6 +114,7 @@ _uint CLoading::Loading_ForColliderStage(void)
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UItexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/hpbar1.png", TEX_NORMAL)), E_FAIL);
 
 	// ~UI
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_DynamicTransformCom", CDynamic_Transform::Create()), E_FAIL);
 
 	
 	

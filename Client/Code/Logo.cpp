@@ -46,7 +46,7 @@ Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 	{
 		if (GetAsyncKeyState(VK_RETURN) & 0x8000)
 		{
-			CScene*		pScene = CStage::Create(m_pGraphicDev);
+			CScene*		pScene = CColliderStage::Create(m_pGraphicDev);
 			NULL_CHECK_RETURN(pScene, E_FAIL);
 
 			m_SceneType = SCENE_TOOLTEST;//SCENE_COLLIDER
@@ -67,7 +67,6 @@ void CLogo::LateUpdate_Scene(void)
 
 void CLogo::Render_Scene(void)
 {
-	// 개발??모드 출력 ?�수
 	Render_Font(L"Font_Jinji", m_pLoading->Get_String(), &_vec2(50.f, 50.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 
 }
@@ -128,5 +127,4 @@ HRESULT CLogo::Ready_Proto(void)
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_LogoTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Logo/IU.jpg", TEX_NORMAL)), E_FAIL);
 
 	return S_OK;
-
 }

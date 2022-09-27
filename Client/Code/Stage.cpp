@@ -10,7 +10,6 @@ CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 {
 }
 
-
 CStage::~CStage()
 {
 }

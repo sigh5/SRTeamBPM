@@ -13,6 +13,8 @@
 #include "FileIOMgr.h"
 #include "MyCamera.h"
 #include "TestUI.h"
+#include "Particle.h"
+
 
 CColliderStage::CColliderStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -42,12 +44,8 @@ HRESULT CColliderStage::Ready_Scene(void)
 _int CColliderStage::Update_Scene(const _float & fTimeDelta)
 {
 
-
-
 	return Engine::CScene::Update_Scene(fTimeDelta);
 	m_fTimeDelta = fTimeDelta;
-
-
 }
 
 void CColliderStage::LateUpdate_Scene(void)
@@ -95,7 +93,6 @@ HRESULT CColliderStage::Ready_Layer_Environment(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"CMyCamera", pGameObject), E_FAIL);
 
-
 	// skybox
 	pGameObject = CSkyBox::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -136,6 +133,15 @@ HRESULT CColliderStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	/*pGameObject = CHWPlayer::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestPlayer", pGameObject), E_FAIL);*/
+
+
+	pGameObject = CParticle::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestParticle", pGameObject), E_FAIL)
+
+
+	
+	
 
 	m_mapLayer.insert({ pLayerTag, pLayer });
 
