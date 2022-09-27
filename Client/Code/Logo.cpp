@@ -10,6 +10,7 @@
 
 CLogo::CLogo(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev), m_SceneType(SCENE_END) // ?ÑÏû¨ ?¥Îñ§ ?¨Ïù∏ÏßÄ ?åÍ∏∞ ?ÑÌïú ENUM ?Ä??Î≥Ä??{
+{
 }
 
 CLogo::~CLogo()
