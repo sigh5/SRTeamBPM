@@ -118,6 +118,9 @@
     <ClCompile Include="..\Code\HpBar.cpp">
       <Filter>02. GameObject\01. For_stage\08. HpBar</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\MyButton.cpp">
+      <Filter>02. GameObject\00. For_Logo\01. Button</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\BackGround.h">
@@ -252,6 +255,9 @@
     <ClInclude Include="..\Header\HpBar.h">
       <Filter>02. GameObject\01. For_stage\08. HpBar</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\MyButton.h">
+      <Filter>02. GameObject\00. For_Logo\01. Button</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -348,6 +354,9 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_stage\08. HpBar">
       <UniqueIdentifier>{23a2d999-6045-4b6e-9e47-38fa10ebbb9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\00. For_Logo\01. Button">
+      <UniqueIdentifier>{5e41b4a1-8175-4546-a74b-c0221bfc4755}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -8,6 +8,9 @@
 #include "ToolTest.h"
 #include "ColliderStage.h"
 
+// UI Test
+#include "TestUI.h"
+
 CLogo::CLogo(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev), m_SceneType(SCENE_END)
 {
@@ -28,11 +31,7 @@ HRESULT CLogo::Ready_Scene(void)
 
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(L"Ready_Layer_Environment"), E_FAIL);
 
-	// �ε� Ŭ���� ����
-	// Loading ID Check!!!!!!!!!
-	//Loading collider
-
-	m_pLoading = CLoading::Create(m_pGraphicDev, LOADING_COLLIDER);
+	m_pLoading = CLoading::Create(m_pGraphicDev, LOADING_STAGE);
 	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
 		
 	return S_OK;
@@ -49,7 +48,7 @@ Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 			CScene*		pScene = CStage::Create(m_pGraphicDev);
 			NULL_CHECK_RETURN(pScene, E_FAIL);
 
-			m_SceneType = SCENE_TOOLTEST;//SCENE_COLLIDER
+			m_SceneType = SCENE_STAGE;//SCENE_COLLIDER
 
 			FAILED_CHECK_RETURN(Engine::Set_Scene(pScene), E_FAIL);
 
@@ -67,8 +66,8 @@ void CLogo::LateUpdate_Scene(void)
 
 void CLogo::Render_Scene(void)
 {
-	// ������ ��� ��� �Լ�
-	Render_Font(L"Font_Jinji", m_pLoading->Get_String(), &_vec2(50.f, 50.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+	
+	Render_Font(L"Font_Jinji", m_pLoading->Get_String(), &_vec2(250.f, 450.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 
 }
 
@@ -81,22 +80,10 @@ HRESULT CLogo::Ready_Layer_Environment(const _tchar * pLayerTag)
 	CGameObject*		pGameObject = nullptr;
 
 	// backGround
-
 	pGameObject = CBackGround::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"BackGround", pGameObject), E_FAIL);
 
-	/*// TestPlayer
-	pGameObject = CTestPlayer::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestPlayer", pGameObject), E_FAIL);
-
-	// TestMonster
-	pGameObject = CTestMonster::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestMonster", pGameObject), E_FAIL);*/
-
-		
 	m_mapLayer.insert({ pLayerTag, pLayer });
 
 	return S_OK;
@@ -120,13 +107,17 @@ void CLogo::Free(void)
 	Safe_Release(m_pLoading);
 
 	Engine::CScene::Free();
+	
 }
 
 HRESULT CLogo::Ready_Proto(void)
 {
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_CalculatorCom", CCalculator::Create(m_pGraphicDev)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_OrthoTransformCom", COrthoTransform::Create()), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_RcTexCom", CRcTex::Create(m_pGraphicDev)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_LogoTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Logo/IU.jpg", TEX_NORMAL)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_LogoTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Logo/Title_Menu.png", TEX_NORMAL)), E_FAIL);
 
+						
 	return S_OK;
 
 }
