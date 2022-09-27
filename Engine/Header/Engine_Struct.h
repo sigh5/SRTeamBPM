@@ -56,6 +56,8 @@ namespace Engine
 		int _AttackPower;
 		int _MonsterIndex;
 	}MonsterInfo;
+
+	//TEST
 }
 
 
