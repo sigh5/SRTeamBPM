@@ -27,7 +27,7 @@ public:
 
 	void SetChannelVolume(CHANNELID eID, float fVolume);
 
-private:
+public:
 	void LoadSoundFile();
 
 private:

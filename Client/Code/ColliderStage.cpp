@@ -13,7 +13,7 @@
 #include "FileIOMgr.h"
 #include "MyCamera.h"
 #include "TestUI.h"
-#include "Particle.h"
+
 
 
 CColliderStage::CColliderStage(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -38,12 +38,15 @@ HRESULT CColliderStage::Ready_Scene(void)
 	FAILED_CHECK_RETURN(Ready_Layer_GameLogic(L"Layer_GameLogic"), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_UI(L"Layer_UI"), E_FAIL);
 
+
+	::Initialize();
+	::PlaySoundW(L"SamTow.wav", SOUND_BGM, 1.f);
 	return S_OK;
 }
 
 _int CColliderStage::Update_Scene(const _float & fTimeDelta)
 {
-
+	
 	return Engine::CScene::Update_Scene(fTimeDelta);
 	m_fTimeDelta = fTimeDelta;
 }
@@ -134,10 +137,6 @@ HRESULT CColliderStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestPlayer", pGameObject), E_FAIL);*/
 
-
-	pGameObject = CParticle::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestParticle", pGameObject), E_FAIL)
 
 
 	

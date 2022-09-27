@@ -124,8 +124,10 @@
     <ClCompile Include="..\Code\TestUI.cpp">
       <Filter>02. GameObject\02 For_Public\03. UI</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Anubis.cpp" />
     <ClCompile Include="..\Code\HpBar.cpp" />
+    <ClCompile Include="..\Code\Anubis.cpp">
+      <Filter>02. GameObject\01. For_stage\02. TestMonster</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\BackGround.h">
@@ -257,7 +259,9 @@
     <ClInclude Include="..\Header\HpBar.h">
       <Filter>02. GameObject\01. For_stage\08. HpBar</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Anubis.h" />
+    <ClInclude Include="..\Header\Anubis.h">
+      <Filter>02. GameObject\01. For_stage\02. TestMonster</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">

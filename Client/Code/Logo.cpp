@@ -35,6 +35,11 @@ HRESULT CLogo::Ready_Scene(void)
 	m_pLoading = CLoading::Create(m_pGraphicDev, LOADING_COLLIDER);
 	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
 		
+	//Engine::LoadSoundFile();
+
+
+
+
 	return S_OK;
 }
 

@@ -93,9 +93,44 @@ CGameObject * Reuse_Obj(LPDIRECT3DDEVICE9 pGraphicDev, const D3DXVECTOR3 & vPos)
 	return CObjectMgr::GetInstance()->Reuse_Obj(pGraphicDev, vPos);
 }
 
+void Initialize()
+{
+	CSoundMgr::GetInstance()->Initialize();
+}
+
+
+void PlaySoundW(TCHAR* pSoundKey, CHANNELID eID, float fVolume)
+{
+	CSoundMgr::GetInstance()->PlaySoundW(pSoundKey, eID, fVolume);
+}
+void PlayBGM(TCHAR* pSoundKey, float fVolume)
+{
+	CSoundMgr::GetInstance()->PlayBGM(pSoundKey, fVolume);
+}
+void StopSound(CHANNELID eID)
+{
+	CSoundMgr::GetInstance()->StopSound(eID);
+}
+void	StopAll()
+{
+	CSoundMgr::GetInstance()->StopAll();
+}
+void PlaySlow(TCHAR * pSoundKey, CHANNELID eID, float fVolume, float fRate)
+{
+	CSoundMgr::GetInstance()->PlaySlow(pSoundKey, eID, fVolume, fRate);
+}
+void SetChannelVolume(CHANNELID eID, float fVolume)
+{
+	CSoundMgr::GetInstance()->SetChannelVolume(eID, fVolume);
+}
+void LoadSoundFile()
+{
+	CSoundMgr::GetInstance()->LoadSoundFile();
+}
 
 inline void			Release_Utility(void)
 {
+	CSoundMgr::GetInstance()->DestroyInstance();
 	CObjectMgr::GetInstance()->DestroyInstance();
 	CLightMgr::GetInstance()->DestroyInstance();
 	CRenderer::GetInstance()->DestroyInstance();
