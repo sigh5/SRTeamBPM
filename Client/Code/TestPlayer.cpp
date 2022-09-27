@@ -52,7 +52,7 @@ _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 	}
 
 
-	Dash(fTimeDelta);
+	//Dash(fTimeDelta);
 	
 	m_fFrame += 1.f * fTimeDelta;
 
@@ -144,18 +144,21 @@ void CTestPlayer::Key_Input(const _float& fTimeDelta)
 	
 	if (Get_DIKeyState(DIK_W) & 0X80)
 	{
+		m_tpType = TYPING_W;
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
 		m_pTransCom->Move_Pos(&(m_vDirection * 10.f * fTimeDelta));
 	}
 
 	if (Get_DIKeyState(DIK_S) & 0X80 )
 	{
+		m_tpType = TYPING_S;
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
 		m_pTransCom->Move_Pos(&(m_vDirection * -10.f * fTimeDelta));	
 	}
 
 	if (Get_DIKeyState(DIK_A) & 0X80)
 	{
+		m_tpType = TYPING_A;
 		_vec3	vRight;
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
 		D3DXVec3Normalize(&m_vUp, &m_vUp);
@@ -165,6 +168,7 @@ void CTestPlayer::Key_Input(const _float& fTimeDelta)
 	
 	if (Get_DIKeyState(DIK_D) & 0X80)
 	{
+		m_tpType = TYPING_D;
 		_vec3	vRight;
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
 		D3DXVec3Normalize(&m_vUp, &m_vUp);
@@ -178,6 +182,12 @@ void CTestPlayer::Key_Input(const _float& fTimeDelta)
 	if (Get_DIKeyState(DIK_LSHIFT) & 0X80)	
 	{
 		m_bDash = TRUE;
+
+		if (m_bDash)
+		{
+			m_pDynamicTransCom->Dashing(fTimeDelta, m_pTransCom, m_vUp, m_vDirection, m_tpType);
+			m_bDash = FALSE;
+		}
 	}
 
 	if (Engine::Get_DIMouseState(DIM_LB) & 0X80) // Picking
@@ -288,47 +298,47 @@ HRESULT CTestPlayer::Create_Bullet(_vec3 vPos)
 	return S_OK;
 }
 
-void CTestPlayer::Dash(const _float& fTimeDelta)
-{	
-	if (m_bDash)
-	{
-		m_pTransCom->Get_Info(INFO_LOOK, &m_vDirection);
-		m_pTransCom->Get_Info(INFO_UP, &m_vUp);
-		_float fSpeed = 4.f;
-
-		if (Engine::CInputDev::GetInstance()->Key_Down(DIK_W))
-		{
-			D3DXVec3Normalize(&m_vDirection, &m_vDirection);
-			m_pTransCom->Move_Pos(&(m_vDirection * fSpeed));
-		}
-
-		if (Engine::CInputDev::GetInstance()->Key_Down(DIK_S))
-		{
-			D3DXVec3Normalize(&m_vDirection, &m_vDirection);
-			m_pTransCom->Move_Pos(&(m_vDirection * -fSpeed));
-		}
-
-		if (Engine::CInputDev::GetInstance()->Key_Down(DIK_A))
-		{
-			_vec3	vRight;
-			D3DXVec3Normalize(&m_vDirection, &m_vDirection);
-			D3DXVec3Normalize(&m_vUp, &m_vUp);
-			D3DXVec3Cross(&vRight, &m_vDirection, &m_vUp);
-			m_pTransCom->Move_Pos(&(vRight * fSpeed));
-		}
-
-		if (Engine::CInputDev::GetInstance()->Key_Down(DIK_D))
-		{
-			_vec3	vRight;
-			D3DXVec3Normalize(&m_vDirection, &m_vDirection);
-			D3DXVec3Normalize(&m_vUp, &m_vUp);
-			D3DXVec3Cross(&vRight, &m_vDirection, &m_vUp);
-			m_pTransCom->Move_Pos(&(vRight * -fSpeed));
-		}		
-
-		m_bDash = false;
-	}
-}
+//void CTestPlayer::Dash(const _float& fTimeDelta)
+//{	
+//	if (m_bDash)
+//	{
+//		m_pTransCom->Get_Info(INFO_LOOK, &m_vDirection);
+//		m_pTransCom->Get_Info(INFO_UP, &m_vUp);
+//		_float fSpeed = 4.f;
+//
+//		if (Engine::CInputDev::GetInstance()->Key_Down(DIK_W))
+//		{
+//			D3DXVec3Normalize(&m_vDirection, &m_vDirection);
+//			m_pTransCom->Move_Pos(&(m_vDirection * fSpeed));
+//		}
+//
+//		if (Engine::CInputDev::GetInstance()->Key_Down(DIK_S))
+//		{
+//			D3DXVec3Normalize(&m_vDirection, &m_vDirection);
+//			m_pTransCom->Move_Pos(&(m_vDirection * -fSpeed));
+//		}
+//
+//		if (Engine::CInputDev::GetInstance()->Key_Down(DIK_A))
+//		{
+//			_vec3	vRight;
+//			D3DXVec3Normalize(&m_vDirection, &m_vDirection);
+//			D3DXVec3Normalize(&m_vUp, &m_vUp);
+//			D3DXVec3Cross(&vRight, &m_vDirection, &m_vUp);
+//			m_pTransCom->Move_Pos(&(vRight * fSpeed));
+//		}
+//
+//		if (Engine::CInputDev::GetInstance()->Key_Down(DIK_D))
+//		{
+//			_vec3	vRight;
+//			D3DXVec3Normalize(&m_vDirection, &m_vDirection);
+//			D3DXVec3Normalize(&m_vUp, &m_vUp);
+//			D3DXVec3Cross(&vRight, &m_vDirection, &m_vUp);
+//			m_pTransCom->Move_Pos(&(vRight * -fSpeed));
+//		}		
+//
+//		m_bDash = false;
+//	}
+//}
 
 
 CTestPlayer * CTestPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)

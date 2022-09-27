@@ -9,7 +9,7 @@
 #include "ColliderStage.h"
 
 CLogo::CLogo(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CScene(pGraphicDev), m_SceneType(SCENE_END) // ���� � ������ �˱� ���� ENUM Ÿ�� ����
+	: Engine::CScene(pGraphicDev), m_SceneType(SCENE_END)
 {
 }
 

@@ -36,7 +36,7 @@ private:
 	// ~Bullet
 
 	// Dash
-	void				Dash(const _float& fTimeDelta);
+	//void				Dash(const _float& fTimeDelta);
 	// ~Dash
 
 private:
@@ -83,8 +83,6 @@ private:
 	_uint			m_iCountDash = 15;
 
 	TYPING_TYPE		m_tpType;
-
-
 	// ~Dash
 
 	float				m_fDashPower = 0.f;		//대쉬 시 가속력
