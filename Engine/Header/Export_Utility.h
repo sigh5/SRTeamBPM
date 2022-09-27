@@ -17,12 +17,14 @@
 //~
 #include "MonsterBase.h"
 
+#include "Dynamic_Transform.h"
 // for UI
 #include "OrthoTransform.h"
 // ~for UI
 
 #include "Animation.h"
 #include "Camera.h"
+
 
 #include "ProtoMgr.h"
 #include "Management.h"

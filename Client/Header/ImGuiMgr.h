@@ -13,7 +13,7 @@ class CTransform;
 
 
 END
-// TexturePath ¸¦ À§ÇÑ Struct
+// TexturePath ë¥¼ ìœ„í•œ Struct
 struct TexturePath
 {
 	PDIRECT3DTEXTURE9 pTexture;
@@ -29,7 +29,7 @@ private:
 	virtual ~CImGuiMgr();
 
 public:
-	// ¿¹½Ã
+	// ì˜ˆì‹œ
 	static void TransformEdit(CCamera* pCamera, CTransform* pTransform, _bool& Window); // Gizmo
 	static void LoggerWindow();
 	static void LogOut(const char* fmt, ...)
@@ -39,44 +39,44 @@ public:
 		log.appendfv(fmt, args);
 		va_end(args);
 	}
-	// ¿¹½Ã 
+	// ì˜ˆì‹œ 
 
 public:
-	HRESULT Ready_MapTool(LPDIRECT3DDEVICE9 pGraphicDev,CScene* pScene);	//  ¸ÊÅø¿¡ ÇÊ¿äÇÑ ¸®¼Ò½º¸¦ »ı¼ºÇÕ´Ï´Ù.
+	HRESULT Ready_MapTool(LPDIRECT3DDEVICE9 pGraphicDev,CScene* pScene);	//  ë§µíˆ´ì— í•„ìš”í•œ ë¦¬ì†ŒìŠ¤ë¥¼ ìƒì„±í•©ë‹ˆë‹¤.
 
-	HRESULT Ready_PlayerTool(LPDIRECT3DDEVICE9 pGraphicDev, CScene* pScene);	// ÇÃ·¹ÀÌ¾î Åø
-	HRESULT Ready_MonsterTool(LPDIRECT3DDEVICE9 pGraphicDev, CScene* pScene);   // ¸ó½ºÅÍ Åø
+	HRESULT Ready_PlayerTool(LPDIRECT3DDEVICE9 pGraphicDev, CScene* pScene);	// í”Œë ˆì´ì–´ íˆ´
+	HRESULT Ready_MonsterTool(LPDIRECT3DDEVICE9 pGraphicDev, CScene* pScene);   // ëª¬ìŠ¤í„° íˆ´
 
 
 
 public: 
-	// Map_Tool ±â´É »ı¼º
-	// Ã¢»ı¼º
-	void  WindowLayOut(); // ¸ÇÃ³À½ ¹öÆ°
+	// Map_Tool ê¸°ëŠ¥ ìƒì„±
+	// ì°½ìƒì„±
+	void  WindowLayOut(); // ë§¨ì²˜ìŒ ë²„íŠ¼
 
-	void  CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene,CCamera *pCam, wstring pObjectName);// ¿ÀºêÁ§Æ® »ı¼º¹× ÀúÀåÇÏ°í ºÒ·¯¿À±â
+	void  CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene,CCamera *pCam, wstring pObjectName);// ì˜¤ë¸Œì íŠ¸ ìƒì„±ë° ì €ì¥í•˜ê³  ë¶ˆëŸ¬ì˜¤ê¸°
 	void  TerrainTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene);	// Terrain Tool
 
-	// ~Map_Tool ±â´É »ı¼º
+	// ~Map_Tool ê¸°ëŠ¥ ìƒì„±
 	void  MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCamera *pCam);
 	//void  Save_Monster(CScene* pScene);
 	//void  Load_Monster(LPDIRECT3DDEVICE9 pGrahicDev, CScene *pScene);
 	
-	// Monster_Tool ±â´É »ı¼º
+	// Monster_Tool ê¸°ëŠ¥ ìƒì„±
 
-	// °¢ÅøÀÇ ±â´É ¾²±â
+	// ê°íˆ´ì˜ ê¸°ëŠ¥ ì“°ê¸°
 
-	// 09.25 PJW Ãß°¡ ÀÛ¾÷
+	// 09.25 PJW ì¶”ê°€ ì‘ì—…
 	void  Player_Tool(LPDIRECT3DDEVICE9 pGraphicDev, CScene * pScene, wstring pDirectory, const _tchar* pLayerTag, const _tchar* pObjTag, const _tchar * pComponentTag, COMPONENTID eId);   // 
 
-	//void  Save_Obj_Transform(CScene* pScene, wstring pDirectory, const _tchar* pLayerTag, const _tchar* pObjTag, const _tchar * pComponentTag, COMPONENTID eID);   // ¿ÀºêÁ§Æ® ÀúÀå (¸Å°³º¯¼ö ¹Ş¾Æ¼­ »ç¿ë)
-	//void  Load_Obj_Transform(LPDIRECT3DDEVICE9 pGrahicDev, CScene *pScene, wstring pDirectory, const _tchar* pLayerTag, const _tchar * pComponentTag, COMPONENTID eID, list<_tchar*> pList, const _tchar* pObjTag); // ¿ÀºêÁ§Æ® ºÒ·¯¿À±â (¸Å°³º¯¼ö ¹Ş¾Æ¼­ »ç¿ë)
-	//// ~09.25 PJW Ãß°¡ ÀÛ¾÷
+	//void  Save_Obj_Transform(CScene* pScene, wstring pDirectory, const _tchar* pLayerTag, const _tchar* pObjTag, const _tchar * pComponentTag, COMPONENTID eID);   // ì˜¤ë¸Œì íŠ¸ ì €ì¥ (ë§¤ê°œë³€ìˆ˜ ë°›ì•„ì„œ ì‚¬ìš©)
+	//void  Load_Obj_Transform(LPDIRECT3DDEVICE9 pGrahicDev, CScene *pScene, wstring pDirectory, const _tchar* pLayerTag, const _tchar * pComponentTag, COMPONENTID eID, list<_tchar*> pList, const _tchar* pObjTag); // ì˜¤ë¸Œì íŠ¸ ë¶ˆëŸ¬ì˜¤ê¸° (ë§¤ê°œë³€ìˆ˜ ë°›ì•„ì„œ ì‚¬ìš©)
+	//// ~09.25 PJW ì¶”ê°€ ì‘ì—…
 
 
 
 private:
-	// Map_Tool º¯¼ö
+	// Map_Tool ë³€ìˆ˜
 	wstring	m_CurrentSelectGameObjectObjKey = L"";
 	_bool	m_bCubeCreateCheck = false;
 	_bool	m_bCubeSelcetCheck = false;
@@ -89,37 +89,37 @@ private:
 	list<_tchar* > NameList;
 
 	CTransform* m_pSelectedTransform = nullptr;
-	// ~Map_Tool º¯¼ö
+	// ~Map_Tool ë³€ìˆ˜
 
-	// Player Tool º¯¼ö
+	// Player Tool ë³€ìˆ˜
 	list<_tchar* > PlayerList;
-	// ~Player Tool º¯¼ö
+	// ~Player Tool ë³€ìˆ˜
 
-	// Monster_Tool º¯¼ö
+	// Monster_Tool ë³€ìˆ˜
 	_bool	m_bMonsterCreateCheck = false;
 	_bool	m_bMonsterSelectCheck = false;
 
 public:
-	//  windowÃ¢ »ı¼º½Ã ÇÊ¿äÇÑ ºÒº¯¼ö
+	//  windowì°½ ìƒì„±ì‹œ í•„ìš”í•œ ë¶ˆë³€ìˆ˜
 	static  bool Show_Terrain_Window;
 	static	bool Show_Player_Window;
 	static  bool Show_Main_Menu_Window;
 	static  bool Show_Cube_Tool;
 	static	bool Show_Monster_Tool;
 	static ImVec4 clear_color;
-	// ~ windowÃ¢ »ı¼º½Ã ÇÊ¿äÇÑ ºÒº¯¼ö
+	// ~ windowì°½ ìƒì„±ì‹œ í•„ìš”í•œ ë¶ˆë³€ìˆ˜
 	
-	// File º¯¼ö
+	// File ë³€ìˆ˜
 	static ImGuiFileDialog fileDialog;
 	static imgui_addons::ImGuiFileBrowser file_dialog;
-	// ~File º¯¼ö
+	// ~File ë³€ìˆ˜
 
 private:
-	// ¿¹½Ã
+	// ì˜ˆì‹œ
 	static ImGuiTextBuffer log;
 	CREATECUBE cubePlane = CREATECUBE_END;
 	virtual void Free() override;
-	// ~¿¹½Ã
+	// ~ì˜ˆì‹œ
 };
 
 

@@ -175,6 +175,7 @@ call CopyUtility.bat</Command>
     <ClInclude Include="..\..\Header\Collider.h" />
     <ClInclude Include="..\..\Header\Component.h" />
     <ClInclude Include="..\..\Header\CubeTex.h" />
+    <ClInclude Include="..\..\Header\Dynamic_Transform.h" />
     <ClInclude Include="..\..\Header\Export_Utility.h" />
     <ClInclude Include="..\..\Header\GameObject.h" />
     <ClInclude Include="..\..\Header\Layer.h" />
@@ -204,6 +205,7 @@ call CopyUtility.bat</Command>
     <ClCompile Include="..\Code\Collider.cpp" />
     <ClCompile Include="..\Code\Component.cpp" />
     <ClCompile Include="..\Code\CubeTex.cpp" />
+    <ClCompile Include="..\Code\Dynamic_Transform.cpp" />
     <ClCompile Include="..\Code\GameObject.cpp" />
     <ClCompile Include="..\Code\Layer.cpp" />
     <ClCompile Include="..\Code\Light.cpp" />

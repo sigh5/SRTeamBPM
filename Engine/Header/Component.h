@@ -16,7 +16,6 @@ protected:
 public:
 	virtual _int			Update_Component(const _float& fTimeDelta) { return 0; }
 	virtual void			LateUpdate_Component(void) {}
-
 protected:
 	LPDIRECT3DDEVICE9		m_pGraphicDev;
 	_bool					m_bClone;

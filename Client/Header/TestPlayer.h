@@ -4,6 +4,7 @@
 namespace Engine
 {
 	class CTransform;
+	class CDynamic_Transform;
 	class CRcTex;
 	class CTexture;
 	class CCalculator;
@@ -28,7 +29,7 @@ private:
 	void				Key_Input(const _float& fTimeDelta);
 	void				Set_OnTerrain(void);
 	_vec3				PickUp_OnTerrain(void);
-	float				Get_TerrainY(void);		//지형의 Y값으로 설정하는 대신 리턴
+
 
 	// Bullet
 	HRESULT				Create_Bullet(_vec3 vPos);
@@ -43,6 +44,7 @@ private:
 	CTransform*			m_pTransCom = nullptr;
 	CTexture*			m_pTextureCom = nullptr;
 	CCalculator*		m_pCalculatorCom = nullptr;
+	CDynamic_Transform*	m_pDynamicTransCom = nullptr;
 
 	CScene*				m_pSceneCom = nullptr;
 	CManagement*		m_pManageCom = nullptr;
@@ -62,7 +64,7 @@ private:
 	list<_tchar*>	m_szBulletName;
 
 	_uint			m_iCount = 0;
-	_bool			m_bOneShot = false;
+	_bool			m_bOneShot = FALSE;
 	_uint			m_iCoolTime = 0;
 
 	_uint			m_iMagazine = 8;
@@ -77,8 +79,11 @@ private:
 	_float				m_fJumpPower;			//점프력
 
 	// Dash
-	_bool			m_bDash = false;
-	_uint			m_iCountDash = 0;
+	_bool			m_bDash = FALSE;
+	_uint			m_iCountDash = 15;
+
+	_bool			m_bShift = FALSE;
+	_uint			m_iCountShift = 0;
 	// ~Dash
 
 	float				m_fDashPower = 0.f;		//대쉬 시 가속력

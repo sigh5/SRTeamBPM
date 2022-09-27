@@ -1,8 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <ClCompile Include="..\Code\BackGround.cpp">
+      <Filter>02. GameObject\00. For_Logo\00. BackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Bullet.cpp">
+      <Filter>02. GameObject\01. For_stage\07. Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Client.cpp">
+      <Filter>99. Default</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ColliderStage.cpp">
+      <Filter>01. Scene\97. ColliderScene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\DynamicCamera.cpp">
+      <Filter>02. GameObject\02. For_Public\00. DynamicCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Effect.cpp">
+      <Filter>02. GameObject\01. For_stage\06. Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FileIOMgr.cpp">
+      <Filter>96. FileIOMgr</Filter>
+    </ClCompile>
     <ClCompile Include="Imgui\GraphEditor.cpp">
       <Filter>98. ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\HWPlayer.cpp">
+      <Filter>02. GameObject\01. For_stage\01. TestPlayer\HWPlayer</Filter>
     </ClCompile>
     <ClCompile Include="Imgui\ImCurveEdit.cpp">
       <Filter>98. ImGui</Filter>
@@ -37,35 +61,29 @@
     <ClCompile Include="Imgui\ImGuiFileDialog.cpp">
       <Filter>98. ImGui</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\ImGuiMgr.cpp">
+      <Filter>97. ImGuiMgr</Filter>
+    </ClCompile>
     <ClCompile Include="Imgui\ImGuizmo.cpp">
       <Filter>98. ImGui</Filter>
     </ClCompile>
     <ClCompile Include="Imgui\ImSequencer.cpp">
       <Filter>98. ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\BackGround.cpp">
-      <Filter>02. GameObject\00. For_Logo\00. BackGround</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\Bullet.cpp">
-      <Filter>02. GameObject\01. For_Stage\07. Bullet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\DynamicCamera.cpp">
-      <Filter>02. GameObject\02 For_Public\00. DynamicCamera</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\StaticCamera.cpp">
-      <Filter>02. GameObject\02 For_Public\01. StaticCamera</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\ImGuiMgr.cpp">
-      <Filter>97. ImGuiMgr</Filter>
-    </ClCompile>
-    <ClCompile Include="Client.cpp">
-      <Filter>99. Default</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\Effect.cpp">
-      <Filter>02. GameObject\01. For_Stage\06. Effect</Filter>
+    <ClCompile Include="..\Code\SkyBox.cpp">
+      <Filter>02. GameObject\01. For_stage\04. SkyBox</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Loading.cpp">
       <Filter>01. Scene\99. Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Monster.cpp">
+      <Filter>02. GameObject\01. For_stage\02. TestMonster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\StaticCamera.cpp">
+      <Filter>02. GameObject\02. For_Public\01. StaticCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\TestCube.cpp">
+      <Filter>02. GameObject\01. For_stage\05. TestCube</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Logo.cpp">
       <Filter>01. Scene\00. Logo</Filter>
@@ -73,32 +91,29 @@
     <ClCompile Include="..\Code\MainApp.cpp">
       <Filter>00. MainApp</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\SkyBox.cpp">
-      <Filter>02. GameObject\01. For_Stage\04. SkyBox</Filter>
+    <ClCompile Include="..\Code\MyCamera.cpp">
+      <Filter>02. GameObject\02. For_Public\02. MyCamera</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Stage.cpp">
       <Filter>01. Scene\01. Stage</Filter>
     </ClCompile>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>99. Default</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\Terrain.cpp">
-      <Filter>02. GameObject\01. For_Stage\03. Terrain</Filter>
+      <Filter>02. GameObject\01. For_stage\03. Terain</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\TestMonster.cpp">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster</Filter>
+      <Filter>02. GameObject\01. For_stage\02. TestMonster</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\TestPlayer.cpp">
-      <Filter>02. GameObject\01. For_Stage\01. TestPlayer</Filter>
+      <Filter>02. GameObject\01. For_stage\01. TestPlayer</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\TestCube.cpp">
-      <Filter>02. GameObject\01. For_Stage\05. TestCube</Filter>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>99. Default</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\ToolTest.cpp">
       <Filter>01. Scene\98. TestScene</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\FileIOMgr.cpp">
-      <Filter>96. FileIOMgr</Filter>
+    <ClCompile Include="..\Code\TestUI.cpp">
+      <Filter>02. GameObject\01. For_stage\96. TestUI</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\HWPlayer.cpp">
       <Filter>02. GameObject\01. For_Stage\01. TestPlayer\00. HwPlayer</Filter>
@@ -117,8 +132,32 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Header\BackGround.h">
+      <Filter>02. GameObject\00. For_Logo\00. BackGround</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Bullet.h">
+      <Filter>02. GameObject\01. For_stage\07. Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Client.h">
+      <Filter>99. Default</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\ColliderStage.h">
+      <Filter>01. Scene\97. ColliderScene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\DynamicCamera.h">
+      <Filter>02. GameObject\02. For_Public\00. DynamicCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Effect.h">
+      <Filter>02. GameObject\01. For_stage\06. Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\FileIOMgr.h">
+      <Filter>96. FileIOMgr</Filter>
+    </ClInclude>
     <ClInclude Include="Imgui\GraphEditor.h">
       <Filter>98. ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\HWPlayer.h">
+      <Filter>02. GameObject\01. For_stage\01. TestPlayer\HWPlayer</Filter>
     </ClInclude>
     <ClInclude Include="Imgui\imconfig.h">
       <Filter>98. ImGui</Filter>
@@ -150,6 +189,9 @@
     <ClInclude Include="Imgui\ImGuiFileDialogConfig.h">
       <Filter>98. ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\ImGuiMgr.h">
+      <Filter>97. ImGuiMgr</Filter>
+    </ClInclude>
     <ClInclude Include="Imgui\ImGuizmo.h">
       <Filter>98. ImGui</Filter>
     </ClInclude>
@@ -168,29 +210,23 @@
     <ClInclude Include="Imgui\ImZoomSlider.h">
       <Filter>98. ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\BackGround.h">
-      <Filter>02. GameObject\00. For_Logo\00. BackGround</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\Bullet.h">
-      <Filter>02. GameObject\01. For_Stage\07. Bullet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\DynamicCamera.h">
-      <Filter>02. GameObject\02 For_Public\00. DynamicCamera</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\StaticCamera.h">
-      <Filter>02. GameObject\02 For_Public\01. StaticCamera</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\ImGuiMgr.h">
-      <Filter>97. ImGuiMgr</Filter>
-    </ClInclude>
-    <ClInclude Include="Client.h">
+    <ClInclude Include="Resource.h">
       <Filter>99. Default</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Effect.h">
-      <Filter>02. GameObject\01. For_Stage\06. Effect</Filter>
+    <ClInclude Include="..\Header\SkyBox.h">
+      <Filter>02. GameObject\01. For_stage\04. SkyBox</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Loading.h">
       <Filter>01. Scene\99. Loading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Monster.h">
+      <Filter>02. GameObject\01. For_stage\02. TestMonster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\StaticCamera.h">
+      <Filter>02. GameObject\02. For_Public\01. StaticCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\TestCube.h">
+      <Filter>02. GameObject\01. For_stage\05. TestCube</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Logo.h">
       <Filter>01. Scene\00. Logo</Filter>
@@ -198,14 +234,20 @@
     <ClInclude Include="..\Header\MainApp.h">
       <Filter>00. MainApp</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\SkyBox.h">
-      <Filter>02. GameObject\01. For_Stage\04. SkyBox</Filter>
+    <ClInclude Include="..\Header\MyCamera.h">
+      <Filter>02. GameObject\02. For_Public\02. MyCamera</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Stage.h">
       <Filter>01. Scene\01. Stage</Filter>
     </ClInclude>
-    <ClInclude Include="Resource.h">
-      <Filter>99. Default</Filter>
+    <ClInclude Include="..\Header\Terrain.h">
+      <Filter>02. GameObject\01. For_stage\03. Terain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\TestMonster.h">
+      <Filter>02. GameObject\01. For_stage\02. TestMonster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\TestPlayer.h">
+      <Filter>02. GameObject\01. For_stage\01. TestPlayer</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>99. Default</Filter>
@@ -213,38 +255,17 @@
     <ClInclude Include="targetver.h">
       <Filter>99. Default</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Terrain.h">
-      <Filter>02. GameObject\01. For_Stage\03. Terrain</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\TestMonster.h">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\TestPlayer.h">
-      <Filter>02. GameObject\01. For_Stage\01. TestPlayer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\TestCube.h">
-      <Filter>02. GameObject\01. For_Stage\05. TestCube</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\ToolTest.h">
       <Filter>01. Scene\98. TestScene</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\FileIOMgr.h">
-      <Filter>96. FileIOMgr</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\HWPlayer.h">
-      <Filter>02. GameObject\01. For_Stage\01. TestPlayer\00. HwPlayer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\ColliderStage.h">
-      <Filter>01. Scene\98.ColliderStage</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\MyCamera.h">
-      <Filter>02. GameObject\02 For_Public\02. MyCamera</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\TestUI.h">
-      <Filter>02. GameObject\02 For_Public\03. UI</Filter>
+      <Filter>02. GameObject\01. For_stage\96. TestUI</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Anubis.h">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\HpBar.h">
+      <Filter>02. GameObject\01. For_stage\08. HpBar</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -257,108 +278,102 @@
   </ItemGroup>
   <ItemGroup>
     <Filter Include="00. MainApp">
-      <UniqueIdentifier>{cde8df82-832e-4a62-9bb1-ce142597398f}</UniqueIdentifier>
+      <UniqueIdentifier>{60881b06-db41-44d8-a09b-74c577fc9a18}</UniqueIdentifier>
     </Filter>
     <Filter Include="01. Scene">
-      <UniqueIdentifier>{307c0550-a91e-4f0e-a59a-f885e9dbbf82}</UniqueIdentifier>
+      <UniqueIdentifier>{9172193e-d48f-4664-828f-35367ea50598}</UniqueIdentifier>
     </Filter>
     <Filter Include="01. Scene\00. Logo">
-      <UniqueIdentifier>{2b6daf00-4270-4dfc-b7d0-5f260d238be4}</UniqueIdentifier>
+      <UniqueIdentifier>{2e999a88-ca82-46a4-8843-02b9fe82e61d}</UniqueIdentifier>
     </Filter>
     <Filter Include="01. Scene\01. Stage">
-      <UniqueIdentifier>{e938b757-221f-486d-b2f8-ec7dcffe08b3}</UniqueIdentifier>
+      <UniqueIdentifier>{c17dda6d-c96a-4bae-bddf-01013db3734f}</UniqueIdentifier>
     </Filter>
     <Filter Include="01. Scene\98. TestScene">
-      <UniqueIdentifier>{b6010952-5195-4aa2-846a-4e29df7a3e3e}</UniqueIdentifier>
+      <UniqueIdentifier>{9432b07b-ba70-41c2-92ca-a2133cf3b783}</UniqueIdentifier>
     </Filter>
     <Filter Include="01. Scene\99. Loading">
-      <UniqueIdentifier>{98a3eb6a-d47a-4a0c-89ab-cdbdc9c41fa1}</UniqueIdentifier>
+      <UniqueIdentifier>{f157b690-8d77-42ea-8b39-70aaebb17921}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObject">
-      <UniqueIdentifier>{a8b9a6c4-a705-4360-a680-bd8de931b32a}</UniqueIdentifier>
+      <UniqueIdentifier>{fe5b22b7-6398-4bc8-8239-826570021a3e}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObject\00. For_Logo">
-      <UniqueIdentifier>{2e97fae0-cc46-4727-8822-4892823829ee}</UniqueIdentifier>
+      <UniqueIdentifier>{b155621e-03b0-4ba1-81e7-7b6680355356}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. For_Stage">
-      <UniqueIdentifier>{30dd54af-bc97-4563-a966-8313543adc6d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\02 For_Public">
-      <UniqueIdentifier>{7f73624c-8ba4-4d8f-b110-9cf5646ec5f8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="98. ImGui">
-      <UniqueIdentifier>{d90f75cd-6210-46e3-a3c3-b821978c6aa1}</UniqueIdentifier>
+    <Filter Include="02. GameObject\01. For_stage">
+      <UniqueIdentifier>{1d2e5287-0e4f-4ff2-a522-46c7b2c6bb6b}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObject\00. For_Logo\00. BackGround">
-      <UniqueIdentifier>{c055ddfb-fa3b-4824-b60d-b18e43012980}</UniqueIdentifier>
+      <UniqueIdentifier>{a2f6e3a4-482f-47f2-8bc1-2f373789db2f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. For_Stage\01. TestPlayer">
-      <UniqueIdentifier>{0dc41419-1cd3-4d06-b6c9-9d9dd84a6d17}</UniqueIdentifier>
+    <Filter Include="02. GameObject\01. For_stage\01. TestPlayer">
+      <UniqueIdentifier>{e2a98d89-81eb-4007-8c31-4e548abd82ab}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. For_Stage\02. TestMonster">
-      <UniqueIdentifier>{01e46a70-4956-4986-b9c9-fb9be62f90ff}</UniqueIdentifier>
+    <Filter Include="02. GameObject\01. For_stage\02. TestMonster">
+      <UniqueIdentifier>{2ea8ed38-a42a-4793-9fe7-fb17bc1ae972}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. For_Stage\03. Terrain">
-      <UniqueIdentifier>{c43aa9ee-57e9-41b7-a13b-c36b1f3adc63}</UniqueIdentifier>
+    <Filter Include="02. GameObject\01. For_stage\03. Terain">
+      <UniqueIdentifier>{3179ba32-6dfd-4d79-9f8b-e01813f3c892}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. For_Stage\04. SkyBox">
-      <UniqueIdentifier>{0dee8dce-8721-4ff9-8bb3-537c819cfc17}</UniqueIdentifier>
+    <Filter Include="02. GameObject\01. For_stage\04. SkyBox">
+      <UniqueIdentifier>{996e76e4-ee83-4578-9101-caf85a6a3240}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. For_Stage\05. TestCube">
-      <UniqueIdentifier>{b036129b-1355-4aff-b45b-d964c8da39f1}</UniqueIdentifier>
+    <Filter Include="02. GameObject\01. For_stage\05. TestCube">
+      <UniqueIdentifier>{532f7549-8883-4ce6-9e86-f40aa70f4549}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. For_Stage\06. Effect">
-      <UniqueIdentifier>{5a3b0207-28d6-4a4a-a6d9-20fda9f0e324}</UniqueIdentifier>
+    <Filter Include="02. GameObject\01. For_stage\06. Effect">
+      <UniqueIdentifier>{038ab801-ca45-42fc-9c16-04967d661089}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. For_Stage\07. Bullet">
-      <UniqueIdentifier>{2b0b81bc-aa66-4dbd-b0f0-f55b8a97c2a3}</UniqueIdentifier>
+    <Filter Include="02. GameObject\02. For_Public">
+      <UniqueIdentifier>{78ad8a08-1339-4eaf-b7b3-a4ecb82806ab}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\02 For_Public\00. DynamicCamera">
-      <UniqueIdentifier>{89e12b45-f6f7-472f-86ff-03139b5babc0}</UniqueIdentifier>
+    <Filter Include="02. GameObject\02. For_Public\00. DynamicCamera">
+      <UniqueIdentifier>{fdc5ad37-ade0-4643-9881-0a3723a63502}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\02 For_Public\01. StaticCamera">
-      <UniqueIdentifier>{1c7ee44e-6041-4849-9e01-aa1d1b77ae55}</UniqueIdentifier>
+    <Filter Include="02. GameObject\02. For_Public\01. StaticCamera">
+      <UniqueIdentifier>{0333015b-6e80-41e3-9f83-11648eba6176}</UniqueIdentifier>
     </Filter>
     <Filter Include="97. ImGuiMgr">
-      <UniqueIdentifier>{fc23f710-3a77-4547-954b-cc46b3f3ddad}</UniqueIdentifier>
+      <UniqueIdentifier>{0a8f2a57-0a07-4d29-b118-7440a1d93600}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98. ImGui">
+      <UniqueIdentifier>{d20f7ade-4b9e-4b49-9ecf-05d721b3e168}</UniqueIdentifier>
     </Filter>
     <Filter Include="99. Default">
-      <UniqueIdentifier>{68bdcb4f-8d1a-44e1-88c6-d79a28c50b4e}</UniqueIdentifier>
+      <UniqueIdentifier>{f426af8c-43dc-4c35-a007-1c27cebc06d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_stage\07. Bullet">
+      <UniqueIdentifier>{eebcd2c5-c0f5-411a-b49e-f7da29f3a248}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\97. ColliderScene">
+      <UniqueIdentifier>{b9340c44-a522-4d51-b5eb-17f7afd80738}</UniqueIdentifier>
     </Filter>
     <Filter Include="96. FileIOMgr">
-      <UniqueIdentifier>{f845e707-2be3-4642-ad63-add3c6cde812}</UniqueIdentifier>
+      <UniqueIdentifier>{67949671-eca8-4ed6-a9dc-3b9793ac7f48}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Scene\98.ColliderStage">
-      <UniqueIdentifier>{1ace2984-9bb2-4c38-bfb2-a838c8ffe854}</UniqueIdentifier>
+    <Filter Include="02. GameObject\01. For_stage\01. TestPlayer\HWPlayer">
+      <UniqueIdentifier>{250e0306-49f0-4e13-889e-84cf33348c6c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. For_Stage\01. TestPlayer\00. HwPlayer">
-      <UniqueIdentifier>{31b2702b-9647-4332-8cf8-8ed23be3550b}</UniqueIdentifier>
+    <Filter Include="02. GameObject\02. For_Public\02. MyCamera">
+      <UniqueIdentifier>{dbd72156-1cac-46fd-af4c-b679347b2693}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\00. Anubis">
-      <UniqueIdentifier>{40c900b5-9523-467c-8eb4-ab3a60708003}</UniqueIdentifier>
+    <Filter Include="02. GameObject\01. For_stage\96. TestUI">
+      <UniqueIdentifier>{e6400d65-f8be-4a4d-ba14-da46248c0e32}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\01. Fatbat">
-      <UniqueIdentifier>{562fcc35-093e-442d-9fa8-703ef239403b}</UniqueIdentifier>
+    <Filter Include="02. GameObject\01. For_stage\08. HpBar">
+      <UniqueIdentifier>{23a2d999-6045-4b6e-9e47-38fa10ebbb9a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\02. Spider">
-      <UniqueIdentifier>{d93392dd-0764-4a8a-8e31-5ba1ef786f14}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\02 For_Public\02. MyCamera">
-      <UniqueIdentifier>{34ec88b5-6439-4645-81fe-1c675c39cb1d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\02 For_Public\03. UI">
-      <UniqueIdentifier>{caa16c4b-70e2-4622-aaa5-21b465a0b0ed}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Imgui\imgui.ini">
-      <Filter>98. ImGui</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
       <Filter>99. Default</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Imgui\imgui.ini">
+      <Filter>98. ImGui</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt">
