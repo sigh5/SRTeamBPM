@@ -30,6 +30,9 @@ namespace Engine
 	enum OBJ_TYPE { OBJ_CUBE, OBJ_PLAYER, OBJ_MONSTER, OBJ_TYPE_END};
 
 	enum SCENE_TYPE { SCENE_TOOLTEST, SCENE_STAGE, SCENE_END };
+
+	// ¡Ø
+	enum TYPING_TYPE { TYPING_W, TYPING_A, TYPING_S, TYPING_D, TYPING_END };
 }
 
 #endif // Engine_Enum_h__

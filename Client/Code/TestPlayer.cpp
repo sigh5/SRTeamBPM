@@ -9,6 +9,7 @@ CTestPlayer::CTestPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	, m_vDirection(0.f, 0.f, 0.f)
 	, m_fJumpPower(5.0f)
 	, m_fDashPower(0.3f)
+	, m_tpType(TYPING_END)
 {
 }
 
@@ -140,85 +141,20 @@ void CTestPlayer::Key_Input(const _float& fTimeDelta)
 	m_pTransCom->Get_Info(INFO_LOOK, &m_vDirection);	
 	m_pTransCom->Get_Info(INFO_UP, &m_vUp);
 	m_pTransCom->Get_Info(INFO_POS, &m_vPos);
-
-
-
-
-	// if (CInputDev::GetInstance()->Key_Pressing(DIK_LSHIFT))
-	// {
-	// 	m_bDash = TRUE;
-	// }
-	// else
-	// {
-	// 	m_bDash = FALSE;
-	// }
-
-	// if (m_bDash == FALSE)
-	// {
-	// 	if (GetAsyncKeyState(VK_UP) & 0x8000)
-	// 	{
-	// 		if (m_fBuffDashPower > 0.f)
-	// 			m_fBuffDashPower -= m_fDashPower;
-	// 		else if (m_fBuffDashPower < 0.f)
-	// 		{
-	// 			m_fBuffDashPower = 0.f;
-	// 		}
-
-	// 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
-	// 		m_pTransCom->Move_Pos(&(m_vDirection * (10.f + m_fBuffDashPower) * fTimeDelta));
-	// 	}
-	// }
-	// else
-	// {
-	// 	if (GetAsyncKeyState(VK_UP) & 0x8000)
-	// 	{
-	// 		if (m_fBuffDashPower < 20.f)
-	// 			m_fBuffDashPower += m_fDashPower;
-
-	// 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
-	// 		m_pTransCom->Move_Pos(&(m_vDirection * (10.f + m_fBuffDashPower) * fTimeDelta));
-	// 	}
-	// }
-	// if (GetAsyncKeyState(VK_DOWN) & 0x8000)
-	// {
-	// 	D3DXVec3Normalize(&m_vDirection, &m_vDirection);
-	// 	m_pTransCom->Move_Pos(&(m_vDirection * -10.f * fTimeDelta));
-	// }
-
-	// if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
-	// 	m_pTransCom->Rotation(ROT_Y, D3DXToRadian(180.f * fTimeDelta));
-
-	// if (GetAsyncKeyState(VK_LEFT) & 0x8000)
-	// 	m_pTransCom->Rotation(ROT_Y, D3DXToRadian(-180.f * fTimeDelta));
-
-	// if (Engine::Get_DIMouseState(DIM_LB) & 0X80)
-	// {
-	// 	_vec3	vPickPos = PickUp_OnTerrain();
-	// 	_vec3	vPlayerPos, vDir;
-	// 	m_pTransCom->Get_Info(INFO_POS, &vPlayerPos);
-	// 	vDir = vPickPos - vPlayerPos;
-	// 	D3DXVec3Normalize(&vDir, &vDir);
-	// 	m_pTransCom->Move_Pos(&(vDir * 5.f * fTimeDelta));
-	// }
-
-	// if (Engine::Get_DIKeyState(DIK_SPACE) & 0X80)
-	// {
-	// 	m_bJump = TRUE;
-	// }
-
-	if (Get_DIKeyState(DIK_W) & 0X80 && !m_bShift)
+	
+	if (Get_DIKeyState(DIK_W) & 0X80)
 	{
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
 		m_pTransCom->Move_Pos(&(m_vDirection * 10.f * fTimeDelta));
 	}
 
-	if (Get_DIKeyState(DIK_S) & 0X80 && !m_bShift)
+	if (Get_DIKeyState(DIK_S) & 0X80 )
 	{
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
 		m_pTransCom->Move_Pos(&(m_vDirection * -10.f * fTimeDelta));	
 	}
 
-	if (Get_DIKeyState(DIK_A) & 0X80 && !m_bShift)
+	if (Get_DIKeyState(DIK_A) & 0X80)
 	{
 		_vec3	vRight;
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
@@ -227,7 +163,7 @@ void CTestPlayer::Key_Input(const _float& fTimeDelta)
 		m_pTransCom->Move_Pos(&(vRight * 10.f * fTimeDelta));
 	}
 	
-	if (Get_DIKeyState(DIK_D) & 0X80 && !m_bShift)
+	if (Get_DIKeyState(DIK_D) & 0X80)
 	{
 		_vec3	vRight;
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);

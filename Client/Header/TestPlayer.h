@@ -82,8 +82,9 @@ private:
 	_bool			m_bDash = FALSE;
 	_uint			m_iCountDash = 15;
 
-	_bool			m_bShift = FALSE;
-	_uint			m_iCountShift = 0;
+	TYPING_TYPE		m_tpType;
+
+
 	// ~Dash
 
 	float				m_fDashPower = 0.f;		//대쉬 시 가속력

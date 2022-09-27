@@ -23,7 +23,7 @@ public:
 	void				Jumping(_float _JumpPower, _float _TimeDelta, CTransform* pTransform);
 	
 
-//void				Dashing(const _float& fTimeDelta, CTransform* pTransform);
+	void				Dashing(const _float& fTimeDelta, CTransform* pTransform, _vec3 vecUp, _vec3 vecDir);
 
 public:
 	static CDynamic_Transform*		Create(void);

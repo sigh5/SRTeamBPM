@@ -55,19 +55,17 @@ void CDynamic_Transform::Jumping(_float _JumpPower, _float _TimeDelta, CTransfor
 
 	pTransform->Move_Pos(&vWorldUp);
 }
+// ¡Ø
+void CDynamic_Transform::Dashing(const _float & fTimeDelta, CTransform* pTransform, _vec3 vecUp, _vec3 vecDir)
+{
+	_vec3	vecPos;
 
-//void CDynamic_Transform::Dashing(const _float & fTimeDelta, CTransform* pTransform)
-//{
-//	_vec3	vecLook, vecUp, vecPos, vecRight;
-//
-//	_vec3	vecSight;
-//
-//	pTransform->Get_Info(INFO_LOOK, &vecLook);
-//	pTransform->Get_Info(INFO_UP, &vecUp);
-//	pTransform->Get_Info(INFO_POS, &vecPos);
-//	pTransform->Get_Info(INFO_RIGHT, &vecRight);
-//	
-//}
+	pTransform->Get_Info(INFO_POS, &vecPos);
+	
+
+	
+
+}
 
 CDynamic_Transform * CDynamic_Transform::Create(void)
 {
