@@ -35,7 +35,7 @@ _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 	if (m_bJump == TRUE)
 	{
 		m_pDynamicTransCom->Jumping(m_fJumpPower, fTimeDelta, m_pTransCom);
-		
+												// const _tchar * pLayerTag, const _tchar * pObjTag, const _tchar * pComponentTag, COMPONENTID eID, CCalculator* pCalculator, CTransform* pTransform
 		m_fJumpPower -= 0.25f;					// const _tchar * pLayerTag, const _tchar * pObjTag, const _tchar * pComponentTag, COMPONENTID eID, CCalculator* pCalculator, CTransform* pTransform
 		m_fNowPosHeight = m_pDynamicTransCom->Get_TerrainY1(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC, m_pCalculatorCom, m_pTransCom); 
 		_vec3 vNowPlayerPos;
@@ -125,9 +125,9 @@ HRESULT CTestPlayer::Add_Component(void)
 	NULL_CHECK_RETURN(m_pTransCom, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].insert({ L"Proto_TransformCom", pComponent });
 
-	pComponent = m_pDynamicTransCom = dynamic_cast<CDynamic_Transform*>(Clone_Proto(L"Proto_DynamicTransformCom"));
+	pComponent = m_pDynamicTransCom = dynamic_cast<CDynamic_Transform*>(Clone_Proto(L"Proto_DynamicTransCom"));
 	NULL_CHECK_RETURN(m_pDynamicTransCom, E_FAIL);
-	m_mapComponent[ID_DYNAMIC].insert({ L"Proto_DynamicTransformCom", pComponent });
+	m_mapComponent[ID_DYNAMIC].insert({ L"Proto_DynamicTransCom", pComponent });
 
 	pComponent = m_pCalculatorCom = dynamic_cast<CCalculator*>(Clone_Proto(L"Proto_CalculatorCom"));
 	NULL_CHECK_RETURN(m_pCalculatorCom, E_FAIL);

@@ -58,6 +58,8 @@ void CDynamic_Transform::Jumping(_float _JumpPower, _float _TimeDelta, CTransfor
 // ¡Ø
 void CDynamic_Transform::Dashing(const _float & fTimeDelta, CTransform* pTransform, _vec3 vecUp, _vec3 vecDir, TYPING_TYPE tType)
 {
+
+
 	_vec3	vPos, vUp, vDir, vRight;
 
 	pTransform->Get_Info(INFO_POS, &vPos);
@@ -72,33 +74,37 @@ void CDynamic_Transform::Dashing(const _float & fTimeDelta, CTransform* pTransfo
 	{
 
 		case TYPING_W:	
-		{
-			pTransform->Move_Pos(&(vDir * (fSpeed + fTimeDelta)));
-			break;
+		{			
+				pTransform->Move_Pos(&(vDir * (fSpeed + fTimeDelta) * 0.3f));
+			
+				break;			
 		}
 		
 		case TYPING_S:
-		{
-			pTransform->Move_Pos(&(vDir * (-fSpeed + fTimeDelta)));
-			break;
+		{			
+				pTransform->Move_Pos(&(vDir * (-fSpeed + fTimeDelta)* 0.3f));
+			
+				break;			
 		}
 
 		case TYPING_A:
-		{
-			D3DXVec3Normalize(&vDir, &vDir);
-			D3DXVec3Normalize(&vUp, &vUp);
-			D3DXVec3Cross(&vRight, &vDir, &vUp);
-			pTransform->Move_Pos(&(vRight * (fSpeed + fTimeDelta)));
-			break;
+		{			
+				D3DXVec3Normalize(&vDir, &vDir);
+				D3DXVec3Normalize(&vUp, &vUp);
+				D3DXVec3Cross(&vRight, &vDir, &vUp);
+				pTransform->Move_Pos(&(vRight * (fSpeed + fTimeDelta)* 0.3f));
+			
+				break;			
 		}
 
 		case TYPING_D:
-		{
-			D3DXVec3Normalize(&vDir, &vDir);
-			D3DXVec3Normalize(&vUp, &vUp);
-			D3DXVec3Cross(&vRight, &vDir, &vUp);
-			pTransform->Move_Pos(&(vRight * (-fSpeed + fTimeDelta)));
-			break;
+		{			
+				D3DXVec3Normalize(&vDir, &vDir);
+				D3DXVec3Normalize(&vUp, &vUp);
+				D3DXVec3Cross(&vRight, &vDir, &vUp);
+				pTransform->Move_Pos(&(vRight * (-fSpeed + fTimeDelta)* 0.3f));
+			
+				break;			
 		}
 
 		default:
