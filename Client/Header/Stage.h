@@ -8,7 +8,7 @@
 #include "Terrain.h"
 #include "StaticCamera.h"
 #include "DynamicCamera.h"
-#include "Monster.h" //테스트용 몬스터
+ //테스트용 몬스터
 
 class CStage : public Engine::CScene
 {

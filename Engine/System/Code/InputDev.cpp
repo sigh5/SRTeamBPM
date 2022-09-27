@@ -62,6 +62,23 @@ bool CInputDev::Key_Up(int _iKey)
 	return false;
 }
 
+bool CInputDev::Mouse_Down(MOUSEKEYSTATE _MouseButton)
+{
+	if (!m_bMouseState[_MouseButton] && m_MouseState.rgbButtons[_MouseButton] & 0x80)
+	{
+		m_bMouseState[_MouseButton] = true;
+		return true;
+	}
+
+	for (int i = 0; i < 4; ++i)
+	{
+		if (m_bMouseState[i] && !(m_MouseState.rgbButtons[i] & 0x80))
+		{
+			m_bMouseState[i] = false;
+		}
+	}
+}
+
 
 HRESULT CInputDev::Ready_InputDev(HINSTANCE hInst, HWND hWnd)
 {

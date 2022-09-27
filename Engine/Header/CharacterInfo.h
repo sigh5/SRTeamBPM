@@ -17,6 +17,7 @@ public:
 	int		Get_AttackPower(void);				//공격력(데이터)을 얻어온다.
 	void	Add_Coin(void) { ++m_Info._iCoin; } //코인 추가
 	void	Add_Key(void) { ++m_Info._iKey; }	//키 추가
+	CharacterInfo&	Get_InfoRef() { return m_Info; }
 
 private:
 	CharacterInfo m_Info;
@@ -24,7 +25,7 @@ private:
 public:
 
 	virtual CCharacterInfo*		Clone(void) override;
-	static CCharacterInfo*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
+	static CCharacterInfo*		Create(LPDIRECT3DDEVICE9 pGraphicDev, int _hp, int _Attack, float _fSpeed);
 
 private:
 	bool		m_bClone;

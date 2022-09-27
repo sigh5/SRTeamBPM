@@ -106,14 +106,14 @@
     <ClCompile Include="..\Code\ColliderStage.cpp">
       <Filter>01. Scene\98.ColliderStage</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Monster.cpp">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\MyCamera.cpp">
       <Filter>02. GameObject\02 For_Public\02. MyCamera</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\TestUI.cpp">
       <Filter>02. GameObject\02 For_Public\03. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Anubis.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -237,14 +237,14 @@
     <ClInclude Include="..\Header\ColliderStage.h">
       <Filter>01. Scene\98.ColliderStage</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Monster.h">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\MyCamera.h">
       <Filter>02. GameObject\02 For_Public\02. MyCamera</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\TestUI.h">
       <Filter>02. GameObject\02 For_Public\03. UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Anubis.h">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

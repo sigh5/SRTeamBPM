@@ -48,11 +48,11 @@ CCharacterInfo * CCharacterInfo::Clone(void)
 	return new CCharacterInfo(*this);
 }
 
-CCharacterInfo * CCharacterInfo::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+CCharacterInfo * CCharacterInfo::Create(LPDIRECT3DDEVICE9 pGraphicDev, int _hp, int _Attack, float _fSpeed)
 {
 	CCharacterInfo*	pInstance = new CCharacterInfo(pGraphicDev);
 
-	if (FAILED(pInstance->Ready_CharacterInfo()))
+	if (FAILED(pInstance->Ready_CharacterInfo( _hp, _Attack, _fSpeed)))
 	{
 		MSG_BOX("Collider Create Failed");
 		Safe_Release(pInstance);

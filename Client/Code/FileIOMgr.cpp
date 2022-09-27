@@ -4,7 +4,7 @@
 
 #include "Export_Function.h"
 #include "TestCube.h"
-#include "Monster.h"
+#include "Anubis.h"
 #include "TestPlayer.h"
 
 IMPLEMENT_SINGLETON(CFileIOMgr)
@@ -83,7 +83,7 @@ void CFileIOMgr::Save_FileData(CScene * pScene,
 
 			Transcom->Get_Info(INFO_POS, &vPos);
 			memcpy(vScale, Transcom->m_vScale, sizeof(_vec3));
-			iMonsterType = static_cast<CMonster*>(iter->second)->Get_Info()->_MonsterIndex;
+			iMonsterType = static_cast<CMonsterBase*>(iter->second)->Get_MonsterType();
 
 			WriteFile(hFile, &vPos, sizeof(_vec3), &dwByte, nullptr);
 			WriteFile(hFile, &vScale, sizeof(_vec3), &dwByte, nullptr);
@@ -208,12 +208,25 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 			wsprintfW(test1, t.c_str(), m_iIndex);
 			pMyLayer->AddNameList(test1);
 
-			pGameObject = CMonster::Create(pGrahicDev);
+			switch(iMonsterType)
+			{
+			case 0:
+				pGameObject = CAnubis::Create(pGrahicDev);
+				break;
+
+			case 1:
+				//pGameObject = 
+				break;
+
+			default:
+				pGameObject = CAnubis::Create(pGrahicDev);
+				break;
+			}
 			//switch(iMonsterType) ???? ???? ???? ???? ???????
 			pMyLayer = pScene->GetLayer(L"TestLayer3");
 
 			FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(test1, pGameObject), );
-			static_cast<CMonster*>(pGameObject)->Get_Info()->_MonsterIndex = iMonsterType;
+			static_cast<CMonsterBase*>(pGameObject)->Get_MonsterType() = iMonsterType;
 			++m_iIndex;
 
 			CTransform* Transcom = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));

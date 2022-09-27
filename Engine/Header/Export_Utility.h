@@ -12,6 +12,10 @@
 #include "Calculator.h"
 #include "Texture.h"
 #include "Collider.h"
+//캐릭터 인포
+#include "CharacterInfo.h"
+//~
+#include "MonsterBase.h"
 
 // for UI
 #include "OrthoTransform.h"

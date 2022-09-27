@@ -7,7 +7,7 @@
 #include "Terrain.h"
 #include "TestCube.h"
 #include "Texture.h"
-#include "Monster.h"
+#include "Anubis.h"
 #include "TestPlayer.h"
 
 #include "FileIOMgr.h"
@@ -71,103 +71,202 @@ HRESULT CImGuiMgr::Ready_MonsterTool(LPDIRECT3DDEVICE9 pGraphicDev, CScene * pSc
 
 void CImGuiMgr::TransformEdit(CCamera* pCamera, CTransform* pTransform, _bool& Window)
 {
-	ImGui::Begin("Transform");
-	ImGuizmo::BeginFrame();
-	static float snap[3] = { 1.f, 1.f, 1.f };
-	static ImGuizmo::OPERATION mCurrentGizmoOperation(ImGuizmo::ROTATE);
-	static ImGuizmo::MODE mCurrentGizmoMode(ImGuizmo::WORLD);
-	if (ImGui::IsKeyPressed(90))
-		mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
-	if (ImGui::IsKeyPressed(69))
-		mCurrentGizmoOperation = ImGuizmo::ROTATE;
-	if (ImGui::IsKeyPressed(82)) // r Key
-		mCurrentGizmoOperation = ImGuizmo::SCALE;
-	if (ImGui::RadioButton("Translate", mCurrentGizmoOperation == ImGuizmo::TRANSLATE))
-		mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
-	ImGui::SameLine();
-	if (ImGui::RadioButton("Rotate", mCurrentGizmoOperation == ImGuizmo::ROTATE))
-		mCurrentGizmoOperation = ImGuizmo::ROTATE;
-	ImGui::SameLine();
-	if (ImGui::RadioButton("Scale", mCurrentGizmoOperation == ImGuizmo::SCALE))
-		mCurrentGizmoOperation = ImGuizmo::SCALE;
-
-	if (pTransform == nullptr)
+	if (true == Show_Cube_Tool)
 	{
-		ImGui::Text("Object Delete or nullptr");
-		ImGui::End();
-		return;
-	}
-
-	float matrixTranslation[3], matrixRotation[3], matrixScale[3];
-	_matrix matWorld = pTransform->m_matWorld;
-
-	ImGuizmo::DecomposeMatrixToComponents(matWorld, matrixTranslation, matrixRotation, matrixScale);
-	ImGui::InputFloat3("Tr", matrixTranslation);
-	ImGui::InputFloat3("Rt", matrixRotation);
-	ImGui::InputFloat3("Sc", matrixScale);
-	ImGuizmo::RecomposeMatrixFromComponents(matrixTranslation, matrixRotation, matrixScale, matWorld);
-
-	if (mCurrentGizmoOperation != ImGuizmo::SCALE)
-	{
-		if (ImGui::RadioButton("Local", mCurrentGizmoMode == ImGuizmo::LOCAL))
-			mCurrentGizmoMode = ImGuizmo::LOCAL;
+		ImGui::Begin("Transform");
+		ImGuizmo::BeginFrame();
+		static float snap[3] = { 1.f, 1.f, 1.f };
+		static ImGuizmo::OPERATION mCurrentGizmoOperation(ImGuizmo::ROTATE);
+		static ImGuizmo::MODE mCurrentGizmoMode(ImGuizmo::WORLD);
+		if (ImGui::IsKeyPressed(90))
+			mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
+		if (ImGui::IsKeyPressed(69))
+			mCurrentGizmoOperation = ImGuizmo::ROTATE;
+		if (ImGui::IsKeyPressed(82)) // r Key
+			mCurrentGizmoOperation = ImGuizmo::SCALE;
+		if (ImGui::RadioButton("Translate", mCurrentGizmoOperation == ImGuizmo::TRANSLATE))
+			mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
 		ImGui::SameLine();
-		if (ImGui::RadioButton("World", mCurrentGizmoMode == ImGuizmo::WORLD))
-			mCurrentGizmoMode = ImGuizmo::WORLD;
-	}
+		if (ImGui::RadioButton("Rotate", mCurrentGizmoOperation == ImGuizmo::ROTATE))
+			mCurrentGizmoOperation = ImGuizmo::ROTATE;
+		ImGui::SameLine();
+		if (ImGui::RadioButton("Scale", mCurrentGizmoOperation == ImGuizmo::SCALE))
+			mCurrentGizmoOperation = ImGuizmo::SCALE;
 
-	static bool useSnap(false);
-	if (ImGui::IsKeyPressed(83))
-		useSnap = !useSnap;
-	ImGui::Checkbox("##something", &useSnap);
-	ImGui::SameLine();
-	switch (mCurrentGizmoOperation)
+		if (pTransform == nullptr)
+		{
+			ImGui::Text("Object Delete or nullptr");
+			ImGui::End();
+			return;
+		}
+
+		float matrixTranslation[3], matrixRotation[3], matrixScale[3];
+		_matrix matWorld = pTransform->m_matWorld;
+
+		ImGuizmo::DecomposeMatrixToComponents(matWorld, matrixTranslation, matrixRotation, matrixScale);
+		ImGui::InputFloat3("Tr", matrixTranslation);
+		ImGui::InputFloat3("Rt", matrixRotation);
+		ImGui::InputFloat3("Sc", matrixScale);
+		ImGuizmo::RecomposeMatrixFromComponents(matrixTranslation, matrixRotation, matrixScale, matWorld);
+
+		if (mCurrentGizmoOperation != ImGuizmo::SCALE)
+		{
+			if (ImGui::RadioButton("Local", mCurrentGizmoMode == ImGuizmo::LOCAL))
+				mCurrentGizmoMode = ImGuizmo::LOCAL;
+			ImGui::SameLine();
+			if (ImGui::RadioButton("World", mCurrentGizmoMode == ImGuizmo::WORLD))
+				mCurrentGizmoMode = ImGuizmo::WORLD;
+		}
+
+		static bool useSnap(false);
+		if (ImGui::IsKeyPressed(83))
+			useSnap = !useSnap;
+		ImGui::Checkbox("##something", &useSnap);
+		ImGui::SameLine();
+		switch (mCurrentGizmoOperation)
+		{
+		case ImGuizmo::TRANSLATE:
+			ImGui::InputFloat3("Snap", &snap[0]);
+			break;
+		case ImGuizmo::ROTATE:
+			ImGui::InputFloat("Angle Snap", &snap[0]);
+			break;
+		case ImGuizmo::SCALE:
+			ImGui::InputFloat("Scale Snap", &snap[0]);
+			break;
+		}
+
+		if (ImGui::Button("Close"))
+		{
+			Window = false;
+		}
+
+
+		_matrix matId;
+		D3DXMatrixIdentity(&matId);
+
+		ImGuiIO& io = ImGui::GetIO();
+		RECT rt;
+		GetClientRect(g_hWnd, &rt);
+		POINT lt{ rt.left, rt.top };
+		ClientToScreen(g_hWnd, &lt);
+		ImGuizmo::SetRect(lt.x, lt.y, io.DisplaySize.x, io.DisplaySize.y);
+
+		// ImGuizmo::DrawGrid(m_pCam->GetView(), m_pCam->GetPrj(), matId, 100.f);
+
+		ImGuizmo::Manipulate(pCamera->GetView(), pCamera->GetProj(), mCurrentGizmoOperation, mCurrentGizmoMode, matWorld, NULL, useSnap ? &snap[0] : NULL);
+
+		pTransform->m_matWorld = matWorld;
+
+		ImGuizmo::DecomposeMatrixToComponents(matWorld, matrixTranslation, matrixRotation, matrixScale);
+		matrixRotation[0] = D3DXToRadian(matrixRotation[0]);
+		matrixRotation[1] = D3DXToRadian(matrixRotation[1]);
+		matrixRotation[2] = D3DXToRadian(matrixRotation[2]);
+		memcpy(&pTransform->m_vInfo[INFO_POS], matrixTranslation, sizeof(matrixTranslation));
+		memcpy(&pTransform->m_vAngle, matrixRotation, sizeof(matrixRotation));
+		memcpy(&pTransform->m_vScale, matrixScale, sizeof(matrixScale));
+
+
+
+
+		ImGui::End();
+	}
+	if (true == Show_Monster_Tool)
 	{
-	case ImGuizmo::TRANSLATE:
-		ImGui::InputFloat3("Snap", &snap[0]);
-		break;
-	case ImGuizmo::ROTATE:
-		ImGui::InputFloat("Angle Snap", &snap[0]);
-		break;
-	case ImGuizmo::SCALE:
-		ImGui::InputFloat("Scale Snap", &snap[0]);
-		break;
+		ImGui::Begin("Transform");
+		ImGuizmo::BeginFrame();
+		static float snap[3] = { 1.f, 1.f, 1.f };
+		static ImGuizmo::OPERATION mCurrentGizmoOperation(ImGuizmo::ROTATE);
+		static ImGuizmo::MODE mCurrentGizmoMode(ImGuizmo::WORLD);
+		if (ImGui::IsKeyPressed(90))
+			mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
+		//if (ImGui::IsKeyPressed(69))
+		//	mCurrentGizmoOperation = ImGuizmo::ROTATE;
+		if (ImGui::IsKeyPressed(82)) // r Key
+			mCurrentGizmoOperation = ImGuizmo::SCALE;
+		if (ImGui::RadioButton("Translate", mCurrentGizmoOperation == ImGuizmo::TRANSLATE))
+			mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
+		ImGui::SameLine();
+		/*if (ImGui::RadioButton("Rotate", mCurrentGizmoOperation == ImGuizmo::ROTATE))
+		mCurrentGizmoOperation = ImGuizmo::ROTATE;*/
+		ImGui::SameLine();
+		if (ImGui::RadioButton("Scale", mCurrentGizmoOperation == ImGuizmo::SCALE))
+			mCurrentGizmoOperation = ImGuizmo::SCALE;
+
+		if (pTransform == nullptr)
+		{
+			ImGui::Text("Object Delete or nullptr");
+			ImGui::End();
+			return;
+		}
+
+
+		float matrixTranslation[3], matrixRotation[3], matrixScale[3];
+		_matrix matWorld = pTransform->m_matWorld;
+
+		ImGuizmo::DecomposeMatrixToComponents(matWorld, matrixTranslation, matrixRotation, matrixScale);
+		matrixScale[2] = 1.0f;    //부동소수점 문제로 인해 일단 잠굼
+		ImGui::InputFloat3("Tr", matrixTranslation);
+		//ImGui::InputFloat3("Rt", matrixRotation);
+		ImGui::InputFloat3("Sc", matrixScale);
+		ImGuizmo::RecomposeMatrixFromComponents(matrixTranslation, matrixRotation, matrixScale, matWorld);
+
+		if (mCurrentGizmoOperation != ImGuizmo::SCALE)
+		{
+			if (ImGui::RadioButton("Local", mCurrentGizmoMode == ImGuizmo::LOCAL))
+				mCurrentGizmoMode = ImGuizmo::LOCAL;
+			ImGui::SameLine();
+			if (ImGui::RadioButton("World", mCurrentGizmoMode == ImGuizmo::WORLD))
+				mCurrentGizmoMode = ImGuizmo::WORLD;
+		}
+
+		static bool useSnap(false);
+		if (ImGui::IsKeyPressed(83))
+			useSnap = !useSnap;
+		ImGui::Checkbox("##something", &useSnap);
+		ImGui::SameLine();
+		switch (mCurrentGizmoOperation)
+		{
+		case ImGuizmo::TRANSLATE:
+			ImGui::InputFloat3("Snap", &snap[0]);
+			break;
+			//case ImGuizmo::ROTATE:
+			//	ImGui::InputFloat("Angle Snap", &snap[0]);
+			break;
+		case ImGuizmo::SCALE:
+			ImGui::InputFloat("Scale Snap", &snap[0]);
+			break;
+		}
+
+		if (ImGui::Button("Close"))
+		{
+			Window = false;
+		}
+
+
+		_matrix matId;
+		D3DXMatrixIdentity(&matId);
+
+		ImGuiIO& io = ImGui::GetIO();
+		RECT rt;
+		GetClientRect(g_hWnd, &rt);
+		POINT lt{ rt.left, rt.top };
+		ClientToScreen(g_hWnd, &lt);
+		ImGuizmo::SetRect(lt.x, lt.y, io.DisplaySize.x, io.DisplaySize.y);
+
+		// ImGuizmo::DrawGrid(m_pCam->GetView(), m_pCam->GetPrj(), matId, 100.f);
+
+		ImGuizmo::Manipulate(pCamera->GetView(), pCamera->GetProj(), mCurrentGizmoOperation, mCurrentGizmoMode, matWorld, NULL, useSnap ? &snap[0] : NULL);
+
+		pTransform->m_matWorld = matWorld;
+
+		ImGuizmo::DecomposeMatrixToComponents(matWorld, matrixTranslation, matrixRotation, matrixScale);
+		memcpy(&pTransform->m_vInfo[INFO_POS], matrixTranslation, sizeof(matrixTranslation));
+		memcpy(&pTransform->m_vScale, matrixScale, sizeof(matrixScale));
+
+
+		ImGui::End();
 	}
-
-	if (ImGui::Button("Close"))
-	{
-		Window = false;
-	}
-
-
-	_matrix matId;
-	D3DXMatrixIdentity(&matId);
-
-	ImGuiIO& io = ImGui::GetIO();
-	RECT rt;
-	GetClientRect(g_hWnd, &rt);
-	POINT lt{ rt.left, rt.top };
-	ClientToScreen(g_hWnd, &lt);
-	ImGuizmo::SetRect(lt.x, lt.y, io.DisplaySize.x, io.DisplaySize.y);
-
-	// ImGuizmo::DrawGrid(m_pCam->GetView(), m_pCam->GetPrj(), matId, 100.f);
-
-	ImGuizmo::Manipulate(pCamera->GetView(), pCamera->GetProj(), mCurrentGizmoOperation, mCurrentGizmoMode, matWorld, NULL, useSnap ? &snap[0] : NULL);
-
-	pTransform->m_matWorld = matWorld;
-
-	ImGuizmo::DecomposeMatrixToComponents(matWorld, matrixTranslation, matrixRotation, matrixScale);
-	matrixRotation[0] = D3DXToRadian(matrixRotation[0]);
-	matrixRotation[1] = D3DXToRadian(matrixRotation[1]);
-	matrixRotation[2] = D3DXToRadian(matrixRotation[2]);
-	memcpy(&pTransform->m_vInfo[INFO_POS], matrixTranslation, sizeof(matrixTranslation));
-	memcpy(&pTransform->m_vAngle, matrixRotation, sizeof(matrixRotation));
-	memcpy(&pTransform->m_vScale, matrixScale, sizeof(matrixScale));
-
-
-	
-
-	ImGui::End();
 }
 
 void CImGuiMgr::LoggerWindow()
@@ -593,7 +692,7 @@ void CImGuiMgr::MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 
 			NameList.push_back(test1);
 
-			pGameObject = CMonster::Create(pGrahicDev, temp.x, temp.y);
+			pGameObject = CAnubis::Create(pGrahicDev, temp.x, temp.y);
 			NULL_CHECK_RETURN(pGameObject, );
 
 			CLayer* pMonsterlayer = pScene->GetLayer(L"TestLayer3");
@@ -616,7 +715,7 @@ void CImGuiMgr::MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 
 			for (auto iter = test.begin(); iter != test.end(); ++iter)
 			{
-				if (dynamic_cast<CMonster*>(iter->second)->Set_SelectGizmo())
+				if (dynamic_cast<CMonsterBase*>(iter->second)->Set_SelectGizmo(g_hWnd))
 				{
 					pTranscom = dynamic_cast<CTransform*>(iter->second->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
 					m_CurrentSelectGameObjectObjKey = iter->first;
@@ -624,7 +723,7 @@ void CImGuiMgr::MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 			}
 		}
 	}
-	CMonster* pGameObject = dynamic_cast<CMonster*>(Engine::Get_GameObject(L"TestLayer3", m_CurrentSelectGameObjectObjKey.c_str()));
+	CGameObject* pGameObject = dynamic_cast<CMonsterBase*>(Engine::Get_GameObject(L"TestLayer3", m_CurrentSelectGameObjectObjKey.c_str()));
 	
 	ImGui::NewLine();
 	//����Ʈ �� ���� ���� Ȥ�� �̸� �����ؼ� create �ؾ���
@@ -645,7 +744,7 @@ void CImGuiMgr::MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 	//			ImGui::SameLine();
 	//	}
 	//}
-	TransformEdit_Monster(pCam, m_pSelectedTransform, Show_Monster_Tool);
+	TransformEdit(pCam, m_pSelectedTransform, Show_Monster_Tool);
 	// ������ư�� ���Ѱ�
 	if (pTranscom != nullptr)
 		m_pSelectedTransform = pTranscom;
@@ -653,14 +752,14 @@ void CImGuiMgr::MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 	ImGui::End();
 	if (pGameObject != nullptr)
 	{
-		MonsterInfo* monInfo = nullptr;
-		monInfo = static_cast<CMonster*>(pGameObject)->Get_Info();
+		CharacterInfo* monInfo = nullptr;
+		monInfo = &(static_cast<CMonsterBase*>(pGameObject)->Get_InfoRef());
 		ImGui::Begin("Monster Stat");
 
 		ImGui::Text("Monster Stat Setting Window");
-		ImGui::InputInt("Hp", &monInfo->_Hp);
-		ImGui::InputInt("AttackPower", &monInfo->_AttackPower);
-		ImGui::InputInt("MonsterIndex", &monInfo->_MonsterIndex);
+		ImGui::InputInt("Hp", &monInfo->_iHp);
+		ImGui::InputInt("AttackPower", &monInfo->_iAttackPower);
+		ImGui::InputInt("MonsterIndex", &(static_cast<CMonsterBase*>(pGameObject)->Get_MonsterType()));
 		//������ �޾ƿ��� ������ �� �ִ� ����� ������ ��
 
 		ImGui::End();
@@ -841,6 +940,7 @@ void CImGuiMgr::Player_Tool(LPDIRECT3DDEVICE9 pGraphicDev, CScene * pScene, wstr
 		}
 	}
 	ImGui::End();
+
 }
 
 						// Stage -> this
@@ -965,102 +1065,7 @@ void CImGuiMgr::Player_Tool(LPDIRECT3DDEVICE9 pGraphicDev, CScene * pScene, wstr
 //	CloseHandle(hFile);
 //}
 
-void CImGuiMgr::TransformEdit_Monster(CCamera * pCamera, CTransform * pTransform, _bool & Window)
-{
-	ImGui::Begin("Transform");
-	ImGuizmo::BeginFrame();
-	static float snap[3] = { 1.f, 1.f, 1.f };
-	static ImGuizmo::OPERATION mCurrentGizmoOperation(ImGuizmo::ROTATE);
-	static ImGuizmo::MODE mCurrentGizmoMode(ImGuizmo::WORLD);
-	if (ImGui::IsKeyPressed(90))
-		mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
-	//if (ImGui::IsKeyPressed(69))
-	//	mCurrentGizmoOperation = ImGuizmo::ROTATE;
-	if (ImGui::IsKeyPressed(82)) // r Key
-		mCurrentGizmoOperation = ImGuizmo::SCALE;
-	if (ImGui::RadioButton("Translate", mCurrentGizmoOperation == ImGuizmo::TRANSLATE))
-		mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
-	ImGui::SameLine();
-	/*if (ImGui::RadioButton("Rotate", mCurrentGizmoOperation == ImGuizmo::ROTATE))
-		mCurrentGizmoOperation = ImGuizmo::ROTATE;*/
-	ImGui::SameLine();
-	if (ImGui::RadioButton("Scale", mCurrentGizmoOperation == ImGuizmo::SCALE))
-		mCurrentGizmoOperation = ImGuizmo::SCALE;
 
-	if (pTransform == nullptr)
-	{
-		ImGui::Text("Object Delete or nullptr");
-		ImGui::End();
-		return;
-	}
-
-
-	float matrixTranslation[3], matrixRotation[3], matrixScale[3];
-	_matrix matWorld = pTransform->m_matWorld;
-
-	ImGuizmo::DecomposeMatrixToComponents(matWorld, matrixTranslation, matrixRotation, matrixScale);
-	matrixScale[2] = 1.0f;    //부동소수점 문제로 인해 일단 잠굼
-	ImGui::InputFloat3("Tr", matrixTranslation);
-	//ImGui::InputFloat3("Rt", matrixRotation);
-	ImGui::InputFloat3("Sc", matrixScale);
-	ImGuizmo::RecomposeMatrixFromComponents(matrixTranslation, matrixRotation, matrixScale, matWorld);
-
-	if (mCurrentGizmoOperation != ImGuizmo::SCALE)
-	{
-		if (ImGui::RadioButton("Local", mCurrentGizmoMode == ImGuizmo::LOCAL))
-			mCurrentGizmoMode = ImGuizmo::LOCAL;
-		ImGui::SameLine();
-		if (ImGui::RadioButton("World", mCurrentGizmoMode == ImGuizmo::WORLD))
-			mCurrentGizmoMode = ImGuizmo::WORLD;
-	}
-
-	static bool useSnap(false);
-	if (ImGui::IsKeyPressed(83))
-		useSnap = !useSnap;
-	ImGui::Checkbox("##something", &useSnap);
-	ImGui::SameLine();
-	switch (mCurrentGizmoOperation)
-	{
-	case ImGuizmo::TRANSLATE:
-		ImGui::InputFloat3("Snap", &snap[0]);
-		break;
-	//case ImGuizmo::ROTATE:
-	//	ImGui::InputFloat("Angle Snap", &snap[0]);
-		break;
-	case ImGuizmo::SCALE:
-		ImGui::InputFloat("Scale Snap", &snap[0]);
-		break;
-	}
-
-	if (ImGui::Button("Close"))
-	{
-		Window = false;
-	}
-
-
-	_matrix matId;
-	D3DXMatrixIdentity(&matId);
-
-	ImGuiIO& io = ImGui::GetIO();
-	RECT rt;
-	GetClientRect(g_hWnd, &rt);
-	POINT lt{ rt.left, rt.top };
-	ClientToScreen(g_hWnd, &lt);
-	ImGuizmo::SetRect(lt.x, lt.y, io.DisplaySize.x, io.DisplaySize.y);
-
-	// ImGuizmo::DrawGrid(m_pCam->GetView(), m_pCam->GetPrj(), matId, 100.f);
-
-	ImGuizmo::Manipulate(pCamera->GetView(), pCamera->GetProj(), mCurrentGizmoOperation, mCurrentGizmoMode, matWorld, NULL, useSnap ? &snap[0] : NULL);
-
-	pTransform->m_matWorld = matWorld;
-
-	ImGuizmo::DecomposeMatrixToComponents(matWorld, matrixTranslation, matrixRotation, matrixScale);
-	memcpy(&pTransform->m_vInfo[INFO_POS], matrixTranslation, sizeof(matrixTranslation));
-	memcpy(&pTransform->m_vScale, matrixScale, sizeof(matrixScale));
-
-
-	ImGui::End();
-}
 
 void CImGuiMgr::Free()
 {

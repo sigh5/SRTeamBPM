@@ -47,25 +47,25 @@
       <Filter>03. Scene</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Light.cpp">
-      <Filter>04. Manager\04. LightMgr\Light</Filter>
+      <Filter>03. Scene\04. Manager\04. LightMgr\Light</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\LightMgr.cpp">
-      <Filter>04. Manager\04. LightMgr</Filter>
+      <Filter>03. Scene\04. Manager\04. LightMgr</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Management.cpp">
-      <Filter>04. Manager\00. Management</Filter>
+      <Filter>03. Scene\04. Manager\00. Management</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\ObjectMgr.cpp">
-      <Filter>04. Manager\05. ObjectPoolMgr</Filter>
+      <Filter>03. Scene\04. Manager\05. ObjectPoolMgr</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\ProtoMgr.cpp">
-      <Filter>04. Manager\01. ProtoMgr</Filter>
+      <Filter>03. Scene\04. Manager\01. ProtoMgr</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Pipeline.cpp">
-      <Filter>04. Manager\03. Pipeline</Filter>
+      <Filter>03. Scene\04. Manager\03. Pipeline</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Renderer.cpp">
-      <Filter>04. Manager\02. Renderer</Filter>
+      <Filter>03. Scene\04. Manager\02. Renderer</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Collider.cpp">
       <Filter>00. Component\05. Collider</Filter>
@@ -75,6 +75,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\CharacterInfo.cpp">
       <Filter>00. Component\06. CharacterInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MonsterBase.cpp">
+      <Filter>01. GameObject\Monster</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -122,25 +125,25 @@
       <Filter>03. Scene</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\Light.h">
-      <Filter>04. Manager\04. LightMgr\Light</Filter>
+      <Filter>03. Scene\04. Manager\04. LightMgr\Light</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\LightMgr.h">
-      <Filter>04. Manager\04. LightMgr</Filter>
+      <Filter>03. Scene\04. Manager\04. LightMgr</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\Management.h">
-      <Filter>04. Manager\00. Management</Filter>
+      <Filter>03. Scene\04. Manager\00. Management</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\ObjectMgr.h">
-      <Filter>04. Manager\05. ObjectPoolMgr</Filter>
+      <Filter>03. Scene\04. Manager\05. ObjectPoolMgr</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\ProtoMgr.h">
-      <Filter>04. Manager\01. ProtoMgr</Filter>
+      <Filter>03. Scene\04. Manager\01. ProtoMgr</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\Pipeline.h">
-      <Filter>04. Manager\03. Pipeline</Filter>
+      <Filter>03. Scene\04. Manager\03. Pipeline</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\Renderer.h">
-      <Filter>04. Manager\02. Renderer</Filter>
+      <Filter>03. Scene\04. Manager\02. Renderer</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\Collider.h">
       <Filter>00. Component\05. Collider</Filter>
@@ -148,11 +151,14 @@
     <ClInclude Include="..\..\Header\OrthoTransform.h">
       <Filter>00. Component\01. Transform\97. OrthTransform</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Header\Transform.h">
-      <Filter>00. Component\02. Texture</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Header\CharacterInfo.h">
       <Filter>00. Component\06. CharacterInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\MonsterBase.h">
+      <Filter>01. GameObject\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\Transform.h">
+      <Filter>00. Component\01. Transform</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -204,30 +210,6 @@
     <Filter Include="03. Scene">
       <UniqueIdentifier>{e9cb1994-6c3c-4c44-84a0-f016d3f792d3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04. Manager">
-      <UniqueIdentifier>{ae4c7f4e-2225-4b96-895a-5445b47d1aca}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04. Manager\00. Management">
-      <UniqueIdentifier>{7a198dea-4dbf-44f7-aa96-4cb164f96922}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04. Manager\01. ProtoMgr">
-      <UniqueIdentifier>{c57591e6-d7a8-4976-ba48-1043b049f99f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04. Manager\02. Renderer">
-      <UniqueIdentifier>{b8fb7ce0-2266-41d1-8050-632981ef0868}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04. Manager\03. Pipeline">
-      <UniqueIdentifier>{3bce83cb-d415-4fb8-9cd4-e22866626177}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04. Manager\04. LightMgr">
-      <UniqueIdentifier>{02f14da6-dcf0-47f1-9cf8-077972785e59}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04. Manager\04. LightMgr\Light">
-      <UniqueIdentifier>{bcee6df7-6174-461e-9b52-8234ec7166b8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04. Manager\05. ObjectPoolMgr">
-      <UniqueIdentifier>{c5adf578-0a48-404f-a0fc-ee916e314a95}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00. Component\05. Collider">
       <UniqueIdentifier>{d46a5c8a-d54a-4c3d-810a-a19eba545aeb}</UniqueIdentifier>
     </Filter>
@@ -236,6 +218,33 @@
     </Filter>
     <Filter Include="00. Component\06. CharacterInfo">
       <UniqueIdentifier>{ce375ab4-b693-42fa-9014-5380f58b78b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. GameObject\Monster">
+      <UniqueIdentifier>{feb04f23-9279-4288-a4ee-a1b9817fe775}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Scene\04. Manager">
+      <UniqueIdentifier>{ae4c7f4e-2225-4b96-895a-5445b47d1aca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Scene\04. Manager\00. Management">
+      <UniqueIdentifier>{7a198dea-4dbf-44f7-aa96-4cb164f96922}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Scene\04. Manager\01. ProtoMgr">
+      <UniqueIdentifier>{c57591e6-d7a8-4976-ba48-1043b049f99f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Scene\04. Manager\02. Renderer">
+      <UniqueIdentifier>{b8fb7ce0-2266-41d1-8050-632981ef0868}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Scene\04. Manager\03. Pipeline">
+      <UniqueIdentifier>{3bce83cb-d415-4fb8-9cd4-e22866626177}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Scene\04. Manager\04. LightMgr">
+      <UniqueIdentifier>{02f14da6-dcf0-47f1-9cf8-077972785e59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Scene\04. Manager\04. LightMgr\Light">
+      <UniqueIdentifier>{bcee6df7-6174-461e-9b52-8234ec7166b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Scene\04. Manager\05. ObjectPoolMgr">
+      <UniqueIdentifier>{c5adf578-0a48-404f-a0fc-ee916e314a95}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
