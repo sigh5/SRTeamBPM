@@ -45,6 +45,17 @@ _int CStage::Update_Scene(const _float & fTimeDelta)
 				return iResult;
 		}
 	}
+
+	if (0 != m_MonBulletList.size())
+	{
+		for (auto& iter : m_MonBulletList)
+		{
+			iResult = iter->Update_Object(fTimeDelta);
+
+			if (iResult & 0x80000000)
+				return iResult;
+		}
+	}
 	return Engine::CScene::Update_Scene(fTimeDelta);
 }
 
@@ -150,6 +161,10 @@ void CStage::Free(void)
 {
 	CScene::Free();
 
+	for_each(m_BulletList.begin(), m_BulletList.end(), CDeleteObj());
+	m_BulletList.clear();
+	for_each(m_MonBulletList.begin(), m_MonBulletList.end(), CDeleteObj());
+	m_MonBulletList.clear();
 	/*
 	
 	// Effect map에 넣는 방식 변경에 따른 삭제
@@ -181,6 +196,13 @@ HRESULT CStage::Ready_Light(void)
 HRESULT CStage::Push_Bullet(CBullet * pBullet)
 {
 	m_BulletList.emplace_back(pBullet);
+
+	return S_OK;
+}
+
+HRESULT CStage::Push_MonBullet(CMonsterBullet * pBullet)
+{
+	m_MonBulletList.emplace_back(pBullet);
 
 	return S_OK;
 }

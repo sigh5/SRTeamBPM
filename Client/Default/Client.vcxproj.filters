@@ -134,6 +134,9 @@
     <ClCompile Include="..\Code\Spider.cpp">
       <Filter>02. GameObject\01. For_stage\02. TestMonster\02. Spider</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\MonsterBullet.cpp">
+      <Filter>02. GameObject\01. For_stage\07. Bullet\MonsterBullet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\BackGround.h">
@@ -274,6 +277,9 @@
     <ClInclude Include="..\Header\FatBat.h">
       <Filter>02. GameObject\01. For_stage\02. TestMonster\01. Fatbat</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\MonsterBullet.h">
+      <Filter>02. GameObject\01. For_stage\07. Bullet\MonsterBullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -379,6 +385,9 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_stage\02. TestMonster\02. Spider">
       <UniqueIdentifier>{0498f0be-032b-4384-9709-ff40c2683550}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_stage\07. Bullet\MonsterBullet">
+      <UniqueIdentifier>{71c88b7c-f2a3-493b-9590-67cf5f2db9eb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

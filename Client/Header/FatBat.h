@@ -14,10 +14,13 @@ public:
 	virtual void		LateUpdate_Object(void) override;
 	virtual void		Render_Obejct(void) override;
 	void				FatBat_Fly(void);
+	void				FatBat_Shoot(void);
+
 public:
 	static CFatBat*		Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx = 0, int Posy = 0);
 	virtual void	Free(void);
 
 private:
 	int m_iPreIndex = 0;
+	int	m_iCoolTime;
 };

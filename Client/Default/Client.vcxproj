@@ -173,6 +173,7 @@
     <ClInclude Include="..\Header\Loading.h" />
     <ClInclude Include="..\Header\Logo.h" />
     <ClInclude Include="..\Header\MainApp.h" />
+    <ClInclude Include="..\Header\MonsterBullet.h" />
     <ClInclude Include="..\Header\MyCamera.h" />
     <ClInclude Include="..\Header\SkyBox.h" />
     <ClInclude Include="..\Header\Spider.h" />
@@ -221,6 +222,7 @@
     <ClCompile Include="..\Code\Loading.cpp" />
     <ClCompile Include="..\Code\Logo.cpp" />
     <ClCompile Include="..\Code\MainApp.cpp" />
+    <ClCompile Include="..\Code\MonsterBullet.cpp" />
     <ClCompile Include="..\Code\MyCamera.cpp" />
     <ClCompile Include="..\Code\SkyBox.cpp" />
     <ClCompile Include="..\Code\Spider.cpp" />
