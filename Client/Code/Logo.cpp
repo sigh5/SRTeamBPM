@@ -18,6 +18,7 @@ CLogo::CLogo(LPDIRECT3DDEVICE9 pGraphicDev)
 
 CLogo::~CLogo()
 {
+	Free();
 }
 
 HRESULT CLogo::Ready_Scene(void)
@@ -59,11 +60,11 @@ Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 			return 0;
 		}
 		
-		//if (m_pExitButton->Get_Click())
-		//{
-		//	//DestroyWindow(g_hWnd);
-		//	return 0;
-		//}
+		if (m_pExitButton->Get_Click())
+		{
+			//DestroyWindow(g_hWnd);
+			return SCENE_END;
+		}
 	}
 
 	
@@ -97,13 +98,13 @@ HRESULT CLogo::Ready_Layer_Environment(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"BackGround", pGameObject), E_FAIL);
 
-	pGameObject = CStart_Button::Create(m_pGraphicDev, 0.75f, 0.75f);
+	pGameObject = CStart_Button::Create(m_pGraphicDev, -0.6f, 0.45f);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"StartButton", pGameObject), E_FAIL);
 
-	//pGameObject = CExit_Button::Create(m_pGraphicDev, 0.75f, 0.25f);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"ExitButton", pGameObject), E_FAIL);
+	pGameObject = CExit_Button::Create(m_pGraphicDev, -0.6f, -0.45f);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"ExitButton", pGameObject), E_FAIL);
 
 	m_mapLayer.insert({ pLayerTag, pLayer });
 
@@ -146,7 +147,7 @@ HRESULT CLogo::Ready_Proto(void)
 	//FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ButtonTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Button/Credits_Button.png", TEX_NORMAL)), E_FAIL);
 		
 	
-	//FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ButtonTexture2", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Button/Exit_Button.png", TEX_NORMAL)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ButtonTexture2", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Button/Exit_Button.png", TEX_NORMAL)), E_FAIL);
 						
 	return S_OK;
 

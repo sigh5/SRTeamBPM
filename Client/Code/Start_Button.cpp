@@ -17,6 +17,10 @@ HRESULT CStart_Button::Ready_Object(void)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	_vec3		vScale = { 0.15f, 0.08f, 0.f };
+
+	m_pTransCom->Set_Scale(&vScale);
+
 	return S_OK;
 }
 
