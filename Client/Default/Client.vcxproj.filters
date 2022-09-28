@@ -140,10 +140,10 @@
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\FatBat.cpp">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster\01. Fatbat</Filter>
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\01. FatBat</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Spider.cpp">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster\02. Spidert</Filter>
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\02. Spider</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -304,10 +304,10 @@
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\FatBat.h">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster\01. Fatbat</Filter>
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\01. FatBat</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Spider.h">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster\02. Spidert</Filter>
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\02. Spider</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -440,13 +440,13 @@
       <UniqueIdentifier>{846ab7de-cb14-4074-9cc4-1e933101a066}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\00. Anubis">
-      <UniqueIdentifier>{c5d034f3-c4e3-4ec4-b996-d3b08716d649}</UniqueIdentifier>
+      <UniqueIdentifier>{7419bdcc-6923-4892-8a1a-cdc25a065b85}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\01. Fatbat">
-      <UniqueIdentifier>{4af8458d-56e1-4db7-a49a-014a17a750ce}</UniqueIdentifier>
+    <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\01. FatBat">
+      <UniqueIdentifier>{62410cf7-0758-4832-89c3-fee312192cb2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\02. Spidert">
-      <UniqueIdentifier>{999f8599-edd1-4374-84e0-2d4f02725f24}</UniqueIdentifier>
+    <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\02. Spider">
+      <UniqueIdentifier>{cd4a3434-5462-404a-bd03-631b4f60230e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
