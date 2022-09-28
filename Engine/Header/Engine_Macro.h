@@ -83,7 +83,6 @@ namespace Engine
 				m_pInstance = NULL;						\
 			}											\
 		}
-
 }
 
 #endif // Engine_Macro_h__

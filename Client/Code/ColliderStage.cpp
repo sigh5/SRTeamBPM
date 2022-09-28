@@ -12,8 +12,7 @@
 #include "SkyBox.h"
 #include "FileIOMgr.h"
 #include "MyCamera.h"
-#include "TestUI.h"
-
+#include "MetronomeUI.h"
 
 
 CColliderStage::CColliderStage(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -39,8 +38,8 @@ HRESULT CColliderStage::Ready_Scene(void)
 	FAILED_CHECK_RETURN(Ready_Layer_UI(L"Layer_UI"), E_FAIL);
 
 
-	::Initialize();
-	::PlaySoundW(L"SamTow.wav", SOUND_BGM, 1.f);
+	
+	::PlaySoundW(L"SamTow.wav", SOUND_BGM, 0.5f);
 	return S_OK;
 }
 
@@ -165,7 +164,7 @@ HRESULT CColliderStage::Ready_Layer_UI(const _tchar * pLayerTag)
 		OBJ_CUBE);
 
 
-	pGameObject = CTestUI::Create(m_pGraphicDev);
+	pGameObject = CMetronomeUI::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestUI", pGameObject), E_FAIL);
 

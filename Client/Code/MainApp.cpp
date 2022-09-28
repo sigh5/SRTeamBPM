@@ -36,7 +36,7 @@ HRESULT CMainApp::Ready_MainApp(void)
 	//#endif // _DEBUG
 	
 	FAILED_CHECK_RETURN(Ready_Scene(m_pGraphicDev, &m_pManagementClass), E_FAIL);
-	
+	::Initialize();
 	return S_OK;
 }
 
