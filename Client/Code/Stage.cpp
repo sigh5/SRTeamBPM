@@ -4,12 +4,12 @@
 #include "Export_Function.h"
 #include "SkyBox.h"
 #include "Effect.h"
+#include "FileIOMgr.h"
 
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
 {
 }
-
 
 CStage::~CStage()
 {
@@ -33,6 +33,28 @@ HRESULT CStage::Ready_Scene(void)
 
 _int CStage::Update_Scene(const _float & fTimeDelta)
 {
+	_int iResult = 0;
+	if (0 != m_BulletList.size())
+	{
+		for (auto& iter : m_BulletList)
+		{
+			iResult = iter->Update_Object(fTimeDelta);
+
+			if (iResult & 0x80000000)
+				return iResult;
+		}
+	}
+
+	if (0 != m_MonBulletList.size())
+	{
+		for (auto& iter : m_MonBulletList)
+		{
+			iResult = iter->Update_Object(fTimeDelta);
+
+			if (iResult & 0x80000000)
+				return iResult;
+		}
+	}
 	return Engine::CScene::Update_Scene(fTimeDelta);
 }
 
@@ -98,7 +120,14 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Monster", pGameObject), E_FAIL);*/
 
-	m_mapLayer.insert({ pLayerTag, pLayer });
+	//CFileIOMgr::GetInstance()->Load_FileData(m_pGraphicDev, this, L"Layer_GameLogic", L"../../Data/", L"Monster", L"Monster", OBJ_MONSTER);
+	CFileIOMgr::GetInstance()->Load_FileData(m_pGraphicDev, 
+		this, 
+		const_cast<_tchar*>(pLayerTag),
+		L"../../Data/",
+		L"Monster.dat",
+		L"TestMonster",
+		OBJ_MONSTER);
 
 	return S_OK;
 }
@@ -147,6 +176,10 @@ void CStage::Free(void)
 {
 	CScene::Free();
 
+	for_each(m_BulletList.begin(), m_BulletList.end(), CDeleteObj());
+	m_BulletList.clear();
+	for_each(m_MonBulletList.begin(), m_MonBulletList.end(), CDeleteObj());
+	m_MonBulletList.clear();
 	/*
 	
 	// Effect map에 넣는 방식 변경에 따른 삭제
@@ -171,6 +204,20 @@ HRESULT CStage::Ready_Light(void)
 	tLightInfo.Direction  = _vec3(0.f, -1.f, 1.f);
 
 	FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &tLightInfo, 0), E_FAIL);
+
+	return S_OK;
+}
+
+HRESULT CStage::Push_Bullet(CBullet * pBullet)
+{
+	m_BulletList.emplace_back(pBullet);
+
+	return S_OK;
+}
+
+HRESULT CStage::Push_MonBullet(CMonsterBullet * pBullet)
+{
+	m_MonBulletList.emplace_back(pBullet);
 
 	return S_OK;
 }

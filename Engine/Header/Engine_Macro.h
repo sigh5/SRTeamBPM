@@ -3,10 +3,7 @@
 
 namespace Engine
 {
-#define		AX_X		0
-#define		AX_Y		1
-#define		AX_Z		2
-#define		AX_MAX		3
+#define		WINCMAX		480000
 
 #define		WINCX		800
 #define		WINCY		600
@@ -86,7 +83,6 @@ namespace Engine
 				m_pInstance = NULL;						\
 			}											\
 		}
-
 }
 
 #endif // Engine_Macro_h__

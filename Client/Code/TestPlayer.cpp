@@ -31,7 +31,8 @@ HRESULT CTestPlayer::Ready_Object(void)
 _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 {
 	++m_iCountDash;
-	Key_Input(fTimeDelta);
+	//Key_Input(fTimeDelta);
+
 
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
@@ -51,7 +52,7 @@ _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 	}
 	else
 	{
-		Set_OnTerrain();
+		//Set_OnTerrain();
 	}
 
 
@@ -186,8 +187,8 @@ void CTestPlayer::Key_Input(const _float& fTimeDelta)
 
 	if (Get_DIKeyState(DIK_SPACE) & 0X80)	
 		m_bJump = TRUE;	
-
-	if (Get_DIKeyState(DIK_LSHIFT) & 0X80)	
+	
+	if (Get_DIKeyState(DIK_LSHIFT) & 0X80)		
 	{
 		m_bDash = TRUE;
 
@@ -286,15 +287,15 @@ HRESULT CTestPlayer::Create_Bullet(_vec3 vPos)
 		CBullet* pBullet = CBullet::Create(m_pGraphicDev, vPos);
 		NULL_CHECK(pBullet);
 
-		_tchar*         szFinalName = new _tchar[128]; // �����Ⱚ
-		wsprintf(szFinalName, L"");
+		//_tchar*         szFinalName = new _tchar[128]; // �����Ⱚ
+		//wsprintf(szFinalName, L"");
 
-		const _tchar*   szBulletName = L"Bullet_%d";
+		//const _tchar*   szBulletName = L"Bullet_%d";
 
-		wsprintf(szFinalName, szBulletName, m_iCount);
+		//wsprintf(szFinalName, szBulletName, m_iCount);
 
-		//_tchar*	szBullet = L"Bullet1";
-		FAILED_CHECK_RETURN(Engine::Add_GameObject(L"Layer_GameLogic", szFinalName, pBullet), E_FAIL);
+		////_tchar*	szBullet = L"Bullet1";
+		//FAILED_CHECK_RETURN(Engine::Add_GameObject(L"Layer_GameLogic", szFinalName, pBullet), E_FAIL);
 		//FAILED_CHECK_RETURN(Engine::Add_GameObject(L"TestLayer", szFinalName, pBullet), E_FAIL); // ToolTest
 
 		if (szBulletName != nullptr)	
@@ -314,7 +315,7 @@ HRESULT CTestPlayer::Create_Bullet(_vec3 vPos)
 	//cout << "Bullet Count : " << m_iTest << endl;
 
 #endif	// _DEBUG
-	
+
 	return S_OK;
 }
 

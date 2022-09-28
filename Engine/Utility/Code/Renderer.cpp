@@ -28,7 +28,6 @@ void CRenderer::Render_GameObject(LPDIRECT3DDEVICE9 & pGraphicDev)
 	{
 		if (i != RENDER_UI)
 		{
-
 			for (auto& iter : m_RenderGroup[i])
 			{
 				iter->Render_Obejct();
@@ -38,15 +37,7 @@ void CRenderer::Render_GameObject(LPDIRECT3DDEVICE9 & pGraphicDev)
 		}
 	}
 
-}
 
-void CRenderer::Clear_RenderGroup(void)
-{
-	for (_uint i = 0; i < RENDER_END; ++i)
-	{
-		for_each(m_RenderGroup[i].begin(), m_RenderGroup[i].end(), CDeleteObj());
-		m_RenderGroup[i].clear();
-	}
 }
 
 void CRenderer::Render_UIObject(LPDIRECT3DDEVICE9 & pGraphicDev)
@@ -66,6 +57,16 @@ void CRenderer::Render_UIObject(LPDIRECT3DDEVICE9 & pGraphicDev)
 	}
 	m_RenderGroup[RENDER_UI].clear();
 
+
+}
+
+void CRenderer::Clear_RenderGroup(void)
+{
+	for (_uint i = 0; i < RENDER_END; ++i)
+	{
+		for_each(m_RenderGroup[i].begin(), m_RenderGroup[i].end(), CDeleteObj());
+		m_RenderGroup[i].clear();
+	}
 }
 
 void Engine::CRenderer::Free(void)

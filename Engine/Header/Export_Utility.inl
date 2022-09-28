@@ -43,7 +43,7 @@ HRESULT					Add_GameObject(const _tchar* pLayerTag, const _tchar* pObjTag, CGame
 	return CManagement::GetInstance()->Add_GameObject(pLayerTag, pObjTag, pInstance);
 }
 
-CGameObject*				Get_GameObject(const _tchar* pLayerTag, const _tchar* pObjTag)
+CGameObject*		 Get_GameObject(const _tchar* pLayerTag, const _tchar* pObjTag)
 {
 	return CManagement::GetInstance()->Get_GameObject(pLayerTag, pObjTag);
 }
@@ -87,20 +87,44 @@ HRESULT	Ready_Light(LPDIRECT3DDEVICE9 pGraphicDev, const D3DLIGHT9* pLightInfo, 
 }
 
 
-void Collect_Obj(CGameObject * pObj)
+
+void Initialize()
 {
-	CObjectMgr::GetInstance()->Collect_Obj(pObj);
+	CSoundMgr::GetInstance()->Initialize();
 }
 
-CGameObject * Reuse_Obj(LPDIRECT3DDEVICE9 pGraphicDev, const D3DXVECTOR3 & vPos)
+void PlaySoundW(TCHAR* pSoundKey, CHANNELID eID, float fVolume)
 {
-	return CObjectMgr::GetInstance()->Reuse_Obj(pGraphicDev, vPos);
+	CSoundMgr::GetInstance()->PlaySoundW(pSoundKey, eID, fVolume);
 }
-
+void PlayBGM(TCHAR* pSoundKey, float fVolume)
+{
+	CSoundMgr::GetInstance()->PlayBGM(pSoundKey, fVolume);
+}
+void StopSound(CHANNELID eID)
+{
+	CSoundMgr::GetInstance()->StopSound(eID);
+}
+void	StopAll()
+{
+	CSoundMgr::GetInstance()->StopAll();
+}
+void PlaySlow(TCHAR * pSoundKey, CHANNELID eID, float fVolume, float fRate)
+{
+	CSoundMgr::GetInstance()->PlaySlow(pSoundKey, eID, fVolume, fRate);
+}
+void SetChannelVolume(CHANNELID eID, float fVolume)
+{
+	CSoundMgr::GetInstance()->SetChannelVolume(eID, fVolume);
+}
+void LoadSoundFile()
+{
+	CSoundMgr::GetInstance()->LoadSoundFile();
+}
 
 inline void			Release_Utility(void)
 {
-	CObjectMgr::GetInstance()->DestroyInstance();
+	CSoundMgr::GetInstance()->DestroyInstance();
 	CLightMgr::GetInstance()->DestroyInstance();
 	CRenderer::GetInstance()->DestroyInstance();
 	CProtoMgr::GetInstance()->DestroyInstance();

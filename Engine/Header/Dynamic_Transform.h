@@ -20,8 +20,9 @@ public:
 public:
 	
 	_float				Get_TerrainY1(const _tchar* pLayerTag, const _tchar* pObjTag, const _tchar* pComponentTag, COMPONENTID eID, CCalculator* pCalculator, CTransform* pTransform);
+													//L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC, m_pCalculatorCom, m_pTransCom); 
 	void				Jumping(_float _JumpPower, _float _TimeDelta, CTransform* pTransform);
-	
+	void				Monster_Fly(CTransform* _pTransformCom, float _TerrainY, float _MaxY);
 
 	void				Dashing(const _float& fTimeDelta, CTransform* pTransform, _vec3 vecUp, _vec3 vecDir, TYPING_TYPE tType);
 

@@ -171,6 +171,7 @@ call CopyUtility.bat</Command>
     <ClInclude Include="..\..\Header\Animation.h" />
     <ClInclude Include="..\..\Header\Calculator.h" />
     <ClInclude Include="..\..\Header\Camera.h" />
+    <ClInclude Include="..\..\Header\CharacterInfo.h" />
     <ClInclude Include="..\..\Header\Collider.h" />
     <ClInclude Include="..\..\Header\Component.h" />
     <ClInclude Include="..\..\Header\CubeTex.h" />
@@ -181,7 +182,7 @@ call CopyUtility.bat</Command>
     <ClInclude Include="..\..\Header\Light.h" />
     <ClInclude Include="..\..\Header\LightMgr.h" />
     <ClInclude Include="..\..\Header\Management.h" />
-    <ClInclude Include="..\..\Header\ObjectMgr.h" />
+    <ClInclude Include="..\..\Header\MonsterBase.h" />
     <ClInclude Include="..\..\Header\OrthoTransform.h" />
     <ClInclude Include="..\..\Header\Pipeline.h" />
     <ClInclude Include="..\..\Header\ProtoMgr.h" />
@@ -189,6 +190,7 @@ call CopyUtility.bat</Command>
     <ClInclude Include="..\..\Header\RcTex.h" />
     <ClInclude Include="..\..\Header\Renderer.h" />
     <ClInclude Include="..\..\Header\Scene.h" />
+    <ClInclude Include="..\..\Header\SoundMgr.h" />
     <ClInclude Include="..\..\Header\TerrainTex.h" />
     <ClInclude Include="..\..\Header\Texture.h" />
     <ClInclude Include="..\..\Header\Transform.h" />
@@ -199,6 +201,7 @@ call CopyUtility.bat</Command>
     <ClCompile Include="..\Code\Animation.cpp" />
     <ClCompile Include="..\Code\Calculator.cpp" />
     <ClCompile Include="..\Code\Camera.cpp" />
+    <ClCompile Include="..\Code\CharacterInfo.cpp" />
     <ClCompile Include="..\Code\Collider.cpp" />
     <ClCompile Include="..\Code\Component.cpp" />
     <ClCompile Include="..\Code\CubeTex.cpp" />
@@ -208,7 +211,7 @@ call CopyUtility.bat</Command>
     <ClCompile Include="..\Code\Light.cpp" />
     <ClCompile Include="..\Code\LightMgr.cpp" />
     <ClCompile Include="..\Code\Management.cpp" />
-    <ClCompile Include="..\Code\ObjectMgr.cpp" />
+    <ClCompile Include="..\Code\MonsterBase.cpp" />
     <ClCompile Include="..\Code\OrthoTransform.cpp" />
     <ClCompile Include="..\Code\Pipeline.cpp" />
     <ClCompile Include="..\Code\ProtoMgr.cpp" />
@@ -216,6 +219,7 @@ call CopyUtility.bat</Command>
     <ClCompile Include="..\Code\RcTex.cpp" />
     <ClCompile Include="..\Code\Renderer.cpp" />
     <ClCompile Include="..\Code\Scene.cpp" />
+    <ClCompile Include="..\Code\SoundMgr.cpp" />
     <ClCompile Include="..\Code\TerrainTex.cpp" />
     <ClCompile Include="..\Code\Texture.cpp" />
     <ClCompile Include="..\Code\Transform.cpp" />

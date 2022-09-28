@@ -159,13 +159,14 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Header\AbstractFactory.h" />
+    <ClInclude Include="..\Header\Anubis.h" />
     <ClInclude Include="..\Header\BackGround.h" />
     <ClInclude Include="..\Header\Bullet.h" />
-    <ClInclude Include="..\Header\Bullet_UI.h" />
     <ClInclude Include="..\Header\ColliderStage.h" />
     <ClInclude Include="..\Header\DynamicCamera.h" />
     <ClInclude Include="..\Header\Effect.h" />
-    <ClInclude Include="..\Header\Exit_Button.h" />
+    <ClInclude Include="..\Header\FatBat.h" />
     <ClInclude Include="..\Header\FileIOMgr.h" />
     <ClInclude Include="..\Header\HpBar.h" />
     <ClInclude Include="..\Header\HWPlayer.h" />
@@ -173,11 +174,13 @@
     <ClInclude Include="..\Header\Loading.h" />
     <ClInclude Include="..\Header\Logo.h" />
     <ClInclude Include="..\Header\MainApp.h" />
-    <ClInclude Include="..\Header\Monster.h" />
+    <ClInclude Include="..\Header\MetronomeUI.h" />
+    <ClInclude Include="..\Header\MonsterBullet.h" />
     <ClInclude Include="..\Header\MyCamera.h" />
+    <ClInclude Include="..\Header\ObjectMgr.h" />
     <ClInclude Include="..\Header\SkyBox.h" />
+    <ClInclude Include="..\Header\Spider.h" />
     <ClInclude Include="..\Header\Stage.h" />
-    <ClInclude Include="..\Header\Start_Button.h" />
     <ClInclude Include="..\Header\StaticCamera.h" />
     <ClInclude Include="..\Header\Terrain.h" />
     <ClInclude Include="..\Header\TestCube.h" />
@@ -185,7 +188,6 @@
     <ClInclude Include="..\Header\TestPlayer.h" />
     <ClInclude Include="..\Header\TestUI.h" />
     <ClInclude Include="..\Header\ToolTest.h" />
-    <ClInclude Include="..\Header\Weapon_UI.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Imgui\GraphEditor.h" />
     <ClInclude Include="Imgui\imconfig.h" />
@@ -209,13 +211,13 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Code\Anubis.cpp" />
     <ClCompile Include="..\Code\BackGround.cpp" />
     <ClCompile Include="..\Code\Bullet.cpp" />
-    <ClCompile Include="..\Code\Bullet_UI.cpp" />
     <ClCompile Include="..\Code\ColliderStage.cpp" />
     <ClCompile Include="..\Code\DynamicCamera.cpp" />
     <ClCompile Include="..\Code\Effect.cpp" />
-    <ClCompile Include="..\Code\Exit_Button.cpp" />
+    <ClCompile Include="..\Code\FatBat.cpp" />
     <ClCompile Include="..\Code\FileIOMgr.cpp" />
     <ClCompile Include="..\Code\HpBar.cpp" />
     <ClCompile Include="..\Code\HWPlayer.cpp" />
@@ -223,11 +225,13 @@
     <ClCompile Include="..\Code\Loading.cpp" />
     <ClCompile Include="..\Code\Logo.cpp" />
     <ClCompile Include="..\Code\MainApp.cpp" />
-    <ClCompile Include="..\Code\Monster.cpp" />
+    <ClCompile Include="..\Code\MonsterBullet.cpp" />
+    <ClCompile Include="..\Code\MetronomeUI.cpp" />
     <ClCompile Include="..\Code\MyCamera.cpp" />
+    <ClCompile Include="..\Code\ObjectMgr.cpp" />
     <ClCompile Include="..\Code\SkyBox.cpp" />
+    <ClCompile Include="..\Code\Spider.cpp" />
     <ClCompile Include="..\Code\Stage.cpp" />
-    <ClCompile Include="..\Code\Start_Button.cpp" />
     <ClCompile Include="..\Code\StaticCamera.cpp" />
     <ClCompile Include="..\Code\Terrain.cpp" />
     <ClCompile Include="..\Code\TestCube.cpp" />
@@ -235,7 +239,6 @@
     <ClCompile Include="..\Code\TestPlayer.cpp" />
     <ClCompile Include="..\Code\TestUI.cpp" />
     <ClCompile Include="..\Code\ToolTest.cpp" />
-    <ClCompile Include="..\Code\Weapon_UI.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="Imgui\GraphEditor.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>

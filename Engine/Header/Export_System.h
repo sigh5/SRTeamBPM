@@ -32,6 +32,11 @@ inline _byte		Get_DIMouseState(MOUSEKEYSTATE byMouseID);
 inline _long		Get_DIMouseMove(MOUSEMOVESTATE eMoveState);
 inline	HRESULT		Ready_InputDev(HINSTANCE hInst, HWND hWnd);
 inline void			SetUp_InputDev(void);
+inline bool			Key_Pressing(int _iKey);
+inline bool			Key_Down(int _byKeyID);
+inline bool			Key_Up(int _iKey);
+
+inline bool			Mouse_Down(MOUSEKEYSTATE _MouseButton);
 
 // FontMgr
 

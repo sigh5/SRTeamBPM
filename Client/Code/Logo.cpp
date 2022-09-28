@@ -34,6 +34,11 @@ HRESULT CLogo::Ready_Scene(void)
 	m_pLoading = CLoading::Create(m_pGraphicDev, LOADING_STAGE);
 	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
 		
+	//Engine::LoadSoundFile();
+
+
+
+
 	return S_OK;
 }
 
@@ -151,5 +156,4 @@ HRESULT CLogo::Ready_Proto(void)
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ButtonTexture2", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Button/Exit_Button.png", TEX_NORMAL)), E_FAIL);
 						
 	return S_OK;
-
 }

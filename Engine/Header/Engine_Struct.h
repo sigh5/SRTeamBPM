@@ -50,12 +50,27 @@ namespace Engine
 
 	
 
-	typedef struct tagMonsterINFO
+	typedef struct tagCharacterInfo
 	{
-		int _Hp;
-		int _AttackPower;
-		int _MonsterIndex;
-	}MonsterInfo;
+		int _iHp;
+		int _iAttackPower;
+		int _iCoin;
+		int _iKey;
+		float _fSpeed;
+	}CharacterInfo;
+
+
+	typedef struct tagParticleInfo
+	{
+		_vec3		vPos;
+		D3DCOLOR	color;
+		_float		fSize;
+	}ParticleInfo;
+
+	const _ulong  FVF_Particle = D3DFVF_XYZ | D3DFVF_DIFFUSE;
+
+
+
 }
 
 

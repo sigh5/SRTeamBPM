@@ -73,6 +73,18 @@ HRESULT CLayer::Add_GameObject(const _tchar * pObjTag, CGameObject * pInstance)
 	return S_OK;
 }
 
+HRESULT CLayer::Add_GameObjectList(CGameObject * pInstance)
+{
+	if (nullptr == pInstance)
+		return E_FAIL;
+
+
+	m_objPoolList.push_back(pInstance);
+
+
+	return S_OK;
+}
+
 HRESULT CLayer::Ready_Layer(void)
 {
 	return S_OK;
@@ -82,13 +94,51 @@ _int CLayer::Update_Layer(const _float & fTimeDelta)
 {
 	_int iResult = 0;
 
-	for (auto& iter : m_mapObject)
+	//for (auto& iter : m_mapObject)
+	//{
+	//	iResult = iter.second->Update_Object(fTimeDelta);
+	//	
+	//	if (iResult & 0x80000000)
+	//		return iResult;
+
+	//	else if (iResult == 5)
+	//	{
+	//		//Safe_Delete(iter.second);
+	//		m_mapObject.erase(iter++);
+	//		//Safe_Release(iter.second);
+	//	
+	//	}
+	//}
+
+	for (auto iter = m_mapObject.begin(); iter != m_mapObject.end(); )
 	{
-		iResult = iter.second->Update_Object(fTimeDelta);
+		iResult = iter->second->Update_Object(fTimeDelta);
 
 		if (iResult & 0x80000000)
-			return iResult;
+				return iResult;
+		
+		iter++;
+
 	}
+	
+	for (auto &iter = m_objPoolList.begin(); iter != m_objPoolList.end();)
+	{
+		int iResult = (*iter)->Update_Object(fTimeDelta);
+	
+		if (iResult & 0x80000000)
+			return iResult;
+		
+		else if (iResult == 5)
+		{
+			m_objPoolList.erase(iter++);
+			continue;
+		}
+		++iter;
+
+	
+	}
+
+
 
 	return iResult;
 }
@@ -117,11 +167,18 @@ void CLayer::Free(void)
 		Safe_Delete_Array(iter);
 	}
 	NameList.clear();
+	
+	for (auto iter : m_objPoolList)
+	{
+		Safe_Release(iter);
+	}
+	m_objPoolList.clear();
+
 
 	for_each(m_mapObject.begin(), m_mapObject.end(), CDeleteMap());
 	m_mapObject.clear();
 
-	
+
 	
 
 }

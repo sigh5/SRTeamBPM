@@ -20,7 +20,7 @@ public:
 	const _int	Get_DrawTexIndex()const {return m_iTexIndex;}
 
 public:
-	virtual		HRESULT		Ready_Object(void);
+	virtual		HRESULT		Ready_Object();
 	virtual		_int		Update_Object(const _float& fTimeDelta);
 	virtual		void		LateUpdate_Object(void);
 	virtual		void		Render_Obejct(void);
@@ -34,9 +34,6 @@ protected:
 
 protected:
 	_int				m_iTexIndex = 0;
-
-public:
-	static CGameObject*		Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos);
 
 public:
 	virtual void	Free(void);

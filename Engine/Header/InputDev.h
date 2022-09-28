@@ -27,6 +27,8 @@ public:
 	bool		Key_Down(int _byKeyID); //키누르면 true
 	bool		Key_Up(int _iKey);		//조건문 버그 못고침
 
+	bool		Mouse_Down(MOUSEKEYSTATE _MouseButton);
+
 public:
 	HRESULT			Ready_InputDev(HINSTANCE hInst, HWND hWnd);
 	void			SetUp_InputDev(void);
@@ -41,6 +43,7 @@ private:
 	LPDIRECTINPUT8				m_pInputSDK;
 
 	bool m_bKeyState[256]; //키상태
+	bool m_bMouseState[4]; //마우스 상태
 
 public:
 	virtual void		Free(void);

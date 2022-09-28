@@ -16,6 +16,7 @@ class CMyCamera;
 
 class CTestUI :public CGameObject
 {
+private:
 	explicit CTestUI(LPDIRECT3DDEVICE9 pGraphicDev);
 	explicit CTestUI(const CGameObject& rhs);
 	virtual ~CTestUI();
