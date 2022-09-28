@@ -118,8 +118,11 @@
     <ClCompile Include="..\Code\HpBar.cpp">
       <Filter>02. GameObject\01. For_stage\08. HpBar</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\MyButton.cpp">
-      <Filter>02. GameObject\00. For_Logo\01. Button</Filter>
+    <ClCompile Include="..\Code\Start_Button.cpp">
+      <Filter>02. GameObject\00. For_Logo\01. Button\00. Start_Button</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Exit_Button.cpp">
+      <Filter>02. GameObject\00. For_Logo\01. Button\01. Exit_Button</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -255,8 +258,11 @@
     <ClInclude Include="..\Header\HpBar.h">
       <Filter>02. GameObject\01. For_stage\08. HpBar</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\MyButton.h">
-      <Filter>02. GameObject\00. For_Logo\01. Button</Filter>
+    <ClInclude Include="..\Header\Start_Button.h">
+      <Filter>02. GameObject\00. For_Logo\01. Button\00. Start_Button</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Exit_Button.h">
+      <Filter>02. GameObject\00. For_Logo\01. Button\01. Exit_Button</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -357,6 +363,12 @@
     </Filter>
     <Filter Include="02. GameObject\00. For_Logo\01. Button">
       <UniqueIdentifier>{5e41b4a1-8175-4546-a74b-c0221bfc4755}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\00. For_Logo\01. Button\00. Start_Button">
+      <UniqueIdentifier>{ad69cf30-1aa2-4a75-a4e3-d081547483b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\00. For_Logo\01. Button\01. Exit_Button">
+      <UniqueIdentifier>{537f6b0e-bb55-4ed7-8521-bd28075f0a44}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

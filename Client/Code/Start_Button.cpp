@@ -1,45 +1,53 @@
 #include "stdafx.h"
-#include "..\Header\MyButton.h"
+#include "..\Header\Start_Button.h"
 #include "Export_Function.h"
 
 USING(Engine)
 
-CMyButton::CMyButton(LPDIRECT3DDEVICE9 pGraphicDev)
+CStart_Button::CStart_Button(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
 {
 }
 
-CMyButton::~CMyButton()
-{
+CStart_Button::~CStart_Button()
+{	
 }
 
-HRESULT CMyButton::Ready_Object(void)
+HRESULT CStart_Button::Ready_Object(void)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_tRect.left = _long(100);
-	m_tRect.top = _long(100);
-	m_tRect.right = _long(WINCX - 600);
-	m_tRect.bottom = _long(WINCY - 600);
-	
 	return S_OK;
 }
 
-_int CMyButton::Update_Object(const _float & fTimeDelta)
-{	
-	Engine::CGameObject::Update_Object(fTimeDelta);
+_int CStart_Button::Update_Object(const _float & fTimeDelta)
+{
+	if (MouseCheck())
+	{
+		m_bCheck = TRUE;
+
+		if (Engine::CInputDev::GetInstance()->Get_DIMouseState(DIM_LB) & 0x80)
+		{
+			m_bClick = TRUE;
+		}
+	}
+
+	else		
+		m_bCheck = FALSE;
+			
+	CGameObject::Update_Object(fTimeDelta);
 
 	Add_RenderGroup(RENDER_UI, this);
 
 	return 0;
 }
 
-void CMyButton::LateUpdate_Object(void)
+void CStart_Button::LateUpdate_Object(void)
 {
 	CGameObject::LateUpdate_Object();
 }
 
-void CMyButton::Render_Obejct(void)
+void CStart_Button::Render_Obejct(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
@@ -61,7 +69,7 @@ void CMyButton::Render_Obejct(void)
 	CGameObject::Render_Obejct();
 }
 
-_bool CMyButton::MouseCheck(void)
+_bool CStart_Button::MouseCheck(void)
 {
 	POINT ptMouse{};
 
@@ -83,23 +91,28 @@ _bool CMyButton::MouseCheck(void)
 	return false;
 }
 
-HRESULT CMyButton::Add_Component(void)
+HRESULT CStart_Button::Add_Component(void)
 {
 	CComponent* pComponent = nullptr;
-	
-	//pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_ButtonTexture"));
-	//NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
-	//m_mapComponent[ID_STATIC].insert({ L"Proto_ButtonTexture", pComponent });
 
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_ButtonTexture"));
+	NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
+	m_mapComponent[ID_STATIC].insert({ L"Proto_ButtonTexture", pComponent });
 
-	
+	pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Clone_Proto(L"Proto_RcTexCom"));
+	NULL_CHECK_RETURN(m_pBufferCom, E_FAIL);
+	m_mapComponent[ID_STATIC].insert({ L"Proto_RcTexCom", pComponent });
+
+	pComponent = m_pTransCom = dynamic_cast<CTransform*>(Clone_Proto(L"Proto_TransformCom"));
+	NULL_CHECK_RETURN(m_pTransCom, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].insert({ L"Proto_TransformCom", pComponent });
 
 	return S_OK;
 }
 
-CMyButton * CMyButton::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+CStart_Button * CStart_Button::Create(LPDIRECT3DDEVICE9 pGraphicDev, _float fX, _float fY)
 {
-	CMyButton* pInstance = new CMyButton(pGraphicDev);
+	CStart_Button* pInstance = new CStart_Button(pGraphicDev);
 
 	if (FAILED(pInstance->Ready_Object()))
 	{
@@ -108,10 +121,12 @@ CMyButton * CMyButton::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 		return nullptr;
 	}
 
+	pInstance->m_pTransCom->Set_Pos(fX, fY, 0.f);
+
 	return pInstance;
 }
 
-void CMyButton::Free(void)
+void CStart_Button::Free(void)
 {
 	CGameObject::Free();
 }

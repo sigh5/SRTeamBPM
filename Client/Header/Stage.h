@@ -9,6 +9,7 @@
 #include "StaticCamera.h"
 #include "DynamicCamera.h"
 #include "Monster.h" //테스트용 몬스터
+#include "Start_Button.h"
 
 class CStage : public Engine::CScene
 {
@@ -35,6 +36,8 @@ private:
 private:
 	list<_tchar*>		m_szEffectName;
 	_uint				m_iCount = 0;
+
+	CStart_Button*		m_pStartButton = nullptr;
 
 public:
 	static CStage*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

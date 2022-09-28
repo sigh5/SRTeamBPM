@@ -164,6 +164,7 @@
     <ClInclude Include="..\Header\ColliderStage.h" />
     <ClInclude Include="..\Header\DynamicCamera.h" />
     <ClInclude Include="..\Header\Effect.h" />
+    <ClInclude Include="..\Header\Exit_Button.h" />
     <ClInclude Include="..\Header\FileIOMgr.h" />
     <ClInclude Include="..\Header\HpBar.h" />
     <ClInclude Include="..\Header\HWPlayer.h" />
@@ -172,10 +173,10 @@
     <ClInclude Include="..\Header\Logo.h" />
     <ClInclude Include="..\Header\MainApp.h" />
     <ClInclude Include="..\Header\Monster.h" />
-    <ClInclude Include="..\Header\MyButton.h" />
     <ClInclude Include="..\Header\MyCamera.h" />
     <ClInclude Include="..\Header\SkyBox.h" />
     <ClInclude Include="..\Header\Stage.h" />
+    <ClInclude Include="..\Header\Start_Button.h" />
     <ClInclude Include="..\Header\StaticCamera.h" />
     <ClInclude Include="..\Header\Terrain.h" />
     <ClInclude Include="..\Header\TestCube.h" />
@@ -211,6 +212,7 @@
     <ClCompile Include="..\Code\ColliderStage.cpp" />
     <ClCompile Include="..\Code\DynamicCamera.cpp" />
     <ClCompile Include="..\Code\Effect.cpp" />
+    <ClCompile Include="..\Code\Exit_Button.cpp" />
     <ClCompile Include="..\Code\FileIOMgr.cpp" />
     <ClCompile Include="..\Code\HpBar.cpp" />
     <ClCompile Include="..\Code\HWPlayer.cpp" />
@@ -219,10 +221,10 @@
     <ClCompile Include="..\Code\Logo.cpp" />
     <ClCompile Include="..\Code\MainApp.cpp" />
     <ClCompile Include="..\Code\Monster.cpp" />
-    <ClCompile Include="..\Code\MyButton.cpp" />
     <ClCompile Include="..\Code\MyCamera.cpp" />
     <ClCompile Include="..\Code\SkyBox.cpp" />
     <ClCompile Include="..\Code\Stage.cpp" />
+    <ClCompile Include="..\Code\Start_Button.cpp" />
     <ClCompile Include="..\Code\StaticCamera.cpp" />
     <ClCompile Include="..\Code\Terrain.cpp" />
     <ClCompile Include="..\Code\TestCube.cpp" />
