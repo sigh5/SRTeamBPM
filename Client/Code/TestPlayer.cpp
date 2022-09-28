@@ -3,6 +3,7 @@
 
 #include "Export_Function.h"
 #include "Bullet.h"
+#include "Bullet_UI.h"
 
 CTestPlayer::CTestPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -135,6 +136,11 @@ HRESULT CTestPlayer::Add_Component(void)
 	NULL_CHECK_RETURN(m_pCalculatorCom, E_FAIL);
 	m_mapComponent[ID_STATIC].insert({ L"Proto_CalculatorCom", pComponent });
 
+	pComponent = m_pAnimationCom = dynamic_cast<CAnimation*>(Clone_Proto(L"Proto_AnimationCom"));
+	NULL_CHECK_RETURN(m_pAnimationCom, E_FAIL);
+	m_mapComponent[ID_STATIC].insert({ L"Proto_AnimationCom", pComponent });
+
+	
 	return S_OK;
 }
 
@@ -197,16 +203,25 @@ void CTestPlayer::Key_Input(const _float& fTimeDelta)
 		Create_Bullet(m_vPos);
 		
 		m_bOneShot = TRUE;
-
+	
 		// Magazine 0 = Don't Shoot
 		if (m_iMagazine == 0)
 			m_bOneShot = FALSE;
+	
+		
 	}
 
 	if (Get_DIKeyState(DIK_R) & 0X80)
 	{
 		m_iMagazine = 8;
 	}
+
+	// Test
+	if (Get_DIKeyState(DIK_X) & 0X80)
+	{
+		m_iChangeImage -= 1;
+	}
+	// ~Test
 
 	// Picking to LeftButton
 	/*if (Engine::Get_DIMouseState(DIM_LB) & 0X80)
@@ -263,6 +278,7 @@ Engine::_vec3 CTestPlayer::PickUp_OnTerrain(void)
 
 HRESULT CTestPlayer::Create_Bullet(_vec3 vPos)
 {
+
 	++m_iCoolTime;
 
 	if (m_bOneShot && m_iCoolTime > 10)
@@ -281,13 +297,15 @@ HRESULT CTestPlayer::Create_Bullet(_vec3 vPos)
 		FAILED_CHECK_RETURN(Engine::Add_GameObject(L"Layer_GameLogic", szFinalName, pBullet), E_FAIL);
 		//FAILED_CHECK_RETURN(Engine::Add_GameObject(L"TestLayer", szFinalName, pBullet), E_FAIL); // ToolTest
 
-		if (szBulletName != nullptr)
+		if (szBulletName != nullptr)	
 			m_iMagazine -= 1;
+		
 
 		m_szBulletName.push_back(szFinalName);
 		m_iCount++;
 
-		m_bOneShot = false;
+		m_bOneShot = FALSE;
+	
 		m_iCoolTime = 0;
 	}
 

@@ -127,6 +127,9 @@
     <ClCompile Include="..\Code\Bullet_UI.cpp">
       <Filter>02. GameObject\01. For_stage\95. Bullet_UI</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\Weapon_UI.cpp">
+      <Filter>02. GameObject\01. For_stage\94. Weapon_UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\BackGround.h">
@@ -270,6 +273,9 @@
     <ClInclude Include="..\Header\Bullet_UI.h">
       <Filter>02. GameObject\01. For_stage\95. Bullet_UI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Weapon_UI.h">
+      <Filter>02. GameObject\01. For_stage\94. Weapon_UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -378,6 +384,9 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_stage\95. Bullet_UI">
       <UniqueIdentifier>{38a123b3-f169-4a00-9d56-96b65ebae1b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_stage\94. Weapon_UI">
+      <UniqueIdentifier>{5995347f-4b35-4b0c-9f3f-44bc4b7425ad}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

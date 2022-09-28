@@ -18,7 +18,6 @@ CLogo::CLogo(LPDIRECT3DDEVICE9 pGraphicDev)
 
 CLogo::~CLogo()
 {
-	Free();
 }
 
 HRESULT CLogo::Ready_Scene(void)

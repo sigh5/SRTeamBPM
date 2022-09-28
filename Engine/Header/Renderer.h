@@ -19,6 +19,7 @@ public:
 	void		Render_GameObject(LPDIRECT3DDEVICE9& pGraphicDev);
 	void		Clear_RenderGroup(void);
 
+	void		Render_UIObject(LPDIRECT3DDEVICE9 & pGraphicDev);
 
 private:
 	list<CGameObject*>			m_RenderGroup[RENDER_END];

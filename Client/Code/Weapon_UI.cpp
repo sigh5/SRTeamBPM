@@ -1,52 +1,53 @@
 #include "stdafx.h"
-#include "..\Header\Bullet_UI.h"
+#include "..\Header\Weapon_UI.h"
+
 #include "Export_Function.h"
 
 USING(Engine)
 
-CBullet_UI::CBullet_UI(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CGameObject(pGraphicDev)
+
+CWeapon_UI::CWeapon_UI(LPDIRECT3DDEVICE9 pGraphicDev)
+	:CGameObject(pGraphicDev)
 {
 }
 
-CBullet_UI::CBullet_UI(const CGameObject & rhs)
+CWeapon_UI::CWeapon_UI(const CGameObject & rhs)
 	: CGameObject(rhs)
 {
 }
 
-CBullet_UI::~CBullet_UI()
+CWeapon_UI::~CWeapon_UI()
 {
 }
 
-HRESULT CBullet_UI::Ready_Object(CTestPlayer* pPlayer)
+HRESULT CWeapon_UI::Ready_Object(CTestPlayer * pPlayer)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_pPlayer = pPlayer;
-		
+
 	return S_OK;
 }
 
-_int CBullet_UI::Update_Object(const _float & fTimeDelta)
-{			
+_int CWeapon_UI::Update_Object(const _float & fTimeDelta)
+{
+	m_pAnimationCom->Control_Animation(m_pPlayer->Get_ChangeImage());
 
-	m_pAnimationCom->Control_Animation(m_pPlayer->Get_Magazine());
-	
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
-	Add_RenderGroup(RENDER_UI, this);                     
+	Add_RenderGroup(RENDER_UI, this);
 
 	return 0;
 }
 
-void CBullet_UI::LateUpdate_Object(void)
+void CWeapon_UI::LateUpdate_Object(void)
 {
-	m_pTransCom->OrthoMatrix(70.f, 20.f, 300.f, -270.f, WINCX, WINCY);
+	m_pTransCom->OrthoMatrix(70.f, 30.f, 300.f, -170.f, WINCX, WINCY);
 
 	CGameObject::LateUpdate_Object();
 }
 
-void CBullet_UI::Render_Obejct(void)
+void CWeapon_UI::Render_Obejct(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransCom->m_matWorld);
 
@@ -57,7 +58,7 @@ void CBullet_UI::Render_Obejct(void)
 	m_pBufferCom->Render_Buffer();
 }
 
-HRESULT CBullet_UI::Add_Component(void)
+HRESULT CWeapon_UI::Add_Component(void)
 {
 	CComponent* pComponent = nullptr;
 
@@ -65,9 +66,9 @@ HRESULT CBullet_UI::Add_Component(void)
 	NULL_CHECK_RETURN(m_pBufferCom, E_FAIL);
 	m_mapComponent[ID_STATIC].insert({ L"Proto_RcTexCom", pComponent });
 
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_BulletUI_Texture"));
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_WeaponUI_Texture"));
 	NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
-	m_mapComponent[ID_STATIC].insert({ L"Proto_BulletUI_Texture", pComponent });
+	m_mapComponent[ID_STATIC].insert({ L"Proto_WeaponUI_Texture", pComponent });
 
 	pComponent = m_pTransCom = dynamic_cast<COrthoTransform*>(Clone_Proto(L"Proto_OrthoTransformCom"));
 	NULL_CHECK_RETURN(m_pTransCom, E_FAIL);
@@ -79,15 +80,15 @@ HRESULT CBullet_UI::Add_Component(void)
 
 	pComponent = m_pAnimationCom = dynamic_cast<CAnimation*>(Clone_Proto(L"Proto_AnimationCom"));
 	NULL_CHECK_RETURN(m_pAnimationCom, E_FAIL);
-	m_pAnimationCom->Ready_Animation(8, 0, 0.2f); // 8
+	m_pAnimationCom->Ready_Animation(1, 0, 0.2f); // 8
 	m_mapComponent[ID_DYNAMIC].insert({ L"Proto_AnimationCom", pComponent });
 
 	return S_OK;
 }
 
-CBullet_UI * CBullet_UI::Create(LPDIRECT3DDEVICE9 pGraphicDev, CTestPlayer* pPlayer)
+CWeapon_UI * CWeapon_UI::Create(LPDIRECT3DDEVICE9 pGraphicDev, CTestPlayer * pPlayer)
 {
-	CBullet_UI* pInstance = new CBullet_UI(pGraphicDev);
+	CWeapon_UI* pInstance = new CWeapon_UI(pGraphicDev);
 
 	if (FAILED(pInstance->Ready_Object(pPlayer)))
 	{
@@ -98,7 +99,7 @@ CBullet_UI * CBullet_UI::Create(LPDIRECT3DDEVICE9 pGraphicDev, CTestPlayer* pPla
 	return pInstance;
 }
 
-void CBullet_UI::Free()
+void CWeapon_UI::Free()
 {
 	CGameObject::Free();
 }

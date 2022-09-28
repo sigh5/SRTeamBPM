@@ -185,6 +185,7 @@
     <ClInclude Include="..\Header\TestPlayer.h" />
     <ClInclude Include="..\Header\TestUI.h" />
     <ClInclude Include="..\Header\ToolTest.h" />
+    <ClInclude Include="..\Header\Weapon_UI.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Imgui\GraphEditor.h" />
     <ClInclude Include="Imgui\imconfig.h" />
@@ -234,6 +235,7 @@
     <ClCompile Include="..\Code\TestPlayer.cpp" />
     <ClCompile Include="..\Code\TestUI.cpp" />
     <ClCompile Include="..\Code\ToolTest.cpp" />
+    <ClCompile Include="..\Code\Weapon_UI.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="Imgui\GraphEditor.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>

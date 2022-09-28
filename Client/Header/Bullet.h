@@ -7,11 +7,8 @@ BEGIN(Engine)
 
 class CTransform;
 class CTexture;
-class CRcTex;
 class CCubeTex;
-class CLayer;
-class CScene;
-class CManagement;
+
 END
 
 class CBullet : public CGameObject
@@ -30,13 +27,10 @@ private:
 	HRESULT				Add_Component(void);
 
 private:
-	CRcTex*				m_pBufferCom = nullptr;
 	CTransform*			m_pTransCom = nullptr;
 	CTexture*			m_pTextureCom = nullptr;
 	CCubeTex*			m_pCubeTexCom = nullptr;
-	CLayer*				m_pLayerCom = nullptr;
-	CScene*				m_pSceneCom = nullptr;
-	CManagement*		m_pManagementCom = nullptr;
+
 
 private:
 	_float				m_fFrame = 0.f;
