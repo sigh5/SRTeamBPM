@@ -55,7 +55,63 @@ void CDynamic_Transform::Jumping(_float _JumpPower, _float _TimeDelta, CTransfor
 
 	pTransform->Move_Pos(&vWorldUp);
 }
+// ¡Ø
+void CDynamic_Transform::Dashing(const _float & fTimeDelta, CTransform* pTransform, _vec3 vecUp, _vec3 vecDir, TYPING_TYPE tType)
+{
 
+
+	_vec3	vPos, vUp, vDir, vRight;
+
+	pTransform->Get_Info(INFO_POS, &vPos);
+	
+	_float fSpeed = 5.f;
+	// ¡Ø
+
+	vUp = vecUp;
+	vDir = vecDir;
+
+	switch (tType)
+	{
+
+		case TYPING_W:	
+		{			
+				pTransform->Move_Pos(&(vDir * (fSpeed + fTimeDelta) * 0.3f));
+			
+				break;			
+		}
+		
+		case TYPING_S:
+		{			
+				pTransform->Move_Pos(&(vDir * (-fSpeed + fTimeDelta)* 0.3f));
+			
+				break;			
+		}
+
+		case TYPING_A:
+		{			
+				D3DXVec3Normalize(&vDir, &vDir);
+				D3DXVec3Normalize(&vUp, &vUp);
+				D3DXVec3Cross(&vRight, &vDir, &vUp);
+				pTransform->Move_Pos(&(vRight * (fSpeed + fTimeDelta)* 0.3f));
+			
+				break;			
+		}
+
+		case TYPING_D:
+		{			
+				D3DXVec3Normalize(&vDir, &vDir);
+				D3DXVec3Normalize(&vUp, &vUp);
+				D3DXVec3Cross(&vRight, &vDir, &vUp);
+				pTransform->Move_Pos(&(vRight * (-fSpeed + fTimeDelta)* 0.3f));
+			
+				break;			
+		}
+
+		default:
+		break;		
+	}
+
+}
 //void CDynamic_Transform::Dashing(const _float & fTimeDelta, CTransform* pTransform)
 //{
 //	_vec3	vecLook, vecUp, vecPos, vecRight;
