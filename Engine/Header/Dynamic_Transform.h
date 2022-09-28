@@ -24,7 +24,7 @@ public:
 	void				Jumping(_float _JumpPower, _float _TimeDelta, CTransform* pTransform);
 	void				Monster_Fly(CTransform* _pTransformCom, float _TerrainY, float _MaxY);
 
-//void				Dashing(const _float& fTimeDelta, CTransform* pTransform);
+	void				Dashing(const _float& fTimeDelta, CTransform* pTransform, _vec3 vecUp, _vec3 vecDir, TYPING_TYPE tType);
 
 public:
 	static CDynamic_Transform*		Create(void);
@@ -41,3 +41,4 @@ private:
 };
 
 END
+

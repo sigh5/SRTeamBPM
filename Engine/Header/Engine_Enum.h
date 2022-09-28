@@ -34,6 +34,9 @@ namespace Engine
 	// 최대 32개 채널까지 동시 재생이 가능
 	enum CHANNELID { SOUND_EFFECT, SOUND_BGM, SOUND_PLAYER, SOUND_MONSTER, MAXCHANNEL };
 
+
+	// ※
+	enum TYPING_TYPE { TYPING_W, TYPING_A, TYPING_S, TYPING_D, TYPING_END };
 }
 
 #endif // Engine_Enum_h__

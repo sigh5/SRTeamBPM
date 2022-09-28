@@ -68,6 +68,7 @@ inline void		Add_RenderGroup(RENDERID eID, CGameObject* pGameObject);
 inline void		Render_GameObject(LPDIRECT3DDEVICE9& pGraphicDev);
 inline void		Clear_RenderGroup(void);
 
+
 // lightMgr
 
 inline HRESULT	Ready_Light(LPDIRECT3DDEVICE9 pGraphicDev, const D3DLIGHT9* pLightInfo, const _uint& iIndex);

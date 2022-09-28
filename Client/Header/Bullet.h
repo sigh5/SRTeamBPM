@@ -31,6 +31,7 @@ private:
 	CTexture*			m_pTextureCom = nullptr;
 	CCubeTex*			m_pCubeTexCom = nullptr;
 
+
 private:
 	_float				m_fFrame = 0.f;
 	_vec3				m_vPlayerLook;	// 플레이어 보는 방향
