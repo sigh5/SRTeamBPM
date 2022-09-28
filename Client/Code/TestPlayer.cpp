@@ -3,6 +3,7 @@
 
 #include "Export_Function.h"
 #include "Bullet.h"
+#include "Stage.h"
 
 CTestPlayer::CTestPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -323,21 +324,23 @@ HRESULT CTestPlayer::Create_Bullet(_vec3 vPos)
 		CBullet* pBullet = CBullet::Create(m_pGraphicDev, vPos);
 		NULL_CHECK(pBullet);
 
-		_tchar*         szFinalName = new _tchar[128]; // �����Ⱚ
-		wsprintf(szFinalName, L"");
+		//_tchar*         szFinalName = new _tchar[128]; // �����Ⱚ
+		//wsprintf(szFinalName, L"");
 
-		const _tchar*   szBulletName = L"Bullet_%d";
+		//const _tchar*   szBulletName = L"Bullet_%d";
 
-		wsprintf(szFinalName, szBulletName, m_iCount);
+		//wsprintf(szFinalName, szBulletName, m_iCount);
 
-		//_tchar*	szBullet = L"Bullet1";
-		FAILED_CHECK_RETURN(Engine::Add_GameObject(L"Layer_GameLogic", szFinalName, pBullet), E_FAIL);
+		////_tchar*	szBullet = L"Bullet1";
+		//FAILED_CHECK_RETURN(Engine::Add_GameObject(L"Layer_GameLogic", szFinalName, pBullet), E_FAIL);
 		//FAILED_CHECK_RETURN(Engine::Add_GameObject(L"TestLayer", szFinalName, pBullet), E_FAIL); // ToolTest
 
-		if (szBulletName != nullptr)
+
+
+		if (S_OK == static_cast<CStage*>(CManagement::GetInstance()->Get_Scene())->Push_Bullet(pBullet))
 			m_iMagazine -= 1;
 
-		m_szBulletName.push_back(szFinalName);
+		//m_szBulletName.push_back(szFinalName);
 		m_iCount++;
 
 		m_bOneShot = false;

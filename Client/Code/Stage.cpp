@@ -34,6 +34,17 @@ HRESULT CStage::Ready_Scene(void)
 
 _int CStage::Update_Scene(const _float & fTimeDelta)
 {
+	_int iResult = 0;
+	if (0 != m_BulletList.size())
+	{
+		for (auto& iter : m_BulletList)
+		{
+			iResult = iter->Update_Object(fTimeDelta);
+
+			if (iResult & 0x80000000)
+				return iResult;
+		}
+	}
 	return Engine::CScene::Update_Scene(fTimeDelta);
 }
 
@@ -91,11 +102,6 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	pGameObject = CTestPlayer::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestPlayer", pGameObject), E_FAIL);
-
-	//몬스터 테스트용
-	/*pGameObject = CMonster::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Monster", pGameObject), E_FAIL);*/
 
 	m_mapLayer.insert({ pLayerTag, pLayer });
 
@@ -168,6 +174,13 @@ HRESULT CStage::Ready_Light(void)
 	tLightInfo.Direction  = _vec3(0.f, -1.f, 1.f);
 
 	FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &tLightInfo, 0), E_FAIL);
+
+	return S_OK;
+}
+
+HRESULT CStage::Push_Bullet(CBullet * pBullet)
+{
+	m_BulletList.emplace_back(pBullet);
 
 	return S_OK;
 }

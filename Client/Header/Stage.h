@@ -22,6 +22,7 @@ public:
 	virtual void LateUpdate_Scene(void) override;
 	virtual void Render_Scene(void) override;
 
+	HRESULT			Push_Bullet(CBullet* pBullet);
 private:
 	HRESULT			Ready_Layer_Environment(const _tchar* pLayerTag);
 
@@ -31,10 +32,12 @@ private:
 	HRESULT			Ready_Proto(void);
 	HRESULT			Ready_Light(void);
 
+
 	// Effect : multimap -> map issue
 private:
 	list<_tchar*>		m_szEffectName;
 	_uint				m_iCount = 0;
+	list<CBullet*>		m_BulletList;
 
 public:
 	static CStage*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
