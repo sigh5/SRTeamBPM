@@ -41,7 +41,9 @@ HRESULT CTexture::Ready_Texture(const _tchar * pPath, TEXTUREID eType, const _ui
 		switch (eType)
 		{
 		case TEX_NORMAL:
-			if (FAILED(D3DXCreateTextureFromFile(m_pGraphicDev, szFileName, (LPDIRECT3DTEXTURE9*)&pTexture)))
+			if (FAILED(D3DXCreateTextureFromFile(m_pGraphicDev,
+				szFileName, 
+				(LPDIRECT3DTEXTURE9*)&pTexture)))
 				return E_FAIL;
 
 			break;
@@ -49,6 +51,11 @@ HRESULT CTexture::Ready_Texture(const _tchar * pPath, TEXTUREID eType, const _ui
 		case TEX_CUBE:
 			if (FAILED(D3DXCreateCubeTextureFromFile(m_pGraphicDev, szFileName, (LPDIRECT3DCUBETEXTURE9*)&pTexture)))
 				return E_FAIL;
+
+
+
+
+
 
 			break;
 		}
@@ -65,6 +72,7 @@ void CTexture::Set_Texture(const _uint & iIndex)
 		return;
 
 	m_pGraphicDev->SetTexture(0, m_vecTexture[iIndex]);
+	
 }
 
 CTexture * CTexture::Create(LPDIRECT3DDEVICE9 pGraphicDev, const _tchar * pPath, TEXTUREID eType, const _uint & iCnt)

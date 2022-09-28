@@ -57,6 +57,10 @@ void COrthoTransform::OrthoMatrix(	_float fScaleX,
 	_float fFar = 1.f;
 	_float fNear = 0.f;
 
+
+	m_vecWinPos = { (_float)m_matView.m[3][0], (_float)m_matView.m[3][1], (_float)m_matView.m[3][2] };
+
+
 	D3DXMatrixOrthoLH(&m_matOrtho, fWidth, fHeight, fNear, fFar);
 }
 

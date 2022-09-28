@@ -4,6 +4,7 @@
 #include "Logo.h"
 #include "ImGuiMgr.h"
 #include "FileIOMgr.h"
+#include "ObjectMgr.h"
 
 USING(Engine)
 CMainApp::CMainApp()	
@@ -36,7 +37,7 @@ HRESULT CMainApp::Ready_MainApp(void)
 	//#endif // _DEBUG
 	
 	FAILED_CHECK_RETURN(Ready_Scene(m_pGraphicDev, &m_pManagementClass), E_FAIL);
-
+	::Initialize();
 	return S_OK;
 }
 
@@ -191,6 +192,8 @@ void CMainApp::Free(void)
 	CImGuiMgr::GetInstance()->DestroyInstance();
 #endif // _DEBUG
 	CFileIOMgr::GetInstance()->DestroyInstance();
+	CObjectMgr::GetInstance()->DestroyInstance();
+
 	
 	Safe_Release(m_pGraphicDev);
 	Safe_Release(m_pDeviceClass);

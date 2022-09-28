@@ -20,7 +20,7 @@
       <Filter>02. GameObject\01. For_stage\06. Effect</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\FileIOMgr.cpp">
-      <Filter>96. FileIOMgr</Filter>
+      <Filter>97.Mgr\96. FileIOMgr</Filter>
     </ClCompile>
     <ClCompile Include="Imgui\GraphEditor.cpp">
       <Filter>98. ImGui</Filter>
@@ -62,7 +62,7 @@
       <Filter>98. ImGui</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\ImGuiMgr.cpp">
-      <Filter>97. ImGuiMgr</Filter>
+      <Filter>97.Mgr\97. ImGuiMgr</Filter>
     </ClCompile>
     <ClCompile Include="Imgui\ImGuizmo.cpp">
       <Filter>98. ImGui</Filter>
@@ -110,7 +110,7 @@
       <Filter>01. Scene\98. TestScene</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\TestUI.cpp">
-      <Filter>02. GameObject\01. For_stage\96. TestUI</Filter>
+      <Filter>02. GameObject\01. For_stage\09.UI\96. TestUI</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\HWPlayer.cpp">
       <Filter>02. GameObject\01. For_Stage\01. TestPlayer\00. HwPlayer</Filter>
@@ -137,6 +137,12 @@
     <ClCompile Include="..\Code\MonsterBullet.cpp">
       <Filter>02. GameObject\01. For_stage\07. Bullet\MonsterBullet</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\MetronomeUI.cpp">
+      <Filter>02. GameObject\01. For_stage\09.UI\00. metronomeUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ObjectMgr.cpp">
+      <Filter>97.Mgr\05. ObjPoolMgr</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\BackGround.h">
@@ -158,7 +164,7 @@
       <Filter>02. GameObject\01. For_stage\06. Effect</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\FileIOMgr.h">
-      <Filter>96. FileIOMgr</Filter>
+      <Filter>97.Mgr\96. FileIOMgr</Filter>
     </ClInclude>
     <ClInclude Include="Imgui\GraphEditor.h">
       <Filter>98. ImGui</Filter>
@@ -197,7 +203,7 @@
       <Filter>98. ImGui</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\ImGuiMgr.h">
-      <Filter>97. ImGuiMgr</Filter>
+      <Filter>97.Mgr\97. ImGuiMgr</Filter>
     </ClInclude>
     <ClInclude Include="Imgui\ImGuizmo.h">
       <Filter>98. ImGui</Filter>
@@ -263,7 +269,7 @@
       <Filter>01. Scene\98. TestScene</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\TestUI.h">
-      <Filter>02. GameObject\01. For_stage\96. TestUI</Filter>
+      <Filter>02. GameObject\01. For_stage\09.UI\96. TestUI</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\HpBar.h">
       <Filter>02. GameObject\01. For_stage\08. HpBar</Filter>
@@ -277,6 +283,14 @@
     <ClInclude Include="..\Header\FatBat.h">
       <Filter>02. GameObject\01. For_stage\02. TestMonster\01. Fatbat</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\MetronomeUI.h">
+      <Filter>02. GameObject\01. For_stage\09.UI\00. metronomeUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\AbstractFactory.h">
+      <Filter>97.Mgr\99. AbstractFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\ObjectMgr.h">
+      <Filter>97.Mgr\05. ObjPoolMgr</Filter>
     <ClInclude Include="..\Header\MonsterBullet.h">
       <Filter>02. GameObject\01. For_stage\07. Bullet\MonsterBullet</Filter>
     </ClInclude>
@@ -347,9 +361,6 @@
     <Filter Include="02. GameObject\02. For_Public\01. StaticCamera">
       <UniqueIdentifier>{0333015b-6e80-41e3-9f83-11648eba6176}</UniqueIdentifier>
     </Filter>
-    <Filter Include="97. ImGuiMgr">
-      <UniqueIdentifier>{0a8f2a57-0a07-4d29-b118-7440a1d93600}</UniqueIdentifier>
-    </Filter>
     <Filter Include="98. ImGui">
       <UniqueIdentifier>{d20f7ade-4b9e-4b49-9ecf-05d721b3e168}</UniqueIdentifier>
     </Filter>
@@ -362,20 +373,41 @@
     <Filter Include="01. Scene\97. ColliderScene">
       <UniqueIdentifier>{b9340c44-a522-4d51-b5eb-17f7afd80738}</UniqueIdentifier>
     </Filter>
-    <Filter Include="96. FileIOMgr">
-      <UniqueIdentifier>{67949671-eca8-4ed6-a9dc-3b9793ac7f48}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\01. For_stage\01. TestPlayer\HWPlayer">
       <UniqueIdentifier>{250e0306-49f0-4e13-889e-84cf33348c6c}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObject\02. For_Public\02. MyCamera">
       <UniqueIdentifier>{dbd72156-1cac-46fd-af4c-b679347b2693}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. For_stage\96. TestUI">
-      <UniqueIdentifier>{e6400d65-f8be-4a4d-ba14-da46248c0e32}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\01. For_stage\08. HpBar">
       <UniqueIdentifier>{23a2d999-6045-4b6e-9e47-38fa10ebbb9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_stage\09. Particle">
+      <UniqueIdentifier>{194ab7b0-8c4f-462b-8be0-65357c6546a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_stage\09.UI">
+      <UniqueIdentifier>{d32ba3f4-8bbd-4947-adfe-702beb90c9fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_stage\09.UI\96. TestUI">
+      <UniqueIdentifier>{e6400d65-f8be-4a4d-ba14-da46248c0e32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_stage\09.UI\00. metronomeUI">
+      <UniqueIdentifier>{2e6c75ca-3280-4cc5-8de4-34a442e26a41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.Mgr">
+      <UniqueIdentifier>{ae1174cd-13ed-4cf9-bcb3-db9d5a152d9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.Mgr\96. FileIOMgr">
+      <UniqueIdentifier>{67949671-eca8-4ed6-a9dc-3b9793ac7f48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.Mgr\97. ImGuiMgr">
+      <UniqueIdentifier>{0a8f2a57-0a07-4d29-b118-7440a1d93600}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.Mgr\99. AbstractFactory">
+      <UniqueIdentifier>{13f0700b-c4cf-40cc-a244-64dd80743b00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.Mgr\05. ObjPoolMgr">
+      <UniqueIdentifier>{e0b63bd9-53ad-4e3d-a18d-34f00e529959}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObject\01. For_stage\02. TestMonster\00. Anubis">
       <UniqueIdentifier>{c2dfa142-5028-4a6b-98f3-c681dee99a33}</UniqueIdentifier>

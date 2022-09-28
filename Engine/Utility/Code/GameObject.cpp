@@ -19,7 +19,7 @@ CGameObject::~CGameObject()
 }
 
 
-HRESULT CGameObject::Ready_Object(void)
+HRESULT CGameObject::Ready_Object()
 {
 	return S_OK;
 }
@@ -62,18 +62,7 @@ CComponent * CGameObject::Find_Component(const _tchar * pComponentTag, COMPONENT
 	return iter->second;
 }
 
-CGameObject * CGameObject::Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos)
-{
-	CGameObject *	pInstance = new CGameObject(pGraphicDev);
 
-	if (FAILED(pInstance->Ready_Object()))
-	{
-		Safe_Release(pInstance);
-		return nullptr;
-	}
-
-	return pInstance;
-}
 
 void Engine::CGameObject::Free(void)
 {

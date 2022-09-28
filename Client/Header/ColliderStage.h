@@ -37,7 +37,13 @@ private:
 	list<_tchar*>		m_szEffectName;
 	_uint				m_iCount = 0;
 	_float				m_fTimeDelta = 0.f;
+	_float				m_fFrame = 0.f; // WinZero  µµÂø½Ã°£
 
+	_float fx = WINCX / 2.f;
+	_float fy = 0.f;
+	_float fSpeed = -100.f;
+
+	_int   m_iTexCount = 0;
 
 public:
 	static CColliderStage*	Create(LPDIRECT3DDEVICE9 pGraphicDev);

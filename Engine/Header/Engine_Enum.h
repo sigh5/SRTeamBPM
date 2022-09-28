@@ -30,6 +30,10 @@ namespace Engine
 	enum OBJ_TYPE { OBJ_CUBE, OBJ_PLAYER, OBJ_MONSTER, OBJ_TYPE_END};
 
 	enum SCENE_TYPE { SCENE_TOOLTEST, SCENE_STAGE, SCENE_END };
+
+	// 최대 32개 채널까지 동시 재생이 가능
+	enum CHANNELID { SOUND_EFFECT, SOUND_BGM, SOUND_PLAYER, SOUND_MONSTER, MAXCHANNEL };
+
 }
 
 #endif // Engine_Enum_h__

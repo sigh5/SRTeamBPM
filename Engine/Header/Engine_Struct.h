@@ -58,6 +58,19 @@ namespace Engine
 		int _iKey;
 		float _fSpeed;
 	}CharacterInfo;
+
+
+	typedef struct tagParticleInfo
+	{
+		_vec3		vPos;
+		D3DCOLOR	color;
+		_float		fSize;
+	}ParticleInfo;
+
+	const _ulong  FVF_Particle = D3DFVF_XYZ | D3DFVF_DIFFUSE;
+
+
+
 }
 
 
