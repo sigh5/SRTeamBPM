@@ -52,7 +52,7 @@ Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 
 	if (m_pLoading->Get_Finish())
 	{
-		if (GetAsyncKeyState(VK_RETURN) & 0x8000)
+		if (m_pStartButton->Get_Click())
 		{
 			CScene*		pScene = CColliderStage::Create(m_pGraphicDev);
 			NULL_CHECK_RETURN(pScene, E_FAIL);
