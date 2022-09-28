@@ -4,6 +4,7 @@
 #include "Export_Function.h"
 #include "SkyBox.h"
 #include "Effect.h"
+#include "FileIOMgr.h"
 
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -97,6 +98,15 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Monster", pGameObject), E_FAIL);*/
 
 	m_mapLayer.insert({ pLayerTag, pLayer });
+
+	//CFileIOMgr::GetInstance()->Load_FileData(m_pGraphicDev, this, L"Layer_GameLogic", L"../../Data/", L"Monster", L"Monster", OBJ_MONSTER);
+	CFileIOMgr::GetInstance()->Load_FileData(m_pGraphicDev, 
+		this, 
+		const_cast<_tchar*>(pLayerTag),
+		L"../../Data/",
+		L"Monster.dat",
+		L"TestMonster",
+		OBJ_MONSTER);
 
 	return S_OK;
 }

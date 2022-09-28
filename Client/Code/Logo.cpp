@@ -33,7 +33,7 @@ HRESULT CLogo::Ready_Scene(void)
 	//Loading collider
 
 	//m_pLoading = CLoading::Create(m_pGraphicDev, LOADING_COLLIDER);
-	m_pLoading = CLoading::Create(m_pGraphicDev, LOADING_TEST);
+	m_pLoading = CLoading::Create(m_pGraphicDev, LOADING_STAGE);
 	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
 		
 	return S_OK;
@@ -47,10 +47,10 @@ Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 	{
 		if (GetAsyncKeyState(VK_RETURN) & 0x8000)
 		{
-			CScene*		pScene = CToolTest::Create(m_pGraphicDev);
+			CScene*		pScene = CStage::Create(m_pGraphicDev);
 			NULL_CHECK_RETURN(pScene, E_FAIL);
 
-			m_SceneType = SCENE_TOOLTEST;//SCENE_COLLIDER
+			m_SceneType = SCENE_STAGE;//SCENE_COLLIDER
 
 			FAILED_CHECK_RETURN(Engine::Set_Scene(pScene), E_FAIL);
 

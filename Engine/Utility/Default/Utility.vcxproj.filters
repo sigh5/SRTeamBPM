@@ -19,9 +19,6 @@
     <ClCompile Include="..\Code\CubeTex.cpp">
       <Filter>00. Component\00. VIBuffer\04. CubeTex</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Dynamic_Transform.cpp">
-      <Filter>00. Component\01. Transform\00. Dynamic_Transform</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\GameObject.cpp">
       <Filter>01. GameObject</Filter>
     </ClCompile>
@@ -55,9 +52,6 @@
     <ClCompile Include="..\Code\Scene.cpp">
       <Filter>03. Scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Renderer.cpp">
-      <Filter>03. Scene\04. Manager\02. Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\TerrainTex.cpp">
       <Filter>00. Component\00. VIBuffer\03. TerrainTex</Filter>
     </ClCompile>
@@ -79,6 +73,9 @@
     <ClCompile Include="..\Code\MonsterBase.cpp">
       <Filter>01. GameObject\Monster</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\Dynamic_Transform.cpp" />
+    <ClCompile Include="..\Code\Renderer.cpp" />
+    <ClCompile Include="..\Code\TriCol.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Animation.h">
@@ -99,9 +96,6 @@
     <ClInclude Include="..\..\Header\CubeTex.h">
       <Filter>00. Component\00. VIBuffer\04. CubeTex</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Header\Dynamic_Transform.h">
-      <Filter>00. Component\01. Transform\00. Dynamic_Transform</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Header\Export_Utility.h">
       <Filter>99. Export</Filter>
     </ClInclude>
@@ -110,15 +104,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Header\Layer.h">
       <Filter>02. Layer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Header\Light.h">
-      <Filter>03. Scene\04. Manager\04. LightMgr\Light</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Header\LightMgr.h">
-      <Filter>03. Scene\04. Manager\04. LightMgr</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Header\Management.h">
-      <Filter>03. Scene\04. Manager\00. Management</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\ObjectMgr.h">
       <Filter>04. Manager\05. ObjPoolMgr</Filter>
@@ -129,17 +114,11 @@
     <ClInclude Include="..\..\Header\Pipeline.h">
       <Filter>04. Manager\03. Pipeline</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Header\ProtoMgr.h">
-      <Filter>03. Scene\04. Manager\01. ProtoMgr</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Header\RcCol.h">
       <Filter>00. Component\00. VIBuffer\01. RcCol</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\Scene.h">
       <Filter>03. Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Header\Renderer.h">
-      <Filter>03. Scene\04. Manager\02. Renderer</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\TerrainTex.h">
       <Filter>00. Component\00. VIBuffer\03. TerrainTex</Filter>
@@ -149,9 +128,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Header\CharacterInfo.h">
       <Filter>00. Component\06. CharacterInfo</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Header\MonsterBase.h">
-      <Filter>01. GameObject\Monster</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\Transform.h">
       <Filter>00. Component\01. Transform</Filter>
@@ -164,6 +140,16 @@
     </ClInclude>
     <ClInclude Include="..\..\Header\TriCol.h">
       <Filter>00. Component\00. VIBuffer\00. TriCol</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\Dynamic_Transform.h" />
+    <ClInclude Include="..\..\Header\Light.h" />
+    <ClInclude Include="..\..\Header\LightMgr.h" />
+    <ClInclude Include="..\..\Header\Management.h" />
+    <ClInclude Include="..\..\Header\ProtoMgr.h" />
+    <ClInclude Include="..\..\Header\Renderer.h" />
+    <ClInclude Include="..\..\Header\Texture.h" />
+    <ClInclude Include="..\..\Header\MonsterBase.h">
+      <Filter>01. GameObject\Monster</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

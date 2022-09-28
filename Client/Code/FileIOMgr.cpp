@@ -5,6 +5,8 @@
 #include "Export_Function.h"
 #include "TestCube.h"
 #include "Anubis.h"
+#include "FatBat.h"
+#include "Spider.h"
 #include "TestPlayer.h"
 
 IMPLEMENT_SINGLETON(CFileIOMgr)
@@ -204,9 +206,10 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 
 			CGameObject *pGameObject = nullptr;
 			_tchar* test1 = new _tchar[20];
-			wstring t = L"Test%d";
-			wsprintfW(test1, t.c_str(), m_iIndex);
+			wstring t = pObjectName + L"%d";
+			wsprintfW(test1, t.c_str(), iIndex);
 			pMyLayer->AddNameList(test1);
+			++iIndex;
 
 			switch(iMonsterType)
 			{
@@ -215,7 +218,11 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 				break;
 
 			case 1:
-				//pGameObject = 
+				pGameObject = CFatBat::Create(pGrahicDev);
+				break;
+
+			case 2:
+				pGameObject = CSpider::Create(pGrahicDev);
 				break;
 
 			default:
@@ -223,7 +230,7 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 				break;
 			}
 			//switch(iMonsterType) ???? ???? ???? ???? ???????
-			pMyLayer = pScene->GetLayer(L"TestLayer3");
+			pMyLayer = pScene->GetLayer(LayerName);
 
 			FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(test1, pGameObject), );
 			static_cast<CMonsterBase*>(pGameObject)->Get_MonsterType() = iMonsterType;

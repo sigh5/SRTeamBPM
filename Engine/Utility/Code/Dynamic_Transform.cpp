@@ -75,12 +75,12 @@ void CDynamic_Transform::Monster_Fly(CTransform* _pTransformCom, float _TerrainY
 	if (vPos.y >= _MaxY)
 	{
 		//최고 고도 보다 높은 경우
-		_pTransformCom->Add_Y(-0.1f);
+		_pTransformCom->Add_Y(-0.3f);
 	}
 	else if (vPos.y <= _TerrainY + 1.f)
 	{
 		//최저 고도 보다 낮은 경우
-		_pTransformCom->Add_Y(1.f);
+		_pTransformCom->Add_Y(0.3f);
 	}
 	else
 	{

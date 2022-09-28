@@ -17,9 +17,15 @@ HRESULT CAnubis::Ready_Object(int Posx, int Posy)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	CComponent* pComponent = nullptr;
+
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_MonsterTexture"));
+	NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
+	m_mapComponent[ID_STATIC].insert({ L"Proto_MonsterTexture", pComponent });
+
 	m_iMonsterIndex = 0;
 	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
-	m_pAnimationCom->Ready_Animation(7, 1, 0.2f);
+	m_pAnimationCom->Ready_Animation(6, 1, 0.2f);
 	if (Posx == 0 && Posy == 0) {}
 	else
 	{
@@ -55,7 +61,9 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 			break;
 
 		case 2:
-
+			pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_MonsterTexture3"));
+			NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
+			m_mapComponent[ID_STATIC].insert({ L"Proto_MonsterTexture3", pComponent });
 			break;
 		}
 	}
@@ -64,7 +72,9 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 	CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC));
 	NULL_CHECK(pPlayerTransformCom);
 
-	Set_OnTerrain();
+	//Set_OnTerrain();
+	float TerrainY = m_pDynamicTransCom->Get_TerrainY1(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC, m_pCalculatorCom, m_pTransCom);
+	m_pTransCom->Set_Y(TerrainY+1.f);
 	//지형에 올림
 
 	_vec3		vPlayerPos, vMonsterPos;
@@ -77,7 +87,7 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 
 	if (fMtoPDistance > 5.f)
 	{
-		m_pTransCom->Chase_Target_notRot(&vPlayerPos, m_fSpeed, m_fTimeDelta);
+		m_pTransCom->Chase_Target_notRot(&vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
 
 		m_pAnimationCom->Move_Animation(fTimeDelta);
 	}
