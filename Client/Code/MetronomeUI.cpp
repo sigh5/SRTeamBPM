@@ -49,7 +49,7 @@ _int CMetronomeUI::Update_Object(const _float & fTimeDelta)
 
 	if ( m_fMoveX < 5.f && m_fMoveX >-5.f)
 	{
-		CObjectMgr::GetInstance()->Collect_Obj(this);
+		CObjectMgr::GetInstance()->Collect_UIObj(this);
 		return 5; 
 	}
 	

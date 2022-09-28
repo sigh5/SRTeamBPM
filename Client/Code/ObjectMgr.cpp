@@ -25,14 +25,21 @@ CObjectMgr::~CObjectMgr()
 	Free();
 }
 
-
-
 void CObjectMgr::Collect_Obj(CGameObject * pObj)
 {
 	if (nullptr == pObj)
 		return;
 
 	m_ObjectList.push_back(pObj);
+}
+
+void CObjectMgr::Collect_UIObj(CGameObject * pObj)
+{
+	if (nullptr == pObj)
+		return;
+
+	m_UIMetroList.push_back(pObj);
+
 }
 
 CGameObject * CObjectMgr::Reuse_Obj(LPDIRECT3DDEVICE9 pGraphicDev,  D3DXVECTOR3  vPos)
@@ -60,16 +67,16 @@ CGameObject * CObjectMgr::Reuse_Obj(LPDIRECT3DDEVICE9 pGraphicDev,  D3DXVECTOR3 
 CGameObject * CObjectMgr::Reuse_MetronomeUI(LPDIRECT3DDEVICE9 pGraphicDev, _float fPosX, _float fPosY, _float fSpeed, int iTexIndex)
 {
 	CGameObject*		pObject = nullptr;
-	if(m_ObjectList.empty())
+	if(m_UIMetroList.empty())
 	{
 		pObject = CMetronomeUI::Create(pGraphicDev, fPosX, fPosY, fSpeed, iTexIndex);
 		++m_iCount;
 	}
 	else
 	{
-		pObject = m_ObjectList.front();
+		pObject = m_UIMetroList.front();
 		dynamic_cast<CMetronomeUI*>(pObject)->init(fPosX, fPosY, fSpeed, iTexIndex);
-		m_ObjectList.pop_front();
+		m_UIMetroList.pop_front();
 	}
 
 
@@ -80,4 +87,8 @@ void CObjectMgr::Free(void)
 {
 	for_each(m_ObjectList.begin(), m_ObjectList.end(), CDeleteObj());
 	m_ObjectList.clear();
+
+	for_each(m_UIMetroList.begin(), m_UIMetroList.end(), CDeleteObj());
+	m_UIMetroList.clear();
+
 }
