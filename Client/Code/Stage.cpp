@@ -126,7 +126,7 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 		const_cast<_tchar*>(pLayerTag),
 		L"../../Data/",
 		L"Monster.dat",
-		L"TestMonster",
+		L"Monster",
 		OBJ_MONSTER);
 
 	return S_OK;

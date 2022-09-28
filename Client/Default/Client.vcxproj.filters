@@ -133,6 +133,18 @@
     <ClCompile Include="..\Code\ToolTest.cpp">
       <Filter>01. Scene\98. TestScene</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\Bullet_UI.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\01. BulletUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Weapon_UI.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\02. WeaponUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Start_Button.cpp">
+      <Filter>02. GameObject\00. For_Logo\01. Button\00. StartButton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Exit_Button.cpp">
+      <Filter>02. GameObject\00. For_Logo\01. Button\01. ExitButton</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -285,6 +297,18 @@
     <ClInclude Include="..\Header\ToolTest.h">
       <Filter>01. Scene\98. TestScene</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Bullet_UI.h">
+      <Filter>02. GameObject\01. For_Stage\10. UI\01. BulletUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Weapon_UI.h">
+      <Filter>02. GameObject\01. For_Stage\10. UI\02. WeaponUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Start_Button.h">
+      <Filter>02. GameObject\00. For_Logo\01. Button\00. StartButton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Exit_Button.h">
+      <Filter>02. GameObject\00. For_Logo\01. Button\01. ExitButton</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -399,6 +423,21 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\01. TestPlayer\HwPlayer">
       <UniqueIdentifier>{5d4ba872-14c8-443c-ad5f-bd4ef93a03e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\01. BulletUI">
+      <UniqueIdentifier>{c8c62d88-ec9f-498b-b402-1a347345adec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\02. WeaponUI">
+      <UniqueIdentifier>{9e6320e9-7e23-4c1e-b7f4-fe2e8a3238b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\00. For_Logo\01. Button">
+      <UniqueIdentifier>{e911e84c-85cc-4e56-b929-c88f6202e262}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\00. For_Logo\01. Button\00. StartButton">
+      <UniqueIdentifier>{aa55385f-3031-40af-9d4f-1770da07dec2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\00. For_Logo\01. Button\01. ExitButton">
+      <UniqueIdentifier>{846ab7de-cb14-4074-9cc4-1e933101a066}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
