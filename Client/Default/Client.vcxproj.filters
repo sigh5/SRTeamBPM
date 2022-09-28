@@ -7,9 +7,6 @@
     <ClCompile Include="Client.cpp">
       <Filter>99. Default</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Anubis.cpp">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\Bullet.cpp">
       <Filter>02. GameObject\01. For_Stage\06. Bullet</Filter>
     </ClCompile>
@@ -21,9 +18,6 @@
     </ClCompile>
     <ClCompile Include="..\Code\Effect.cpp">
       <Filter>02. GameObject\01. For_Stage\07. Effect</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\FatBat.cpp">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\FileIOMgr.cpp">
       <Filter>97. Mgr\01. FileIOMgr</Filter>
@@ -106,9 +100,6 @@
     <ClCompile Include="..\Code\StaticCamera.cpp">
       <Filter>02. GameObject\02. For_public\01. StaticCamera</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Spider.cpp">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\TestUI.cpp">
       <Filter>02. GameObject\01. For_Stage\10. UI\96. TestUI</Filter>
     </ClCompile>
@@ -145,6 +136,15 @@
     <ClCompile Include="..\Code\Exit_Button.cpp">
       <Filter>02. GameObject\00. For_Logo\01. Button\01. ExitButton</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\Anubis.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FatBat.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\01. Fatbat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Spider.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\02. Spidert</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -155,9 +155,6 @@
     </ClInclude>
     <ClInclude Include="..\Header\BackGround.h">
       <Filter>02. GameObject\00. For_Logo\00. BackGround</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\Anubis.h">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Bullet.h">
       <Filter>02. GameObject\01. For_Stage\06. Bullet</Filter>
@@ -170,9 +167,6 @@
     </ClInclude>
     <ClInclude Include="..\Header\Effect.h">
       <Filter>02. GameObject\01. For_Stage\07. Effect</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\FatBat.h">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\FileIOMgr.h">
       <Filter>97. Mgr\01. FileIOMgr</Filter>
@@ -267,9 +261,6 @@
     <ClInclude Include="..\Header\StaticCamera.h">
       <Filter>02. GameObject\02. For_public\01. StaticCamera</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Spider.h">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\TestUI.h">
       <Filter>02. GameObject\01. For_Stage\10. UI\96. TestUI</Filter>
     </ClInclude>
@@ -308,6 +299,15 @@
     </ClInclude>
     <ClInclude Include="..\Header\Exit_Button.h">
       <Filter>02. GameObject\00. For_Logo\01. Button\01. ExitButton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Anubis.h">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\FatBat.h">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\01. Fatbat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Spider.h">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\02. Spidert</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -438,6 +438,15 @@
     </Filter>
     <Filter Include="02. GameObject\00. For_Logo\01. Button\01. ExitButton">
       <UniqueIdentifier>{846ab7de-cb14-4074-9cc4-1e933101a066}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\00. Anubis">
+      <UniqueIdentifier>{c5d034f3-c4e3-4ec4-b996-d3b08716d649}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\01. Fatbat">
+      <UniqueIdentifier>{4af8458d-56e1-4db7-a49a-014a17a750ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\02. Spidert">
+      <UniqueIdentifier>{999f8599-edd1-4374-84e0-2d4f02725f24}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
