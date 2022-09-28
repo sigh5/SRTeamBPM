@@ -124,6 +124,9 @@
     <ClCompile Include="..\Code\Exit_Button.cpp">
       <Filter>02. GameObject\00. For_Logo\01. Button\01. Exit_Button</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\Bullet_UI.cpp">
+      <Filter>02. GameObject\01. For_stage\95. Bullet_UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\BackGround.h">
@@ -264,6 +267,9 @@
     <ClInclude Include="..\Header\Exit_Button.h">
       <Filter>02. GameObject\00. For_Logo\01. Button\01. Exit_Button</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Bullet_UI.h">
+      <Filter>02. GameObject\01. For_stage\95. Bullet_UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -369,6 +375,9 @@
     </Filter>
     <Filter Include="02. GameObject\00. For_Logo\01. Button\01. Exit_Button">
       <UniqueIdentifier>{537f6b0e-bb55-4ed7-8521-bd28075f0a44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_stage\95. Bullet_UI">
+      <UniqueIdentifier>{38a123b3-f169-4a00-9d56-96b65ebae1b4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

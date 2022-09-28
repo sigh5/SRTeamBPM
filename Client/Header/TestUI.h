@@ -18,7 +18,7 @@ class CTestUI :public CGameObject
 {
 	explicit CTestUI(LPDIRECT3DDEVICE9 pGraphicDev);
 	explicit CTestUI(const CGameObject& rhs);
-
+	virtual ~CTestUI();
 public:
 	HRESULT Ready_Object();
 	virtual _int	Update_Object(const _float& fTimeDelta) override;

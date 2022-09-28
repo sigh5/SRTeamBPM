@@ -14,6 +14,9 @@ public:
 	HRESULT		Ready_Animation(int _iMaxMotion, int _iMinMotion, float _fInterval); //시작 스프라이트, 처음 스프라이트, 변경 간격
 	void	Move_Animation(float fTimeDelta);
 
+	// 사용자가 수동적으로 Key를 누를때마다 이미지 변경
+	void	Control_Animation(_float fCount);
+
 public:
 	
 	int		m_iMinMotion = 0;		//시작 스프라이트

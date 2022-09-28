@@ -46,6 +46,18 @@ void CAnimation::Move_Animation(float fTimeDelta)
 	}
 }
 
+void CAnimation::Control_Animation(_float fCount)
+{
+	m_fMotionChangeCounter += fCount;
+
+	if (m_fMotionChangeCounter > m_fIntervalMotion)
+	{
+		m_fMotionChangeCounter = 0;
+		if (m_iMotion < m_iMaxMotion)
+			++m_iMotion;
+	}
+}
+
 CComponent * CAnimation::Clone(void)
 {
 	return new CAnimation(*this);

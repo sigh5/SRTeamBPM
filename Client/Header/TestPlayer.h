@@ -35,9 +35,10 @@ private:
 	HRESULT				Create_Bullet(_vec3 vPos);
 	// ~Bullet
 
-	// Dash
-	//void				Dash(const _float& fTimeDelta);
-	// ~Dash
+public:
+	_uint				Get_Magazine(void) { return m_iMagazine; }
+	_bool				Get_Shoot(void) { return m_bOneShot; }
+
 
 private:
 	CRcTex*				m_pBufferCom = nullptr;
@@ -46,8 +47,6 @@ private:
 	CCalculator*		m_pCalculatorCom = nullptr;
 	CDynamic_Transform*	m_pDynamicTransCom = nullptr;
 
-	CScene*				m_pSceneCom = nullptr;
-	CManagement*		m_pManageCom = nullptr;
 
 private:
 	// _vec3

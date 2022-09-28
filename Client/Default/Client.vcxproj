@@ -161,6 +161,7 @@
   <ItemGroup>
     <ClInclude Include="..\Header\BackGround.h" />
     <ClInclude Include="..\Header\Bullet.h" />
+    <ClInclude Include="..\Header\Bullet_UI.h" />
     <ClInclude Include="..\Header\ColliderStage.h" />
     <ClInclude Include="..\Header\DynamicCamera.h" />
     <ClInclude Include="..\Header\Effect.h" />
@@ -209,6 +210,7 @@
   <ItemGroup>
     <ClCompile Include="..\Code\BackGround.cpp" />
     <ClCompile Include="..\Code\Bullet.cpp" />
+    <ClCompile Include="..\Code\Bullet_UI.cpp" />
     <ClCompile Include="..\Code\ColliderStage.cpp" />
     <ClCompile Include="..\Code\DynamicCamera.cpp" />
     <ClCompile Include="..\Code\Effect.cpp" />

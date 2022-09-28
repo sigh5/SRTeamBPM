@@ -21,6 +21,8 @@ CTestPlayer::~CTestPlayer()
 HRESULT CTestPlayer::Ready_Object(void)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+
+
 	
 	return S_OK;
 }
@@ -63,7 +65,7 @@ _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
 	
-	_matrix		matWorld, matView, matBill;
+	/*_matrix		matWorld, matView, matBill;
 	D3DXMatrixIdentity(&matBill);
 
 	m_pTransCom->Get_WorldMatrix(&matWorld);
@@ -77,7 +79,7 @@ _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 	D3DXMatrixInverse(&matBill, 0, &matBill);
 
 
-	m_pTransCom->Set_WorldMatrix(&(matBill * matWorld));
+	m_pTransCom->Set_WorldMatrix(&(matBill * matWorld));*/
 	
 	Add_RenderGroup(RENDER_ALPHA, this);
 
