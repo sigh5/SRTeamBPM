@@ -27,7 +27,7 @@ HRESULT CTestPlayer::Ready_Object(void)
 _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 {
 	++m_iCountDash;
-	Key_Input(fTimeDelta);
+	//Key_Input(fTimeDelta);
 
 
 	Engine::CGameObject::Update_Object(fTimeDelta);
@@ -48,7 +48,7 @@ _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 	}
 	else
 	{
-		Set_OnTerrain();
+		//Set_OnTerrain();
 	}
 
 

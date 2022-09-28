@@ -19,6 +19,7 @@ HRESULT CAnubis::Ready_Object(int Posx, int Posy)
 
 	m_iMonsterIndex = 0;
 	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
+	m_pAnimationCom->Ready_Animation(7, 1, 0.2f);
 	if (Posx == 0 && Posy == 0) {}
 	else
 	{

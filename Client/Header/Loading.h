@@ -22,6 +22,8 @@ public:
 
 	_uint		Loading_ForBoss(void);
 
+	_uint		Loading_ForTest(void);
+
 public:
 	static unsigned int	CALLBACK Thread_Main(void* pArg);
 

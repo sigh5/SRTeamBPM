@@ -9,6 +9,7 @@ class CRcTex;
 class CTexture;
 class CAnimation;
 class CCalculator;
+class CDynamic_Transform;
 
 class ENGINE_DLL CMonsterBase :public CGameObject
 {
@@ -25,7 +26,6 @@ public:
 	int&			Get_MonsterType() { return m_iMonsterIndex; }
 	CharacterInfo&	Get_InfoRef();
 
-
 protected:
 
 	CCharacterInfo*		m_pInfoCom = nullptr;
@@ -34,6 +34,7 @@ protected:
 	CCalculator*		m_pCalculatorCom = nullptr;
 	CTexture*			m_pTextureCom = nullptr;
 	CAnimation*			m_pAnimationCom = nullptr;
+	CDynamic_Transform* m_pDynamicTransCom = nullptr;
 
 
 	int m_iMonsterIndex;

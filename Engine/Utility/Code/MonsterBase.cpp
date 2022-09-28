@@ -82,6 +82,10 @@ HRESULT CMonsterBase::Add_Component(void)
 	NULL_CHECK_RETURN(m_pInfoCom, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].insert({ L"Proto_CharacterInfoCom", pComponent });
 
+	pComponent = m_pDynamicTransCom = dynamic_cast<CDynamic_Transform*>(Clone_Proto(L"Proto_DynamicTransformCom"));
+	NULL_CHECK_RETURN(m_pInfoCom, E_FAIL);
+	m_mapComponent[ID_STATIC].insert({ L"Proto_DynamicTransformCom" , pComponent });
+
 	return S_OK;
 }
 

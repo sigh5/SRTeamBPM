@@ -76,9 +76,6 @@
     <ClCompile Include="..\Code\Loading.cpp">
       <Filter>01. Scene\99. Loading</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Monster.cpp">
-      <Filter>02. GameObject\01. For_stage\02. TestMonster</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\StaticCamera.cpp">
       <Filter>02. GameObject\02. For_Public\01. StaticCamera</Filter>
     </ClCompile>
@@ -127,8 +124,15 @@
     <ClCompile Include="..\Code\TestUI.cpp">
       <Filter>02. GameObject\02 For_Public\03. UI</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\HpBar.cpp" />
     <ClCompile Include="..\Code\Anubis.cpp">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
+      <Filter>02. GameObject\01. For_stage\02. TestMonster\00. Anubis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FatBat.cpp">
+      <Filter>02. GameObject\01. For_stage\02. TestMonster\01. Fatbat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Spider.cpp">
+      <Filter>02. GameObject\01. For_stage\02. TestMonster\02. Spider</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -219,9 +223,6 @@
     <ClInclude Include="..\Header\Loading.h">
       <Filter>01. Scene\99. Loading</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Monster.h">
-      <Filter>02. GameObject\01. For_stage\02. TestMonster</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\StaticCamera.h">
       <Filter>02. GameObject\02. For_Public\01. StaticCamera</Filter>
     </ClInclude>
@@ -261,11 +262,17 @@
     <ClInclude Include="..\Header\TestUI.h">
       <Filter>02. GameObject\01. For_stage\96. TestUI</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Anubis.h">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\HpBar.h">
       <Filter>02. GameObject\01. For_stage\08. HpBar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Anubis.h">
+      <Filter>02. GameObject\01. For_stage\02. TestMonster\00. Anubis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Spider.h">
+      <Filter>02. GameObject\01. For_stage\02. TestMonster\02. Spider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\FatBat.h">
+      <Filter>02. GameObject\01. For_stage\02. TestMonster\01. Fatbat</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -363,6 +370,15 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_stage\08. HpBar">
       <UniqueIdentifier>{23a2d999-6045-4b6e-9e47-38fa10ebbb9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_stage\02. TestMonster\00. Anubis">
+      <UniqueIdentifier>{c2dfa142-5028-4a6b-98f3-c681dee99a33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_stage\02. TestMonster\01. Fatbat">
+      <UniqueIdentifier>{ba71b61b-eb6e-4a1f-a62f-abb83f095b92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_stage\02. TestMonster\02. Spider">
+      <UniqueIdentifier>{0498f0be-032b-4384-9709-ff40c2683550}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

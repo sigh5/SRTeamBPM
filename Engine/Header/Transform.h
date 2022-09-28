@@ -40,6 +40,7 @@ public:
 	}
 
 	void				Set_Y(const _float& fY) { m_vInfo[INFO_POS].y = fY; }
+	void				Add_Y(float _fY) { m_vInfo[INFO_POS].y += _fY; }
 
 	void				Get_WorldMatrix(_matrix* pWorld) const { *pWorld = m_matWorld; }
 	void				Set_WorldMatrix(_matrix* pWorld) {  m_matWorld = *pWorld; }

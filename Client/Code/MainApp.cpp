@@ -36,13 +36,14 @@ HRESULT CMainApp::Ready_MainApp(void)
 	//#endif // _DEBUG
 	
 	FAILED_CHECK_RETURN(Ready_Scene(m_pGraphicDev, &m_pManagementClass), E_FAIL);
-	
+
 	return S_OK;
 }
 
 _int CMainApp::Update_MainApp(const _float & fTimeDelta)
 {
 	// Engine::Update_Input();
+	srand(time(NULL));
 	Engine::SetUp_InputDev();
 
 	NULL_CHECK_RETURN(m_pManagementClass, -1);

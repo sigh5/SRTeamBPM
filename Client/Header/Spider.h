@@ -1,12 +1,11 @@
 #pragma once
 #include "MonsterBase.h"
 
-
-class CAnubis :public CMonsterBase
+class CSpider :public CMonsterBase
 {
 private:
-	explicit CAnubis(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual ~CAnubis();
+	explicit CSpider(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual ~CSpider();
 
 public:
 	virtual HRESULT		Ready_Object(int Posx, int Posy);
@@ -15,7 +14,7 @@ public:
 	virtual void		Render_Obejct(void) override;
 
 public:
-	static CAnubis*		Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx = 0, int Posy = 0);
+	static CSpider*		Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx = 0, int Posy = 0);
 	virtual void	Free(void);
 
 private:
