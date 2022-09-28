@@ -43,7 +43,7 @@ HRESULT					Add_GameObject(const _tchar* pLayerTag, const _tchar* pObjTag, CGame
 	return CManagement::GetInstance()->Add_GameObject(pLayerTag, pObjTag, pInstance);
 }
 
-CGameObject*				Get_GameObject(const _tchar* pLayerTag, const _tchar* pObjTag)
+CGameObject*		 Get_GameObject(const _tchar* pLayerTag, const _tchar* pObjTag)
 {
 	return CManagement::GetInstance()->Get_GameObject(pLayerTag, pObjTag);
 }
@@ -72,6 +72,7 @@ void		Add_RenderGroup(RENDERID eID, CGameObject* pGameObject)
 void		Render_GameObject(LPDIRECT3DDEVICE9& pGraphicDev)
 {
 	CRenderer::GetInstance()->Render_GameObject(pGraphicDev);
+	CRenderer::GetInstance()->Render_UIObject(pGraphicDev);
 }
 void		Clear_RenderGroup(void)
 {
@@ -83,21 +84,11 @@ HRESULT	Ready_Light(LPDIRECT3DDEVICE9 pGraphicDev, const D3DLIGHT9* pLightInfo, 
 }
 
 
-void Collect_Obj(CGameObject * pObj)
-{
-	CObjectMgr::GetInstance()->Collect_Obj(pObj);
-}
-
-CGameObject * Reuse_Obj(LPDIRECT3DDEVICE9 pGraphicDev, const D3DXVECTOR3 & vPos)
-{
-	return CObjectMgr::GetInstance()->Reuse_Obj(pGraphicDev, vPos);
-}
 
 void Initialize()
 {
 	CSoundMgr::GetInstance()->Initialize();
 }
-
 
 void PlaySoundW(TCHAR* pSoundKey, CHANNELID eID, float fVolume)
 {
@@ -131,7 +122,6 @@ void LoadSoundFile()
 inline void			Release_Utility(void)
 {
 	CSoundMgr::GetInstance()->DestroyInstance();
-	CObjectMgr::GetInstance()->DestroyInstance();
 	CLightMgr::GetInstance()->DestroyInstance();
 	CRenderer::GetInstance()->DestroyInstance();
 	CProtoMgr::GetInstance()->DestroyInstance();

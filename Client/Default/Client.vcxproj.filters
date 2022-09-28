@@ -131,6 +131,9 @@
     <ClCompile Include="..\Code\MetronomeUI.cpp">
       <Filter>02. GameObject\01. For_stage\09.UI\00. metronomeUI</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\ObjectMgr.cpp">
+      <Filter>97.Mgr\05. ObjPoolMgr</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\BackGround.h">
@@ -271,6 +274,9 @@
     <ClInclude Include="..\Header\AbstractFactory.h">
       <Filter>97.Mgr\99. AbstractFactory</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\ObjectMgr.h">
+      <Filter>97.Mgr\05. ObjPoolMgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -382,6 +388,9 @@
     </Filter>
     <Filter Include="97.Mgr\99. AbstractFactory">
       <UniqueIdentifier>{13f0700b-c4cf-40cc-a244-64dd80743b00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.Mgr\05. ObjPoolMgr">
+      <UniqueIdentifier>{e0b63bd9-53ad-4e3d-a18d-34f00e529959}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

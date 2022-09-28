@@ -11,12 +11,14 @@
 
 #include "SkyBox.h"
 #include "FileIOMgr.h"
+#include "ObjectMgr.h"
+
 #include "MyCamera.h"
 #include "MetronomeUI.h"
 
 
 CColliderStage::CColliderStage(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CScene(pGraphicDev)
+	: Engine::CScene(pGraphicDev),m_iCount(0)
 {
 }
 
@@ -39,30 +41,65 @@ HRESULT CColliderStage::Ready_Scene(void)
 
 
 	
-	::PlaySoundW(L"SamTow.wav", SOUND_BGM, 0.5f);
+	::PlaySoundW(L"SamTow.wav", SOUND_BGM, 0.1f);
 	return S_OK;
 }
 
 _int CColliderStage::Update_Scene(const _float & fTimeDelta)
 {
 	
+	m_fFrame += 1.f * fTimeDelta;
+
+	if (m_fFrame >= 1.f)
+	{
+
+		CGameObject*		pGameObject = nullptr;
+
+		CLayer *pMyLayer = GetLayer(L"Layer_UI");
+
+		pGameObject = CObjectMgr::GetInstance()->Reuse_MetronomeUI(m_pGraphicDev, -WINCX / 2.f, 0.f, +100.f, 1);
+		NULL_CHECK_RETURN(pGameObject, );
+		pMyLayer->Add_GameObjectList(pGameObject);
+
+		pGameObject = CObjectMgr::GetInstance()->Reuse_MetronomeUI(m_pGraphicDev, WINCX / 2.f, 0, -100.f, 0);
+		NULL_CHECK_RETURN(pGameObject, );
+		pMyLayer->Add_GameObjectList(pGameObject);
+
+
+
+
+
+	}
+
+	if (m_fFrame >= 1.f)
+	{
+
+		CGameObject*		pGameObject = nullptr;
+
+		CLayer *pMyLayer = GetLayer(L"Layer_UI");
+
+	
+		
+		m_fFrame = 0.f;
+	}
+
+
 	return Engine::CScene::Update_Scene(fTimeDelta);
-	m_fTimeDelta = fTimeDelta;
 }
 
 void CColliderStage::LateUpdate_Scene(void)
 {
-	//CLayer *pLayer1 = GetLayer(L"Layer_GameLogic");
-	//CHWPlayer* pPlayer = dynamic_cast<CHWPlayer*>(pLayer1->Get_GameObject(L"TestPlayer"));
+	CLayer *pLayer1 = GetLayer(L"Layer_GameLogic");
+	CHWPlayer* pPlayer = dynamic_cast<CHWPlayer*>(pLayer1->Get_GameObject(L"TestPlayer"));
 
-	//CLayer * pLayer2 = GetLayer(L"Layer_UI");
+	CLayer * pLayer2 = GetLayer(L"Layer_UI");
 
-	//pLayer2->Get_GameObjectMap();
+	pLayer2->Get_GameObjectMap();
 
-	//for (auto iter = pLayer2->Get_GameObjectMap().begin(); iter != pLayer2->Get_GameObjectMap().end(); ++iter)
-	//{
-	//	pPlayer->Collsion_CubeMap(iter->second);
-	//}
+	for (auto iter = pLayer2->Get_GameObjectMap().begin(); iter != pLayer2->Get_GameObjectMap().end(); ++iter)
+	{
+		pPlayer->Collsion_CubeMap(iter->second);
+	}
 
 
 	Engine::CScene::LateUpdate_Scene();
@@ -132,9 +169,9 @@ HRESULT CColliderStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	CGameObject*		pGameObject = nullptr;
 
 	// testPlayer
-	/*pGameObject = CHWPlayer::Create(m_pGraphicDev);
+	pGameObject = CHWPlayer::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestPlayer", pGameObject), E_FAIL);*/
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestPlayer", pGameObject), E_FAIL);
 
 
 
@@ -163,10 +200,34 @@ HRESULT CColliderStage::Ready_Layer_UI(const _tchar * pLayerTag)
 		L"TestCube",
 		OBJ_CUBE);
 
+		pGameObject = CObjectMgr::GetInstance()->Reuse_MetronomeUI(m_pGraphicDev, -WINCX / 2.f, 0.f, +100.f, 1);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		FAILED_CHECK_RETURN(pLayer->Add_GameObjectList(pGameObject), E_FAIL);
+	
+	/*for (int i = 0; i < 25; ++i)
+	{
+		pGameObject = CObjectMgr::GetInstance()->Reuse_MetronomeUI(m_pGraphicDev, WINCX / 2.f, 0, -100.f, 0);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		FAILED_CHECK_RETURN(pLayer->Add_GameObjectList(pGameObject), E_FAIL);
+	}
+*/
 
-	pGameObject = CMetronomeUI::Create(m_pGraphicDev);
+
+
+	/*pGameObject = CObjectMgr::GetInstance()->Reuse_MetronomeUI(m_pGraphicDev, -WINCX / 2.f, 0.f, +100.f, 1);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObjectList(pGameObject), E_FAIL);*/
+
+
+	/*pGameObject = CMetronomeUI::Create(m_pGraphicDev,WINCX/2.f , 0.f, -100.f,0);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestUI", pGameObject), E_FAIL);
+	*/
+
+	/*pGameObject = CMetronomeUI::Create(m_pGraphicDev, -WINCX / 2.f, 0.f, +100.f, 1);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestUI2", pGameObject), E_FAIL);*/
+
 
 	return S_OK;
 }

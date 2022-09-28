@@ -30,7 +30,7 @@
 #include "Management.h"
 #include "Renderer.h"
 #include "Pipeline.h"
-#include "ObjectMgr.h"
+
 #include "SoundMgr.h"
 
 
@@ -74,9 +74,6 @@ inline HRESULT	Ready_Light(LPDIRECT3DDEVICE9 pGraphicDev, const D3DLIGHT9* pLigh
 
 
 
-// ObjectMgr
-inline void				Collect_Obj(CGameObject* pObj);
-inline CGameObject*		Reuse_Obj(LPDIRECT3DDEVICE9 pGraphicDev, const D3DXVECTOR3& vPos);
 
 // SoundMgr
 inline void PlaySoundW(TCHAR* pSoundKey, CHANNELID eID, float fVolume);

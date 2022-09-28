@@ -4,6 +4,7 @@
 #include "Logo.h"
 #include "ImGuiMgr.h"
 #include "FileIOMgr.h"
+#include "ObjectMgr.h"
 
 USING(Engine)
 CMainApp::CMainApp()	
@@ -190,7 +191,9 @@ void CMainApp::Free(void)
 	CImGuiMgr::GetInstance()->DestroyInstance();
 #endif // _DEBUG
 	CFileIOMgr::GetInstance()->DestroyInstance();
-	
+	CObjectMgr::GetInstance()->DestroyInstance();
+
+
 	Safe_Release(m_pGraphicDev);
 	Safe_Release(m_pDeviceClass);
 	Safe_Release(m_pManagementClass);

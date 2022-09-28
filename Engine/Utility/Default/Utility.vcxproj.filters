@@ -34,9 +34,6 @@
     <ClCompile Include="..\Code\Management.cpp">
       <Filter>04. Manager\00. Management</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\ObjectMgr.cpp">
-      <Filter>04. Manager\05. ObjPoolMgr</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\OrthoTransform.cpp">
       <Filter>00. Component\01. Transform\01. Ortho_Transform</Filter>
     </ClCompile>
@@ -113,9 +110,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Header\Layer.h">
       <Filter>02. Layer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Header\ObjectMgr.h">
-      <Filter>04. Manager\05. ObjPoolMgr</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\OrthoTransform.h">
       <Filter>00. Component\01. Transform\01. Ortho_Transform</Filter>
@@ -233,9 +227,6 @@
     <Filter Include="00. Component\00. VIBuffer\04. CubeTex">
       <UniqueIdentifier>{686768c7-9b65-41d6-8571-fca53674757c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. Component\01. Transform\97. OrthTransform">
-      <UniqueIdentifier>{bb8e0552-ac8c-4183-a015-d2685b1f9dde}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00. Component\06. CharacterInfo">
       <UniqueIdentifier>{ce375ab4-b693-42fa-9014-5380f58b78b7}</UniqueIdentifier>
     </Filter>
@@ -259,9 +250,6 @@
     </Filter>
     <Filter Include="04. Manager\04. LightMgr">
       <UniqueIdentifier>{36bd7216-2be1-4124-8ad0-e38392e43741}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04. Manager\05. ObjPoolMgr">
-      <UniqueIdentifier>{d19388c9-7e44-49d3-89ff-63d504b2f503}</UniqueIdentifier>
     </Filter>
     <Filter Include="04. Manager\04. LightMgr\Light">
       <UniqueIdentifier>{868ed9f8-3104-40e9-a3e1-7e7b35aeb85c}</UniqueIdentifier>
