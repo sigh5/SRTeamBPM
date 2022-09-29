@@ -39,8 +39,12 @@ public:
 	_uint				Get_Magazine(void) { return m_iMagazine; }
 	_bool				Get_Shoot(void) { return m_bOneShot; }
 
+	// Test
 	_uint				Get_ChangeImage(void) { return m_iChangeImage; }
 
+	_uint				Get_HpChange(void) { return m_iHpBarChange; }
+
+	// ~Test
 
 private:
 	CRcTex*				m_pBufferCom = nullptr;
@@ -62,9 +66,9 @@ private:
 	// ~Alpha Blending ¿ëµµ
 
 	// Bullet 	
-	list<_tchar*>	m_szBulletName;
+	//list<_tchar*>	m_szBulletName;
 
-	_uint			m_iCount = 0;
+	//_uint			m_iCount = 0;
 	
 	_uint			m_iCoolTime = 0;
 	_bool			m_bOneShot = FALSE;
@@ -94,6 +98,8 @@ private:
 
 	// Test
 	_uint				m_iChangeImage = 1;
+
+	_uint				m_iHpBarChange = 4;
 
 	// ~Test
 

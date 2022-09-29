@@ -23,7 +23,7 @@
       <Filter>98. ImGui</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\HpBar.cpp">
-      <Filter>02. GameObject\01. For_Stage\08. HpBar</Filter>
+      <Filter>02. GameObject\01. For_Stage\10. UI\03. HpBar</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\HWPlayer.cpp">
       <Filter>02. GameObject\01. For_Stage\01. TestPlayer\HwPlayer</Filter>
@@ -94,6 +94,9 @@
     <ClCompile Include="..\Code\StaticCamera.cpp">
       <Filter>02. GameObject\02. For_public\01. StaticCamera</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\Spider.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster</Filter>
+    </ClCompile>
     <ClCompile Include="..\Code\TestUI.cpp">
       <Filter>02. GameObject\01. For_Stage\10. UI\96. TestUI</Filter>
     </ClCompile>
@@ -139,14 +142,8 @@
     <ClCompile Include="..\Code\Spider.cpp">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\02. Spider</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Anubis.cpp">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\FatBat.cpp">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster\01. FatBat</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\Spider.cpp">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster\02. Spider</Filter>
+    <ClCompile Include="..\Code\Stage_Pjw.cpp">
+      <Filter>01. Scene\50. Stage_Pjw</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Bullet.cpp">
       <Filter>02. GameObject\01. For_Stage\06. Bullet\PlayerBullet</Filter>
@@ -184,7 +181,7 @@
       <Filter>98. ImGui</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\HpBar.h">
-      <Filter>02. GameObject\01. For_Stage\08. HpBar</Filter>
+      <Filter>02. GameObject\01. For_Stage\10. UI\03. HpBar</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\HWPlayer.h">
       <Filter>02. GameObject\01. For_Stage\01. TestPlayer\HwPlayer</Filter>
@@ -267,6 +264,9 @@
     <ClInclude Include="..\Header\StaticCamera.h">
       <Filter>02. GameObject\02. For_public\01. StaticCamera</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Spider.h">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster</Filter>
+    </ClInclude>
     <ClInclude Include="..\Header\TestUI.h">
       <Filter>02. GameObject\01. For_Stage\10. UI\96. TestUI</Filter>
     </ClInclude>
@@ -315,14 +315,8 @@
     <ClInclude Include="..\Header\Spider.h">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\02. Spider</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Anubis.h">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\FatBat.h">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster\01. FatBat</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\Spider.h">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster\02. Spider</Filter>
+    <ClInclude Include="..\Header\Stage_Pjw.h">
+      <Filter>01. Scene\50. Stage_Pjw</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Bullet.h">
       <Filter>02. GameObject\01. For_Stage\06. Bullet\PlayerBullet</Filter>
@@ -415,9 +409,6 @@
     <Filter Include="02. GameObject\01. For_Stage\07. Effect">
       <UniqueIdentifier>{f2ea118c-f661-4d4f-b92f-cd2d9d002214}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. For_Stage\08. HpBar">
-      <UniqueIdentifier>{a06bc703-8882-4b79-9e93-e30f18191e59}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\01. For_Stage\09. Particle">
       <UniqueIdentifier>{fdb19f44-1f96-4e97-ae52-b4e270ab8cbe}</UniqueIdentifier>
     </Filter>
@@ -471,6 +462,12 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\02. Spider">
       <UniqueIdentifier>{cd4a3434-5462-404a-bd03-631b4f60230e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\50. Stage_Pjw">
+      <UniqueIdentifier>{5ca1031e-75e6-4534-8c8b-e3be68d7148a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\03. HpBar">
+      <UniqueIdentifier>{a06bc703-8882-4b79-9e93-e30f18191e59}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\06. Bullet\PlayerBullet">
       <UniqueIdentifier>{48f7172f-2805-4b94-8155-f814608394d6}</UniqueIdentifier>

@@ -7,8 +7,6 @@
 BEGIN(Engine)
 
 class CTexture;
-class CCubeTex;
-class CTransform;
 class CCalculator;
 class COrthoTransform;
 class CRcTex;

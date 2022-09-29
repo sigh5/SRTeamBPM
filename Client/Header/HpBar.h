@@ -1,29 +1,46 @@
 #pragma once
 #include "GameObject.h"
 #include "Engine_Include.h"
+#include "TestPlayer.h"
 
 BEGIN(Engine)
 
-//class CUserInterface;
+class CTexture;
+class CCalculator;
+class COrthoTransform;
+class CRcTex;
+class CAnimation;
+
+END
 
 class CHpBar : public CGameObject
 {
-private:
+public:
 	explicit CHpBar(LPDIRECT3DDEVICE9 pGraphicDev);
+	explicit CHpBar(const CGameObject& rhs);
 	virtual ~CHpBar();
 
 public:
-	virtual		HRESULT		Ready_Object(void)							override;
-	virtual		_int		Update_Object(const _float& fTimeDelta)		override;
-	virtual		void		LateUpdate_Object(void)						override;
-	virtual		void		Render_Obejct(void)							override;
+	HRESULT				Ready_Object(CTestPlayer* pPlayer);
+	virtual _int		Update_Object(const _float& fTimeDelta) override;
+
+	virtual	void		LateUpdate_Object(void);
+	virtual void		Render_Obejct(void) override;
+	
+private:
+	HRESULT				Add_Component(void);
 
 public:
-	static CHpBar*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
+	CRcTex*				m_pBufferCom = nullptr;
+	CTexture*			m_pTextureCom = nullptr;
+	COrthoTransform*	m_pTransCom = nullptr;
+	CCalculator*		m_pCalculatorCom = nullptr;
+	CAnimation*			m_pAnimationCom = nullptr;
 
-private:
-	virtual void Free(void) override;
-
+	CTestPlayer*		m_pPlayer;
+	
+public:
+	static CHpBar*		Create(LPDIRECT3DDEVICE9 pGraphicDev, CTestPlayer* pPlayer);
+	virtual void Free();
 };
 
-END
