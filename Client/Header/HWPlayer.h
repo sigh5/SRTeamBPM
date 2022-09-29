@@ -4,12 +4,14 @@
 namespace Engine
 {
 	class CTransform;
+	class CDynamic_Transform;
 	class CRcTex;
 	class CTexture;
 	class CCalculator;
 	class CScene;
 	class CManagement;
 	class CCollider;
+	class CAnimation;
 }
 
 
@@ -52,6 +54,8 @@ private:
 	CTexture*			m_pTextureCom = nullptr;
 	CCalculator*		m_pCalculatorCom = nullptr;
 	CCollider*			m_pColliderCom = nullptr;
+	CDynamic_Transform*	m_pDynamicTransCom = nullptr;
+	CAnimation*			m_pAnimationCom = nullptr;
 
 private:
 	// _vec3

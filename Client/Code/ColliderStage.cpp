@@ -17,11 +17,15 @@
 #include "MetronomeUI.h"
 
 #include "FatBat.h"
+#include "Bullet.h"
 
+#include "Bullet_UI.h"
+#include "Weapon_UI.h"
+#include "HpBar.h"
 
 
 CColliderStage::CColliderStage(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CScene(pGraphicDev),m_iCount(0)
+	: Engine::CScene(pGraphicDev), m_iCount(0)
 {
 }
 
@@ -43,7 +47,7 @@ HRESULT CColliderStage::Ready_Scene(void)
 	FAILED_CHECK_RETURN(Ready_Layer_UI(L"Layer_UI"), E_FAIL);
 
 
-	
+
 	::PlaySoundW(L"SamTow.wav", SOUND_BGM, 0.1f);
 
 	return S_OK;
@@ -51,7 +55,7 @@ HRESULT CColliderStage::Ready_Scene(void)
 
 _int CColliderStage::Update_Scene(const _float & fTimeDelta)
 {
-	
+
 	m_fFrame += 1.f * fTimeDelta;
 
 	if (m_fFrame >= 1.f)
@@ -79,8 +83,8 @@ _int CColliderStage::Update_Scene(const _float & fTimeDelta)
 
 		CLayer *pMyLayer = GetLayer(L"Layer_UI");
 
-	
-		
+
+
 		m_fFrame = 0.f;
 	}
 
@@ -108,7 +112,7 @@ void CColliderStage::LateUpdate_Scene(void)
 
 void CColliderStage::Render_Scene(void)
 {
-	
+
 
 }
 
@@ -119,7 +123,7 @@ HRESULT CColliderStage::Ready_Layer_Environment(const _tchar * pLayerTag)
 
 	CGameObject*		pGameObject = nullptr;
 
-	
+
 	pGameObject = CMyCamera::Create(m_pGraphicDev, &_vec3(0.f, 10.f, -10.f), &_vec3(0.f, 0.f, 0.f), &_vec3(0.f, 1.f, 0.f));
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"CMyCamera", pGameObject), E_FAIL);
@@ -154,8 +158,8 @@ HRESULT CColliderStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 
 	CGameObject*		pGameObject = nullptr;
 
-	READY_LAYER(pGameObject,CHWPlayer, pLayer, m_pGraphicDev, L"TestPlayer");
-	
+	READY_LAYER(pGameObject, CHWPlayer, pLayer, m_pGraphicDev, L"TestPlayer");
+
 
 	READY_LAYER(pGameObject, CFatBat, pLayer, m_pGraphicDev, L"TestMonster1");
 	READY_LAYER(pGameObject, CFatBat, pLayer, m_pGraphicDev, L"TestMonster2");
@@ -168,7 +172,7 @@ HRESULT CColliderStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	READY_LAYER(pGameObject, CFatBat, pLayer, m_pGraphicDev, L"TestMonster9");
 	READY_LAYER(pGameObject, CFatBat, pLayer, m_pGraphicDev, L"TestMonster10");
 	READY_LAYER(pGameObject, CFatBat, pLayer, m_pGraphicDev, L"TestMonster11");
-	
+
 
 	m_mapLayer.insert({ pLayerTag, pLayer });
 
@@ -183,7 +187,7 @@ HRESULT CColliderStage::Ready_Layer_UI(const _tchar * pLayerTag)
 	CGameObject*		pGameObject = nullptr;
 
 	m_mapLayer.insert({ pLayerTag, pLayer });
-	
+
 	CFileIOMgr::GetInstance()->Load_FileData(m_pGraphicDev,
 		this,
 		const_cast<_tchar*>(pLayerTag),
@@ -192,10 +196,26 @@ HRESULT CColliderStage::Ready_Layer_UI(const _tchar * pLayerTag)
 		L"TestCube",
 		OBJ_CUBE);
 
-		pGameObject = CObjectMgr::GetInstance()->Reuse_MetronomeUI(m_pGraphicDev, -WINCX / 2.f, 0.f, +100.f, 1);
-		NULL_CHECK_RETURN(pGameObject, E_FAIL);
-		FAILED_CHECK_RETURN(pLayer->Add_GameObjectList(pGameObject), E_FAIL);
-	
+	pGameObject = CObjectMgr::GetInstance()->Reuse_MetronomeUI(m_pGraphicDev, -WINCX / 2.f, 0.f, +100.f, 1);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObjectList(pGameObject), E_FAIL);
+
+	CTestPlayer*		pPlayer = dynamic_cast<CTestPlayer*>(Get_GameObject(L"Layer_GameLogic", L"TestPlayer"));
+
+
+	pGameObject = CBullet_UI::Create(m_pGraphicDev, pPlayer);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Bullet_UI", pGameObject), E_FAIL);
+
+	pGameObject = CWeapon_UI::Create(m_pGraphicDev, pPlayer);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Weapon_UI", pGameObject), E_FAIL);
+
+	pGameObject = CHpBar::Create(m_pGraphicDev, pPlayer);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"HpBar", pGameObject), E_FAIL);
+
+
 	/*for (int i = 0; i < 25; ++i)
 	{
 		pGameObject = CObjectMgr::GetInstance()->Reuse_MetronomeUI(m_pGraphicDev, WINCX / 2.f, 0, -100.f, 0);
@@ -206,19 +226,19 @@ HRESULT CColliderStage::Ready_Layer_UI(const _tchar * pLayerTag)
 
 
 
-	/*pGameObject = CObjectMgr::GetInstance()->Reuse_MetronomeUI(m_pGraphicDev, -WINCX / 2.f, 0.f, +100.f, 1);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObjectList(pGameObject), E_FAIL);*/
+/*pGameObject = CObjectMgr::GetInstance()->Reuse_MetronomeUI(m_pGraphicDev, -WINCX / 2.f, 0.f, +100.f, 1);
+NULL_CHECK_RETURN(pGameObject, E_FAIL);
+FAILED_CHECK_RETURN(pLayer->Add_GameObjectList(pGameObject), E_FAIL);*/
 
 
-	/*pGameObject = CMetronomeUI::Create(m_pGraphicDev,WINCX/2.f , 0.f, -100.f,0);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestUI", pGameObject), E_FAIL);
-	*/
+/*pGameObject = CMetronomeUI::Create(m_pGraphicDev,WINCX/2.f , 0.f, -100.f,0);
+NULL_CHECK_RETURN(pGameObject, E_FAIL);
+FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestUI", pGameObject), E_FAIL);
+*/
 
-	/*pGameObject = CMetronomeUI::Create(m_pGraphicDev, -WINCX / 2.f, 0.f, +100.f, 1);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestUI2", pGameObject), E_FAIL);*/
+/*pGameObject = CMetronomeUI::Create(m_pGraphicDev, -WINCX / 2.f, 0.f, +100.f, 1);
+NULL_CHECK_RETURN(pGameObject, E_FAIL);
+FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestUI2", pGameObject), E_FAIL);*/
 
 
 	return S_OK;
