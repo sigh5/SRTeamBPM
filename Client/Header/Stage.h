@@ -9,7 +9,9 @@
 #include "Terrain.h"
 #include "StaticCamera.h"
 #include "DynamicCamera.h"
- //테스트용 몬스터
+#include "Start_Button.h"
+#include "Bullet_UI.h"
+#include "Weapon_UI.h"
 
 class CStage : public Engine::CScene
 {
@@ -41,6 +43,8 @@ private:
 	_uint				m_iCount = 0;
 	list<CBullet*>		m_BulletList;
 	list<CMonsterBullet*> m_MonBulletList;
+
+	CStart_Button*		m_pStartButton = nullptr;
 
 public:
 	static CStage*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

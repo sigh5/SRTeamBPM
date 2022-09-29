@@ -8,8 +8,11 @@
 #include "ToolTest.h"
 #include "ColliderStage.h"
 
+// UI Test
+#include "TestUI.h"
+
 CLogo::CLogo(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CScene(pGraphicDev), m_SceneType(SCENE_END) // ?�재 ?�떤 ?�인지 ?�기 ?�한 ENUM ?�??변??{
+	: Engine::CScene(pGraphicDev), m_SceneType(SCENE_END)
 {
 }
 
@@ -28,35 +31,48 @@ HRESULT CLogo::Ready_Scene(void)
 
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(L"Ready_Layer_Environment"), E_FAIL);
 
-	// 로딩 ?�래???�성
-	// Loading ID Check!!!!!!!!!
-	//Loading collider
-
-	//m_pLoading = CLoading::Create(m_pGraphicDev, LOADING_COLLIDER);
-	m_pLoading = CLoading::Create(m_pGraphicDev, LOADING_STAGE);
+	m_pLoading = CLoading::Create(m_pGraphicDev, LOADING_COLLIDER);
 	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
 		
+	//Engine::LoadSoundFile();
+
+
+
+
 	return S_OK;
 }
 
 Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 {
+	m_pStartButton = dynamic_cast<CStart_Button*>(Engine::Get_GameObject(L"Ready_Layer_Environment", L"StartButton"));
+
+	m_pExitButton = dynamic_cast<CExit_Button*>(Engine::Get_GameObject(L"Ready_Layer_Environment", L"ExitButton"));
+
 	_int iResult = Engine::CScene::Update_Scene(fTimeDelta);
 
 	if (m_pLoading->Get_Finish())
 	{
-		if (GetAsyncKeyState(VK_RETURN) & 0x8000)
+		if (m_pStartButton->Get_Click())
 		{
-			CScene*		pScene = CStage::Create(m_pGraphicDev);
+			CScene*		pScene = CColliderStage::Create(m_pGraphicDev);
 			NULL_CHECK_RETURN(pScene, E_FAIL);
 
-			m_SceneType = SCENE_STAGE;//SCENE_COLLIDER
+			m_SceneType = SCENE_STAGE;
 
 			FAILED_CHECK_RETURN(Engine::Set_Scene(pScene), E_FAIL);
 
 			return 0;
-		}		
+		}
+		
+		if (m_pExitButton->Get_Click())
+		{
+			//DestroyWindow(g_hWnd);
+			return SCENE_END;
+		}
 	}
+
+	
+	
 
 	return iResult;
 }
@@ -68,8 +84,8 @@ void CLogo::LateUpdate_Scene(void)
 
 void CLogo::Render_Scene(void)
 {
-	// 개발??모드 출력 ?�수
-	Render_Font(L"Font_Jinji", m_pLoading->Get_String(), &_vec2(50.f, 50.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+	
+	Render_Font(L"Font_Jinji", m_pLoading->Get_String(), &_vec2(250.f, 450.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 
 }
 
@@ -82,22 +98,18 @@ HRESULT CLogo::Ready_Layer_Environment(const _tchar * pLayerTag)
 	CGameObject*		pGameObject = nullptr;
 
 	// backGround
-
 	pGameObject = CBackGround::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"BackGround", pGameObject), E_FAIL);
 
-	/*// TestPlayer
-	pGameObject = CTestPlayer::Create(m_pGraphicDev);
+	pGameObject = CStart_Button::Create(m_pGraphicDev, -0.6f, 0.45f);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestPlayer", pGameObject), E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"StartButton", pGameObject), E_FAIL);
 
-	// TestMonster
-	pGameObject = CTestMonster::Create(m_pGraphicDev);
+	pGameObject = CExit_Button::Create(m_pGraphicDev, -0.6f, -0.45f);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestMonster", pGameObject), E_FAIL);*/
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"ExitButton", pGameObject), E_FAIL);
 
-		
 	m_mapLayer.insert({ pLayerTag, pLayer });
 
 	return S_OK;
@@ -119,15 +131,29 @@ CLogo * CLogo::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 void CLogo::Free(void)
 {
 	Safe_Release(m_pLoading);
+	Safe_Release(m_pStartButton);
+	Safe_Release(m_pExitButton);
 
 	Engine::CScene::Free();
+	
 }
 
 HRESULT CLogo::Ready_Proto(void)
 {
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_TransformCom", CTransform::Create()), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_CalculatorCom", CCalculator::Create(m_pGraphicDev)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_OrthoTransformCom", COrthoTransform::Create()), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_RcTexCom", CRcTex::Create(m_pGraphicDev)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_LogoTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Logo/IU.jpg", TEX_NORMAL)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_LogoTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Logo/Title_Menu.png", TEX_NORMAL)), E_FAIL);
 
+	// Button											
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ButtonTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Button/Start_Button.png", TEX_NORMAL)), E_FAIL);
+	
+	
+	//FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ButtonTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Button/Credits_Button.png", TEX_NORMAL)), E_FAIL);
+		
+	
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ButtonTexture2", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Button/Exit_Button.png", TEX_NORMAL)), E_FAIL);
+						
 	return S_OK;
-
 }

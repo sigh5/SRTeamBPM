@@ -21,6 +21,10 @@ public:
 
 public:
 	HRESULT			Add_GameObject(const _tchar* pObjTag, CGameObject* pInstance);
+	HRESULT			Add_GameObjectList(CGameObject* pInstance);
+	
+	
+	
 	HRESULT			Ready_Layer(void);
 	_int			Update_Layer(const _float& fTimeDelta);
 	void			LateUpdate_Layer(void);
@@ -28,13 +32,17 @@ public:
 	HRESULT Delete_GameObject(const _tchar * pObjTag);
 	map<const _tchar*, CGameObject*>& Get_GameObjectMap()  { return m_mapObject; }
 
-	 // 맵오류때문에 키값으로 찾게 하는코드
-	 list<_tchar* > Get_NameList() { return NameList; }
-	 void AddNameList(_tchar* name) { NameList.push_back(name); }
-	 // ~맵오류때문에 키값으로 찾게 하는코드
+	// 맵오류때문에 키값으로 찾게 하는코드
+	list<_tchar* > Get_NameList() { return NameList; }
+	void AddNameList(_tchar* name) { NameList.push_back(name); }
+	// ~맵오류때문에 키값으로 찾게 하는코드
 
 private:
 	map<const _tchar*, CGameObject*>			m_mapObject;
+
+
+	list<CGameObject*>  m_objPoolList;
+	
 	list<_tchar* > NameList;
 
 public:

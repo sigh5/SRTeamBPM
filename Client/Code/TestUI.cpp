@@ -14,6 +14,10 @@ CTestUI::CTestUI(const CGameObject & rhs)
 
 }
 
+CTestUI::~CTestUI()
+{
+}
+
 HRESULT CTestUI::Ready_Object()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);

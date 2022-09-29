@@ -6,6 +6,9 @@
 #include "BackGround.h"
 #include "Loading.h"
 
+#include "Start_Button.h"
+#include "Exit_Button.h"
+
 class CLogo : public Engine::CScene
 {
 private:
@@ -30,6 +33,9 @@ private:
 
 private:
 	CLoading*			m_pLoading = nullptr;
+	
+	CStart_Button*		m_pStartButton = nullptr;
+	CExit_Button*		m_pExitButton = nullptr;
 
 	// 현재 어떤 씬인지 알기 위한 ENUM 타입 변수 	
 	SCENE_TYPE			m_SceneType;

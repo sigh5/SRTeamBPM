@@ -23,11 +23,20 @@ public:
 									_float fWidth, _float fHeight);
 
 
+	const _vec3				Get_VecWinPos() const {return m_vecWinPos;}
+
+
+
 
 
 public:
 	_matrix					m_matView;
 	_matrix					m_matOrtho;
+
+private:
+	_vec3					m_vecWinPos;
+
+
 
 
 public:

@@ -34,9 +34,6 @@
     <ClCompile Include="..\Code\Management.cpp">
       <Filter>04. Manager\00. Management</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\ObjectMgr.cpp">
-      <Filter>04. Manager\05. ObjPoolMgr</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\OrthoTransform.cpp">
       <Filter>00. Component\01. Transform\01. Ortho_Transform</Filter>
     </ClCompile>
@@ -72,6 +69,18 @@
     </ClCompile>
     <ClCompile Include="..\Code\MonsterBase.cpp">
       <Filter>01. GameObject\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Dynamic_Transform.cpp">
+      <Filter>00. Component\01. Transform\02. Dynamic_Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SoundMgr.cpp">
+      <Filter>04. Manager\06. SoundMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Renderer.cpp">
+      <Filter>04. Manager\02. Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\TriCol.cpp">
+      <Filter>00. Component\00. VIBuffer\00. TriCol</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Dynamic_Transform.cpp" />
     <ClCompile Include="..\Code\Renderer.cpp" />
@@ -141,6 +150,30 @@
     <ClInclude Include="..\..\Header\TriCol.h">
       <Filter>00. Component\00. VIBuffer\00. TriCol</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Header\Dynamic_Transform.h">
+      <Filter>00. Component\01. Transform\02. Dynamic_Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\SoundMgr.h">
+      <Filter>04. Manager\06. SoundMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\Management.h">
+      <Filter>04. Manager\00. Management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\LightMgr.h">
+      <Filter>04. Manager\04. LightMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\Light.h">
+      <Filter>04. Manager\04. LightMgr\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\Renderer.h">
+      <Filter>04. Manager\02. Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\Texture.h">
+      <Filter>00. Component\02. Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\ProtoMgr.h">
+      <Filter>04. Manager\01. ProtoMgr</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Header\Dynamic_Transform.h" />
     <ClInclude Include="..\..\Header\Light.h" />
     <ClInclude Include="..\..\Header\LightMgr.h" />
@@ -207,12 +240,6 @@
     <Filter Include="00. Component\00. VIBuffer\04. CubeTex">
       <UniqueIdentifier>{686768c7-9b65-41d6-8571-fca53674757c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00. Component\05. Collider">
-      <UniqueIdentifier>{d46a5c8a-d54a-4c3d-810a-a19eba545aeb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00. Component\01. Transform\97. OrthTransform">
-      <UniqueIdentifier>{bb8e0552-ac8c-4183-a015-d2685b1f9dde}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00. Component\06. CharacterInfo">
       <UniqueIdentifier>{ce375ab4-b693-42fa-9014-5380f58b78b7}</UniqueIdentifier>
     </Filter>
@@ -237,14 +264,20 @@
     <Filter Include="04. Manager\04. LightMgr">
       <UniqueIdentifier>{36bd7216-2be1-4124-8ad0-e38392e43741}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04. Manager\05. ObjPoolMgr">
-      <UniqueIdentifier>{d19388c9-7e44-49d3-89ff-63d504b2f503}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04. Manager\04. LightMgr\Light">
       <UniqueIdentifier>{868ed9f8-3104-40e9-a3e1-7e7b35aeb85c}</UniqueIdentifier>
     </Filter>
     <Filter Include="00. Component\01. Transform\01. Ortho_Transform">
       <UniqueIdentifier>{b2622914-02bc-47aa-89d7-d9d747dedb11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Component\01. Transform\02. Dynamic_Transform">
+      <UniqueIdentifier>{4eea6591-4036-4d8b-8d78-3051f3dbfa02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Component\99. Sound">
+      <UniqueIdentifier>{7f6b0b3a-27be-4204-94f2-a0d5d156a6e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. Manager\06. SoundMgr">
+      <UniqueIdentifier>{9012ee41-481d-47df-bf1b-16c66022f57c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

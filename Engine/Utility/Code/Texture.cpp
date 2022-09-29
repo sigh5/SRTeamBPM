@@ -89,10 +89,11 @@ CComponent * CTexture::Clone(void)
 
 void CTexture::Free(void)
 {
-	CComponent::Free();
 
 	for (auto& iter : m_vecTexture)
 		Safe_Release(iter);
 
 	m_vecTexture.clear();
+
+	CComponent::Free();
 }

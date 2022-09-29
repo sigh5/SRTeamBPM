@@ -30,8 +30,8 @@
 #include "Management.h"
 #include "Renderer.h"
 #include "Pipeline.h"
-#include "ObjectMgr.h"
 
+#include "SoundMgr.h"
 
 
 #include "LightMgr.h"
@@ -68,18 +68,27 @@ inline void		Add_RenderGroup(RENDERID eID, CGameObject* pGameObject);
 inline void		Render_GameObject(LPDIRECT3DDEVICE9& pGraphicDev);
 inline void		Clear_RenderGroup(void);
 
+
 // lightMgr
 
 inline HRESULT	Ready_Light(LPDIRECT3DDEVICE9 pGraphicDev, const D3DLIGHT9* pLightInfo, const _uint& iIndex);
 
 
 
-// ObjectMgr
-inline void				Collect_Obj(CGameObject* pObj);
-inline CGameObject*		Reuse_Obj(LPDIRECT3DDEVICE9 pGraphicDev, const D3DXVECTOR3& vPos);
+
+// SoundMgr
+inline void PlaySoundW(TCHAR* pSoundKey, CHANNELID eID, float fVolume);
+inline void PlayBGM(TCHAR* pSoundKey, float fVolume);
+inline void StopSound(CHANNELID eID);
+inline void	StopAll();
+inline void PlaySlow(TCHAR * pSoundKey, CHANNELID eID, float fVolume, float fRate);
+inline void SetChannelVolume(CHANNELID eID, float fVolume);
+inline void LoadSoundFile();
+inline void Initialize();
 
 
-// FileMgr
+
+
 
 
 

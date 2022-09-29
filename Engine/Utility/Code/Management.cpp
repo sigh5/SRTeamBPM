@@ -54,8 +54,9 @@ _int CManagement::Update_Scene(const _float & fTimeDelta)
 {
 	if (nullptr == m_pScene)
 		return -1;
-
-	return m_pScene->Update_Scene(fTimeDelta);
+	
+	//int a = 0;
+	return m_pScene->Update_Scene(fTimeDelta);  // -99 리턴값을 잡고 그다음에 
 }
 
 void CManagement::LateUpdate_Scene(void)
@@ -69,7 +70,6 @@ void CManagement::LateUpdate_Scene(void)
 void CManagement::Render_Scene(LPDIRECT3DDEVICE9 pGraphicDev)
 {
 	Engine::Render_GameObject(pGraphicDev);
-
 
 	if (nullptr == m_pScene)
 		return;

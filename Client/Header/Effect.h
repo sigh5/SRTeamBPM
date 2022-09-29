@@ -8,7 +8,6 @@ namespace Engine
 	class CTransform;
 	class CRcTex;
 	class CTexture;
-	class CUserInterface;
 }
 
 class CEffect : public CGameObject
@@ -30,8 +29,6 @@ private:
 	CRcTex*			m_pBufferCom = nullptr;
 	CTransform*			m_pTransCom = nullptr;
 	CTexture*			m_pTextureCom = nullptr;
-
-	CUserInterface*		m_pUserInterfaceCom = nullptr;
 
 public:
 	_float				m_fFrame = 0.f;
