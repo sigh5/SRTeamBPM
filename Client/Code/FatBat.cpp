@@ -49,7 +49,6 @@ _int CFatBat::Update_Object(const _float & fTimeDelta)
 
 	FatBat_Fly();
 	
-
 	 // 수정 쿨타임 대신 타임
 	m_fFrame += 2.f * fTimeDelta;
 	if (m_fFrame > 2.f)
@@ -134,7 +133,7 @@ void CFatBat::FatBat_Shoot(void)
 {
 
 	_vec3 vPos;
-	m_pTransCom->Get_Info(INFO_POS, &vPos);
+	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
 
 	CScene* pScene = ::Get_Scene();
 	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");

@@ -44,6 +44,7 @@ void CBaseBullet::Render_Obejct(void)
 
 void CBaseBullet::Set_MoveDir(const wstring& LayerName , const wstring& GameObjectName, const wstring& ComponentName, COMPONENTID eID, _vec3 * vPos)
 {
+	// 추후에 불렛이 다이나믹을 받으면 dynamicTransform
 	CTransform* pTargetTransformCom = static_cast<CTransform*>(Engine::Get_Component(LayerName.c_str(),
 		GameObjectName.c_str(),
 		ComponentName.c_str(),
