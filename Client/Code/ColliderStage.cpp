@@ -45,6 +45,7 @@ HRESULT CColliderStage::Ready_Scene(void)
 
 	
 	::PlaySoundW(L"SamTow.wav", SOUND_BGM, 0.1f);
+
 	return S_OK;
 }
 

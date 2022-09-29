@@ -5,6 +5,7 @@
 #include "ImGuiMgr.h"
 #include "FileIOMgr.h"
 #include "ObjectMgr.h"
+#include <crtdbg.h>
 
 USING(Engine)
 CMainApp::CMainApp()	

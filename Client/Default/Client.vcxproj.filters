@@ -139,20 +139,17 @@
     <ClCompile Include="..\Code\Spider.cpp">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\02. Spider</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\Spider.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\02. Spider</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Stage_BIH.cpp">
+      <Filter>01. Scene\96. Stage_BIH</Filter>
+    </ClCompile>
     <ClCompile Include="..\Code\Anubis.cpp">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\FatBat.cpp">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\01. FatBat</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\Spider.cpp">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster\02. Spider</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\Bullet.cpp">
-      <Filter>02. GameObject\01. For_Stage\06. Bullet\PlayerBullet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\MonsterBullet.cpp">
-      <Filter>02. GameObject\01. For_Stage\06. Bullet\MonsterBullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -312,20 +309,17 @@
     <ClInclude Include="..\Header\Spider.h">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\02. Spider</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Spider.h">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\02. Spider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Stage_BIH.h">
+      <Filter>01. Scene\96. Stage_BIH</Filter>
+    </ClInclude>
     <ClInclude Include="..\Header\Anubis.h">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\FatBat.h">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\01. FatBat</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\Spider.h">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster\02. Spider</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\Bullet.h">
-      <Filter>02. GameObject\01. For_Stage\06. Bullet\PlayerBullet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\MonsterBullet.h">
-      <Filter>02. GameObject\01. For_Stage\06. Bullet\MonsterBullet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -471,6 +465,9 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\06. Bullet\MonsterBullet">
       <UniqueIdentifier>{b48247f6-77d4-4428-a229-21d24ef9c880}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\96. Stage_BIH">
+      <UniqueIdentifier>{95f89427-d3e8-4ac2-9abe-11e52adb3068}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
