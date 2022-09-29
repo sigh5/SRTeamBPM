@@ -71,8 +71,13 @@ HRESULT CHWPlayer::Add_Component(void)
 	pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Clone_Proto(L"Proto_RcTexCom"));
 	NULL_CHECK_RETURN(m_pBufferCom, E_FAIL);
 	m_mapComponent[ID_STATIC].insert({ L"Proto_RcTexCom", pComponent });
-	
-	// Stage ¿ë
+
+	// TestTool?š©
+	//pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_PlayerTexture2"));
+	//NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
+	//m_mapComponent[ID_STATIC].insert({ L"Proto_PlayerTexture2", pComponent });
+
+	// Stage ?š©
 	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_PlayerTexture"));
 	NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
 	m_mapComponent[ID_STATIC].insert({ L"Proto_PlayerTexture", pComponent });
@@ -81,13 +86,17 @@ HRESULT CHWPlayer::Add_Component(void)
 	NULL_CHECK_RETURN(m_pTransCom, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].insert({ L"Proto_TransformCom", pComponent });
 
+	pComponent = m_pDynamicTransCom = dynamic_cast<CDynamic_Transform*>(Clone_Proto(L"Proto_DynamicTransformCom"));
+	NULL_CHECK_RETURN(m_pDynamicTransCom, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].insert({ L"Proto_DynamicTransformCom", pComponent });
+
 	pComponent = m_pCalculatorCom = dynamic_cast<CCalculator*>(Clone_Proto(L"Proto_CalculatorCom"));
 	NULL_CHECK_RETURN(m_pCalculatorCom, E_FAIL);
 	m_mapComponent[ID_STATIC].insert({ L"Proto_CalculatorCom", pComponent });
 
-	pComponent = m_pColliderCom = dynamic_cast<CCollider*>(Clone_Proto(L"Proto_ColliderCom"));
-	NULL_CHECK_RETURN(m_pColliderCom, E_FAIL);
-	m_mapComponent[ID_STATIC].insert({ L"Proto_ColliderCom", pComponent });
+	pComponent = m_pAnimationCom = dynamic_cast<CAnimation*>(Clone_Proto(L"Proto_AnimationCom"));
+	NULL_CHECK_RETURN(m_pAnimationCom, E_FAIL);
+	m_mapComponent[ID_STATIC].insert({ L"Proto_AnimationCom", pComponent });
 
 
 	return S_OK;
@@ -151,9 +160,6 @@ void CHWPlayer::Key_Input(const _float & fTimeDelta)
 	{
 		m_iMagazine = 8;
 	}
-
-
-
 
 }
 

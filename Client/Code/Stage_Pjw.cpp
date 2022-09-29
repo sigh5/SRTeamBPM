@@ -159,7 +159,7 @@ HRESULT CStage_Pjw::Ready_Layer_UI(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 
 	CGameObject*		pGameObject = nullptr;
-	CTestPlayer* pPlayer = dynamic_cast<CTestPlayer*>(Get_GameObject(L"Layer_GameLogic", L"TestPlayer"));
+	CTestPlayer*		pPlayer = dynamic_cast<CTestPlayer*>(Get_GameObject(L"Layer_GameLogic", L"TestPlayer"));
 
 	pGameObject = CBullet_UI::Create(m_pGraphicDev, pPlayer);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
