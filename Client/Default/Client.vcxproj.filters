@@ -154,6 +154,9 @@
     <ClCompile Include="..\Code\Spider.cpp">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\02. Spider</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\Stage_BIH.cpp">
+      <Filter>01. Scene\96. Stage_BIH</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -327,6 +330,9 @@
     <ClInclude Include="..\Header\Spider.h">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\02. Spider</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Stage_BIH.h">
+      <Filter>01. Scene\96. Stage_BIH</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -465,6 +471,9 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\02. Spider">
       <UniqueIdentifier>{cd4a3434-5462-404a-bd03-631b4f60230e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\96. Stage_BIH">
+      <UniqueIdentifier>{95f89427-d3e8-4ac2-9abe-11e52adb3068}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

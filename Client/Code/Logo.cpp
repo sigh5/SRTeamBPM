@@ -7,6 +7,7 @@
 #include "Stage.h"
 #include "ToolTest.h"
 #include "ColliderStage.h"
+#include "STAGE_BIH.h"
 
 // UI Test
 #include "TestUI.h"
@@ -54,7 +55,7 @@ Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 	{
 		if (m_pStartButton->Get_Click())
 		{
-			CScene*		pScene = CStage::Create(m_pGraphicDev);
+			CScene*		pScene = CStage_BIH::Create(m_pGraphicDev);
 			NULL_CHECK_RETURN(pScene, E_FAIL);
 
 			m_SceneType = SCENE_STAGE;
