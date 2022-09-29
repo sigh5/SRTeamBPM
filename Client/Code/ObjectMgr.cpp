@@ -48,7 +48,8 @@ CBaseBullet * CObjectMgr::Reuse_MonsterBulltObj(LPDIRECT3DDEVICE9 pGraphicDev, _
 	else
 	{
 		pObject = m_MonsterBulletList.front();
-		dynamic_cast<CMonsterBullet*>(pObject)->Set_MoveDir(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC, &vPos, MONSTER_BULLET);
+		_vec3 vScale = { 0.5f,0.5f,0.5f };
+		dynamic_cast<CMonsterBullet*>(pObject)->Set_MoveDir(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC, &vPos, MONSTER_BULLET, &vScale);
 		m_MonsterBulletList.pop_front();
 	
 	}
@@ -65,7 +66,8 @@ CBaseBullet * CObjectMgr::Reuse_PlayerBulltObj(LPDIRECT3DDEVICE9 pGraphicDev, _v
 	else
 	{
 		pObject = m_PlayerBulletList.front();
-		dynamic_cast<CBullet*>(pObject)->Set_MoveDir(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC, &vPos, PLAYER_BULLET);
+		_vec3 vScale = { 0.5f,0.5f,0.5f };
+		dynamic_cast<CBullet*>(pObject)->Set_MoveDir(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC, &vPos, PLAYER_BULLET, &vScale);
 		m_PlayerBulletList.pop_front();
 	}
 	return pObject;

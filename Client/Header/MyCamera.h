@@ -18,7 +18,7 @@ public:
 	virtual _int Update_Object(const _float& fTimeDelta) override;
 
 	virtual void LateUpdate_Object(void) override;
-	void		Mouse_Move(void);
+	void		Mouse_Move(const _float& fTimeDelta);
 	void		Mouse_Fix(void);
 
 
@@ -34,11 +34,12 @@ public:
 	
 
 private:
-	_float			m_fDistance = 10.f;
+	_float			m_fDistance = 3.f;
 	_float			m_fSpeed = 10.f;
 	_float			m_fAngle = 0.f;
 
 	
+	_float			m_fCameraHeight = 0.1f;
 
 
 public:

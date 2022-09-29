@@ -36,17 +36,32 @@ private:
 	_vec3				PickUp_OnTerrain(void);
 	float				Get_TerrainY(void);		//지형의 Y값으로 설정하는 대신 리턴
 
-
+	
 public:
 	void				Collsion_CubeMap(CGameObject* pGameObject);
+	_uint				Get_Magazine(void) { return m_iMagazine; }
+
+
+
+	void				Set_OneShot(_bool bMetro) { m_bOneShot = bMetro; }
+
+
+	void				Penalty_ComBo();
+	void				Miss_ClickMouseLB(const _float & fTimeDelta);
 
 private:
-	HRESULT				Create_bullet(_vec3 pos);
+	HRESULT				Create_bullet(_vec3 pos, const _float & fTimeDelta);
 
 	_uint			m_iCount = 0;
 	_uint			m_iCoolTime = 0;
 	_bool			m_bOneShot = false;
 	_uint			m_iMagazine = 8;
+
+public:
+	_bool			m_bComboPenalty = true;
+	_float			m_ComboTimer = 0.f;
+	_float			m_fMissClick = 0.f;
+	_bool			m_bMissCheck = false;
 
 private:
 	CRcTex*				m_pBufferCom = nullptr;

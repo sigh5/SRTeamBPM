@@ -49,6 +49,8 @@ HRESULT CBullet::Ready_Object(_vec3 vPos)
 _int CBullet::Update_Object(const _float & fTimeDelta)
 {	
 	m_fFrame += 2.f * fTimeDelta;
+	_vec3 vScale = { 0.5f,0.5f,0.5f };
+	m_pTransCom->Set_Scale(&vScale);
 
 	if (m_fFrame > 2.f)
 	{

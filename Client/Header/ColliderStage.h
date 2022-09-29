@@ -30,6 +30,9 @@ private:
 	HRESULT			Ready_Layer_GameLogic(const _tchar* pLayerTag);
 	HRESULT			Ready_Layer_UI(const _tchar* pLayerTag);
 
+	HRESULT			Ready_Layer_CubeCollsion(const _tchar* pLayerTag);
+
+
 	HRESULT			Ready_Proto(void);
 	HRESULT			Ready_Light(void);
 
@@ -44,6 +47,9 @@ private:
 	_float fSpeed = -100.f;
 
 	_int   m_iTexCount = 0;
+
+
+	_int		m_iMetroCount = 0;
 
 public:
 	static CColliderStage*	Create(LPDIRECT3DDEVICE9 pGraphicDev);

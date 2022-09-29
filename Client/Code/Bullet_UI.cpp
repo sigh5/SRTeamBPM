@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "..\Header\Bullet_UI.h"
 #include "Export_Function.h"
+#include "HWPlayer.h"
+
 
 USING(Engine)
 
@@ -18,7 +20,7 @@ CBullet_UI::~CBullet_UI()
 {
 }
 
-HRESULT CBullet_UI::Ready_Object(CTestPlayer* pPlayer)
+HRESULT CBullet_UI::Ready_Object(CGameObject* pPlayer)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
@@ -29,8 +31,8 @@ HRESULT CBullet_UI::Ready_Object(CTestPlayer* pPlayer)
 
 _int CBullet_UI::Update_Object(const _float & fTimeDelta)
 {			
-
-	m_pAnimationCom->Control_Animation(m_pPlayer->Get_Magazine());
+												// 여기만 바꾸면
+	m_pAnimationCom->Control_Animation(dynamic_cast<CHWPlayer*>(m_pPlayer)->Get_Magazine());
 	
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
@@ -85,7 +87,7 @@ HRESULT CBullet_UI::Add_Component(void)
 	return S_OK;
 }
 
-CBullet_UI * CBullet_UI::Create(LPDIRECT3DDEVICE9 pGraphicDev, CTestPlayer* pPlayer)
+CBullet_UI * CBullet_UI::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* pPlayer)
 {
 	CBullet_UI* pInstance = new CBullet_UI(pGraphicDev);
 

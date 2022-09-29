@@ -29,7 +29,9 @@ HRESULT CMonsterBullet::Ready_Object(_vec3 vPos)
 	pPlayerTransformCom->Get_Info(INFO_POS, &vPlayerPos);
 	m_MoveDir = vPlayerPos - vPos;*/
 
-	Set_MoveDir(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC, &vPos,MONSTER_BULLET);
+	_vec3 vScale = { 0.5f,0.5f,0.5f };
+
+	Set_MoveDir(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC, &vPos,MONSTER_BULLET, &vScale);
 
 
 
@@ -39,6 +41,9 @@ HRESULT CMonsterBullet::Ready_Object(_vec3 vPos)
 _int CMonsterBullet::Update_Object(const _float & fTimeDelta)
 {
 	m_fFrame += 2.f * fTimeDelta;
+	_vec3 vScale = { 0.5f,0.5f,0.5f };
+	m_pTransCom->Set_Scale(&vScale);
+
 
 	if (m_fFrame > 2.f)
 	{

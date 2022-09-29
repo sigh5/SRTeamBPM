@@ -29,19 +29,40 @@ HRESULT CHWPlayer::Ready_Object(void)
 
 _int CHWPlayer::Update_Object(const _float & fTimeDelta)
 {
-
-	Key_Input(fTimeDelta);
 	
-	Engine::CGameObject::Update_Object(fTimeDelta);
-
 	m_fFrame += 1.f * fTimeDelta;
 
 	if (m_fFrame >= 1.f)
+	{
+		m_bOneShot = false;
 		m_fFrame = 0.f;
+	}
+	
+
+	Key_Input(fTimeDelta);
 
 
+	if(m_bComboPenalty==false)
+	{
+		m_ComboTimer += 0.1f* fTimeDelta;
 
-	Add_RenderGroup(RENDER_ALPHA, this);
+		if (m_ComboTimer >= 0.1f)
+		{
+			Penalty_ComBo();
+			m_ComboTimer = 0;
+		}
+	}
+
+	Miss_ClickMouseLB(fTimeDelta);
+	
+
+	
+	Engine::CGameObject::Update_Object(fTimeDelta);
+
+
+	
+	// 1ÀÎÄª ¸¸µé±â
+	//Add_RenderGroup(RENDER_ALPHA, this);
 	
 	return 0;
 }
@@ -128,7 +149,6 @@ void CHWPlayer::Key_Input(const _float & fTimeDelta)
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
 		D3DXVec3Normalize(&m_vUp, &m_vUp);
 		D3DXVec3Cross(&vRight, &m_vDirection, &m_vUp);
-		
 		m_pTransCom->Move_Pos(&(vRight * 10.f * fTimeDelta));
 		m_eDirType = DIR_LEFT;
 	}
@@ -139,27 +159,33 @@ void CHWPlayer::Key_Input(const _float & fTimeDelta)
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
 		D3DXVec3Normalize(&m_vUp, &m_vUp);
 		D3DXVec3Cross(&vRight, &m_vDirection, &m_vUp);
-		
 		m_pTransCom->Move_Pos(&(vRight * -10.f * fTimeDelta));
 		m_eDirType = DIR_RIGHT;
 	}
 
 	if (Engine::Get_DIMouseState(DIM_LB) & 0X80) // Picking
 	{
-		Create_bullet(m_vPos);
-
-		m_bOneShot = true;
-
-		// Magazine 0 = Don't Shoot
 		if (m_iMagazine == 0)
 			m_bOneShot = false;
+	
+		Create_bullet(m_vPos, fTimeDelta);
 
+		if (!m_bOneShot && !m_bMissCheck)
+		{
+			if (m_iMagazine >= 0)
+				m_iMagazine -= 1;
 
+			m_bMissCheck = true;
+		}
+		
+		
 	}
 	if (Get_DIKeyState(DIK_R) & 0X80)
 	{
 		m_iMagazine = 8;
 	}
+
+	
 
 }
 
@@ -254,14 +280,43 @@ void CHWPlayer::Collsion_CubeMap(CGameObject * pGameObject)
 	return;
 }
 
-HRESULT CHWPlayer::Create_bullet(_vec3 vPos)
+void CHWPlayer::Penalty_ComBo()
+{
+	if (m_bComboPenalty == false)
+	{
+		if (m_iMagazine >= 0)
+		{
+			m_iMagazine -= 1;
+		}
+		m_bComboPenalty = true;
+	}
+	
+	
+}
+
+void CHWPlayer::Miss_ClickMouseLB(const _float & fTimeDelta)
+{
+	
+	if (m_bMissCheck)
+	{
+		m_fMissClick += 1.f * fTimeDelta;
+
+		if (m_fMissClick >= 1.f)
+		{
+			m_bMissCheck = false;
+			m_fMissClick = 0;
+		}
+	}
+}
+
+HRESULT CHWPlayer::Create_bullet(_vec3 vPos , const _float & fTimeDelta)
 {
 	++m_iCoolTime;
 
-	if (m_bOneShot && m_iCoolTime > 10)
+	if (m_bOneShot)
 	{
-		m_bOneShot = FALSE;
-
+		m_bOneShot = false;
+		m_bComboPenalty = true;
 		m_iCoolTime = 0;
 
 		CScene* pScene = ::Get_Scene();
