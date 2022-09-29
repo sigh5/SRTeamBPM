@@ -24,6 +24,8 @@ public:
 
 	_uint		Loading_ForTest(void);
 
+	_uint		Loading_ForPlayer_UI(void);
+
 public:
 	static unsigned int	CALLBACK Thread_Main(void* pArg);
 

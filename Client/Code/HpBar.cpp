@@ -2,6 +2,9 @@
 #include "..\Header\HpBar.h"
 
 #include "Export_Function.h"
+#include "AbstractFactory.h"
+
+USING(Engine)
 
 CHpBar::CHpBar(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -9,35 +12,103 @@ CHpBar::CHpBar(LPDIRECT3DDEVICE9 pGraphicDev)
 
 }
 
+CHpBar::CHpBar(const CGameObject & rhs)
+	: CGameObject(rhs)
+{
+}
+
 CHpBar::~CHpBar()
 {
 }
 
-HRESULT CHpBar::Ready_Object(void)
+
+HRESULT CHpBar::Ready_Object(CTestPlayer * pPlayer)
 {
+	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+
+	m_pPlayer = pPlayer;
+
 	return S_OK;
 }
 
 _int CHpBar::Update_Object(const _float & fTimeDelta)
 {
+	m_pAnimationCom->Control_Animation(m_pPlayer->Get_HpChange());
+
+	Engine::CGameObject::Update_Object(fTimeDelta);
+
+	Add_RenderGroup(RENDER_UI, this);
+
 	return 0;
 }
 
 void CHpBar::LateUpdate_Object(void)
 {
+	m_pTransCom->OrthoMatrix(80.f, 15.f, -300.f, -270.f, WINCX, WINCY);
+
+	CGameObject::LateUpdate_Object();
+
 }
 
 void CHpBar::Render_Obejct(void)
 {
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransCom->m_matWorld);
+
+	m_pGraphicDev->SetTransform(D3DTS_VIEW, &m_pTransCom->m_matView);
+	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &m_pTransCom->m_matOrtho);
+
+	m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);
+	m_pBufferCom->Render_Buffer();
 }
 
-CHpBar * CHpBar::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+HRESULT CHpBar::Add_Component(void)
 {
-	CHpBar* pInstance = new CHpBar(pGraphicDev);
+	/*m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
+	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_HpBar_Texture", m_mapComponent, ID_STATIC);
+	m_pTransCom = CAbstractFactory<COrthoTransform>::Clone_Proto_Component(L"Proto_OrthoTransformCom", m_mapComponent, ID_DYNAMIC);
+	m_pCalculatorCom = CAbstractFactory<CCalculator>::Clone_Proto_Component(L"Proto_CalculatorCom", m_mapComponent, ID_STATIC);
+	m_pAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_DYNAMIC);*/
 
-	return nullptr;
+	CComponent* pComponent = nullptr;
+
+	pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Clone_Proto(L"Proto_RcTexCom"));
+	NULL_CHECK_RETURN(m_pBufferCom, E_FAIL);
+	m_mapComponent[ID_STATIC].insert({ L"Proto_RcTexCom", pComponent });
+
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_HpBar_Texture"));
+	NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
+	m_mapComponent[ID_STATIC].insert({ L"Proto_HpBar_Texture", pComponent });
+
+	pComponent = m_pTransCom = dynamic_cast<COrthoTransform*>(Clone_Proto(L"Proto_OrthoTransformCom"));
+	NULL_CHECK_RETURN(m_pTransCom, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].insert({ L"Proto_OrthoTransformCom", pComponent });
+
+	pComponent = m_pCalculatorCom = dynamic_cast<CCalculator*>(Clone_Proto(L"Proto_CalculatorCom"));
+	NULL_CHECK_RETURN(m_pCalculatorCom, E_FAIL);
+	m_mapComponent[ID_STATIC].insert({ L"Proto_CalculatorCom", pComponent });
+
+	pComponent = m_pAnimationCom = dynamic_cast<CAnimation*>(Clone_Proto(L"Proto_AnimationCom"));
+	NULL_CHECK_RETURN(m_pAnimationCom, E_FAIL);
+	m_pAnimationCom->Ready_Animation(4, 0, 0.2f, 4); // 8
+	m_mapComponent[ID_DYNAMIC].insert({ L"Proto_AnimationCom", pComponent });
+
+	return S_OK;
+}
+
+
+CHpBar * CHpBar::Create(LPDIRECT3DDEVICE9 pGraphicDev, CTestPlayer * pPlayer)
+{
+	CHpBar*	pInstance = new CHpBar(pGraphicDev);
+
+	if (FAILED(pInstance->Ready_Object(pPlayer)))
+	{
+		Safe_Release(pInstance);
+		return nullptr;
+	}
+	return pInstance;
 }
 
 void CHpBar::Free(void)
 {
+	CGameObject::Free();
 }

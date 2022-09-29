@@ -19,11 +19,12 @@ CAnimation::~CAnimation()
 {
 }
 
-HRESULT CAnimation::Ready_Animation(int _iMaxMotion, int _iMinMotion, float _fInterval)
+HRESULT CAnimation::Ready_Animation(int _iMaxMotion, int _iMinMotion, float _fInterval, _uint _iOrigin)
 {
 	m_iMaxMotion = _iMaxMotion;
 	m_iMinMotion = _iMinMotion;
 	m_fIntervalMotion = _fInterval;
+	m_iOrigin = _iOrigin;
 	return S_OK;
 }
 
