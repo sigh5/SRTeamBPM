@@ -11,6 +11,7 @@
 #include "Start_Button.h"
 #include "Bullet_UI.h"
 #include "Weapon_UI.h"
+#include "HpBar.h"
 
 class CStage_Pjw : public Engine::CScene
 {

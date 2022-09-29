@@ -32,7 +32,7 @@
       <Filter>98. ImGui</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\HpBar.cpp">
-      <Filter>02. GameObject\01. For_Stage\08. HpBar</Filter>
+      <Filter>02. GameObject\01. For_Stage\10. UI\03. HpBar</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\HWPlayer.cpp">
       <Filter>02. GameObject\01. For_Stage\01. TestPlayer\HwPlayer</Filter>
@@ -193,7 +193,7 @@
       <Filter>98. ImGui</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\HpBar.h">
-      <Filter>02. GameObject\01. For_Stage\08. HpBar</Filter>
+      <Filter>02. GameObject\01. For_Stage\10. UI\03. HpBar</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\HWPlayer.h">
       <Filter>02. GameObject\01. For_Stage\01. TestPlayer\HwPlayer</Filter>
@@ -415,9 +415,6 @@
     <Filter Include="02. GameObject\01. For_Stage\07. Effect">
       <UniqueIdentifier>{f2ea118c-f661-4d4f-b92f-cd2d9d002214}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. For_Stage\08. HpBar">
-      <UniqueIdentifier>{a06bc703-8882-4b79-9e93-e30f18191e59}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\01. For_Stage\09. Particle">
       <UniqueIdentifier>{fdb19f44-1f96-4e97-ae52-b4e270ab8cbe}</UniqueIdentifier>
     </Filter>
@@ -474,6 +471,9 @@
     </Filter>
     <Filter Include="01. Scene\50. Stage_Pjw">
       <UniqueIdentifier>{5ca1031e-75e6-4534-8c8b-e3be68d7148a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\03. HpBar">
+      <UniqueIdentifier>{a06bc703-8882-4b79-9e93-e30f18191e59}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -219,11 +219,30 @@ void CTestPlayer::Key_Input(const _float& fTimeDelta)
 	}
 
 	// Test
-	if (Get_DIKeyState(DIK_X) & 0X80)
+	// Weapon Image Change
+	if (Get_DIKeyState(DIK_Z) & 0X80)
 	{
 		m_iChangeImage -= 1;
 	}
+
+	if (Get_DIKeyState(DIK_X) & 0X80)
+	{
+		m_iChangeImage = 1;
+	}
+
+	// HpBar Change
+	if (Get_DIKeyState(DIK_C) & 0X80)
+	{
+		m_iHpBarChange -= 1;
+	}
+
+	if (Get_DIKeyState(DIK_V) & 0X80)
+	{
+		m_iHpBarChange = 4;
+	}
+	
 	// ~Test
+
 
 	// Picking to LeftButton
 	/*if (Engine::Get_DIMouseState(DIM_LB) & 0X80)
