@@ -37,7 +37,7 @@ HRESULT CDynamicCamera::Ready_Object(const _vec3* pEye,
 
 Engine::_int CDynamicCamera::Update_Object(const _float& fTimeDelta)
 {
-	Key_Input(fTimeDelta);
+	//Key_Input(fTimeDelta);
 
 	_int iExit = CCamera::Update_Object(fTimeDelta);
 

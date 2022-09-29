@@ -12,6 +12,7 @@ namespace Engine
 	class CAnimation;
 
 	class CCharacterInfo;
+	class CCollider;
 
 }
 
@@ -55,6 +56,7 @@ private:
 	CAnimation*			m_pAnimationCom = nullptr;
 
 	CCharacterInfo*		m_pInfoCom = nullptr;
+	CCollider*			m_pColliderCom = nullptr;
 
 private:
 	// _vec3

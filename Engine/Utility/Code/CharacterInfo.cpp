@@ -48,7 +48,7 @@ void CCharacterInfo::Add_Hp(_uint iAddHp)
 	m_Info._iHp += iAddHp;
 }
 
-CCharacterInfo * CCharacterInfo::Clone(void)
+CComponent * CCharacterInfo::Clone(void)
 {
 	return new CCharacterInfo(*this);
 }
