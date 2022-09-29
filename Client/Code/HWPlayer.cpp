@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "..\Header\HWPlayer.h"
-
+#include "Bullet.h"
+#include "Bullet_UI.h"
 
 #include "Export_Function.h"
 
@@ -125,6 +126,22 @@ void CHWPlayer::Key_Input(const _float & fTimeDelta)
 		m_pTransCom->Move_Pos(&(vRight * -10.f * fTimeDelta));
 		m_eDirType = DIR_RIGHT;
 	}
+
+	if (Engine::Get_DIMouseState(DIM_LB) & 0X80) // Picking
+	{
+		Create_bullet(m_vPos);
+
+		m_bOneShot = true;
+
+		// Magazine 0 = Don't Shoot
+		if (m_iMagazine == 0)
+			m_bOneShot = false;
+
+
+	}
+
+
+
 }
 
 void CHWPlayer::Set_OnTerrain(void)
@@ -216,6 +233,37 @@ void CHWPlayer::Collsion_CubeMap(CGameObject * pGameObject)
 	}
 	
 	return;
+}
+
+HRESULT CHWPlayer::Create_bullet(_vec3 vPos)
+{
+	++m_iCoolTime;
+
+	if (m_bOneShot && m_iCoolTime > 10)
+	{
+		CBullet* pBullet = CBullet::Create(m_pGraphicDev, vPos);
+		NULL_CHECK(pBullet);
+
+		_tchar*         szFinalName = new _tchar[128]; // �����Ⱚ
+		wsprintf(szFinalName, L"");
+
+		const _tchar*   szBulletName = L"Bullet_%d";
+		wsprintf(szFinalName, szBulletName, m_iCount);
+
+		FAILED_CHECK_RETURN(Engine::Add_GameObject(L"Layer_GameLogic", szFinalName, pBullet), E_FAIL);
+		
+		/*if (szBulletName != nullptr)
+			m_iMagazine -= 1;
+
+
+		m_szBulletName.push_back(szFinalName);
+		m_iCount++;
+
+		m_bOneShot = FALSE;
+
+		m_iCoolTime = 0;*/
+	}
+	return S_OK;
 }
 
 CHWPlayer * CHWPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)

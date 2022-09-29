@@ -24,7 +24,7 @@ private:
 
 public:
 
-	virtual CCharacterInfo*		Clone(void) override;
+	virtual CComponent*			Clone(void) override;
 	static CCharacterInfo*		Create(LPDIRECT3DDEVICE9 pGraphicDev, int _hp, int _Attack, float _fSpeed);
 
 private:

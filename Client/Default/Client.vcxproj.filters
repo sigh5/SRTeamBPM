@@ -7,9 +7,6 @@
     <ClCompile Include="Client.cpp">
       <Filter>99. Default</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Anubis.cpp">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\Bullet.cpp">
       <Filter>02. GameObject\01. For_Stage\06. Bullet</Filter>
     </ClCompile>
@@ -21,9 +18,6 @@
     </ClCompile>
     <ClCompile Include="..\Code\Effect.cpp">
       <Filter>02. GameObject\01. For_Stage\07. Effect</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\FatBat.cpp">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\FileIOMgr.cpp">
       <Filter>97. Mgr\01. FileIOMgr</Filter>
@@ -151,6 +145,12 @@
     <ClCompile Include="..\Code\Spider.cpp">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\02. Spider</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\Anubis.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FatBat.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\01. FatBat</Filter>
+    </ClCompile>
     <ClCompile Include="..\Code\Spider.cpp">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\02. Spider</Filter>
     </ClCompile>
@@ -168,9 +168,6 @@
     <ClInclude Include="..\Header\BackGround.h">
       <Filter>02. GameObject\00. For_Logo\00. BackGround</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Anubis.h">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\Bullet.h">
       <Filter>02. GameObject\01. For_Stage\06. Bullet</Filter>
     </ClInclude>
@@ -182,9 +179,6 @@
     </ClInclude>
     <ClInclude Include="..\Header\Effect.h">
       <Filter>02. GameObject\01. For_Stage\07. Effect</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\FatBat.h">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\FileIOMgr.h">
       <Filter>97. Mgr\01. FileIOMgr</Filter>
@@ -326,6 +320,12 @@
     </ClInclude>
     <ClInclude Include="..\Header\Spider.h">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\02. Spider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Anubis.h">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\FatBat.h">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\01. FatBat</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Spider.h">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\02. Spider</Filter>

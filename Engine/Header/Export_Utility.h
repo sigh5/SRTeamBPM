@@ -16,6 +16,8 @@
 #include "CharacterInfo.h"
 //~
 #include "MonsterBase.h"
+#include "BaseBullet.h"
+
 
 #include "Dynamic_Transform.h"
 // for UI

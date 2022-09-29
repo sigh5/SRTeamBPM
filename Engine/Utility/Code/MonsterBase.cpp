@@ -33,7 +33,7 @@ HRESULT CMonsterBase::Ready_Object(void)
 
 _int CMonsterBase::Update_Object(const _float & fTimeDelta)
 {
-	return _int();
+	return 0;
 }
 
 void CMonsterBase::LateUpdate_Object(void)
@@ -48,10 +48,7 @@ bool CMonsterBase::Set_SelectGizmo(HWND g_hWnd)
 
 	return false;
 }
-void Engine::CMonsterBase::Free(void)
-{
-	CGameObject::Free();
-}
+
 
 HRESULT CMonsterBase::Add_Component(void)
 {
@@ -60,8 +57,6 @@ HRESULT CMonsterBase::Add_Component(void)
 	pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Clone_Proto(L"Proto_RcTexCom"));
 	NULL_CHECK_RETURN(m_pBufferCom, E_FAIL);
 	m_mapComponent[ID_STATIC].insert({ L"Proto_RcTexCom", pComponent });
-
-	
 
 	pComponent = m_pTransCom = dynamic_cast<CTransform*>(Clone_Proto(L"Proto_TransformCom"));
 	NULL_CHECK_RETURN(m_pTransCom, E_FAIL);
@@ -106,4 +101,14 @@ bool CMonsterBase::Set_TransformPositon(HWND g_hWnd)
 CharacterInfo&	CMonsterBase::Get_InfoRef()
 {
 	return m_pInfoCom->Get_InfoRef();
+}
+
+
+void Engine::CMonsterBase::Free(void)
+{
+
+
+
+
+	CGameObject::Free();
 }

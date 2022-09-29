@@ -19,7 +19,6 @@ public:
 
 public:		// UI 뷰 포트(스크린 좌표)를 따기 위해 투영 좌표를 따는 함수
 	_matrix*		Get_ProjMatrix(_matrix* matProj) { return matProj = &m_matProj; }
-
 	_matrix*		Get_ViewMatrix(_matrix* matView) { return matView = &m_matView; }
 
 public:

@@ -27,14 +27,18 @@ public:
 	CharacterInfo&	Get_InfoRef();
 
 protected:
+	CCharacterInfo*		m_pInfoCom = nullptr;    // 남길것 
+	CAnimation*			m_pAnimationCom = nullptr;	 // 남길것 
+	CDynamic_Transform* m_pDynamicTransCom = nullptr;
+	
 
-	CCharacterInfo*		m_pInfoCom = nullptr;
+
 	CRcTex*				m_pBufferCom = nullptr;
 	CTransform*			m_pTransCom = nullptr;
 	CCalculator*		m_pCalculatorCom = nullptr;
 	CTexture*			m_pTextureCom = nullptr;
-	CAnimation*			m_pAnimationCom = nullptr;
-	CDynamic_Transform* m_pDynamicTransCom = nullptr;
+
+	
 
 
 	int m_iMonsterIndex;

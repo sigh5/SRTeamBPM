@@ -85,6 +85,9 @@
     <ClCompile Include="..\Code\Dynamic_Transform.cpp" />
     <ClCompile Include="..\Code\Renderer.cpp" />
     <ClCompile Include="..\Code\TriCol.cpp" />
+    <ClCompile Include="..\Code\BaseBullet.cpp">
+      <Filter>01. GameObject\Bullet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Animation.h">
@@ -113,9 +116,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Header\Layer.h">
       <Filter>02. Layer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Header\ObjectMgr.h">
-      <Filter>04. Manager\05. ObjPoolMgr</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\OrthoTransform.h">
       <Filter>00. Component\01. Transform\01. Ortho_Transform</Filter>
@@ -183,6 +183,9 @@
     <ClInclude Include="..\..\Header\Texture.h" />
     <ClInclude Include="..\..\Header\MonsterBase.h">
       <Filter>01. GameObject\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\BaseBullet.h">
+      <Filter>01. GameObject\Bullet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -278,6 +281,9 @@
     </Filter>
     <Filter Include="04. Manager\06. SoundMgr">
       <UniqueIdentifier>{9012ee41-481d-47df-bf1b-16c66022f57c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. GameObject\Bullet">
+      <UniqueIdentifier>{3f79c35e-90f4-40c6-8390-4df3b7b4c203}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
