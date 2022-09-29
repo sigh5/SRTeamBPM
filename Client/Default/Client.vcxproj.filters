@@ -151,9 +151,7 @@
     <ClCompile Include="..\Code\MonsterBullet.cpp">
       <Filter>02. GameObject\01. For_Stage\06. Bullet\MonsterBullet</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Stage_BIH.cpp">
-      <Filter>01. Scene\01. Stage</Filter>
-    </ClCompile>
+    <ClCompile Include="..\Code\Stage_BIH.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -324,9 +322,7 @@
     <ClInclude Include="..\Header\MonsterBullet.h">
       <Filter>02. GameObject\01. For_Stage\06. Bullet\MonsterBullet</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Stage_BIH.h">
-      <Filter>01. Scene</Filter>
-    </ClInclude>
+    <ClInclude Include="..\Header\Stage_BIH.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">

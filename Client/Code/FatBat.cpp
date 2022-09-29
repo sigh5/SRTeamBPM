@@ -48,12 +48,12 @@ _int CFatBat::Update_Object(const _float & fTimeDelta)
 	NULL_CHECK(pPlayerTransformCom);
 
 	FatBat_Fly();
-	
-	 // 수정 쿨타임 대신 타임
+
+	// 수정 쿨타임 대신 타임
 	m_fFrame += 2.f * fTimeDelta;
 	if (m_fFrame > 2.f)
 	{
-	FatBat_Shoot();
+		FatBat_Shoot();
 		m_fFrame = 0.f;
 	}
 	// 수정 쿨타임 대신 타임
@@ -70,8 +70,8 @@ _int CFatBat::Update_Object(const _float & fTimeDelta)
 
 	if (fMtoPDistance > 5.f)
 	{
-		m_pTransCom->Chase_Target_notRot(&vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
-		
+		m_pDynamicTransCom->Chase_Target_notRot(&vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
+
 	}
 
 	m_pAnimationCom->Move_Animation(fTimeDelta);
@@ -79,7 +79,7 @@ _int CFatBat::Update_Object(const _float & fTimeDelta)
 	_matrix		matWorld, matView, matBill;
 	/*D3DXMatrixIdentity(&matBill);
 
-	m_pTransCom->Get_WorldMatrix(&matWorld);
+	m_pDynamicTransCom->Get_WorldMatrix(&matWorld);
 
 	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
 
@@ -91,7 +91,7 @@ _int CFatBat::Update_Object(const _float & fTimeDelta)
 	D3DXMatrixInverse(&matBill, 0, &matBill);
 
 
-	m_pTransCom->Set_WorldMatrix(&(matBill * matWorld));*/
+	m_pDynamicTransCom->Set_WorldMatrix(&(matBill * matWorld));*/
 
 	Add_RenderGroup(RENDER_ALPHA, this);
 }
@@ -122,9 +122,9 @@ void CFatBat::Render_Obejct(void)
 
 void	CFatBat::FatBat_Fly(void)
 {
-	float TerrainY =	m_pDynamicTransCom->Get_TerrainY1(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC, m_pCalculatorCom, m_pDynamicTransCom);
-		//L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC, m_pCalculatorCom, m_pDynamicTransCom); 
-	
+	float TerrainY = m_pDynamicTransCom->Get_TerrainY1(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC, m_pCalculatorCom, m_pDynamicTransCom);
+	//L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC, m_pCalculatorCom, m_pDynamicTransCom); 
+
 	m_pDynamicTransCom->Monster_Fly(m_pDynamicTransCom, TerrainY, 3.f);
 
 }
@@ -132,8 +132,8 @@ void	CFatBat::FatBat_Fly(void)
 void CFatBat::FatBat_Shoot(void)
 {
 
-		_vec3 vPos;
-		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+	_vec3 vPos;
+	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
 
 	CScene* pScene = ::Get_Scene();
 	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");

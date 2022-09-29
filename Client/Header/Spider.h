@@ -19,5 +19,9 @@ public:
 
 private:
 	int m_iPreIndex = 0;
+
+	CTexture*		m_pTextureCom = nullptr;
+	CRcTex*			m_pBufferCom = nullptr;
+	CCalculator*	m_pCalculatorCom = nullptr;
 };
 

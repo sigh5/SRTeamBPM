@@ -42,26 +42,26 @@ public:
 	// 예시 
 
 public:
-	HRESULT Ready_MapTool(LPDIRECT3DDEVICE9 pGraphicDev,CScene* pScene);	//  맵툴에 필요한 리소스를 생성합니다.
+	HRESULT Ready_MapTool(LPDIRECT3DDEVICE9 pGraphicDev, CScene* pScene);	//  맵툴에 필요한 리소스를 생성합니다.
 
 	HRESULT Ready_PlayerTool(LPDIRECT3DDEVICE9 pGraphicDev, CScene* pScene);	// 플레이어 툴
 	HRESULT Ready_MonsterTool(LPDIRECT3DDEVICE9 pGraphicDev, CScene* pScene);   // 몬스터 툴
 
 
 
-public: 
+public:
 	// Map_Tool 기능 생성
 	// 창생성
 	void  WindowLayOut(); // 맨처음 버튼
 
-	void  CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene,CCamera *pCam, wstring pObjectName);// 오브젝트 생성및 저장하고 불러오기
+	void  CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCamera *pCam, wstring pObjectName);// 오브젝트 생성및 저장하고 불러오기
 	void  TerrainTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene);	// Terrain Tool
 
-	// ~Map_Tool 기능 생성
+																		// ~Map_Tool 기능 생성
 	void  MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCamera *pCam);
 	//void  Save_Monster(CScene* pScene);
 	//void  Load_Monster(LPDIRECT3DDEVICE9 pGrahicDev, CScene *pScene);
-	
+
 	// Monster_Tool 기능 생성
 
 	// 각툴의 기능 쓰기
@@ -69,9 +69,9 @@ public:
 	// 09.25 PJW 추가 작업
 	void  Player_Tool(LPDIRECT3DDEVICE9 pGraphicDev, CScene * pScene, wstring pDirectory, const _tchar* pLayerTag, const _tchar* pObjTag, const _tchar * pComponentTag, COMPONENTID eId);   // 
 
-	//void  Save_Obj_Transform(CScene* pScene, wstring pDirectory, const _tchar* pLayerTag, const _tchar* pObjTag, const _tchar * pComponentTag, COMPONENTID eID);   // 오브젝트 저장 (매개변수 받아서 사용)
-	//void  Load_Obj_Transform(LPDIRECT3DDEVICE9 pGrahicDev, CScene *pScene, wstring pDirectory, const _tchar* pLayerTag, const _tchar * pComponentTag, COMPONENTID eID, list<_tchar*> pList, const _tchar* pObjTag); // 오브젝트 불러오기 (매개변수 받아서 사용)
-	//// ~09.25 PJW 추가 작업
+																																															//void  Save_Obj_Transform(CScene* pScene, wstring pDirectory, const _tchar* pLayerTag, const _tchar* pObjTag, const _tchar * pComponentTag, COMPONENTID eID);   // 오브젝트 저장 (매개변수 받아서 사용)
+																																															//void  Load_Obj_Transform(LPDIRECT3DDEVICE9 pGrahicDev, CScene *pScene, wstring pDirectory, const _tchar* pLayerTag, const _tchar * pComponentTag, COMPONENTID eID, list<_tchar*> pList, const _tchar* pObjTag); // 오브젝트 불러오기 (매개변수 받아서 사용)
+																																															//// ~09.25 PJW 추가 작업
 
 
 
@@ -81,7 +81,7 @@ private:
 	_bool	m_bCubeCreateCheck = false;
 	_bool	m_bCubeSelcetCheck = false;
 	_int		m_iIndex = 0;
-	
+
 	static _int m_iWidth;
 	static _int m_iDepth;
 	static _int m_iInterval;
@@ -108,7 +108,7 @@ public:
 	static	bool Show_Monster_Tool;
 	static ImVec4 clear_color;
 	// ~ window창 생성시 필요한 불변수
-	
+
 	// File 변수
 	static ImGuiFileDialog fileDialog;
 	static imgui_addons::ImGuiFileBrowser file_dialog;

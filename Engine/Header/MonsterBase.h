@@ -22,7 +22,7 @@ public:
 	virtual HRESULT		 Ready_Object(void)							override;
 	virtual _int		 Update_Object(const _float& fTimeDelta)	override;
 	virtual void		 LateUpdate_Object(void)					override;
-	bool		Set_SelectGizmo(HWND g_hWn);
+	bool		Set_SelectGizmo(HWND g_hWn, CCalculator* _pCalcul, CRcTex* _pBuffer);
 	int&			Get_MonsterType() { return m_iMonsterIndex; }
 	CharacterInfo&	Get_InfoRef();
 
@@ -30,12 +30,12 @@ protected:
 	CCharacterInfo*		m_pInfoCom = nullptr;    // 남길것 
 	CAnimation*			m_pAnimationCom = nullptr;	 // 남길것 
 	CDynamic_Transform* m_pDynamicTransCom = nullptr;
-	
+
 	int m_iMonsterIndex;
 
 protected:
 	virtual HRESULT				Add_Component(void);
-	virtual bool				Set_TransformPositon(HWND g_hWnd);
+	virtual bool				Set_TransformPositon(HWND g_hWnd, CCalculator* _pCalcul);
 
 public:
 	virtual void		Free(void);
