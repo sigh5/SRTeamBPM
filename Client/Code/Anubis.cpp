@@ -2,6 +2,7 @@
 #include "..\Header\Anubis.h"
 
 #include "Export_Function.h"
+#include "AbstractFactory.h"
 
 CAnubis::CAnubis(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -19,9 +20,10 @@ HRESULT CAnubis::Ready_Object(int Posx, int Posy)
 
 	CComponent* pComponent = nullptr;
 
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_MonsterTexture"));
-	NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
-	m_mapComponent[ID_STATIC].insert({ L"Proto_MonsterTexture", pComponent });
+	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_MonsterTexture", m_mapComponent, ID_DYNAMIC);
+	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
+	m_pCalculatorCom = CAbstractFactory<CCalculator>::Clone_Proto_Component(L"Proto_CalculatorCom", m_mapComponent, ID_STATIC);
+
 
 	m_iMonsterIndex = 0;
 	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
@@ -73,13 +75,13 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 	NULL_CHECK(pPlayerTransformCom);
 
 	//Set_OnTerrain();
-	float TerrainY = m_pDynamicTransCom->Get_TerrainY1(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC, m_pCalculatorCom, m_pTransCom);
-	m_pTransCom->Set_Y(TerrainY+1.f);
+	float TerrainY = m_pDynamicTransCom->Get_TerrainY1(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC, m_pCalculatorCom, m_pDynamicTransCom);
+	m_pDynamicTransCom->Set_Y(TerrainY+1.f);
 	//지형에 올림
 
 	_vec3		vPlayerPos, vMonsterPos;
 	pPlayerTransformCom->Get_Info(INFO_POS, &vPlayerPos);
-	m_pTransCom->Get_Info(INFO_POS, &vMonsterPos);
+	m_pDynamicTransCom->Get_Info(INFO_POS, &vMonsterPos);
 
 	float fMtoPDistance; // 몬스터와 플레이어 간의 거리
 
@@ -87,7 +89,7 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 
 	if (fMtoPDistance > 5.f)
 	{
-		m_pTransCom->Chase_Target_notRot(&vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
+		m_pDynamicTransCom->Chase_Target_notRot(&vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
 
 		m_pAnimationCom->Move_Animation(fTimeDelta);
 	}
@@ -101,7 +103,7 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 	_matrix		matWorld, matView, matBill;
 	D3DXMatrixIdentity(&matBill);
 
-	m_pTransCom->Get_WorldMatrix(&matWorld);
+	m_pDynamicTransCom->Get_WorldMatrix(&matWorld);
 	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
 
 	matBill._11 = matView._11;
@@ -112,7 +114,7 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 	D3DXMatrixInverse(&matBill, 0, &matBill);
 
 
-	m_pTransCom->Set_WorldMatrix(&(matBill * matWorld));
+	m_pDynamicTransCom->Set_WorldMatrix(&(matBill * matWorld));
 
 	Add_RenderGroup(RENDER_ALPHA, this);
 
@@ -126,7 +128,7 @@ void CAnubis::LateUpdate_Object(void)
 
 void CAnubis::Render_Obejct(void)
 {
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pDynamicTransCom->Get_WorldMatrixPointer());
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0x10);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);

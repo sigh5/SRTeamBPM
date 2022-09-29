@@ -145,17 +145,17 @@
     <ClCompile Include="..\Code\Spider.cpp">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\02. Spider</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Anubis.cpp">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\FatBat.cpp">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster\01. FatBat</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\Spider.cpp">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\02. Spider</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Stage_BIH.cpp">
       <Filter>01. Scene\96. Stage_BIH</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Anubis.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FatBat.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\01. FatBat</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -321,17 +321,17 @@
     <ClInclude Include="..\Header\Spider.h">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\02. Spider</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Anubis.h">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\FatBat.h">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster\01. FatBat</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\Spider.h">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\02. Spider</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Stage_BIH.h">
       <Filter>01. Scene\96. Stage_BIH</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Anubis.h">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\FatBat.h">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\01. FatBat</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

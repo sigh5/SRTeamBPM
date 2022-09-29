@@ -2,6 +2,7 @@
 #include "..\Header\Spider.h"
 
 #include "Export_Function.h"
+#include "AbstractFactory.h"
 
 CSpider::CSpider(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -19,9 +20,9 @@ HRESULT CSpider::Ready_Object(int Posx, int Posy)
 
 	CComponent* pComponent = nullptr;
 
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_MonsterTexture3"));
-	NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
-	m_mapComponent[ID_STATIC].insert({ L"Proto_MonsterTexture3", pComponent });
+	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_MonsterTexture3", m_mapComponent, ID_DYNAMIC);
+	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
+	m_pCalculatorCom = CAbstractFactory<CCalculator>::Clone_Proto_Component(L"Proto_CalculatorCom", m_mapComponent, ID_STATIC);
 
 	m_iMonsterIndex = 2;
 	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);

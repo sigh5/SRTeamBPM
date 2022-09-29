@@ -31,16 +31,6 @@ protected:
 	CAnimation*			m_pAnimationCom = nullptr;	 // ³²±æ°Í 
 	CDynamic_Transform* m_pDynamicTransCom = nullptr;
 	
-
-
-	CRcTex*				m_pBufferCom = nullptr;
-	CTransform*			m_pTransCom = nullptr;
-	CCalculator*		m_pCalculatorCom = nullptr;
-	CTexture*			m_pTextureCom = nullptr;
-
-	
-
-
 	int m_iMonsterIndex;
 
 protected:

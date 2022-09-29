@@ -4,6 +4,7 @@
 #include "Export_Function.h"
 #include "MonsterBullet.h"
 #include "Stage.h"
+#include "AbstractFactory.h"
 
 CFatBat::CFatBat(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -19,11 +20,9 @@ HRESULT CFatBat::Ready_Object(int Posx, int Posy)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	CComponent* pComponent = nullptr;
-
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_MonsterTexture2"));
-	NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
-	m_mapComponent[ID_STATIC].insert({ L"Proto_MonsterTexture2", pComponent });
+	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_MonsterTexture2", m_mapComponent, ID_DYNAMIC);
+	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
+	m_pCalculatorCom = CAbstractFactory<CCalculator>::Clone_Proto_Component(L"Proto_CalculatorCom", m_mapComponent, ID_STATIC);
 
 	m_iMonsterIndex = 1;
 	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
@@ -49,7 +48,6 @@ _int CFatBat::Update_Object(const _float & fTimeDelta)
 
 	FatBat_Fly();
 	FatBat_Shoot();
-	//Set_OnTerrain();
 	//지형에 올림
 
 	_vec3		vPlayerPos, vMonsterPos;
@@ -68,8 +66,8 @@ _int CFatBat::Update_Object(const _float & fTimeDelta)
 
 	m_pAnimationCom->Move_Animation(fTimeDelta);
 
-	/*_matrix		matWorld, matView, matBill;
-	D3DXMatrixIdentity(&matBill);
+	_matrix		matWorld, matView, matBill;
+	/*D3DXMatrixIdentity(&matBill);
 
 	m_pTransCom->Get_WorldMatrix(&matWorld);
 
