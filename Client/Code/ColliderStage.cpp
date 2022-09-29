@@ -70,9 +70,6 @@ _int CColliderStage::Update_Scene(const _float & fTimeDelta)
 		pMyLayer->Add_GameObjectList(pGameObject);
 
 
-
-
-
 	}
 
 	if (m_fFrame >= 1.f)

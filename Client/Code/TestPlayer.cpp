@@ -314,7 +314,7 @@ HRESULT CTestPlayer::Create_Bullet(_vec3 vPos)
 		CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
 
 		CGameObject* pGameObject = nullptr;
-		pGameObject = CObjectMgr::GetInstance()->Reuse_BulltObj(m_pGraphicDev, vPos, PLAYER_BULLET);
+		pGameObject = CObjectMgr::GetInstance()->Reuse_PlayerBulltObj(m_pGraphicDev, vPos);
 		NULL_CHECK_RETURN(pGameObject, );
 		pMyLayer->Add_GameObjectList(pGameObject);
 

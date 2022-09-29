@@ -4,7 +4,7 @@
 #include "Bullet_UI.h"
 
 #include "Export_Function.h"
-
+#include "ObjectMgr.h"
 
 CHWPlayer::CHWPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -29,9 +29,17 @@ HRESULT CHWPlayer::Ready_Object(void)
 
 _int CHWPlayer::Update_Object(const _float & fTimeDelta)
 {
+
 	Key_Input(fTimeDelta);
 	
 	Engine::CGameObject::Update_Object(fTimeDelta);
+
+	m_fFrame += 1.f * fTimeDelta;
+
+	if (m_fFrame >= 1.f)
+		m_fFrame = 0.f;
+
+
 
 	Add_RenderGroup(RENDER_ALPHA, this);
 	
@@ -139,6 +147,11 @@ void CHWPlayer::Key_Input(const _float & fTimeDelta)
 
 
 	}
+	if (Get_DIKeyState(DIK_R) & 0X80)
+	{
+		m_iMagazine = 8;
+	}
+
 
 
 
@@ -241,28 +254,22 @@ HRESULT CHWPlayer::Create_bullet(_vec3 vPos)
 
 	if (m_bOneShot && m_iCoolTime > 10)
 	{
-		CBullet* pBullet = CBullet::Create(m_pGraphicDev, vPos);
-		NULL_CHECK(pBullet);
-
-		_tchar*         szFinalName = new _tchar[128]; // �����Ⱚ
-		wsprintf(szFinalName, L"");
-
-		const _tchar*   szBulletName = L"Bullet_%d";
-		wsprintf(szFinalName, szBulletName, m_iCount);
-
-		FAILED_CHECK_RETURN(Engine::Add_GameObject(L"Layer_GameLogic", szFinalName, pBullet), E_FAIL);
-		
-		/*if (szBulletName != nullptr)
-			m_iMagazine -= 1;
-
-
-		m_szBulletName.push_back(szFinalName);
-		m_iCount++;
-
 		m_bOneShot = FALSE;
 
-		m_iCoolTime = 0;*/
+		m_iCoolTime = 0;
+
+		CScene* pScene = ::Get_Scene();
+		CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+
+		CGameObject* pGameObject = nullptr;
+		pGameObject = CObjectMgr::GetInstance()->Reuse_PlayerBulltObj(m_pGraphicDev, vPos);
+		NULL_CHECK_RETURN(pGameObject, );
+		pMyLayer->Add_GameObjectList(pGameObject);
+
+		m_iMagazine -= 1;
+
 	}
+
 	return S_OK;
 }
 
