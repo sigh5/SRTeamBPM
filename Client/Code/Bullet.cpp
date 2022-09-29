@@ -52,7 +52,7 @@ _int CBullet::Update_Object(const _float & fTimeDelta)
 
 	if (m_fFrame > 2.f)
 	{
-		CObjectMgr::GetInstance()->Collect_BulletObj(this);
+		CObjectMgr::GetInstance()->Collect_PlayerBulletObj(this);
 		m_fFrame = 0.f;
 		return 5;
 	}
