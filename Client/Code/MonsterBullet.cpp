@@ -29,7 +29,7 @@ HRESULT CMonsterBullet::Ready_Object(_vec3 vPos)
 	pPlayerTransformCom->Get_Info(INFO_POS, &vPlayerPos);
 	m_MoveDir = vPlayerPos - vPos;*/
 
-	Set_MoveDir(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC, &vPos);
+	Set_MoveDir(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC, &vPos,MONSTER_BULLET);
 
 
 

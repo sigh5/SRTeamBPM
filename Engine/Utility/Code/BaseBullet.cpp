@@ -42,9 +42,10 @@ void CBaseBullet::Render_Obejct(void)
 {
 }
 
-void CBaseBullet::Set_MoveDir(const wstring& LayerName , const wstring& GameObjectName, const wstring& ComponentName, COMPONENTID eID, _vec3 * vPos)
+void CBaseBullet::Set_MoveDir(const wstring& LayerName , const wstring& GameObjectName, const wstring& ComponentName, COMPONENTID eID, _vec3 * vPos,BULLET_ID eBulletID)
 {
 	// 추후에 불렛이 다이나믹을 받으면 dynamicTransform
+	// 타켓 트랜스폼이니까
 	CTransform* pTargetTransformCom = static_cast<CTransform*>(Engine::Get_Component(LayerName.c_str(),
 		GameObjectName.c_str(),
 		ComponentName.c_str(),
@@ -52,12 +53,22 @@ void CBaseBullet::Set_MoveDir(const wstring& LayerName , const wstring& GameObje
 
 	NULL_CHECK_RETURN(pTargetTransformCom, );
 	
+	// 현재 자신의 트랜스폼
 	CTransform* pThisTransformCom = static_cast<CTransform*>(Get_Component(ComponentName.c_str(), eID));
 	pThisTransformCom->Set_Pos((*vPos).x, (*vPos).y, (*vPos).z);
 
-	_vec3 vPlayerPos;
-	pTargetTransformCom->Get_Info(INFO_POS, &vPlayerPos);
-	m_MoveDir = vPlayerPos - (*vPos);
+	if (eBulletID == PLAYER_BULLET)
+	{
+		pTargetTransformCom->Get_Info(INFO_LOOK, &m_MoveDir);
+		return;
+	}
+
+	else if(eBulletID == MONSTER_BULLET)
+	{
+		_vec3 vPlayerPos;
+		pTargetTransformCom->Get_Info(INFO_POS, &vPlayerPos);
+		m_MoveDir = vPlayerPos - (*vPos);
+	}
 
 }
 

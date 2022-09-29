@@ -6,6 +6,7 @@
 
 #include "MetronomeUI.h"
 #include "MonsterBullet.h"
+#include "Bullet.h"
 
 IMPLEMENT_SINGLETON(CObjectMgr)
 
@@ -36,15 +37,16 @@ CBaseBullet* CObjectMgr::Reuse_BulltObj(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPo
 	{
 		if(eID == MONSTER_BULLET)
 			pObject = CMonsterBullet::Create(pGraphicDev, vPos);
-		//else if (eID == PLAYER_BULLET)
-			//pObject = CMonsterBullet::Create(pGraphicDev, vPos);
+		else if (eID == PLAYER_BULLET)
+			pObject = CBullet::Create(pGraphicDev, vPos);
 	}
 	else
 	{
 		pObject = m_BulletList.front();	
 		if (eID == MONSTER_BULLET)
-			dynamic_cast<CMonsterBullet*>(pObject)->Set_MoveDir(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC, &vPos);
-		//else if(eID ==PLAYER_BULLET)
+			dynamic_cast<CMonsterBullet*>(pObject)->Set_MoveDir(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC, &vPos,MONSTER_BULLET);
+		else if(eID ==PLAYER_BULLET)
+			dynamic_cast<CBullet*>(pObject)->Set_MoveDir(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC, &vPos,PLAYER_BULLET);
 
 		m_BulletList.pop_front();
 	}

@@ -39,7 +39,7 @@ HRESULT CMyCamera::Ready_Object(const _vec3 * pEye,
 
 _int CMyCamera::Update_Object(const _float & fTimeDelta)
 {
-	//Key_Input(fTimeDelta);
+	Key_Input(fTimeDelta);
 
 	_int iExit = CCamera::Update_Object(fTimeDelta);
 
@@ -105,52 +105,52 @@ void CMyCamera::Mouse_Fix(void)
 
 void CMyCamera::Key_Input(const _float & fTimeDelta)
 {
-	_matrix		matCamWorld;
-	D3DXMatrixInverse(&matCamWorld, nullptr, &m_matView);
+	//_matrix		matCamWorld;
+	//D3DXMatrixInverse(&matCamWorld, nullptr, &m_matView);
 
-	if (Get_DIKeyState(DIK_W) & 0x80)
-	{
-		_vec3		vLook;
-		memcpy(&vLook, &matCamWorld.m[2][0], sizeof(_vec3));
+	//if (Get_DIKeyState(DIK_W) & 0x80)
+	//{
+	//	_vec3		vLook;
+	//	memcpy(&vLook, &matCamWorld.m[2][0], sizeof(_vec3));
 
-		_vec3		vLength = *D3DXVec3Normalize(&vLook, &vLook) * 5.f * fTimeDelta;
+	//	_vec3		vLength = *D3DXVec3Normalize(&vLook, &vLook) * 5.f * fTimeDelta;
 
-		m_vEye += vLength;
-		m_vAt += vLength;
-	}
+	//	m_vEye += vLength;
+	//	m_vAt += vLength;
+	//}
 
-	if (Get_DIKeyState(DIK_S) & 0x80)
-	{
-		_vec3		vLook;
-		memcpy(&vLook, &matCamWorld.m[2][0], sizeof(_vec3));
+	//if (Get_DIKeyState(DIK_S) & 0x80)
+	//{
+	//	_vec3		vLook;
+	//	memcpy(&vLook, &matCamWorld.m[2][0], sizeof(_vec3));
 
-		_vec3		vLength = *D3DXVec3Normalize(&vLook, &vLook) * 5.f * fTimeDelta;
+	//	_vec3		vLength = *D3DXVec3Normalize(&vLook, &vLook) * 5.f * fTimeDelta;
 
-		m_vEye -= vLength;
-		m_vAt -= vLength;
-	}
+	//	m_vEye -= vLength;
+	//	m_vAt -= vLength;
+	//}
 
-	if (Get_DIKeyState(DIK_D) & 0x80)
-	{
-		_vec3		vRight;
-		memcpy(&vRight, &matCamWorld.m[0][0], sizeof(_vec3));
+	//if (Get_DIKeyState(DIK_D) & 0x80)
+	//{
+	//	_vec3		vRight;
+	//	memcpy(&vRight, &matCamWorld.m[0][0], sizeof(_vec3));
 
-		_vec3		vLength = *D3DXVec3Normalize(&vRight, &vRight) * 5.f * fTimeDelta;
+	//	_vec3		vLength = *D3DXVec3Normalize(&vRight, &vRight) * 5.f * fTimeDelta;
 
-		m_vEye += vLength;
-		m_vAt += vLength;
-	}
+	//	m_vEye += vLength;
+	//	m_vAt += vLength;
+	//}
 
-	if (Get_DIKeyState(DIK_A) & 0x80)
-	{
-		_vec3		vRight;
-		memcpy(&vRight, &matCamWorld.m[0][0], sizeof(_vec3));
+	//if (Get_DIKeyState(DIK_A) & 0x80)
+	//{
+	//	_vec3		vRight;
+	//	memcpy(&vRight, &matCamWorld.m[0][0], sizeof(_vec3));
 
-		_vec3		vLength = *D3DXVec3Normalize(&vRight, &vRight) * 5.f * fTimeDelta;
+	//	_vec3		vLength = *D3DXVec3Normalize(&vRight, &vRight) * 5.f * fTimeDelta;
 
-		m_vEye -= vLength;
-		m_vAt -= vLength;
-	}
+	//	m_vEye -= vLength;
+	//	m_vAt -= vLength;
+	//}
 
 	if (Get_DIKeyState(DIK_T) & 0x80)
 	{
