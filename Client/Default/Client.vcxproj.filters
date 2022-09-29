@@ -475,9 +475,6 @@
     <Filter Include="01. Scene\96. Stage_BIH">
       <UniqueIdentifier>{95f89427-d3e8-4ac2-9abe-11e52adb3068}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\03. Giant">
-      <UniqueIdentifier>{1bd2f7f1-f953-4e07-b33b-69dc650c577e}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">

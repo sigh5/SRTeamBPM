@@ -77,12 +77,12 @@ void CStaticCamera::Key_Input(const _float& fTimeDelta)
 	if(Get_DIKeyState(DIK_O) & 0x80)
 		m_fDistance += fTimeDelta * m_fSpeed;
 	
-	if (Get_DIKeyState(DIK_D) & 0x80)
+	/*if (Get_DIKeyState(DIK_D) & 0x80)
 		m_fAngle -= D3DXToRadian(180.f) * fTimeDelta;
 
 	if (Get_DIKeyState(DIK_A) & 0x80)
 		m_fAngle += D3DXToRadian(180.f) * fTimeDelta;
-
+*/
 	
 }
 
