@@ -113,7 +113,7 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestPlayer", pGameObject), E_FAIL);
 
 	
-
+	m_mapLayer.insert({ pLayerTag, pLayer });
 
 	//몬스터 테스트용
 	/*pGameObject = CMonster::Create(m_pGraphicDev);
