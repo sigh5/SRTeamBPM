@@ -5,12 +5,8 @@
 
 
 #include "MetronomeUI.h"
-
-
-
-
-
-
+#include "MonsterBullet.h"
+#include "Bullet.h"
 
 IMPLEMENT_SINGLETON(CObjectMgr)
 
@@ -25,13 +21,39 @@ CObjectMgr::~CObjectMgr()
 	Free();
 }
 
-void CObjectMgr::Collect_Obj(CGameObject * pObj)
+void CObjectMgr::Collect_BulletObj(CBaseBullet * pObj)
 {
 	if (nullptr == pObj)
 		return;
 
-	m_ObjectList.push_back(pObj);
+	m_BulletList.push_back(pObj);
 }
+
+
+CBaseBullet* CObjectMgr::Reuse_BulltObj(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos,BULLET_ID eID)
+{
+	CBaseBullet*		pObject = nullptr;
+	if (m_BulletList.empty())
+	{
+		if(eID == MONSTER_BULLET)
+			pObject = CMonsterBullet::Create(pGraphicDev, vPos);
+		else if (eID == PLAYER_BULLET)
+			pObject = CBullet::Create(pGraphicDev, vPos);
+	}
+	else
+	{
+		pObject = m_BulletList.front();	
+		if (eID == MONSTER_BULLET)
+			dynamic_cast<CMonsterBullet*>(pObject)->Set_MoveDir(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC, &vPos,MONSTER_BULLET);
+		else if(eID ==PLAYER_BULLET)
+			dynamic_cast<CBullet*>(pObject)->Set_MoveDir(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC, &vPos,PLAYER_BULLET);
+
+		m_BulletList.pop_front();
+	}
+
+	return pObject;
+}
+
 
 void CObjectMgr::Collect_UIObj(CGameObject * pObj)
 {
@@ -40,28 +62,6 @@ void CObjectMgr::Collect_UIObj(CGameObject * pObj)
 
 	m_UIMetroList.push_back(pObj);
 
-}
-
-CGameObject * CObjectMgr::Reuse_Obj(LPDIRECT3DDEVICE9 pGraphicDev,  D3DXVECTOR3  vPos)
-{
-	CGameObject*		pObject = nullptr;
-
-	//if (m_ObjectList.empty())
-	//{
-	//
-	//	
-
-	//}
-
-	//else
-	//{
-	//	pObject = m_ObjectList.front();
-	//	m_ObjectList.pop_front();
-	//}
-
-
-
-	return pObject;
 }
 
 CGameObject * CObjectMgr::Reuse_MetronomeUI(LPDIRECT3DDEVICE9 pGraphicDev, _float fPosX, _float fPosY, _float fSpeed, int iTexIndex)
@@ -85,8 +85,8 @@ CGameObject * CObjectMgr::Reuse_MetronomeUI(LPDIRECT3DDEVICE9 pGraphicDev, _floa
 
 void CObjectMgr::Free(void)
 {
-	for_each(m_ObjectList.begin(), m_ObjectList.end(), CDeleteObj());
-	m_ObjectList.clear();
+	for_each(m_BulletList.begin(), m_BulletList.end(), CDeleteObj());
+	m_BulletList.clear();
 
 	for_each(m_UIMetroList.begin(), m_UIMetroList.end(), CDeleteObj());
 	m_UIMetroList.clear();

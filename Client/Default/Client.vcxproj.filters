@@ -19,9 +19,6 @@
     <ClCompile Include="..\Code\Effect.cpp">
       <Filter>02. GameObject\01. For_Stage\07. Effect</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\FatBat.cpp">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\FileIOMgr.cpp">
       <Filter>97. Mgr\01. FileIOMgr</Filter>
     </ClCompile>
@@ -154,8 +151,14 @@
     <ClCompile Include="..\Code\Stage_Pjw.cpp">
       <Filter>01. Scene\50. Stage_Pjw</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Anubis.cpp">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster</Filter>
+    <ClCompile Include="..\Code\Bullet.cpp">
+      <Filter>02. GameObject\01. For_Stage\06. Bullet\PlayerBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MonsterBullet.cpp">
+      <Filter>02. GameObject\01. For_Stage\06. Bullet\MonsterBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Stage_BIH.cpp">
+      <Filter>01. Scene\01. Stage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -168,6 +171,9 @@
     <ClInclude Include="..\Header\BackGround.h">
       <Filter>02. GameObject\00. For_Logo\00. BackGround</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Anubis.h">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster</Filter>
+    </ClInclude>
     <ClInclude Include="..\Header\Bullet.h">
       <Filter>02. GameObject\01. For_Stage\06. Bullet</Filter>
     </ClInclude>
@@ -179,9 +185,6 @@
     </ClInclude>
     <ClInclude Include="..\Header\Effect.h">
       <Filter>02. GameObject\01. For_Stage\07. Effect</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\FatBat.h">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\FileIOMgr.h">
       <Filter>97. Mgr\01. FileIOMgr</Filter>
@@ -258,9 +261,6 @@
     <ClInclude Include="..\Header\MetronomeUI.h">
       <Filter>02. GameObject\01. For_Stage\10. UI\00. MetronomeUI</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\MonsterBullet.h">
-      <Filter>02. GameObject\01. For_Stage\06. Bullet</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\MyCamera.h">
       <Filter>02. GameObject\02. For_public\02. MyCamera</Filter>
     </ClInclude>
@@ -329,9 +329,6 @@
     </ClInclude>
     <ClInclude Include="..\Header\Stage_Pjw.h">
       <Filter>01. Scene\50. Stage_Pjw</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\Anubis.h">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -474,6 +471,12 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\10. UI\03. HpBar">
       <UniqueIdentifier>{a06bc703-8882-4b79-9e93-e30f18191e59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\06. Bullet\PlayerBullet">
+      <UniqueIdentifier>{48f7172f-2805-4b94-8155-f814608394d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\06. Bullet\MonsterBullet">
+      <UniqueIdentifier>{b48247f6-77d4-4428-a229-21d24ef9c880}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

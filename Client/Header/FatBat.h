@@ -21,6 +21,13 @@ public:
 	virtual void	Free(void);
 
 private:
+	_float				m_fFrame = 0.f; // WinZero  µµÂø½Ã°£
+
+private:
 	int m_iPreIndex = 0;
 	int	m_iCoolTime;
+
+	CTexture*		m_pTextureCom = nullptr;
+	CRcTex*			m_pBufferCom = nullptr;
+	CCalculator*	m_pCalculatorCom = nullptr;
 };

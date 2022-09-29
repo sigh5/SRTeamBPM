@@ -2,9 +2,11 @@
 #include "..\Header\TestPlayer.h"
 
 #include "Export_Function.h"
+#include "ObjectMgr.h"
 #include "Bullet.h"
 #include "Bullet_UI.h"
 #include "Stage.h"
+
 
 CTestPlayer::CTestPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -308,55 +310,27 @@ HRESULT CTestPlayer::Create_Bullet(_vec3 vPos)
 	++m_iCoolTime;
 
 	if (m_bOneShot && m_iCoolTime > 10)
-	{
-		CBullet* pBullet = CBullet::Create(m_pGraphicDev, vPos);
-		NULL_CHECK(pBullet);
-
-		static_cast<CStage*>(CManagement::GetInstance()->Get_Scene())->Push_Bullet(pBullet);
-
-		if(static_cast<CStage*>(CManagement::GetInstance()->Get_Scene())->Push_Bullet(pBullet) == S_OK)
-			m_iMagazine -= 1;
-
+	{	
 		m_bOneShot = FALSE;
-
+	
 		m_iCoolTime = 0;
-	}	
 
-#ifdef _DEBUG
+		CScene* pScene = ::Get_Scene();
+		CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
 
-	//cout << "Bullet Count : " << m_iTest << endl;
+		CGameObject* pGameObject = nullptr;
+		pGameObject = CObjectMgr::GetInstance()->Reuse_BulltObj(m_pGraphicDev, vPos, PLAYER_BULLET);
+		NULL_CHECK_RETURN(pGameObject, );
+		pMyLayer->Add_GameObjectList(pGameObject);
 
-#endif	// _DEBUG
+		m_iMagazine -= 1;
+
+	}
+
 
 	return S_OK;
-
-		//_tchar*         szFinalName = new _tchar[128]; // �����Ⱚ
-		//wsprintf(szFinalName, L"");
-
-		//const _tchar*   szBulletName = L"Bullet_%d";
-
-		//wsprintf(szFinalName, szBulletName, m_iCount);
-
-		//////_tchar*	szBullet = L"Bullet1";
-		//FAILED_CHECK_RETURN(Engine::Add_GameObject(L"Layer_GameLogic", szFinalName, pBullet), E_FAIL);
-		////FAILED_CHECK_RETURN(Engine::Add_GameObject(L"TestLayer", szFinalName, pBullet), E_FAIL); // ToolTest
-
-		///*
-		//
-		//	CMonsterBullet* pBullet = CMonsterBullet::Create(m_pGraphicDev, vPos);
-		//NULL_CHECK(pBullet);
-
-		//static_cast<CStage*>(CManagement::GetInstance()->Get_Scene())->Push_MonBullet(pBullet);
-
-		//*/
-
-		//if (szBulletName != nullptr)	
-		//	m_iMagazine -= 1;
-		//
-
-		//m_szBulletName.push_back(szFinalName);
-		//m_iCount++;
 }
+
 
 
 CTestPlayer * CTestPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -375,10 +349,6 @@ CTestPlayer * CTestPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 
 void CTestPlayer::Free(void)
 {
-	/*	for (auto iter : m_szBulletName)
-		delete iter;
-
-	if(m_szBulletName.size() == 0)
-	m_szBulletName.clear();*/
+	
 	CGameObject::Free();
 }

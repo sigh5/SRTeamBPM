@@ -16,6 +16,9 @@
 #include "MyCamera.h"
 #include "MetronomeUI.h"
 
+#include "FatBat.h"
+
+
 
 CColliderStage::CColliderStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev),m_iCount(0)
@@ -42,6 +45,7 @@ HRESULT CColliderStage::Ready_Scene(void)
 
 	
 	::PlaySoundW(L"SamTow.wav", SOUND_BGM, 0.1f);
+
 	return S_OK;
 }
 
@@ -118,16 +122,7 @@ HRESULT CColliderStage::Ready_Layer_Environment(const _tchar * pLayerTag)
 
 	CGameObject*		pGameObject = nullptr;
 
-	//// DynamicCamera
-	//pGameObject = CDynamicCamera::Create(m_pGraphicDev, &_vec3(0.f, 10.f, -10.f), &_vec3(0.f, 0.f, 0.f), &_vec3(0.f, 1.f, 0.f));
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"DynamicCamera", pGameObject), E_FAIL);
-
-	// StaticCamera
-	//pGameObject = CStaticCamera::Create(m_pGraphicDev, &_vec3(0.f, 1.f, -1.f), &_vec3(0.f, 0.f, 0.f), &_vec3(0.f, 1.f, 0.f));
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"StaticCamera", pGameObject), E_FAIL);
-
+	
 	pGameObject = CMyCamera::Create(m_pGraphicDev, &_vec3(0.f, 10.f, -10.f), &_vec3(0.f, 0.f, 0.f), &_vec3(0.f, 1.f, 0.f));
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"CMyCamera", pGameObject), E_FAIL);
@@ -148,16 +143,8 @@ HRESULT CColliderStage::Ready_Layer_Environment(const _tchar * pLayerTag)
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"StartButton", pGameObject), E_FAIL);
 
 
-
 	m_mapLayer.insert({ pLayerTag, pLayer });
 
-	//CFileIOMgr::GetInstance()->Load_FileData(m_pGraphicDev,
-	//	this,
-	//	const_cast<_tchar*>(pLayerTag),
-	//	L"../../Data/",
-	//	L"Map.dat",
-	//	L"TestCube",
-	//	OBJ_CUBE);
 
 
 	return S_OK;
@@ -170,14 +157,20 @@ HRESULT CColliderStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 
 	CGameObject*		pGameObject = nullptr;
 
-	// testPlayer
-	pGameObject = CHWPlayer::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestPlayer", pGameObject), E_FAIL);
-
-
-
+	READY_LAYER(pGameObject,CHWPlayer, pLayer, m_pGraphicDev, L"TestPlayer");
 	
+
+	READY_LAYER(pGameObject, CFatBat, pLayer, m_pGraphicDev, L"TestMonster1");
+	READY_LAYER(pGameObject, CFatBat, pLayer, m_pGraphicDev, L"TestMonster2");
+	READY_LAYER(pGameObject, CFatBat, pLayer, m_pGraphicDev, L"TestMonster3");
+	READY_LAYER(pGameObject, CFatBat, pLayer, m_pGraphicDev, L"TestMonster4");
+	READY_LAYER(pGameObject, CFatBat, pLayer, m_pGraphicDev, L"TestMonster5");
+	READY_LAYER(pGameObject, CFatBat, pLayer, m_pGraphicDev, L"TestMonster6");
+	READY_LAYER(pGameObject, CFatBat, pLayer, m_pGraphicDev, L"TestMonster7");
+	READY_LAYER(pGameObject, CFatBat, pLayer, m_pGraphicDev, L"TestMonster8");
+	READY_LAYER(pGameObject, CFatBat, pLayer, m_pGraphicDev, L"TestMonster9");
+	READY_LAYER(pGameObject, CFatBat, pLayer, m_pGraphicDev, L"TestMonster10");
+	READY_LAYER(pGameObject, CFatBat, pLayer, m_pGraphicDev, L"TestMonster11");
 	
 
 	m_mapLayer.insert({ pLayerTag, pLayer });

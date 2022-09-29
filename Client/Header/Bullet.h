@@ -1,6 +1,6 @@
 #pragma once
-#include "Engine_Include.h"
-#include "GameObject.h"
+
+#include "BaseBullet.h"
 #include "TestPlayer.h"
 
 BEGIN(Engine)
@@ -11,7 +11,7 @@ class CCubeTex;
 
 END
 
-class CBullet : public CGameObject
+class CBullet : public CBaseBullet
 {
 private:
 	explicit CBullet(LPDIRECT3DDEVICE9 pGraphicDev);
@@ -30,18 +30,6 @@ private:
 	CTransform*			m_pTransCom = nullptr;
 	CTexture*			m_pTextureCom = nullptr;
 	CCubeTex*			m_pCubeTexCom = nullptr;
-
-
-private:
-	_float				m_fFrame = 0.f;
-	_vec3				m_vPlayerLook;	// 플레이어 보는 방향
-
-	// 추후에 카메라 좌표 따기 위한 변수
-	//_vec3				m_vCamLook;
-
-	// 3 Sec after, Bullet is Die.
-	_float				m_fDeadTime;
-	// ~3 Sec after, Bullet is Die.
 
 public:
 	static CBullet*		Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos);

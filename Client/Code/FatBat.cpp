@@ -4,6 +4,8 @@
 #include "Export_Function.h"
 #include "MonsterBullet.h"
 #include "Stage.h"
+#include "AbstractFactory.h"
+#include "ObjectMgr.h"
 
 CFatBat::CFatBat(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -19,11 +21,9 @@ HRESULT CFatBat::Ready_Object(int Posx, int Posy)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	CComponent* pComponent = nullptr;
-
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_MonsterTexture2"));
-	NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
-	m_mapComponent[ID_STATIC].insert({ L"Proto_MonsterTexture2", pComponent });
+	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_MonsterTexture2", m_mapComponent, ID_DYNAMIC);
+	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
+	m_pCalculatorCom = CAbstractFactory<CCalculator>::Clone_Proto_Component(L"Proto_CalculatorCom", m_mapComponent, ID_STATIC);
 
 	m_iMonsterIndex = 1;
 	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
@@ -31,7 +31,7 @@ HRESULT CFatBat::Ready_Object(int Posx, int Posy)
 	if (Posx == 0 && Posy == 0) {}
 	else
 	{
-		Set_TransformPositon(g_hWnd);
+		Set_TransformPositon(g_hWnd, m_pCalculatorCom);
 	}
 
 	m_iCoolTime = rand() % 100;
@@ -48,13 +48,21 @@ _int CFatBat::Update_Object(const _float & fTimeDelta)
 	NULL_CHECK(pPlayerTransformCom);
 
 	FatBat_Fly();
-	FatBat_Shoot();
+	
+	 // 수정 쿨타임 대신 타임
+	m_fFrame += 2.f * fTimeDelta;
+	if (m_fFrame > 2.f)
+	{
+		FatBat_Shoot();
+		m_fFrame = 0.f;
+	}
+	// 수정 쿨타임 대신 타임
 	//Set_OnTerrain();
 	//지형에 올림
 
 	_vec3		vPlayerPos, vMonsterPos;
 	pPlayerTransformCom->Get_Info(INFO_POS, &vPlayerPos);
-	m_pTransCom->Get_Info(INFO_POS, &vMonsterPos);
+	m_pDynamicTransCom->Get_Info(INFO_POS, &vMonsterPos);
 
 	float fMtoPDistance; // 몬스터와 플레이어 간의 거리
 
@@ -62,16 +70,16 @@ _int CFatBat::Update_Object(const _float & fTimeDelta)
 
 	if (fMtoPDistance > 5.f)
 	{
-		m_pTransCom->Chase_Target_notRot(&vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
+		m_pDynamicTransCom->Chase_Target_notRot(&vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
 		
 	}
 
 	m_pAnimationCom->Move_Animation(fTimeDelta);
 
-	/*_matrix		matWorld, matView, matBill;
-	D3DXMatrixIdentity(&matBill);
+	_matrix		matWorld, matView, matBill;
+	/*D3DXMatrixIdentity(&matBill);
 
-	m_pTransCom->Get_WorldMatrix(&matWorld);
+	m_pDynamicTransCom->Get_WorldMatrix(&matWorld);
 
 	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
 
@@ -83,7 +91,7 @@ _int CFatBat::Update_Object(const _float & fTimeDelta)
 	D3DXMatrixInverse(&matBill, 0, &matBill);
 
 
-	m_pTransCom->Set_WorldMatrix(&(matBill * matWorld));*/
+	m_pDynamicTransCom->Set_WorldMatrix(&(matBill * matWorld));*/
 
 	Add_RenderGroup(RENDER_ALPHA, this);
 }
@@ -95,7 +103,7 @@ void CFatBat::LateUpdate_Object(void)
 
 void CFatBat::Render_Obejct(void)
 {
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pDynamicTransCom->Get_WorldMatrixPointer());
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0x10);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
@@ -114,36 +122,31 @@ void CFatBat::Render_Obejct(void)
 
 void	CFatBat::FatBat_Fly(void)
 {
-	float TerrainY =	m_pDynamicTransCom->Get_TerrainY1(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC, m_pCalculatorCom, m_pTransCom);
-		//L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC, m_pCalculatorCom, m_pTransCom); 
+	float TerrainY =	m_pDynamicTransCom->Get_TerrainY1(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC, m_pCalculatorCom, m_pDynamicTransCom);
+		//L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC, m_pCalculatorCom, m_pDynamicTransCom); 
 	
-	m_pDynamicTransCom->Monster_Fly(m_pTransCom, TerrainY, 3.f);
+	m_pDynamicTransCom->Monster_Fly(m_pDynamicTransCom, TerrainY, 3.f);
 
 }
 
 void CFatBat::FatBat_Shoot(void)
 {
-	++m_iCoolTime;
 
-	if (m_iCoolTime > 150)
-	{
-		_vec3 vPos;
-		m_pTransCom->Get_Info(INFO_POS, &vPos);
+	_vec3 vPos;
+	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
 
-		CMonsterBullet* pBullet = CMonsterBullet::Create(m_pGraphicDev, vPos);
-		NULL_CHECK(pBullet);
+	CScene* pScene = ::Get_Scene();
+	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
 
-		static_cast<CStage*>(CManagement::GetInstance()->Get_Scene())->Push_MonBullet(pBullet);
-	
-		m_iCoolTime = 0;
-
-	}
+	CGameObject* pGameObject = nullptr;
+	pGameObject = CObjectMgr::GetInstance()->Reuse_BulltObj(m_pGraphicDev, vPos,MONSTER_BULLET);
+	NULL_CHECK_RETURN(pGameObject, );
+	pMyLayer->Add_GameObjectList(pGameObject);
 }
 
 CFatBat * CFatBat::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)
 {
 	CFatBat*	pInstance = new CFatBat(pGraphicDev);
-
 
 	if (FAILED(pInstance->Ready_Object(Posx, Posy)))
 	{
@@ -156,5 +159,5 @@ CFatBat * CFatBat::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)
 
 void CFatBat::Free(void)
 {
-	CGameObject::Free();
+	CMonsterBase::Free();
 }

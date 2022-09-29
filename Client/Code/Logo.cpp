@@ -8,6 +8,7 @@
 #include "ToolTest.h"
 #include "ColliderStage.h"
 #include "Stage_Pjw.h"
+#include "STAGE_BIH.h"
 
 // UI Test
 #include "TestUI.h"
@@ -37,7 +38,7 @@ HRESULT CLogo::Ready_Scene(void)
 		
 	Engine::LoadSoundFile();
 
-
+	
 
 
 	return S_OK;
@@ -45,9 +46,11 @@ HRESULT CLogo::Ready_Scene(void)
 
 Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 {
+	
 	m_pStartButton = dynamic_cast<CStart_Button*>(Engine::Get_GameObject(L"Ready_Layer_Environment", L"StartButton"));
 
 	m_pExitButton = dynamic_cast<CExit_Button*>(Engine::Get_GameObject(L"Ready_Layer_Environment", L"ExitButton"));
+
 
 	_int iResult = Engine::CScene::Update_Scene(fTimeDelta);
 
@@ -65,11 +68,11 @@ Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 			return 0;
 		}
 		
-		if (m_pExitButton->Get_Click())
-		{
-			//DestroyWindow(g_hWnd);
-			return SCENE_END;
-		}
+		//if (m_pExitButton->Get_Click())
+		//{
+		//	//DestroyWindow(g_hWnd);
+		//	return SCENE_END;
+		//}
 	}
 	
 	return iResult;
@@ -129,8 +132,7 @@ CLogo * CLogo::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 void CLogo::Free(void)
 {
 	Safe_Release(m_pLoading);
-	Safe_Release(m_pStartButton);
-	Safe_Release(m_pExitButton);
+	
 
 	Engine::CScene::Free();
 	

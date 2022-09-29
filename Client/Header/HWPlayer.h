@@ -38,7 +38,13 @@ private:
 public:
 	void				Collsion_CubeMap(CGameObject* pGameObject);
 
+private:
+	HRESULT				Create_bullet(_vec3 pos);
 
+	_uint			m_iCount = 0;
+	_uint			m_iCoolTime = 0;
+	_bool			m_bOneShot = false;
+	_uint			m_iMagazine = 8;
 
 private:
 	CRcTex*				m_pBufferCom = nullptr;
