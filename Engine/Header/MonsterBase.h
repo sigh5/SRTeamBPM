@@ -22,7 +22,7 @@ public:
 	virtual HRESULT		 Ready_Object(void)							override;
 	virtual _int		 Update_Object(const _float& fTimeDelta)	override;
 	virtual void		 LateUpdate_Object(void)					override;
-	bool		Set_SelectGizmo(HWND g_hWn);
+	bool		Set_SelectGizmo(HWND g_hWn, CCalculator* _pCalcul, CRcTex* _pBuffer);
 	int&			Get_MonsterType() { return m_iMonsterIndex; }
 	CharacterInfo&	Get_InfoRef();
 
@@ -35,7 +35,7 @@ protected:
 
 protected:
 	virtual HRESULT				Add_Component(void);
-	virtual bool				Set_TransformPositon(HWND g_hWnd);
+	virtual bool				Set_TransformPositon(HWND g_hWnd, CCalculator* _pCalcul);
 
 public:
 	virtual void		Free(void);
