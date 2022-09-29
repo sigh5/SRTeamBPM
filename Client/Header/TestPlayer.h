@@ -10,6 +10,9 @@ namespace Engine
 	class CTexture;
 	class CCalculator;
 	class CAnimation;
+
+	class CCharacterInfo;
+
 }
 
 class CTestPlayer :public CGameObject
@@ -53,6 +56,8 @@ private:
 	CCalculator*		m_pCalculatorCom = nullptr;
 	CDynamic_Transform*	m_pDynamicTransCom = nullptr;
 	CAnimation*			m_pAnimationCom = nullptr;
+
+	CCharacterInfo*		m_pInfoCom = nullptr;
 
 private:
 	// _vec3

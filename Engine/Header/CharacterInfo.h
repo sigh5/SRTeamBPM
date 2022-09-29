@@ -19,6 +19,10 @@ public:
 	void	Add_Key(void) { ++m_Info._iKey; }	//Å° Ãß°¡
 	CharacterInfo&	Get_InfoRef() { return m_Info; }
 
+	// Test - Pjw
+	void	Add_Hp(_uint iAddHp);
+
+	// ~Test - Pjw
 private:
 	CharacterInfo m_Info;
 

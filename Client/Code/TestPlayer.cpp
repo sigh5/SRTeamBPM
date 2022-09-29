@@ -23,8 +23,8 @@ CTestPlayer::~CTestPlayer()
 HRESULT CTestPlayer::Ready_Object(void)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-
-
+							// int _hp, int _Attack, float _fSpeed
+	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
 	
 	return S_OK;
 }
@@ -53,11 +53,8 @@ _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 	}
 	else
 	{
-		//Set_OnTerrain();
+	
 	}
-
-
-	//Dash(fTimeDelta);
 	
 	m_fFrame += 1.f * fTimeDelta;
 
@@ -66,8 +63,7 @@ _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 		
 	
 	Engine::CGameObject::Update_Object(fTimeDelta);
-
-	
+		
 	/*_matrix		matWorld, matView, matBill;
 	D3DXMatrixIdentity(&matBill);
 
@@ -91,7 +87,7 @@ _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 
 void CTestPlayer::LateUpdate_Object(void)
 {
-	//Set_OnTerrain();
+
 }
 
 void CTestPlayer::Render_Obejct(void)
@@ -141,6 +137,10 @@ HRESULT CTestPlayer::Add_Component(void)
 	pComponent = m_pAnimationCom = dynamic_cast<CAnimation*>(Clone_Proto(L"Proto_AnimationCom"));
 	NULL_CHECK_RETURN(m_pAnimationCom, E_FAIL);
 	m_mapComponent[ID_STATIC].insert({ L"Proto_AnimationCom", pComponent });
+
+	pComponent = m_pInfoCom = dynamic_cast<CCharacterInfo*>(Clone_Proto(L"Proto_CharacterInfoCom"));
+	NULL_CHECK_RETURN(m_pInfoCom, E_FAIL);
+	m_mapComponent[ID_STATIC].insert({ L"Proto_CharacterInfoCom", pComponent });
 
 	
 	return S_OK;
@@ -233,6 +233,11 @@ void CTestPlayer::Key_Input(const _float& fTimeDelta)
 	// HpBar Change
 	if (Get_DIKeyState(DIK_C) & 0X80)
 	{
+		_uint iPlayerHp = m_pInfoCom->Get_InfoRef()._iHp;
+
+		iPlayerHp -= 25;
+
+		//if()
 		m_iHpBarChange -= 1;
 	}
 
@@ -312,6 +317,19 @@ HRESULT CTestPlayer::Create_Bullet(_vec3 vPos)
 		if(static_cast<CStage*>(CManagement::GetInstance()->Get_Scene())->Push_Bullet(pBullet) == S_OK)
 			m_iMagazine -= 1;
 
+		m_bOneShot = FALSE;
+
+		m_iCoolTime = 0;
+	}	
+
+#ifdef _DEBUG
+
+	//cout << "Bullet Count : " << m_iTest << endl;
+
+#endif	// _DEBUG
+
+	return S_OK;
+
 		//_tchar*         szFinalName = new _tchar[128]; // �����Ⱚ
 		//wsprintf(szFinalName, L"");
 
@@ -338,62 +356,7 @@ HRESULT CTestPlayer::Create_Bullet(_vec3 vPos)
 
 		//m_szBulletName.push_back(szFinalName);
 		//m_iCount++;
-
-		m_bOneShot = FALSE;
-	
-		m_iCoolTime = 0;
-	}
-
-#ifdef _DEBUG
-
-	//cout << "Bullet Count : " << m_iTest << endl;
-
-#endif	// _DEBUG
-
-	return S_OK;
 }
-
-//void CTestPlayer::Dash(const _float& fTimeDelta)
-//{	
-//	if (m_bDash)
-//	{
-//		m_pTransCom->Get_Info(INFO_LOOK, &m_vDirection);
-//		m_pTransCom->Get_Info(INFO_UP, &m_vUp);
-//		_float fSpeed = 4.f;
-//
-//		if (Engine::CInputDev::GetInstance()->Key_Down(DIK_W))
-//		{
-//			D3DXVec3Normalize(&m_vDirection, &m_vDirection);
-//			m_pTransCom->Move_Pos(&(m_vDirection * fSpeed));
-//		}
-//
-//		if (Engine::CInputDev::GetInstance()->Key_Down(DIK_S))
-//		{
-//			D3DXVec3Normalize(&m_vDirection, &m_vDirection);
-//			m_pTransCom->Move_Pos(&(m_vDirection * -fSpeed));
-//		}
-//
-//		if (Engine::CInputDev::GetInstance()->Key_Down(DIK_A))
-//		{
-//			_vec3	vRight;
-//			D3DXVec3Normalize(&m_vDirection, &m_vDirection);
-//			D3DXVec3Normalize(&m_vUp, &m_vUp);
-//			D3DXVec3Cross(&vRight, &m_vDirection, &m_vUp);
-//			m_pTransCom->Move_Pos(&(vRight * fSpeed));
-//		}
-//
-//		if (Engine::CInputDev::GetInstance()->Key_Down(DIK_D))
-//		{
-//			_vec3	vRight;
-//			D3DXVec3Normalize(&m_vDirection, &m_vDirection);
-//			D3DXVec3Normalize(&m_vUp, &m_vUp);
-//			D3DXVec3Cross(&vRight, &m_vDirection, &m_vUp);
-//			m_pTransCom->Move_Pos(&(vRight * -fSpeed));
-//		}		
-//
-//		m_bDash = false;
-//	}
-//}
 
 
 CTestPlayer * CTestPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)
