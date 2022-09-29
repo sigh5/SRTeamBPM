@@ -5,6 +5,17 @@
 
 BEGIN(Engine)
 
+enum BULLET_ID
+{
+	MONSTER_BULLET,
+	PLAYER_BULLET,
+
+
+
+	BULLET_ID_END,
+};
+
+
 
 class ENGINE_DLL CBaseBullet :public CGameObject
 {
@@ -19,14 +30,15 @@ public:
 	virtual void		LateUpdate_Object(void) override;
 	virtual void		Render_Obejct(void) override;
 
+
+public:
+	void	Set_MoveDir(const wstring& LayerName, const wstring& GameObjectName, const wstring& ComponentName, COMPONENTID eID, _vec3 * vPos, BULLET_ID eBulletID);
+
+
 protected:
 	_float				m_fFrame = 0.f;
-	// 3 Sec after, Bullet is Die.
-	_float				m_fDeadTime;
-	// ~3 Sec after, Bullet is Die.
 	_vec3				m_MoveDir;
 	
-
 protected:
 	virtual void		Free(void);
 

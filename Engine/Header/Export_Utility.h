@@ -52,11 +52,11 @@ inline 	CComponent*				Get_Component(const _tchar* pLayerTag,
 	const _tchar* pObjTag,
 	const _tchar* pComponentTag,
 	COMPONENTID eID);
-inline CGameObject*				Get_GameObject(const _tchar* pLayerTag, const _tchar* pObjTag);
+inline CGameObject*		Get_GameObject(const _tchar* pLayerTag, const _tchar* pObjTag);
 inline HRESULT			Add_GameObject(const _tchar* pLayerTag, const _tchar* pObjTag, CGameObject* pInstance);
 
 // Test
-//inline CScene*		Get_Scene();
+inline CScene*			Get_Scene();
 
 
 // ProtoMgr

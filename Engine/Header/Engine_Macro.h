@@ -83,6 +83,14 @@ namespace Engine
 				m_pInstance = NULL;						\
 			}											\
 		}
+
+
+#define READY_LAYER(PGAMEOBJECT,CLASSNAME, PLAYER,GRAPHICDEV,OBJNAME)	\
+			PGAMEOBJECT = CLASSNAME::Create(GRAPHICDEV);		 \
+			NULL_CHECK_RETURN(PGAMEOBJECT, E_FAIL);			\
+			FAILED_CHECK_RETURN(PLAYER->Add_GameObject(OBJNAME,PGAMEOBJECT),E_FAIL); 
+
+
 }
 
 #endif // Engine_Macro_h__

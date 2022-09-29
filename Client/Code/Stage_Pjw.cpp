@@ -1,21 +1,25 @@
 #include "stdafx.h"
-#include "..\Header\Stage.h"
+#include "..\Header\Stage_Pjw.h"
+
 
 #include "Export_Function.h"
 #include "SkyBox.h"
 #include "Effect.h"
 #include "FileIOMgr.h"
 
-CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CScene(pGraphicDev)
+#include "MyCamera.h"
+
+CStage_Pjw::CStage_Pjw(LPDIRECT3DDEVICE9 pGraphicDev)
+	: CScene(pGraphicDev)
 {
 }
 
-CStage::~CStage()
+
+CStage_Pjw::~CStage_Pjw()
 {
 }
 
-HRESULT CStage::Ready_Scene(void)
+HRESULT CStage_Pjw::Ready_Scene(void)
 {
 	if (FAILED(Engine::CScene::Ready_Scene()))
 		return E_FAIL;
@@ -27,38 +31,75 @@ HRESULT CStage::Ready_Scene(void)
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(L"Layer_Environment"), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_GameLogic(L"Layer_GameLogic"), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_UI(L"Layer_UI"), E_FAIL);
-			
+
 	return S_OK;
 }
 
-_int CStage::Update_Scene(const _float & fTimeDelta)
+_int CStage_Pjw::Update_Scene(const _float & fTimeDelta)
 {
 	_int iResult = 0;
+	if (0 != m_BulletList.size())
+	{
+		for (auto& iter : m_BulletList)
+		{
+			iResult = iter->Update_Object(fTimeDelta);
 
+			if (iResult & 0x80000000)
+				return iResult;
+		}
+	}
+
+	if (0 != m_MonBulletList.size())
+	{
+		for (auto& iter : m_MonBulletList)
+		{
+			iResult = iter->Update_Object(fTimeDelta);
+
+			if (iResult & 0x80000000)
+				return iResult;
+		}
+	}
 	return Engine::CScene::Update_Scene(fTimeDelta);
 }
 
-void CStage::LateUpdate_Scene(void)
+void CStage_Pjw::LateUpdate_Scene(void)
 {
 	Engine::CScene::LateUpdate_Scene();
 }
 
-void CStage::Render_Scene(void)
+void CStage_Pjw::Render_Scene(void)
 {
-
 }
 
-HRESULT CStage::Ready_Layer_Environment(const _tchar * pLayerTag)
+HRESULT CStage_Pjw::Push_Bullet(CBullet * pBullet)
+{
+	m_BulletList.emplace_back(pBullet);
+
+	return S_OK;
+}
+
+HRESULT CStage_Pjw::Push_MonBullet(CMonsterBullet * pBullet)
+{
+	m_MonBulletList.emplace_back(pBullet);
+
+	return S_OK;
+}
+
+HRESULT CStage_Pjw::Ready_Layer_Environment(const _tchar * pLayerTag)
 {
 	Engine::CLayer*		pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
-	
+
 	CGameObject*		pGameObject = nullptr;
 
 	// DynamicCamera
-	pGameObject = CDynamicCamera::Create(m_pGraphicDev, &_vec3(0.f, 10.f, -10.f), &_vec3(0.f, 0.f, 0.f), &_vec3(0.f, 1.f, 0.f));
+	/*pGameObject = CDynamicCamera::Create(m_pGraphicDev, &_vec3(0.f, 10.f, -10.f), &_vec3(0.f, 0.f, 0.f), &_vec3(0.f, 1.f, 0.f));
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"DynamicCamera", pGameObject), E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"DynamicCamera", pGameObject), E_FAIL);*/
+
+	pGameObject = CMyCamera::Create(m_pGraphicDev, &_vec3(0.f, 10.f, -10.f), &_vec3(0.f, 0.f, 0.f), &_vec3(0.f, 1.f, 0.f));
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"CMyCamera", pGameObject), E_FAIL);
 
 	// StaticCamera
 	/*pGameObject = CStaticCamera::Create(m_pGraphicDev, &_vec3(0.f, 20.f, -10.f), &_vec3(0.f, 0.f, 0.f), &_vec3(0.f, 1.f, 0.f));
@@ -74,13 +115,13 @@ HRESULT CStage::Ready_Layer_Environment(const _tchar * pLayerTag)
 	pGameObject = CTerrain::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Terrain", pGameObject), E_FAIL);
-	
+
 	m_mapLayer.insert({ pLayerTag, pLayer });
 
 	return S_OK;
 }
 
-HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
+HRESULT CStage_Pjw::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 {
 	Engine::CLayer*		pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
@@ -92,7 +133,7 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestPlayer", pGameObject), E_FAIL);
 
-	
+
 	m_mapLayer.insert({ pLayerTag, pLayer });
 
 	//몬스터 테스트용
@@ -101,18 +142,18 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Monster", pGameObject), E_FAIL);*/
 
 	//CFileIOMgr::GetInstance()->Load_FileData(m_pGraphicDev, this, L"Layer_GameLogic", L"../../Data/", L"Monster", L"Monster", OBJ_MONSTER);
-	CFileIOMgr::GetInstance()->Load_FileData(m_pGraphicDev, 
-		this, 
-		const_cast<_tchar*>(pLayerTag),
-		L"../../Data/",
-		L"Monster.dat",
-		L"Monster",
-		OBJ_MONSTER);
+	//CFileIOMgr::GetInstance()->Load_FileData(m_pGraphicDev,
+	//	this,
+	//	const_cast<_tchar*>(pLayerTag),
+	//	L"../../Data/",
+	//	L"Monster.dat",
+	//	L"Monster",
+	//	OBJ_MONSTER);
 
 	return S_OK;
 }
 
-HRESULT CStage::Ready_Layer_UI(const _tchar * pLayerTag)
+HRESULT CStage_Pjw::Ready_Layer_UI(const _tchar * pLayerTag)
 {
 	Engine::CLayer*		pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
@@ -128,20 +169,40 @@ HRESULT CStage::Ready_Layer_UI(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Weapon_UI", pGameObject), E_FAIL);
 
+	pGameObject = CHpBar::Create(m_pGraphicDev, pPlayer);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"HpBar", pGameObject), E_FAIL);
+
 
 	m_mapLayer.insert({ pLayerTag, pLayer });
 
 	return S_OK;
 }
 
-HRESULT CStage::Ready_Proto(void)
+HRESULT CStage_Pjw::Ready_Proto(void)
 {
 	return S_OK;
 }
 
-CStage * CStage::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+HRESULT CStage_Pjw::Ready_Light(void)
 {
-	CStage *	pInstance = new CStage(pGraphicDev);
+	D3DLIGHT9		tLightInfo;
+	ZeroMemory(&tLightInfo, sizeof(D3DLIGHT9));
+
+	tLightInfo.Type = D3DLIGHT_DIRECTIONAL;
+	tLightInfo.Diffuse = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	tLightInfo.Specular = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	tLightInfo.Ambient = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	tLightInfo.Direction = _vec3(0.f, -1.f, 1.f);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &tLightInfo, 0), E_FAIL);
+
+	return S_OK;
+}
+
+CStage_Pjw * CStage_Pjw::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+{
+	CStage_Pjw*	pInstance = new CStage_Pjw(pGraphicDev);
 
 	if (FAILED(pInstance->Ready_Scene()))
 	{
@@ -152,23 +213,12 @@ CStage * CStage::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 	return pInstance;
 }
 
-void CStage::Free(void)
+void CStage_Pjw::Free(void)
 {
 	CScene::Free();
-}
 
-HRESULT CStage::Ready_Light(void)
-{
-	D3DLIGHT9		tLightInfo;
-	ZeroMemory(&tLightInfo, sizeof(D3DLIGHT9));
-
-	tLightInfo.Type		= D3DLIGHT_DIRECTIONAL;
-	tLightInfo.Diffuse	= D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
-	tLightInfo.Specular	= D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
-	tLightInfo.Ambient	= D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
-	tLightInfo.Direction  = _vec3(0.f, -1.f, 1.f);
-
-	FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &tLightInfo, 0), E_FAIL);
-
-	return S_OK;
+	for_each(m_BulletList.begin(), m_BulletList.end(), CDeleteObj());
+	m_BulletList.clear();
+	/*for_each(m_MonBulletList.begin(), m_MonBulletList.end(), CDeleteObj());
+	m_MonBulletList.clear();*/
 }

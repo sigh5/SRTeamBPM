@@ -5,7 +5,8 @@
 
 
 #include "MetronomeUI.h"
-//#include ""
+#include "MonsterBullet.h"
+#include "Bullet.h"
 
 IMPLEMENT_SINGLETON(CObjectMgr)
 
@@ -20,7 +21,7 @@ CObjectMgr::~CObjectMgr()
 	Free();
 }
 
-void CObjectMgr::Collect_Obj(CGameObject * pObj)
+void CObjectMgr::Collect_BulletObj(CBaseBullet * pObj)
 {
 	if (nullptr == pObj)
 		return;
@@ -28,11 +29,29 @@ void CObjectMgr::Collect_Obj(CGameObject * pObj)
 	m_BulletList.push_back(pObj);
 }
 
-CGameObject * CObjectMgr::Reuse_Obj(LPDIRECT3DDEVICE9 pGraphicDev, D3DXVECTOR3  vPos)
+
+CBaseBullet* CObjectMgr::Reuse_BulltObj(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos,BULLET_ID eID)
 {
+	CBaseBullet*		pObject = nullptr;
+	if (m_BulletList.empty())
+	{
+		if(eID == MONSTER_BULLET)
+			pObject = CMonsterBullet::Create(pGraphicDev, vPos);
+		else if (eID == PLAYER_BULLET)
+			pObject = CBullet::Create(pGraphicDev, vPos);
+	}
+	else
+	{
+		pObject = m_BulletList.front();	
+		if (eID == MONSTER_BULLET)
+			dynamic_cast<CMonsterBullet*>(pObject)->Set_MoveDir(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC, &vPos,MONSTER_BULLET);
+		else if(eID ==PLAYER_BULLET)
+			dynamic_cast<CBullet*>(pObject)->Set_MoveDir(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC, &vPos,PLAYER_BULLET);
 
+		m_BulletList.pop_front();
+	}
 
-	return nullptr;
+	return pObject;
 }
 
 

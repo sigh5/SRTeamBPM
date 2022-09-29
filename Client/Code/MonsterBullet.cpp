@@ -1,8 +1,9 @@
 #include "stdafx.h"
-#include "..\Header\MonsterBullet.h"
+#include "MonsterBullet.h"
 #include "Export_Function.h"
-#include "AbstractFactory.h"
 
+#include "AbstractFactory.h"
+#include "ObjectMgr.h"
 
 CMonsterBullet::CMonsterBullet(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CBaseBullet(pGraphicDev)
@@ -18,26 +19,36 @@ HRESULT CMonsterBullet::Ready_Object(_vec3 vPos)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	
-	CTransform* pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC));
+	/*CTransform* pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC));
 	NULL_CHECK_RETURN(pPlayerTransformCom, E_FAIL);
-
-	// Test Tool ¿ë
-	//CTransform* pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"TestLayer", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC));
-	//NULL_CHECK_RETURN(pPlayerTransformCom, E_FAIL);
-
 	m_pTransCom->Set_Pos(vPos.x, vPos.y, vPos.z);
+	
+
 	
 	_vec3 vPlayerPos;
 	pPlayerTransformCom->Get_Info(INFO_POS, &vPlayerPos);
-	m_MoveDir = vPlayerPos - vPos;
+	m_MoveDir = vPlayerPos - vPos;*/
+
+	Set_MoveDir(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC, &vPos,MONSTER_BULLET);
+
+
 
 	return S_OK;
 }
 
 _int CMonsterBullet::Update_Object(const _float & fTimeDelta)
 {
-	m_fDeadTime += fTimeDelta;
+	m_fFrame += 2.f * fTimeDelta;
 
+	if (m_fFrame > 2.f)
+	{
+		CObjectMgr::GetInstance()->Collect_BulletObj(this);
+		m_fFrame = 0.f;
+		return 5;
+	}
+	
+	
+	
 	m_pTransCom->Move_Pos(&(m_MoveDir * 50.f * fTimeDelta));
 
 

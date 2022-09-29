@@ -7,6 +7,7 @@
 #include "Stage.h"
 #include "ToolTest.h"
 #include "ColliderStage.h"
+#include "Stage_Pjw.h"
 #include "STAGE_BIH.h"
 
 // UI Test
@@ -32,12 +33,12 @@ HRESULT CLogo::Ready_Scene(void)
 
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(L"Ready_Layer_Environment"), E_FAIL);
 
-	m_pLoading = CLoading::Create(m_pGraphicDev, LOADING_TEST);
+	m_pLoading = CLoading::Create(m_pGraphicDev, LOADING_PLAYER_UI);
 	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
 		
-	//Engine::LoadSoundFile();
+	Engine::LoadSoundFile();
 
-
+	
 
 
 	return S_OK;
@@ -45,9 +46,11 @@ HRESULT CLogo::Ready_Scene(void)
 
 Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 {
+	
 	m_pStartButton = dynamic_cast<CStart_Button*>(Engine::Get_GameObject(L"Ready_Layer_Environment", L"StartButton"));
 
 	m_pExitButton = dynamic_cast<CExit_Button*>(Engine::Get_GameObject(L"Ready_Layer_Environment", L"ExitButton"));
+
 
 	_int iResult = Engine::CScene::Update_Scene(fTimeDelta);
 
@@ -55,7 +58,7 @@ Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 	{
 		if (m_pStartButton->Get_Click())
 		{
-			CScene*		pScene = CStage_BIH::Create(m_pGraphicDev);
+			CScene*		pScene = CStage_Pjw::Create(m_pGraphicDev);
 			NULL_CHECK_RETURN(pScene, E_FAIL);
 
 			m_SceneType = SCENE_STAGE;
@@ -65,16 +68,13 @@ Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 			return 0;
 		}
 		
-		if (m_pExitButton->Get_Click())
-		{
-			//DestroyWindow(g_hWnd);
-			return SCENE_END;
-		}
+		//if (m_pExitButton->Get_Click())
+		//{
+		//	//DestroyWindow(g_hWnd);
+		//	return SCENE_END;
+		//}
 	}
-
 	
-	
-
 	return iResult;
 }
 
@@ -132,8 +132,7 @@ CLogo * CLogo::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 void CLogo::Free(void)
 {
 	Safe_Release(m_pLoading);
-	Safe_Release(m_pStartButton);
-	Safe_Release(m_pExitButton);
+	
 
 	Engine::CScene::Free();
 	

@@ -2,8 +2,11 @@
 #include "..\Header\TestPlayer.h"
 
 #include "Export_Function.h"
+#include "ObjectMgr.h"
 #include "Bullet.h"
 #include "Bullet_UI.h"
+#include "Stage.h"
+
 
 CTestPlayer::CTestPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -31,7 +34,7 @@ HRESULT CTestPlayer::Ready_Object(void)
 _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 {
 	++m_iCountDash;
-	//Key_Input(fTimeDelta);
+	Key_Input(fTimeDelta);
 
 
 	Engine::CGameObject::Update_Object(fTimeDelta);
@@ -218,11 +221,30 @@ void CTestPlayer::Key_Input(const _float& fTimeDelta)
 	}
 
 	// Test
-	if (Get_DIKeyState(DIK_X) & 0X80)
+	// Weapon Image Change
+	if (Get_DIKeyState(DIK_Z) & 0X80)
 	{
 		m_iChangeImage -= 1;
 	}
+
+	if (Get_DIKeyState(DIK_X) & 0X80)
+	{
+		m_iChangeImage = 1;
+	}
+
+	// HpBar Change
+	if (Get_DIKeyState(DIK_C) & 0X80)
+	{
+		m_iHpBarChange -= 1;
+	}
+
+	if (Get_DIKeyState(DIK_V) & 0X80)
+	{
+		m_iHpBarChange = 4;
+	}
+	
 	// ~Test
+
 
 	// Picking to LeftButton
 	/*if (Engine::Get_DIMouseState(DIM_LB) & 0X80)
@@ -283,83 +305,27 @@ HRESULT CTestPlayer::Create_Bullet(_vec3 vPos)
 	++m_iCoolTime;
 
 	if (m_bOneShot && m_iCoolTime > 10)
-	{
-		CBullet* pBullet = CBullet::Create(m_pGraphicDev, vPos);
-		NULL_CHECK(pBullet);
-
-		_tchar*         szFinalName = new _tchar[128]; // �����Ⱚ
-		wsprintf(szFinalName, L"");
-
-		const _tchar*   szBulletName = L"Bullet_%d";
-
-		wsprintf(szFinalName, szBulletName, m_iCount);
-
-		////_tchar*	szBullet = L"Bullet1";
-		FAILED_CHECK_RETURN(Engine::Add_GameObject(L"Layer_GameLogic", szFinalName, pBullet), E_FAIL);
-		//FAILED_CHECK_RETURN(Engine::Add_GameObject(L"TestLayer", szFinalName, pBullet), E_FAIL); // ToolTest
-
-		if (szBulletName != nullptr)	
-			m_iMagazine -= 1;
-		
-
-		m_szBulletName.push_back(szFinalName);
-		m_iCount++;
-
+	{	
 		m_bOneShot = FALSE;
 	
 		m_iCoolTime = 0;
+
+		CScene* pScene = ::Get_Scene();
+		CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+
+		CGameObject* pGameObject = nullptr;
+		pGameObject = CObjectMgr::GetInstance()->Reuse_BulltObj(m_pGraphicDev, vPos, PLAYER_BULLET);
+		NULL_CHECK_RETURN(pGameObject, );
+		pMyLayer->Add_GameObjectList(pGameObject);
+
+		m_iMagazine -= 1;
+
 	}
 
-#ifdef _DEBUG
-
-	//cout << "Bullet Count : " << m_iTest << endl;
-
-#endif	// _DEBUG
 
 	return S_OK;
 }
 
-//void CTestPlayer::Dash(const _float& fTimeDelta)
-//{	
-//	if (m_bDash)
-//	{
-//		m_pTransCom->Get_Info(INFO_LOOK, &m_vDirection);
-//		m_pTransCom->Get_Info(INFO_UP, &m_vUp);
-//		_float fSpeed = 4.f;
-//
-//		if (Engine::CInputDev::GetInstance()->Key_Down(DIK_W))
-//		{
-//			D3DXVec3Normalize(&m_vDirection, &m_vDirection);
-//			m_pTransCom->Move_Pos(&(m_vDirection * fSpeed));
-//		}
-//
-//		if (Engine::CInputDev::GetInstance()->Key_Down(DIK_S))
-//		{
-//			D3DXVec3Normalize(&m_vDirection, &m_vDirection);
-//			m_pTransCom->Move_Pos(&(m_vDirection * -fSpeed));
-//		}
-//
-//		if (Engine::CInputDev::GetInstance()->Key_Down(DIK_A))
-//		{
-//			_vec3	vRight;
-//			D3DXVec3Normalize(&m_vDirection, &m_vDirection);
-//			D3DXVec3Normalize(&m_vUp, &m_vUp);
-//			D3DXVec3Cross(&vRight, &m_vDirection, &m_vUp);
-//			m_pTransCom->Move_Pos(&(vRight * fSpeed));
-//		}
-//
-//		if (Engine::CInputDev::GetInstance()->Key_Down(DIK_D))
-//		{
-//			_vec3	vRight;
-//			D3DXVec3Normalize(&m_vDirection, &m_vDirection);
-//			D3DXVec3Normalize(&m_vUp, &m_vUp);
-//			D3DXVec3Cross(&vRight, &m_vDirection, &m_vUp);
-//			m_pTransCom->Move_Pos(&(vRight * -fSpeed));
-//		}		
-//
-//		m_bDash = false;
-//	}
-//}
 
 
 CTestPlayer * CTestPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -378,10 +344,6 @@ CTestPlayer * CTestPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 
 void CTestPlayer::Free(void)
 {
-		for (auto iter : m_szBulletName)
-		delete iter;
-
-	if(m_szBulletName.size() == 0)
-	m_szBulletName.clear();
+	
 	CGameObject::Free();
 }

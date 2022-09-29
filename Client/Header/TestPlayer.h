@@ -38,9 +38,10 @@ private:
 public:
 	_uint				Get_Magazine(void) { return m_iMagazine; }
 	_bool				Get_Shoot(void) { return m_bOneShot; }
-
+	// Test
 	_uint				Get_ChangeImage(void) { return m_iChangeImage; }
-
+	_uint				Get_HpChange(void) { return m_iHpBarChange; }
+	// ~Test
 
 private:
 	CRcTex*				m_pBufferCom = nullptr;
@@ -60,41 +61,31 @@ private:
 	// Alpha Blending 용도 (리소스 얻은 뒤 쓰일 예정)
 	_float				m_fFrame = 0.f;
 	// ~Alpha Blending 용도
-
-	// Bullet 	
-	list<_tchar*>	m_szBulletName;
-
-	_uint			m_iCount = 0;
 	
 	_uint			m_iCoolTime = 0;
 	_bool			m_bOneShot = FALSE;
-
 	_uint			m_iMagazine = 8;
 
 	// ~Bullet
 
-
 	// Jump
 	_float				m_fNowPosHeight = 0.f; //현재 포지션 지형의 Y값
-
-	_bool				m_bJump = FALSE;		//지금 점프상태인가?
-
 	_float				m_fJumpPower;			//점프력
+	_bool				m_bJump = FALSE;		//지금 점프상태인가?
 	// ~Jump
 
 	// Dash
 	_bool			m_bDash = FALSE;
 	_uint			m_iCountDash = 15;
-
 	TYPING_TYPE		m_tpType;
 	// ~Dash
 
-	float				m_fDashPower = 0.f;		//대쉬 시 가속력
-	float				m_fBuffDashPower = 0.f; //가중된 가속력
+	_float				m_fDashPower = 0.f;		//대쉬 시 가속력
+	_float				m_fBuffDashPower = 0.f; //가중된 가속력
 
 	// Test
 	_uint				m_iChangeImage = 1;
-
+	_uint				m_iHpBarChange = 4;
 	// ~Test
 
 public:
