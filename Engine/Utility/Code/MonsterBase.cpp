@@ -45,6 +45,7 @@ bool CMonsterBase::Set_SelectGizmo(HWND g_hWnd)
 	if (m_pCalculatorCom->PickingOnTransform_Monster(g_hWnd, m_pBufferCom, m_pTransCom))
 		return true;
 
+	// ½ºÁ¤º»
 
 	return false;
 }
