@@ -42,6 +42,8 @@ void CMonsterBase::LateUpdate_Object(void)
 
 bool CMonsterBase::Set_SelectGizmo(HWND g_hWnd, CCalculator* _pCalcul, CRcTex* _pBuffer)
 {
+	
+	
 	if (_pCalcul->PickingOnTransform_Monster(g_hWnd, _pBuffer, m_pDynamicTransCom))
 		return true;
 
