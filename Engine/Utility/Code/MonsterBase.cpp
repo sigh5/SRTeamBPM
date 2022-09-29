@@ -40,9 +40,9 @@ void CMonsterBase::LateUpdate_Object(void)
 {
 }
 
-bool CMonsterBase::Set_SelectGizmo(HWND g_hWnd, CCalculator* _pCalcul, CRcTex* _pBuffer)
+bool CMonsterBase::Set_SelectGizmo(HWND g_hWnd)
 {
-	if (_pCalcul->PickingOnTransform_Monster(g_hWnd, _pBuffer, m_pDynamicTransCom))
+	if (m_pCalculatorCom->PickingOnTransform_Monster(g_hWnd, m_pBufferCom, m_pTransCom))
 		return true;
 
 
@@ -65,12 +65,12 @@ HRESULT CMonsterBase::Add_Component(void)
 
 	pComponent = m_pDynamicTransCom = dynamic_cast<CDynamic_Transform*>(Clone_Proto(L"Proto_DynamicTransformCom"));
 	NULL_CHECK_RETURN(m_pInfoCom, E_FAIL);
-	m_mapComponent[ID_DYNAMIC].insert({ L"Proto_DynamicTransformCom" , pComponent });
+	m_mapComponent[ID_STATIC].insert({ L"Proto_DynamicTransformCom" , pComponent });
 
 	return S_OK;
 }
 
-bool CMonsterBase::Set_TransformPositon(HWND g_hWnd, CCalculator* _pCalcul)
+bool CMonsterBase::Set_TransformPositon(HWND g_hWnd)
 {
 
 	CTerrainTex*	pTerrainBufferCom = dynamic_cast<CTerrainTex*>(Engine::Get_Component(L"TestLayer", L"TestMap", L"Proto_TerrainTexCom", ID_STATIC));
@@ -80,9 +80,9 @@ bool CMonsterBase::Set_TransformPositon(HWND g_hWnd, CCalculator* _pCalcul)
 	NULL_CHECK_RETURN(pTerrainTransformCom, );
 
 
-	_vec3 Temp = _pCalcul->PickingOnTerrainCube(g_hWnd, pTerrainBufferCom, pTerrainTransformCom);
+	_vec3 Temp = m_pCalculatorCom->PickingOnTerrainCube(g_hWnd, pTerrainBufferCom, pTerrainTransformCom);
 
-	m_pDynamicTransCom->Set_Pos(Temp.x, Temp.y, Temp.z);
+	m_pTransCom->Set_Pos(Temp.x, Temp.y, Temp.z);
 
 }
 

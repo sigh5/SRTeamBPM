@@ -715,7 +715,7 @@ void CImGuiMgr::MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 
 			for (auto iter = test.begin(); iter != test.end(); ++iter)
 			{
-				if (dynamic_cast<CMonsterBase*>(iter->second)->Set_SelectGizmo(g_hWnd, static_cast<CAnubis*>(iter->second)->Get_Calculator(), static_cast<CAnubis*>(iter->second)->Get_Buffer()))
+				if (dynamic_cast<CMonsterBase*>(iter->second)->Set_SelectGizmo(g_hWnd))
 				{
 					pTranscom = dynamic_cast<CTransform*>(iter->second->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
 					m_CurrentSelectGameObjectObjKey = iter->first;

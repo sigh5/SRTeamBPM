@@ -31,7 +31,7 @@ HRESULT CAnubis::Ready_Object(int Posx, int Posy)
 	if (Posx == 0 && Posy == 0) {}
 	else
 	{
-		Set_TransformPositon(g_hWnd, m_pCalculatorCom);
+		Set_TransformPositon(g_hWnd);
 	}
 
 	return S_OK;
