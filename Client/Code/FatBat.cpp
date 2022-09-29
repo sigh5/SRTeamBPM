@@ -4,6 +4,7 @@
 #include "Export_Function.h"
 #include "MonsterBullet.h"
 #include "Stage.h"
+#include "ObjectMgr.h"
 
 CFatBat::CFatBat(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -48,7 +49,16 @@ _int CFatBat::Update_Object(const _float & fTimeDelta)
 	NULL_CHECK(pPlayerTransformCom);
 
 	FatBat_Fly();
-	FatBat_Shoot();
+	
+
+	 // 수정 쿨타임 대신 타임
+	m_fFrame += 2.f * fTimeDelta;
+	if (m_fFrame > 2.f)
+	{
+		FatBat_Shoot();
+		m_fFrame = 0.f;
+	}
+	// 수정 쿨타임 대신 타임
 	//Set_OnTerrain();
 	//지형에 올림
 
@@ -63,7 +73,7 @@ _int CFatBat::Update_Object(const _float & fTimeDelta)
 	if (fMtoPDistance > 5.f)
 	{
 		m_pTransCom->Chase_Target_notRot(&vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
-		
+
 	}
 
 	m_pAnimationCom->Move_Animation(fTimeDelta);
@@ -114,30 +124,26 @@ void CFatBat::Render_Obejct(void)
 
 void	CFatBat::FatBat_Fly(void)
 {
-	float TerrainY =	m_pDynamicTransCom->Get_TerrainY1(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC, m_pCalculatorCom, m_pTransCom);
-		//L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC, m_pCalculatorCom, m_pTransCom); 
-	
+	float TerrainY = m_pDynamicTransCom->Get_TerrainY1(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC, m_pCalculatorCom, m_pTransCom);
+	//L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC, m_pCalculatorCom, m_pTransCom); 
+
 	m_pDynamicTransCom->Monster_Fly(m_pTransCom, TerrainY, 3.f);
 
 }
 
 void CFatBat::FatBat_Shoot(void)
 {
-	++m_iCoolTime;
 
-	if (m_iCoolTime > 150)
-	{
-		_vec3 vPos;
-		m_pTransCom->Get_Info(INFO_POS, &vPos);
+	_vec3 vPos;
+	m_pTransCom->Get_Info(INFO_POS, &vPos);
 
-		CMonsterBullet* pBullet = CMonsterBullet::Create(m_pGraphicDev, vPos);
-		NULL_CHECK(pBullet);
+	CScene* pScene = ::Get_Scene();
+	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
 
-		static_cast<CStage*>(CManagement::GetInstance()->Get_Scene())->Push_MonBullet(pBullet);
-	
-		m_iCoolTime = 0;
-
-	}
+	CGameObject* pGameObject = nullptr;
+	pGameObject = CObjectMgr::GetInstance()->Reuse_BulltObj(m_pGraphicDev, vPos,MONSTER_BULLET);
+	NULL_CHECK_RETURN(pGameObject, );
+	pMyLayer->Add_GameObjectList(pGameObject);
 }
 
 CFatBat * CFatBat::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)

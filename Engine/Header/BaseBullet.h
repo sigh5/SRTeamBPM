@@ -5,6 +5,15 @@
 
 BEGIN(Engine)
 
+enum BULLET_ID
+{
+	MONSTER_BULLET,
+	PLAYER_BULLET,
+
+	BULLET_ID_END,
+};
+
+
 
 class ENGINE_DLL CBaseBullet :public CGameObject
 {
@@ -18,6 +27,11 @@ public:
 	virtual _int		Update_Object(const _float& fTimeDelta) override;
 	virtual void		LateUpdate_Object(void) override;
 	virtual void		Render_Obejct(void) override;
+
+
+public:
+	void	Set_MoveDir(const wstring& LayerName, const wstring& GameObjectName, const wstring& ComponentName, COMPONENTID eID, _vec3 * vPos);
+
 
 protected:
 	_float				m_fFrame = 0.f;

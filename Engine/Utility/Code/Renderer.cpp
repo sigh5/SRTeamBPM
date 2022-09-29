@@ -36,8 +36,6 @@ void CRenderer::Render_GameObject(LPDIRECT3DDEVICE9 & pGraphicDev)
 			m_RenderGroup[i].clear();
 		}
 	}
-
-
 }
 
 void CRenderer::Render_UIObject(LPDIRECT3DDEVICE9 & pGraphicDev)

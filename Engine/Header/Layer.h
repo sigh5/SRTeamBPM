@@ -42,7 +42,7 @@ private:
 
 
 	list<CGameObject*>  m_objPoolList;
-	
+
 	list<_tchar* > NameList;
 
 public:
