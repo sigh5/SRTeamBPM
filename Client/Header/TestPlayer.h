@@ -62,9 +62,9 @@ private:
 	// ~Alpha Blending ¿ëµµ
 
 	// Bullet 	
-	list<_tchar*>	m_szBulletName;
+	//list<_tchar*>	m_szBulletName;
 
-	_uint			m_iCount = 0;
+	//_uint			m_iCount = 0;
 	
 	_uint			m_iCoolTime = 0;
 	_bool			m_bOneShot = FALSE;
