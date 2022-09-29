@@ -16,6 +16,9 @@
 #include "MyCamera.h"
 #include "MetronomeUI.h"
 
+#include "FatBat.h"
+
+
 
 CColliderStage::CColliderStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev),m_iCount(0)
@@ -176,6 +179,9 @@ HRESULT CColliderStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestPlayer", pGameObject), E_FAIL);
 
 
+	pGameObject = CFatBat::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestMonster", pGameObject), E_FAIL);
 
 	
 	

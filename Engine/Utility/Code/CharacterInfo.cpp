@@ -43,7 +43,7 @@ int CCharacterInfo::Get_AttackPower(void)
 	return m_Info._iAttackPower;
 }
 
-CCharacterInfo * CCharacterInfo::Clone(void)
+CComponent * CCharacterInfo::Clone(void)
 {
 	return new CCharacterInfo(*this);
 }

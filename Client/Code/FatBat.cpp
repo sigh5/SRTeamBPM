@@ -144,7 +144,6 @@ CFatBat * CFatBat::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)
 {
 	CFatBat*	pInstance = new CFatBat(pGraphicDev);
 
-
 	if (FAILED(pInstance->Ready_Object(Posx, Posy)))
 	{
 		Safe_Release(pInstance);
@@ -156,5 +155,5 @@ CFatBat * CFatBat::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)
 
 void CFatBat::Free(void)
 {
-	CGameObject::Free();
+	CMonsterBase::Free();
 }

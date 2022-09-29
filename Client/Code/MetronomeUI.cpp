@@ -47,9 +47,10 @@ _int CMetronomeUI::Update_Object(const _float & fTimeDelta)
 
 	m_pTransCom->OrthoMatrix(50.f, 50.f, m_fMoveX, m_fMoveY, WINCX, WINCY);
 
-	if ( m_fMoveX < 5.f && m_fMoveX >-5.f)
+	if ( m_fMoveX < 30.f && m_fMoveX >-30.f)
 	{
 		CObjectMgr::GetInstance()->Collect_UIObj(this);
+		
 		return 5; 
 	}
 	

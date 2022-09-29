@@ -1,6 +1,6 @@
 #pragma once
 #include "Engine_Include.h"
-#include "GameObject.h"
+#include "BaseBullet.h"
 #include "TestPlayer.h"
 
 BEGIN(Engine)
