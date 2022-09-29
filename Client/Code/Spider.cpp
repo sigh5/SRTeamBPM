@@ -67,7 +67,7 @@ _int CSpider::Update_Object(const _float & fTimeDelta)
 	}
 
 	_matrix		matWorld, matView, matBill;
-	D3DXMatrixIdentity(&matBill);
+	/*D3DXMatrixIdentity(&matBill);
 
 	m_pTransCom->Get_WorldMatrix(&matWorld);
 
@@ -81,7 +81,7 @@ _int CSpider::Update_Object(const _float & fTimeDelta)
 	D3DXMatrixInverse(&matBill, 0, &matBill);
 
 
-	m_pTransCom->Set_WorldMatrix(&(matBill * matWorld));
+	m_pTransCom->Set_WorldMatrix(&(matBill * matWorld));*/
 
 	Add_RenderGroup(RENDER_ALPHA, this);
 }

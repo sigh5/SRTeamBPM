@@ -68,7 +68,7 @@ _int CFatBat::Update_Object(const _float & fTimeDelta)
 
 	m_pAnimationCom->Move_Animation(fTimeDelta);
 
-	_matrix		matWorld, matView, matBill;
+	/*_matrix		matWorld, matView, matBill;
 	D3DXMatrixIdentity(&matBill);
 
 	m_pTransCom->Get_WorldMatrix(&matWorld);
@@ -83,7 +83,7 @@ _int CFatBat::Update_Object(const _float & fTimeDelta)
 	D3DXMatrixInverse(&matBill, 0, &matBill);
 
 
-	m_pTransCom->Set_WorldMatrix(&(matBill * matWorld));
+	m_pTransCom->Set_WorldMatrix(&(matBill * matWorld));*/
 
 	Add_RenderGroup(RENDER_ALPHA, this);
 }
