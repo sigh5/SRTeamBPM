@@ -54,7 +54,7 @@ Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 	{
 		if (m_pStartButton->Get_Click())
 		{
-			CScene*		pScene = CColliderStage::Create(m_pGraphicDev);
+			CScene*		pScene = CStage::Create(m_pGraphicDev);
 			NULL_CHECK_RETURN(pScene, E_FAIL);
 
 			m_SceneType = SCENE_STAGE;
