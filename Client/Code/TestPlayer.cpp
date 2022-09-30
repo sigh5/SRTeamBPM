@@ -28,7 +28,9 @@ HRESULT CTestPlayer::Ready_Object(void)
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 							// int _hp, int _Attack, float _fSpeed
 	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
-	
+
+	m_preHp = m_pInfoCom->Get_InfoRef()._iHp;
+		
 	return S_OK;
 }
 
@@ -36,9 +38,18 @@ _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 {
 	++m_iCountDash;
 	Key_Input(fTimeDelta);
+	
+	/*if (m_preHp = m_pInfoCom->Get_InfoRef()._iHp)
+	{
+		system("cls");
 
-			cout << "체력 : " << m_pInfoCom->Get_InfoRef()._iHp << endl;
-			cout << "총알 수 :" << m_iMagazine << endl;
+		cout << "체력 : " << m_pInfoCom->Get_InfoRef()._iHp << endl;
+		m_preHp = m_pInfoCom->Get_InfoRef()._iHp;
+
+	}*/
+	
+
+		// cout << "총알 수 :" << m_iMagazine << endl;
 		
 	Engine::CGameObject::Update_Object(fTimeDelta);
 	
@@ -345,9 +356,12 @@ void CTestPlayer::Collision_Event(CGameObject * pGameObject)
 	if (m_pColliderCom->Check_Sphere_InterSect(vObjPos, vPlayerPos, 1.f, 1.f) == true)
 	{
 		if (pGameObject == pMyLayer->Get_GameObject(L"HealthPotion"))
+		{				
 			m_pInfoCom->Add_Hp(25);
+			m_iHpBarChange += 1;				
+			pMyLayer->Delete_GameObject(L"HealthPotion"); // 이벤트 처리		
+		}
 				
-	//	pMyLayer->Delete_GameObject(L"HealthPotion"); // 이벤트 처리		
 	}
 }
 

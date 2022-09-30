@@ -66,6 +66,9 @@ void CStage_Pjw::LateUpdate_Scene(void)
 {
 	CLayer *pLayer = GetLayer(L"Layer_GameLogic");
 	CHealthPotion* pPotion = dynamic_cast<CHealthPotion*>(pLayer->Get_GameObject(L"HealthPotion"));
+	
+	if (pPotion == nullptr)
+		return;
 
 	CTestPlayer* pPlayer = dynamic_cast<CTestPlayer*>(pLayer->Get_GameObject(L"TestPlayer"));
 	

@@ -17,11 +17,12 @@ CHealthPotion::~CHealthPotion()
 
 HRESULT CHealthPotion::Ready_Object(_uint iX, _uint iY)
 {
-	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+	m_pTransCom->Set_Pos(10.f, 1.f, 10.f);
+	m_pTransCom->Compulsion_Update();
 	m_pAnimationCom->Ready_Animation(3, 0, 0.2f); 
 
-	m_pTransCom->Set_Pos(10.f, 1.f, 10.f);
 	/*if (iX == 0 && iY == 0) {}
 	else
 	{		
@@ -68,7 +69,7 @@ void CHealthPotion::Render_Obejct(void)
 HRESULT CHealthPotion::Add_Component(void)
 {
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
-	m_pTransCom = CAbstractFactory<CTransform>::Clone_Proto_Component(L"Proto_TransformCom", m_mapComponent, ID_DYNAMIC);
+	m_pTransCom = CAbstractFactory<CTransform>::Clone_Proto_Component(L"Proto_TransformCom", m_mapComponent, ID_DYNAMIC);	
 	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_HpPotionTexture", m_mapComponent, ID_STATIC);
 	m_pCalculatorCom = CAbstractFactory<CCalculator>::Clone_Proto_Component(L"Proto_CalculatorCom", m_mapComponent, ID_STATIC);
 	m_pAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_STATIC);

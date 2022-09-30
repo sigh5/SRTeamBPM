@@ -75,6 +75,8 @@ private:
 	_bool			m_bOneShot = FALSE;
 	_uint			m_iMagazine = 8;
 
+	_uint			m_preHp = 0;
+
 	// ~Bullet
 
 	// Jump

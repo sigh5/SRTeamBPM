@@ -29,6 +29,19 @@ CTransform::~CTransform()
 {
 }
 
+void CTransform::Compulsion_Update(void)
+{
+	_matrix		matScale, matRotX, matRotY, matRotZ, matTrans;
+
+	D3DXMatrixScaling(&matScale, 1.f, 1.f, 1.f);
+	D3DXMatrixRotationX(&matRotX, 0.f);
+	D3DXMatrixRotationY(&matRotY, 0.f);
+	D3DXMatrixRotationZ(&matRotZ, 0.f);
+	D3DXMatrixTranslation(&matTrans, m_vInfo[INFO_POS].x, m_vInfo[INFO_POS].y, m_vInfo[INFO_POS].z);
+
+	m_matWorld = matScale * matRotX * matRotY * matRotZ * matTrans;
+}
+
 void Engine::CTransform::Chase_Target(const _vec3* pTargetPos, const _float& fSpeed, const _float& fTimeDelta)
 {
 	_vec3		vDir = *pTargetPos - m_vInfo[INFO_POS];
