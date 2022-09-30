@@ -88,7 +88,6 @@
     <ClCompile Include="..\Code\BaseBullet.cpp">
       <Filter>01. GameObject\Bullet</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Particle.cpp" />
     <ClCompile Include="..\Code\PSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -189,7 +188,6 @@
     <ClInclude Include="..\..\Header\BaseBullet.h">
       <Filter>01. GameObject\Bullet</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Header\Particle.h" />
     <ClInclude Include="..\..\Header\PSystem.h" />
   </ItemGroup>
   <ItemGroup>

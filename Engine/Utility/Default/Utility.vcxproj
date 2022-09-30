@@ -185,7 +185,6 @@ call CopyUtility.bat</Command>
     <ClInclude Include="..\..\Header\Management.h" />
     <ClInclude Include="..\..\Header\MonsterBase.h" />
     <ClInclude Include="..\..\Header\OrthoTransform.h" />
-    <ClInclude Include="..\..\Header\Particle.h" />
     <ClInclude Include="..\..\Header\Pipeline.h" />
     <ClInclude Include="..\..\Header\ProtoMgr.h" />
     <ClInclude Include="..\..\Header\PSystem.h" />
@@ -217,7 +216,6 @@ call CopyUtility.bat</Command>
     <ClCompile Include="..\Code\Management.cpp" />
     <ClCompile Include="..\Code\MonsterBase.cpp" />
     <ClCompile Include="..\Code\OrthoTransform.cpp" />
-    <ClCompile Include="..\Code\Particle.cpp" />
     <ClCompile Include="..\Code\Pipeline.cpp" />
     <ClCompile Include="..\Code\ProtoMgr.cpp" />
     <ClCompile Include="..\Code\PSystem.cpp" />
