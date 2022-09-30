@@ -8,7 +8,7 @@ CSnowfall::CSnowfall(LPDIRECT3DDEVICE9 pGraphicDev, BDBOX * boundingBox, int num
 	:CPSystem(pGraphicDev)
 {
 	m_bdBox = *boundingBox;
-	m_fSize = 0.8f;
+	m_fSize = 0.6f;
 	m_vbSize = 2048;
 	m_vbOffset = 0;
 	m_vbBatchSize = 512;
@@ -22,18 +22,30 @@ CSnowfall::CSnowfall(LPDIRECT3DDEVICE9 pGraphicDev, BDBOX * boundingBox, int num
 void CSnowfall::resetParticle(Attribute * attribute)
 {
 	attribute->_isAlive = true;
+	float x, y, z;
 
-	GetRandomVector(&attribute->_position, &m_bdBox.vMin, &m_bdBox.vMax);
+	x = (float)(rand() % 130);
+	y = 50.f;
+	z = (float)(rand() % 130);
 
-	attribute->_position.y = m_bdBox.vMax.y;
+	//GetRandomVector(&attribute->_position, &m_bdBox.vMin, &m_bdBox.vMax);
+	
+	attribute->_position = { x, y, z };
 
-	attribute->_velocity.x = GetRandomFloat(0.0f, 1.0f) * -3.0f;
+	//attribute->_position.y = m_bdBox.vMax.y;
 
-	attribute->_velocity.y = GetRandomFloat(0.0f, 1.0f) * -10.0f;
+	//attribute->_velocity.x = GetRandomFloat(0.0f, 1.0f) * -3.0f;
+	attribute->_velocity.x = rand() % 10 * 0.1f * -3.0f;
+	//x 이동값
+
+	attribute->_velocity.y = rand() % 10 * 0.1f * -30.0f + 1;
+	//내리는 속도
 
 	attribute->_velocity.z = 0.f;
 
-	attribute->_color = D3DCOLOR_XRGB(255, 255, 255);
+	attribute->_color = D3DCOLOR_XRGB(255, 0, 0);
+	//컬러 색
+	++m_ResetCount;
 }
 
 CSnowfall::~CSnowfall()
@@ -42,9 +54,11 @@ CSnowfall::~CSnowfall()
 
 _int CSnowfall::Update_Object(const _float& fTimeDelta)
 {
-	_int iResult = Engine::CGameObject::Update_Object(fTimeDelta);
+	
 
 	update(fTimeDelta);
+
+	_int iResult = Engine::CGameObject::Update_Object(fTimeDelta);
 
 	return 0;
 }
@@ -54,6 +68,7 @@ void CSnowfall::update(_float fTimeDelta)
 {
 	for (auto i = m_particles.begin(); i != m_particles.end(); i++)
 	{
+		
 		i->_position += i->_velocity * fTimeDelta;
 
 		if (m_bdBox.vMax.x < i->_position.x || m_bdBox.vMin.x > i->_position.x)
