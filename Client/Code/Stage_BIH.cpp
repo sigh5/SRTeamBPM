@@ -5,7 +5,7 @@
 #include "SkyBox.h"
 #include "Effect.h"
 #include "FileIOMgr.h"
-
+#include "Rainfall.h"
 
 
 CStage_BIH::CStage_BIH(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -97,6 +97,10 @@ HRESULT CStage_BIH::Ready_Layer_Environment(const _tchar * pLayerTag)
 	pGameObject = CTerrain::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Terrain", pGameObject), E_FAIL);
+
+	pGameObject = CRainfall::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Rainfall", pGameObject), E_FAIL);
 
 	m_mapLayer.insert({ pLayerTag, pLayer });
 

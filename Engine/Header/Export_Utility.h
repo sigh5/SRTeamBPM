@@ -26,7 +26,7 @@
 
 #include "Animation.h"
 #include "Camera.h"
-
+#include "Particle.h"
 
 #include "ProtoMgr.h"
 #include "Management.h"

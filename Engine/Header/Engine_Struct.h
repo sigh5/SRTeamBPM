@@ -63,12 +63,13 @@ namespace Engine
 	typedef struct tagParticleInfo
 	{
 		_vec3		vPos;
-		D3DCOLOR	color;
+		//D3DCOLOR	color;
 		_float		fSize;
+		_vec3		vVelocity;
+		_bool		bDead;
 	}ParticleInfo;
 
 	const _ulong  FVF_Particle = D3DFVF_XYZ | D3DFVF_DIFFUSE;
-
 
 
 }
