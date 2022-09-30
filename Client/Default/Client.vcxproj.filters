@@ -161,6 +161,9 @@
     <ClCompile Include="..\Code\HealthPotion.cpp">
       <Filter>02. GameObject\01. For_Stage\11. Item\00. HealthPotion</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\Status_UI.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\04. Status_UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -341,6 +344,9 @@
     <ClInclude Include="..\Header\HealthPotion.h">
       <Filter>02. GameObject\01. For_Stage\11. Item\00. HealthPotion</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Status_UI.h">
+      <Filter>02. GameObject\01. For_Stage\10. UI\04. Status_UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -488,6 +494,9 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\11. Item\00. HealthPotion">
       <UniqueIdentifier>{245e6750-228b-49aa-a856-b0800a40fa39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\04. Status_UI">
+      <UniqueIdentifier>{20d23bae-410c-4002-9aa8-93db4bd46804}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

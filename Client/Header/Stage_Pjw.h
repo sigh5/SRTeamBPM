@@ -13,6 +13,7 @@
 #include "Weapon_UI.h"
 #include "HpBar.h"
 #include "HealthPotion.h"
+#include "Status_UI.h"
 
 class CStage_Pjw : public Engine::CScene
 {
