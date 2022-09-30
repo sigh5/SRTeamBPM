@@ -21,11 +21,12 @@ HRESULT CHealthPotion::Ready_Object(_uint iX, _uint iY)
 
 	m_pAnimationCom->Ready_Animation(3, 0, 0.2f); 
 
-	if (iX == 0 && iY == 0) {}
+	m_pTransCom->Set_Pos(10.f, 1.f, 10.f);
+	/*if (iX == 0 && iY == 0) {}
 	else
 	{		
-		Set_TransformPositon(g_hWnd, m_pCalculatorCom);		
-	}
+		Engine::CItemBase::Set_TransformPos(g_hWnd, m_pCalculatorCom, L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", L"Proto_TransformCom", ID_STATIC, ID_DYNAMIC);
+	}*/
 
 	/*_vec3	vecScale = { 1.0f, 0.f, 1.0f };
 

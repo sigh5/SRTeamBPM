@@ -37,7 +37,7 @@ HRESULT CDynamicCamera::Ready_Object(const _vec3* pEye,
 
 Engine::_int CDynamicCamera::Update_Object(const _float& fTimeDelta)
 {
-	//Key_Input(fTimeDelta);
+	Key_Input(fTimeDelta);
 
 	_int iExit = CCamera::Update_Object(fTimeDelta);
 
@@ -78,7 +78,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 	_matrix		matCamWorld;
 	D3DXMatrixInverse(&matCamWorld, nullptr, &m_matView);
 
-	if (Get_DIKeyState(DIK_W) & 0x80)
+	/*if (Get_DIKeyState(DIK_W) & 0x80)
 	{
 		_vec3		vLook;
 		memcpy(&vLook, &matCamWorld.m[2][0], sizeof(_vec3));
@@ -120,7 +120,7 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 
 		m_vEye -= vLength;
 		m_vAt -= vLength;
-	}
+	}*/
 
 	if (Get_DIKeyState(DIK_T) & 0x80)
 	{

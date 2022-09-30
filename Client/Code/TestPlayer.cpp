@@ -6,6 +6,7 @@
 #include "Bullet.h"
 #include "Bullet_UI.h"
 #include "Stage.h"
+#include "HpPotion.h"
 
 
 CTestPlayer::CTestPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -36,9 +37,11 @@ _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 	++m_iCountDash;
 	Key_Input(fTimeDelta);
 
-
+			cout << "체력 : " << m_pInfoCom->Get_InfoRef()._iHp << endl;
+			cout << "총알 수 :" << m_iMagazine << endl;
+		
 	Engine::CGameObject::Update_Object(fTimeDelta);
-
+	
 	if (m_bJump == TRUE)
 	{
 		m_pDynamicTransCom->Jumping(m_fJumpPower, fTimeDelta, m_pTransCom);
@@ -234,12 +237,7 @@ void CTestPlayer::Key_Input(const _float& fTimeDelta)
 
 	// HpBar Change
 	if (Get_DIKeyState(DIK_C) & 0X80)
-	{
-		_uint iPlayerHp = m_pInfoCom->Get_InfoRef()._iHp;
-
-		iPlayerHp -= 25;
-
-		//if()
+	{		
 		m_iHpBarChange -= 1;
 	}
 
@@ -331,6 +329,27 @@ HRESULT CTestPlayer::Create_Bullet(_vec3 vPos)
 	return S_OK;
 }
 
+void CTestPlayer::Collision_Event(CGameObject * pGameObject)
+{
+	CScene* pScene = ::Get_Scene();
+	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+			
+	CTransform *pTransform = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+	
+	_vec3 vObjPos;
+	_vec3 vPlayerPos;
+
+	pTransform->Get_Info(INFO_POS, &vObjPos);
+	m_pTransCom->Get_Info(INFO_POS, &vPlayerPos);
+
+	if (m_pColliderCom->Check_Sphere_InterSect(vObjPos, vPlayerPos, 1.f, 1.f) == true)
+	{
+		if (pGameObject == pMyLayer->Get_GameObject(L"HealthPotion"))
+			m_pInfoCom->Add_Hp(25);
+				
+	//	pMyLayer->Delete_GameObject(L"HealthPotion"); // 이벤트 처리		
+	}
+}
 
 
 CTestPlayer * CTestPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)

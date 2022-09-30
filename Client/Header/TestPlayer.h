@@ -1,6 +1,6 @@
 #pragma once
 #include "GameObject.h"
-
+#include "Engine_Include.h"
 
 namespace Engine
 {
@@ -46,6 +46,8 @@ public:
 	_uint				Get_ChangeImage(void) { return m_iChangeImage; }
 	_uint				Get_HpChange(void) { return m_iHpBarChange; }
 	// ~Test
+
+	virtual void		Collision_Event(CGameObject* pGameObject);
 
 private:
 	CRcTex*				m_pBufferCom = nullptr;

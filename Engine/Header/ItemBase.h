@@ -35,7 +35,7 @@ protected:
 
 protected:
 	virtual HRESULT				Add_Component(void);
-	virtual _bool				Set_TransformPositon(HWND g_hWnd, CCalculator* _pCalcul);
+	virtual bool				Set_TransformPos(HWND g_hWnd, CCalculator* _pCalcul, const _tchar* pLayerTag, const _tchar* pObjTag, const _tchar* pComponentTag, const _tchar* pComponentTag1, COMPONENTID eID, COMPONENTID eID1);
 
 public:
 	virtual void		Free(void);

@@ -64,13 +64,13 @@ HRESULT CItemBase::Add_Component(void)
 
 	return S_OK;
 }
-// ¡Ú
-_bool CItemBase::Set_TransformPositon(HWND g_hWnd, CCalculator * _pCalcul)
+// ¡Ú																															// TerrainTex Component      // Transform Component
+bool CItemBase::Set_TransformPos(HWND g_hWnd, CCalculator * _pCalcul, const _tchar* pLayerTag, const _tchar* pObjTag, const _tchar* pComponentTag, const _tchar* pComponentTag1, COMPONENTID eID, COMPONENTID eID1)
 {
-	CTerrainTex*	pTerrainBufferCom = dynamic_cast<CTerrainTex*>(Engine::Get_Component(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC));
+	CTerrainTex*	pTerrainBufferCom = dynamic_cast<CTerrainTex*>(Engine::Get_Component(pLayerTag, pObjTag, pComponentTag, eID));
 	NULL_CHECK_RETURN(pTerrainBufferCom, );
 
-	CTransform*		pTerrainTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_Environment", L"Terrain", L"Proto_TransformCom", ID_DYNAMIC));
+	CTransform*		pTerrainTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(pLayerTag, pObjTag, pComponentTag1, eID1));
 	NULL_CHECK_RETURN(pTerrainTransformCom, );
 
 	_vec3 Temp = _pCalcul->PickingOnTerrainCube(g_hWnd, pTerrainBufferCom, pTerrainTransformCom);
