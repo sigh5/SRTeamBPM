@@ -78,24 +78,36 @@ void CMyCamera::Mouse_Move(const _float& fTimeDelta)
 
 	if (dwMouseMove = Engine::Get_DIMouseMove(DIMS_Y))
 	{
+		m_fAngle= dwMouseMove*fTimeDelta;
 
-		if (dwMouseMove / 10.f > 180.f)
+		//pPlayerTransform->Rotation(ROT_X, D3DXToRadian(180* dwMouseMove));
+		
+		/*if (dwMouseMove / 10.f > 180.f)
 		{
 			dwMouseMove -= 180.f;
-		}
+		}*/
 
 		// 카메라 
-		 if (dwMouseMove < 0 && m_fCameraHeight >-0.2f)
-		 {
-			 m_fCameraHeight -= fTimeDelta;
-		 }
-		 else if (dwMouseMove > 0 &&  m_fCameraHeight <0.2f )
-		 {
-			 m_fCameraHeight += fTimeDelta;
-		 }
+		/*if (dwMouseMove < 0 && m_fCameraHeight >-0.3f)
+		{
+			m_fCameraHeight -= fTimeDelta;
+		}
+		else if (dwMouseMove > 0 && m_fCameraHeight < 0.2f)
+		{
+			m_fCameraHeight += fTimeDelta;
+		}*/
 
 	
 	}
+
+	if (Get_DIKeyState(DIK_D) & 0x80)
+	m_fAngle -= D3DXToRadian(180.f) * fTimeDelta;
+
+	if (Get_DIKeyState(DIK_A) & 0x80)
+	m_fAngle += D3DXToRadian(180.f) * fTimeDelta;
+
+
+
 }
 
 void CMyCamera::Mouse_Fix(void)
@@ -154,8 +166,9 @@ void CMyCamera::Target_Renewal(void)
 
 	m_vEye = vLook * -1.f;	// 방향 벡터
 	D3DXVec3Normalize(&m_vEye, &m_vEye);
-
+	
 	m_vEye.y = m_fCameraHeight; //0.5f;
+
 	m_vEye *= m_fDistance;	// 방향 벡터
 
 	_vec3		vRight;
@@ -165,9 +178,10 @@ void CMyCamera::Target_Renewal(void)
 	D3DXMatrixRotationAxis(&matRot, &vRight, m_fAngle);
 	D3DXVec3TransformNormal(&m_vEye, &m_vEye, &matRot);
 
+
+
 	m_vEye += pPlayerTransform->m_vInfo[INFO_POS];
 	m_vAt = pPlayerTransform->m_vInfo[INFO_POS];
-
 
 
 }

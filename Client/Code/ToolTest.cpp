@@ -12,6 +12,8 @@
 
 #include "TestPlayer.h"
 
+
+
 CToolTest::CToolTest(LPDIRECT3DDEVICE9 pGraphicDev) : CScene(pGraphicDev)
 {
 }
@@ -23,15 +25,9 @@ CToolTest::~CToolTest()
 
 HRESULT CToolTest::Ready_Scene()
 {
-	// �ʿ��� ��� ����
-
 	CImGuiMgr::GetInstance()->Ready_MapTool(m_pGraphicDev, this);
 	CImGuiMgr::GetInstance()->Ready_MonsterTool(m_pGraphicDev, this);
-
 	CImGuiMgr::GetInstance()->Ready_PlayerTool(m_pGraphicDev, this);
-
-
-	//////////////
 
 	Engine::CLayer*		pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
@@ -44,11 +40,15 @@ HRESULT CToolTest::Ready_Scene()
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"DynamicCamera", pGameObject), E_FAIL);
 
 
-	// Tool Test Purpose's Player
-	pGameObject = CTestPlayer::Create(m_pGraphicDev);
+	pGameObject = CSkyBox::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestPlayer", pGameObject), E_FAIL);
-	
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"SkyBox", pGameObject), E_FAIL);
+
+	// Tool Test Purpose's Player
+	//pGameObject = CTestPlayer::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestPlayer", pGameObject), E_FAIL);
+	//
 
 	pGameObject = CTerrain::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, );

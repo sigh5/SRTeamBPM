@@ -38,7 +38,7 @@ private:
 
 	
 public:
-	void				Collsion_CubeMap(CGameObject* pGameObject);
+	void				Collsion_CubeMap(CGameObject* pGameObject, const _float& fTimeDelta);
 	_uint				Get_Magazine(void) { return m_iMagazine; }
 
 

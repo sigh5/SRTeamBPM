@@ -26,6 +26,8 @@ public:
 
 	_uint		Loading_ForPlayer_UI(void);
 
+	_uint		Loading_For_ToolScene();
+
 public:
 	static unsigned int	CALLBACK Thread_Main(void* pArg);
 

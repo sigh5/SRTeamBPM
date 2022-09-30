@@ -19,10 +19,10 @@ CHWPlayer::~CHWPlayer()
 HRESULT CHWPlayer::Ready_Object(void)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-	_vec3 vScale = { 0.5f, 0.5f, 0.5f };
+	_vec3 vScale = { 0.1f, 0.1f, 0.1f };
 	m_pTransCom->Set_Pos(10.f, 0.f, 10.f);
 	m_pTransCom->Set_Scale(&vScale);
-	m_pTransCom->Update_Component(1.f);
+	m_pTransCom->Update_Component(1.5f);
 	// 움직이기 위한 변수
 	return S_OK;
 }
@@ -132,14 +132,14 @@ void CHWPlayer::Key_Input(const _float & fTimeDelta)
 	if (Get_DIKeyState(DIK_W) & 0X80)
 	{
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
-		m_pTransCom->Move_Pos(&(m_vDirection * 10.f * fTimeDelta));
+		m_pTransCom->Move_Pos(&(m_vDirection * 5.f * fTimeDelta));
 		m_eDirType = DIR_UP;
 	}
 
 	if (Get_DIKeyState(DIK_S) & 0X80)
 	{
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
-		m_pTransCom->Move_Pos(&(m_vDirection * -10.f * fTimeDelta));
+		m_pTransCom->Move_Pos(&(m_vDirection * -5.f * fTimeDelta));
 		m_eDirType = DIR_DOWN;
 	}
 
@@ -149,7 +149,7 @@ void CHWPlayer::Key_Input(const _float & fTimeDelta)
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
 		D3DXVec3Normalize(&m_vUp, &m_vUp);
 		D3DXVec3Cross(&vRight, &m_vDirection, &m_vUp);
-		m_pTransCom->Move_Pos(&(vRight * 10.f * fTimeDelta));
+		m_pTransCom->Move_Pos(&(vRight * 5.f * fTimeDelta));
 		m_eDirType = DIR_LEFT;
 	}
 
@@ -159,7 +159,7 @@ void CHWPlayer::Key_Input(const _float & fTimeDelta)
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
 		D3DXVec3Normalize(&m_vUp, &m_vUp);
 		D3DXVec3Cross(&vRight, &m_vDirection, &m_vUp);
-		m_pTransCom->Move_Pos(&(vRight * -10.f * fTimeDelta));
+		m_pTransCom->Move_Pos(&(vRight * -5.f * fTimeDelta));
 		m_eDirType = DIR_RIGHT;
 	}
 
@@ -170,6 +170,7 @@ void CHWPlayer::Key_Input(const _float & fTimeDelta)
 	
 		Create_bullet(m_vPos, fTimeDelta);
 
+		// 수정 필요 누르면 2발씩나감
 		if (!m_bOneShot && !m_bMissCheck)
 		{
 			if (m_iMagazine >= 0)
@@ -220,7 +221,7 @@ float CHWPlayer::Get_TerrainY(void)
 
 	// TestTool 용
 	Engine::CTerrainTex*	pTerrainTexCom = dynamic_cast<Engine::CTerrainTex*>(Engine::Get_Component(L"TestLayer", L"TestMap", L"Proto_TerrainTexCom", ID_STATIC));
-	NULL_CHECK(pTerrainTexCom);
+	NULL_CHECK_RETURN(pTerrainTexCom,0.f);
 
 	// Stage 용
 	/*Engine::CTerrainTex*	pTerrainTexCom = dynamic_cast<Engine::CTerrainTex*>(Engine::Get_Component(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC));
@@ -232,7 +233,7 @@ float CHWPlayer::Get_TerrainY(void)
 	return fHeight;
 }
 
-void CHWPlayer::Collsion_CubeMap(CGameObject * pGameObject)
+void CHWPlayer::Collsion_CubeMap(CGameObject * pGameObject,const _float& fTimeDelta)
 {
 	CTransform *pTrnasform = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
 
@@ -242,7 +243,7 @@ void CHWPlayer::Collsion_CubeMap(CGameObject * pGameObject)
 	pTrnasform->Get_Info(INFO_POS, &vCenter1Pos);
 	m_pTransCom->Get_Info(INFO_POS, &vPos);
 
-	if (m_pColliderCom->Check_Sphere_InterSect(vCenter1Pos, vPos, 1.f, 1.f))
+	if (m_pColliderCom->Check_Sphere_InterSect(vCenter1Pos, vPos, 0.5f, 0.5f))
 	{
 		m_pTransCom->Get_Info(INFO_LOOK, &m_vDirection);
 		m_pTransCom->Get_Info(INFO_UP, &m_vUp);
@@ -252,22 +253,22 @@ void CHWPlayer::Collsion_CubeMap(CGameObject * pGameObject)
 		switch (m_eDirType)
 		{
 		case Engine::DIR_UP:
-			m_pTransCom->Move_Pos(&(m_vDirection * -0.1f));
+			m_pTransCom->Move_Pos(&(m_vDirection * -5.f *fTimeDelta));
 			break;
 		case Engine::DIR_DOWN:
-			m_pTransCom->Move_Pos(&(m_vDirection * 0.1f));
+			m_pTransCom->Move_Pos(&(m_vDirection * 5.f*fTimeDelta));
 			break;
 		case Engine::DIR_LEFT:
 			D3DXVec3Normalize(&m_vDirection, &m_vDirection);
 			D3DXVec3Normalize(&m_vUp, &m_vUp);
 			D3DXVec3Cross(&vRight, &m_vDirection, &m_vUp);
-			m_pTransCom->Move_Pos(&(vRight * -0.1f));
+			m_pTransCom->Move_Pos(&(vRight *-5.f*fTimeDelta));
 			break;
 		case Engine::DIR_RIGHT:
 			D3DXVec3Normalize(&m_vDirection, &m_vDirection);
 			D3DXVec3Normalize(&m_vUp, &m_vUp);
 			D3DXVec3Cross(&vRight, &m_vDirection, &m_vUp);
-			m_pTransCom->Move_Pos(&(vRight * 0.1f ));
+			m_pTransCom->Move_Pos(&(vRight *-5.f*fTimeDelta) );
 			break;
 		case Engine::DIR_END:
 			break;
@@ -324,7 +325,7 @@ HRESULT CHWPlayer::Create_bullet(_vec3 vPos , const _float & fTimeDelta)
 
 		CGameObject* pGameObject = nullptr;
 		pGameObject = CObjectMgr::GetInstance()->Reuse_PlayerBulltObj(m_pGraphicDev, vPos);
-		NULL_CHECK_RETURN(pGameObject, );
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
 		pMyLayer->Add_GameObjectList(pGameObject);
 
 		m_iMagazine -= 1;

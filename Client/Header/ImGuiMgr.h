@@ -87,6 +87,7 @@ private:
 	static _int m_iInterval;
 
 	list<_tchar* > NameList;
+	_int			m_iMapCubeIndex = 0;
 
 	CTransform* m_pSelectedTransform = nullptr;
 	// ~Map_Tool 변수

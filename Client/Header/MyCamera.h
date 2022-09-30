@@ -39,7 +39,7 @@ private:
 	_float			m_fAngle = 0.f;
 
 	
-	_float			m_fCameraHeight = 0.1f;
+	_float			m_fCameraHeight = 1.5f;
 
 
 public:

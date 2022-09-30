@@ -11,6 +11,9 @@
 #include "TestPlayer.h"
 
 #include "FileIOMgr.h"
+#include "WallCube.h"
+
+
 IMPLEMENT_SINGLETON(CImGuiMgr)
 
 ImGuiTextBuffer CImGuiMgr::log;
@@ -44,7 +47,7 @@ CImGuiMgr::~CImGuiMgr()
 HRESULT CImGuiMgr::Ready_MapTool(LPDIRECT3DDEVICE9 pGraphicDev, CScene* pScene)
 {
 	CLayer *pLayer = Engine::CLayer::Create();
-	pScene->Add_Layer(pLayer, L"TestLayer2");
+	pScene->Add_Layer(pLayer, L"MapCubeLayer");
 
 
 	//FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_TerrainTexture2", CTexture::Create(pGraphicDev, L"../Bin/Resource/Texture/Terrain/Tile/textures_%d.png", TEX_NORMAL, 18)), E_FAIL);
@@ -355,16 +358,16 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 	ImGui::Text("this is Transform_ButtonMenu");
 	if (ImGui::Button("Save"))
 	{
-		CFileIOMgr::GetInstance()->Save_FileData(pScene, L"TestLayer2", L"../../Data/",L"TESp.dat",OBJ_CUBE);
+		CFileIOMgr::GetInstance()->Save_FileData(pScene, L"MapCubeLayer", L"../../Data/",L"Stage1Map.dat",OBJ_CUBE);
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Load"))
 	{
 		CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev,
 			pScene, 
-			L"TestLayer2",
+			L"MapCubeLayer",
 			L"../../Data/",
-			L"TESp.dat", 
+			L"Stage1Map.dat", 
 			L"TestCube",
 			OBJ_CUBE);
 
@@ -372,7 +375,7 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 	ImGui::SameLine();
 	if (ImGui::Button("Delete"))
 	{
-		CLayer* MyLayer = pScene->GetLayer(L"TestLayer2");
+		CLayer* MyLayer = pScene->GetLayer(L"MapCubeLayer");
 		MyLayer->Delete_GameObject(m_CurrentSelectGameObjectObjKey.c_str());
 	}
 
@@ -415,6 +418,12 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 			cubePlane = CREATECUBE_RIGHT;
 		}
 
+		/*	char* str = "Text";
+			ImGui::InputText("Text", str);
+
+	*/
+	
+
 
 
 		ImGui::Text("if double click Create Cube");
@@ -422,7 +431,7 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 		{
 			ImVec2 temp = ImGui::GetMousePos();		
 			CGameObject *pGameObject = nullptr;
-			CLayer* MyLayer = pScene->GetLayer(L"TestLayer2");
+			CLayer* MyLayer = pScene->GetLayer(L"MapCubeLayer");
 		
 			_tchar* test1 = new _tchar[20];
 
@@ -433,15 +442,15 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 			_bool	isUpcube = false;
 		
 			map<const _tchar*, CGameObject*> test = MyLayer->Get_GameObjectMap();
-			CGameObject *pTestCube = nullptr;
+			CGameObject *pWallCube = nullptr;
 			_int iCount = 0;
 			
 			for (auto iter = test.begin(); iter != test.end(); ++iter)
 			{
-				if(dynamic_cast<CTestCube*>(iter->second)->Set_SelectGizmo())
+				if(dynamic_cast<CWallCube*>(iter->second)->Set_SelectGizmo())
 				{ 
 					isUpcube = true;
-					pTestCube = iter->second;
+					pWallCube = iter->second;
 					iCount++;
 				}
 			}
@@ -451,15 +460,17 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 				ImGui::End();
 				return;
 			}
-		
-			pGameObject = CTestCube::Create(pGrahicDev, temp.x, temp.y);
+			_vec2 vec2MousePos = { temp.x,temp.y };
+			pGameObject = CWallCube::Create(pGrahicDev, &vec2MousePos);
+			NULL_CHECK_RETURN(pGameObject, );
+			static_cast<CWallCube*>(pGameObject)->Set_DrawTexIndex(m_iMapCubeIndex);
 			NULL_CHECK_RETURN(pGameObject, );
 
 			
 			if (isUpcube)
 			{
 				CTransform* pCubeTrnasform = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
-				CTransform* pPreCubeTransform = dynamic_cast<CTransform*>(pTestCube->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+				CTransform* pPreCubeTransform = dynamic_cast<CTransform*>(pWallCube->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
 				_vec3 vPrePos;
 				pPreCubeTransform->Get_Info(INFO_POS, &vPrePos);
 
@@ -487,7 +498,7 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 			FAILED_CHECK_RETURN(MyLayer->Add_GameObject(test1, pGameObject), );
 
 			++m_iIndex;
-			pScene->Add_Layer(MyLayer, L"TestLayer2");
+			pScene->Add_Layer(MyLayer, L"MapCubeLayer");
 		}
 	}
 
@@ -495,13 +506,13 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 	{
 		if (ImGui::IsMouseClicked(0))
 		{
-			CLayer* MyLayer = pScene->GetLayer(L"TestLayer2");
+			CLayer* MyLayer = pScene->GetLayer(L"MapCubeLayer");
+			map<const _tchar*, CGameObject*> CubeMap = MyLayer->Get_GameObjectMap();
 
-			map<const _tchar*, CGameObject*> test = MyLayer->Get_GameObjectMap();
-
-			for (auto iter = test.begin(); iter != test.end(); ++iter)
+			for (auto iter = CubeMap.begin(); iter != CubeMap.end(); ++iter)
 			{
-				if (dynamic_cast<CTestCube*>(iter->second)->Set_SelectGizmo())
+
+				if (dynamic_cast<CWallCube*>(iter->second)->Set_SelectGizmo())
 				{
 					pTranscom = dynamic_cast<CTransform*>(iter->second->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
 					m_CurrentSelectGameObjectObjKey = iter->first;
@@ -510,7 +521,7 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 		}
 	}
 
-	CTestCube* pGameObject = dynamic_cast<CTestCube*>(Engine::Get_GameObject(L"TestLayer2", m_CurrentSelectGameObjectObjKey.c_str()));
+	CWallCube* pGameObject = dynamic_cast<CWallCube*>(Engine::Get_GameObject(L"MapCubeLayer", m_CurrentSelectGameObjectObjKey.c_str()));
 	if (pGameObject)
 	{
 		ImGui::NewLine();
@@ -518,22 +529,30 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 		{
 			static _bool	bWireFrame = false;
 			if (ImGui::Checkbox("WireFrame", &bWireFrame))
-					pGameObject->Set_WireFrame(bWireFrame);
+			{
+				CLayer* MyLayer = pScene->GetLayer(L"MapCubeLayer");
+				map<const _tchar*, CGameObject*> CubeMap = MyLayer->Get_GameObjectMap();
 				
+				for (auto iter = CubeMap.begin(); iter != CubeMap.end(); ++iter)
+				{
+					static_cast<CWallCube*>(iter->second)->Set_WireFrame(bWireFrame);
+				}
+			}
 		}
 
 			ImGui::NewLine();
 			if (ImGui::CollapsingHeader("Tile Texture", ImGuiTreeNodeFlags_DefaultOpen))
 			{
-				CTexture* pTextureCom = dynamic_cast<CTexture*>(pGameObject->Get_Component(L"Proto_CubeTexture", ID_STATIC));
+				CTexture* pTextureCom = dynamic_cast<CTexture*>(pGameObject->Get_Component(L"Proto_MapCubeTexture", ID_STATIC));
 
 				vector<IDirect3DBaseTexture9*> vecTexture = pTextureCom->Get_Texture();
 
-				for (_uint i = 0; i < 4; ++i)
+				for (_uint i = 0; i < vecTexture.size(); ++i)
 				{
 					if (ImGui::ImageButton((void*)vecTexture[i], ImVec2(60.f, 60.f)))
 					{
-						pGameObject->Set_DrawTexIndex(i);
+						m_iMapCubeIndex = i;
+						pGameObject->Set_DrawTexIndex(m_iMapCubeIndex);
 					}
 					if (i == 0 || (i + 1) % 6)
 						ImGui::SameLine();
@@ -607,7 +626,7 @@ void CImGuiMgr::TerrainTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene)
 
 			vector<IDirect3DBaseTexture9*> vecTexture = pTextureCom->Get_Texture();
 
-			for (_uint i = 0; i < 18; ++i)
+			for (_uint i = 0; i < vecTexture.size(); ++i)
 			{
 				if (ImGui::ImageButton((void*)vecTexture[i], ImVec2(32.f, 32.f)))
 				{

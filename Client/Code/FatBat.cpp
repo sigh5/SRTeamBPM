@@ -28,6 +28,11 @@ HRESULT CFatBat::Ready_Object(int Posx, int Posy)
 	m_iMonsterIndex = 1;
 	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
 	m_pAnimationCom->Ready_Animation(6, 0, 0.2f);
+
+	_vec3	vScale = { 0.5f,0.5f,0.5f };
+
+	m_pDynamicTransCom->Set_Scale(&vScale);
+
 	if (Posx == 0 && Posy == 0) {}
 	else
 	{
@@ -45,7 +50,7 @@ _int CFatBat::Update_Object(const _float & fTimeDelta)
 	_int iResult = Engine::CGameObject::Update_Object(fTimeDelta);
 
 	CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC));
-	NULL_CHECK(pPlayerTransformCom);
+	NULL_CHECK_RETURN(pPlayerTransformCom,0);
 
 	FatBat_Fly();
 	
@@ -94,6 +99,8 @@ _int CFatBat::Update_Object(const _float & fTimeDelta)
 	m_pDynamicTransCom->Set_WorldMatrix(&(matBill * matWorld));*/
 
 	Add_RenderGroup(RENDER_ALPHA, this);
+
+	return 0;
 }
 
 void CFatBat::LateUpdate_Object(void)

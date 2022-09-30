@@ -48,7 +48,6 @@ Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 {
 	
 	m_pStartButton = dynamic_cast<CStart_Button*>(Engine::Get_GameObject(L"Ready_Layer_Environment", L"StartButton"));
-
 	m_pExitButton = dynamic_cast<CExit_Button*>(Engine::Get_GameObject(L"Ready_Layer_Environment", L"ExitButton"));
 
 

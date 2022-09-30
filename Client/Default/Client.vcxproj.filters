@@ -154,6 +154,9 @@
     <ClCompile Include="..\Code\Stage_BIH.cpp">
       <Filter>01. Scene\01. Stage</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\WallCube.cpp">
+      <Filter>02. GameObject\02. For_public\03. CubeWall</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -327,6 +330,9 @@
     <ClInclude Include="..\Header\Stage_BIH.h">
       <Filter>01. Scene</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\WallCube.h">
+      <Filter>02. GameObject\02. For_public\03. CubeWall</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -474,6 +480,9 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\06. Bullet\MonsterBullet">
       <UniqueIdentifier>{b48247f6-77d4-4428-a229-21d24ef9c880}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\02. For_public\03. CubeWall">
+      <UniqueIdentifier>{2f28d2f2-38e1-4b88-a623-d36d253870fc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
