@@ -62,7 +62,7 @@ _int CStage_Pjw::Update_Scene(const _float & fTimeDelta)
 	return Engine::CScene::Update_Scene(fTimeDelta);
 }
 
-void CStage_Pjw::LateUpdate_Scene(void)
+void CStage_Pjw::LateUpdate_Scene(void) 
 {
 	CLayer *pLayer = GetLayer(L"Layer_GameLogic");
 	CHealthPotion* pPotion = dynamic_cast<CHealthPotion*>(pLayer->Get_GameObject(L"HealthPotion"));

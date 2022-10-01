@@ -256,6 +256,16 @@ void CTestPlayer::Key_Input(const _float& fTimeDelta)
 	{
 		m_iHpBarChange = 4;
 	}
+
+	if (Get_DIKeyState(DIK_P) & 0X80)
+	{
+		m_pInfoCom->Get_InfoRef()._iAttackPower += 1;		
+	}
+
+	if (Get_DIKeyState(DIK_O) & 0X80)
+	{		
+		m_pInfoCom->Get_InfoRef()._fSpeed += 1.f;
+	}
 	
 	// ~Test
 
