@@ -22,6 +22,10 @@ HRESULT CBullet_UI::Ready_Object(CTestPlayer* pPlayer)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	//_uint iMagOriginCount = dynamic_cast<CTestPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"TestPlayer"))->Get_Magazine();
+
+	//m_szOriginMagazin = iMagOriginCount;
+
 	m_pPlayer = pPlayer;
 		
 	return S_OK;
@@ -52,6 +56,20 @@ void CBullet_UI::Render_Obejct(void)
 
 	m_pGraphicDev->SetTransform(D3DTS_VIEW, &m_pTransCom->m_matView);
 	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &m_pTransCom->m_matOrtho);
+
+
+	_uint iMagazineCount = dynamic_cast<CTestPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"TestPlayer"))->Get_Magazine();
+	
+	// Player's Bullet Magazine left
+	
+	_tchar	tMagazine[MAX_PATH];
+	swprintf_s(tMagazine, L"%d / 8", iMagazineCount);
+	m_szMagazine = L"";
+	m_szMagazine += tMagazine;
+
+	Render_Font(L"BMYEONSUNG", m_szMagazine.c_str(), &_vec2(660.f, 520.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+
+	// ~Player's Bullet Magazine left
 
 	m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);
 	m_pBufferCom->Render_Buffer();
