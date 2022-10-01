@@ -25,7 +25,7 @@ HRESULT CStatus_UI::Ready_Object(CTestPlayer * pPlayer)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"BMYEONSUNG", L"Power", 13, 15, FW_HEAVY), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"BMYEONSUNG", L"Power", 16, 20, FW_HEAVY), E_FAIL);
 
 	m_pPlayer = pPlayer;
 
@@ -45,11 +45,11 @@ _int CStatus_UI::Update_Object(const _float & fTimeDelta)
 
 void CStatus_UI::LateUpdate_Object(void)
 {							// 1번, 2번 인자는 Scale X, Y. Default로는 WINCX, WINCY 밖에 이미지가 존재하도록 늘리고 Tab키를 누르면 줄어들어서 화면에 보이도록
-	m_pTransCom->OrthoMatrix(900.f, 350.f, 0.f, 0.f, WINCX, WINCY);
+	m_pTransCom->OrthoMatrix(1200.f, 400.f, 0.f, 0.f, WINCX, WINCY);
 
 	if (Get_DIKeyState(DIK_TAB) & 0x80)
 	{
-		m_pTransCom->Set_OrthoScale(0.4f, 1.f);
+		m_pTransCom->Set_OrthoScale(0.3f, 0.7f);
 	}
 
 	CGameObject::LateUpdate_Object();
@@ -78,7 +78,7 @@ void CStatus_UI::Render_Obejct(void)
 		m_szPower = L"";
 		m_szPower += tBpower;
 
-		Render_Font(L"BMYEONSUNG", m_szPower.c_str(), &_vec2(594.f, 170.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+		Render_Font(L"BMYEONSUNG", m_szPower.c_str(), &_vec2(574.f, 150.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 		// ~Player's Bullet Power
 
 		// Player's Skill Power
@@ -87,7 +87,7 @@ void CStatus_UI::Render_Obejct(void)
 		m_szSkillPower = L"";
 		m_szSkillPower += tSpower;
 
-		Render_Font(L"BMYEONSUNG", m_szSkillPower.c_str(), &_vec2(603.f, 410.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+		Render_Font(L"BMYEONSUNG", m_szSkillPower.c_str(), &_vec2(585.f, 430.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 		// ~Player's Skill Power
 
 		// Player's Speed
@@ -96,7 +96,7 @@ void CStatus_UI::Render_Obejct(void)
 		m_szSPeed = L"";
 		m_szSPeed += tSspeed;
 
-		Render_Font(L"BMYEONSUNG", m_szSPeed.c_str(), &_vec2(183.f, 170.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+		Render_Font(L"BMYEONSUNG", m_szSPeed.c_str(), &_vec2(196.f, 146.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 		// ~Player's Speed
 	}
 	
