@@ -71,6 +71,10 @@ void CPSystem::Render_Obejct(void)
 
 void CPSystem::Free(void)
 {
+	for (auto iter = m_particles.begin(); iter != m_particles.end();)
+	{
+		iter = m_particles.erase(iter);
+	}
 	m_particles.clear();
 
 	Safe_Release(m_vb);
@@ -144,10 +148,8 @@ void CPSystem::preRender()
 	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, true);
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0x00);
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0x50);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-
-
 
 }
 
@@ -159,7 +161,7 @@ void CPSystem::render()
 		preRender();
 
 
-		m_pGraphicDev->SetTexture(0, m_Tex);
+		//m_pGraphicDev->SetTexture(0, m_Tex);
 		m_pGraphicDev->SetFVF(FVF_Particle);
 		m_pGraphicDev->SetStreamSource(0, m_vb, 0, sizeof(ParticleInfo));
 
@@ -199,6 +201,7 @@ void CPSystem::render()
 						D3DPT_POINTLIST,
 						m_vbOffset,
 						m_vbBatchSize);
+
 
 					// 단계가 그려지는 동안 다음 단계를 파티클로 채운다.
 
@@ -281,3 +284,4 @@ void CPSystem::removeDeadParticles()
 			++iter;
 	}
 }
+

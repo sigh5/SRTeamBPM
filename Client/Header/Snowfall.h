@@ -13,6 +13,9 @@ public:
 	static CSnowfall*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
 	virtual void	Free(void);
 
-	unsigned long m_ResetCount;
+	//unsigned long m_ResetCount;
+
+private:
+	CTexture* m_pTextureCom = nullptr;
 };
 

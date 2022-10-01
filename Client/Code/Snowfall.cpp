@@ -2,6 +2,7 @@
 #include "..\Header\Snowfall.h"
 
 #include "Export_Function.h"
+#include "AbstractFactory.h"
 
 
 CSnowfall::CSnowfall(LPDIRECT3DDEVICE9 pGraphicDev, BDBOX * boundingBox, int numParticles)
@@ -17,7 +18,10 @@ CSnowfall::CSnowfall(LPDIRECT3DDEVICE9 pGraphicDev, BDBOX * boundingBox, int num
 	{
 		addParticle();
 	}
+
+	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_RainTexture", m_mapComponent, ID_STATIC);
 }
+
 
 void CSnowfall::resetParticle(Attribute * attribute)
 {
@@ -35,7 +39,7 @@ void CSnowfall::resetParticle(Attribute * attribute)
 	//attribute->_position.y = m_bdBox.vMax.y;
 
 	//attribute->_velocity.x = GetRandomFloat(0.0f, 1.0f) * -3.0f;
-	attribute->_velocity.x = rand() % 10 * 0.1f * -3.0f;
+	attribute->_velocity.x = rand() % 10 * 0.1f * -1.0f;
 	//x 이동값
 
 	attribute->_velocity.y = rand() % 10 * 0.1f * -30.0f + 1;
@@ -43,9 +47,9 @@ void CSnowfall::resetParticle(Attribute * attribute)
 
 	attribute->_velocity.z = 0.f;
 
-	attribute->_color = D3DCOLOR_XRGB(255, 0, 0);
+	attribute->_color = D3DCOLOR_XRGB(170, 0, 0);
 	//컬러 색
-	++m_ResetCount;
+	//++m_ResetCount;
 }
 
 CSnowfall::~CSnowfall()
@@ -66,7 +70,7 @@ _int CSnowfall::Update_Object(const _float& fTimeDelta)
 
 void CSnowfall::update(_float fTimeDelta)
 {
-	for (auto i = m_particles.begin(); i != m_particles.end(); i++)
+	for (auto i = m_particles.begin(); i != m_particles.end(); ++i)
 	{
 		
 		i->_position += i->_velocity * fTimeDelta;
@@ -89,7 +93,9 @@ void CSnowfall::update(_float fTimeDelta)
 }
 void	CSnowfall::Render_Obejct(void)
 {
+	
 	preRender();
+	m_pTextureCom->Set_Texture(0);
 	render();
 	postRender();
 }
@@ -112,5 +118,6 @@ CSnowfall * CSnowfall::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 
 void CSnowfall::Free(void)
 {
-	CGameObject::Free();
+	CPSystem::Free();
+
 }

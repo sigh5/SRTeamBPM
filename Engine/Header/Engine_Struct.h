@@ -69,7 +69,7 @@ namespace Engine
 		//_bool		bDead;
 	}ParticleInfo;
 
-	const _ulong  FVF_Particle = D3DFVF_XYZ | D3DFVF_DIFFUSE;
+	const _ulong  FVF_Particle = D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1;
 
 	struct Attribute
 	{
