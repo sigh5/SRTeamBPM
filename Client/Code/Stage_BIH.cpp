@@ -23,6 +23,7 @@ HRESULT CStage_BIH::Ready_Scene(void)
 	if (FAILED(Engine::CScene::Ready_Scene()))
 		return E_FAIL;
 
+	m_SceneType = SCENE_STAGE_BIH;
 	FAILED_CHECK_RETURN(Ready_Proto(), E_FAIL);
 
 	FAILED_CHECK_RETURN(Ready_Light(), E_FAIL);

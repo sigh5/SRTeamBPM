@@ -25,6 +25,7 @@ public:
 	CGameObject* Get_GameObject(const _tchar * pLayerTag, const _tchar * pObjTag);
 
 	virtual SCENE_TYPE		Get_SceneType(void) { return m_SceneType; }
+
 public:
 	CLayer* GetLayer(const _tchar * pLayerTag)
 	{

@@ -25,6 +25,8 @@ CToolTest::~CToolTest()
 
 HRESULT CToolTest::Ready_Scene()
 {
+	m_SceneType = SCENE_TOOLTEST;
+
 	CImGuiMgr::GetInstance()->Ready_MapTool(m_pGraphicDev, this);
 	CImGuiMgr::GetInstance()->Ready_MonsterTool(m_pGraphicDev, this);
 	CImGuiMgr::GetInstance()->Ready_PlayerTool(m_pGraphicDev, this);

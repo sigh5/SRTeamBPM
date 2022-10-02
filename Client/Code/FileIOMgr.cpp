@@ -80,7 +80,7 @@ void CFileIOMgr::Save_FileData(CScene * pScene,
 		for (auto iter = MyLayerMap.begin(); iter != MyLayerMap.end(); ++iter)
 		{
 
-			CTransform* Transcom = dynamic_cast<CTransform*>(iter->second->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+			CTransform* Transcom = dynamic_cast<CTransform*>(iter->second->Get_Component(L"Proto_DynamicTransformCom", ID_DYNAMIC));
 
 			_vec3   vPos, vScale;
 			_int	iMonsterType = 0;
