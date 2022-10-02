@@ -238,7 +238,7 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 			static_cast<CMonsterBase*>(pGameObject)->Get_MonsterType() = iMonsterType;
 			++m_iIndex;
 
-			CDynamic_Transform* Transcom = static_cast<CDynamic_Transform*>(pGameObject->Get_Component(L"Proto_DynamicTransformCom", ID_DYNAMIC));
+			CTransform* Transcom = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_DynamicTransformCom", ID_DYNAMIC));
 
 
 			Transcom->Set_Info(INFO_POS, &vPos);

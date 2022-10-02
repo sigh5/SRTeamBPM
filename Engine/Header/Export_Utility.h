@@ -18,6 +18,7 @@
 #include "MonsterBase.h"
 #include "BaseBullet.h"
 
+#include "PSystem.h"
 
 #include "Dynamic_Transform.h"
 // for UI

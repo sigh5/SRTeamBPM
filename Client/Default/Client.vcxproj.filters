@@ -151,8 +151,9 @@
     <ClCompile Include="..\Code\MonsterBullet.cpp">
       <Filter>02. GameObject\01. For_Stage\06. Bullet\MonsterBullet</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Stage_BIH.cpp">
-      <Filter>01. Scene\01. Stage</Filter>
+    <ClCompile Include="..\Code\Stage_BIH.cpp" />
+    <ClCompile Include="..\Code\Snowfall.cpp">
+      <Filter>02. GameObject\01. For_Stage\09. Particle</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\WallCube.cpp">
       <Filter>02. GameObject\02. For_public\03. CubeWall</Filter>
@@ -327,8 +328,9 @@
     <ClInclude Include="..\Header\MonsterBullet.h">
       <Filter>02. GameObject\01. For_Stage\06. Bullet\MonsterBullet</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Stage_BIH.h">
-      <Filter>01. Scene</Filter>
+    <ClInclude Include="..\Header\Stage_BIH.h" />
+    <ClInclude Include="..\Header\Snowfall.h">
+      <Filter>02. GameObject\01. For_Stage\09. Particle</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\WallCube.h">
       <Filter>02. GameObject\02. For_public\03. CubeWall</Filter>
@@ -481,8 +483,8 @@
     <Filter Include="02. GameObject\01. For_Stage\06. Bullet\MonsterBullet">
       <UniqueIdentifier>{b48247f6-77d4-4428-a229-21d24ef9c880}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\02. For_public\03. CubeWall">
-      <UniqueIdentifier>{2f28d2f2-38e1-4b88-a623-d36d253870fc}</UniqueIdentifier>
+    <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\03. Giant">
+      <UniqueIdentifier>{1bd2f7f1-f953-4e07-b33b-69dc650c577e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

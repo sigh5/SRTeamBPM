@@ -59,7 +59,7 @@ HRESULT CMonsterBase::Add_Component(void)
 	NULL_CHECK_RETURN(m_pAnimationCom, E_FAIL);
 	//m_pAnimationCom->Ready_Animation(6, 1, 0.2f);
 	m_mapComponent[ID_DYNAMIC].insert({ L"Proto_AnimationCom", pComponent });
-	
+
 	pComponent = m_pInfoCom = dynamic_cast<CCharacterInfo*>(Clone_Proto(L"Proto_CharacterInfoCom"));
 	NULL_CHECK_RETURN(m_pInfoCom, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].insert({ L"Proto_CharacterInfoCom", pComponent });

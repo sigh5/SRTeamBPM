@@ -53,8 +53,8 @@ _int CFatBat::Update_Object(const _float & fTimeDelta)
 	NULL_CHECK_RETURN(pPlayerTransformCom,0);
 
 	FatBat_Fly();
-	
-	 // 수정 쿨타임 대신 타임
+
+	// 수정 쿨타임 대신 타임
 	m_fFrame += 2.f * fTimeDelta;
 	if (m_fFrame > 2.f)
 	{
@@ -129,9 +129,9 @@ void CFatBat::Render_Obejct(void)
 
 void	CFatBat::FatBat_Fly(void)
 {
-	float TerrainY =	m_pDynamicTransCom->Get_TerrainY1(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC, m_pCalculatorCom, m_pDynamicTransCom);
-		//L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC, m_pCalculatorCom, m_pDynamicTransCom); 
-	
+	float TerrainY = m_pDynamicTransCom->Get_TerrainY1(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC, m_pCalculatorCom, m_pDynamicTransCom);
+	//L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC, m_pCalculatorCom, m_pDynamicTransCom); 
+
 	m_pDynamicTransCom->Monster_Fly(m_pDynamicTransCom, TerrainY, 3.f);
 
 }

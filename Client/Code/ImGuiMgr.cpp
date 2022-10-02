@@ -32,7 +32,7 @@ ImVec4 CImGuiMgr::clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
 CImGuiMgr::CImGuiMgr()
 {
-	
+
 }
 
 CImGuiMgr::~CImGuiMgr()
@@ -76,104 +76,104 @@ void CImGuiMgr::TransformEdit(CCamera* pCamera, CTransform* pTransform, _bool& W
 {
 	if (true == Show_Cube_Tool)
 	{
-	ImGui::Begin("Transform");
-	ImGuizmo::BeginFrame();
-	static float snap[3] = { 1.f, 1.f, 1.f };
-	static ImGuizmo::OPERATION mCurrentGizmoOperation(ImGuizmo::ROTATE);
-	static ImGuizmo::MODE mCurrentGizmoMode(ImGuizmo::WORLD);
-	if (ImGui::IsKeyPressed(90))
-		mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
-	if (ImGui::IsKeyPressed(69))
-		mCurrentGizmoOperation = ImGuizmo::ROTATE;
-	if (ImGui::IsKeyPressed(82)) // r Key
-		mCurrentGizmoOperation = ImGuizmo::SCALE;
-	if (ImGui::RadioButton("Translate", mCurrentGizmoOperation == ImGuizmo::TRANSLATE))
-		mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
-	ImGui::SameLine();
-	if (ImGui::RadioButton("Rotate", mCurrentGizmoOperation == ImGuizmo::ROTATE))
-		mCurrentGizmoOperation = ImGuizmo::ROTATE;
-	ImGui::SameLine();
-	if (ImGui::RadioButton("Scale", mCurrentGizmoOperation == ImGuizmo::SCALE))
-		mCurrentGizmoOperation = ImGuizmo::SCALE;
-
-	if (pTransform == nullptr)
-	{
-		ImGui::Text("Object Delete or nullptr");
-		ImGui::End();
-		return;
-	}
-
-	float matrixTranslation[3], matrixRotation[3], matrixScale[3];
-	_matrix matWorld = pTransform->m_matWorld;
-
-	ImGuizmo::DecomposeMatrixToComponents(matWorld, matrixTranslation, matrixRotation, matrixScale);
-	ImGui::InputFloat3("Tr", matrixTranslation);
-	ImGui::InputFloat3("Rt", matrixRotation);
-	ImGui::InputFloat3("Sc", matrixScale);
-	ImGuizmo::RecomposeMatrixFromComponents(matrixTranslation, matrixRotation, matrixScale, matWorld);
-
-	if (mCurrentGizmoOperation != ImGuizmo::SCALE)
-	{
-		if (ImGui::RadioButton("Local", mCurrentGizmoMode == ImGuizmo::LOCAL))
-			mCurrentGizmoMode = ImGuizmo::LOCAL;
+		ImGui::Begin("Transform");
+		ImGuizmo::BeginFrame();
+		static float snap[3] = { 1.f, 1.f, 1.f };
+		static ImGuizmo::OPERATION mCurrentGizmoOperation(ImGuizmo::ROTATE);
+		static ImGuizmo::MODE mCurrentGizmoMode(ImGuizmo::WORLD);
+		if (ImGui::IsKeyPressed(90))
+			mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
+		if (ImGui::IsKeyPressed(69))
+			mCurrentGizmoOperation = ImGuizmo::ROTATE;
+		if (ImGui::IsKeyPressed(82)) // r Key
+			mCurrentGizmoOperation = ImGuizmo::SCALE;
+		if (ImGui::RadioButton("Translate", mCurrentGizmoOperation == ImGuizmo::TRANSLATE))
+			mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
 		ImGui::SameLine();
-		if (ImGui::RadioButton("World", mCurrentGizmoMode == ImGuizmo::WORLD))
-			mCurrentGizmoMode = ImGuizmo::WORLD;
+		if (ImGui::RadioButton("Rotate", mCurrentGizmoOperation == ImGuizmo::ROTATE))
+			mCurrentGizmoOperation = ImGuizmo::ROTATE;
+		ImGui::SameLine();
+		if (ImGui::RadioButton("Scale", mCurrentGizmoOperation == ImGuizmo::SCALE))
+			mCurrentGizmoOperation = ImGuizmo::SCALE;
+
+		if (pTransform == nullptr)
+		{
+			ImGui::Text("Object Delete or nullptr");
+			ImGui::End();
+			return;
+		}
+
+		float matrixTranslation[3], matrixRotation[3], matrixScale[3];
+		_matrix matWorld = pTransform->m_matWorld;
+
+		ImGuizmo::DecomposeMatrixToComponents(matWorld, matrixTranslation, matrixRotation, matrixScale);
+		ImGui::InputFloat3("Tr", matrixTranslation);
+		ImGui::InputFloat3("Rt", matrixRotation);
+		ImGui::InputFloat3("Sc", matrixScale);
+		ImGuizmo::RecomposeMatrixFromComponents(matrixTranslation, matrixRotation, matrixScale, matWorld);
+
+		if (mCurrentGizmoOperation != ImGuizmo::SCALE)
+		{
+			if (ImGui::RadioButton("Local", mCurrentGizmoMode == ImGuizmo::LOCAL))
+				mCurrentGizmoMode = ImGuizmo::LOCAL;
+			ImGui::SameLine();
+			if (ImGui::RadioButton("World", mCurrentGizmoMode == ImGuizmo::WORLD))
+				mCurrentGizmoMode = ImGuizmo::WORLD;
+		}
+
+		static bool useSnap(false);
+		if (ImGui::IsKeyPressed(83))
+			useSnap = !useSnap;
+		ImGui::Checkbox("##something", &useSnap);
+		ImGui::SameLine();
+		switch (mCurrentGizmoOperation)
+		{
+		case ImGuizmo::TRANSLATE:
+			ImGui::InputFloat3("Snap", &snap[0]);
+			break;
+		case ImGuizmo::ROTATE:
+			ImGui::InputFloat("Angle Snap", &snap[0]);
+			break;
+		case ImGuizmo::SCALE:
+			ImGui::InputFloat("Scale Snap", &snap[0]);
+			break;
+		}
+
+		if (ImGui::Button("Close"))
+		{
+			Window = false;
+		}
+
+
+		_matrix matId;
+		D3DXMatrixIdentity(&matId);
+
+		ImGuiIO& io = ImGui::GetIO();
+		RECT rt;
+		GetClientRect(g_hWnd, &rt);
+		POINT lt{ rt.left, rt.top };
+		ClientToScreen(g_hWnd, &lt);
+		ImGuizmo::SetRect(lt.x, lt.y, io.DisplaySize.x, io.DisplaySize.y);
+
+		// ImGuizmo::DrawGrid(m_pCam->GetView(), m_pCam->GetPrj(), matId, 100.f);
+
+		ImGuizmo::Manipulate(pCamera->GetView(), pCamera->GetProj(), mCurrentGizmoOperation, mCurrentGizmoMode, matWorld, NULL, useSnap ? &snap[0] : NULL);
+
+		pTransform->m_matWorld = matWorld;
+
+		ImGuizmo::DecomposeMatrixToComponents(matWorld, matrixTranslation, matrixRotation, matrixScale);
+		matrixRotation[0] = D3DXToRadian(matrixRotation[0]);
+		matrixRotation[1] = D3DXToRadian(matrixRotation[1]);
+		matrixRotation[2] = D3DXToRadian(matrixRotation[2]);
+		memcpy(&pTransform->m_vInfo[INFO_POS], matrixTranslation, sizeof(matrixTranslation));
+		memcpy(&pTransform->m_vAngle, matrixRotation, sizeof(matrixRotation));
+		memcpy(&pTransform->m_vScale, matrixScale, sizeof(matrixScale));
+
+
+
+
+		ImGui::End();
 	}
-
-	static bool useSnap(false);
-	if (ImGui::IsKeyPressed(83))
-		useSnap = !useSnap;
-	ImGui::Checkbox("##something", &useSnap);
-	ImGui::SameLine();
-	switch (mCurrentGizmoOperation)
-	{
-	case ImGuizmo::TRANSLATE:
-		ImGui::InputFloat3("Snap", &snap[0]);
-		break;
-	case ImGuizmo::ROTATE:
-		ImGui::InputFloat("Angle Snap", &snap[0]);
-		break;
-	case ImGuizmo::SCALE:
-		ImGui::InputFloat("Scale Snap", &snap[0]);
-		break;
-	}
-
-	if (ImGui::Button("Close"))
-	{
-		Window = false;
-	}
-
-
-	_matrix matId;
-	D3DXMatrixIdentity(&matId);
-
-	ImGuiIO& io = ImGui::GetIO();
-	RECT rt;
-	GetClientRect(g_hWnd, &rt);
-	POINT lt{ rt.left, rt.top };
-	ClientToScreen(g_hWnd, &lt);
-	ImGuizmo::SetRect(lt.x, lt.y, io.DisplaySize.x, io.DisplaySize.y);
-
-	// ImGuizmo::DrawGrid(m_pCam->GetView(), m_pCam->GetPrj(), matId, 100.f);
-
-	ImGuizmo::Manipulate(pCamera->GetView(), pCamera->GetProj(), mCurrentGizmoOperation, mCurrentGizmoMode, matWorld, NULL, useSnap ? &snap[0] : NULL);
-
-	pTransform->m_matWorld = matWorld;
-
-	ImGuizmo::DecomposeMatrixToComponents(matWorld, matrixTranslation, matrixRotation, matrixScale);
-	matrixRotation[0] = D3DXToRadian(matrixRotation[0]);
-	matrixRotation[1] = D3DXToRadian(matrixRotation[1]);
-	matrixRotation[2] = D3DXToRadian(matrixRotation[2]);
-	memcpy(&pTransform->m_vInfo[INFO_POS], matrixTranslation, sizeof(matrixTranslation));
-	memcpy(&pTransform->m_vAngle, matrixRotation, sizeof(matrixRotation));
-	memcpy(&pTransform->m_vScale, matrixScale, sizeof(matrixScale));
-
-
-	
-
-	ImGui::End();
-}
 	if (true == Show_Monster_Tool)
 	{
 		ImGui::Begin("Transform");
@@ -285,12 +285,12 @@ void CImGuiMgr::LoggerWindow()
 	ImGui::Text("Buffer contents: %d lines, %d bytes", lines, log.size());
 	if (ImGui::Button("Clear")) { log.clear(); lines = 0; }
 	ImGui::SameLine();
-	 if (ImGui::Button("Add 1000 lines"))
-	 {
-	     for (int i = 0; i < 1000; i++)
-	         log.appendf("%i The quick brown fox jumps over the lazy dog\n", lines + i);
-	     lines += 1000;
-	 }
+	if (ImGui::Button("Add 1000 lines"))
+	{
+		for (int i = 0; i < 1000; i++)
+			log.appendf("%i The quick brown fox jumps over the lazy dog\n", lines + i);
+		lines += 1000;
+	}
 	ImGui::BeginChild("Log");
 	switch (test_type)
 	{
@@ -348,7 +348,7 @@ void CImGuiMgr::WindowLayOut()
 	ImGui::End();
 }
 
-void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCamera* pCam,wstring pObjectName)
+void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCamera* pCam, wstring pObjectName)
 {
 	if (!Show_Cube_Tool)
 		return;
@@ -358,7 +358,7 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 	ImGui::Text("this is Transform_ButtonMenu");
 	if (ImGui::Button("Save"))
 	{
-		CFileIOMgr::GetInstance()->Save_FileData(pScene, L"MapCubeLayer", L"../../Data/",L"Stage1Map.dat",OBJ_CUBE);
+		CFileIOMgr::GetInstance()->Save_FileData(pScene, L"TestLayer2", L"../../Data/",L"TESp.dat",OBJ_CUBE);
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Load"))
@@ -395,10 +395,10 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 	}
 
 	CTransform * pTranscom = nullptr;
-	
+
 	if (m_bCubeCreateCheck)
 	{
-		if( ImGui::Button("UP"))
+		if (ImGui::Button("UP"))
 		{
 			cubePlane = CREATECUBE_UP;
 		}
@@ -429,7 +429,7 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 		ImGui::Text("if double click Create Cube");
 		if (ImGui::IsMouseDoubleClicked(0))
 		{
-			ImVec2 temp = ImGui::GetMousePos();		
+			ImVec2 temp = ImGui::GetMousePos();
 			CGameObject *pGameObject = nullptr;
 			CLayer* MyLayer = pScene->GetLayer(L"MapCubeLayer");
 		
@@ -440,11 +440,11 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 			MyLayer->AddNameList(test1);
 
 			_bool	isUpcube = false;
-		
+
 			map<const _tchar*, CGameObject*> test = MyLayer->Get_GameObjectMap();
 			CGameObject *pWallCube = nullptr;
 			_int iCount = 0;
-			
+
 			for (auto iter = test.begin(); iter != test.end(); ++iter)
 			{
 				if(dynamic_cast<CWallCube*>(iter->second)->Set_SelectGizmo())
@@ -454,7 +454,7 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 					iCount++;
 				}
 			}
-			
+
 			if (iCount > 1)
 			{
 				ImGui::End();
@@ -466,7 +466,7 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 			static_cast<CWallCube*>(pGameObject)->Set_DrawTexIndex(m_iMapCubeIndex);
 			NULL_CHECK_RETURN(pGameObject, );
 
-			
+
 			if (isUpcube)
 			{
 				CTransform* pCubeTrnasform = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
@@ -494,7 +494,7 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 					break;
 				}
 			}
-			
+
 			FAILED_CHECK_RETURN(MyLayer->Add_GameObject(test1, pGameObject), );
 
 			++m_iIndex;
@@ -545,7 +545,7 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 			{
 				CTexture* pTextureCom = dynamic_cast<CTexture*>(pGameObject->Get_Component(L"Proto_MapCubeTexture", ID_STATIC));
 
-				vector<IDirect3DBaseTexture9*> vecTexture = pTextureCom->Get_Texture();
+			vector<IDirect3DBaseTexture9*> vecTexture = pTextureCom->Get_Texture();
 
 				for (_uint i = 0; i < vecTexture.size(); ++i)
 				{
@@ -653,10 +653,10 @@ void CImGuiMgr::MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 	ImGui::Text("this is Transform_ButtonMenu");
 	if (ImGui::Button("Save"))
 	{
-		CFileIOMgr::GetInstance()->Save_FileData(pScene, 
+		CFileIOMgr::GetInstance()->Save_FileData(pScene,
 			L"TestLayer3",
 			L"../../Data/",
-			L"Monster.dat", 
+			L"Monster.dat",
 			OBJ_MONSTER);
 	}
 	ImGui::SameLine();
@@ -700,7 +700,7 @@ void CImGuiMgr::MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 		if (ImGui::IsMouseDoubleClicked(0))
 		{
 			ImVec2 temp = ImGui::GetMousePos();
-			
+
 			//_vec3 vTemp = temp.x
 			CGameObject *pGameObject = nullptr;
 
@@ -743,7 +743,7 @@ void CImGuiMgr::MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 		}
 	}
 	CGameObject* pGameObject = dynamic_cast<CMonsterBase*>(Engine::Get_GameObject(L"TestLayer3", m_CurrentSelectGameObjectObjKey.c_str()));
-	
+
 	ImGui::NewLine();
 	//����Ʈ �� ���� ���� Ȥ�� �̸� �����ؼ� create �ؾ���
 	//if (ImGui::CollapsingHeader("Monster Texture", ImGuiTreeNodeFlags_DefaultOpen))
@@ -821,7 +821,7 @@ void CImGuiMgr::Player_Tool(LPDIRECT3DDEVICE9 pGraphicDev, CScene * pScene, wstr
 		if (ImGui::Button("Save"))
 		{
 			//CFileIOMgr::GetInstance()->Save_FileData(pScene, L"TestLayer2", L"../../Data/", L"TESp.dat", OBJ_CUBE);
-			CFileIOMgr::GetInstance()->Save_FileData(pScene, pLayerTag, L"../../Data/",L"Player.dat", OBJ_PLAYER);
+			CFileIOMgr::GetInstance()->Save_FileData(pScene, pLayerTag, L"../../Data/", L"Player.dat", OBJ_PLAYER);
 			//Save_Obj_Transform(pScene, pDirectory, pLayerTag, pObjTag, pComponentTag, eId);
 
 		}
@@ -829,14 +829,14 @@ void CImGuiMgr::Player_Tool(LPDIRECT3DDEVICE9 pGraphicDev, CScene * pScene, wstr
 		if (ImGui::Button("Load"))
 		{
 			//Load_Obj_Transform(pGraphicDev, pScene, pDirectory, pLayerTag, pComponentTag, eId, PlayerList, pObjTag);
-	
+
 			/*CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev,
-				pScene,
-				L"TestLayer2",
-				L"../../Data/",
-				L"TESp.dat",
-				L"TestCube",
-				OBJ_CUBE);*/
+			pScene,
+			L"TestLayer2",
+			L"../../Data/",
+			L"TESp.dat",
+			L"TestCube",
+			OBJ_CUBE);*/
 
 			CFileIOMgr::GetInstance()->Load_FileData(pGraphicDev,
 				pScene,
@@ -853,7 +853,7 @@ void CImGuiMgr::Player_Tool(LPDIRECT3DDEVICE9 pGraphicDev, CScene * pScene, wstr
 
 }
 
-						// Stage -> this
+// Stage -> this
 //void CImGuiMgr::Save_Obj_Transform(CScene * pScene, wstring pDirectory, const _tchar* pLayerTag, const _tchar* pObjTag, const _tchar * pComponentTag, COMPONENTID eID)
 //{						// L"../../Data/Map.dat"
 //	wstring Directory = pDirectory;
