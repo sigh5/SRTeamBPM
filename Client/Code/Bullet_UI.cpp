@@ -32,7 +32,7 @@ HRESULT CBullet_UI::Ready_Object(CGameObject* pPlayer)
 _int CBullet_UI::Update_Object(const _float & fTimeDelta)
 {			
 												// 여기만 바꾸면
-	m_pAnimationCom->Control_Animation(dynamic_cast<CHWPlayer*>(m_pPlayer)->Get_Magazine());
+	m_pAnimationCom->Control_Animation(dynamic_cast<CTestPlayer*>(m_pPlayer)->Get_Magazine());
 	
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
