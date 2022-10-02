@@ -69,20 +69,28 @@ void CStage_Pjw::LateUpdate_Scene(void)
 	CTestPlayer* pPlayer = dynamic_cast<CTestPlayer*>(pLayer->Get_GameObject(L"TestPlayer"));
 	
 	// Potion Collision
-	CHealthPotion* pPotion = dynamic_cast<CHealthPotion*>(pLayer->Get_GameObject(L"HealthPotion"));
-	
-	if (pPotion != nullptr)
+	//CHealthPotion* pPotion = dynamic_cast<CHealthPotion*>(pLayer->Get_GameObject(L"HealthPotion"));
+	//
+	//if (pPotion != nullptr)
+	//{
+	//	pPlayer->Collision_Event(pPotion);
+	//}
+
+	//// Coin Collision
+	//CCoin* pCoin = dynamic_cast<CCoin*>(pLayer->Get_GameObject(L"Coin"));
+	//
+	//if (pCoin != nullptr)
+	//{
+	//	pPlayer->Collision_Event(pCoin);
+	//}
+
+	CBox* pBox = dynamic_cast<CBox*>(pLayer->Get_GameObject(L"Box"));
+
+	if (pBox != nullptr)
 	{
-		pPlayer->Collision_Event(pPotion);
+		pPlayer->Collision_Event(pBox);
 	}
 
-	// Coin Collision
-	CCoin* pCoin = dynamic_cast<CCoin*>(pLayer->Get_GameObject(L"Coin"));
-	
-	if (pCoin != nullptr)
-	{
-		pPlayer->Collision_Event(pCoin);
-	}
 
 	Engine::CScene::LateUpdate_Scene();
 }
@@ -152,17 +160,26 @@ HRESULT CStage_Pjw::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	pGameObject = CTestPlayer::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestPlayer", pGameObject), E_FAIL);
-
+	
+	m_mapLayer.insert({ pLayerTag, pLayer });
+	/*
 	// HealthPotion
-	pGameObject = CHealthPotion::Create(m_pGraphicDev, 50, 50);
+	pGameObject = CHealthPotion::Create(m_pGraphicDev, 5, 10);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"HealthPotion", pGameObject), E_FAIL);
 
 	// Coin
-	pGameObject = CCoin::Create(m_pGraphicDev, 30, 30);
+	pGameObject = CCoin::Create(m_pGraphicDev, 22, 10);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Coin", pGameObject), E_FAIL);
-	
+
+	*/
+	CTestPlayer*		pPlayer = dynamic_cast<CTestPlayer*>(Get_GameObject(L"Layer_GameLogic", L"TestPlayer"));
+
+	pGameObject = CBox::Create(m_pGraphicDev, 5, 10, pPlayer);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Box", pGameObject), E_FAIL);
+
 	m_mapLayer.insert({ pLayerTag, pLayer });
 
 	//몬스터 테스트용

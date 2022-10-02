@@ -17,6 +17,8 @@ public:
 	// 사용자가 수동적으로 Key를 누를때마다 이미지 변경
 	void	Control_Animation(_uint iCount);	
 
+	void	Open_Box_Animation(_bool bOpen);
+
 public:
 	
 	int		m_iMinMotion = 0;		//시작 스프라이트
@@ -26,7 +28,9 @@ public:
 	_float	m_fMotionChangeCounter = 0.f;
 	_float	m_fIntervalMotion = 0.f;	//스프라이트 간 간격
 
+	// Pjw's Add
 	_uint	m_iOrigin = 0;
+	_bool	m_bOpen = false;
 
 public:
 	virtual CComponent* Clone(void) override;

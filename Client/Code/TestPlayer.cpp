@@ -373,7 +373,7 @@ void CTestPlayer::Collision_Event(CGameObject * pGameObject)
 	
 	_vec3 vObjPos;
 	_vec3 vPlayerPos;
-	//_uint iPlayerPower = dynamic_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._iAttackPower;
+
 
 	pTransform->Get_Info(INFO_POS, &vObjPos);
 	m_pTransCom->Get_Info(INFO_POS, &vPlayerPos);
@@ -391,8 +391,23 @@ void CTestPlayer::Collision_Event(CGameObject * pGameObject)
 		{
 			m_pInfoCom->Get_InfoRef()._iCoin += 1;
 			pMyLayer->Delete_GameObject(L"Coin"); // 이벤트 처리
+		}				
+	}
+	//_uint iPlayerPower = dynamic_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._iAttackPower;
+	if (m_pColliderCom->Check_Sphere_InterSect(vObjPos, vPlayerPos, 1.f, 1.f) == true)
+	{
+		if (pGameObject == pMyLayer->Get_GameObject(L"Box"))
+		{
+			if (Get_DIKeyState(DIK_F) & 0X80)
+			{
+				CAnimation* pBoxAnimation = dynamic_cast<CAnimation*>(pGameObject->Get_Component(L"Proto_AnimationCom", ID_STATIC));
+				// 박스를 여는 부분, 꼼수(오픈 이미지만 늘림) 수정 필요
+				m_bBoxOpen = true;
+
+				pBoxAnimation->Open_Box_Animation(m_bBoxOpen);
+				m_bBoxOpen = false;
+			}
 		}
-				
 	}
 }
 

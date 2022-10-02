@@ -176,6 +176,9 @@
     <ClCompile Include="..\Code\CoinKeyUI.cpp">
       <Filter>02. GameObject\01. For_Stage\10. UI\05. CoinUI</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\Box.cpp">
+      <Filter>02. GameObject\01. For_Stage\12. Box</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -371,6 +374,9 @@
     <ClInclude Include="..\Header\CoinKeyUI.h">
       <Filter>02. GameObject\01. For_Stage\10. UI\05. CoinUI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Box.h">
+      <Filter>02. GameObject\01. For_Stage\12. Box</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -533,6 +539,9 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\10. UI\05. CoinUI">
       <UniqueIdentifier>{92542f0f-363b-40f8-841a-cee2898d67f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\12. Box">
+      <UniqueIdentifier>{fcce3ad6-01b1-4087-91bc-f0124ed3c294}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -203,6 +203,9 @@ _uint CLoading::Loading_ForPlayer_UI(void)
 																									// Bin\Resource\Texture\Item\Coin
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_CoinTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Item/Coin/Coin%d.png", TEX_NORMAL, 6)), E_FAIL);
 	
+
+		// Box																						// Bin\Resource\Texture\Item\Box
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_BoxTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Item/Box/Box%d.png", TEX_NORMAL, 10)), E_FAIL);
 	// ~Item Texture
 
 

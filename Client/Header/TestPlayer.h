@@ -42,12 +42,15 @@ private:
 public:
 	_uint				Get_Magazine(void) { return m_iMagazine; }
 	_bool				Get_Shoot(void) { return m_bOneShot; }
+	
 	// Test
 	_uint				Get_ChangeImage(void) { return m_iChangeImage; }
 
 	_uint				Get_HpChange(void) { return m_iHpBarChange; }
 
 	_uint				Get_Skill(void) { return m_iSkillPower; }	// Player의 스킬 공격력값을 Status_UI로 넘겨주기 위한 함수
+	
+	_bool				Get_BoxOpen(void) { return m_bBoxOpen; }
 	// ~Test
 
 	virtual void		Collision_Event(CGameObject* pGameObject);
@@ -99,6 +102,8 @@ private:
 	_uint				m_iChangeImage = 1;
 	_uint				m_iHpBarChange = 4;
 	_uint				m_preItem = 0;
+
+	_bool				m_bBoxOpen = false;  // 박스 개방
 	// ~Test
 
 	// Player's Status(Private)
