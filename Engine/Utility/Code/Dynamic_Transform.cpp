@@ -11,6 +11,7 @@ CDynamic_Transform::CDynamic_Transform()
 CDynamic_Transform::CDynamic_Transform(const CDynamic_Transform & rhs)
 	: CTransform(rhs), m_bClone(true)
 {
+
 }
 
 
