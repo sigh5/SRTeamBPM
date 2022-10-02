@@ -44,7 +44,7 @@ void CSnowfall::resetParticle(Attribute * attribute)
 	attribute->_velocity.x = rand() % 10 * 0.1f * -1.0f;
 	//x 이동값
 
-	attribute->_velocity.y = rand() % 10 * 0.1f * -30.0f + 1;
+	attribute->_velocity.y = rand() % 15 * -1.0f - 25.f;
 	//내리는 속도
 
 	attribute->_velocity.z = 0.f;
