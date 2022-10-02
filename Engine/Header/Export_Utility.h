@@ -19,6 +19,7 @@
 #include "BaseBullet.h"
 #include "ItemBase.h"
 
+#include "PSystem.h"
 
 #include "Dynamic_Transform.h"
 // for UI

@@ -38,7 +38,7 @@ public:
 	_bool				m_bGeneratedCurrentFrame = true;
 	_bool				m_bWireFrame = false;
 	_vec3				m_vDirection;
-	_int				m_iTerrainIdx=0;
+	_int				m_iTerrainIdx=32; // 32╧Ь ц╓ец
 
 public:
 	static CTerrain*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

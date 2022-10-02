@@ -21,6 +21,7 @@ CMainApp::~CMainApp()
 
 HRESULT CMainApp::Ready_MainApp(void)
 {
+	_CrtDumpMemoryLeaks();
 	FAILED_CHECK_RETURN(SetUp_DefaultSetting(&m_pGraphicDev), E_FAIL);	
 
 	// 디버그용

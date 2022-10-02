@@ -22,7 +22,7 @@ public:
 	virtual ~CBullet_UI();
 
 public:
-	HRESULT				Ready_Object(CTestPlayer* pPlayer);
+	HRESULT				Ready_Object(CGameObject* pPlayer);
 	virtual _int		Update_Object(const _float& fTimeDelta) override;
 
 	virtual	void		LateUpdate_Object(void);
@@ -40,7 +40,7 @@ public:
 	CCalculator*		m_pCalculatorCom = nullptr;
 	CAnimation*			m_pAnimationCom = nullptr;
 
-	CTestPlayer*		m_pPlayer;
+	CGameObject*		m_pPlayer;
 
 private:
 	wstring				m_szMagazine = L"";		   // 탄창 수 실시간 
@@ -48,7 +48,7 @@ private:
 
 
 public:
-	static CBullet_UI*		Create(LPDIRECT3DDEVICE9 pGraphicDev, CTestPlayer* pPlayer);
+	static CBullet_UI*		Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* pPlayer);
 	virtual void Free();
 };
 

@@ -20,7 +20,7 @@ CWeapon_UI::~CWeapon_UI()
 {
 }
 
-HRESULT CWeapon_UI::Ready_Object(CTestPlayer * pPlayer)
+HRESULT CWeapon_UI::Ready_Object(CGameObject * pPlayer)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
@@ -31,7 +31,7 @@ HRESULT CWeapon_UI::Ready_Object(CTestPlayer * pPlayer)
 
 _int CWeapon_UI::Update_Object(const _float & fTimeDelta)
 {
-	m_pAnimationCom->Control_Animation(m_pPlayer->Get_ChangeImage());
+	m_pAnimationCom->Control_Animation(static_cast<CTestPlayer*>(m_pPlayer)->Get_ChangeImage());
 
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
@@ -86,7 +86,7 @@ HRESULT CWeapon_UI::Add_Component(void)
 	return S_OK;
 }
 
-CWeapon_UI * CWeapon_UI::Create(LPDIRECT3DDEVICE9 pGraphicDev, CTestPlayer * pPlayer)
+CWeapon_UI * CWeapon_UI::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject * pPlayer)
 {
 	CWeapon_UI* pInstance = new CWeapon_UI(pGraphicDev);
 

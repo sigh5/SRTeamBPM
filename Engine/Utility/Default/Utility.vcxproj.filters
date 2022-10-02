@@ -91,6 +91,7 @@
     <ClCompile Include="..\Code\ItemBase.cpp">
       <Filter>01. GameObject\ItemBase</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\PSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Animation.h">
@@ -193,6 +194,7 @@
     <ClInclude Include="..\..\Header\ItemBase.h">
       <Filter>01. GameObject\ItemBase</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Header\PSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="00. Component">

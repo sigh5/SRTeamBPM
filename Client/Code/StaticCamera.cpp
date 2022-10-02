@@ -48,14 +48,9 @@ Engine::_int CStaticCamera::Update_Object(const _float& fTimeDelta)
 
 void CStaticCamera::LateUpdate_Object(void)
 {
-
 	CCamera::LateUpdate_Object();
 }
 
-void CStaticCamera::Free(void)
-{
-	CCamera::Free();
-}
 
 CStaticCamera* CStaticCamera::Create(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3* pEye, const _vec3* pAt, const _vec3* pUp, const _float& fFov /*= D3DXToRadian(60.f)*/, const _float& fAspect /*= (float)WINCX / WINCY*/, const _float& fNear /*= 0.1f*/, const _float& fFar /*= 1000.f*/)
 {
@@ -77,12 +72,12 @@ void CStaticCamera::Key_Input(const _float& fTimeDelta)
 	if(Get_DIKeyState(DIK_O) & 0x80)
 		m_fDistance += fTimeDelta * m_fSpeed;
 	
-	/*if (Get_DIKeyState(DIK_D) & 0x80)
+	if (Get_DIKeyState(DIK_D) & 0x80)
 		m_fAngle -= D3DXToRadian(180.f) * fTimeDelta;
 
 	if (Get_DIKeyState(DIK_A) & 0x80)
 		m_fAngle += D3DXToRadian(180.f) * fTimeDelta;
-*/
+
 	
 }
 
@@ -109,4 +104,9 @@ void CStaticCamera::Target_Renewal(void)
 
 	m_vEye += pPlayerTransform->m_vInfo[INFO_POS];
 	m_vAt = pPlayerTransform->m_vInfo[INFO_POS];
+}
+
+void CStaticCamera::Free(void)
+{
+	CCamera::Free();
 }

@@ -13,6 +13,10 @@ CTestCube::CTestCube(const CGameObject& rhs) : CGameObject(rhs)
 {
 }
 
+CTestCube::~CTestCube()
+{
+}
+
 HRESULT CTestCube::Ready_Object(int Posx, int Posy)
 {
 
@@ -21,7 +25,7 @@ HRESULT CTestCube::Ready_Object(int Posx, int Posy)
 	if (Posx == 0 && Posy == 0){}
 	else
 	{
-		Set_TransformPositon();
+		Set_TransformPositon(); // 현재 마우스 더블클릭한 위치로 큐브를 만들어주는 함수
 	}
 	_vec3 vScale = { 0.5f,0.5f,0.5f };
 	

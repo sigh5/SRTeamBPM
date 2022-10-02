@@ -3,11 +3,13 @@
 #include "Layer.h"
 
 #include "Export_Function.h"
-#include "TestCube.h"
+//#include "TestCube.h"
 #include "Anubis.h"
 #include "FatBat.h"
 #include "Spider.h"
 #include "TestPlayer.h"
+#include "WallCube.h"
+
 
 IMPLEMENT_SINGLETON(CFileIOMgr)
 
@@ -45,10 +47,10 @@ void CFileIOMgr::Save_FileData(CScene * pScene,
 
 	CLayer* MyLayer = pScene->GetLayer(LayerName.c_str());
 	DWORD   dwByte = 0;
-	map<const _tchar*, CGameObject*> test = MyLayer->Get_GameObjectMap();
+	map<const _tchar*, CGameObject*> MyLayerMap = MyLayer->Get_GameObjectMap();
 	if (eObjType == OBJ_CUBE)
 	{
-		for (auto iter = test.begin(); iter != test.end(); ++iter)
+		for (auto iter = MyLayerMap.begin(); iter != MyLayerMap.end(); ++iter)
 		{
 			CTransform* Transcom = dynamic_cast<CTransform*>(iter->second->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
 			_vec3   vRight, vUp, vLook, vPos, vScale, vAngle;
@@ -75,7 +77,7 @@ void CFileIOMgr::Save_FileData(CScene * pScene,
 
 	else if (eObjType == OBJ_MONSTER)
 	{
-		for (auto iter = test.begin(); iter != test.end(); ++iter)
+		for (auto iter = MyLayerMap.begin(); iter != MyLayerMap.end(); ++iter)
 		{
 
 			CTransform* Transcom = dynamic_cast<CTransform*>(iter->second->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
@@ -96,7 +98,7 @@ void CFileIOMgr::Save_FileData(CScene * pScene,
 
 	else if (eObjType == OBJ_PLAYER)
 	{
-		auto iter = find_if(test.begin(), test.end(), CTag_Finder(L"TestPlayer"));
+		auto iter = find_if(MyLayerMap.begin(), MyLayerMap.end(), CTag_Finder(L"TestPlayer"));
 		CTransform* Transcom = dynamic_cast<CTransform*>(iter->second->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
 
 		_vec3   vRight, vUp, vLook, vPos, vScale, vAngle;
@@ -177,7 +179,7 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 			wsprintfW(test1, t.c_str(), iIndex);
 			pMyLayer->AddNameList(test1);
 			++iIndex;
-			pGameObject = CTestCube::Create(pGrahicDev);
+			pGameObject = CWallCube::Create(pGrahicDev, &_vec2{0,0});
 			FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(test1, pGameObject), );
 			pGameObject->Set_DrawTexIndex(iDrawIndex);
 			CTransform* Transcom = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
@@ -236,7 +238,7 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 			static_cast<CMonsterBase*>(pGameObject)->Get_MonsterType() = iMonsterType;
 			++m_iIndex;
 
-			CDynamic_Transform* Transcom = static_cast<CDynamic_Transform*>(pGameObject->Get_Component(L"Proto_DynamicTransformCom", ID_DYNAMIC));
+			CTransform* Transcom = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_DynamicTransformCom", ID_DYNAMIC));
 
 
 			Transcom->Set_Info(INFO_POS, &vPos);
@@ -259,7 +261,7 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 		ReadFile(hFile, &vAngle, sizeof(_vec3), &dwByte, nullptr);
 		ReadFile(hFile, &iDrawIndex, sizeof(_int), &dwByte, nullptr);
 
-		FAILED_CHECK_RETURN(pMyLayer->Delete_GameObject(pObjectName.c_str()));
+		FAILED_CHECK_RETURN(pMyLayer->Delete_GameObject(pObjectName.c_str()),);
 		CGameObject *pGameObject = nullptr;
 		_tchar* szObjName = new _tchar[20];
 

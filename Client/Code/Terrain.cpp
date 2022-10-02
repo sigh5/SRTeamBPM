@@ -6,6 +6,7 @@
 CTerrain::CTerrain(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev), m_vDirection({ 0.f, 0.f, 1.f })
 {
+	
 }
 
 
@@ -17,6 +18,9 @@ HRESULT CTerrain::Ready_Object(void)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	//_vec3 m_p
+
+	//m_pTransCom->Set_Scale()
 	return S_OK;
 }
 

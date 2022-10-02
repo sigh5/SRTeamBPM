@@ -21,36 +21,55 @@ CObjectMgr::~CObjectMgr()
 	Free();
 }
 
-void CObjectMgr::Collect_BulletObj(CBaseBullet * pObj)
+void CObjectMgr::Collect_MonsterBulletObj(CBaseBullet * pObj)
 {
 	if (nullptr == pObj)
 		return;
 
-	m_BulletList.push_back(pObj);
+	m_MonsterBulletList.push_back(pObj);
 }
 
+void CObjectMgr::Collect_PlayerBulletObj(CBaseBullet * pObj)
+{
+	if (nullptr == pObj)
+		return;
 
-CBaseBullet* CObjectMgr::Reuse_BulltObj(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos,BULLET_ID eID)
+	m_PlayerBulletList.push_back(pObj);
+
+}
+
+CBaseBullet * CObjectMgr::Reuse_MonsterBulltObj(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos)
 {
 	CBaseBullet*		pObject = nullptr;
-	if (m_BulletList.empty())
+	if (m_MonsterBulletList.empty())
 	{
-		if(eID == MONSTER_BULLET)
-			pObject = CMonsterBullet::Create(pGraphicDev, vPos);
-		else if (eID == PLAYER_BULLET)
-			pObject = CBullet::Create(pGraphicDev, vPos);
+		pObject = CMonsterBullet::Create(pGraphicDev, vPos);
 	}
 	else
 	{
-		pObject = m_BulletList.front();	
-		if (eID == MONSTER_BULLET)
-			dynamic_cast<CMonsterBullet*>(pObject)->Set_MoveDir(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC, &vPos,MONSTER_BULLET);
-		else if(eID ==PLAYER_BULLET)
-			dynamic_cast<CBullet*>(pObject)->Set_MoveDir(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC, &vPos,PLAYER_BULLET);
-
-		m_BulletList.pop_front();
+		pObject = m_MonsterBulletList.front();
+		_vec3 vScale = { 0.5f,0.5f,0.5f };
+		dynamic_cast<CMonsterBullet*>(pObject)->Set_MoveDir(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC, &vPos, MONSTER_BULLET, &vScale);
+		m_MonsterBulletList.pop_front();
+	
 	}
+	return pObject;
+}
 
+CBaseBullet * CObjectMgr::Reuse_PlayerBulltObj(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos)
+{
+	CBaseBullet*		pObject = nullptr;
+	if (m_PlayerBulletList.empty())
+	{
+		pObject = CBullet::Create(pGraphicDev, vPos);
+	}
+	else
+	{
+		pObject = m_PlayerBulletList.front();
+		_vec3 vScale = { 0.5f,0.5f,0.5f };
+		dynamic_cast<CBullet*>(pObject)->Set_MoveDir(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC, &vPos, PLAYER_BULLET, &vScale);
+		m_PlayerBulletList.pop_front();
+	}
 	return pObject;
 }
 
@@ -85,8 +104,12 @@ CGameObject * CObjectMgr::Reuse_MetronomeUI(LPDIRECT3DDEVICE9 pGraphicDev, _floa
 
 void CObjectMgr::Free(void)
 {
-	for_each(m_BulletList.begin(), m_BulletList.end(), CDeleteObj());
-	m_BulletList.clear();
+	
+	for_each(m_PlayerBulletList.begin(), m_PlayerBulletList.end(), CDeleteObj());
+	m_PlayerBulletList.clear();
+
+	for_each(m_MonsterBulletList.begin(), m_MonsterBulletList.end(), CDeleteObj());
+	m_MonsterBulletList.clear();
 
 	for_each(m_UIMetroList.begin(), m_UIMetroList.end(), CDeleteObj());
 	m_UIMetroList.clear();

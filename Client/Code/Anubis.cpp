@@ -76,7 +76,7 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 
 	//Set_OnTerrain();
 	float TerrainY = m_pDynamicTransCom->Get_TerrainY1(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC, m_pCalculatorCom, m_pDynamicTransCom);
-	m_pDynamicTransCom->Set_Y(TerrainY+1.f);
+	m_pDynamicTransCom->Set_Y(TerrainY + 1.f);
 	//지형에 올림
 
 	_vec3		vPlayerPos, vMonsterPos;

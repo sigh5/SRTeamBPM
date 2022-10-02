@@ -28,6 +28,11 @@ HRESULT CFatBat::Ready_Object(int Posx, int Posy)
 	m_iMonsterIndex = 1;
 	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
 	m_pAnimationCom->Ready_Animation(6, 0, 0.2f);
+
+	_vec3	vScale = { 0.5f,0.5f,0.5f };
+
+	m_pDynamicTransCom->Set_Scale(&vScale);
+
 	if (Posx == 0 && Posy == 0) {}
 	else
 	{
@@ -45,11 +50,11 @@ _int CFatBat::Update_Object(const _float & fTimeDelta)
 	_int iResult = Engine::CGameObject::Update_Object(fTimeDelta);
 
 	CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC));
-	NULL_CHECK(pPlayerTransformCom);
+	NULL_CHECK_RETURN(pPlayerTransformCom,0);
 
 	FatBat_Fly();
-	
-	 // 수정 쿨타임 대신 타임
+
+	// 수정 쿨타임 대신 타임
 	m_fFrame += 2.f * fTimeDelta;
 	if (m_fFrame > 2.f)
 	{
@@ -94,6 +99,8 @@ _int CFatBat::Update_Object(const _float & fTimeDelta)
 	m_pDynamicTransCom->Set_WorldMatrix(&(matBill * matWorld));*/
 
 	Add_RenderGroup(RENDER_ALPHA, this);
+
+	return 0;
 }
 
 void CFatBat::LateUpdate_Object(void)
@@ -122,9 +129,9 @@ void CFatBat::Render_Obejct(void)
 
 void	CFatBat::FatBat_Fly(void)
 {
-	float TerrainY =	m_pDynamicTransCom->Get_TerrainY1(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC, m_pCalculatorCom, m_pDynamicTransCom);
-		//L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC, m_pCalculatorCom, m_pDynamicTransCom); 
-	
+	float TerrainY = m_pDynamicTransCom->Get_TerrainY1(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC, m_pCalculatorCom, m_pDynamicTransCom);
+	//L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC, m_pCalculatorCom, m_pDynamicTransCom); 
+
 	m_pDynamicTransCom->Monster_Fly(m_pDynamicTransCom, TerrainY, 3.f);
 
 }
@@ -139,7 +146,7 @@ void CFatBat::FatBat_Shoot(void)
 	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
 
 	CGameObject* pGameObject = nullptr;
-	pGameObject = CObjectMgr::GetInstance()->Reuse_BulltObj(m_pGraphicDev, vPos,MONSTER_BULLET);
+	pGameObject = CObjectMgr::GetInstance()->Reuse_MonsterBulltObj(m_pGraphicDev, vPos);
 	NULL_CHECK_RETURN(pGameObject, );
 	pMyLayer->Add_GameObjectList(pGameObject);
 }

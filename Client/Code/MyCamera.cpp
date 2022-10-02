@@ -39,119 +39,67 @@ HRESULT CMyCamera::Ready_Object(const _vec3 * pEye,
 
 _int CMyCamera::Update_Object(const _float & fTimeDelta)
 {
-	Key_Input(fTimeDelta);
+	//Key_Input(fTimeDelta);
 
+	Mouse_Fix();
+	Mouse_Move(fTimeDelta);
+	Target_Renewal();
+	
+	
 	_int iExit = CCamera::Update_Object(fTimeDelta);
-
+	
 	return iExit;
 }
 
 void CMyCamera::LateUpdate_Object(void)
 {
-	if (false == m_bFix)
-	{
-		Mouse_Fix();
-		Mouse_Move();
-	}
 	
 	CCamera::LateUpdate_Object();
 }
 
-void CMyCamera::Mouse_Move(void)
+void CMyCamera::Mouse_Move(const _float& fTimeDelta)
 {
-	_matrix		matCamWorld;
-	D3DXMatrixInverse(&matCamWorld, nullptr, &m_matView);
+	CTransform*	pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC));
+	NULL_CHECK(pPlayerTransform);
+
 
 	_long		dwMouseMove = 0;
-
 	if (dwMouseMove = Engine::Get_DIMouseMove(DIMS_X))
 	{
-		_vec3		vUp{ 0.f, 1.f, 0.f };
-
-		_vec3		vLook = m_vAt - m_vEye;
-
-		_matrix		matRot;
-		D3DXMatrixRotationAxis(&matRot, &vUp, D3DXToRadian(dwMouseMove / 10.f));
-		D3DXVec3TransformNormal(&vLook, &vLook, &matRot);
-
-		m_vAt = m_vEye + vLook;
+		pPlayerTransform->Rotation(ROT_Y, D3DXToRadian(dwMouseMove / 10.f));
 
 	}
 
 	if (dwMouseMove = Engine::Get_DIMouseMove(DIMS_Y))
 	{
-		_vec3		vRight;
-		memcpy(&vRight, &matCamWorld.m[0][0], sizeof(_vec3));
-
-		_vec3		vLook = m_vAt - m_vEye;
-
-		_matrix		matRot;
-		D3DXMatrixRotationAxis(&matRot, &vRight, D3DXToRadian(dwMouseMove / 10.f));
-		D3DXVec3TransformNormal(&vLook, &vLook, &matRot);
-
-		m_vAt = m_vEye + vLook;
-
+		m_fAngle = dwMouseMove / 10.f;
 	}
+
 }
 
 void CMyCamera::Mouse_Fix(void)
 {
-	POINT	pt{ WINCX >> 1 , WINCY >> 1 };
+	POINT	pt{};
+	GetCursorPos(&pt);
+	ScreenToClient(g_hWnd, &pt);
 
-	ClientToScreen(g_hWnd, &pt);
-	SetCursorPos(pt.x, pt.y);
+	if (WINCX+50 >= pt.x  && pt.x > -50 && WINCY+50 >= pt.y && pt.y >= -50)
+	{
+		ClientToScreen(g_hWnd, &pt);
+		
+	}
+	else
+	{
+		POINT pt2{ WINCX / 2 , WINCY / 2 };
+		//GetCursorPos(&pt2);
+		ClientToScreen(g_hWnd, &pt2);
+		SetCursorPos(pt2.x,pt2.y);
+	}
 }
 
 
 void CMyCamera::Key_Input(const _float & fTimeDelta)
 {
-	//_matrix		matCamWorld;
-	//D3DXMatrixInverse(&matCamWorld, nullptr, &m_matView);
-
-	//if (Get_DIKeyState(DIK_W) & 0x80)
-	//{
-	//	_vec3		vLook;
-	//	memcpy(&vLook, &matCamWorld.m[2][0], sizeof(_vec3));
-
-	//	_vec3		vLength = *D3DXVec3Normalize(&vLook, &vLook) * 5.f * fTimeDelta;
-
-	//	m_vEye += vLength;
-	//	m_vAt += vLength;
-	//}
-
-	//if (Get_DIKeyState(DIK_S) & 0x80)
-	//{
-	//	_vec3		vLook;
-	//	memcpy(&vLook, &matCamWorld.m[2][0], sizeof(_vec3));
-
-	//	_vec3		vLength = *D3DXVec3Normalize(&vLook, &vLook) * 5.f * fTimeDelta;
-
-	//	m_vEye -= vLength;
-	//	m_vAt -= vLength;
-	//}
-
-	//if (Get_DIKeyState(DIK_D) & 0x80)
-	//{
-	//	_vec3		vRight;
-	//	memcpy(&vRight, &matCamWorld.m[0][0], sizeof(_vec3));
-
-	//	_vec3		vLength = *D3DXVec3Normalize(&vRight, &vRight) * 5.f * fTimeDelta;
-
-	//	m_vEye += vLength;
-	//	m_vAt += vLength;
-	//}
-
-	//if (Get_DIKeyState(DIK_A) & 0x80)
-	//{
-	//	_vec3		vRight;
-	//	memcpy(&vRight, &matCamWorld.m[0][0], sizeof(_vec3));
-
-	//	_vec3		vLength = *D3DXVec3Normalize(&vRight, &vRight) * 5.f * fTimeDelta;
-
-	//	m_vEye -= vLength;
-	//	m_vAt -= vLength;
-	//}
-
 	if (Get_DIKeyState(DIK_T) & 0x80)
 	{
 		if (m_bCheck)
@@ -181,19 +129,26 @@ void CMyCamera::Target_Renewal(void)
 
 	m_vEye = vLook * -1.f;	// ¹æÇâ º¤ÅÍ
 	D3DXVec3Normalize(&m_vEye, &m_vEye);
+	
+	m_vEye.y = m_fCameraHeight; //0.5f;
 
-	m_vEye.y = 1.f;
 	m_vEye *= m_fDistance;	// ¹æÇâ º¤ÅÍ
-
-	_vec3		vRight;
-	memcpy(&vRight, &pPlayerTransform->m_matWorld.m[0][0], sizeof(_vec3));
-
-	_matrix		matRot;
-	D3DXMatrixRotationAxis(&matRot, &vRight, m_fAngle);
-	D3DXVec3TransformNormal(&m_vEye, &m_vEye, &matRot);
 
 	m_vEye += pPlayerTransform->m_vInfo[INFO_POS];
 	m_vAt = pPlayerTransform->m_vInfo[INFO_POS];
+
+	// 
+	_matrix		matCamWorld;
+	D3DXMatrixInverse(&matCamWorld, nullptr, &m_matView);
+	_vec3		vRight;
+	memcpy(&vRight, &matCamWorld.m[0][0], sizeof(_vec3));
+
+	_matrix		matRot;
+	D3DXMatrixRotationAxis(&matRot, &vRight, D3DXToRadian(m_fAngle));
+	D3DXVec3TransformNormal(&vLook, &vLook, &matRot);
+
+	m_vAt = m_vEye + vLook;
+
 }
 
 CMyCamera * CMyCamera::Create(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3 * pEye, const _vec3 * pAt, const _vec3 * pUp, const _float & fFov, const _float & fAspect, const _float & fNear, const _float & fFar)

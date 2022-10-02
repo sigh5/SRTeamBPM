@@ -4,7 +4,7 @@
 #include "Export_Function.h"
 #include "AbstractFactory.h"
 #include "ObjectMgr.h"
-
+#include "HWPlayer.h"
 
 CMetronomeUI::CMetronomeUI(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev) 
@@ -41,14 +41,19 @@ HRESULT CMetronomeUI::Ready_Object(_float fPosX, _float fPosY, _float fSpeed, in
 
 _int CMetronomeUI::Update_Object(const _float & fTimeDelta)
 {
+	m_pTransCom->Set_Scale(&_vec3(0.5f, 0.5f, 0.5f));
+	
+	
 	m_fFrame += 1 * fTimeDelta;
 
 	
 
 	m_pTransCom->OrthoMatrix(50.f, 50.f, m_fMoveX, m_fMoveY, WINCX, WINCY);
 
-	if ( m_fMoveX < 30.f && m_fMoveX >-30.f)
+	if ( m_fMoveX < 22.f && m_fMoveX >-22.f)
 	{
+		static_cast<CHWPlayer*>(Get_GameObject(L"Layer_GameLogic", L"TestPlayer"))->Set_OneShot(true);
+		static_cast<CHWPlayer*>(Get_GameObject(L"Layer_GameLogic", L"TestPlayer"))->m_bComboPenalty=false;
 		CObjectMgr::GetInstance()->Collect_UIObj(this);
 		
 		return 5; 

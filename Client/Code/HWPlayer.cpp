@@ -4,7 +4,7 @@
 #include "Bullet_UI.h"
 
 #include "Export_Function.h"
-
+#include "ObjectMgr.h"
 
 CHWPlayer::CHWPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -19,20 +19,50 @@ CHWPlayer::~CHWPlayer()
 HRESULT CHWPlayer::Ready_Object(void)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-	_vec3 vScale = { 0.5f, 0.5f, 0.5f };
+	_vec3 vScale = { 0.1f, 0.1f, 0.1f };
 	m_pTransCom->Set_Pos(10.f, 0.f, 10.f);
+
 	m_pTransCom->Set_Scale(&vScale);
-	m_pTransCom->Update_Component(1.f);
+	m_pTransCom->Update_Component(1.5f);
 	// ¿òÁ÷ÀÌ±â À§ÇÑ º¯¼ö
 	return S_OK;
 }
 
 _int CHWPlayer::Update_Object(const _float & fTimeDelta)
 {
+	
+	m_fFrame += 1.f * fTimeDelta;
+
+	if (m_fFrame >= 1.f)
+	{
+		m_bOneShot = false;
+		m_fFrame = 0.f;
+	}
+	
+
 	Key_Input(fTimeDelta);
+
+
+	if(m_bComboPenalty==false)
+	{
+		m_ComboTimer += 0.1f* fTimeDelta;
+
+		if (m_ComboTimer >= 0.1f)
+		{
+			Penalty_ComBo();
+			m_ComboTimer = 0;
+		}
+	}
+
+	Miss_ClickMouseLB(fTimeDelta);
+	
+
 	
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
+
+	
+	// 1ÀÎÄª ¸¸µé±â
 	Add_RenderGroup(RENDER_ALPHA, this);
 	
 	return 0;
@@ -63,8 +93,13 @@ HRESULT CHWPlayer::Add_Component(void)
 	pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Clone_Proto(L"Proto_RcTexCom"));
 	NULL_CHECK_RETURN(m_pBufferCom, E_FAIL);
 	m_mapComponent[ID_STATIC].insert({ L"Proto_RcTexCom", pComponent });
-	
-	// Stage ¿ë
+
+	// TestTool?š©
+	//pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_PlayerTexture2"));
+	//NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
+	//m_mapComponent[ID_STATIC].insert({ L"Proto_PlayerTexture2", pComponent });
+
+	// Stage ?š©
 	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_PlayerTexture"));
 	NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
 	m_mapComponent[ID_STATIC].insert({ L"Proto_PlayerTexture", pComponent });
@@ -73,13 +108,17 @@ HRESULT CHWPlayer::Add_Component(void)
 	NULL_CHECK_RETURN(m_pTransCom, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].insert({ L"Proto_TransformCom", pComponent });
 
+	pComponent = m_pDynamicTransCom = dynamic_cast<CDynamic_Transform*>(Clone_Proto(L"Proto_DynamicTransformCom"));
+	NULL_CHECK_RETURN(m_pDynamicTransCom, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].insert({ L"Proto_DynamicTransformCom", pComponent });
+
 	pComponent = m_pCalculatorCom = dynamic_cast<CCalculator*>(Clone_Proto(L"Proto_CalculatorCom"));
 	NULL_CHECK_RETURN(m_pCalculatorCom, E_FAIL);
 	m_mapComponent[ID_STATIC].insert({ L"Proto_CalculatorCom", pComponent });
 
-	pComponent = m_pColliderCom = dynamic_cast<CCollider*>(Clone_Proto(L"Proto_ColliderCom"));
-	NULL_CHECK_RETURN(m_pColliderCom, E_FAIL);
-	m_mapComponent[ID_STATIC].insert({ L"Proto_ColliderCom", pComponent });
+	pComponent = m_pAnimationCom = dynamic_cast<CAnimation*>(Clone_Proto(L"Proto_AnimationCom"));
+	NULL_CHECK_RETURN(m_pAnimationCom, E_FAIL);
+	m_mapComponent[ID_STATIC].insert({ L"Proto_AnimationCom", pComponent });
 
 
 	return S_OK;
@@ -94,14 +133,14 @@ void CHWPlayer::Key_Input(const _float & fTimeDelta)
 	if (Get_DIKeyState(DIK_W) & 0X80)
 	{
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
-		m_pTransCom->Move_Pos(&(m_vDirection * 10.f * fTimeDelta));
+		m_pTransCom->Move_Pos(&(m_vDirection * 5.f * fTimeDelta));
 		m_eDirType = DIR_UP;
 	}
 
 	if (Get_DIKeyState(DIK_S) & 0X80)
 	{
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
-		m_pTransCom->Move_Pos(&(m_vDirection * -10.f * fTimeDelta));
+		m_pTransCom->Move_Pos(&(m_vDirection * -5.f * fTimeDelta));
 		m_eDirType = DIR_DOWN;
 	}
 
@@ -111,8 +150,7 @@ void CHWPlayer::Key_Input(const _float & fTimeDelta)
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
 		D3DXVec3Normalize(&m_vUp, &m_vUp);
 		D3DXVec3Cross(&vRight, &m_vDirection, &m_vUp);
-		
-		m_pTransCom->Move_Pos(&(vRight * 10.f * fTimeDelta));
+		m_pTransCom->Move_Pos(&(vRight * 5.f * fTimeDelta));
 		m_eDirType = DIR_LEFT;
 	}
 
@@ -122,24 +160,31 @@ void CHWPlayer::Key_Input(const _float & fTimeDelta)
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
 		D3DXVec3Normalize(&m_vUp, &m_vUp);
 		D3DXVec3Cross(&vRight, &m_vDirection, &m_vUp);
-		
-		m_pTransCom->Move_Pos(&(vRight * -10.f * fTimeDelta));
+		m_pTransCom->Move_Pos(&(vRight * -5.f * fTimeDelta));
 		m_eDirType = DIR_RIGHT;
 	}
 
 	if (Engine::Get_DIMouseState(DIM_LB) & 0X80) // Picking
 	{
-		Create_bullet(m_vPos);
-
-		m_bOneShot = true;
-
-		// Magazine 0 = Don't Shoot
 		if (m_iMagazine == 0)
 			m_bOneShot = false;
+	
+		Create_bullet(m_vPos, fTimeDelta);
 
+		// ¼öÁ¤ ÇÊ¿ä ´©¸£¸é 2¹ß¾¿³ª°¨
+		if (!m_bOneShot && !m_bMissCheck)
+		{
+			if (m_iMagazine >= 0)
+				m_iMagazine -= 1;
 
+			m_bMissCheck = true;
+		}		
 	}
 
+	if (Get_DIKeyState(DIK_R) & 0X80)
+	{
+		m_iMagazine = 8;
+	}
 
 
 }
@@ -175,7 +220,7 @@ float CHWPlayer::Get_TerrainY(void)
 
 	// TestTool ¿ë
 	Engine::CTerrainTex*	pTerrainTexCom = dynamic_cast<Engine::CTerrainTex*>(Engine::Get_Component(L"TestLayer", L"TestMap", L"Proto_TerrainTexCom", ID_STATIC));
-	NULL_CHECK(pTerrainTexCom);
+	NULL_CHECK_RETURN(pTerrainTexCom,0.f);
 
 	// Stage ¿ë
 	/*Engine::CTerrainTex*	pTerrainTexCom = dynamic_cast<Engine::CTerrainTex*>(Engine::Get_Component(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC));
@@ -187,7 +232,7 @@ float CHWPlayer::Get_TerrainY(void)
 	return fHeight;
 }
 
-void CHWPlayer::Collsion_CubeMap(CGameObject * pGameObject)
+void CHWPlayer::Collsion_CubeMap(CGameObject * pGameObject,const _float& fTimeDelta)
 {
 	CTransform *pTrnasform = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
 
@@ -197,7 +242,7 @@ void CHWPlayer::Collsion_CubeMap(CGameObject * pGameObject)
 	pTrnasform->Get_Info(INFO_POS, &vCenter1Pos);
 	m_pTransCom->Get_Info(INFO_POS, &vPos);
 
-	if (m_pColliderCom->Check_Sphere_InterSect(vCenter1Pos, vPos, 1.f, 1.f))
+	if (m_pColliderCom->Check_Sphere_InterSect(vCenter1Pos, vPos, 0.5f, 0.5f))
 	{
 		m_pTransCom->Get_Info(INFO_LOOK, &m_vDirection);
 		m_pTransCom->Get_Info(INFO_UP, &m_vUp);
@@ -207,22 +252,22 @@ void CHWPlayer::Collsion_CubeMap(CGameObject * pGameObject)
 		switch (m_eDirType)
 		{
 		case Engine::DIR_UP:
-			m_pTransCom->Move_Pos(&(m_vDirection * -0.1f));
+			m_pTransCom->Move_Pos(&(m_vDirection * -5.f *fTimeDelta));
 			break;
 		case Engine::DIR_DOWN:
-			m_pTransCom->Move_Pos(&(m_vDirection * 0.1f));
+			m_pTransCom->Move_Pos(&(m_vDirection * 5.f*fTimeDelta));
 			break;
 		case Engine::DIR_LEFT:
 			D3DXVec3Normalize(&m_vDirection, &m_vDirection);
 			D3DXVec3Normalize(&m_vUp, &m_vUp);
 			D3DXVec3Cross(&vRight, &m_vDirection, &m_vUp);
-			m_pTransCom->Move_Pos(&(vRight * -0.1f));
+			m_pTransCom->Move_Pos(&(vRight *-5.f*fTimeDelta));
 			break;
 		case Engine::DIR_RIGHT:
 			D3DXVec3Normalize(&m_vDirection, &m_vDirection);
 			D3DXVec3Normalize(&m_vUp, &m_vUp);
 			D3DXVec3Cross(&vRight, &m_vDirection, &m_vUp);
-			m_pTransCom->Move_Pos(&(vRight * 0.1f ));
+			m_pTransCom->Move_Pos(&(vRight *-5.f*fTimeDelta) );
 			break;
 		case Engine::DIR_END:
 			break;
@@ -235,34 +280,57 @@ void CHWPlayer::Collsion_CubeMap(CGameObject * pGameObject)
 	return;
 }
 
-HRESULT CHWPlayer::Create_bullet(_vec3 vPos)
+void CHWPlayer::Penalty_ComBo()
+{
+	if (m_bComboPenalty == false)
+	{
+		if (m_iMagazine >= 0)
+		{
+			m_iMagazine -= 1;
+		}
+		m_bComboPenalty = true;
+	}
+	
+	
+}
+
+void CHWPlayer::Miss_ClickMouseLB(const _float & fTimeDelta)
+{
+	
+	if (m_bMissCheck)
+	{
+		m_fMissClick += 1.f * fTimeDelta;
+
+		if (m_fMissClick >= 1.f)
+		{
+			m_bMissCheck = false;
+			m_fMissClick = 0;
+		}
+	}
+}
+
+HRESULT CHWPlayer::Create_bullet(_vec3 vPos , const _float & fTimeDelta)
 {
 	++m_iCoolTime;
 
-	if (m_bOneShot && m_iCoolTime > 10)
+	if (m_bOneShot)
 	{
-		CBullet* pBullet = CBullet::Create(m_pGraphicDev, vPos);
-		NULL_CHECK(pBullet);
+		m_bOneShot = false;
+		m_bComboPenalty = true;
+		m_iCoolTime = 0;
 
-		_tchar*         szFinalName = new _tchar[128]; // ï¿½ï¿½ï¿½ï¿½ï¿½â°ª
-		wsprintf(szFinalName, L"");
+		CScene* pScene = ::Get_Scene();
+		CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
 
-		const _tchar*   szBulletName = L"Bullet_%d";
-		wsprintf(szFinalName, szBulletName, m_iCount);
+		CGameObject* pGameObject = nullptr;
+		pGameObject = CObjectMgr::GetInstance()->Reuse_PlayerBulltObj(m_pGraphicDev, vPos);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		pMyLayer->Add_GameObjectList(pGameObject);
 
-		FAILED_CHECK_RETURN(Engine::Add_GameObject(L"Layer_GameLogic", szFinalName, pBullet), E_FAIL);
-		
-		/*if (szBulletName != nullptr)
-			m_iMagazine -= 1;
+		m_iMagazine -= 1;
 
-
-		m_szBulletName.push_back(szFinalName);
-		m_iCount++;
-
-		m_bOneShot = FALSE;
-
-		m_iCoolTime = 0;*/
 	}
+
 	return S_OK;
 }
 

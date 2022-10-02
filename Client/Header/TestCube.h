@@ -15,7 +15,7 @@ class CTestCube : public CGameObject
 private:
 	explicit CTestCube(LPDIRECT3DDEVICE9 pGraphicDev);
 	explicit CTestCube(const CGameObject& rhs);
-
+	virtual	~CTestCube();
 public:
 	HRESULT Ready_Object(int Posx, int Posy);
 	virtual _int	Update_Object(const _float& fTimeDelta) override;

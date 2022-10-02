@@ -30,7 +30,7 @@ protected:
 	CCharacterInfo*		m_pInfoCom = nullptr;    // 남길것 
 	CAnimation*			m_pAnimationCom = nullptr;	 // 남길것 
 	CDynamic_Transform* m_pDynamicTransCom = nullptr;
-	
+
 	int m_iMonsterIndex;
 
 protected:

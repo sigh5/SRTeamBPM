@@ -167,6 +167,12 @@
     <ClCompile Include="..\Code\Coin.cpp">
       <Filter>02. GameObject\01. For_Stage\11. Item\01. Coin</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\WallCube.cpp">
+      <Filter>02. GameObject\02. For_public\03. CubeWall</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Snowfall.cpp">
+      <Filter>02. GameObject\02. For_public\04. SnowFall</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -353,6 +359,12 @@
     <ClInclude Include="..\Header\Coin.h">
       <Filter>02. GameObject\01. For_Stage\11. Item\01. Coin</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\WallCube.h">
+      <Filter>02. GameObject\02. For_public\03. CubeWall</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Snowfall.h">
+      <Filter>02. GameObject\02. For_public\04. SnowFall</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -506,6 +518,12 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\11. Item\01. Coin">
       <UniqueIdentifier>{d7df9861-0950-4325-952d-5851082934ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\02. For_public\03. CubeWall">
+      <UniqueIdentifier>{2f28d2f2-38e1-4b88-a623-d36d253870fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\02. For_public\04. SnowFall">
+      <UniqueIdentifier>{43817be4-52bf-4179-b433-70d229ee8aef}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -42,8 +42,10 @@ void CBaseBullet::Render_Obejct(void)
 {
 }
 
-void CBaseBullet::Set_MoveDir(const wstring& LayerName , const wstring& GameObjectName, const wstring& ComponentName, COMPONENTID eID, _vec3 * vPos,BULLET_ID eBulletID)
+void CBaseBullet::Set_MoveDir(const wstring& LayerName , const wstring& GameObjectName, const wstring& ComponentName, COMPONENTID eID, _vec3 * vPos,BULLET_ID eBulletID, _vec3* vScale)
 {
+	m_vScale = *vScale;
+
 	// 추후에 불렛이 다이나믹을 받으면 dynamicTransform
 	// 타켓 트랜스폼이니까
 	CTransform* pTargetTransformCom = static_cast<CTransform*>(Engine::Get_Component(LayerName.c_str(),
@@ -56,6 +58,7 @@ void CBaseBullet::Set_MoveDir(const wstring& LayerName , const wstring& GameObje
 	// 현재 자신의 트랜스폼
 	CTransform* pThisTransformCom = static_cast<CTransform*>(Get_Component(ComponentName.c_str(), eID));
 	pThisTransformCom->Set_Pos((*vPos).x, (*vPos).y, (*vPos).z);
+	
 
 	if (eBulletID == PLAYER_BULLET)
 	{

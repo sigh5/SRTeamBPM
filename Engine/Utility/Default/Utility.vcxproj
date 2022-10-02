@@ -188,6 +188,7 @@ call CopyUtility.bat</Command>
     <ClInclude Include="..\..\Header\OrthoTransform.h" />
     <ClInclude Include="..\..\Header\Pipeline.h" />
     <ClInclude Include="..\..\Header\ProtoMgr.h" />
+    <ClInclude Include="..\..\Header\PSystem.h" />
     <ClInclude Include="..\..\Header\RcCol.h" />
     <ClInclude Include="..\..\Header\RcTex.h" />
     <ClInclude Include="..\..\Header\Renderer.h" />
@@ -219,6 +220,7 @@ call CopyUtility.bat</Command>
     <ClCompile Include="..\Code\OrthoTransform.cpp" />
     <ClCompile Include="..\Code\Pipeline.cpp" />
     <ClCompile Include="..\Code\ProtoMgr.cpp" />
+    <ClCompile Include="..\Code\PSystem.cpp" />
     <ClCompile Include="..\Code\RcCol.cpp" />
     <ClCompile Include="..\Code\RcTex.cpp" />
     <ClCompile Include="..\Code\Renderer.cpp" />
