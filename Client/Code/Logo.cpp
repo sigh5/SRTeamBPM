@@ -14,7 +14,7 @@
 #include "TestUI.h"
 
 CLogo::CLogo(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CScene(pGraphicDev), m_SceneType(SCENE_END)
+	: Engine::CScene(pGraphicDev)
 {
 }
 
@@ -57,10 +57,10 @@ Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 	{
 		if (m_pStartButton->Get_Click())
 		{
-			CScene*		pScene = CStage_BIH::Create(m_pGraphicDev);
+			CScene*		pScene = CToolTest::Create(m_pGraphicDev);
 			NULL_CHECK_RETURN(pScene, E_FAIL);
 
-			m_SceneType = SCENE_STAGE_BIH;
+			m_SceneType = SCENE_TOOLTEST;
 
 			FAILED_CHECK_RETURN(Engine::Set_Scene(pScene), E_FAIL);
 

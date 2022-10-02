@@ -21,7 +21,7 @@ public:
 	virtual void LateUpdate_Scene(void) override;
 	virtual void Render_Scene(void) override;
 
-	SCENE_TYPE		Get_SceneType(void) { return m_SceneType; }
+
 
 private:
 	HRESULT			Ready_Layer_Environment(const _tchar* pLayerTag);
@@ -37,8 +37,8 @@ private:
 	CStart_Button*		m_pStartButton = nullptr;
 	CExit_Button*		m_pExitButton = nullptr;
 
-	// 현재 어떤 씬인지 알기 위한 ENUM 타입 변수 	
-	SCENE_TYPE			m_SceneType;
+
+
 
 public:
 	static CLogo*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

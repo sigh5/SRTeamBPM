@@ -3,7 +3,7 @@
 USING(Engine)
 
 CScene::CScene(LPDIRECT3DDEVICE9 pGraphicDev)
-	: m_pGraphicDev(pGraphicDev)
+	: m_pGraphicDev(pGraphicDev), m_SceneType(SCENE_END)
 {
 	m_pGraphicDev->AddRef();
 }
