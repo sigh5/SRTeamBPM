@@ -48,7 +48,7 @@ HRESULT CAnubis::Ready_Object(int Posx, int Posy)
 
 _int CAnubis::Update_Object(const _float & fTimeDelta)
 {
-
+	m_fTimeDelta = fTimeDelta;
 
 
 //#ifdef _DEBUG
@@ -206,10 +206,10 @@ void CAnubis::Collision_Event(CGameObject * pGameObject)
 	{
 		m_pInfoCom->Receive_Damage(1.f);
 		cout << m_pInfoCom->Get_InfoRef()._iHp << endl;
-	
 	}
+	
 
-	//dynamic_cast<CHWPlayer*>(pGameObject)->m_bOneShot = false;
+	dynamic_cast<CHWPlayer*>(pGameObject)->m_bCheckShot = false;
 }
 
 CAnubis * CAnubis::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)

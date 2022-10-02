@@ -47,15 +47,15 @@ public:
 
 
 	void				Penalty_ComBo();
-
+	void				Set_Magazine(_int iCount) { m_iMagazine -= iCount; }
 
 
 public:
-	_int			Create_RayCheck(const _float & fTimeDelta);
+	_bool			Create_RayCheck(const _float & fTimeDelta);
 
-	_uint			m_bCheckShot;
+	_bool			m_bCheckShot=false;
 	_bool			m_bMissCheck = false;
-
+	_bool			m_iSoundCheck = false;
 private:
 	
 	_uint			m_iCount = 0;
