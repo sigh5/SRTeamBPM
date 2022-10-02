@@ -200,6 +200,7 @@ _uint CLoading::Loading_ForPlayer_UI(void)
 	// Item Texture
 
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_HpPotionTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Item/HpPotion/HpPotion_%d.png", TEX_NORMAL, 4)), E_FAIL);
+																									// Bin\Resource\Texture\Item\Coin
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_CoinTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Item/Coin/Coin%d.png", TEX_NORMAL, 6)), E_FAIL);
 	
 	// ~Item Texture
