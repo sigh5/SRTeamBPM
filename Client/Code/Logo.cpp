@@ -58,7 +58,7 @@ Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 			CScene*		pScene = CColliderStage::Create(m_pGraphicDev);
 			NULL_CHECK_RETURN(pScene, E_FAIL);
 
-			m_SceneType = SCENE_STAGE_PJW;
+			//m_SceneType = SCENE_STAGE_PJW;
 
 			FAILED_CHECK_RETURN(Engine::Set_Scene(pScene), E_FAIL);
 

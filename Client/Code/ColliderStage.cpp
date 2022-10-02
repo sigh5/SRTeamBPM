@@ -23,6 +23,7 @@
 #include "Weapon_UI.h"
 #include "HpBar.h"
 
+#include "Anubis.h"
 
 CColliderStage::CColliderStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev), m_iCount(0)
@@ -158,7 +159,7 @@ HRESULT CColliderStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	READY_LAYER(pGameObject, CHWPlayer, pLayer, m_pGraphicDev, L"TestPlayer");
 
 
-	//READY_LAYER(pGameObject, CFatBat, pLayer, m_pGraphicDev, L"TestMonster1");
+	READY_LAYER(pGameObject, CAnubis, pLayer, m_pGraphicDev, L"TestMonster1");
 	/*READY_LAYER(pGameObject, CFatBat, pLayer, m_pGraphicDev, L"TestMonster2");
 	READY_LAYER(pGameObject, CFatBat, pLayer, m_pGraphicDev, L"TestMonster3");
 	READY_LAYER(pGameObject, CFatBat, pLayer, m_pGraphicDev, L"TestMonster4");
