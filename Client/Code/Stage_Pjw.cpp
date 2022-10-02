@@ -81,7 +81,6 @@ void CStage_Pjw::LateUpdate_Scene(void)
 	CTestPlayer* pPlayer = dynamic_cast<CTestPlayer*>(pLayer->Get_GameObject(L"TestPlayer"));
 	
 	pPlayer->Collision_Event(pPotion);
-
 	pPlayer->Collision_Event(pCoin);
 
 	Engine::CScene::LateUpdate_Scene();

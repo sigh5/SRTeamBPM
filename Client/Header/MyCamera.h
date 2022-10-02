@@ -31,16 +31,19 @@ private:
 	_bool			m_bFix = false;
 	_bool			m_bCheck = true;
 public:
-	
+	_int			Get_BillBoardDir() { return m_iBillBoardDir; }
+
+
 
 private:
-	_float			m_fDistance = 3.;
-	_float			m_fSpeed = 10.f;
+	_float			m_fDistance = 1.;
+	_float			m_fSpeed = 5.f;
 	_float			m_fAngle = 0.f;
 
 	
-	_float			m_fCameraHeight = 1.5f;
+	_float			m_fCameraHeight = 0.5f;
 
+	_int			m_iBillBoardDir = 0;	// 0 ¿ÞÂÊ 1 ¿À¸¥ÂÊ
 
 public:
 	static CMyCamera*		Create(LPDIRECT3DDEVICE9 pGraphicDev,

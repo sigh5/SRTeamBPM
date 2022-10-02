@@ -30,38 +30,19 @@ HRESULT CHWPlayer::Ready_Object(void)
 
 _int CHWPlayer::Update_Object(const _float & fTimeDelta)
 {
-	
-	m_fFrame += 1.f * fTimeDelta;
+	m_fFrame += 0.5f * fTimeDelta;
 
-	if (m_fFrame >= 1.f)
+	if (m_fFrame >= 0.5f)
 	{
 		m_bOneShot = false;
 		m_fFrame = 0.f;
 	}
-	
 
 	Key_Input(fTimeDelta);
 
-
-	if(m_bComboPenalty==false)
-	{
-		m_ComboTimer += 0.1f* fTimeDelta;
-
-		if (m_ComboTimer >= 0.1f)
-		{
-			Penalty_ComBo();
-			m_ComboTimer = 0;
-		}
-	}
-
-	Miss_ClickMouseLB(fTimeDelta);
-	
-
-	
 	Engine::CGameObject::Update_Object(fTimeDelta);
-
-
 	
+
 	// 1인칭 만들기
 	Add_RenderGroup(RENDER_ALPHA, this);
 	
@@ -72,6 +53,10 @@ void CHWPlayer::LateUpdate_Object(void)
 {
 
 	Set_OnTerrain();
+	
+	CGameObject::LateUpdate_Object();
+	
+	
 }
 
 void CHWPlayer::Render_Obejct(void)
@@ -120,6 +105,9 @@ HRESULT CHWPlayer::Add_Component(void)
 	NULL_CHECK_RETURN(m_pAnimationCom, E_FAIL);
 	m_mapComponent[ID_STATIC].insert({ L"Proto_AnimationCom", pComponent });
 
+	pComponent = m_pColliderCom = dynamic_cast<CCollider*>(Clone_Proto(L"Proto_ColliderCom"));
+	NULL_CHECK_RETURN(m_pColliderCom, E_FAIL);
+	m_mapComponent[ID_STATIC].insert({ L"Proto_ColliderCom", pComponent });
 
 	return S_OK;
 }
@@ -164,22 +152,20 @@ void CHWPlayer::Key_Input(const _float & fTimeDelta)
 		m_eDirType = DIR_RIGHT;
 	}
 
-	if (Engine::Get_DIMouseState(DIM_LB) & 0X80) // Picking
+	if (Get_DIMouseState(DIM_LB) & 0X80) // Picking
 	{
-		if (m_iMagazine == 0)
-			m_bOneShot = false;
-	
-		//Create_bullet(m_vPos, fTimeDelta);
-
-		// 수정 필요 누르면 2발씩나감
-		if (!m_bOneShot && !m_bMissCheck)
+		if (m_iMagazine <= 0)
 		{
-			if (m_iMagazine >= 0)
-				m_iMagazine -= 1;
+			m_bCheckShot = false;
+			return;
+		}
+		
+		m_bCheckShot = Create_RayCheck(fTimeDelta);
 
-			m_bMissCheck = true;
-		}		
+		 
+	
 	}
+
 
 	if (Get_DIKeyState(DIK_R) & 0X80)
 	{
@@ -294,45 +280,30 @@ void CHWPlayer::Penalty_ComBo()
 	
 }
 
-void CHWPlayer::Miss_ClickMouseLB(const _float & fTimeDelta)
-{
-	
-	if (m_bMissCheck)
-	{
-		m_fMissClick += 1.f * fTimeDelta;
 
-		if (m_fMissClick >= 1.f)
-		{
-			m_bMissCheck = false;
-			m_fMissClick = 0;
-		}
-	}
-}
-
-HRESULT CHWPlayer::Create_bullet(_vec3 vPos , const _float & fTimeDelta)
+_int CHWPlayer::Create_RayCheck(const _float & fTimeDelta)
 {
-	++m_iCoolTime;
 
 	if (m_bOneShot)
 	{
+		// 거리 체크
 		m_bOneShot = false;
-		m_bComboPenalty = true;
-		m_iCoolTime = 0;
-
-		CScene* pScene = ::Get_Scene();
-		CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
-
-		CGameObject* pGameObject = nullptr;
-		pGameObject = CObjectMgr::GetInstance()->Reuse_PlayerBulltObj(m_pGraphicDev, vPos);
-		NULL_CHECK_RETURN(pGameObject, E_FAIL);
-		pMyLayer->Add_GameObjectList(pGameObject);
-
 		m_iMagazine -= 1;
+		m_bMissCheck = false;
+		return 1;
+	}
+	else
+	{
+		m_bMissCheck = true;
+		return 2;
 
 	}
+		
 
-	return S_OK;
+	return 3;
 }
+
+
 
 CHWPlayer * CHWPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {

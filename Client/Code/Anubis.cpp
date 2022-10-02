@@ -3,6 +3,8 @@
 
 #include "Export_Function.h"
 #include "AbstractFactory.h"
+#include "MyCamera.h"
+#include "HWPlayer.h"
 
 CAnubis::CAnubis(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -23,9 +25,14 @@ HRESULT CAnubis::Ready_Object(int Posx, int Posy)
 	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_MonsterTexture", m_mapComponent, ID_DYNAMIC);
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
 	m_pCalculatorCom = CAbstractFactory<CCalculator>::Clone_Proto_Component(L"Proto_CalculatorCom", m_mapComponent, ID_STATIC);
-
+	m_pColliderCom = CAbstractFactory<CCollider>::Clone_Proto_Component(L"Proto_ColliderCom", m_mapComponent, ID_STATIC);
 
 	m_iMonsterIndex = 0;
+	_vec3	vScale = { 2.f,2.f,2.f };
+
+	m_pDynamicTransCom->Set_Scale(&vScale);
+	m_pDynamicTransCom->Set_Pos(20.f, 0.f, 20.f);
+
 	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
 	m_pAnimationCom->Ready_Animation(6, 1, 0.2f);
 	if (Posx == 0 && Posy == 0) {}
@@ -40,10 +47,10 @@ HRESULT CAnubis::Ready_Object(int Posx, int Posy)
 _int CAnubis::Update_Object(const _float & fTimeDelta)
 {
 
-	_int iResult = Engine::CGameObject::Update_Object(fTimeDelta);
+
 
 //#ifdef _DEBUG
-	if (SCENE_TOOLTEST == Get_Scene()->Get_SceneType())
+	/*if (SCENE_TOOLTEST == Get_Scene()->Get_SceneType())
 	{
 		CTexture*	pComponent = nullptr;
 		if (m_iPreIndex != m_iMonsterIndex)
@@ -71,14 +78,14 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 			}
 		}
 	}
-	else
+	else*/
 	{
 		CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC));
 		NULL_CHECK(pPlayerTransformCom);
 
-		//Set_OnTerrain();
+		////Set_OnTerrain();
 		float TerrainY = m_pDynamicTransCom->Get_TerrainY1(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC, m_pCalculatorCom, m_pDynamicTransCom);
-		m_pDynamicTransCom->Set_Y(TerrainY + 1.f);
+		m_pDynamicTransCom->Set_Y(TerrainY + 2.f);
 		//지형에 올림
 
 		_vec3		vPlayerPos, vMonsterPos;
@@ -102,35 +109,60 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 	}
 
 
-	//_matrix		matWorld, matView, matBill;
-	//D3DXMatrixIdentity(&matBill);
-
-	//m_pDynamicTransCom->Get_WorldMatrix(&matWorld);
-	//m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
-
-	//matBill._11 = matView._11;
-	//matBill._13 = matView._13;
-	//matBill._31 = matView._31;
-	//matBill._33 = matView._33;
-
-	//D3DXMatrixInverse(&matBill, 0, &matBill);
 
 
-	//m_pDynamicTransCom->Set_WorldMatrix(&(matBill * matWorld));
 
+	_int iResult = Engine::CGameObject::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
 
-	return _int();
+
+	return 0;
 }
 
 void CAnubis::LateUpdate_Object(void)
 {
+	// 빌보드 에러 해결
+	CTransform*	pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC));
+	NULL_CHECK(pPlayerTransform);
+
+	CMyCamera* pCamera =static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"StaticCamera"));
+	NULL_CHECK(pCamera);
+
+	_matrix		matWorld, matView, matBill;
+
+	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
+	D3DXMatrixIdentity(&matBill);
+	memcpy(&matBill, &matView, sizeof(_matrix));
+	memset(&matBill._41, 0, sizeof(_vec3));
+	D3DXMatrixInverse(&matBill, 0, &matBill);
+
+	_matrix      matScale, matTrans;
+	D3DXMatrixScaling(&matScale, 2.f, 2.f, 2.f);
+
+	_matrix      matRot;
+	D3DXMatrixIdentity(&matRot);
+	D3DXMatrixRotationY(&matRot, pCamera->Get_BillBoardDir());
+
+	_vec3 vPos;
+	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+
+	D3DXMatrixTranslation(&matTrans,
+		vPos.x,
+		vPos.y,
+		vPos.z);
+
+	D3DXMatrixIdentity(&matWorld);
+	matWorld = matScale* matRot * matBill * matTrans;
+	m_pDynamicTransCom->Set_WorldMatrix(&(matWorld));
+
+	// 빌보드 에러 해결
 	Engine::CGameObject::LateUpdate_Object();
 }
 
 void CAnubis::Render_Obejct(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pDynamicTransCom->Get_WorldMatrixPointer());
+	
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0x10);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
@@ -145,6 +177,19 @@ void CAnubis::Render_Obejct(void)
 	m_pBufferCom->Render_Buffer();
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+}
+
+void CAnubis::Collision_Event(CGameObject * pGameObject)
+{
+
+	if (m_pColliderCom->Check_Lay_InterSect(m_pBufferCom,m_pDynamicTransCom,g_hWnd))
+	{
+		m_pInfoCom->Receive_Damage(1.f);
+		cout << m_pInfoCom->Get_InfoRef()._iHp << endl;
+	
+	}
+
+	//dynamic_cast<CHWPlayer*>(pGameObject)->m_bOneShot = false;
 }
 
 CAnubis * CAnubis::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)

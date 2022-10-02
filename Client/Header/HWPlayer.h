@@ -47,11 +47,17 @@ public:
 
 
 	void				Penalty_ComBo();
-	void				Miss_ClickMouseLB(const _float & fTimeDelta);
+
+
+
+public:
+	_int			Create_RayCheck(const _float & fTimeDelta);
+
+	_uint			m_bCheckShot;
+	_bool			m_bMissCheck = false;
 
 private:
-	HRESULT				Create_bullet(_vec3 pos, const _float & fTimeDelta);
-
+	
 	_uint			m_iCount = 0;
 	_uint			m_iCoolTime = 0;
 	_bool			m_bOneShot = false;
@@ -60,8 +66,7 @@ private:
 public:
 	_bool			m_bComboPenalty = true;
 	_float			m_ComboTimer = 0.f;
-	_float			m_fMissClick = 0.f;
-	_bool			m_bMissCheck = false;
+
 
 private:
 	CRcTex*				m_pBufferCom = nullptr;

@@ -39,7 +39,7 @@ HRESULT CMyCamera::Ready_Object(const _vec3 * pEye,
 
 _int CMyCamera::Update_Object(const _float & fTimeDelta)
 {
-	Mouse_Fix();
+	//Mouse_Fix();
 	Key_Input(fTimeDelta);
 
 	Mouse_Move(fTimeDelta);
@@ -67,6 +67,10 @@ void CMyCamera::Mouse_Move(const _float& fTimeDelta)
 	if (dwMouseMove = Engine::Get_DIMouseMove(DIMS_X))
 	{
 		pPlayerTransform->Rotation(ROT_Y, D3DXToRadian(dwMouseMove / 10.f));
+
+		
+		m_iBillBoardDir = dwMouseMove / 10.f * fTimeDelta;
+		
 
 	}
 
@@ -138,16 +142,8 @@ void CMyCamera::Target_Renewal(void)
 	m_vEye += pPlayerTransform->m_vInfo[INFO_POS];
 	m_vAt = pPlayerTransform->m_vInfo[INFO_POS];
 
-	// 
-	_matrix		matCamWorld;
-	D3DXMatrixInverse(&matCamWorld, nullptr, &m_matView);
-	_vec3		vRight;
-	memcpy(&vRight, &matCamWorld.m[0][0], sizeof(_vec3));
-
-	_matrix		matRot;
-	D3DXMatrixRotationAxis(&matRot, &vRight, D3DXToRadian(m_fAngle));
-	D3DXVec3TransformNormal(&vLook, &vLook, &matRot);
-
+	
+	// 카메라 보는 위치때메 더해줌
 	m_vAt = m_vEye + vLook;
 
 }

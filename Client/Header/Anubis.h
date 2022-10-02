@@ -1,6 +1,10 @@
 #pragma once
 #include "MonsterBase.h"
 
+BEGIN(Engine)
+class CCollider;
+END
+
 
 class CAnubis :public CMonsterBase
 {
@@ -13,6 +17,9 @@ public:
 	virtual _int		Update_Object(const _float& fTimeDelta) override;
 	virtual void		LateUpdate_Object(void) override;
 	virtual void		Render_Obejct(void) override;
+	virtual void		Collision_Event(CGameObject* pGameObject);
+
+public:
 	CCalculator*		Get_Calculator(void) { return m_pCalculatorCom; }
 	CRcTex*				Get_Buffer(void) { return m_pBufferCom; }
 
@@ -26,5 +33,6 @@ private:
 	CTexture*		m_pTextureCom = nullptr;
 	CRcTex*			m_pBufferCom = nullptr;
 	CCalculator*	m_pCalculatorCom = nullptr;
+	CCollider*		m_pColliderCom = nullptr;
 };
 

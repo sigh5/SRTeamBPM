@@ -24,20 +24,12 @@ public:
 		m_vInfo[INFO_POS].z = fZ;
 	}
 
-	void				Set_Info(INFOID eID, _vec3* pInfo)
-	{
-		m_vInfo[eID] = *pInfo;
-	}
-	void				Set_Scale(_vec3* pInfo)
-	{
-		m_vScale= *pInfo;
-	}
+	void				Set_Info(INFOID eID, _vec3* pInfo){m_vInfo[eID] = *pInfo;}
+	void				Set_Scale(_vec3* pInfo){m_vScale= *pInfo;}
+	void				Set_Angle(_vec3* pInfo){m_vAngle = *pInfo;}
+	_vec3				Get_Angle() { return m_vAngle; }
 
 
-	void				Set_Angle(_vec3* pInfo)
-	{
-		m_vAngle = *pInfo;
-	}
 
 	void				Set_Y(const _float& fY) { m_vInfo[INFO_POS].y = fY; }
 	void				Add_Y(float _fY) { m_vInfo[INFO_POS].y += _fY; }

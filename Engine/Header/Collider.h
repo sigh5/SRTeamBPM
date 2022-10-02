@@ -5,7 +5,8 @@
 BEGIN(Engine)
 
 class CGameObject;
-
+class CRcTex;
+class CTransform;
 
 class ENGINE_DLL CCollider :public CComponent
 {
@@ -21,7 +22,7 @@ public:
 
 public:
 	_bool		Check_Sphere_InterSect(_vec3 vCenter1 , _vec3 vCenter2,_float fRadius1, _float fRadius2);
-
+	_bool		Check_Lay_InterSect(CRcTex * rcTex, CTransform* pMonsterCom, HWND hWnd);
 
 public:
 	virtual CComponent* Clone(void) override;
