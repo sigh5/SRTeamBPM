@@ -63,7 +63,7 @@ _int CHWPlayer::Update_Object(const _float & fTimeDelta)
 
 	
 	// 1인칭 만들기
-	//Add_RenderGroup(RENDER_ALPHA, this);
+	Add_RenderGroup(RENDER_ALPHA, this);
 	
 	return 0;
 }

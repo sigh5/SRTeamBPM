@@ -34,7 +34,7 @@ public:
 	
 
 private:
-	_float			m_fDistance = 3.f;
+	_float			m_fDistance = -10.f;
 	_float			m_fSpeed = 10.f;
 	_float			m_fAngle = 0.f;
 

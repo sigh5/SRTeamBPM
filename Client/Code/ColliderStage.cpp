@@ -158,7 +158,7 @@ HRESULT CColliderStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	READY_LAYER(pGameObject, CHWPlayer, pLayer, m_pGraphicDev, L"TestPlayer");
 
 
-	READY_LAYER(pGameObject, CFatBat, pLayer, m_pGraphicDev, L"TestMonster1");
+	//READY_LAYER(pGameObject, CFatBat, pLayer, m_pGraphicDev, L"TestMonster1");
 	/*READY_LAYER(pGameObject, CFatBat, pLayer, m_pGraphicDev, L"TestMonster2");
 	READY_LAYER(pGameObject, CFatBat, pLayer, m_pGraphicDev, L"TestMonster3");
 	READY_LAYER(pGameObject, CFatBat, pLayer, m_pGraphicDev, L"TestMonster4");

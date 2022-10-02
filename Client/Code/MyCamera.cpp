@@ -42,12 +42,12 @@ _int CMyCamera::Update_Object(const _float & fTimeDelta)
 	//Key_Input(fTimeDelta);
 
 	Mouse_Fix();
-	
+	Mouse_Move(fTimeDelta);
 	Target_Renewal();
 	
 	
 	_int iExit = CCamera::Update_Object(fTimeDelta);
-	Mouse_Move(fTimeDelta);
+	
 	return iExit;
 }
 
