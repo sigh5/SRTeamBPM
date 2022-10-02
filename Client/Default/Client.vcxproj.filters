@@ -164,6 +164,9 @@
     <ClCompile Include="..\Code\Status_UI.cpp">
       <Filter>02. GameObject\01. For_Stage\10. UI\04. Status_UI</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\Coin.cpp">
+      <Filter>02. GameObject\01. For_Stage\11. Item\01. Coin</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -347,6 +350,9 @@
     <ClInclude Include="..\Header\Status_UI.h">
       <Filter>02. GameObject\01. For_Stage\10. UI\04. Status_UI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Coin.h">
+      <Filter>02. GameObject\01. For_Stage\11. Item\01. Coin</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -497,6 +503,9 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\10. UI\04. Status_UI">
       <UniqueIdentifier>{20d23bae-410c-4002-9aa8-93db4bd46804}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\11. Item\01. Coin">
+      <UniqueIdentifier>{d7df9861-0950-4325-952d-5851082934ba}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -98,7 +98,7 @@ private:
 	// Test
 	_uint				m_iChangeImage = 1;
 	_uint				m_iHpBarChange = 4;
-	_uint				m_preHp = 0;
+	_uint				m_preItem = 0;
 	// ~Test
 
 	// Player's Status(Private)

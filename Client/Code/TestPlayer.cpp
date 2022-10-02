@@ -7,6 +7,7 @@
 #include "Bullet_UI.h"
 #include "Stage.h"
 #include "HpPotion.h"
+#include "Coin.h"
 
 
 CTestPlayer::CTestPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -29,7 +30,7 @@ HRESULT CTestPlayer::Ready_Object(void)
 							// int _hp, int _Attack, float _fSpeed
 	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
 
-	m_preHp = m_pInfoCom->Get_InfoRef()._iHp;
+	m_preItem = m_pInfoCom->Get_InfoRef()._iCoin;
 		
 	return S_OK;
 }
@@ -39,15 +40,16 @@ _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 	++m_iCountDash;
 	Key_Input(fTimeDelta);
 	
-	/*if (m_preHp = m_pInfoCom->Get_InfoRef()._iHp)
+	if (m_preItem = m_pInfoCom->Get_InfoRef()._iCoin)
 	{
 		system("cls");
 
-		cout << "체력 : " << m_pInfoCom->Get_InfoRef()._iHp << endl;
-		m_preHp = m_pInfoCom->Get_InfoRef()._iHp;
+		/*cout << "체력 : " << m_pInfoCom->Get_InfoRef()._iHp << endl;
+		m_preItem = m_pInfoCom->Get_InfoRef()._iHp;*/
 
-	}*/
-	
+		cout << "코인 : " << m_pInfoCom->Get_InfoRef()._iCoin << endl;
+
+	}	
 
 		// cout << "총알 수 :" << m_iMagazine << endl;
 		
@@ -325,7 +327,6 @@ Engine::_vec3 CTestPlayer::PickUp_OnTerrain(void)
 
 HRESULT CTestPlayer::Create_Bullet(_vec3 vPos)
 {
-
 	++m_iCoolTime;
 
 	if (m_bOneShot && m_iCoolTime > 10)
@@ -345,8 +346,6 @@ HRESULT CTestPlayer::Create_Bullet(_vec3 vPos)
 		m_iMagazine -= 1;
 
 	}
-
-
 	return S_OK;
 }
 
@@ -370,6 +369,12 @@ void CTestPlayer::Collision_Event(CGameObject * pGameObject)
 			m_pInfoCom->Add_Hp(25);
 			m_iHpBarChange += 1;				
 			pMyLayer->Delete_GameObject(L"HealthPotion"); // 이벤트 처리		
+		}
+
+		if (pGameObject == pMyLayer->Get_GameObject(L"Coin"))
+		{
+			m_pInfoCom->Get_InfoRef()._iCoin += 1;
+			pMyLayer->Delete_GameObject(L"Coin"); // 이벤트 처리
 		}
 				
 	}
