@@ -149,6 +149,11 @@ HRESULT CLogo::Ready_Proto(void)
 		
 	
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ButtonTexture2", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Button/Exit_Button.png", TEX_NORMAL)), E_FAIL);
-						
+				
+	// Font
+	FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"BMYEONSUNG", L"Power", 16, 20, FW_HEAVY), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"DalseoHealingBold", L"Healing", 10, 12, FW_NORMAL), E_FAIL);
+
 	return S_OK;
 }

@@ -173,6 +173,9 @@
     <ClCompile Include="..\Code\Snowfall.cpp">
       <Filter>02. GameObject\02. For_public\04. SnowFall</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\CoinKeyUI.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\05. CoinUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -365,6 +368,9 @@
     <ClInclude Include="..\Header\Snowfall.h">
       <Filter>02. GameObject\02. For_public\04. SnowFall</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CoinKeyUI.h">
+      <Filter>02. GameObject\01. For_Stage\10. UI\05. CoinUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -524,6 +530,9 @@
     </Filter>
     <Filter Include="02. GameObject\02. For_public\04. SnowFall">
       <UniqueIdentifier>{43817be4-52bf-4179-b433-70d229ee8aef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\05. CoinUI">
+      <UniqueIdentifier>{92542f0f-363b-40f8-841a-cee2898d67f2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

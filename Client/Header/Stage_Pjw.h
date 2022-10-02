@@ -19,6 +19,7 @@
 #include "Weapon_UI.h"
 #include "HpBar.h"
 #include "Status_UI.h"
+#include "CoinKeyUI.h"
 
 class CStage_Pjw : public Engine::CScene
 {

@@ -25,10 +25,6 @@ HRESULT CStatus_UI::Ready_Object(CTestPlayer * pPlayer)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"BMYEONSUNG", L"Power", 16, 20, FW_HEAVY), E_FAIL); 
-
-	FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"DalseoHealingBold", L"Healing", 10, 12, FW_NORMAL), E_FAIL);
-
 	m_pPlayer = pPlayer;
 
 	return S_OK;
