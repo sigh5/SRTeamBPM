@@ -19,6 +19,8 @@ CAnubis::~CAnubis()
 HRESULT CAnubis::Ready_Object(int Posx, int Posy)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+	
+	m_fHitDelay = 1.f;
 
 	CComponent* pComponent = nullptr;
 
@@ -95,19 +97,38 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 		float fMtoPDistance; // 몬스터와 플레이어 간의 거리
 
 		fMtoPDistance = sqrtf((powf(vMonsterPos.x - vPlayerPos.x, 2) + powf(vMonsterPos.y - vPlayerPos.y, 2) + powf(vMonsterPos.z - vPlayerPos.z, 2)));
+		
+		
 
-		if (fMtoPDistance > 5.f)
+		if (m_bHit == false)
 		{
-			m_pDynamicTransCom->Chase_Target_notRot(&vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
+			if (fMtoPDistance > 5.f)
+			{
+				m_pDynamicTransCom->Chase_Target_notRot(&vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
 
-			m_pAnimationCom->Move_Animation(fTimeDelta);
+				m_pAnimationCom->Move_Animation(fTimeDelta);
+			}
+			else
+			{
+				m_pAnimationCom->m_iMotion = 0;
+			}
 		}
 		else
 		{
-			m_pAnimationCom->m_iMotion = 0;
+			//피격 시 피격모션
+			m_pAnimationCom->m_iMotion = 7;
 		}
 	}
-
+	
+	if (m_bHit)
+	{
+		m_fHitDelay += fTimeDelta;
+		if (m_fHitDelay > 1.5f)
+		{
+			m_bHit = false;
+			m_fHitDelay = 0.f;
+		}
+	}
 
 
 
@@ -170,7 +191,6 @@ void CAnubis::Render_Obejct(void)
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-
 
 	m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);	// 텍스처 정보 세팅을 우선적으로 한다.
 

@@ -19,7 +19,9 @@ CSnowfall::CSnowfall(LPDIRECT3DDEVICE9 pGraphicDev, BDBOX * boundingBox, int num
 		addParticle();
 	}
 
+	m_pTransform = CAbstractFactory<CTransform>::Clone_Proto_Component(L"Proto_TransformCom", m_mapComponent, ID_DYNAMIC);
 	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_RainTexture", m_mapComponent, ID_STATIC);
+
 }
 
 
@@ -42,7 +44,7 @@ void CSnowfall::resetParticle(Attribute * attribute)
 	attribute->_velocity.x = rand() % 10 * 0.1f * -1.0f;
 	//x 이동값
 
-	attribute->_velocity.y = rand() % 10 * 0.1f * -30.0f + 1;
+	attribute->_velocity.y = rand() % 15 * -1.0f - 25.f;
 	//내리는 속도
 
 	attribute->_velocity.z = 0.f;
@@ -61,6 +63,8 @@ _int CSnowfall::Update_Object(const _float& fTimeDelta)
 	
 
 	update(fTimeDelta);
+
+
 
 	_int iResult = Engine::CGameObject::Update_Object(fTimeDelta);
 
@@ -87,6 +91,7 @@ void CSnowfall::update(_float fTimeDelta)
 		{
 			resetParticle(&(*i));
 		}
+
 	}
 
 	Add_RenderGroup(RENDER_ALPHA, this);
@@ -94,10 +99,10 @@ void CSnowfall::update(_float fTimeDelta)
 void	CSnowfall::Render_Obejct(void)
 {
 	
-	preRender();
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransform->Get_WorldMatrixPointer());
 	m_pTextureCom->Set_Texture(0);
 	render();
-	postRender();
+
 }
 
 CSnowfall * CSnowfall::Create(LPDIRECT3DDEVICE9 pGraphicDev)
