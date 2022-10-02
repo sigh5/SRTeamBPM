@@ -26,12 +26,16 @@ public:
 	_uint&			Get_ItemType() { return m_iItemIndex; }
 	CharacterInfo&	Get_InfoRef();
 
+
 protected:
 	CCharacterInfo*		m_pInfoCom = nullptr;  
 	CAnimation*			m_pAnimationCom = nullptr;	 
 	CDynamic_Transform* m_pDynamicTransCom = nullptr;
 
 	_uint m_iItemIndex;
+
+public:
+	ITEM_TYPE			m_ItemType;
 
 protected:
 	virtual HRESULT				Add_Component(void);

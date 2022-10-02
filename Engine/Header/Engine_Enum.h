@@ -38,6 +38,8 @@ namespace Engine
 
 	// ¡Ø
 	enum TYPING_TYPE { TYPING_W, TYPING_A, TYPING_S, TYPING_D, TYPING_END };
+	enum ITEM_TYPE { ITEM_POTION, ITEM_COIN, ITEM_END };
+
 }
 
 #endif // Engine_Enum_h__

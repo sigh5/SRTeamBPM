@@ -66,23 +66,23 @@ void CStage_Pjw::LateUpdate_Scene(void)
 {
 	CLayer *pLayer = GetLayer(L"Layer_GameLogic");
 
+	CTestPlayer* pPlayer = dynamic_cast<CTestPlayer*>(pLayer->Get_GameObject(L"TestPlayer"));
+	
 	// Potion Collision
 	CHealthPotion* pPotion = dynamic_cast<CHealthPotion*>(pLayer->Get_GameObject(L"HealthPotion"));
 	
-	if (pPotion == nullptr)
-		return;
+	if (pPotion != nullptr)
+	{
+		pPlayer->Collision_Event(pPotion);
+	}
 
 	// Coin Collision
 	CCoin* pCoin = dynamic_cast<CCoin*>(pLayer->Get_GameObject(L"Coin"));
-
-	if (pCoin == nullptr)
-		return;
-
-	CTestPlayer* pPlayer = dynamic_cast<CTestPlayer*>(pLayer->Get_GameObject(L"TestPlayer"));
 	
-	pPlayer->Collision_Event(pPotion);
-
-	pPlayer->Collision_Event(pCoin);
+	if (pCoin != nullptr)
+	{
+		pPlayer->Collision_Event(pCoin);
+	}
 
 	Engine::CScene::LateUpdate_Scene();
 }
