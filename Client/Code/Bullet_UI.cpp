@@ -67,6 +67,21 @@ void CBullet_UI::Render_Obejct(void)
 
 	Render_Font(L"BMYEONSUNG", m_szMagazine.c_str(), &_vec2(660.f, 520.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 
+	_uint  iComboCount = dynamic_cast<CHWPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"TestPlayer"))->m_iComboCount;
+	if (iComboCount != 0)
+	{
+		_tchar	tCobmoCount[MAX_PATH];
+		swprintf_s(tCobmoCount, L"%d", iComboCount);
+		m_szComboCount = L"";
+		m_szComboCount += tCobmoCount;
+		Render_Font(L"BMYEONSUNG",L"COMBO", &_vec2(660.f, 50.f), D3DXCOLOR(1.f, 255.f, 1.f, 1.f));
+		Render_Font(L"BMYEONSUNG", m_szComboCount.c_str(), &_vec2(660.f, 100.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+
+
+	}
+
+
+
 	// ~Player's Bullet Magazine left
 
 	m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);

@@ -56,6 +56,7 @@ public:
 	_bool			m_bCheckShot=false;
 	_bool			m_bMissCheck = false;
 	_bool			m_iSoundCheck = false;
+	_int			m_iComboCount = 0;
 private:
 	
 	_uint			m_iCount = 0;

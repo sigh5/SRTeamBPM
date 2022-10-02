@@ -43,7 +43,8 @@ public:
 	CGameObject*		m_pPlayer;
 
 private:
-	wstring				m_szMagazine = L"";		   // 탄창 수 실시간 
+	wstring				m_szMagazine = L"";		   // 탄창 수 실시간
+	wstring				m_szComboCount = L"";		// 실시간 콤보 카운트
 	wstring				m_szOriginMagazine = L"";  // 원래 탄창 수를 표시하기 위한 함수
 
 
