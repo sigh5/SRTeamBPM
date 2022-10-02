@@ -18,6 +18,7 @@ public:
 	virtual void		LateUpdate_Object(void) override;
 	virtual void		Render_Obejct(void) override;
 	virtual void		Collision_Event(CGameObject* pGameObject);
+	void				Clear_Blood(const _float& fTimeDelta);
 
 public:
 	CCalculator*		Get_Calculator(void) { return m_pCalculatorCom; }
