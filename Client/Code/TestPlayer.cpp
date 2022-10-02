@@ -340,7 +340,7 @@ HRESULT CTestPlayer::Create_Bullet(_vec3 vPos)
 
 		CGameObject* pGameObject = nullptr;
 		pGameObject = CObjectMgr::GetInstance()->Reuse_BulltObj(m_pGraphicDev, vPos, PLAYER_BULLET);
-		NULL_CHECK_RETURN(pGameObject, );
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
 		pMyLayer->Add_GameObjectList(pGameObject);
 
 		m_iMagazine -= 1;
