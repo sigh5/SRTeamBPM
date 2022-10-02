@@ -326,10 +326,12 @@ void CImGuiMgr::WindowLayOut()
 {
 	static float f = 0.0f;
 	static int counter = 0;
+	//RadioButton
 	static int RadioButton;
 	int HHW = 0;
 	int BIH = 1;
 	int PJW = 2;
+	//~RadioButton
 	ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
 
 	ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
@@ -352,6 +354,7 @@ void CImGuiMgr::WindowLayOut()
 	
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 	ImGui::BeginChild("USER");
+	//유저 구분 라디오 버튼
 	if (ImGui::RadioButton("HHW", &HHW, m_CurrentUser))
 	{
 		m_CurrentUser = USER_HHW;
@@ -383,15 +386,15 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 		switch (m_CurrentUser)
 		{
 		case USER_HHW:
-			CFileIOMgr::GetInstance()->Save_FileData(pScene, L"TestLayer2", L"../../Data/", L"Stage1Map.dat", OBJ_CUBE);
+			CFileIOMgr::GetInstance()->Save_FileData(pScene, L"MapCubeLayer", L"../../Data/", L"Stage1Map.dat", OBJ_CUBE);
 			break;
 
 		case USER_BIH:
-			CFileIOMgr::GetInstance()->Save_FileData(pScene, L"TestLayer2", L"../../Data/", L"Stage2Map.dat", OBJ_CUBE);
+			CFileIOMgr::GetInstance()->Save_FileData(pScene, L"MapCubeLayer", L"../../Data/", L"Stage2Map.dat", OBJ_CUBE);
 			break;
 
 		case USER_PJW:
-			CFileIOMgr::GetInstance()->Save_FileData(pScene, L"TestLayer2", L"../../Data/", L"Stage3Map.dat", OBJ_CUBE);
+			CFileIOMgr::GetInstance()->Save_FileData(pScene, L"MapCubeLayer", L"../../Data/", L"Stage3Map.dat", OBJ_CUBE);
 		}
 	}
 	ImGui::SameLine();
