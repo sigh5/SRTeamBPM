@@ -21,6 +21,7 @@ HRESULT CHWPlayer::Ready_Object(void)
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	_vec3 vScale = { 0.1f, 0.1f, 0.1f };
 	m_pTransCom->Set_Pos(10.f, 0.f, 10.f);
+
 	m_pTransCom->Set_Scale(&vScale);
 	m_pTransCom->Update_Component(1.5f);
 	// 움직이기 위한 변수
@@ -177,16 +178,14 @@ void CHWPlayer::Key_Input(const _float & fTimeDelta)
 				m_iMagazine -= 1;
 
 			m_bMissCheck = true;
-		}
-		
-		
+		}		
 	}
+
 	if (Get_DIKeyState(DIK_R) & 0X80)
 	{
 		m_iMagazine = 8;
 	}
 
-	
 
 }
 
