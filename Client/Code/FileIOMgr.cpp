@@ -78,7 +78,7 @@ void CFileIOMgr::Save_FileData(CScene * pScene,
 		for (auto iter = test.begin(); iter != test.end(); ++iter)
 		{
 
-			CTransform* Transcom = dynamic_cast<CTransform*>(iter->second->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+			CTransform* Transcom = static_cast<CTransform*>(iter->second->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
 
 			_vec3   vPos, vScale;
 			_int	iMonsterType = 0;
