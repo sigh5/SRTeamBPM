@@ -22,7 +22,7 @@ HRESULT CAnubis::Ready_Object(int Posx, int Posy)
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	
 	m_fHitDelay = 0.f;
-	
+
 
 	CComponent* pComponent = nullptr;
 
@@ -51,6 +51,7 @@ HRESULT CAnubis::Ready_Object(int Posx, int Posy)
 
 _int CAnubis::Update_Object(const _float & fTimeDelta)
 {
+	m_fTimeDelta = fTimeDelta;
 
 	if (m_iPreHp > m_pInfoCom->Get_Hp())
 	{
@@ -145,7 +146,7 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 
 
 	_int iResult = Engine::CGameObject::Update_Object(fTimeDelta);
-	
+
 
 
 	return 0;
@@ -217,12 +218,13 @@ void CAnubis::Collision_Event(CGameObject * pGameObject)
 	{
 		m_pInfoCom->Receive_Damage(1.f);
 		cout << m_pInfoCom->Get_InfoRef()._iHp << endl;
-
+	}
+	
 		CGameObject* pHitBlood = CHitBlood::Create(m_pGraphicDev, PickPos);
 		m_vecBlood.push_back(pHitBlood);
 	}
 
-	//dynamic_cast<CHWPlayer*>(pGameObject)->m_bOneShot = false;
+	dynamic_cast<CHWPlayer*>(pGameObject)->m_bCheckShot = false;
 }
 void				CAnubis::Clear_Blood(const _float& fTimeDelta)
 {

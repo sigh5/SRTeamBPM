@@ -103,8 +103,13 @@ void CColliderStage::LateUpdate_Scene(void)
 
 	CAnubis* pAbubis = dynamic_cast<CAnubis*>(pLayer1->Get_GameObject(L"TestMonster1"));
 	
-	if(pPlayer->m_bCheckShot == 1)
+	if (pPlayer->m_bCheckShot == true)
+	{
 		pAbubis->Collision_Event(pPlayer);
+	}
+		
+	
+		
 	
 
 	Engine::CScene::LateUpdate_Scene();

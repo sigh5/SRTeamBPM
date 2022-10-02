@@ -49,7 +49,7 @@ bool			Key_Up(int _iKey)
 }
 bool			Mouse_Down(MOUSEKEYSTATE _MouseButton)
 {
-	CInputDev::GetInstance()->Mouse_Down(_MouseButton);
+	return CInputDev::GetInstance()->Mouse_Down(_MouseButton);
 }
 
 _float		Get_TimeDelta(const _tchar* pTimerTag)

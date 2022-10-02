@@ -30,7 +30,7 @@ public:
 
 private:
 	int m_iPreIndex = 0;
-
+	_float	m_fTimeDelta = 0.f;
 	CTexture*		m_pTextureCom = nullptr;
 	CRcTex*			m_pBufferCom = nullptr;
 	CCalculator*	m_pCalculatorCom = nullptr;

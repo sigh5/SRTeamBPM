@@ -30,15 +30,16 @@ HRESULT CHWPlayer::Ready_Object(void)
 
 _int CHWPlayer::Update_Object(const _float & fTimeDelta)
 {
-	m_fFrame += 0.5f * fTimeDelta;
+	m_fFrame += 1.0f * fTimeDelta;
 
-	if (m_fFrame >= 0.5f)
+	if (m_fFrame >= 1.0f)
 	{
 		m_bOneShot = false;
-		m_fFrame = 0.f;
+		m_fFrame = 0.f;	
 	}
-
+	
 	Key_Input(fTimeDelta);
+
 
 	Engine::CGameObject::Update_Object(fTimeDelta);
 	
@@ -53,7 +54,6 @@ void CHWPlayer::LateUpdate_Object(void)
 {
 
 	Set_OnTerrain();
-	
 	CGameObject::LateUpdate_Object();
 	
 	
@@ -152,18 +152,17 @@ void CHWPlayer::Key_Input(const _float & fTimeDelta)
 		m_eDirType = DIR_RIGHT;
 	}
 
-	if (Get_DIMouseState(DIM_LB) & 0X80) // Picking
+	if (::Mouse_Down(DIM_LB)) // Picking
 	{
+
 		if (m_iMagazine <= 0)
-		{
-			m_bCheckShot = false;
-			return;
-		}
-		
+			m_bOneShot = FALSE;
+
 		m_bCheckShot = Create_RayCheck(fTimeDelta);
 
-		 
-	
+		if (m_bCheckShot == false)
+			::PlaySoundW(L"Rythm_Check_Fail.wav", SOUND_EFFECT, 0.1f);
+
 	}
 
 
@@ -281,26 +280,21 @@ void CHWPlayer::Penalty_ComBo()
 }
 
 
-_int CHWPlayer::Create_RayCheck(const _float & fTimeDelta)
+_bool CHWPlayer::Create_RayCheck(const _float & fTimeDelta)
 {
-
+	
 	if (m_bOneShot)
 	{
+		m_iCoolTime = 0;
 		// 거리 체크
-		m_bOneShot = false;
 		m_iMagazine -= 1;
-		m_bMissCheck = false;
-		return 1;
+		m_bOneShot = false;
+		return true;
 	}
-	else
-	{
-		m_bMissCheck = true;
-		return 2;
-
-	}
+	
 		
 
-	return 3;
+	return false;
 }
 
 
