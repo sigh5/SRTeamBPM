@@ -212,24 +212,30 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 			wsprintfW(test1, t.c_str(), iIndex);
 			pMyLayer->AddNameList(test1);
 			++iIndex;
-
-			switch(iMonsterType)
+			if (SCENE_TOOLTEST != Get_Scene()->Get_SceneType())
 			{
-			case 0:
+				switch (iMonsterType)
+				{
+				case 0:
+					pGameObject = CAnubis::Create(pGrahicDev);
+					break;
+
+				case 1:
+					pGameObject = CFatBat::Create(pGrahicDev);
+					break;
+
+				case 2:
+					pGameObject = CSpider::Create(pGrahicDev);
+					break;
+
+				default:
+					pGameObject = CAnubis::Create(pGrahicDev);
+					break;
+				}
+			}
+			else
+			{
 				pGameObject = CAnubis::Create(pGrahicDev);
-				break;
-
-			case 1:
-				pGameObject = CFatBat::Create(pGrahicDev);
-				break;
-
-			case 2:
-				pGameObject = CSpider::Create(pGrahicDev);
-				break;
-
-			default:
-				pGameObject = CAnubis::Create(pGrahicDev);
-				break;
 			}
 			//switch(iMonsterType) ???? ???? ???? ???? ???????
 			pMyLayer = pScene->GetLayer(LayerName);
