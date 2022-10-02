@@ -72,7 +72,7 @@ void CMyCamera::Mouse_Move(const _float& fTimeDelta)
 
 	if (dwMouseMove = Engine::Get_DIMouseMove(DIMS_Y))
 	{
-		m_fAngle = dwMouseMove / 10.f;
+		pPlayerTransform->Rotation(ROT_X, D3DXToRadian(dwMouseMove / 10.f)*fTimeDelta);
 	}
 
 }
