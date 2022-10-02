@@ -28,11 +28,12 @@ _int CImGuiMgr::m_iInterval = 100;
 _int CImGuiMgr::m_iWidth = 100;
 _int CImGuiMgr::m_iDepth = 1;
 
+
 ImVec4 CImGuiMgr::clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
 CImGuiMgr::CImGuiMgr()
 {
-
+	m_CurrentUser = USER_HHW;
 }
 
 CImGuiMgr::~CImGuiMgr()
@@ -325,7 +326,10 @@ void CImGuiMgr::WindowLayOut()
 {
 	static float f = 0.0f;
 	static int counter = 0;
-
+	static int RadioButton;
+	int HHW = 0;
+	int BIH = 1;
+	int PJW = 2;
 	ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
 
 	ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
@@ -344,7 +348,25 @@ void CImGuiMgr::WindowLayOut()
 		Show_Monster_Tool = false;
 	}
 
+	
+	
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+	ImGui::BeginChild("USER");
+	if (ImGui::RadioButton("HHW", &HHW, m_CurrentUser))
+	{
+		m_CurrentUser = USER_HHW;
+	}
+	ImGui::SameLine();
+	if (ImGui::RadioButton("BIH", &BIH, m_CurrentUser))
+	{
+		m_CurrentUser = USER_BIH;
+	}
+	ImGui::SameLine();
+	if (ImGui::RadioButton("PJW", &PJW, m_CurrentUser))
+	{
+		m_CurrentUser = USER_PJW;
+	}
+	ImGui::EndChild();
 	ImGui::End();
 }
 
@@ -358,18 +380,55 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 	ImGui::Text("this is Transform_ButtonMenu");
 	if (ImGui::Button("Save"))
 	{
-		CFileIOMgr::GetInstance()->Save_FileData(pScene, L"TestLayer2", L"../../Data/",L"TESp.dat",OBJ_CUBE);
+		switch (m_CurrentUser)
+		{
+		case USER_HHW:
+			CFileIOMgr::GetInstance()->Save_FileData(pScene, L"TestLayer2", L"../../Data/", L"Stage1Map.dat", OBJ_CUBE);
+			break;
+
+		case USER_BIH:
+			CFileIOMgr::GetInstance()->Save_FileData(pScene, L"TestLayer2", L"../../Data/", L"Stage2Map.dat", OBJ_CUBE);
+			break;
+
+		case USER_PJW:
+			CFileIOMgr::GetInstance()->Save_FileData(pScene, L"TestLayer2", L"../../Data/", L"Stage3Map.dat", OBJ_CUBE);
+		}
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Load"))
 	{
-		CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev,
-			pScene, 
-			L"MapCubeLayer",
-			L"../../Data/",
-			L"Stage1Map.dat", 
-			L"TestCube",
-			OBJ_CUBE);
+		switch (m_CurrentUser)
+		{
+		case USER_HHW:
+			CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev,
+				pScene,
+				L"MapCubeLayer",
+				L"../../Data/",
+				L"Stage1Map.dat",
+				L"TestCube",
+				OBJ_CUBE);
+			break;
+
+		case USER_BIH:
+			CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev,
+				pScene,
+				L"MapCubeLayer",
+				L"../../Data/",
+				L"Stage2Map.dat",
+				L"TestCube",
+				OBJ_CUBE);
+			break;
+
+		case USER_PJW:
+			CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev,
+				pScene,
+				L"MapCubeLayer",
+				L"../../Data/",
+				L"Stage3Map.dat",
+				L"TestCube",
+				OBJ_CUBE);
+			break;
+		}
 
 	}
 	ImGui::SameLine();
@@ -653,22 +712,64 @@ void CImGuiMgr::MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 	ImGui::Text("this is Transform_ButtonMenu");
 	if (ImGui::Button("Save"))
 	{
+		switch (m_CurrentUser)
+		{
+		case USER_HHW:
 		CFileIOMgr::GetInstance()->Save_FileData(pScene,
 			L"TestLayer3",
 			L"../../Data/",
-			L"Monster.dat",
+			L"Monster1.dat",
 			OBJ_MONSTER);
+		break;
+		
+		case USER_BIH:
+			CFileIOMgr::GetInstance()->Save_FileData(pScene,
+				L"TestLayer3",
+				L"../../Data/",
+				L"Monster2.dat",
+				OBJ_MONSTER);
+			break;
+
+		case USER_PJW:
+			CFileIOMgr::GetInstance()->Save_FileData(pScene,
+				L"TestLayer3",
+				L"../../Data/",
+				L"Monster3.dat",
+				OBJ_MONSTER);
+			break;
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Load"))
 	{
+		switch (m_CurrentUser)
+		{
+		case USER_HHW:
 		CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev,
 			pScene,
 			L"TestLayer3",
 			L"../../Data/",
-			L"Monster.dat",
+			L"Monster1.dat",
 			L"TestMonster",
 			OBJ_MONSTER);
+		break;
+		case USER_BIH:
+			CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev,
+				pScene,
+				L"TestLayer3",
+				L"../../Data/",
+				L"Monster2.dat",
+				L"TestMonster",
+				OBJ_MONSTER);
+			break;
+		case USER_PJW:
+			CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev,
+				pScene,
+				L"TestLayer3",
+				L"../../Data/",
+				L"Monster3.dat",
+				L"TestMonster",
+				OBJ_MONSTER);
+			break;
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Delete"))

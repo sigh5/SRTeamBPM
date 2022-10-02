@@ -76,6 +76,7 @@ public:
 
 
 private:
+	USER_TYPE	m_CurrentUser;
 	// Map_Tool 변수
 	wstring	m_CurrentSelectGameObjectObjKey = L"";
 	_bool	m_bCubeCreateCheck = false;
