@@ -80,7 +80,7 @@ void CFileIOMgr::Save_FileData(CScene * pScene,
 		for (auto iter = MyLayerMap.begin(); iter != MyLayerMap.end(); ++iter)
 		{
 
-			CTransform* Transcom = dynamic_cast<CTransform*>(iter->second->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+			CTransform* Transcom = dynamic_cast<CTransform*>(iter->second->Get_Component(L"Proto_DynamicTransformCom", ID_DYNAMIC));
 
 			_vec3   vPos, vScale;
 			_int	iMonsterType = 0;
@@ -212,24 +212,30 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 			wsprintfW(test1, t.c_str(), iIndex);
 			pMyLayer->AddNameList(test1);
 			++iIndex;
-
-			switch(iMonsterType)
+			if (SCENE_TOOLTEST != Get_Scene()->Get_SceneType())
 			{
-			case 0:
+				switch (iMonsterType)
+				{
+				case 0:
+					pGameObject = CAnubis::Create(pGrahicDev);
+					break;
+
+				case 1:
+					pGameObject = CFatBat::Create(pGrahicDev);
+					break;
+
+				case 2:
+					pGameObject = CSpider::Create(pGrahicDev);
+					break;
+
+				default:
+					pGameObject = CAnubis::Create(pGrahicDev);
+					break;
+				}
+			}
+			else
+			{
 				pGameObject = CAnubis::Create(pGrahicDev);
-				break;
-
-			case 1:
-				pGameObject = CFatBat::Create(pGrahicDev);
-				break;
-
-			case 2:
-				pGameObject = CSpider::Create(pGrahicDev);
-				break;
-
-			default:
-				pGameObject = CAnubis::Create(pGrahicDev);
-				break;
 			}
 			//switch(iMonsterType) ???? ???? ???? ???? ???????
 			pMyLayer = pScene->GetLayer(LayerName);

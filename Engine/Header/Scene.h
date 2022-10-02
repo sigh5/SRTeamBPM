@@ -24,6 +24,8 @@ public:
 
 	CGameObject* Get_GameObject(const _tchar * pLayerTag, const _tchar * pObjTag);
 
+	virtual SCENE_TYPE		Get_SceneType(void) { return m_SceneType; }
+
 public:
 	CLayer* GetLayer(const _tchar * pLayerTag)
 	{
@@ -48,6 +50,9 @@ public:
 protected:
 	LPDIRECT3DDEVICE9				m_pGraphicDev;
 	map<const _tchar*, CLayer*>		m_mapLayer;
+
+	// 현재 어떤 씬인지 알기 위한 ENUM 타입 변수 	
+	SCENE_TYPE			m_SceneType;
 
 public:
 	virtual void	Free(void);

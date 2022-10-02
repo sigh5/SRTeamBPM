@@ -14,7 +14,7 @@
 #include "TestUI.h"
 
 CLogo::CLogo(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CScene(pGraphicDev), m_SceneType(SCENE_END)
+	: Engine::CScene(pGraphicDev)
 {
 }
 
@@ -37,8 +37,8 @@ HRESULT CLogo::Ready_Scene(void)
 	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
 		
 	Engine::LoadSoundFile();
-	
 
+	
 	return S_OK;
 }
 
@@ -130,7 +130,7 @@ void CLogo::Free(void)
 {
 	Safe_Release(m_pLoading);
 	
-	Engine::CScene::Free();	
+	Engine::CScene::Free();
 }
 
 HRESULT CLogo::Ready_Proto(void)
@@ -150,5 +150,9 @@ HRESULT CLogo::Ready_Proto(void)
 	
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ButtonTexture2", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Button/Exit_Button.png", TEX_NORMAL)), E_FAIL);
 						
+	FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"BMYEONSUNG", L"Power", 16, 20, FW_HEAVY), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"DalseoHealingBold", L"Healing", 10, 12, FW_NORMAL), E_FAIL);
+
 	return S_OK;
 }

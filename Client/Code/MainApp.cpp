@@ -21,6 +21,7 @@ CMainApp::~CMainApp()
 
 HRESULT CMainApp::Ready_MainApp(void)
 {
+	srand(time(NULL));
 	_CrtDumpMemoryLeaks();
 	FAILED_CHECK_RETURN(SetUp_DefaultSetting(&m_pGraphicDev), E_FAIL);	
 
@@ -46,7 +47,7 @@ HRESULT CMainApp::Ready_MainApp(void)
 _int CMainApp::Update_MainApp(const _float & fTimeDelta)
 {
 	// Engine::Update_Input();
-	srand(time(NULL));
+
 	Engine::SetUp_InputDev();
 
 	NULL_CHECK_RETURN(m_pManagementClass, -1);
