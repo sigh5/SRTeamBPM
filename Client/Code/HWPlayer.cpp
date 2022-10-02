@@ -169,7 +169,7 @@ void CHWPlayer::Key_Input(const _float & fTimeDelta)
 		if (m_iMagazine == 0)
 			m_bOneShot = false;
 	
-		Create_bullet(m_vPos, fTimeDelta);
+		//Create_bullet(m_vPos, fTimeDelta);
 
 		// 수정 필요 누르면 2발씩나감
 		if (!m_bOneShot && !m_bMissCheck)

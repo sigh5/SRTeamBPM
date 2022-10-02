@@ -196,9 +196,9 @@ HRESULT CColliderStage::Ready_Layer_UI(const _tchar * pLayerTag)
 
 	CHWPlayer*		pPlayer = dynamic_cast<CHWPlayer*>(Get_GameObject(L"Layer_GameLogic", L"TestPlayer"));
 
-	pGameObject = CBullet_UI::Create(m_pGraphicDev, pPlayer);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Bullet_UI", pGameObject), E_FAIL);
+	//pGameObject = CBullet_UI::Create(m_pGraphicDev, pPlayer);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Bullet_UI", pGameObject), E_FAIL);
 
 
 
@@ -216,20 +216,6 @@ HRESULT CColliderStage::Ready_Layer_UI(const _tchar * pLayerTag)
 */
 
 
-
-/*pGameObject = CObjectMgr::GetInstance()->Reuse_MetronomeUI(m_pGraphicDev, -WINCX / 2.f, 0.f, +100.f, 1);
-NULL_CHECK_RETURN(pGameObject, E_FAIL);
-FAILED_CHECK_RETURN(pLayer->Add_GameObjectList(pGameObject), E_FAIL);*/
-
-
-/*pGameObject = CMetronomeUI::Create(m_pGraphicDev,WINCX/2.f , 0.f, -100.f,0);
-NULL_CHECK_RETURN(pGameObject, E_FAIL);
-FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestUI", pGameObject), E_FAIL);
-*/
-
-/*pGameObject = CMetronomeUI::Create(m_pGraphicDev, -WINCX / 2.f, 0.f, +100.f, 1);
-NULL_CHECK_RETURN(pGameObject, E_FAIL);
-FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestUI2", pGameObject), E_FAIL);*/
 
 
 	return S_OK;

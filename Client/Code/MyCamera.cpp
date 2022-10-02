@@ -39,9 +39,9 @@ HRESULT CMyCamera::Ready_Object(const _vec3 * pEye,
 
 _int CMyCamera::Update_Object(const _float & fTimeDelta)
 {
-	//Key_Input(fTimeDelta);
+	
+	Key_Input(fTimeDelta);
 
-	Mouse_Fix();
 	Mouse_Move(fTimeDelta);
 	Target_Renewal();
 	
