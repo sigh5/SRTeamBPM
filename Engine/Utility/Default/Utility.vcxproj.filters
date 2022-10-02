@@ -88,6 +88,9 @@
     <ClCompile Include="..\Code\BaseBullet.cpp">
       <Filter>01. GameObject\Bullet</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\ItemBase.cpp">
+      <Filter>01. GameObject\ItemBase</Filter>
+    </ClCompile>
     <ClCompile Include="..\Code\PSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -188,6 +191,9 @@
     <ClInclude Include="..\..\Header\BaseBullet.h">
       <Filter>01. GameObject\Bullet</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Header\ItemBase.h">
+      <Filter>01. GameObject\ItemBase</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Header\PSystem.h" />
   </ItemGroup>
   <ItemGroup>
@@ -286,6 +292,9 @@
     </Filter>
     <Filter Include="01. GameObject\Bullet">
       <UniqueIdentifier>{3f79c35e-90f4-40c6-8390-4df3b7b4c203}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. GameObject\ItemBase">
+      <UniqueIdentifier>{38c524d6-8b24-4e85-a6ef-56c779367bf6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

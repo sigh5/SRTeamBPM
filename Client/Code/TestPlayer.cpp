@@ -6,6 +6,8 @@
 #include "Bullet.h"
 #include "Bullet_UI.h"
 #include "Stage.h"
+#include "HpPotion.h"
+#include "Coin.h"
 
 
 CTestPlayer::CTestPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -25,20 +27,34 @@ CTestPlayer::~CTestPlayer()
 HRESULT CTestPlayer::Ready_Object(void)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+							// int _hp, int _Attack, float _fSpeed
+	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
 
-
-	
+	m_preItem = m_pInfoCom->Get_InfoRef()._iCoin;
+		
 	return S_OK;
 }
 
 _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 {
 	++m_iCountDash;
-	//Key_Input(fTimeDelta);
+	Key_Input(fTimeDelta);
+	
+	if (m_preItem = m_pInfoCom->Get_InfoRef()._iCoin)
+	{
+		system("cls");
 
+		/*cout << "체력 : " << m_pInfoCom->Get_InfoRef()._iHp << endl;
+		m_preItem = m_pInfoCom->Get_InfoRef()._iHp;*/
 
+		cout << "코인 : " << m_pInfoCom->Get_InfoRef()._iCoin << endl;
+
+	}	
+
+		// cout << "총알 수 :" << m_iMagazine << endl;
+		
 	Engine::CGameObject::Update_Object(fTimeDelta);
-
+	
 	if (m_bJump == TRUE)
 	{
 		m_pDynamicTransCom->Jumping(m_fJumpPower, fTimeDelta, m_pTransCom);
@@ -55,11 +71,8 @@ _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 	}
 	else
 	{
-		//Set_OnTerrain();
+	
 	}
-
-
-	//Dash(fTimeDelta);
 	
 	m_fFrame += 1.f * fTimeDelta;
 
@@ -68,8 +81,7 @@ _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 		
 	
 	Engine::CGameObject::Update_Object(fTimeDelta);
-
-	
+		
 	/*_matrix		matWorld, matView, matBill;
 	D3DXMatrixIdentity(&matBill);
 
@@ -93,7 +105,7 @@ _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 
 void CTestPlayer::LateUpdate_Object(void)
 {
-	//Set_OnTerrain();
+
 }
 
 void CTestPlayer::Render_Obejct(void)
@@ -143,6 +155,10 @@ HRESULT CTestPlayer::Add_Component(void)
 	pComponent = m_pAnimationCom = dynamic_cast<CAnimation*>(Clone_Proto(L"Proto_AnimationCom"));
 	NULL_CHECK_RETURN(m_pAnimationCom, E_FAIL);
 	m_mapComponent[ID_STATIC].insert({ L"Proto_AnimationCom", pComponent });
+
+	pComponent = m_pInfoCom = dynamic_cast<CCharacterInfo*>(Clone_Proto(L"Proto_CharacterInfoCom"));
+	NULL_CHECK_RETURN(m_pInfoCom, E_FAIL);
+	m_mapComponent[ID_STATIC].insert({ L"Proto_CharacterInfoCom", pComponent });
 
 	
 	return S_OK;
@@ -234,13 +250,23 @@ void CTestPlayer::Key_Input(const _float& fTimeDelta)
 
 	// HpBar Change
 	if (Get_DIKeyState(DIK_C) & 0X80)
-	{
+	{		
 		m_iHpBarChange -= 1;
 	}
 
 	if (Get_DIKeyState(DIK_V) & 0X80)
 	{
 		m_iHpBarChange = 4;
+	}
+
+	if (Get_DIKeyState(DIK_P) & 0X80)
+	{
+		m_pInfoCom->Get_InfoRef()._iAttackPower += 1;		
+	}
+
+	if (Get_DIKeyState(DIK_O) & 0X80)
+	{		
+		m_pInfoCom->Get_InfoRef()._fSpeed += 1.f;
 	}
 	
 	// ~Test
@@ -301,7 +327,6 @@ Engine::_vec3 CTestPlayer::PickUp_OnTerrain(void)
 
 HRESULT CTestPlayer::Create_Bullet(_vec3 vPos)
 {
-
 	++m_iCoolTime;
 
 	if (m_bOneShot && m_iCoolTime > 10)
@@ -313,19 +338,47 @@ HRESULT CTestPlayer::Create_Bullet(_vec3 vPos)
 		CScene* pScene = ::Get_Scene();
 		CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
 
-		CGameObject* pGameObject = nullptr;
+		CGameObject* pGameObject = nullptr;  // Reuse_PlayerBulltObj
 		pGameObject = CObjectMgr::GetInstance()->Reuse_PlayerBulltObj(m_pGraphicDev, vPos);
-		NULL_CHECK_RETURN(pGameObject, );
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
 		pMyLayer->Add_GameObjectList(pGameObject);
 
 		m_iMagazine -= 1;
 
 	}
-
-
 	return S_OK;
 }
 
+void CTestPlayer::Collision_Event(CGameObject * pGameObject)
+{
+	CScene* pScene = ::Get_Scene();
+	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+			
+	CTransform *pTransform = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+	
+	_vec3 vObjPos;
+	_vec3 vPlayerPos;
+
+	pTransform->Get_Info(INFO_POS, &vObjPos);
+	m_pTransCom->Get_Info(INFO_POS, &vPlayerPos);
+
+	if (m_pColliderCom->Check_Sphere_InterSect(vObjPos, vPlayerPos, 1.f, 1.f) == true)
+	{
+		if (pGameObject == pMyLayer->Get_GameObject(L"HealthPotion"))
+		{				
+			m_pInfoCom->Add_Hp(25);
+			m_iHpBarChange += 1;				
+			pMyLayer->Delete_GameObject(L"HealthPotion"); // 이벤트 처리		
+		}
+
+		if (pGameObject == pMyLayer->Get_GameObject(L"Coin"))
+		{
+			m_pInfoCom->Get_InfoRef()._iCoin += 1;
+			pMyLayer->Delete_GameObject(L"Coin"); // 이벤트 처리
+		}
+				
+	}
+}
 
 
 CTestPlayer * CTestPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)

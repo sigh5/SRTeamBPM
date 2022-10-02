@@ -9,9 +9,16 @@
 #include "StaticCamera.h"
 #include "DynamicCamera.h"
 #include "Start_Button.h"
+
+//Item
+#include "HealthPotion.h"
+#include "Coin.h"
+
+//UI
 #include "Bullet_UI.h"
 #include "Weapon_UI.h"
 #include "HpBar.h"
+#include "Status_UI.h"
 
 class CStage_Pjw : public Engine::CScene
 {

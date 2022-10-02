@@ -25,10 +25,12 @@ public:
 
 	const _vec3				Get_VecWinPos() const {return m_vecWinPos;}
 
-
-
-
-
+	void				Set_OrthoScale(_float fX, _float fY)
+	{		
+		m_matView._11 *= fX;
+		m_matView._22 *= fY;
+	}
+	
 public:
 	_matrix					m_matView;
 	_matrix					m_matOrtho;

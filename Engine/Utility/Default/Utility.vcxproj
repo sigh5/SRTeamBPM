@@ -179,6 +179,7 @@ call CopyUtility.bat</Command>
     <ClInclude Include="..\..\Header\Dynamic_Transform.h" />
     <ClInclude Include="..\..\Header\Export_Utility.h" />
     <ClInclude Include="..\..\Header\GameObject.h" />
+    <ClInclude Include="..\..\Header\ItemBase.h" />
     <ClInclude Include="..\..\Header\Layer.h" />
     <ClInclude Include="..\..\Header\Light.h" />
     <ClInclude Include="..\..\Header\LightMgr.h" />
@@ -210,6 +211,7 @@ call CopyUtility.bat</Command>
     <ClCompile Include="..\Code\CubeTex.cpp" />
     <ClCompile Include="..\Code\Dynamic_Transform.cpp" />
     <ClCompile Include="..\Code\GameObject.cpp" />
+    <ClCompile Include="..\Code\ItemBase.cpp" />
     <ClCompile Include="..\Code\Layer.cpp" />
     <ClCompile Include="..\Code\Light.cpp" />
     <ClCompile Include="..\Code\LightMgr.cpp" />

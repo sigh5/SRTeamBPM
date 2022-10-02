@@ -65,7 +65,7 @@ HRESULT CMonsterBase::Add_Component(void)
 	m_mapComponent[ID_DYNAMIC].insert({ L"Proto_CharacterInfoCom", pComponent });
 
 	pComponent = m_pDynamicTransCom = dynamic_cast<CDynamic_Transform*>(Clone_Proto(L"Proto_DynamicTransformCom"));
-	NULL_CHECK_RETURN(m_pInfoCom, E_FAIL);
+	NULL_CHECK_RETURN(m_pDynamicTransCom, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].insert({ L"Proto_DynamicTransformCom" , pComponent });
 
 	return S_OK;
@@ -73,7 +73,6 @@ HRESULT CMonsterBase::Add_Component(void)
 
 bool CMonsterBase::Set_TransformPositon(HWND g_hWnd, CCalculator* _pCalcul)
 {
-
 	CTerrainTex*	pTerrainBufferCom = dynamic_cast<CTerrainTex*>(Engine::Get_Component(L"TestLayer", L"TestMap", L"Proto_TerrainTexCom", ID_STATIC));
 	NULL_CHECK_RETURN(pTerrainBufferCom, );
 
@@ -95,9 +94,5 @@ CharacterInfo&	CMonsterBase::Get_InfoRef()
 
 void Engine::CMonsterBase::Free(void)
 {
-
-
-
-
 	CGameObject::Free();
 }

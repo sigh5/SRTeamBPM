@@ -164,12 +164,14 @@
     <ClInclude Include="..\Header\BackGround.h" />
     <ClInclude Include="..\Header\Bullet.h" />
     <ClInclude Include="..\Header\Bullet_UI.h" />
+    <ClInclude Include="..\Header\Coin.h" />
     <ClInclude Include="..\Header\ColliderStage.h" />
     <ClInclude Include="..\Header\DynamicCamera.h" />
     <ClInclude Include="..\Header\Effect.h" />
     <ClInclude Include="..\Header\Exit_Button.h" />
     <ClInclude Include="..\Header\FatBat.h" />
     <ClInclude Include="..\Header\FileIOMgr.h" />
+    <ClInclude Include="..\Header\HealthPotion.h" />
     <ClInclude Include="..\Header\HpBar.h" />
     <ClInclude Include="..\Header\HWPlayer.h" />
     <ClInclude Include="..\Header\ImGuiMgr.h" />
@@ -188,6 +190,7 @@
     <ClInclude Include="..\Header\Stage_Pjw.h" />
     <ClInclude Include="..\Header\Start_Button.h" />
     <ClInclude Include="..\Header\StaticCamera.h" />
+    <ClInclude Include="..\Header\Status_UI.h" />
     <ClInclude Include="..\Header\Terrain.h" />
     <ClInclude Include="..\Header\TestCube.h" />
     <ClInclude Include="..\Header\TestMonster.h" />
@@ -223,12 +226,14 @@
     <ClCompile Include="..\Code\BackGround.cpp" />
     <ClCompile Include="..\Code\Bullet.cpp" />
     <ClCompile Include="..\Code\Bullet_UI.cpp" />
+    <ClCompile Include="..\Code\Coin.cpp" />
     <ClCompile Include="..\Code\ColliderStage.cpp" />
     <ClCompile Include="..\Code\DynamicCamera.cpp" />
     <ClCompile Include="..\Code\Effect.cpp" />
     <ClCompile Include="..\Code\Exit_Button.cpp" />
     <ClCompile Include="..\Code\FatBat.cpp" />
     <ClCompile Include="..\Code\FileIOMgr.cpp" />
+    <ClCompile Include="..\Code\HealthPotion.cpp" />
     <ClCompile Include="..\Code\HpBar.cpp" />
     <ClCompile Include="..\Code\HWPlayer.cpp" />
     <ClCompile Include="..\Code\ImGuiMgr.cpp" />
@@ -247,6 +252,7 @@
     <ClCompile Include="..\Code\Stage_Pjw.cpp" />
     <ClCompile Include="..\Code\Start_Button.cpp" />
     <ClCompile Include="..\Code\StaticCamera.cpp" />
+    <ClCompile Include="..\Code\Status_UI.cpp" />
     <ClCompile Include="..\Code\Terrain.cpp" />
     <ClCompile Include="..\Code\TestCube.cpp" />
     <ClCompile Include="..\Code\TestMonster.cpp" />

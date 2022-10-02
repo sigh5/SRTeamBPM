@@ -39,8 +39,6 @@ HRESULT CLogo::Ready_Scene(void)
 	Engine::LoadSoundFile();
 
 	
-
-
 	return S_OK;
 }
 
@@ -132,9 +130,7 @@ void CLogo::Free(void)
 {
 	Safe_Release(m_pLoading);
 	
-
 	Engine::CScene::Free();
-	
 }
 
 HRESULT CLogo::Ready_Proto(void)

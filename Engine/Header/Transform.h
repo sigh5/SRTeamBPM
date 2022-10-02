@@ -47,6 +47,8 @@ public:
 
 //	void				Jump(_float _JumpPower, _float _TimeDelta);
 
+	void				Compulsion_Update(void);
+
 public:
 	void				Chase_Target(const _vec3* pTargetPos, const _float& fSpeed, const _float& fTimeDelta);
 	void				Chase_Target_notRot(const _vec3* pTargetPos, const _float& fSpeed, const _float& fTimeDelta);

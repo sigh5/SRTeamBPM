@@ -26,18 +26,18 @@ HRESULT CMainApp::Ready_MainApp(void)
 	FAILED_CHECK_RETURN(SetUp_DefaultSetting(&m_pGraphicDev), E_FAIL);	
 
 	// µð¹ö±×¿ë
-	//#ifdef _DEBUG
-	//
-	//	if (::AllocConsole() == TRUE)
-	//	{
-	//		FILE* nfp[3];
-	//		freopen_s(nfp + 0, "CONOUT$", "rb", stdin);
-	//		freopen_s(nfp + 1, "CONOUT$", "wb", stdout);
-	//		freopen_s(nfp + 2, "CONOUT$", "wb", stderr);
-	//		std::ios::sync_with_stdio();
-	//	}
-	//
-	//#endif // _DEBUG
+	#ifdef _DEBUG
+	
+		if (::AllocConsole() == TRUE)
+		{
+			FILE* nfp[3];
+			freopen_s(nfp + 0, "CONOUT$", "rb", stdin);
+			freopen_s(nfp + 1, "CONOUT$", "wb", stdout);
+			freopen_s(nfp + 2, "CONOUT$", "wb", stderr);
+			std::ios::sync_with_stdio();
+		}
+	
+	#endif // _DEBUG
 	
 	FAILED_CHECK_RETURN(Ready_Scene(m_pGraphicDev, &m_pManagementClass), E_FAIL);
 	::Initialize();
@@ -117,7 +117,7 @@ HRESULT CMainApp::SetUp_DefaultSetting(LPDIRECT3DDEVICE9 * ppGraphicDev)
 	FAILED_CHECK_RETURN(Engine::Ready_InputDev(g_hInst, g_hWnd), E_FAIL);
 
 	// Font
-	FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"Font_Default", L"¹ÙÅÁ", 15, 20, FW_HEAVY), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"Font_Default", L"¹ÙÅÁ", 10, 10, FW_HEAVY), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"Font_Jinji", L"±Ã¼­", 30, 30, FW_NORMAL), E_FAIL);
 
 

@@ -42,7 +42,7 @@ _int CWeapon_UI::Update_Object(const _float & fTimeDelta)
 
 void CWeapon_UI::LateUpdate_Object(void)
 {
-	m_pTransCom->OrthoMatrix(70.f, 30.f, 300.f, -170.f, WINCX, WINCY);
+	m_pTransCom->OrthoMatrix(70.f, 25.f, 300.f, -176.f, WINCX, WINCY);
 
 	CGameObject::LateUpdate_Object();
 }
