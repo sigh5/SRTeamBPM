@@ -38,6 +38,9 @@ namespace Engine
 
 	// ※
 	enum TYPING_TYPE { TYPING_W, TYPING_A, TYPING_S, TYPING_D, TYPING_END };
+
+	enum USER_TYPE { USER_HHW, USER_BIH, USER_PJW, USER_END };
+	//세이브, 로드 파일 구분용
 	enum ITEM_TYPE { ITEM_POTION, ITEM_COIN, ITEM_END };
 
 }

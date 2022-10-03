@@ -39,11 +39,11 @@ HRESULT CMyCamera::Ready_Object(const _vec3 * pEye,
 
 _int CMyCamera::Update_Object(const _float & fTimeDelta)
 {
-	//Key_Input(fTimeDelta);
-
 	Mouse_Fix();
+	Key_Input(fTimeDelta);
+
 	Mouse_Move(fTimeDelta);
-	Target_Renewal();
+	Target_Renewal(fTimeDelta);
 	
 	
 	_int iExit = CCamera::Update_Object(fTimeDelta);
@@ -68,11 +68,16 @@ void CMyCamera::Mouse_Move(const _float& fTimeDelta)
 	{
 		pPlayerTransform->Rotation(ROT_Y, D3DXToRadian(dwMouseMove / 10.f));
 
+		
+		m_iBillBoardDir = dwMouseMove / 10.f * fTimeDelta;
+		
+
 	}
 
 	if (dwMouseMove = Engine::Get_DIMouseMove(DIMS_Y))
 	{
-		m_fAngle = dwMouseMove / 10.f;
+		m_fAngle = D3DXToRadian(dwMouseMove / 10.f) * fTimeDelta;
+		pPlayerTransform->Rotation(ROT_X, D3DXToRadian(dwMouseMove / 10.f)*fTimeDelta);
 	}
 
 }
@@ -100,26 +105,31 @@ void CMyCamera::Mouse_Fix(void)
 
 void CMyCamera::Key_Input(const _float & fTimeDelta)
 {
-	if (Get_DIKeyState(DIK_T) & 0x80)
-	{
-		if (m_bCheck)
-			return;
+	//if (Get_DIKeyState(DIK_T) & 0x80)
+	//{
+	//	if (m_bCheck)
+	//		return;
 
-		m_bCheck = true;
+	//	m_bCheck = true;
 
-		if (m_bFix)
-			m_bFix = false;
-		else
-			m_bFix = true;
-	}
-	else
-		m_bCheck = false;
+	//	if (m_bFix)
+	//		m_bFix = false;
+	//	else
+	//		m_bFix = true;
+	//}
+	//else
+	//	m_bCheck = false;
 
-	if (false == m_bFix)
-		return;
+	//if (false == m_bFix)
+	//	return;
+
+	
+	
+
+
 }
 
-void CMyCamera::Target_Renewal(void)
+void CMyCamera::Target_Renewal(const _float& fTimeDelta)
 {
 	CTransform*	pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC));
 	NULL_CHECK(pPlayerTransform);
@@ -137,17 +147,25 @@ void CMyCamera::Target_Renewal(void)
 	m_vEye += pPlayerTransform->m_vInfo[INFO_POS];
 	m_vAt = pPlayerTransform->m_vInfo[INFO_POS];
 
-	// 
+	
+	// 카메라 보는 위치때메 더해줌
+	m_vAt = m_vEye + vLook;
+
 	_matrix		matCamWorld;
 	D3DXMatrixInverse(&matCamWorld, nullptr, &m_matView);
-	_vec3		vRight;
-	memcpy(&vRight, &matCamWorld.m[0][0], sizeof(_vec3));
 
-	_matrix		matRot;
-	D3DXMatrixRotationAxis(&matRot, &vRight, D3DXToRadian(m_fAngle));
-	D3DXVec3TransformNormal(&vLook, &vLook, &matRot);
+	if (m_bExecution)
+	{
+		::PlaySoundW(L"executionEffect.wav", SOUND_EFFECT, 0.1f);
+		_vec3		vLook;
+		memcpy(&vLook, &matCamWorld.m[2][0], sizeof(_vec3));
 
-	m_vAt = m_vEye + vLook;
+		_vec3		vLength = *D3DXVec3Normalize(&vLook, &vLook) * 5.f * 1;
+
+		m_vEye -= vLength;
+		m_vAt -= vLength;
+		m_bExecution = false;
+	}
 
 }
 

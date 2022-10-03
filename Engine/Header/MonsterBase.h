@@ -32,7 +32,11 @@ protected:
 	CDynamic_Transform* m_pDynamicTransCom = nullptr;
 
 	int m_iMonsterIndex;
+	bool m_bHit = false;
+	float m_fHitDelay;
+	int m_iPreHp;
 
+	vector<CGameObject*> m_vecBlood;
 protected:
 	virtual HRESULT				Add_Component(void);
 	virtual bool				Set_TransformPositon(HWND g_hWnd, CCalculator* _pCalcul);

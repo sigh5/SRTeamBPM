@@ -6,6 +6,7 @@
 #include "Effect.h"
 #include "FileIOMgr.h"
 #include "Snowfall.h"
+#include "HitBlood.h"
 
 
 CStage_BIH::CStage_BIH(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -23,6 +24,7 @@ HRESULT CStage_BIH::Ready_Scene(void)
 	if (FAILED(Engine::CScene::Ready_Scene()))
 		return E_FAIL;
 
+	m_SceneType = SCENE_STAGE_BIH;
 	FAILED_CHECK_RETURN(Ready_Proto(), E_FAIL);
 
 	FAILED_CHECK_RETURN(Ready_Light(), E_FAIL);
@@ -101,6 +103,10 @@ HRESULT CStage_BIH::Ready_Layer_Environment(const _tchar * pLayerTag)
 	pGameObject = CSnowfall::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Snowfall", pGameObject), E_FAIL);
+
+	pGameObject = CHitBlood::Create(m_pGraphicDev, _vec3{ 3.f, 1.f, 3.f });
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"hitblood", pGameObject), E_FAIL);
 
 	m_mapLayer.insert({ pLayerTag, pLayer });
 

@@ -8,6 +8,7 @@
 
 BEGIN(Engine)
 class CTexture;
+class CTransform;
 class ENGINE_DLL CPSystem : public CGameObject
 {
 protected:

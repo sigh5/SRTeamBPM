@@ -28,11 +28,12 @@ _int CImGuiMgr::m_iInterval = 100;
 _int CImGuiMgr::m_iWidth = 100;
 _int CImGuiMgr::m_iDepth = 1;
 
+
 ImVec4 CImGuiMgr::clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
 CImGuiMgr::CImGuiMgr()
 {
-
+	m_CurrentUser = USER_HHW;
 }
 
 CImGuiMgr::~CImGuiMgr()
@@ -325,7 +326,12 @@ void CImGuiMgr::WindowLayOut()
 {
 	static float f = 0.0f;
 	static int counter = 0;
-
+	//RadioButton
+	static int RadioButton;
+	int HHW = 0;
+	int BIH = 1;
+	int PJW = 2;
+	//~RadioButton
 	ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
 
 	ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
@@ -344,7 +350,26 @@ void CImGuiMgr::WindowLayOut()
 		Show_Monster_Tool = false;
 	}
 
+	
+	
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+	ImGui::BeginChild("USER");
+	//유저 구분 라디오 버튼
+	if (ImGui::RadioButton("HHW", &HHW, m_CurrentUser))
+	{
+		m_CurrentUser = USER_HHW;
+	}
+	ImGui::SameLine();
+	if (ImGui::RadioButton("BIH", &BIH, m_CurrentUser))
+	{
+		m_CurrentUser = USER_BIH;
+	}
+	ImGui::SameLine();
+	if (ImGui::RadioButton("PJW", &PJW, m_CurrentUser))
+	{
+		m_CurrentUser = USER_PJW;
+	}
+	ImGui::EndChild();
 	ImGui::End();
 }
 
@@ -358,18 +383,57 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 	ImGui::Text("this is Transform_ButtonMenu");
 	if (ImGui::Button("Save"))
 	{
-		CFileIOMgr::GetInstance()->Save_FileData(pScene, L"TestLayer2", L"../../Data/",L"TESp.dat",OBJ_CUBE);
+		switch (m_CurrentUser)
+		{
+		case USER_HHW:
+			CFileIOMgr::GetInstance()->Save_FileData(pScene, L"MapCubeLayer", L"../../Data/", L"Stage1Map.dat", OBJ_CUBE);
+			break;
+
+		case USER_BIH:
+			CFileIOMgr::GetInstance()->Save_FileData(pScene, L"MapCubeLayer", L"../../Data/", L"Stage2Map.dat", OBJ_CUBE);
+			break;
+
+		case USER_PJW:
+			CFileIOMgr::GetInstance()->Save_FileData(pScene, L"MapCubeLayer", L"../../Data/", L"Stage3Map.dat", OBJ_CUBE);
+			break;
+
+		}
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Load"))
 	{
-		CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev,
-			pScene, 
-			L"MapCubeLayer",
-			L"../../Data/",
-			L"Stage1Map.dat", 
-			L"TestCube",
-			OBJ_CUBE);
+		switch (m_CurrentUser)
+		{
+		case USER_HHW:
+			CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev,
+				pScene,
+				L"MapCubeLayer",
+				L"../../Data/",
+				L"Stage1Map.dat",
+				L"TestCube",
+				OBJ_CUBE);
+			break;
+
+		case USER_BIH:
+			CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev,
+				pScene,
+				L"MapCubeLayer",
+				L"../../Data/",
+				L"Stage2Map.dat",
+				L"TestCube",
+				OBJ_CUBE);
+			break;
+
+		case USER_PJW:
+			CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev,
+				pScene,
+				L"MapCubeLayer",
+				L"../../Data/",
+				L"Stage3Map.dat",
+				L"TestCube",
+				OBJ_CUBE);
+			break;
+		}
 
 	}
 	ImGui::SameLine();
@@ -653,135 +717,179 @@ void CImGuiMgr::MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 	ImGui::Text("this is Transform_ButtonMenu");
 	if (ImGui::Button("Save"))
 	{
-		CFileIOMgr::GetInstance()->Save_FileData(pScene,
-			L"TestLayer3",
-			L"../../Data/",
-			L"Monster.dat",
-			OBJ_MONSTER);
-	}
-	ImGui::SameLine();
-	if (ImGui::Button("Load"))
-	{
-		CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev,
-			pScene,
-			L"TestLayer3",
-			L"../../Data/",
-			L"Monster.dat",
-			L"TestMonster",
-			OBJ_MONSTER);
-	}
-	ImGui::SameLine();
-	if (ImGui::Button("Delete"))
-	{
-		CLayer* MyLayer = pScene->GetLayer(L"TestLayer3");
-		MyLayer->Delete_GameObject(m_CurrentSelectGameObjectObjKey.c_str());
-	}
-	//�ϴ� ���̺� �ε� ���� ���� ���� ����
-
-	if (ImGui::CollapsingHeader("Monster Create & Chose Button", ImGuiTreeNodeFlags_DefaultOpen))
-	{
-		if (ImGui::Button("MonsterDeploy"))
+		switch (m_CurrentUser)
 		{
-			m_bMonsterCreateCheck = true;
-			m_bMonsterSelectCheck = false;
+		case USER_HHW:
+			CFileIOMgr::GetInstance()->Save_FileData(pScene,
+				L"TestLayer3",
+				L"../../Data/",
+				L"Monster1.dat",
+				OBJ_MONSTER);
+			break;
+
+		case USER_BIH:
+			CFileIOMgr::GetInstance()->Save_FileData(pScene,
+				L"TestLayer3",
+				L"../../Data/",
+				L"Monster2.dat",
+				OBJ_MONSTER);
+			break;
+
+		case USER_PJW:
+			CFileIOMgr::GetInstance()->Save_FileData(pScene,
+				L"TestLayer3",
+				L"../../Data/",
+				L"Monster3.dat",
+				OBJ_MONSTER);
+			break;
 		}
 		ImGui::SameLine();
-		if (ImGui::Button("SelectMonster"))
+		if (ImGui::Button("Load"))
 		{
-			m_bMonsterSelectCheck = true;
-			m_bMonsterCreateCheck = false;
-		}
-	}
-
-	CTransform * pTranscom = nullptr;
-	if (m_bMonsterCreateCheck)
-	{
-		ImGui::Text("if double click Create Cube");
-		if (ImGui::IsMouseDoubleClicked(0))
-		{
-			ImVec2 temp = ImGui::GetMousePos();
-
-			//_vec3 vTemp = temp.x
-			CGameObject *pGameObject = nullptr;
-
-			_tchar* test1 = new _tchar[20];
-
-			wstring t = L"Test%d";
-			wsprintfW(test1, t.c_str(), m_iIndex);
-
-			NameList.push_back(test1);
-
-			pGameObject = CAnubis::Create(pGrahicDev, temp.x, temp.y);
-			NULL_CHECK_RETURN(pGameObject, );
-
-			CLayer* pMonsterlayer = pScene->GetLayer(L"TestLayer3");
-
-			FAILED_CHECK_RETURN(pMonsterlayer->Add_GameObject(test1, pGameObject), );
-
-			++m_iIndex;
-
-			pScene->Add_Layer(pMonsterlayer, L"TestLayer3");
-		}
-	}
-
-	if (m_bMonsterSelectCheck)
-	{
-		if (ImGui::IsMouseClicked(0))
-		{
-			CLayer* pMonsterlayer = pScene->GetLayer(L"TestLayer3");
-
-			map<const _tchar*, CGameObject*> test = pMonsterlayer->Get_GameObjectMap();
-
-			for (auto iter = test.begin(); iter != test.end(); ++iter)
+			switch (m_CurrentUser)
 			{
-				if (dynamic_cast<CMonsterBase*>(iter->second)->Set_SelectGizmo(g_hWnd, static_cast<CAnubis*>(iter->second)->Get_Calculator(), static_cast<CAnubis*>(iter->second)->Get_Buffer()))
+			case USER_HHW:
+				CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev,
+					pScene,
+					L"TestLayer3",
+					L"../../Data/",
+					L"Monster1.dat",
+					L"TestMonster",
+					OBJ_MONSTER);
+				break;
+			case USER_BIH:
+				CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev,
+					pScene,
+					L"TestLayer3",
+					L"../../Data/",
+					L"Monster2.dat",
+					L"TestMonster",
+					OBJ_MONSTER);
+				break;
+			case USER_PJW:
+				CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev,
+					pScene,
+					L"TestLayer3",
+					L"../../Data/",
+					L"Monster3.dat",
+					L"TestMonster",
+					OBJ_MONSTER);
+				break;
+			}
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Delete"))
+		{
+			CLayer* MyLayer = pScene->GetLayer(L"TestLayer3");
+			MyLayer->Delete_GameObject(m_CurrentSelectGameObjectObjKey.c_str());
+		}
+		//�ϴ� ���̺� �ε� ���� ���� ���� ����
+
+		if (ImGui::CollapsingHeader("Monster Create & Chose Button", ImGuiTreeNodeFlags_DefaultOpen))
+		{
+			if (ImGui::Button("MonsterDeploy"))
+			{
+				m_bMonsterCreateCheck = true;
+				m_bMonsterSelectCheck = false;
+			}
+			ImGui::SameLine();
+			if (ImGui::Button("SelectMonster"))
+			{
+				m_bMonsterSelectCheck = true;
+				m_bMonsterCreateCheck = false;
+			}
+		}
+
+		CTransform * pTranscom = nullptr;
+		if (m_bMonsterCreateCheck)
+		{
+			ImGui::Text("if double click Create Cube");
+			if (ImGui::IsMouseDoubleClicked(0))
+			{
+				ImVec2 temp = ImGui::GetMousePos();
+
+				//_vec3 vTemp = temp.x
+				CGameObject *pGameObject = nullptr;
+
+				_tchar* test1 = new _tchar[20];
+
+				wstring t = L"Test%d";
+				wsprintfW(test1, t.c_str(), m_iIndex);
+
+				NameList.push_back(test1);
+
+				pGameObject = CAnubis::Create(pGrahicDev, temp.x, temp.y);
+				NULL_CHECK_RETURN(pGameObject, );
+
+				CLayer* pMonsterlayer = pScene->GetLayer(L"TestLayer3");
+
+				FAILED_CHECK_RETURN(pMonsterlayer->Add_GameObject(test1, pGameObject), );
+
+				++m_iIndex;
+
+				pScene->Add_Layer(pMonsterlayer, L"TestLayer3");
+			}
+		}
+
+		if (m_bMonsterSelectCheck)
+		{
+			if (ImGui::IsMouseClicked(0))
+			{
+				CLayer* pMonsterlayer = pScene->GetLayer(L"TestLayer3");
+
+				map<const _tchar*, CGameObject*> test = pMonsterlayer->Get_GameObjectMap();
+
+				for (auto iter = test.begin(); iter != test.end(); ++iter)
 				{
-					pTranscom = dynamic_cast<CTransform*>(iter->second->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
-					m_CurrentSelectGameObjectObjKey = iter->first;
+					if (dynamic_cast<CMonsterBase*>(iter->second)->Set_SelectGizmo(g_hWnd, static_cast<CAnubis*>(iter->second)->Get_Calculator(), static_cast<CAnubis*>(iter->second)->Get_Buffer()))
+					{
+						pTranscom = dynamic_cast<CTransform*>(iter->second->Get_Component(L"Proto_DynamicTransformCom", ID_DYNAMIC));
+						m_CurrentSelectGameObjectObjKey = iter->first;
+					}
 				}
 			}
 		}
-	}
-	CGameObject* pGameObject = dynamic_cast<CMonsterBase*>(Engine::Get_GameObject(L"TestLayer3", m_CurrentSelectGameObjectObjKey.c_str()));
+		CGameObject* pGameObject = dynamic_cast<CMonsterBase*>(Engine::Get_GameObject(L"TestLayer3", m_CurrentSelectGameObjectObjKey.c_str()));
 
-	ImGui::NewLine();
-	//����Ʈ �� ���� ���� Ȥ�� �̸� �����ؼ� create �ؾ���
-	//if (ImGui::CollapsingHeader("Monster Texture", ImGuiTreeNodeFlags_DefaultOpen))
-	//{
-	//	CTexture* pTextureCom = dynamic_cast<CTexture*>(pGameObject->Get_Component(L"Proto_TerrainTexture2", ID_STATIC));
+		ImGui::NewLine();
+		//����Ʈ �� ���� ���� Ȥ�� �̸� �����ؼ� create �ؾ���
+		//if (ImGui::CollapsingHeader("Monster Texture", ImGuiTreeNodeFlags_DefaultOpen))
+		//{
+		//	CTexture* pTextureCom = dynamic_cast<CTexture*>(pGameObject->Get_Component(L"Proto_TerrainTexture2", ID_STATIC));
 
-	//	vector<IDirect3DBaseTexture9*> vecTexture = pTextureCom->Get_Texture();
+		//	vector<IDirect3DBaseTexture9*> vecTexture = pTextureCom->Get_Texture();
 
-	//	for (_uint i = 0; i < 18; ++i)
-	//	{
-	//		if (ImGui::ImageButton((void*)vecTexture[i], ImVec2(32.f, 32.f)))
-	//		{
-	//			//pTextureCom->Set_Texture(i);
-	//			pGameObject->m_iTerrainIdx = i;
-	//		}
-	//		if (i == 0 || (i + 1) % 6)
-	//			ImGui::SameLine();
-	//	}
-	//}
-	TransformEdit(pCam, m_pSelectedTransform, Show_Monster_Tool);
-	// ������ư�� ���Ѱ�
-	if (pTranscom != nullptr)
-		m_pSelectedTransform = pTranscom;
-
-	ImGui::End();
-	if (pGameObject != nullptr)
-	{
-		CharacterInfo* monInfo = nullptr;
-		monInfo = &(static_cast<CMonsterBase*>(pGameObject)->Get_InfoRef());
-		ImGui::Begin("Monster Stat");
-
-		ImGui::Text("Monster Stat Setting Window");
-		ImGui::InputInt("Hp", &monInfo->_iHp);
-		ImGui::InputInt("AttackPower", &monInfo->_iAttackPower);
-		ImGui::InputInt("MonsterIndex", &(static_cast<CMonsterBase*>(pGameObject)->Get_MonsterType()));
-		//������ �޾ƿ��� ������ �� �ִ� ����� ������ ��
+		//	for (_uint i = 0; i < 18; ++i)
+		//	{
+		//		if (ImGui::ImageButton((void*)vecTexture[i], ImVec2(32.f, 32.f)))
+		//		{
+		//			//pTextureCom->Set_Texture(i);
+		//			pGameObject->m_iTerrainIdx = i;
+		//		}
+		//		if (i == 0 || (i + 1) % 6)
+		//			ImGui::SameLine();
+		//	}
+		//}
+		TransformEdit(pCam, m_pSelectedTransform, Show_Monster_Tool);
+		// ������ư�� ���Ѱ�
+		if (pTranscom != nullptr)
+			m_pSelectedTransform = pTranscom;
 
 		ImGui::End();
+		if (pGameObject != nullptr)
+		{
+			CharacterInfo* monInfo = nullptr;
+			monInfo = &(static_cast<CMonsterBase*>(pGameObject)->Get_InfoRef());
+			ImGui::Begin("Monster Stat");
+
+			ImGui::Text("Monster Stat Setting Window");
+			ImGui::InputInt("Hp", &monInfo->_iHp);
+			ImGui::InputInt("AttackPower", &monInfo->_iAttackPower);
+			ImGui::InputInt("MonsterIndex", &(static_cast<CMonsterBase*>(pGameObject)->Get_MonsterType()));
+			//������ �޾ƿ��� ������ �� �ִ� ����� ������ ��
+
+			ImGui::End();
+		}
 	}
 }
 

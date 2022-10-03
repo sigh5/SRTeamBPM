@@ -74,9 +74,10 @@ bool CInputDev::Mouse_Down(MOUSEKEYSTATE _MouseButton)
 	{
 		if (m_bMouseState[i] && !(m_MouseState.rgbButtons[i] & 0x80))
 		{
-			m_bMouseState[i] = false;
+			 m_bMouseState[i] = false;
 		}
 	}
+	return false;
 }
 
 

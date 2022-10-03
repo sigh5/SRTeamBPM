@@ -17,5 +17,6 @@ public:
 
 private:
 	CTexture* m_pTextureCom = nullptr;
+	CTransform* m_pTransform = nullptr;
 };
 

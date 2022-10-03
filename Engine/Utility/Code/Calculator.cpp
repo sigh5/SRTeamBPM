@@ -274,24 +274,22 @@ _bool  CCalculator::PickingOnTransform(HWND hWnd, const CCubeTex * pCubeTexBuffe
 	ZeroMemory(&ViewPort, sizeof(D3DVIEWPORT9));
 	m_pGraphicDev->GetViewport(&ViewPort);
 
-	// ����Ʈ -> ����
+
 	vPoint.x = ptMouse.x / (ViewPort.Width * 0.5f) - 1.f;
 	vPoint.y = ptMouse.y / -(ViewPort.Height * 0.5f) + 1.f;
 	vPoint.z = 0.f;
 
-	// ���� -> �� �����̽�
 	_matrix		matProj;
 
 	m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &matProj);
 	D3DXMatrixInverse(&matProj, nullptr, &matProj);
 	D3DXVec3TransformCoord(&vPoint, &vPoint, &matProj);
 
-	_vec3	vRayDir, vRayPos;		// �� �����̽� ������ �ִ� ����
+	_vec3	vRayDir, vRayPos;		
 
 	vRayPos = { 0.f, 0.f, 0.f };
 	vRayDir = vPoint - vRayPos;
 
-	// �� �����̽� -> ����
 
 	_matrix		matView;
 	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
@@ -299,7 +297,6 @@ _bool  CCalculator::PickingOnTransform(HWND hWnd, const CCubeTex * pCubeTexBuffe
 	D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matView);
 	D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matView);
 
-	// ���� -> ����
 	_matrix		matWorld;
 
 	pCubeTransCom->Get_WorldMatrix(&matWorld);

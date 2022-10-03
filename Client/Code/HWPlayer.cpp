@@ -5,6 +5,7 @@
 
 #include "Export_Function.h"
 #include "ObjectMgr.h"
+#include "MyCamera.h"
 
 CHWPlayer::CHWPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -30,39 +31,21 @@ HRESULT CHWPlayer::Ready_Object(void)
 
 _int CHWPlayer::Update_Object(const _float & fTimeDelta)
 {
-	
-	m_fFrame += 1.f * fTimeDelta;
+	m_fFrame += 1.0f * fTimeDelta;
 
-	if (m_fFrame >= 1.f)
+	if (m_fFrame >= 1.0f)
 	{
 		m_bOneShot = false;
 		m_fFrame = 0.f;
 	}
 	
-
 	Key_Input(fTimeDelta);
 
-
-	if(m_bComboPenalty==false)
-	{
-		m_ComboTimer += 0.1f* fTimeDelta;
-
-		if (m_ComboTimer >= 0.1f)
-		{
-			Penalty_ComBo();
-			m_ComboTimer = 0;
-		}
-	}
-
-	Miss_ClickMouseLB(fTimeDelta);
 	
 
-	
 	Engine::CGameObject::Update_Object(fTimeDelta);
-
-
 	
-	// 1인칭 만들기
+
 	Add_RenderGroup(RENDER_ALPHA, this);
 	
 	return 0;
@@ -72,6 +55,11 @@ void CHWPlayer::LateUpdate_Object(void)
 {
 
 	Set_OnTerrain();
+
+	
+	CGameObject::LateUpdate_Object();
+	
+	
 }
 
 void CHWPlayer::Render_Obejct(void)
@@ -120,6 +108,9 @@ HRESULT CHWPlayer::Add_Component(void)
 	NULL_CHECK_RETURN(m_pAnimationCom, E_FAIL);
 	m_mapComponent[ID_STATIC].insert({ L"Proto_AnimationCom", pComponent });
 
+	pComponent = m_pColliderCom = dynamic_cast<CCollider*>(Clone_Proto(L"Proto_ColliderCom"));
+	NULL_CHECK_RETURN(m_pColliderCom, E_FAIL);
+	m_mapComponent[ID_STATIC].insert({ L"Proto_ColliderCom", pComponent });
 
 	return S_OK;
 }
@@ -164,27 +155,32 @@ void CHWPlayer::Key_Input(const _float & fTimeDelta)
 		m_eDirType = DIR_RIGHT;
 	}
 
-	if (Engine::Get_DIMouseState(DIM_LB) & 0X80) // Picking
+	if (::Mouse_Down(DIM_LB)) // Picking
 	{
-		if (m_iMagazine == 0)
-			m_bOneShot = false;
-	
-		Create_bullet(m_vPos, fTimeDelta);
+		if (m_iMagazine <= 0)
+			m_bOneShot = FALSE;
 
-		// 수정 필요 누르면 2발씩나감
-		if (!m_bOneShot && !m_bMissCheck)
+		m_bCheckShot = Create_RayCheck(fTimeDelta);
+		if (m_bCheckShot)
 		{
-			if (m_iMagazine >= 0)
-				m_iMagazine -= 1;
-
-			m_bMissCheck = true;
-		}		
+			++m_iComboCount;
+			cout << m_iComboCount << endl;
+		}
+		if (m_bCheckShot == false)
+		{
+			::PlaySoundW(L"Rythm_Check_Fail.wav", SOUND_EFFECT, 0.1f);
+			m_iComboCount = 0;
+		}
 	}
+
+
 
 	if (Get_DIKeyState(DIK_R) & 0X80)
 	{
 		m_iMagazine = 8;
 	}
+
+
 
 
 }
@@ -294,45 +290,24 @@ void CHWPlayer::Penalty_ComBo()
 	
 }
 
-void CHWPlayer::Miss_ClickMouseLB(const _float & fTimeDelta)
+
+_bool CHWPlayer::Create_RayCheck(const _float & fTimeDelta)
 {
 	
-	if (m_bMissCheck)
-	{
-		m_fMissClick += 1.f * fTimeDelta;
-
-		if (m_fMissClick >= 1.f)
-		{
-			m_bMissCheck = false;
-			m_fMissClick = 0;
-		}
-	}
-}
-
-HRESULT CHWPlayer::Create_bullet(_vec3 vPos , const _float & fTimeDelta)
-{
-	++m_iCoolTime;
-
 	if (m_bOneShot)
 	{
-		m_bOneShot = false;
-		m_bComboPenalty = true;
 		m_iCoolTime = 0;
-
-		CScene* pScene = ::Get_Scene();
-		CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
-
-		CGameObject* pGameObject = nullptr;
-		pGameObject = CObjectMgr::GetInstance()->Reuse_PlayerBulltObj(m_pGraphicDev, vPos);
-		NULL_CHECK_RETURN(pGameObject, E_FAIL);
-		pMyLayer->Add_GameObjectList(pGameObject);
-
 		m_iMagazine -= 1;
-
+		m_bOneShot = false;
+		return true;
 	}
+	
+		
 
-	return S_OK;
+	return false;
 }
+
+
 
 CHWPlayer * CHWPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {

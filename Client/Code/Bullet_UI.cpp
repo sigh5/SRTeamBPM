@@ -24,10 +24,6 @@ HRESULT CBullet_UI::Ready_Object(CGameObject* pPlayer)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	//_uint iMagOriginCount = dynamic_cast<CTestPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"TestPlayer"))->Get_Magazine();
-
-	//m_szOriginMagazin = iMagOriginCount;
-
 	m_pPlayer = pPlayer;
 		
 	return S_OK;
@@ -36,7 +32,7 @@ HRESULT CBullet_UI::Ready_Object(CGameObject* pPlayer)
 _int CBullet_UI::Update_Object(const _float & fTimeDelta)
 {			
 												// 여기만 바꾸면
-	m_pAnimationCom->Control_Animation(dynamic_cast<CTestPlayer*>(m_pPlayer)->Get_Magazine());
+	m_pAnimationCom->Control_Animation(dynamic_cast<CHWPlayer*>(m_pPlayer)->Get_Magazine());
 	
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
@@ -60,7 +56,7 @@ void CBullet_UI::Render_Obejct(void)
 	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &m_pTransCom->m_matOrtho);
 
 
-	_uint iMagazineCount = dynamic_cast<CTestPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"TestPlayer"))->Get_Magazine();
+	_uint iMagazineCount = dynamic_cast<CHWPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"TestPlayer"))->Get_Magazine();
 	
 	// Player's Bullet Magazine left
 	
@@ -70,6 +66,21 @@ void CBullet_UI::Render_Obejct(void)
 	m_szMagazine += tMagazine;
 
 	Render_Font(L"BMYEONSUNG", m_szMagazine.c_str(), &_vec2(660.f, 520.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+
+	_uint  iComboCount = dynamic_cast<CHWPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"TestPlayer"))->m_iComboCount;
+	if (iComboCount != 0)
+	{
+		_tchar	tCobmoCount[MAX_PATH];
+		swprintf_s(tCobmoCount, L"%d", iComboCount);
+		m_szComboCount = L"";
+		m_szComboCount += tCobmoCount;
+		Render_Font(L"BMYEONSUNG",L"COMBO", &_vec2(660.f, 50.f), D3DXCOLOR(1.f, 255.f, 1.f, 1.f));
+		Render_Font(L"BMYEONSUNG", m_szComboCount.c_str(), &_vec2(660.f, 100.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+
+
+	}
+
+
 
 	// ~Player's Bullet Magazine left
 
