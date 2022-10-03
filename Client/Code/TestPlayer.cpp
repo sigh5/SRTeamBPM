@@ -31,7 +31,7 @@ HRESULT CTestPlayer::Ready_Object(void)
 							// int _hp, int _Attack, float _fSpeed
 	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
 
-	m_preItem = m_pInfoCom->Get_InfoRef()._iCoin;
+	//m_preItem = m_pInfoCom->Get_InfoRef()._iCoin;
 		
 	return S_OK;
 }
@@ -41,16 +41,16 @@ _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 	++m_iCountDash;
 	Key_Input(fTimeDelta);
 	
-	if (m_preItem = m_pInfoCom->Get_InfoRef()._iCoin)
-	{
-		//system("cls");
+	//if (m_preItem = m_pInfoCom->Get_InfoRef()._iCoin) // Coin 획득했는가를 체크하는 코드
+	//{
+	//	//system("cls");
 
-		/*cout << "체력 : " << m_pInfoCom->Get_InfoRef()._iHp << endl;
-		m_preItem = m_pInfoCom->Get_InfoRef()._iHp;*/
+	//	/*cout << "체력 : " << m_pInfoCom->Get_InfoRef()._iHp << endl;
+	//	m_preItem = m_pInfoCom->Get_InfoRef()._iHp;*/
 
-		cout << "코인 : " << m_pInfoCom->Get_InfoRef()._iCoin << endl;
+	//	cout << "코인 : " << m_pInfoCom->Get_InfoRef()._iCoin << endl;
 
-	}	
+	//}	
 
 		// cout << "총알 수 :" << m_iMagazine << endl;
 		

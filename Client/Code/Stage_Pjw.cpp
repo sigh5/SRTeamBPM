@@ -151,17 +151,19 @@ HRESULT CStage_Pjw::Ready_Layer_Environment(const _tchar * pLayerTag)
 
 HRESULT CStage_Pjw::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 {
+
 	Engine::CLayer*		pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 
 	CGameObject*		pGameObject = nullptr;
 
+	m_mapLayer.insert({ pLayerTag, pLayer });
 	// testPlayer
 	pGameObject = CTestPlayer::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestPlayer", pGameObject), E_FAIL);
 	
-	m_mapLayer.insert({ pLayerTag, pLayer });
+	// m_mapLayer.insert({ pLayerTag, pLayer });
 	/*
 	// HealthPotion
 	pGameObject = CHealthPotion::Create(m_pGraphicDev, 5, 10);
@@ -180,7 +182,7 @@ HRESULT CStage_Pjw::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Box", pGameObject), E_FAIL);
 
-	m_mapLayer.insert({ pLayerTag, pLayer });
+
 
 	//몬스터 테스트용
 	/*pGameObject = CMonster::Create(m_pGraphicDev);

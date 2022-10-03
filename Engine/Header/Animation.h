@@ -32,6 +32,8 @@ public:
 	_uint	m_iOrigin = 0;
 	_bool	m_bOpen = false;
 
+	_bool   m_bClone;
+
 public:
 	virtual CComponent* Clone(void) override;
 	static CAnimation*		Create(LPDIRECT3DDEVICE9 pGraphicDev, int _iMaxMotion, int _iMinMotion, float _fInterval);

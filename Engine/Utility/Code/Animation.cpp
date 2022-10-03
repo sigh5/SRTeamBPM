@@ -98,5 +98,7 @@ CAnimation * CAnimation::Create(LPDIRECT3DDEVICE9 pGraphicDev, int _iMaxMotion, 
 void CAnimation::Free(void)
 {
 	CComponent::Free();
+
+	
 }
 

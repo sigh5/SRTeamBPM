@@ -18,7 +18,7 @@ CItemBase::CItemBase(LPDIRECT3DDEVICE9 pGraphicDev)
 }
 
 CItemBase::CItemBase(const CItemBase & rhs)
-	: CGameObject(rhs)
+	: CGameObject(rhs)//, m_pInfoCom(rhs.m_pInfoCom), m_pAnimationCom(rhs.m_pAnimationCom), m_pDynamicTransCom(rhs.m_pDynamicTransCom)
 {
 }
 

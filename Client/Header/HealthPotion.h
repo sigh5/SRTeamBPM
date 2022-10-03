@@ -34,7 +34,7 @@ private:
 	CTransform*			m_pTransCom = nullptr;
 	CTexture*			m_pTextureCom = nullptr;
 	CCalculator*		m_pCalculatorCom = nullptr;	
-	CAnimation*			m_pAnimationCom = nullptr;	
+	
 
 
 private:

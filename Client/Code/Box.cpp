@@ -77,18 +77,6 @@ void CBox::Set_OnTerrain(void)
 
 	m_pTransCom->Set_Pos(vPos.x, fHeight+0.9f, vPos.z);
 
-	/*
-	// HealthPotion
-	pGameObject = CHealthPotion::Create(m_pGraphicDev, 5, 10);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"HealthPotion", pGameObject), E_FAIL);
-
-	// Coin
-	pGameObject = CCoin::Create(m_pGraphicDev, 22, 10);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Coin", pGameObject), E_FAIL);
-
-	*/
 }
 
 HRESULT CBox::Open_Event(CGameObject * pGameObject)
@@ -116,7 +104,7 @@ HRESULT CBox::Open_Event(CGameObject * pGameObject)
 		//CHealthPotion* pPotion = CHealthPotion::Create(m_pGraphicDev, vPos.x - 1, vPos.z - 1);
 		//NULL_CHECK(pPotion);
 		
-		pGameObj = CHealthPotion::Create(m_pGraphicDev, vPos.x - 1, vPos.z - 1);
+		pGameObj = CHealthPotion::Create(m_pGraphicDev, vPos.x - 1, vPos.z - 5);
 		NULL_CHECK_RETURN(pGameObj, E_FAIL);
 		FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(L"HealthPotion", pGameObj), E_FAIL);
 
@@ -159,7 +147,7 @@ HRESULT CBox::Add_Component(void)
 	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_BoxTexture", m_mapComponent, ID_STATIC);
 	m_pCalculatorCom = CAbstractFactory<CCalculator>::Clone_Proto_Component(L"Proto_CalculatorCom", m_mapComponent, ID_STATIC);
 	m_pAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_STATIC);
-
+	m_pColliderCom = CAbstractFactory<CCollider>::Clone_Proto_Component(L"Proto_ColliderCom", m_mapComponent, ID_STATIC);
 
 
 	return S_OK;

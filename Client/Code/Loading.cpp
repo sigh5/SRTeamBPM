@@ -225,6 +225,8 @@ _uint CLoading::Loading_ForPlayer_UI(void)
 	
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_DynamicTransformCom", CDynamic_Transform::Create()), E_FAIL);
 
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ColliderCom", CCollider::Create(m_pGraphicDev)), E_FAIL);
+
 	m_bFinish = true;
 
 	lstrcpy(m_szLoading, L"Loading Complete!!!!!!!!!!!");

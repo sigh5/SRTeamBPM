@@ -113,5 +113,5 @@ CHealthPotion * CHealthPotion::Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint iX, _
 
 void CHealthPotion::Free(void)
 {
-	CGameObject::Free();
+	CItemBase::Free();
 }
