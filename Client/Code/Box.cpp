@@ -98,10 +98,12 @@ HRESULT CBox::Open_Event(CGameObject * pGameObject)
 
 		m_pTransCom->Get_Info(INFO_POS, &vPos);
 
+	//	_vec3 vTemp = {vPos.x - 3.f, vPos.y, vPos.z - 3.f};
+
 		// HealthPotion
 		CGameObject* pGameObj = nullptr;
 		
-		pGameObj = CHealthPotion::Create(m_pGraphicDev, vPos.x - 1, vPos.z - 1);
+		pGameObj = CHealthPotion::Create(m_pGraphicDev, vPos.x - 2.f, vPos.z - 2.f );
 		NULL_CHECK_RETURN(pGameObj, E_FAIL);
 		FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(L"HealthPotion", pGameObj), E_FAIL);
 

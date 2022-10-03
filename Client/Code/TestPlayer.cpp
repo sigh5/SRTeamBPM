@@ -9,6 +9,7 @@
 #include "HpPotion.h"
 #include "Coin.h"
 #include "Box.h"
+#include "MyCamera.h"
 
 
 CTestPlayer::CTestPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -54,7 +55,7 @@ _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 
 		// cout << "총알 수 :" << m_iMagazine << endl;
 		
-	Engine::CGameObject::Update_Object(fTimeDelta);
+
 	
 	if (m_bJump == TRUE)
 	{
@@ -106,7 +107,41 @@ _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 
 void CTestPlayer::LateUpdate_Object(void)
 {
+	// 빌보드 에러 해결
+	CTransform*	pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC));
+	NULL_CHECK(pPlayerTransform);
 
+	CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"DynamicCamera"));
+	NULL_CHECK(pCamera);
+
+	_matrix		matWorld, matView, matBill;
+
+	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
+	D3DXMatrixIdentity(&matBill);
+	memcpy(&matBill, &matView, sizeof(_matrix));
+	memset(&matBill._41, 0, sizeof(_vec3));
+	D3DXMatrixInverse(&matBill, 0, &matBill);
+
+	_matrix      matScale, matTrans;
+	D3DXMatrixScaling(&matScale, 2.f, 2.f, 2.f);
+
+	_matrix      matRot;
+	D3DXMatrixIdentity(&matRot);
+	D3DXMatrixRotationY(&matRot, pCamera->Get_BillBoardDir());
+
+	_vec3 vPos;
+	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+
+	D3DXMatrixTranslation(&matTrans,
+		vPos.x,
+		vPos.y,
+		vPos.z);
+
+	D3DXMatrixIdentity(&matWorld);
+	matWorld = matScale* matRot * matBill * matTrans;
+	m_pDynamicTransCom->Set_WorldMatrix(&(matWorld));
+
+	// 빌보드 에러 해결
 }
 
 void CTestPlayer::Render_Obejct(void)
