@@ -220,25 +220,23 @@ void CAnubis::Collision_Event(CGameObject * pGameObject)
 		cout << m_pInfoCom->Get_InfoRef()._iHp << endl;
 	}
 	
-		CGameObject* pHitBlood = CHitBlood::Create(m_pGraphicDev, PickPos);
-		m_vecBlood.push_back(pHitBlood);
-	}
-
-	dynamic_cast<CHWPlayer*>(pGameObject)->m_bCheckShot = false;
+		//CGameObject* pHitBlood = CHitBlood::Create(m_pGraphicDev, PickPos);
+		//m_vecBlood.push_back(pHitBlood);
 }
+
 void				CAnubis::Clear_Blood(const _float& fTimeDelta)
 {
-	for (auto iter = m_vecBlood.front(); iter != m_vecBlood.back();)
-	{
-		//if(static_cast<CHitBlood*>(&(*iter))->Get_Motion())
-		if (2 == iter->Update_Object(fTimeDelta))
-		{
-		}
-		else
-		{
-			++iter;
-		}
-	}
+	//for (auto iter = m_vecBlood.front(); iter != m_vecBlood.back();)
+	//{
+	//	//if(static_cast<CHitBlood*>(&(*iter))->Get_Motion())
+	//	if (2 == iter->Update_Object(fTimeDelta))
+	//	{
+	//	}
+	//	else
+	//	{
+	//		++iter;
+	//	}
+	//} //코드병합으로 잠굼
 }
 
 CAnubis * CAnubis::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)
