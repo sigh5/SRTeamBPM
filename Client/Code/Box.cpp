@@ -100,42 +100,13 @@ HRESULT CBox::Open_Event(CGameObject * pGameObject)
 
 		// HealthPotion
 		CGameObject* pGameObj = nullptr;
-
-		//CHealthPotion* pPotion = CHealthPotion::Create(m_pGraphicDev, vPos.x - 1, vPos.z - 1);
-		//NULL_CHECK(pPotion);
 		
-		pGameObj = CHealthPotion::Create(m_pGraphicDev, vPos.x - 1, vPos.z - 5);
+		pGameObj = CHealthPotion::Create(m_pGraphicDev, vPos.x - 1, vPos.z - 1);
 		NULL_CHECK_RETURN(pGameObj, E_FAIL);
 		FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(L"HealthPotion", pGameObj), E_FAIL);
 
 		return S_OK;
-		/*
 		
-		CBullet* pBullet = CBullet::Create(m_pGraphicDev, vPos);
-		NULL_CHECK(pBullet);
-
-		_tchar*         szFinalName = new _tchar[128];
-		wsprintf(szFinalName, L"");
-
-		const _tchar*   szBulletName = L"Bullet_%d";
-
-		wsprintf(szFinalName, szBulletName, m_iCount);
-
-		//_tchar*	szBullet = L"Bullet1";
-		//FAILED_CHECK_RETURN(Engine::Add_GameObject(L"Layer_GameLogic", szFinalName, pBullet), E_FAIL);
-		FAILED_CHECK_RETURN(Engine::Add_GameObject(L"TestLayer", szFinalName, pBullet), E_FAIL);
-
-		if (szBulletName != nullptr)
-			m_iMagazine -= 1;
-
-		m_szBulletName.push_back(szFinalName);
-		m_iCount++;
-
-		m_bOneShot = false;
-		m_iCoolTime = 0;
-
-		*/
-	
 	}
 
 }
