@@ -1,6 +1,7 @@
 #include "TimerMgr.h"
 
 USING(Engine)
+
 IMPLEMENT_SINGLETON(CTimerMgr)
 
 CTimerMgr::CTimerMgr()
@@ -10,7 +11,7 @@ CTimerMgr::CTimerMgr()
 
 CTimerMgr::~CTimerMgr()
 {
-	Free();
+	Free();	
 }
 
 void Engine::CTimerMgr::Free(void)

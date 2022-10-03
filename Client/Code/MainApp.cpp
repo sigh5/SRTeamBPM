@@ -191,15 +191,17 @@ void CMainApp::Free(void)
 	ImGui_ImplDX9_Shutdown();
 	ImGui_ImplWin32_Shutdown();
 	ImGui::DestroyContext();
-	CImGuiMgr::GetInstance()->DestroyInstance();
 #endif // _DEBUG
-	CFileIOMgr::GetInstance()->DestroyInstance();
 	CObjectMgr::GetInstance()->DestroyInstance();
+	CFileIOMgr::GetInstance()->DestroyInstance();
+	CImGuiMgr::GetInstance()->DestroyInstance();
+	FreeConsole();
 	
 	
 	Safe_Release(m_pGraphicDev);
 	Safe_Release(m_pDeviceClass);
 	Safe_Release(m_pManagementClass);
+	
 
 	Engine::Release_Utility();
 	Engine::Release_System();

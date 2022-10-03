@@ -129,6 +129,8 @@ CLogo * CLogo::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 void CLogo::Free(void)
 {
 	Safe_Release(m_pLoading);
+	Safe_Release(m_pStartButton);
+	Safe_Release(m_pExitButton);
 	
 	Engine::CScene::Free();	
 }

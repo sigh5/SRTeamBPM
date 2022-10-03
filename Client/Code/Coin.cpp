@@ -101,5 +101,5 @@ CCoin * CCoin::Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint iX, _uint iY)
 
 void CCoin::Free(void)
 {
-	CGameObject::Free();
+	CItemBase::Free();
 }
