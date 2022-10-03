@@ -228,11 +228,11 @@ void CAnubis::Collision_Event(CGameObject * pGameObject)
 
 void CAnubis::Excution_Event()
 {
-	if (m_pInfoCom->Get_InfoRef()._iHp <= 98 && m_pInfoCom->Get_InfoRef()._iHp >=97)
+	if (m_pInfoCom->Get_InfoRef()._iHp <= 98 && m_pInfoCom->Get_InfoRef()._iHp >= 97)
 	{
 		static_cast<CMyCamera*>(::Get_GameObject(L"Layer_Environment", L"StaticCamera"))->m_bExecution = true;
 	}
-
+}
 
 void				CAnubis::Clear_Blood(const _float& fTimeDelta)
 {
