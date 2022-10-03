@@ -5,6 +5,7 @@
 #include "AbstractFactory.h"
 #include "MyCamera.h"
 #include "HWPlayer.h"
+#include "HitBlood.h"
 
 CAnubis::CAnubis(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -20,7 +21,8 @@ HRESULT CAnubis::Ready_Object(int Posx, int Posy)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	
-	m_fHitDelay = 1.f;
+	m_fHitDelay = 0.f;
+
 
 	CComponent* pComponent = nullptr;
 
@@ -37,6 +39,7 @@ HRESULT CAnubis::Ready_Object(int Posx, int Posy)
 
 	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
 	m_pAnimationCom->Ready_Animation(6, 1, 0.2f);
+	m_iPreHp = (m_pInfoCom->Get_InfoRef()._iHp);
 	if (Posx == 0 && Posy == 0) {}
 	else
 	{
@@ -50,6 +53,15 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 {
 	m_fTimeDelta = fTimeDelta;
 
+	if (m_iPreHp > m_pInfoCom->Get_Hp())
+	{
+		m_bHit = true;
+		m_iPreHp = m_pInfoCom->Get_Hp();
+		if (m_fHitDelay != 0)
+		{
+			m_fHitDelay = 0;
+		}
+	}
 
 //#ifdef _DEBUG
 	/*if (SCENE_TOOLTEST == Get_Scene()->Get_SceneType())
@@ -137,6 +149,7 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 	Add_RenderGroup(RENDER_ALPHA, this);
 
 
+
 	return 0;
 }
 
@@ -201,8 +214,8 @@ void CAnubis::Render_Obejct(void)
 
 void CAnubis::Collision_Event(CGameObject * pGameObject)
 {
-
-	if (m_pColliderCom->Check_Lay_InterSect(m_pBufferCom,m_pDynamicTransCom,g_hWnd))
+	_vec3 PickPos;
+	if (m_pColliderCom->Check_Lay_InterSect(m_pBufferCom,m_pDynamicTransCom,g_hWnd, PickPos))
 	{
 		m_pInfoCom->Receive_Damage(1.f);
 		cout << m_pInfoCom->Get_InfoRef()._iHp << endl;
@@ -221,7 +234,19 @@ void CAnubis::Excution_Event()
 	}
 
 
-
+void				CAnubis::Clear_Blood(const _float& fTimeDelta)
+{
+	//for (auto iter = m_vecBlood.front(); iter != m_vecBlood.back();)
+	//{
+	//	//if(static_cast<CHitBlood*>(&(*iter))->Get_Motion())
+	//	if (2 == iter->Update_Object(fTimeDelta))
+	//	{
+	//	}
+	//	else
+	//	{
+	//		++iter;
+	//	}
+	//} //코드병합으로 잠굼
 }
 
 CAnubis * CAnubis::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)

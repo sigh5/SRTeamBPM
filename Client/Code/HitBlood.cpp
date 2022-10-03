@@ -30,7 +30,7 @@ _int CHitBlood::Update_Object(const _float & fTimeDelta)
 	if (m_pAnimationCom->m_iMotion == m_pAnimationCom->m_iMaxMotion)
 	{
 		//»èÁ¦
-		return 0;
+		return 2;
 	}
 
 	m_pAnimationCom->Move_Animation(fTimeDelta);
@@ -69,6 +69,7 @@ void CHitBlood::LateUpdate_Object(void)
 void CHitBlood::Render_Obejct(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
+	m_pGraphicDev->SetRenderState(D3DRS_ZENABLE, false);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
@@ -81,6 +82,7 @@ void CHitBlood::Render_Obejct(void)
 	m_pBufferCom->Render_Buffer();
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+	m_pGraphicDev->SetRenderState(D3DRS_ZENABLE, true);
 }
 
 HRESULT CHitBlood::Add_Component(void)
