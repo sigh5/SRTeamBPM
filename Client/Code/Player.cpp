@@ -26,7 +26,7 @@ HRESULT CPlayer::Ready_Object(void)
 	
 	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
 
-	m_pDynamicTransCom->Set_Pos(10.f, 0.f, 10.f);
+	m_pDynamicTransCom->Set_Pos(10.f, 2.f, 10.f);
 	_vec3 vScale = { 0.1f, 0.1f, 0.1f };
 	m_pDynamicTransCom->Set_Scale(&vScale);
 	m_pDynamicTransCom->Update_Component(1.5f);
@@ -66,6 +66,8 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 	{
 
 	}
+
+	m_pDynamicTransCom->Set_Y(2.f);
 
 	Engine::CGameObject::Update_Object(fTimeDelta);
 

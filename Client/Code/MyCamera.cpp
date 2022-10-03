@@ -145,25 +145,38 @@ void CMyCamera::Target_Renewal(const _float& fTimeDelta)
 	m_vEye += pPlayerTransform->m_vInfo[INFO_POS];
 	m_vAt = pPlayerTransform->m_vInfo[INFO_POS];
 
-	
+	//
+	//_matrix		matCamWorld;
+	//D3DXMatrixInverse(&matCamWorld, nullptr, &m_matView);
+	//_vec3		vRight;
+	//memcpy(&vRight, &matCamWorld.m[0][0], sizeof(_vec3));
+
+	//_matrix		matRot;
+	//D3DXMatrixRotationAxis(&matRot, &vRight, D3DXToRadian(m_fAngle));
+	//D3DXVec3TransformNormal(&vLook, &vLook, &matRot);
+
+	//m_vAt = m_vEye + vLook;
+
+
+
 	// 카메라 보는 위치때메 더해줌
 	m_vAt = m_vEye + vLook;
 
-	_matrix		matCamWorld;
-	D3DXMatrixInverse(&matCamWorld, nullptr, &m_matView);
+	//_matrix		matCamWorld;
+	//D3DXMatrixInverse(&matCamWorld, nullptr, &m_matView);
 
-	if (m_bExecution)
-	{
-		::PlaySoundW(L"executionEffect.wav", SOUND_EFFECT, 0.1f);
-		_vec3		vLook;
-		memcpy(&vLook, &matCamWorld.m[2][0], sizeof(_vec3));
+	//if (m_bExecution)
+	//{
+	//	::PlaySoundW(L"executionEffect.wav", SOUND_EFFECT, 0.1f);
+	//	_vec3		vLook;
+	//	memcpy(&vLook, &matCamWorld.m[2][0], sizeof(_vec3));
 
-		_vec3		vLength = *D3DXVec3Normalize(&vLook, &vLook) * 5.f * 1;
+	//	_vec3		vLength = *D3DXVec3Normalize(&vLook, &vLook) * 5.f * 1;
 
-		m_vEye -= vLength;
-		m_vAt -= vLength;
-		m_bExecution = false;
-	}
+	//	m_vEye -= vLength;
+	//	m_vAt -= vLength;
+	//	m_bExecution = false;
+	//}
 
 }
 
