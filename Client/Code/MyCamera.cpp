@@ -59,7 +59,7 @@ void CMyCamera::LateUpdate_Object(void)
 
 void CMyCamera::Mouse_Move(const _float& fTimeDelta)
 {
-	CTransform*	pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC));
+	CTransform*	pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
 	NULL_CHECK(pPlayerTransform);
 
 
@@ -131,7 +131,7 @@ void CMyCamera::Key_Input(const _float & fTimeDelta)
 
 void CMyCamera::Target_Renewal(const _float& fTimeDelta)
 {
-	CTransform*	pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC));
+	CTransform*	pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
 	NULL_CHECK(pPlayerTransform);
 
 	_vec3	vLook;

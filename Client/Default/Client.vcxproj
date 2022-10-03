@@ -185,6 +185,7 @@
     <ClInclude Include="..\Header\MonsterBullet.h" />
     <ClInclude Include="..\Header\MyCamera.h" />
     <ClInclude Include="..\Header\ObjectMgr.h" />
+    <ClInclude Include="..\Header\Player.h" />
     <ClInclude Include="..\Header\SkyBox.h" />
     <ClInclude Include="..\Header\Snowfall.h" />
     <ClInclude Include="..\Header\Spider.h" />
@@ -250,6 +251,7 @@
     <ClCompile Include="..\Code\MetronomeUI.cpp" />
     <ClCompile Include="..\Code\MyCamera.cpp" />
     <ClCompile Include="..\Code\ObjectMgr.cpp" />
+    <ClCompile Include="..\Code\Player.cpp" />
     <ClCompile Include="..\Code\SkyBox.cpp" />
     <ClCompile Include="..\Code\Snowfall.cpp" />
     <ClCompile Include="..\Code\Spider.cpp" />

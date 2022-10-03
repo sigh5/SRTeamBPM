@@ -5,6 +5,7 @@
 
 #include "Coin.h"
 #include "HealthPotion.h"
+#include "Player.h"
 
 USING(Engine)
 
@@ -17,7 +18,7 @@ CBox::~CBox()
 {
 }
 
-HRESULT CBox::Ready_Object(_uint iX, _uint iY, CTestPlayer* pPlayer)
+HRESULT CBox::Ready_Object(_uint iX, _uint iY, CGameObject* pPlayer)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	m_pTransCom->Set_Pos(iX, 1.f, iY);
@@ -84,30 +85,30 @@ HRESULT CBox::Open_Event(CGameObject * pGameObject)
 	CScene* pScene = ::Get_Scene();
 	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
 
-	CTransform *pTransform = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+	CDynamic_Transform *pTransform = dynamic_cast<CDynamic_Transform*>(pGameObject->Get_Component(L"Proto_DynamicTransformCom", ID_DYNAMIC));
 
 	_vec3 vObjPos;
 	_vec3 vPlayerPos;
 
 	pTransform->Get_Info(INFO_POS, &vObjPos);
 	m_pTransCom->Get_Info(INFO_POS, &vPlayerPos);
-	// ¡Ú
-	if (m_pColliderCom->Check_Sphere_InterSect(vObjPos, vPlayerPos, 1.f, 1.f) == true && m_pPlayer->Get_BoxOpen() == true)
-	{
-		_vec3 vPos;
+	// ¡Ú // 10~04 °íÄ¡±â
+	//if (m_pColliderCom->Check_Sphere_InterSect(vObjPos, vPlayerPos, 1.f, 1.f) == true && static_cast<CPlayer*>(m_pPlayer)->Get_BoxOpen() == true)
+	//{
+	//	_vec3 vPos;
 
-		m_pTransCom->Get_Info(INFO_POS, &vPos);
+	//	m_pTransCom->Get_Info(INFO_POS, &vPos);
 
-		// HealthPotion
-		CGameObject* pGameObj = nullptr;
-		
-		pGameObj = CHealthPotion::Create(m_pGraphicDev, vPos.x - 1, vPos.z - 1);
-		NULL_CHECK_RETURN(pGameObj, E_FAIL);
-		FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(L"HealthPotion", pGameObj), E_FAIL);
+	//	// HealthPotion
+	//	CGameObject* pGameObj = nullptr;
+	//	
+	//	pGameObj = CHealthPotion::Create(m_pGraphicDev, vPos.x - 1, vPos.z - 5);
+	//	NULL_CHECK_RETURN(pGameObj, E_FAIL);
+	//	FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(L"HealthPotion", pGameObj), E_FAIL);
 
 		return S_OK;
-		
-	}
+	//	
+	//}
 
 }
 
@@ -126,7 +127,7 @@ HRESULT CBox::Add_Component(void)
 
 
 
-CBox * CBox::Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint iX, _uint iY, CTestPlayer* pPlayer)
+CBox * CBox::Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint iX, _uint iY, CGameObject* pPlayer)
 {
 	CBox*	pInstance = new CBox(pGraphicDev);
 

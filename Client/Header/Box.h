@@ -21,7 +21,7 @@ private:
 	virtual ~CBox();
 
 public:
-	HRESULT				Ready_Object(_uint iX, _uint iY, CTestPlayer* pPlayer);
+	HRESULT				Ready_Object(_uint iX, _uint iY, CGameObject* pPlayer);
 	virtual _int		Update_Object(const _float& fTimeDelta) override;
 	virtual void		LateUpdate_Object(void) override;
 	virtual void		Render_Obejct(void) override;
@@ -41,10 +41,10 @@ private:
 	CAnimation*			m_pAnimationCom = nullptr;
 	CCollider*			m_pColliderCom = nullptr;
 
-	CTestPlayer*		m_pPlayer;
+	CGameObject*		m_pPlayer;
 
 public:
-	static CBox*		Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint iX, _uint iY, CTestPlayer* pPlayer);
+	static CBox*		Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint iX, _uint iY, CGameObject* pPlayer);
 	virtual void		Free(void);
 
 };

@@ -19,7 +19,7 @@ CCoinKeyUI::~CCoinKeyUI()
 {
 }
 
-HRESULT CCoinKeyUI::Ready_Object(CTestPlayer * pPlayer)
+HRESULT CCoinKeyUI::Ready_Object(CGameObject * pPlayer)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
@@ -66,7 +66,7 @@ HRESULT CCoinKeyUI::Add_Component(void)
 	return S_OK;
 }
 
-CCoinKeyUI * CCoinKeyUI::Create(LPDIRECT3DDEVICE9 pGraphicDev, CTestPlayer * pPlayer)
+CCoinKeyUI * CCoinKeyUI::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject * pPlayer)
 {
 	CCoinKeyUI*	pInstance = new CCoinKeyUI(pGraphicDev);
 

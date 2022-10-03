@@ -3,6 +3,7 @@
 
 #include "Export_Function.h"
 #include "AbstractFactory.h"
+#include "Player.h"
 
 USING(Engine)
 
@@ -22,7 +23,7 @@ CHpBar::~CHpBar()
 }
 
 
-HRESULT CHpBar::Ready_Object(CTestPlayer * pPlayer)
+HRESULT CHpBar::Ready_Object(CGameObject * pPlayer)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
@@ -33,7 +34,7 @@ HRESULT CHpBar::Ready_Object(CTestPlayer * pPlayer)
 
 _int CHpBar::Update_Object(const _float & fTimeDelta)
 {
-	m_pAnimationCom->Control_Animation(m_pPlayer->Get_HpChange());
+	m_pAnimationCom->Control_Animation(static_cast<CPlayer*>(m_pPlayer)->Get_HpChange());
 
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
@@ -96,7 +97,7 @@ HRESULT CHpBar::Add_Component(void)
 }
 
 
-CHpBar * CHpBar::Create(LPDIRECT3DDEVICE9 pGraphicDev, CTestPlayer * pPlayer)
+CHpBar * CHpBar::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject * pPlayer)
 {
 	CHpBar*	pInstance = new CHpBar(pGraphicDev);
 

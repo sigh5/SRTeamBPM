@@ -3,6 +3,7 @@
 #include "Export_Function.h"
 #include "AbstractFactory.h"
 
+#include "Player.h"
 USING(Engine)
 
 
@@ -21,7 +22,7 @@ CStatus_UI::~CStatus_UI()
 {
 }
 
-HRESULT CStatus_UI::Ready_Object(CTestPlayer * pPlayer)
+HRESULT CStatus_UI::Ready_Object(CGameObject * pPlayer)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
@@ -64,11 +65,11 @@ void CStatus_UI::Render_Obejct(void)
 	{
 		//m_pTransCom->Set_OrthoScale(0.5f, 0.5f);		
 		
-		_uint iPlayerPower = dynamic_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._iAttackPower;
+		_uint iPlayerPower = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._iAttackPower;
 
-		_uint iPlayerSkillPower = dynamic_cast<CTestPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"TestPlayer"))->Get_Skill();
+		_uint iPlayerSkillPower = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"))->Get_Skill();
 
-		_uint iPlayerSpeed = (_uint)dynamic_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._fSpeed;
+		_uint iPlayerSpeed = (_uint)static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._fSpeed;
 
 
 		// Player's Bullet Power
@@ -155,7 +156,7 @@ HRESULT CStatus_UI::Add_Component(void)
 	return S_OK;
 }
 
-CStatus_UI * CStatus_UI::Create(LPDIRECT3DDEVICE9 pGraphicDev, CTestPlayer * pPlayer)
+CStatus_UI * CStatus_UI::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject * pPlayer)
 {
 	CStatus_UI*	pInstance = new CStatus_UI(pGraphicDev);
 
