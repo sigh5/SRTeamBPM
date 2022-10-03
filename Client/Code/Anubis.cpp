@@ -131,7 +131,7 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 	}
 
 
-
+	Excution_Event();
 
 	_int iResult = Engine::CGameObject::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
@@ -209,7 +209,19 @@ void CAnubis::Collision_Event(CGameObject * pGameObject)
 	}
 	
 
-	dynamic_cast<CHWPlayer*>(pGameObject)->m_bCheckShot = false;
+
+	static_cast<CHWPlayer*>(pGameObject)->m_bCheckShot = false;
+}
+
+void CAnubis::Excution_Event()
+{
+	if (m_pInfoCom->Get_InfoRef()._iHp <= 98 && m_pInfoCom->Get_InfoRef()._iHp >=97)
+	{
+		static_cast<CMyCamera*>(::Get_GameObject(L"Layer_Environment", L"StaticCamera"))->m_bExecution = true;
+	}
+
+
+
 }
 
 CAnubis * CAnubis::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)

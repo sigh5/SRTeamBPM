@@ -19,6 +19,11 @@ public:
 	virtual void		Render_Obejct(void) override;
 	virtual void		Collision_Event(CGameObject* pGameObject);
 
+
+public:
+	// 처형 판독
+	void				Excution_Event();
+
 public:
 	CCalculator*		Get_Calculator(void) { return m_pCalculatorCom; }
 	CRcTex*				Get_Buffer(void) { return m_pBufferCom; }

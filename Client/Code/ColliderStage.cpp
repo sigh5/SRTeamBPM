@@ -49,7 +49,7 @@ HRESULT CColliderStage::Ready_Scene(void)
 	FAILED_CHECK_RETURN(Ready_Layer_CubeCollsion(L"Layer_CubeCollsion"), E_FAIL);
 
 
-	//::PlaySoundW(L"SamTow.wav", SOUND_BGM, 0.1f);
+	::PlaySoundW(L"SamTow.wav", SOUND_BGM, 0.1f);
 
 	return S_OK;
 }

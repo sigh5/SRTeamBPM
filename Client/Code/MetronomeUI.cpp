@@ -25,14 +25,6 @@ HRESULT CMetronomeUI::Ready_Object(_float fPosX, _float fPosY, _float fSpeed, in
 	m_fSpeed = fSpeed;
 	m_iTexIndex = iTexIndex;
 
-	if (m_fSpeed < 0.f)
-	{
-		m_ePos = START_POSION_RIGHT;
-	}
-	else
-	{
-		m_ePos = START_POSION_LEFT;
-	}
 
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 

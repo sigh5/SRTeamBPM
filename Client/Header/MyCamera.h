@@ -24,7 +24,7 @@ public:
 
 private:
 	void		Key_Input(const _float& fTimeDelta);
-	void		Target_Renewal(void);
+	void		Target_Renewal(const _float& fTimeDelta);
 
 
 private:
@@ -33,12 +33,17 @@ private:
 public:
 	_int			Get_BillBoardDir() { return m_iBillBoardDir; }
 
+	void			Set_CamDistance(_float fDistance) {m_fDistance = fDistance;}
+
+public:
+	_bool			m_bExecution = false;
 
 
 private:
-	_float			m_fDistance = 1.;
+	_float			m_fDistance = 1.f;
 	_float			m_fSpeed = 5.f;
 	_float			m_fAngle = 0.f;
+
 
 	
 	_float			m_fCameraHeight = 0.5f;
