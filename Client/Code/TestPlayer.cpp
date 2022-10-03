@@ -8,6 +8,7 @@
 #include "Stage.h"
 #include "HpPotion.h"
 #include "Coin.h"
+#include "Box.h"
 
 
 CTestPlayer::CTestPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -402,9 +403,14 @@ void CTestPlayer::Collision_Event(CGameObject * pGameObject)
 			{
 				CAnimation* pBoxAnimation = dynamic_cast<CAnimation*>(pGameObject->Get_Component(L"Proto_AnimationCom", ID_STATIC));
 				// 박스를 여는 부분, 꼼수(오픈 이미지만 늘림) 수정 필요
+
+				CBox* pBox = dynamic_cast<CBox*> (Engine::Get_GameObject(L"Layer_GameLogic", L"Box"));
+
+
 				m_bBoxOpen = true;
 
 				pBoxAnimation->Open_Box_Animation(m_bBoxOpen);
+				pBox->Open_Event(this);
 				m_bBoxOpen = false;
 			}
 		}

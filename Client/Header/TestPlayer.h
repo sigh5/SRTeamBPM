@@ -50,7 +50,11 @@ public:
 
 	_uint				Get_Skill(void) { return m_iSkillPower; }	// Player의 스킬 공격력값을 Status_UI로 넘겨주기 위한 함수
 	
-	_bool				Get_BoxOpen(void) { return m_bBoxOpen; }
+	_bool				Get_BoxOpen(void) 
+	{ 
+		if (m_bBoxOpen == true)
+			return m_bBoxOpen;
+	}
 	// ~Test
 
 	virtual void		Collision_Event(CGameObject* pGameObject);

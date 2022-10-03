@@ -31,7 +31,7 @@ private:
 	void				Set_OnTerrain(void);
 
 public:
-	virtual void		Collision_Event(CGameObject* pGameObject);
+	HRESULT				Open_Event(CGameObject* pGameObject);
 	
 private:
 	CTransform*			m_pTransCom = nullptr;

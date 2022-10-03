@@ -91,7 +91,7 @@ void CBox::Set_OnTerrain(void)
 	*/
 }
 
-void CBox::Collision_Event(CGameObject * pGameObject)
+HRESULT CBox::Open_Event(CGameObject * pGameObject)
 {
 	CScene* pScene = ::Get_Scene();
 	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
@@ -111,11 +111,16 @@ void CBox::Collision_Event(CGameObject * pGameObject)
 		m_pTransCom->Get_Info(INFO_POS, &vPos);
 
 		// HealthPotion
+		CGameObject* pGameObj = nullptr;
 
-		CHealthPotion* pPotion = CHealthPotion::Create(m_pGraphicDev, vPos.x, vPos.z);
-		NULL_CHECK(pPotion);
-
+		//CHealthPotion* pPotion = CHealthPotion::Create(m_pGraphicDev, vPos.x - 1, vPos.z - 1);
+		//NULL_CHECK(pPotion);
 		
+		pGameObj = CHealthPotion::Create(m_pGraphicDev, vPos.x - 1, vPos.z - 1);
+		NULL_CHECK_RETURN(pGameObj, E_FAIL);
+		FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(L"HealthPotion", pGameObj), E_FAIL);
+
+		return S_OK;
 		/*
 		
 		CBullet* pBullet = CBullet::Create(m_pGraphicDev, vPos);
