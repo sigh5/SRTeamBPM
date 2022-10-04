@@ -440,7 +440,7 @@ void CTestPlayer::Collision_Event(CGameObject * pGameObject)
 		{
 			if (Get_DIKeyState(DIK_F) & 0X80)
 			{
-				CAnimation* pBoxAnimation = dynamic_cast<CAnimation*>(pGameObject->Get_Component(L"Proto_AnimationCom", ID_STATIC));
+				//CAnimation* pBoxAnimation = dynamic_cast<CAnimation*>(pGameObject->Get_Component(L"Proto_AnimationCom", ID_STATIC));
 				
 				CBox* pBox = dynamic_cast<CBox*> (Engine::Get_GameObject(L"Layer_GameLogic", L"Box"));
 					

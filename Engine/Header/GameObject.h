@@ -30,7 +30,7 @@ public:
 	virtual		void		Set_Pos(_vec3 vPos) {}
 
 //public:
-	virtual		void		Collision_Event(CGameObject* pGameObject) {}
+	virtual		void		Collision_Event() {}
 
 private:
 	CComponent*		Find_Component(const _tchar* pComponentTag, COMPONENTID eID);
