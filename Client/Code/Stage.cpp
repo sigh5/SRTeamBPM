@@ -24,6 +24,7 @@
 #include "HitBlood.h"
 
 #include "Anubis.h"
+#include "Spider.h"
 
 
 
@@ -189,7 +190,7 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 
 
 
-	READY_LAYER(pGameObject, CAnubis, pLayer, m_pGraphicDev, L"TestMonster1");
+	READY_LAYER(pGameObject, CSpider, pLayer, m_pGraphicDev, L"TestMonster1");
 
 
 
