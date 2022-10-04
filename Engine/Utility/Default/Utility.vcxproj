@@ -173,6 +173,7 @@ call CopyUtility.bat</Command>
     <ClInclude Include="..\..\Header\Calculator.h" />
     <ClInclude Include="..\..\Header\Camera.h" />
     <ClInclude Include="..\..\Header\CharacterInfo.h" />
+    <ClInclude Include="..\..\Header\CheckEvent.h" />
     <ClInclude Include="..\..\Header\Collider.h" />
     <ClInclude Include="..\..\Header\Component.h" />
     <ClInclude Include="..\..\Header\CubeTex.h" />
@@ -206,6 +207,7 @@ call CopyUtility.bat</Command>
     <ClCompile Include="..\Code\Calculator.cpp" />
     <ClCompile Include="..\Code\Camera.cpp" />
     <ClCompile Include="..\Code\CharacterInfo.cpp" />
+    <ClCompile Include="..\Code\CheckEvent.cpp" />
     <ClCompile Include="..\Code\Collider.cpp" />
     <ClCompile Include="..\Code\Component.cpp" />
     <ClCompile Include="..\Code\CubeTex.cpp" />
