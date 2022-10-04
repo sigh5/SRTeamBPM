@@ -126,37 +126,10 @@ void CDynamic_Transform::Dashing(const _float & fTimeDelta, CTransform* pTransfo
 //}
 void CDynamic_Transform::Monster_Fly(CTransform* _pTransformCom, float _TerrainY, float _MaxY)
 {
-	_vec3 vPos;
-	_pTransformCom->Get_Info(INFO_POS, &vPos);
-	if (vPos.y >= _MaxY)
-	{
-		//최고 고도 보다 높은 경우
-		_pTransformCom->Add_Y(-0.3f);
-	}
-	else if (vPos.y <= _TerrainY + 1.f)
-	{
-		//최저 고도 보다 낮은 경우
-		_pTransformCom->Add_Y(0.3f);
-	}
-	else
-	{
-		//적절한 고도에 위치한 경우
-		short shortrand = rand() % 3;
-		switch (shortrand)
-		{
-		case 0:
-			_pTransformCom->Add_Y(0.3f);
-			break;
+	/*_vec3 vPos;
+	_pTransformCom->Get_Info(INFO_POS, &vPos);*/
 
-		case 1:
-			//현상 유지
-			break;
-
-		case 2:
-			_pTransformCom->Add_Y(-0.3f);
-			break;
-		}
-	}
+	
 }
 
 CDynamic_Transform * CDynamic_Transform::Create(void)

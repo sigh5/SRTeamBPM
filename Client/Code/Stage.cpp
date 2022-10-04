@@ -25,6 +25,7 @@
 
 #include "Anubis.h"
 #include "Spider.h"
+#include "FatBat.h"
 
 
 
@@ -125,13 +126,13 @@ void CStage::LateUpdate_Scene(void)
 		pPlayer->Collision_Event(pBox);
 	}
 
-	CAnubis* pAbubis = dynamic_cast<CAnubis*>(pLayer->Get_GameObject(L"TestMonster1"));
+	/*CAnubis* pAbubis = dynamic_cast<CAnubis*>(pLayer->Get_GameObject(L"TestMonster1"));
 
 	if (pPlayer->Get_CheckShot() == true)
 	{
 		pAbubis->Collision_Event(pPlayer);
 	}
-
+*/
 
 
 	Engine::CScene::LateUpdate_Scene();
@@ -189,7 +190,7 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 
 
 
-	READY_LAYER(pGameObject, CSpider, pLayer, m_pGraphicDev, L"TestMonster1");
+	READY_LAYER(pGameObject, CFatBat, pLayer, m_pGraphicDev, L"TestMonster1");
 
 
 
