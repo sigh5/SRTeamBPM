@@ -44,10 +44,7 @@ private:
 	_float			m_fSpeed = 5.f;
 	_float			m_fAngle = 0.f;
 
-
-	
 	_float			m_fCameraHeight = 0.5f;
-
 	_int			m_iBillBoardDir = 0;	// 0 왼쪽 1 오른쪽
 
 public:

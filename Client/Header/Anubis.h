@@ -40,5 +40,7 @@ private:
 	CRcTex*			m_pBufferCom = nullptr;
 	CCalculator*	m_pCalculatorCom = nullptr;
 	CCollider*		m_pColliderCom = nullptr;
+
+	_float fMtoPDistance; // 몬스터와 플레이어 간의 거리
 };
 

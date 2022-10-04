@@ -18,7 +18,7 @@ CHealthPotion::~CHealthPotion()
 HRESULT CHealthPotion::Ready_Object(_uint iX, _uint iY)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-	m_pTransCom->Set_Pos(iX, 1.f, iY);
+	m_pTransCom->Set_Pos((_float)iX, 1.f, (_float)iY);
 	m_pTransCom->Compulsion_Update();
 	m_pAnimationCom->Ready_Animation(3, 0, 0.2f); 
 

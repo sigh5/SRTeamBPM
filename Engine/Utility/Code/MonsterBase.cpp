@@ -74,21 +74,39 @@ HRESULT CMonsterBase::Add_Component(void)
 bool CMonsterBase::Set_TransformPositon(HWND g_hWnd, CCalculator* _pCalcul)
 {
 	CTerrainTex*	pTerrainBufferCom = dynamic_cast<CTerrainTex*>(Engine::Get_Component(L"TestLayer", L"TestMap", L"Proto_TerrainTexCom", ID_STATIC));
-	NULL_CHECK_RETURN(pTerrainBufferCom, );
+	NULL_CHECK_RETURN(pTerrainBufferCom, false );
 
 	CTransform*		pTerrainTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"TestLayer", L"TestMap", L"Proto_TransformCom", ID_DYNAMIC));
-	NULL_CHECK_RETURN(pTerrainTransformCom, );
+	NULL_CHECK_RETURN(pTerrainTransformCom, false);
 
 
 	_vec3 Temp = _pCalcul->PickingOnTerrainCube(g_hWnd, pTerrainBufferCom, pTerrainTransformCom);
 
 	m_pDynamicTransCom->Set_Pos(Temp.x, Temp.y, Temp.z);
 
+	return false;
 }
 
 CharacterInfo&	CMonsterBase::Get_InfoRef()
 {
 	return m_pInfoCom->Get_InfoRef();
+}
+
+void CMonsterBase::Get_MonsterToPlayer_Distance(float* _Distance)
+{
+	CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
+	NULL_CHECK(pPlayerTransformCom);
+
+	_vec3		vPlayerPos, vMonsterPos;
+	pPlayerTransformCom->Get_Info(INFO_POS, &vPlayerPos);
+	m_pDynamicTransCom->Get_Info(INFO_POS, &vMonsterPos);
+
+	float fMtoPDistance; // 몬스터와 플레이어 간의 거리
+
+	fMtoPDistance = sqrtf((powf(vMonsterPos.x - vPlayerPos.x, 2) + powf(vMonsterPos.y - vPlayerPos.y, 2) + powf(vMonsterPos.z - vPlayerPos.z, 2)));
+
+	memcpy(_Distance, &fMtoPDistance, sizeof(float));
+	return;
 }
 
 

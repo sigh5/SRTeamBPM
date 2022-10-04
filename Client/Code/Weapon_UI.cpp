@@ -2,6 +2,7 @@
 #include "..\Header\Weapon_UI.h"
 
 #include "Export_Function.h"
+#include "Player.h"
 
 USING(Engine)
 
@@ -31,7 +32,7 @@ HRESULT CWeapon_UI::Ready_Object(CGameObject * pPlayer)
 
 _int CWeapon_UI::Update_Object(const _float & fTimeDelta)
 {
-	m_pAnimationCom->Control_Animation(static_cast<CTestPlayer*>(m_pPlayer)->Get_ChangeImage());
+	//m_pAnimationCom->Control_Animation(static_cast<CPlayer*>(m_pPlayer)->Get_ChangeImage());
 
 	Engine::CGameObject::Update_Object(fTimeDelta);
 

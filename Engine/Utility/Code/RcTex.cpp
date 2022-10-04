@@ -52,7 +52,7 @@ HRESULT CRcTex::Ready_Buffer(void)
 	pVertex[3].vTexUV = {0.f, 1.f};
 
 	m_pVB->Unlock();
-	for (int i = 0; i < m_dwVtxCnt; ++i)
+	for (_ulong i = 0; i < m_dwVtxCnt; ++i)
 	{
 		m_pPos[i] = pVertex[i].vPos;
 	}

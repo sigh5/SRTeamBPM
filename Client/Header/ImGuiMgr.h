@@ -4,15 +4,17 @@
 #include "ImGuiFileBrowser.h"
 #include "ImGuiFileDialog.h"
 #include "ImGuiFileDialogConfig.h"
-#include "Scene.h"
+
 
 BEGIN(Engine)
 
 class CCamera;
 class CTransform;
-
+class CScene;
 
 END
+class CWallCube;
+
 // TexturePath 를 위한 Struct
 struct TexturePath
 {
@@ -93,6 +95,9 @@ private:
 	_int			m_iMapCubeIndex = 0;
 
 	CTransform* m_pSelectedTransform = nullptr;
+	CWallCube*	m_pWallCube = nullptr;
+
+
 	// ~Map_Tool 변수
 
 	// Player Tool 변수

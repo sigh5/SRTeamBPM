@@ -21,7 +21,7 @@ public:
 	virtual ~CStatus_UI();
 
 public:
-	HRESULT				Ready_Object(CTestPlayer* pPlayer);
+	HRESULT				Ready_Object(CGameObject* pPlayer);
 	virtual _int		Update_Object(const _float& fTimeDelta) override;
 
 	virtual	void		LateUpdate_Object(void);
@@ -37,7 +37,7 @@ public:
 	CCalculator*		m_pCalculatorCom = nullptr;
 	CAnimation*			m_pAnimationCom = nullptr;
 
-	CTestPlayer*		m_pPlayer;
+	CGameObject*		m_pPlayer;
 
 private: // Status 각 요소에 쓰는 폰트
 	wstring				m_szPower = L"";		  // Player's Bullet Power
@@ -49,7 +49,7 @@ private: // Status 각 요소에 쓰는 폰트
 
 
 public:
-	static CStatus_UI*		Create(LPDIRECT3DDEVICE9 pGraphicDev, CTestPlayer* pPlayer);
+	static CStatus_UI*		Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* pPlayer);
 	virtual void			Free();
 
 

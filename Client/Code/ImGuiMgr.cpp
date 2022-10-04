@@ -3,6 +3,7 @@
 #include "ImGuizmo.h"
 #include "imgui.h"
 
+#include "Scene.h"
 #include "Export_Function.h"
 #include "Terrain.h"
 #include "TestCube.h"
@@ -154,7 +155,7 @@ void CImGuiMgr::TransformEdit(CCamera* pCamera, CTransform* pTransform, _bool& W
 		GetClientRect(g_hWnd, &rt);
 		POINT lt{ rt.left, rt.top };
 		ClientToScreen(g_hWnd, &lt);
-		ImGuizmo::SetRect(lt.x, lt.y, io.DisplaySize.x, io.DisplaySize.y);
+		ImGuizmo::SetRect((_float)lt.x, (_float)lt.y, (_float)io.DisplaySize.x, (_float)io.DisplaySize.y);
 
 		// ImGuizmo::DrawGrid(m_pCam->GetView(), m_pCam->GetPrj(), matId, 100.f);
 
@@ -256,7 +257,7 @@ void CImGuiMgr::TransformEdit(CCamera* pCamera, CTransform* pTransform, _bool& W
 		GetClientRect(g_hWnd, &rt);
 		POINT lt{ rt.left, rt.top };
 		ClientToScreen(g_hWnd, &lt);
-		ImGuizmo::SetRect(lt.x, lt.y, io.DisplaySize.x, io.DisplaySize.y);
+		ImGuizmo::SetRect((_float)lt.x, (_float)lt.y, (_float)io.DisplaySize.x, (_float)io.DisplaySize.y);
 
 		// ImGuizmo::DrawGrid(m_pCam->GetView(), m_pCam->GetPrj(), matId, 100.f);
 
@@ -412,6 +413,9 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 				L"Stage1Map.dat",
 				L"TestCube",
 				OBJ_CUBE);
+
+			m_iIndex = CFileIOMgr::GetInstance()->Get_Index();
+			++m_iIndex;
 			break;
 
 		case USER_BIH:
@@ -440,7 +444,9 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 	if (ImGui::Button("Delete"))
 	{
 		CLayer* MyLayer = pScene->GetLayer(L"MapCubeLayer");
+		//MyLayer->Delete_GameObject()
 		MyLayer->Delete_GameObject(m_CurrentSelectGameObjectObjKey.c_str());
+		m_pWallCube = nullptr;
 	}
 
 	if (ImGui::CollapsingHeader("Cube Create & Chose Button", ImGuiTreeNodeFlags_DefaultOpen))
@@ -481,6 +487,23 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 		{
 			cubePlane = CREATECUBE_RIGHT;
 		}
+
+		static _float fHeight = 0.f;			// 한번 함수돌고 다시 0되면 안되므로  static으로 씀
+		ImGui::InputFloat("Snap", &fHeight);
+		if (ImGui::Button("Height Set"))
+		{
+			CLayer* MyLayer = pScene->GetLayer(L"MapCubeLayer");
+			map<const _tchar*, CGameObject*> test = MyLayer->Get_GameObjectMap();
+			CGameObject *pWallCube = nullptr;
+
+			for (auto iter = test.begin(); iter != test.end(); ++iter)
+			{
+				CTransform* pCubeTrnasform = dynamic_cast<CTransform*>(iter->second->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+
+				pCubeTrnasform->Set_Y(fHeight);
+			}
+		}
+
 
 		/*	char* str = "Text";
 			ImGui::InputText("Text", str);
@@ -566,6 +589,7 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 		}
 	}
 
+	
 	if (m_bCubeSelcetCheck)
 	{
 		if (ImGui::IsMouseClicked(0))
@@ -580,13 +604,14 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 				{
 					pTranscom = dynamic_cast<CTransform*>(iter->second->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
 					m_CurrentSelectGameObjectObjKey = iter->first;
+					m_pWallCube = dynamic_cast<CWallCube*>(iter->second);
 				}
 			}
 		}
 	}
 
-	CWallCube* pGameObject = dynamic_cast<CWallCube*>(Engine::Get_GameObject(L"MapCubeLayer", m_CurrentSelectGameObjectObjKey.c_str()));
-	if (pGameObject)
+	//CWallCube* pGameObject = dynamic_cast<CWallCube*>(Engine::Get_GameObject(L"MapCubeLayer", m_CurrentSelectGameObjectObjKey.c_str()));
+	if (m_pWallCube)
 	{
 		ImGui::NewLine();
 		if (ImGui::CollapsingHeader("Options", ImGuiTreeNodeFlags_DefaultOpen))
@@ -607,7 +632,7 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 			ImGui::NewLine();
 			if (ImGui::CollapsingHeader("Tile Texture", ImGuiTreeNodeFlags_DefaultOpen))
 			{
-				CTexture* pTextureCom = dynamic_cast<CTexture*>(pGameObject->Get_Component(L"Proto_MapCubeTexture", ID_STATIC));
+				CTexture* pTextureCom = dynamic_cast<CTexture*>(m_pWallCube->Get_Component(L"Proto_MapCubeTexture", ID_STATIC));
 
 			vector<IDirect3DBaseTexture9*> vecTexture = pTextureCom->Get_Texture();
 
@@ -616,7 +641,7 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 					if (ImGui::ImageButton((void*)vecTexture[i], ImVec2(60.f, 60.f)))
 					{
 						m_iMapCubeIndex = i;
-						pGameObject->Set_DrawTexIndex(m_iMapCubeIndex);
+						m_pWallCube->Set_DrawTexIndex(m_iMapCubeIndex);
 					}
 					if (i == 0 || (i + 1) % 6)
 						ImGui::SameLine();
@@ -818,7 +843,7 @@ void CImGuiMgr::MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 
 				NameList.push_back(test1);
 
-				pGameObject = CAnubis::Create(pGrahicDev, temp.x, temp.y);
+				pGameObject = CAnubis::Create(pGrahicDev, (_int)temp.x, (_int)temp.y);
 				NULL_CHECK_RETURN(pGameObject, );
 
 				CLayer* pMonsterlayer = pScene->GetLayer(L"TestLayer3");

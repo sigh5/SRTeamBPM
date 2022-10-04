@@ -5,6 +5,7 @@
 
 #include "Coin.h"
 #include "HealthPotion.h"
+#include "Player.h"
 
 USING(Engine)
 
@@ -17,10 +18,10 @@ CBox::~CBox()
 {
 }
 
-HRESULT CBox::Ready_Object(_uint iX, _uint iY, CTestPlayer* pPlayer)
+HRESULT CBox::Ready_Object(_uint iX, _uint iY, CGameObject* pPlayer)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-	m_pTransCom->Set_Pos(iX, 1.f, iY);
+	m_pTransCom->Set_Pos((_float)iX, 1.f, (_float)iY);
 	m_pTransCom->Compulsion_Update();
 	m_pAnimationCom->Ready_Animation(1, 0, 0.2f); // Animation 적용을 위한 기본값
 
@@ -83,7 +84,7 @@ HRESULT CBox::Open_Event(CGameObject * pGameObject)
 	CScene* pScene = ::Get_Scene();
 	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
 
-	CTransform *pTransform = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+	CDynamic_Transform *pTransform = dynamic_cast<CDynamic_Transform*>(pGameObject->Get_Component(L"Proto_DynamicTransformCom", ID_DYNAMIC));
 
 	_vec3 vObjPos;
 	_vec3 vPlayerPos;
@@ -97,7 +98,7 @@ HRESULT CBox::Open_Event(CGameObject * pGameObject)
 
 		_vec3 vPos;
 
-		m_pTransCom->Get_Info(INFO_POS, &vPos);
+	//	m_pTransCom->Get_Info(INFO_POS, &vPos);
 
 		// HealthPotion
 		CGameObject* pGameObj = nullptr;
@@ -127,7 +128,7 @@ HRESULT CBox::Add_Component(void)
 
 
 
-CBox * CBox::Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint iX, _uint iY, CTestPlayer* pPlayer)
+CBox * CBox::Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint iX, _uint iY, CGameObject* pPlayer)
 {
 	CBox*	pInstance = new CBox(pGraphicDev);
 

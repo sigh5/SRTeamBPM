@@ -1,7 +1,6 @@
 #pragma once
 #include "GameObject.h"
 #include "Engine_Include.h"
-#include "TestPlayer.h"
 
 BEGIN(Engine)
 
@@ -21,7 +20,7 @@ public:
 	virtual ~CCoinKeyUI();
 
 public:
-	HRESULT				Ready_Object(CTestPlayer* pPlayer);
+	HRESULT				Ready_Object(CGameObject* pPlayer);
 	virtual _int		Update_Object(const _float& fTimeDelta) override;
 
 	virtual	void		LateUpdate_Object(void);
@@ -37,14 +36,14 @@ public:
 	CCalculator*		m_pCalculatorCom = nullptr;
 	CAnimation*			m_pAnimationCom = nullptr;
 
-	CTestPlayer*		m_pPlayer;
+	CGameObject*		m_pPlayer;
 
 private: // Status 각 요소에 쓰는 폰트
 	wstring				m_szCoin = L"";		  // The number of coins the player has
 	wstring				m_szKey = L"";	  // The number of Keys the player has
 	
 public:
-	static CCoinKeyUI*		Create(LPDIRECT3DDEVICE9 pGraphicDev, CTestPlayer* pPlayer);
+	static CCoinKeyUI*		Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* pPlayer);
 	virtual void			Free();
 
 };

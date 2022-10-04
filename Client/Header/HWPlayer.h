@@ -8,8 +8,6 @@ namespace Engine
 	class CRcTex;
 	class CTexture;
 	class CCalculator;
-	class CScene;
-	class CManagement;
 	class CCollider;
 	class CAnimation;
 }

@@ -13,6 +13,8 @@ class CAnimation;
 
 END
 
+
+
 class CHpBar : public CGameObject
 {
 public:
@@ -21,7 +23,7 @@ public:
 	virtual ~CHpBar();
 
 public:
-	HRESULT				Ready_Object(CTestPlayer* pPlayer);
+	HRESULT				Ready_Object(CGameObject* pPlayer);
 	virtual _int		Update_Object(const _float& fTimeDelta) override;
 
 	virtual	void		LateUpdate_Object(void);
@@ -37,10 +39,10 @@ public:
 	CCalculator*		m_pCalculatorCom = nullptr;
 	CAnimation*			m_pAnimationCom = nullptr;
 
-	CTestPlayer*		m_pPlayer;
+	CGameObject*		m_pPlayer;
 	
 public:
-	static CHpBar*		Create(LPDIRECT3DDEVICE9 pGraphicDev, CTestPlayer* pPlayer);
+	static CHpBar*		Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* pPlayer);
 	virtual void Free();
 };
 

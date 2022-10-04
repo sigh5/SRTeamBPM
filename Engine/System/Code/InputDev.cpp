@@ -41,6 +41,7 @@ bool CInputDev::Key_Down(int _byKeyID)
 			m_bKeyState[i] = false;
 		}
 	}
+	return false;
 }
 
 bool CInputDev::Key_Up(int _iKey)
