@@ -277,21 +277,18 @@ void CPlayer::Collision_Event()
 
 	//}
 
-	//pGameObject = pLayer->Get_GameObject(L"Box");
-	//NULL_CHECK_RETURN(pGameObject, );
-	//if (m_pColliderCom->Check_Collision(pGameObject, this))
-	//{
-	//	if (Get_DIKeyState(DIK_F) & 0X80)
-	//	{
-	//		CAnimation* pBoxAnimation = dynamic_cast<CAnimation*>(pGameObject->Get_Component(L"Proto_AnimationCom", ID_STATIC));
-	//		// 박스를 여는 부분, 꼼수(오픈 이미지만 늘림) 수정 필요
-	//		CBox* pBox = dynamic_cast<CBox*> (Engine::Get_GameObject(L"Layer_GameLogic", L"Box"))
-	//		m_bBoxOpen = true;
-	//		pBoxAnimation->Open_Box_Animation(m_bBoxOpen);
-	//		pBox->Open_Event(this);
-	//		m_bBoxOpen = false;
-	//	}
-	//}
+	/*pGameObject = pLayer->Get_GameObject(L"Box");
+	NULL_CHECK_RETURN(pGameObject, );
+	if (m_pColliderCom->Check_Collision(pGameObject, this))
+	{
+		if (Get_DIKeyState(DIK_F) & 0X80)
+		{
+			CAnimation* pBoxAnimation = dynamic_cast<CAnimation*>(pGameObject->Get_Component(L"Proto_AnimationCom", ID_STATIC));
+
+			static_cast<CBox*>(pGameObject)->Open_Event(this);
+			static_cast<CBox*>(pGameObject)->Set_Open(false);
+		}
+	}*/
 
 
 

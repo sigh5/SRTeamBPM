@@ -67,7 +67,7 @@ _int CSpider::Update_Object(const _float & fTimeDelta)
 	//fMtoPDistance = sqrtf((powf(vMonsterPos.x - vPlayerPos.x, 2) + powf(vMonsterPos.y - vPlayerPos.y, 2) + powf(vMonsterPos.z - vPlayerPos.z, 2)));
 	Get_MonsterToPlayer_Distance(&fMtoPDistance);
 
-	if (fMtoPDistance > 2.f && m_bAttacking == false)
+	if (fMtoPDistance > 3.f && m_bAttacking == false)
 	{
 		m_pDynamicTransCom->Chase_Target_notRot(&vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
 
@@ -82,10 +82,12 @@ _int CSpider::Update_Object(const _float & fTimeDelta)
 		}
 		else
 		{
-		m_pAnimationCom->m_iMotion = 0;
-	}
+			m_pAnimationCom->m_iMotion = 0;
+		}
 	}
 
+
+	Engine::CMonsterBase::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
 }
 
@@ -126,7 +128,7 @@ void CSpider::LateUpdate_Object(void)
 	m_pDynamicTransCom->Set_WorldMatrix(&(matWorld));
 
 	// 빌보드 에러 해결
-	Engine::CGameObject::LateUpdate_Object();
+	Engine::CMonsterBase::LateUpdate_Object();
 }
 
 void CSpider::Render_Obejct(void)
@@ -159,7 +161,7 @@ void		CSpider::Attack(const _float& fTimeDelta)
 {
 	m_pAttackAnimationCom->Move_Animation(fTimeDelta);
 
-	CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_DYNAMIC));
+	CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
 	float Distance;
 	Get_MonsterToPlayer_Distance(&Distance);
 	if (6==m_pAttackAnimationCom->m_iMotion)

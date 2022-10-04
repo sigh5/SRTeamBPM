@@ -18,14 +18,12 @@ CBox::~CBox()
 {
 }
 
-HRESULT CBox::Ready_Object(_uint iX, _uint iY, CGameObject* pPlayer)
+HRESULT CBox::Ready_Object(_uint iX, _uint iY)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	m_pTransCom->Set_Pos((_float)iX, 1.f, (_float)iY);
 	m_pTransCom->Compulsion_Update();
 	m_pAnimationCom->Ready_Animation(1, 0, 0.2f); // Animation 적용을 위한 기본값
-
-	m_pPlayer = pPlayer;
 
 	return S_OK;
 }
@@ -65,6 +63,31 @@ void CBox::Render_Obejct(void)
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 }
 
+void CBox::Collision_Event()
+{
+	CScene  *pScene = ::Get_Scene();
+	NULL_CHECK_RETURN(pScene, );
+	CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+	CGameObject *pGameObject = nullptr;
+
+	pGameObject = pLayer->Get_GameObject(L"Player");
+	NULL_CHECK_RETURN(pGameObject, );
+	
+	if (m_pColliderCom->Check_Collision(this, pGameObject,1,1))
+	{
+		if (Get_DIKeyState(DIK_F) & 0X80)
+		{
+			CAnimation* pBoxAnimation = dynamic_cast<CAnimation*>(pGameObject->Get_Component(L"Proto_AnimationCom", ID_STATIC));
+
+			Open_Event(pGameObject);
+			Set_Open(false);
+		}
+	}
+
+}
+
+
+
 void CBox::Set_OnTerrain(void)
 {
 	_vec3		vPos;
@@ -103,7 +126,7 @@ HRESULT CBox::Open_Event(CGameObject * pGameObject)
 		// HealthPotion
 		CGameObject* pGameObj = nullptr;
 	
-		pGameObj = CHealthPotion::Create(m_pGraphicDev, vPos.x - 1.f, vPos.z - 1.f );
+		pGameObj = CHealthPotion::Create(m_pGraphicDev, vPos.x+1.f, vPos.z+3.f );
 		NULL_CHECK_RETURN(pGameObj, E_FAIL);
 		FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(L"HealthPotion", pGameObj), E_FAIL);
 		
@@ -128,11 +151,11 @@ HRESULT CBox::Add_Component(void)
 
 
 
-CBox * CBox::Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint iX, _uint iY, CGameObject* pPlayer)
+CBox * CBox::Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint iX, _uint iY)
 {
 	CBox*	pInstance = new CBox(pGraphicDev);
 
-	if (FAILED(pInstance->Ready_Object(iX, iY, pPlayer)))
+	if (FAILED(pInstance->Ready_Object(iX, iY)))
 	{
 		Safe_Release(pInstance);
 
