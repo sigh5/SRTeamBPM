@@ -20,7 +20,6 @@ CAnubis::~CAnubis()
 HRESULT CAnubis::Ready_Object(int Posx, int Posy)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-	
 	m_fHitDelay = 0.f;
 
 
@@ -30,7 +29,6 @@ HRESULT CAnubis::Ready_Object(int Posx, int Posy)
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
 	m_pCalculatorCom = CAbstractFactory<CCalculator>::Clone_Proto_Component(L"Proto_CalculatorCom", m_mapComponent, ID_STATIC);
 	m_pColliderCom = CAbstractFactory<CCollider>::Clone_Proto_Component(L"Proto_ColliderCom", m_mapComponent, ID_STATIC);
-
 	m_iMonsterIndex = 0;
 	_vec3	vScale = { 2.f,2.f,2.f };
 
@@ -64,7 +62,7 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 	}
 
 //#ifdef _DEBUG
-	/*if (SCENE_TOOLTEST == Get_Scene()->Get_SceneType())
+	if (SCENE_TOOLTEST == Get_Scene()->Get_SceneType())
 	{
 		CTexture*	pComponent = nullptr;
 		if (m_iPreIndex != m_iMonsterIndex)
@@ -92,7 +90,7 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 			}
 		}
 	}
-	else*/
+	else
 	{
 		CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC));
 		NULL_CHECK(pPlayerTransformCom);
@@ -143,7 +141,7 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 	}
 
 
-
+	//Clear_Blood(fTimeDelta);
 
 	_int iResult = Engine::CGameObject::Update_Object(fTimeDelta);
 
@@ -155,40 +153,48 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 void CAnubis::LateUpdate_Object(void)
 {
 	// 빌보드 에러 해결
-	CTransform*	pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC));
-	NULL_CHECK(pPlayerTransform);
+	CMyCamera* pCamera;
+	
+	if (SCENE_TOOLTEST == Get_Scene()->Get_SceneType())
+	{
+		pCamera = static_cast<CMyCamera*>(Get_GameObject(L"TestLayer", L"DynamicCamera"));
+		NULL_CHECK(pCamera);
+	}
+	else
+	{
+		pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"DynamicCamera"));
+		NULL_CHECK(pCamera);
+	}
+		_matrix		matWorld, matView, matBill;
 
-	CMyCamera* pCamera =static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"StaticCamera"));
-	NULL_CHECK(pCamera);
+		m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
+		D3DXMatrixIdentity(&matBill);
+		memcpy(&matBill, &matView, sizeof(_matrix));
+		memset(&matBill._41, 0, sizeof(_vec3));
+		D3DXMatrixInverse(&matBill, 0, &matBill);
 
-	_matrix		matWorld, matView, matBill;
+		_matrix      matScale, matTrans;
+		D3DXMatrixScaling(&matScale, 2.f, 2.f, 2.f);
 
-	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
-	D3DXMatrixIdentity(&matBill);
-	memcpy(&matBill, &matView, sizeof(_matrix));
-	memset(&matBill._41, 0, sizeof(_vec3));
-	D3DXMatrixInverse(&matBill, 0, &matBill);
+		_matrix      matRot;
+		D3DXMatrixIdentity(&matRot);
+		D3DXMatrixRotationY(&matRot, pCamera->Get_BillBoardDir());
 
-	_matrix      matScale, matTrans;
-	D3DXMatrixScaling(&matScale, 2.f, 2.f, 2.f);
+		_vec3 vPos;
+		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
 
-	_matrix      matRot;
-	D3DXMatrixIdentity(&matRot);
-	D3DXMatrixRotationY(&matRot, pCamera->Get_BillBoardDir());
+		D3DXMatrixTranslation(&matTrans,
+			vPos.x,
+			vPos.y,
+			vPos.z);
 
-	_vec3 vPos;
-	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+		D3DXMatrixIdentity(&matWorld);
+		matWorld = matScale* matRot * matBill * matTrans;
+		m_pDynamicTransCom->Set_WorldMatrix(&(matWorld));
 
-	D3DXMatrixTranslation(&matTrans,
-		vPos.x,
-		vPos.y,
-		vPos.z);
+		// 빌보드 에러 해결
+		Add_RenderGroup(RENDER_ALPHA, this);
 
-	D3DXMatrixIdentity(&matWorld);
-	matWorld = matScale* matRot * matBill * matTrans;
-	m_pDynamicTransCom->Set_WorldMatrix(&(matWorld));
-
-	// 빌보드 에러 해결
 	Engine::CGameObject::LateUpdate_Object();
 }
 
@@ -214,29 +220,30 @@ void CAnubis::Render_Obejct(void)
 void CAnubis::Collision_Event(CGameObject * pGameObject)
 {
 	_vec3 PickPos;
-	if (m_pColliderCom->Check_Lay_InterSect(m_pBufferCom,m_pDynamicTransCom,g_hWnd, PickPos))
+	if (m_pColliderCom->Check_Lay_InterSect(m_pBufferCom,m_pDynamicTransCom,g_hWnd, &PickPos))
 	{
 		m_pInfoCom->Receive_Damage(1.f);
 		cout << m_pInfoCom->Get_InfoRef()._iHp << endl;
 	}
 	
-		//CGameObject* pHitBlood = CHitBlood::Create(m_pGraphicDev, PickPos);
-		//m_vecBlood.push_back(pHitBlood);
+		CGameObject* pHitBlood = CHitBlood::Create(m_pGraphicDev, PickPos);
+		m_vecBlood.push_back(pHitBlood);
 }
 
 void				CAnubis::Clear_Blood(const _float& fTimeDelta)
 {
-	//for (auto iter = m_vecBlood.front(); iter != m_vecBlood.back();)
-	//{
-	//	//if(static_cast<CHitBlood*>(&(*iter))->Get_Motion())
-	//	if (2 == iter->Update_Object(fTimeDelta))
-	//	{
-	//	}
-	//	else
-	//	{
-	//		++iter;
-	//	}
-	//} //코드병합으로 잠굼
+	for (auto iter = m_vecBlood.begin(); iter != m_vecBlood.end();)
+	{
+		//if(static_cast<CHitBlood*>(&(*iter))->Get_Motion())
+		if (2 == (*iter)->Update_Object(fTimeDelta))
+		{
+			iter = m_vecBlood.erase(iter);
+		}
+		else
+		{
+			++iter;
+		}
+	} //코드병합으로 잠굼
 }
 
 CAnubis * CAnubis::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)

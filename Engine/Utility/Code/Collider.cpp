@@ -130,7 +130,7 @@ _bool CCollider::Check_Lay_InterSect(CRcTex * rcTex, CTransform* pMonsterCom, HW
 
 	return false;
 }
-_bool CCollider::Check_Lay_InterSect(CRcTex * rcTex, CTransform* pMonsterCom, HWND hWnd, _vec3& PickPos)
+_bool CCollider::Check_Lay_InterSect(CRcTex * rcTex, CTransform* pMonsterCom, HWND hWnd, _vec3* PickPos)
 {
 	POINT		ptMouse{};
 
@@ -193,7 +193,7 @@ _bool CCollider::Check_Lay_InterSect(CRcTex * rcTex, CTransform* pMonsterCom, HW
 		v1 = pCubtVtx[dwVtxIdx[0]];
 		v2 = pCubtVtx[dwVtxIdx[2]];
 		
-		PickPos = v0 + fU*(v1 - v0) + fV * (v2 - v0);
+		*PickPos = v0 + fU*(v1 - v0) + fV * (v2 - v0);
 
 		return true;
 	}
@@ -212,7 +212,7 @@ _bool CCollider::Check_Lay_InterSect(CRcTex * rcTex, CTransform* pMonsterCom, HW
 		v1 = pCubtVtx[dwVtxIdx[0]];
 		v2 = pCubtVtx[dwVtxIdx[2]];
 
-		PickPos = v0 + fU*(v1 - v0) + fV * (v2 - v0);
+		*PickPos = v0 + fU*(v1 - v0) + fV * (v2 - v0);
 
 		return true;
 	}
