@@ -79,10 +79,9 @@ void CAnimation::Open_Box_Animation(_bool bOpen)
 
 }
 
+// Gun_Screen에서 사용중. _bool 타입 매개변수를 받으면 한번의 트리거(클릭 등)에 name%d.png가 한바퀴 돌게 됨.
 void CAnimation::Gun_Animation(_bool* bShoot)
-{
-	//_uint iOrig = m_iMotion;
-
+{	
 	if (bShoot)
 	{
 		m_iMotion++;
@@ -93,8 +92,7 @@ void CAnimation::Gun_Animation(_bool* bShoot)
 			memcpy(bShoot, &bfalse, sizeof(bool));
 			m_iMotion = m_iMinMotion;				
 		}
-	}
-		
+	}		
 }
 
 CComponent * CAnimation::Clone(void)

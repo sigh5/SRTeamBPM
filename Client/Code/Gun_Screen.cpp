@@ -87,6 +87,8 @@ HRESULT CGun_Screen::Add_Component(void)
 
 HRESULT CGun_Screen::Shoot_Motion(void)
 {
+	CTestPlayer* pPlayer = dynamic_cast<CTestPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"TestPlayer"));
+
 	if (m_bShootAnimation == true)
 	{
 		m_pAnimationCom->Gun_Animation(&m_bShootAnimation);
