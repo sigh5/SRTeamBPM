@@ -13,7 +13,7 @@ public:
 
 public:
 	const _matrix*		Get_WorldMatrixPointer()					 {	return &m_matWorld; }
-	void				Move_Pos(const _vec3* const pDir)			 {	m_vInfo[INFO_POS] += *pDir; }
+	void				Move_Pos(const _vec3* const pDir)			 {	m_vInfo[INFO_POS] += *pDir;}
 	void				Rotation(ROTATIONID eID, const _float& fAngle){	*(((_float*)&m_vAngle) + eID) += fAngle;	}
 	void				Get_Info(INFOID eID, _vec3* pInfo) {	memcpy(pInfo, &m_matWorld.m[eID][0], sizeof(_vec3));}
 	//void				Set_Scale(_float fX, _float fY, _float fZ){ 	m_vScale = { fX, fY, fZ };	}
@@ -55,7 +55,7 @@ public:
 	_vec3			m_vScale;
 	_vec3			m_vAngle;
 	_matrix			m_matWorld;
-
+	_vec3			m_vCounterMovepos;
 public:
 	static CTransform*		Create(void);
 	virtual CComponent*	Clone(void);

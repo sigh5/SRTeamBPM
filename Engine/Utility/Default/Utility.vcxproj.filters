@@ -92,6 +92,9 @@
       <Filter>01. GameObject\ItemBase</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\PSystem.cpp" />
+    <ClCompile Include="..\Code\CheckEvent.cpp">
+      <Filter>00. Component\07.CheckEvent</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Animation.h">
@@ -195,6 +198,9 @@
       <Filter>01. GameObject\ItemBase</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\PSystem.h" />
+    <ClInclude Include="..\..\Header\CheckEvent.h">
+      <Filter>00. Component\07.CheckEvent</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="00. Component">
@@ -295,6 +301,9 @@
     </Filter>
     <Filter Include="01. GameObject\ItemBase">
       <UniqueIdentifier>{38c524d6-8b24-4e85-a6ef-56c779367bf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Component\07.CheckEvent">
+      <UniqueIdentifier>{4ff48e49-846f-488c-9860-9456c1a59ad7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

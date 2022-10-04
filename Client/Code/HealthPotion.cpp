@@ -51,7 +51,7 @@ _int CHealthPotion::Update_Object(const _float & fTimeDelta)
 
 void CHealthPotion::LateUpdate_Object(void)
 {
-	
+	CItemBase::LateUpdate_Object();
 }
 
 void CHealthPotion::Render_Obejct(void)
@@ -73,6 +73,28 @@ void CHealthPotion::Render_Obejct(void)
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);	
 }
 
+void CHealthPotion::Collision_Event()
+{
+	//CScene  *pScene = ::Get_Scene();
+	//NULL_CHECK_RETURN(pScene, );
+	//CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+	//NULL_CHECK_RETURN(pLayer, );
+	//CGameObject *pGameObject = nullptr;
+
+	//pGameObject = pLayer->Get_GameObject(L"Player");
+	//NULL_CHECK_RETURN(pGameObject, );
+	//CTransform *pTransform = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_DynamicTransformCom", ID_DYNAMIC));
+
+	//if (m_pColliderCom->Check_Collision(pGameObject, this,1,1))
+	//{
+	//	m_pInfoCom->Add_Hp(25);
+	//	//m_iHpBarChange += 1;
+	//	pLayer->Delete_GameObject(L"HealthPotion"); // 이벤트 처리
+	//}
+
+
+}
+
 HRESULT CHealthPotion::Add_Component(void)
 {
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
@@ -80,7 +102,7 @@ HRESULT CHealthPotion::Add_Component(void)
 	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_HpPotionTexture", m_mapComponent, ID_STATIC);
 	m_pCalculatorCom = CAbstractFactory<CCalculator>::Clone_Proto_Component(L"Proto_CalculatorCom", m_mapComponent, ID_STATIC);
 	m_pAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_STATIC);
-	
+	m_pColliderCom = CAbstractFactory<CCollider>::Clone_Proto_Component(L"Proto_ColliderCom", m_mapComponent, ID_STATIC);
 	return S_OK;
 }
 
