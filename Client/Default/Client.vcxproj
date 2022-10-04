@@ -173,6 +173,7 @@
     <ClInclude Include="..\Header\Exit_Button.h" />
     <ClInclude Include="..\Header\FatBat.h" />
     <ClInclude Include="..\Header\FileIOMgr.h" />
+    <ClInclude Include="..\Header\Gun_Screen.h" />
     <ClInclude Include="..\Header\HealthPotion.h" />
     <ClInclude Include="..\Header\HitBlood.h" />
     <ClInclude Include="..\Header\HpBar.h" />
@@ -239,6 +240,7 @@
     <ClCompile Include="..\Code\Exit_Button.cpp" />
     <ClCompile Include="..\Code\FatBat.cpp" />
     <ClCompile Include="..\Code\FileIOMgr.cpp" />
+    <ClCompile Include="..\Code\Gun_Screen.cpp" />
     <ClCompile Include="..\Code\HealthPotion.cpp" />
     <ClCompile Include="..\Code\HitBlood.cpp" />
     <ClCompile Include="..\Code\HpBar.cpp" />

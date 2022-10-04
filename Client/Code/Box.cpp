@@ -10,7 +10,7 @@
 USING(Engine)
 
 CBox::CBox(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CGameObject(pGraphicDev)
+	: CGameObject(pGraphicDev), m_bBoxOpen(true)
 {
 }
 
@@ -23,7 +23,7 @@ HRESULT CBox::Ready_Object(_uint iX, _uint iY, CGameObject* pPlayer)
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	m_pTransCom->Set_Pos((_float)iX, 1.f, (_float)iY);
 	m_pTransCom->Compulsion_Update();
-	m_pAnimationCom->Ready_Animation(1, 0, 0.2f, 3); // 애니메이션이 자동으로 돌아가는 함수. 바꿔줘야 한다.
+	m_pAnimationCom->Ready_Animation(1, 0, 0.2f); // Animation 적용을 위한 기본값
 
 	m_pPlayer = pPlayer;
 
@@ -35,8 +35,7 @@ _int CBox::Update_Object(const _float & fTimeDelta)
 	_uint iResult = Engine::CGameObject::Update_Object(fTimeDelta);
 
 	Set_OnTerrain();
-
-
+	
 	Add_RenderGroup(RENDER_ALPHA, this);
 
 	return iResult;
@@ -92,23 +91,24 @@ HRESULT CBox::Open_Event(CGameObject * pGameObject)
 
 	pTransform->Get_Info(INFO_POS, &vObjPos);
 	m_pTransCom->Get_Info(INFO_POS, &vPlayerPos);
-	// ★ // 10~04 고치기
-	//if (m_pColliderCom->Check_Sphere_InterSect(vObjPos, vPlayerPos, 1.f, 1.f) == true && static_cast<CPlayer*>(m_pPlayer)->Get_BoxOpen() == true)
-	//{
-	//	_vec3 vPos;
+	// ★
+	if (m_pColliderCom->Check_Sphere_InterSect(vObjPos, vPlayerPos, 1.f, 1.f) == true && m_bBoxOpen == true)
+	{
+		m_pAnimationCom->Open_Box_Animation(m_bBoxOpen);
+
+		_vec3 vPos;
 
 	//	m_pTransCom->Get_Info(INFO_POS, &vPos);
 
-	//	// HealthPotion
-	//	CGameObject* pGameObj = nullptr;
-	//	
-	//	pGameObj = CHealthPotion::Create(m_pGraphicDev, vPos.x - 1, vPos.z - 5);
-	//	NULL_CHECK_RETURN(pGameObj, E_FAIL);
-	//	FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(L"HealthPotion", pGameObj), E_FAIL);
-
-		return S_OK;
-	//	
-	//}
+		// HealthPotion
+		CGameObject* pGameObj = nullptr;
+	
+		pGameObj = CHealthPotion::Create(m_pGraphicDev, vPos.x - 1.f, vPos.z - 1.f );
+		NULL_CHECK_RETURN(pGameObj, E_FAIL);
+		FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(L"HealthPotion", pGameObj), E_FAIL);
+		
+		return S_OK;		
+	}
 
 }
 
@@ -117,6 +117,7 @@ HRESULT CBox::Add_Component(void)
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
 	m_pTransCom = CAbstractFactory<CTransform>::Clone_Proto_Component(L"Proto_TransformCom", m_mapComponent, ID_DYNAMIC);
 	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_BoxTexture", m_mapComponent, ID_STATIC);
+
 	m_pCalculatorCom = CAbstractFactory<CCalculator>::Clone_Proto_Component(L"Proto_CalculatorCom", m_mapComponent, ID_STATIC);
 	m_pAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_STATIC);
 	m_pColliderCom = CAbstractFactory<CCollider>::Clone_Proto_Component(L"Proto_ColliderCom", m_mapComponent, ID_STATIC);

@@ -24,6 +24,7 @@
 #include "HitBlood.h"
 
 #include "Anubis.h"
+#include "Spider.h"
 
 
 
