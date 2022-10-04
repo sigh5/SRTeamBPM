@@ -158,6 +158,26 @@ void CSpider::Render_Obejct(void)
 void		CSpider::Attack(const _float& fTimeDelta)
 {
 	m_pAttackAnimationCom->Move_Animation(fTimeDelta);
+
+	CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_DYNAMIC));
+	float Distance;
+	Get_MonsterToPlayer_Distance(&Distance);
+	if (6==m_pAttackAnimationCom->m_iMotion)
+	{
+		if (2.5f > Distance)
+		{
+			pPlayerInfo->Receive_Damage(m_pInfoCom->Get_AttackPower());
+		}
+	}
+	if (9 == m_pAttackAnimationCom->m_iMotion)
+	{
+		if (2.5f > Distance)
+		{
+			pPlayerInfo->Receive_Damage(m_pInfoCom->Get_AttackPower());
+		}
+	}
+	
+
 	if (m_pAttackAnimationCom->m_iMotion >= m_pAttackAnimationCom->m_iMaxMotion)
 	{
 		m_bAttack = false;
