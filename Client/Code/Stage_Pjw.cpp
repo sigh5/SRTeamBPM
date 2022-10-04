@@ -73,7 +73,7 @@ void CStage_Pjw::LateUpdate_Scene(void)
 	
 	if (pPotion != nullptr)
 	{
-		pPlayer->Collision_Event(pPotion);
+		pPlayer->Collision_Event();//pPotion);
 	}
 
 	//// Coin Collision
@@ -88,7 +88,7 @@ void CStage_Pjw::LateUpdate_Scene(void)
 
 	if (pBox != nullptr)
 	{
-		pPlayer->Collision_Event(pBox);
+		pPlayer->Collision_Event();// pBox);
 	}
 
 

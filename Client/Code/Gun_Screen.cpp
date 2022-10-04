@@ -69,8 +69,54 @@ void CGun_Screen::Render_Obejct(void)
 
 	m_pBufferCom->Render_Buffer();
 
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);		
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+	//m_pGraphicDev->SetRenderState(D3DRS_ZENABLE, TRUE);
+//
+//	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
+//
+//	m_pGraphicDev->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
+//	m_pGraphicDev->DrawPrimitive(D3DPT_TRIANGLESTRIP, 4, 2);
+//	m_pGraphicDev->DrawPrimitive(D3DPT_TRIANGLESTRIP, 8, 2);
+//	m_pGraphicDev->DrawPrimitive(D3DPT_TRIANGLESTRIP, 12, 2);
+//	m_pGraphicDev->DrawPrimitive(D3DPT_TRIANGLESTRIP, 16, 2);
+//	m_pGraphicDev->DrawPrimitive(D3DPT_TRIANGLESTRIP, 20, 2);
+//
+//	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+//
+//	m_pGraphicDev->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
+//	m_pGraphicDev->DrawPrimitive(D3DPT_TRIANGLESTRIP, 4, 2);
+//	m_pGraphicDev->DrawPrimitive(D3DPT_TRIANGLESTRIP, 8, 2);
+//	m_pGraphicDev->DrawPrimitive(D3DPT_TRIANGLESTRIP, 12, 2);
+//	m_pGraphicDev->DrawPrimitive(D3DPT_TRIANGLESTRIP, 16, 2);
+//	m_pGraphicDev->DrawPrimitive(D3DPT_TRIANGLESTRIP, 20, 2);
+//
+////	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+//
+//	m_pGraphicDev->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
+//	m_pGraphicDev->DrawPrimitive(D3DPT_TRIANGLESTRIP, 4, 2);
+//	m_pGraphicDev->DrawPrimitive(D3DPT_TRIANGLESTRIP, 8, 2);
+//	m_pGraphicDev->DrawPrimitive(D3DPT_TRIANGLESTRIP, 12, 2);
+//	m_pGraphicDev->DrawPrimitive(D3DPT_TRIANGLESTRIP, 16, 2);
+//	m_pGraphicDev->DrawPrimitive(D3DPT_TRIANGLESTRIP, 20, 2);
+//
+//	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+//	//m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+//	m_pGraphicDev->SetRenderState(D3DRS_ZENABLE, TRUE);
+//
+//	m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);
+//
+//	m_pBufferCom->Render_Buffer();
+//	
+//	m_pGraphicDev->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
+//	m_pGraphicDev->DrawPrimitive(D3DPT_TRIANGLESTRIP, 4, 2);
+//	m_pGraphicDev->DrawPrimitive(D3DPT_TRIANGLESTRIP, 8, 2);
+//	m_pGraphicDev->DrawPrimitive(D3DPT_TRIANGLESTRIP, 12, 2);
+//	m_pGraphicDev->DrawPrimitive(D3DPT_TRIANGLESTRIP, 16, 2);
+//	m_pGraphicDev->DrawPrimitive(D3DPT_TRIANGLESTRIP, 20, 2);
+//
+//	m_pGraphicDev->EndScene();
+//	m_pGraphicDev->Present(NULL, NULL, NULL, NULL);
 	
 }
 

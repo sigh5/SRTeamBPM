@@ -404,52 +404,71 @@ HRESULT CTestPlayer::Create_Bullet(_vec3 vPos)
 	return S_OK;
 }
 
-void CTestPlayer::Collision_Event(CGameObject * pGameObject)
+void CTestPlayer::Collision_Event()
 {
-	CScene* pScene = ::Get_Scene();
-	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
-			
-	CTransform *pTransform = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
-	
-	_vec3 vObjPos;
-	_vec3 vPlayerPos;
+	// 기존에 존재하는 것들은 Player에 
+	//	씬에서 생성되는 것들은 그 객체에 
+	CScene  *pScene = ::Get_Scene();
+	NULL_CHECK_RETURN(pScene, );
+	//CLayer * pLayer = pScene->GetLayer(L"Layer_CubeCollsion");
+	//NULL_CHECK_RETURN(pLayer, );
+	CLayer* pLayer = pScene->GetLayer(L"Layer_GameLogic");
+	NULL_CHECK_RETURN(pLayer, );
+	CGameObject *pGameObject = nullptr;
 
-
-	pTransform->Get_Info(INFO_POS, &vObjPos);
-	m_pTransCom->Get_Info(INFO_POS, &vPlayerPos);
-	// ★
-	if (m_pColliderCom->Check_Sphere_InterSect(vObjPos, vPlayerPos, 1.f, 1.f) == true)
+	for (auto iter = pLayer->Get_GameObjectMap().begin(); iter != pLayer->Get_GameObjectMap().end(); ++iter)
 	{
-		if (pGameObject == pMyLayer->Get_GameObject(L"HealthPotion"))
-		{				
-			m_pInfoCom->Add_Hp(25);
-			//m_iHpBarChange += 1;				
-			pMyLayer->Delete_GameObject(L"HealthPotion"); // 이벤트 처리		
-		}
+		m_pColliderCom->Check_Collision_Wall(iter->second, this);
+	}
 
-		if (pGameObject == pMyLayer->Get_GameObject(L"Coin"))
-		{
-			m_pInfoCom->Get_InfoRef()._iCoin += 1;
-			pMyLayer->Delete_GameObject(L"Coin"); // 이벤트 처리
-		}				
-	}
-	//_uint iPlayerPower = dynamic_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._iAttackPower;
-	if (m_pColliderCom->Check_Sphere_InterSect(vObjPos, vPlayerPos, 1.f, 1.f) == true)
-	{
-		if (pGameObject == pMyLayer->Get_GameObject(L"Box"))
-		{
-			if (Get_DIKeyState(DIK_F) & 0X80)
-			{
-				//CAnimation* pBoxAnimation = dynamic_cast<CAnimation*>(pGameObject->Get_Component(L"Proto_AnimationCom", ID_STATIC));
-				
-				CBox* pBox = dynamic_cast<CBox*> (Engine::Get_GameObject(L"Layer_GameLogic", L"Box"));
-					
-				pBox->Open_Event(this);		
-				pBox->Set_Open(false);
-							
-			}
-		}
-	}
+	//pLayer = pScene->GetLayer(L"Layer_GameLogic");
+	//NULL_CHECK_RETURN(pLayer, );
+
+
+	//CScene* pScene = ::Get_Scene();
+	//CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+	//		
+	//CTransform *pTransform = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+	//
+	//_vec3 vObjPos;
+	//_vec3 vPlayerPos;
+
+
+	//pTransform->Get_Info(INFO_POS, &vObjPos);
+	//m_pTransCom->Get_Info(INFO_POS, &vPlayerPos);
+	//// ★
+	//if (m_pColliderCom->Check_Sphere_InterSect(vObjPos, vPlayerPos, 1.f, 1.f) == true)
+	//{
+	//	if (pGameObject == pMyLayer->Get_GameObject(L"HealthPotion"))
+	//	{				
+	//		m_pInfoCom->Add_Hp(25);
+	//		//m_iHpBarChange += 1;				
+	//		pMyLayer->Delete_GameObject(L"HealthPotion"); // 이벤트 처리		
+	//	}
+
+	//	if (pGameObject == pMyLayer->Get_GameObject(L"Coin"))
+	//	{
+	//		m_pInfoCom->Get_InfoRef()._iCoin += 1;
+	//		pMyLayer->Delete_GameObject(L"Coin"); // 이벤트 처리
+	//	}				
+	//}
+	////_uint iPlayerPower = dynamic_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._iAttackPower;
+	//if (m_pColliderCom->Check_Sphere_InterSect(vObjPos, vPlayerPos, 1.f, 1.f) == true)
+	//{
+	//	if (pGameObject == pMyLayer->Get_GameObject(L"Box"))
+	//	{
+	//		if (Get_DIKeyState(DIK_F) & 0X80)
+	//		{
+	//			//CAnimation* pBoxAnimation = dynamic_cast<CAnimation*>(pGameObject->Get_Component(L"Proto_AnimationCom", ID_STATIC));
+	//			
+	//			CBox* pBox = dynamic_cast<CBox*> (Engine::Get_GameObject(L"Layer_GameLogic", L"Box"));
+	//				
+	//			pBox->Open_Event(this);		
+	//			pBox->Set_Open(false);
+	//						
+	//		}
+	//	}
+	//}
 	
 }
 

@@ -52,7 +52,7 @@ public:
 
 	// ~Test
 
-	virtual void		Collision_Event(CGameObject* pGameObject);
+	virtual void		Collision_Event();
 
 private:
 	CRcTex*				m_pBufferCom = nullptr;
