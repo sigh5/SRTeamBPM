@@ -57,7 +57,8 @@ public:
 
 
 public:
-	_int			Get_ComboCount() { return m_iComboCount; }
+	_int				Get_ComboCount() { return m_iComboCount; }
+	void				Set_ComboCount(_int iCount) { m_iComboCount += iCount; }
 	_uint				Get_HpChange(void) { return m_iHpBarChange; }
 	_uint				Get_Skill(void) { return m_iSkillPower; }
 	void				Set_OneShot(_bool bMetro) { m_bOneShot = bMetro; }

@@ -2,6 +2,7 @@
 #include "..\Header\Anubis.h"
 
 #include "Export_Function.h"
+
 #include "AbstractFactory.h"
 #include "MyCamera.h"
 #include "Player.h"
@@ -106,10 +107,7 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 		pPlayerTransformCom->Get_Info(INFO_POS, &vPlayerPos);
 		m_pDynamicTransCom->Get_Info(INFO_POS, &vMonsterPos);
 
-		float fMtoPDistance; // 몬스터와 플레이어 간의 거리
-
 		fMtoPDistance = sqrtf((powf(vMonsterPos.x - vPlayerPos.x, 2) + powf(vMonsterPos.y - vPlayerPos.y, 2) + powf(vMonsterPos.z - vPlayerPos.z, 2)));
-		
 		
 
 		if (m_bHit == false)
@@ -137,6 +135,7 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 		m_fHitDelay += fTimeDelta;
 		if (m_fHitDelay > 1.5f)
 		{
+		
 			m_bHit = false;
 			m_fHitDelay = 0.f;
 		}
@@ -215,12 +214,23 @@ void CAnubis::Render_Obejct(void)
 void CAnubis::Collision_Event(CGameObject * pGameObject)
 {
 	_vec3 PickPos;
-	if (m_pColliderCom->Check_Lay_InterSect(m_pBufferCom,m_pDynamicTransCom,g_hWnd, PickPos))
+	
+	
+	
+	if (fMtoPDistance <4.f &&m_pColliderCom->Check_Lay_InterSect(m_pBufferCom,m_pDynamicTransCom,g_hWnd, PickPos))
 	{
+		CPlayer* pPlayer = static_cast<CPlayer*>(::Get_GameObject(L"Layer_GameLogic", L"Player"));
+		pPlayer->Set_ComboCount(1);
 		m_pInfoCom->Receive_Damage(1.f);
 		cout << m_pInfoCom->Get_InfoRef()._iHp << endl;
 	}
-	
+	else
+	{
+		// 지금은 단일객체라서 안맞으면 콤보 0뜨게하지만 나중에는 
+		// 다중객체로 콜리젼 이벤트를 만들어야됀다.
+		// 나중에는 콤보 0 + 잘못맞으면 소리나는것 까지해야한다.
+		cout << "1234" << endl;
+	}
 
 
 	static_cast<CPlayer*>(pGameObject)->Set_CheckShot(false);

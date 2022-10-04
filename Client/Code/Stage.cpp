@@ -124,6 +124,7 @@ void CStage::LateUpdate_Scene(void)
 		pPlayer->Collision_Event(pBox);
 	}
 
+
 	CAnubis* pAbubis = dynamic_cast<CAnubis*>(pLayer->Get_GameObject(L"TestMonster1"));
 
 	if (pPlayer->Get_CheckShot() == true)

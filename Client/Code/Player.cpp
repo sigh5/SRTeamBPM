@@ -177,11 +177,7 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 			m_bOneShot = FALSE;
 
 		m_bCheckShot = Create_RayCheck(fTimeDelta);
-		if (m_bCheckShot)
-		{
-			++m_iComboCount;
-			cout << m_iComboCount << endl;
-		}
+	
 		if (m_bCheckShot == false)
 		{
 			::PlaySoundW(L"Rythm_Check_Fail.wav", SOUND_EFFECT, 0.1f);
