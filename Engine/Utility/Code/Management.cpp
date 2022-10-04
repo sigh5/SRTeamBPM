@@ -32,8 +32,8 @@ HRESULT CManagement::Add_GameObject(const _tchar* pLayerTag, const _tchar * pObj
 
 HRESULT CManagement::Set_Scene(CScene * pScene)
 {
-	Safe_Release(m_pScene);	 // 기존 scene을 삭제
 
+	Safe_Release(m_pScene);	 // 기존 scene을 삭제
 	Engine::Clear_RenderGroup(); // 기존 scene에 그려지고 있던 모든 렌더 요소들을 삭제
 
 	m_pScene = pScene;

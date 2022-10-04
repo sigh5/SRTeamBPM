@@ -66,22 +66,31 @@ void CStage_Pjw::LateUpdate_Scene(void)
 {
 	CLayer *pLayer = GetLayer(L"Layer_GameLogic");
 
+	CTestPlayer* pPlayer = dynamic_cast<CTestPlayer*>(pLayer->Get_GameObject(L"TestPlayer"));
+	
 	// Potion Collision
 	CHealthPotion* pPotion = dynamic_cast<CHealthPotion*>(pLayer->Get_GameObject(L"HealthPotion"));
 	
-	if (pPotion == nullptr)
-		return;
+	if (pPotion != nullptr)
+	{
+		pPlayer->Collision_Event(pPotion);
+	}
 
-	// Coin Collision
-	CCoin* pCoin = dynamic_cast<CCoin*>(pLayer->Get_GameObject(L"Coin"));
+	//// Coin Collision
+	//CCoin* pCoin = dynamic_cast<CCoin*>(pLayer->Get_GameObject(L"Coin"));
+	//
+	//if (pCoin != nullptr)
+	//{
+	//	pPlayer->Collision_Event(pCoin);
+	//}
 
-	if (pCoin == nullptr)
-		return;
+	CBox* pBox = dynamic_cast<CBox*>(pLayer->Get_GameObject(L"Box"));
 
-	CTestPlayer* pPlayer = dynamic_cast<CTestPlayer*>(pLayer->Get_GameObject(L"TestPlayer"));
-	
-	pPlayer->Collision_Event(pPotion);
-	pPlayer->Collision_Event(pCoin);
+	if (pBox != nullptr)
+	{
+		pPlayer->Collision_Event(pBox);
+	}
+
 
 	Engine::CScene::LateUpdate_Scene();
 }
@@ -142,27 +151,38 @@ HRESULT CStage_Pjw::Ready_Layer_Environment(const _tchar * pLayerTag)
 
 HRESULT CStage_Pjw::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 {
+
 	Engine::CLayer*		pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 
 	CGameObject*		pGameObject = nullptr;
 
+	m_mapLayer.insert({ pLayerTag, pLayer });
 	// testPlayer
 	pGameObject = CTestPlayer::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestPlayer", pGameObject), E_FAIL);
-
+	
+	// m_mapLayer.insert({ pLayerTag, pLayer });
+	/*
 	// HealthPotion
-	pGameObject = CHealthPotion::Create(m_pGraphicDev, 50, 50);
+	pGameObject = CHealthPotion::Create(m_pGraphicDev, 5, 10);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"HealthPotion", pGameObject), E_FAIL);
 
 	// Coin
-	pGameObject = CCoin::Create(m_pGraphicDev, 30, 30);
+	pGameObject = CCoin::Create(m_pGraphicDev, 22, 10);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Coin", pGameObject), E_FAIL);
-	
-	m_mapLayer.insert({ pLayerTag, pLayer });
+
+	*/
+	CTestPlayer*		pPlayer = dynamic_cast<CTestPlayer*>(Get_GameObject(L"Layer_GameLogic", L"TestPlayer"));
+
+	pGameObject = CBox::Create(m_pGraphicDev, 5, 10, pPlayer);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Box", pGameObject), E_FAIL);
+
+
 
 	//몬스터 테스트용
 	/*pGameObject = CMonster::Create(m_pGraphicDev);
@@ -205,6 +225,9 @@ HRESULT CStage_Pjw::Ready_Layer_UI(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Status_UI", pGameObject), E_FAIL);
 
+	pGameObject = CCoinKeyUI::Create(m_pGraphicDev, pPlayer);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"CoinKey_UI", pGameObject), E_FAIL);
 
 	m_mapLayer.insert({ pLayerTag, pLayer });
 

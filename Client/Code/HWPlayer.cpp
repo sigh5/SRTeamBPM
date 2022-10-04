@@ -5,6 +5,7 @@
 
 #include "Export_Function.h"
 #include "ObjectMgr.h"
+#include "MyCamera.h"
 
 CHWPlayer::CHWPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -35,16 +36,16 @@ _int CHWPlayer::Update_Object(const _float & fTimeDelta)
 	if (m_fFrame >= 1.0f)
 	{
 		m_bOneShot = false;
-		m_fFrame = 0.f;	
+		m_fFrame = 0.f;
 	}
 	
 	Key_Input(fTimeDelta);
 
+	
 
 	Engine::CGameObject::Update_Object(fTimeDelta);
 	
 
-	// 1인칭 만들기
 	Add_RenderGroup(RENDER_ALPHA, this);
 	
 	return 0;
@@ -54,6 +55,8 @@ void CHWPlayer::LateUpdate_Object(void)
 {
 
 	Set_OnTerrain();
+
+	
 	CGameObject::LateUpdate_Object();
 	
 	
@@ -154,22 +157,30 @@ void CHWPlayer::Key_Input(const _float & fTimeDelta)
 
 	if (::Mouse_Down(DIM_LB)) // Picking
 	{
-
 		if (m_iMagazine <= 0)
 			m_bOneShot = FALSE;
 
 		m_bCheckShot = Create_RayCheck(fTimeDelta);
-
+		if (m_bCheckShot)
+		{
+			++m_iComboCount;
+			cout << m_iComboCount << endl;
+		}
 		if (m_bCheckShot == false)
+		{
 			::PlaySoundW(L"Rythm_Check_Fail.wav", SOUND_EFFECT, 0.1f);
-
+			m_iComboCount = 0;
+		}
 	}
+
 
 
 	if (Get_DIKeyState(DIK_R) & 0X80)
 	{
 		m_iMagazine = 8;
 	}
+
+
 
 
 }
@@ -286,7 +297,6 @@ _bool CHWPlayer::Create_RayCheck(const _float & fTimeDelta)
 	if (m_bOneShot)
 	{
 		m_iCoolTime = 0;
-		// 거리 체크
 		m_iMagazine -= 1;
 		m_bOneShot = false;
 		return true;

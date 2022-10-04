@@ -46,7 +46,7 @@ void CAnimation::Move_Animation(float fTimeDelta)
 		m_fMotionChangeCounter += fTimeDelta;
 	}
 }
-
+									
 void CAnimation::Control_Animation(_uint iCount)
 {		
 	if (m_iOrigin > iCount)
@@ -62,6 +62,18 @@ void CAnimation::Control_Animation(_uint iCount)
 	if(iCount == m_iMaxMotion)
 		m_iMotion = m_iMinMotion;
 	
+}
+
+void CAnimation::Open_Box_Animation(_bool bOpen)
+{
+	if (bOpen)
+		m_bOpen = true;
+
+	if (m_bOpen)
+	{
+		m_iMotion++;
+		m_bOpen = false;
+	}
 }
 
 CComponent * CAnimation::Clone(void)
@@ -86,5 +98,7 @@ CAnimation * CAnimation::Create(LPDIRECT3DDEVICE9 pGraphicDev, int _iMaxMotion, 
 void CAnimation::Free(void)
 {
 	CComponent::Free();
+
+	
 }
 

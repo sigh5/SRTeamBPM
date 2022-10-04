@@ -8,6 +8,7 @@
 #include "Stage.h"
 #include "HpPotion.h"
 #include "Coin.h"
+#include "Box.h"
 
 
 CTestPlayer::CTestPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -30,7 +31,7 @@ HRESULT CTestPlayer::Ready_Object(void)
 							// int _hp, int _Attack, float _fSpeed
 	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
 
-	m_preItem = m_pInfoCom->Get_InfoRef()._iCoin;
+	//m_preItem = m_pInfoCom->Get_InfoRef()._iCoin;
 		
 	return S_OK;
 }
@@ -40,16 +41,16 @@ _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 	++m_iCountDash;
 	Key_Input(fTimeDelta);
 	
-	if (m_preItem = m_pInfoCom->Get_InfoRef()._iCoin)
-	{
-		system("cls");
+	//if (m_preItem = m_pInfoCom->Get_InfoRef()._iCoin) // Coin 획득했는가를 체크하는 코드
+	//{
+	//	//system("cls");
 
-		/*cout << "체력 : " << m_pInfoCom->Get_InfoRef()._iHp << endl;
-		m_preItem = m_pInfoCom->Get_InfoRef()._iHp;*/
+	//	/*cout << "체력 : " << m_pInfoCom->Get_InfoRef()._iHp << endl;
+	//	m_preItem = m_pInfoCom->Get_InfoRef()._iHp;*/
 
-		cout << "코인 : " << m_pInfoCom->Get_InfoRef()._iCoin << endl;
+	//	cout << "코인 : " << m_pInfoCom->Get_InfoRef()._iCoin << endl;
 
-	}	
+	//}	
 
 		// cout << "총알 수 :" << m_iMagazine << endl;
 		
@@ -114,12 +115,27 @@ void CTestPlayer::Render_Obejct(void)
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	//m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-
-	//m_pTextureCom->Set_Texture(0);	// Stage ?슜
-	m_pTextureCom->Set_Texture(m_iTexIndex); // TestTool ?슜
+		
+	m_pTextureCom->Set_Texture(m_iTexIndex);
 	m_pBufferCom->Render_Buffer();
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-	//m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+
+
+	/*m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0x10);
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+	m_pTextureCom->Set_Texture(m_iTexIndex);
+	m_pBufferCom->Render_Buffer();
+
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);*/
 }
 
 HRESULT CTestPlayer::Add_Component(void)
@@ -359,9 +375,10 @@ void CTestPlayer::Collision_Event(CGameObject * pGameObject)
 	_vec3 vObjPos;
 	_vec3 vPlayerPos;
 
+
 	pTransform->Get_Info(INFO_POS, &vObjPos);
 	m_pTransCom->Get_Info(INFO_POS, &vPlayerPos);
-
+	// ★
 	if (m_pColliderCom->Check_Sphere_InterSect(vObjPos, vPlayerPos, 1.f, 1.f) == true)
 	{
 		if (pGameObject == pMyLayer->Get_GameObject(L"HealthPotion"))
@@ -375,8 +392,28 @@ void CTestPlayer::Collision_Event(CGameObject * pGameObject)
 		{
 			m_pInfoCom->Get_InfoRef()._iCoin += 1;
 			pMyLayer->Delete_GameObject(L"Coin"); // 이벤트 처리
+		}				
+	}
+	//_uint iPlayerPower = dynamic_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._iAttackPower;
+	if (m_pColliderCom->Check_Sphere_InterSect(vObjPos, vPlayerPos, 1.f, 1.f) == true)
+	{
+		if (pGameObject == pMyLayer->Get_GameObject(L"Box"))
+		{
+			if (Get_DIKeyState(DIK_F) & 0X80)
+			{
+				CAnimation* pBoxAnimation = dynamic_cast<CAnimation*>(pGameObject->Get_Component(L"Proto_AnimationCom", ID_STATIC));
+				// 박스를 여는 부분, 꼼수(오픈 이미지만 늘림) 수정 필요
+
+				CBox* pBox = dynamic_cast<CBox*> (Engine::Get_GameObject(L"Layer_GameLogic", L"Box"));
+
+
+				m_bBoxOpen = true;
+
+				pBoxAnimation->Open_Box_Animation(m_bBoxOpen);
+				pBox->Open_Event(this);
+				m_bBoxOpen = false;
+			}
 		}
-				
 	}
 }
 

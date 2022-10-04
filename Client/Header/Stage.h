@@ -25,13 +25,13 @@ public:
 	virtual void LateUpdate_Scene(void) override;
 	virtual void Render_Scene(void) override;
 
-	HRESULT			Push_Bullet(CBullet* pBullet);
-	HRESULT			Push_MonBullet(CMonsterBullet* pBullet);
 private:
 	HRESULT			Ready_Layer_Environment(const _tchar* pLayerTag);
 
 	HRESULT			Ready_Layer_GameLogic(const _tchar* pLayerTag);
 	HRESULT			Ready_Layer_UI(const _tchar* pLayerTag);
+	HRESULT			Ready_Layer_CubeCollsion(const _tchar * pLayerTag);
+
 
 	HRESULT			Ready_Proto(void);
 	HRESULT			Ready_Light(void);
@@ -44,8 +44,7 @@ private:
 	list<CBullet*>		m_BulletList;
 	list<CMonsterBullet*> m_MonBulletList;
 
-	CStart_Button*		m_pStartButton = nullptr;
-
+	_float				m_fFrame = 0.f; // WinZero  µµÂø½Ã°£
 public:
 	static CStage*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
 

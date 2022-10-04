@@ -20,6 +20,11 @@ public:
 	virtual void		Collision_Event(CGameObject* pGameObject);
 	void				Clear_Blood(const _float& fTimeDelta);
 
+
+public:
+	// 처형 판독
+	void				Excution_Event();
+
 public:
 	CCalculator*		Get_Calculator(void) { return m_pCalculatorCom; }
 	CRcTex*				Get_Buffer(void) { return m_pBufferCom; }

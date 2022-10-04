@@ -17,7 +17,7 @@ CCoin::~CCoin()
 HRESULT CCoin::Ready_Object(_uint iX, _uint iY)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-	m_pTransCom->Set_Pos(22.f, 1.f, 10.f);
+	m_pTransCom->Set_Pos(iX, 1.f, iY);
 	m_pTransCom->Compulsion_Update();
 	m_pAnimationCom->Ready_Animation(5, 0, 0.2f);
 
@@ -45,11 +45,20 @@ void CCoin::LateUpdate_Object(void)
 void CCoin::Render_Obejct(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0x10);
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 
-	m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+
+	m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);	// 텍스처 정보 세팅을 우선적으로 한다.
+
 	m_pBufferCom->Render_Buffer();
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 
 }
 
@@ -92,5 +101,5 @@ CCoin * CCoin::Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint iX, _uint iY)
 
 void CCoin::Free(void)
 {
-	CGameObject::Free();
+	CItemBase::Free();
 }

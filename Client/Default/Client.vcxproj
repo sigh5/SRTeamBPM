@@ -162,9 +162,11 @@
     <ClInclude Include="..\Header\AbstractFactory.h" />
     <ClInclude Include="..\Header\Anubis.h" />
     <ClInclude Include="..\Header\BackGround.h" />
+    <ClInclude Include="..\Header\Box.h" />
     <ClInclude Include="..\Header\Bullet.h" />
     <ClInclude Include="..\Header\Bullet_UI.h" />
     <ClInclude Include="..\Header\Coin.h" />
+    <ClInclude Include="..\Header\CoinKeyUI.h" />
     <ClInclude Include="..\Header\ColliderStage.h" />
     <ClInclude Include="..\Header\DynamicCamera.h" />
     <ClInclude Include="..\Header\Effect.h" />
@@ -183,6 +185,7 @@
     <ClInclude Include="..\Header\MonsterBullet.h" />
     <ClInclude Include="..\Header\MyCamera.h" />
     <ClInclude Include="..\Header\ObjectMgr.h" />
+    <ClInclude Include="..\Header\Player.h" />
     <ClInclude Include="..\Header\SkyBox.h" />
     <ClInclude Include="..\Header\Snowfall.h" />
     <ClInclude Include="..\Header\Spider.h" />
@@ -225,9 +228,11 @@
   <ItemGroup>
     <ClCompile Include="..\Code\Anubis.cpp" />
     <ClCompile Include="..\Code\BackGround.cpp" />
+    <ClCompile Include="..\Code\Box.cpp" />
     <ClCompile Include="..\Code\Bullet.cpp" />
     <ClCompile Include="..\Code\Bullet_UI.cpp" />
     <ClCompile Include="..\Code\Coin.cpp" />
+    <ClCompile Include="..\Code\CoinKeyUI.cpp" />
     <ClCompile Include="..\Code\ColliderStage.cpp" />
     <ClCompile Include="..\Code\DynamicCamera.cpp" />
     <ClCompile Include="..\Code\Effect.cpp" />
@@ -246,6 +251,7 @@
     <ClCompile Include="..\Code\MetronomeUI.cpp" />
     <ClCompile Include="..\Code\MyCamera.cpp" />
     <ClCompile Include="..\Code\ObjectMgr.cpp" />
+    <ClCompile Include="..\Code\Player.cpp" />
     <ClCompile Include="..\Code\SkyBox.cpp" />
     <ClCompile Include="..\Code\Snowfall.cpp" />
     <ClCompile Include="..\Code\Spider.cpp" />

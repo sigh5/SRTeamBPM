@@ -19,9 +19,6 @@
     <ClCompile Include="..\Code\Effect.cpp">
       <Filter>02. GameObject\01. For_Stage\07. Effect</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\FatBat.cpp">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\FileIOMgr.cpp">
       <Filter>97. Mgr\01. FileIOMgr</Filter>
     </ClCompile>
@@ -103,9 +100,6 @@
     <ClCompile Include="..\Code\StaticCamera.cpp">
       <Filter>02. GameObject\02. For_public\01. StaticCamera</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Spider.cpp">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\TestUI.cpp">
       <Filter>02. GameObject\01. For_Stage\10. UI\96. TestUI</Filter>
     </ClCompile>
@@ -172,11 +166,26 @@
     <ClCompile Include="..\Code\Snowfall.cpp">
       <Filter>02. GameObject\02. For_public\04. SnowFall</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\CoinKeyUI.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\05. CoinUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Box.cpp">
+      <Filter>02. GameObject\01. For_Stage\12. Box</Filter>
+    </ClCompile>
     <ClCompile Include="..\Code\HitBlood.cpp">
       <Filter>02. GameObject\01. For_Stage\07. Effect</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Stage_BIH.cpp">
       <Filter>01. Scene\96.Stage_BIH</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Player.cpp">
+      <Filter>02. GameObject\01. For_Stage\00. Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FatBat.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\01. FatBat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Spider.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\02. Spider</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -200,9 +209,6 @@
     </ClInclude>
     <ClInclude Include="..\Header\Effect.h">
       <Filter>02. GameObject\01. For_Stage\07. Effect</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\FatBat.h">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\FileIOMgr.h">
       <Filter>97. Mgr\01. FileIOMgr</Filter>
@@ -297,9 +303,6 @@
     <ClInclude Include="..\Header\StaticCamera.h">
       <Filter>02. GameObject\02. For_public\01. StaticCamera</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Spider.h">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\TestUI.h">
       <Filter>02. GameObject\01. For_Stage\10. UI\96. TestUI</Filter>
     </ClInclude>
@@ -369,11 +372,26 @@
     <ClInclude Include="..\Header\Snowfall.h">
       <Filter>02. GameObject\02. For_public\04. SnowFall</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\CoinKeyUI.h">
+      <Filter>02. GameObject\01. For_Stage\10. UI\05. CoinUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Box.h">
+      <Filter>02. GameObject\01. For_Stage\12. Box</Filter>
+    </ClInclude>
     <ClInclude Include="..\Header\HitBlood.h">
       <Filter>02. GameObject\01. For_Stage\07. Effect</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Stage_BIH.h">
       <Filter>01. Scene\96.Stage_BIH</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Player.h">
+      <Filter>02. GameObject\01. For_Stage\00. Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\FatBat.h">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\01. FatBat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Spider.h">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\02. Spider</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -535,8 +553,17 @@
     <Filter Include="02. GameObject\02. For_public\04. SnowFall">
       <UniqueIdentifier>{43817be4-52bf-4179-b433-70d229ee8aef}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\05. CoinUI">
+      <UniqueIdentifier>{92542f0f-363b-40f8-841a-cee2898d67f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\12. Box">
+      <UniqueIdentifier>{fcce3ad6-01b1-4087-91bc-f0124ed3c294}</UniqueIdentifier>
+    </Filter>
     <Filter Include="01. Scene\96.Stage_BIH">
       <UniqueIdentifier>{95da0eaf-6815-47e4-ac7b-77679616c28f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\00. Player">
+      <UniqueIdentifier>{17ed71c8-b3b0-47c9-aa3a-ebd75232e61f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

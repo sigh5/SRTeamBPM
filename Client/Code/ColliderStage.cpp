@@ -108,13 +108,8 @@ void CColliderStage::LateUpdate_Scene(void)
 		pAbubis->Collision_Event(pPlayer);
 	}
 		
-	
-		
-	
 
 	Engine::CScene::LateUpdate_Scene();
-
-	
 }
 
 void CColliderStage::Render_Scene(void)

@@ -1,8 +1,6 @@
 #pragma once
 #include "GameObject.h"
-
 #include "Engine_Include.h"
-#include "TestPlayer.h"
 
 BEGIN(Engine)
 
@@ -11,15 +9,15 @@ class CCalculator;
 class COrthoTransform;
 class CRcTex;
 class CAnimation;
+
 END
 
-class CBullet_UI :
-	public CGameObject
+class CCoinKeyUI : public CGameObject
 {
 public:
-	explicit CBullet_UI(LPDIRECT3DDEVICE9 pGraphicDev);
-	explicit CBullet_UI(const CGameObject& rhs);
-	virtual ~CBullet_UI();
+	CCoinKeyUI(LPDIRECT3DDEVICE9 pGraphicDev);
+	CCoinKeyUI(const CGameObject& rhs);
+	virtual ~CCoinKeyUI();
 
 public:
 	HRESULT				Ready_Object(CGameObject* pPlayer);
@@ -27,8 +25,6 @@ public:
 
 	virtual	void		LateUpdate_Object(void);
 	virtual void		Render_Obejct(void) override;
-	
-	
 
 private:
 	HRESULT				Add_Component(void);
@@ -42,14 +38,13 @@ public:
 
 	CGameObject*		m_pPlayer;
 
-private:
-	wstring				m_szMagazine = L"";		   // 탄창 수 실시간
-	wstring				m_szComboCount = L"";		// 실시간 콤보 카운트
-	wstring				m_szOriginMagazine = L"";  // 원래 탄창 수를 표시하기 위한 함수
-
-
+private: // Status 각 요소에 쓰는 폰트
+	wstring				m_szCoin = L"";		  // The number of coins the player has
+	wstring				m_szKey = L"";	  // The number of Keys the player has
+	
 public:
-	static CBullet_UI*		Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* pPlayer);
-	virtual void Free();
+	static CCoinKeyUI*		Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* pPlayer);
+	virtual void			Free();
+
 };
 

@@ -33,7 +33,7 @@ HRESULT CLogo::Ready_Scene(void)
 
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(L"Ready_Layer_Environment"), E_FAIL);
 
-	m_pLoading = CLoading::Create(m_pGraphicDev, LOADING_COLLIDER);
+	m_pLoading = CLoading::Create(m_pGraphicDev, LOADING_STAGE);
 	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
 		
 	Engine::LoadSoundFile();
@@ -55,7 +55,7 @@ Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 	{
 		if (m_pStartButton->Get_Click())
 		{
-			CScene*		pScene = CColliderStage::Create(m_pGraphicDev);
+			CScene*		pScene = CStage::Create(m_pGraphicDev);
 			NULL_CHECK_RETURN(pScene, E_FAIL);
 
 			//m_SceneType = SCENE_STAGE_PJW;
@@ -129,7 +129,7 @@ CLogo * CLogo::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 void CLogo::Free(void)
 {
 	Safe_Release(m_pLoading);
-	
+
 	Engine::CScene::Free();
 }
 
@@ -149,7 +149,8 @@ HRESULT CLogo::Ready_Proto(void)
 		
 	
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ButtonTexture2", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Button/Exit_Button.png", TEX_NORMAL)), E_FAIL);
-						
+				
+	// Font
 	FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"BMYEONSUNG", L"Power", 16, 20, FW_HEAVY), E_FAIL);
 
 	FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"DalseoHealingBold", L"Healing", 10, 12, FW_NORMAL), E_FAIL);

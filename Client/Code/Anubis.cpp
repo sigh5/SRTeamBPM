@@ -4,7 +4,7 @@
 #include "Export_Function.h"
 #include "AbstractFactory.h"
 #include "MyCamera.h"
-#include "HWPlayer.h"
+#include "Player.h"
 #include "HitBlood.h"
 
 CAnubis::CAnubis(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -94,7 +94,7 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 	}
 	else*/
 	{
-		CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC));
+		CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
 		NULL_CHECK(pPlayerTransformCom);
 
 		////Set_OnTerrain();
@@ -143,9 +143,10 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 	}
 
 
-
+	Excution_Event();
 
 	_int iResult = Engine::CGameObject::Update_Object(fTimeDelta);
+	Add_RenderGroup(RENDER_ALPHA, this);
 
 
 
@@ -155,10 +156,10 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 void CAnubis::LateUpdate_Object(void)
 {
 	// 빌보드 에러 해결
-	CTransform*	pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC));
-	NULL_CHECK(pPlayerTransform);
+	/*CTransform*	pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC));
+	NULL_CHECK(pPlayerTransform);*/
 
-	CMyCamera* pCamera =static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"StaticCamera"));
+	CMyCamera* pCamera =static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
 	NULL_CHECK(pCamera);
 
 	_matrix		matWorld, matView, matBill;
@@ -220,8 +221,17 @@ void CAnubis::Collision_Event(CGameObject * pGameObject)
 		cout << m_pInfoCom->Get_InfoRef()._iHp << endl;
 	}
 	
-		//CGameObject* pHitBlood = CHitBlood::Create(m_pGraphicDev, PickPos);
-		//m_vecBlood.push_back(pHitBlood);
+
+
+	static_cast<CPlayer*>(pGameObject)->Set_CheckShot(false);
+}
+
+void CAnubis::Excution_Event()
+{
+	if (m_pInfoCom->Get_InfoRef()._iHp <= 98 && m_pInfoCom->Get_InfoRef()._iHp >= 97)
+	{
+		static_cast<CMyCamera*>(::Get_GameObject(L"Layer_Environment", L"CMyCamera"))->m_bExecution = true;
+	}
 }
 
 void				CAnubis::Clear_Blood(const _float& fTimeDelta)
