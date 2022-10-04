@@ -109,7 +109,7 @@ private: //hw
 	_int			m_iComboCount = 0;
 
 	_float			m_fTimeDelta = 0.f;
-	DIR					m_eDirType = DIR_END;
+	DIR				m_eDirType = DIR_END;
 
 
 public:

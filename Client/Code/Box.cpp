@@ -126,13 +126,14 @@ HRESULT CBox::Open_Event(CGameObject * pGameObject)
 		// HealthPotion
 		CGameObject* pGameObj = nullptr;
 	
-		pGameObj = CHealthPotion::Create(m_pGraphicDev, vPos.x+1.f, vPos.z+3.f );
+		pGameObj = CHealthPotion::Create(m_pGraphicDev, (_uint)vPos.x+1, (_uint)vPos.z+3 );
 		NULL_CHECK_RETURN(pGameObj, E_FAIL);
 		FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(L"HealthPotion", pGameObj), E_FAIL);
 		
 		return S_OK;		
 	}
 
+	return S_OK;
 }
 
 HRESULT CBox::Add_Component(void)

@@ -1,6 +1,9 @@
 #pragma once
 #include "MonsterBase.h"
 
+
+
+
 class CSpider :public CMonsterBase
 {
 private:
@@ -13,6 +16,8 @@ public:
 	virtual _int		Update_Object(const _float& fTimeDelta) override;
 	virtual void		LateUpdate_Object(void) override;
 	virtual void		Render_Obejct(void) override;
+	virtual void		Collision_Event();
+	virtual void		Excution_Event();
 	//~
 
 	//개별 함수
@@ -33,10 +38,12 @@ private:
 	bool m_bAttack = true;
 	bool m_bAttacking = false;
 
+private:
 	CTexture*		m_pTextureCom = nullptr;
 	CTexture*		m_pAttackTextureCom = nullptr;
 	CAnimation*		m_pAttackAnimationCom = nullptr;
 	CRcTex*			m_pBufferCom = nullptr;
-	CCalculator*	m_pCalculatorCom = nullptr;
+	
+	
 };
 

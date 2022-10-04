@@ -7,6 +7,7 @@
 #include "AbstractFactory.h"
 #include "ObjectMgr.h"
 #include "MyCamera.h"
+#include "Player.h"
 
 CFatBat::CFatBat(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -24,8 +25,7 @@ HRESULT CFatBat::Ready_Object(int Posx, int Posy)
 
 	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_MonsterTexture2", m_mapComponent, ID_DYNAMIC);
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
-	m_pCalculatorCom = CAbstractFactory<CCalculator>::Clone_Proto_Component(L"Proto_CalculatorCom", m_mapComponent, ID_STATIC);
-
+	
 	m_iMonsterIndex = 1;
 	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
 	m_pAnimationCom->Ready_Animation(6, 0, 0.2f);
@@ -55,18 +55,6 @@ HRESULT CFatBat::Ready_Object(int Posx, int Posy)
 
 _int CFatBat::Update_Object(const _float & fTimeDelta)
 {
-	_int iResult = Engine::CGameObject::Update_Object(fTimeDelta);
-
-	CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
-	NULL_CHECK(pPlayerTransformCom);
-
-	_vec3		vPlayerPos, vMonsterPos;
-	pPlayerTransformCom->Get_Info(INFO_POS, &vPlayerPos);
-	m_pDynamicTransCom->Get_Info(INFO_POS, &vMonsterPos);
-
-	FatBat_Fly(fTimeDelta);
-	FatBat_Dodge(fTimeDelta, &vPlayerPos, &vMonsterPos);
-
 	// 수정 쿨타임 대신 타임
 	m_fFrame += fTimeDelta;
 	if (m_fFrame > m_fActionDelay)
@@ -75,23 +63,23 @@ _int CFatBat::Update_Object(const _float & fTimeDelta)
 		m_fFrame = 0.f;
 	}
 	// 수정 쿨타임 대신 타임
-	//Set_OnTerrain();
-	//지형에 올림
+
+	CMonsterBase::Calculator_Distance();
+
+	FatBat_Fly(fTimeDelta);
+	FatBat_Dodge(fTimeDelta, &m_vPlayerPos, &m_vMonsterPos);
 
 	
-
-	float fMtoPDistance; // 몬스터와 플레이어 간의 거리
-
-	fMtoPDistance = sqrtf((powf(vMonsterPos.x - vPlayerPos.x, 2) + powf(vMonsterPos.y - vPlayerPos.y, 2) + powf(vMonsterPos.z - vPlayerPos.z, 2)));
-
+	//Set_OnTerrain();
+	//지형에 올림
 	if (fMtoPDistance > 13.f)
 	{
-		m_pDynamicTransCom->Chase_Target_notRot(&vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
+		m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
 		
 	}
 	else if(fMtoPDistance < 10.f)
 	{
-		m_pDynamicTransCom->Chase_Target_notRot(&vPlayerPos, -m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
+		m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, -m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
 	}
 	else
 	{
@@ -99,7 +87,7 @@ _int CFatBat::Update_Object(const _float & fTimeDelta)
 	}
 	m_pAnimationCom->Move_Animation(fTimeDelta);
 
-	
+	CMonsterBase::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
 
 	return 0;
@@ -123,7 +111,7 @@ void CFatBat::LateUpdate_Object(void)
 
 	_matrix      matRot;
 	D3DXMatrixIdentity(&matRot);
-	D3DXMatrixRotationY(&matRot, pCamera->Get_BillBoardDir());
+	D3DXMatrixRotationY(&matRot, (_float)pCamera->Get_BillBoardDir());
 
 	_vec3 vPos;
 	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
@@ -159,6 +147,35 @@ void CFatBat::Render_Obejct(void)
 	m_pBufferCom->Render_Buffer();
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+}
+
+void CFatBat::Collision_Event()
+{
+	CScene  *pScene = ::Get_Scene();
+	NULL_CHECK_RETURN(pScene, );
+	CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+	NULL_CHECK_RETURN(pLayer, );
+	CGameObject *pGameObject = nullptr;
+	pGameObject = static_cast<CPlayer*>(::Get_GameObject(L"Layer_GameLogic", L"Player"));
+
+	_vec3 PickPos;
+
+	if (static_cast<CPlayer*>(pGameObject)->Get_CheckShot() == true &&
+		fMtoPDistance < MAX_CROSSROAD &&
+		m_pColliderCom->Check_Lay_InterSect(m_pBufferCom, m_pDynamicTransCom, g_hWnd))
+	{
+		m_bHit = true;
+		static_cast<CPlayer*>(pGameObject)->Set_ComboCount(1);
+
+		m_pInfoCom->Receive_Damage(1);
+		cout << "FatBat" << m_pInfoCom->Get_InfoRef()._iHp << endl;
+	}
+
+}
+
+void CFatBat::Excution_Event()
+{
+	// 추후 로직추가
 }
 
 void	CFatBat::FatBat_Fly(const _float& fTimeDelta)
@@ -207,7 +224,6 @@ void	CFatBat::FatBat_Fly(const _float& fTimeDelta)
 
 void CFatBat::FatBat_Shoot(void)
 {
-
 	_vec3 vPos;
 	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
 

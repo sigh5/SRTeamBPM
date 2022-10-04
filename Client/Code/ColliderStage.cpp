@@ -98,7 +98,7 @@ _int CColliderStage::Update_Scene(const _float & fTimeDelta)
 
 void CColliderStage::LateUpdate_Scene(void)
 {
-	CLayer* pLayer1 = GetLayer(L"Layer_GameLogic");
+	/*CLayer* pLayer1 = GetLayer(L"Layer_GameLogic");
 	CHWPlayer* pPlayer = dynamic_cast<CHWPlayer*>(pLayer1->Get_GameObject(L"TestPlayer"));
 
 	CAnubis* pAbubis = dynamic_cast<CAnubis*>(pLayer1->Get_GameObject(L"TestMonster1"));
@@ -107,7 +107,7 @@ void CColliderStage::LateUpdate_Scene(void)
 	{
 		pAbubis->Collision_Event(pPlayer);
 	}
-		
+		*/
 
 	Engine::CScene::LateUpdate_Scene();
 }

@@ -113,7 +113,10 @@ void CStage::LateUpdate_Scene(void)
 	{
 		iter->second->Collision_Event();
 	}
-*/
+
+	// Test
+	CPlayer* pPlayer = static_cast<CPlayer*>(pLayer1->Get_GameObject(L"Player"));
+	pPlayer->Set_CheckShot(false);
 
 	Engine::CScene::LateUpdate_Scene();
 }
@@ -175,9 +178,9 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 */
 
 
-	READY_LAYER(pGameObject, CFatBat, pLayer, m_pGraphicDev, L"TestMonster1");
-
-
+	READY_LAYER(pGameObject, CAnubis, pLayer, m_pGraphicDev, L"TestMonster1");
+	READY_LAYER(pGameObject, CSpider, pLayer, m_pGraphicDev, L"TestMonster2");
+	READY_LAYER(pGameObject, CFatBat, pLayer, m_pGraphicDev, L"TestMonster3");
 
 	/*CFileIOMgr::GetInstance()->Load_FileData(m_pGraphicDev,
 		this,

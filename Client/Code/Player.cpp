@@ -255,45 +255,6 @@ void CPlayer::Collision_Event()
 	pLayer = pScene->GetLayer(L"Layer_GameLogic");
 	NULL_CHECK_RETURN(pLayer, );
 
-	// HealthPotion
-	//pGameObject = pLayer->Get_GameObject(L"HealthPotion");
-	//NULL_CHECK(pGameObject, );
-	//CTransform *pTransform = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
-
-	//if (m_pColliderCom->Check_Collision(pGameObject, this,1,1))
-	//{
-	//	m_pInfoCom->Add_Hp(25);
-	//	m_iHpBarChange += 1;
-	//	pLayer->Delete_GameObject(L"HealthPotion"); // 이벤트 처리
-	//}
-
-	//// Coin
-	//pGameObject = pLayer->Get_GameObject(L"Coin");
-	//NULL_CHECK_RETURN(pGameObject, );
-	//if (m_pColliderCom->Check_Collision(pGameObject, this))
-	//{
-	//	m_pInfoCom->Get_InfoRef()._iCoin += 1;
-	//	pLayer->Delete_GameObject(L"Coin"); // 이벤트 처리
-
-	//}
-
-	/*pGameObject = pLayer->Get_GameObject(L"Box");
-	NULL_CHECK_RETURN(pGameObject, );
-	if (m_pColliderCom->Check_Collision(pGameObject, this))
-	{
-		if (Get_DIKeyState(DIK_F) & 0X80)
-		{
-			CAnimation* pBoxAnimation = dynamic_cast<CAnimation*>(pGameObject->Get_Component(L"Proto_AnimationCom", ID_STATIC));
-
-			static_cast<CBox*>(pGameObject)->Open_Event(this);
-			static_cast<CBox*>(pGameObject)->Set_Open(false);
-		}
-	}*/
-
-
-
-
-
 }
 
 CPlayer * CPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)
