@@ -527,8 +527,8 @@ namespace imgui_addons
         bool show_error = false;
         float frame_height = ImGui::GetFrameHeight();
         float frame_height_spacing = ImGui::GetFrameHeightWithSpacing();
-        float button_width = (ext_box_width - style.ItemSpacing.x) / 2.0;
-        float buttons_xpos =  pw_size.x - button_width * 2.0 - style.ItemSpacing.x - style.WindowPadding.x;
+        float button_width = (float)((ext_box_width - style.ItemSpacing.x) / 2.f);
+        float buttons_xpos = (float)(pw_size.x - button_width * 2.f - style.ItemSpacing.x - style.WindowPadding.x);
 
         ImGui::SetCursorPosY(pw_size.y - frame_height_spacing - style.WindowPadding.y);
 

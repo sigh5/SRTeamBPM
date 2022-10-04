@@ -4,13 +4,13 @@
 #include "ImGuiFileBrowser.h"
 #include "ImGuiFileDialog.h"
 #include "ImGuiFileDialogConfig.h"
-#include "Scene.h"
+
 
 BEGIN(Engine)
 
 class CCamera;
 class CTransform;
-
+class CScene;
 
 END
 // TexturePath 를 위한 Struct

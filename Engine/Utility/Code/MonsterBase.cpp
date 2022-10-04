@@ -74,16 +74,17 @@ HRESULT CMonsterBase::Add_Component(void)
 bool CMonsterBase::Set_TransformPositon(HWND g_hWnd, CCalculator* _pCalcul)
 {
 	CTerrainTex*	pTerrainBufferCom = dynamic_cast<CTerrainTex*>(Engine::Get_Component(L"TestLayer", L"TestMap", L"Proto_TerrainTexCom", ID_STATIC));
-	NULL_CHECK_RETURN(pTerrainBufferCom, );
+	NULL_CHECK_RETURN(pTerrainBufferCom, false );
 
 	CTransform*		pTerrainTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"TestLayer", L"TestMap", L"Proto_TransformCom", ID_DYNAMIC));
-	NULL_CHECK_RETURN(pTerrainTransformCom, );
+	NULL_CHECK_RETURN(pTerrainTransformCom, false);
 
 
 	_vec3 Temp = _pCalcul->PickingOnTerrainCube(g_hWnd, pTerrainBufferCom, pTerrainTransformCom);
 
 	m_pDynamicTransCom->Set_Pos(Temp.x, Temp.y, Temp.z);
 
+	return false;
 }
 
 CharacterInfo&	CMonsterBase::Get_InfoRef()

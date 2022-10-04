@@ -41,7 +41,7 @@ _int CSpider::Update_Object(const _float & fTimeDelta)
 	_int iResult = Engine::CGameObject::Update_Object(fTimeDelta);
 
 	CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC));
-	NULL_CHECK(pPlayerTransformCom);
+	NULL_CHECK_RETURN(pPlayerTransformCom,-1);
 
 	//Set_OnTerrain();
 	float TerrainY = m_pDynamicTransCom->Get_TerrainY1(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC, m_pCalculatorCom, m_pDynamicTransCom);
@@ -85,6 +85,8 @@ _int CSpider::Update_Object(const _float & fTimeDelta)
 	m_pDynamicTransCom->Set_WorldMatrix(&(matBill * matWorld));*/
 
 	Add_RenderGroup(RENDER_ALPHA, this);
+
+	return 0;
 }
 
 void CSpider::LateUpdate_Object(void)
