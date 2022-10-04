@@ -10,6 +10,7 @@
 #include "Coin.h"
 #include "Box.h"
 #include "MyCamera.h"
+#include "Gun_Screen.h"
 
 
 CTestPlayer::CTestPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -269,7 +270,7 @@ void CTestPlayer::Key_Input(const _float& fTimeDelta)
 		}
 	}
 
-	if (Engine::Get_DIMouseState(DIM_LB) & 0X80) // Picking
+	if (Engine::Mouse_Down(DIM_LB)) // Picking
 	{
 		Create_Bullet(m_vPos);
 		
@@ -278,8 +279,11 @@ void CTestPlayer::Key_Input(const _float& fTimeDelta)
 		// Magazine 0 = Don't Shoot
 		if (m_iMagazine == 0)
 			m_bOneShot = FALSE;
+
+		CGun_Screen* pGunScreen = dynamic_cast<CGun_Screen*> (Engine::Get_GameObject(L"Layer_UI", L"Gun_Screen"));
 	
-		
+		if(m_bOneShot)
+		pGunScreen->Set_Shoot(true);
 	}
 
 	if (Get_DIKeyState(DIK_R) & 0X80)

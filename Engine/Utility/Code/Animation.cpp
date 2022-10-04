@@ -18,7 +18,7 @@ Engine::CAnimation::CAnimation(const CAnimation& rhs)
 CAnimation::~CAnimation()
 {
 }
-
+// 애니메이션 사용을 위한 기본 세팅 함수
 HRESULT CAnimation::Ready_Animation(int _iMaxMotion, int _iMinMotion, float _fInterval, _uint _iOrigin)
 {
 	m_iMaxMotion = _iMaxMotion;
@@ -28,6 +28,7 @@ HRESULT CAnimation::Ready_Animation(int _iMaxMotion, int _iMinMotion, float _fIn
 	return S_OK;
 }
 
+// 쉴새없이 돌아가는 애니메이션 함수(포션, 코인 등 사용자의 컨트롤이 필요없이 계속 돌아야 하는 경우)
 void CAnimation::Move_Animation(float fTimeDelta)
 {
 	m_fMotionChangeCounter += fTimeDelta;
@@ -46,7 +47,8 @@ void CAnimation::Move_Animation(float fTimeDelta)
 		m_fMotionChangeCounter += fTimeDelta;
 	}
 }
-									
+								
+// Bull_UI처럼 3장 이상 텍스처가 있고 매개 변수 1회에 텍스처가 1장만 넘어가야 할 때 사용 
 void CAnimation::Control_Animation(_uint iCount)
 {		
 	if (m_iOrigin > iCount)
@@ -63,7 +65,7 @@ void CAnimation::Control_Animation(_uint iCount)
 		m_iMotion = m_iMinMotion;
 	
 }
-
+// 현재는 박스에서 사용, 매개변수를 1번 받고 그대로 애니메이션이 끝날 요소들(ex: 박스는 닫혔다가->열리고 끝)
 void CAnimation::Open_Box_Animation(_bool bOpen)
 {
 	_uint iOrig = m_iMotion;
@@ -75,6 +77,24 @@ void CAnimation::Open_Box_Animation(_bool bOpen)
 	}
 	m_iMotion = iOrig;
 
+}
+
+void CAnimation::Gun_Animation(_bool* bShoot)
+{
+	//_uint iOrig = m_iMotion;
+
+	if (bShoot)
+	{
+		m_iMotion++;
+		
+		if (m_iMotion == m_iMaxMotion)
+		{
+			bool bfalse = false;
+			memcpy(bShoot, &bfalse, sizeof(bool));
+			m_iMotion = m_iMinMotion;				
+		}
+	}
+		
 }
 
 CComponent * CAnimation::Clone(void)

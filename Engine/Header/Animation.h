@@ -14,10 +14,14 @@ public:
 	HRESULT		Ready_Animation(int _iMaxMotion, int _iMinMotion, float _fInterval, _uint _iOrigin = 0); //시작 스프라이트, 처음 스프라이트, 변경 간격
 	void	Move_Animation(float fTimeDelta);
 
-	// 사용자가 수동적으로 Key를 누를때마다 이미지 변경
+	// 사용자가 수동적으로 Key를 누를때마다 이미지 1장 변경
 	void	Control_Animation(_uint iCount);	
 
 	void	Open_Box_Animation(_bool bOpen);
+
+	// Gun_Screen
+	void	Gun_Animation(_bool* bShoot);
+	// ~Gun_Screen
 
 public:
 	

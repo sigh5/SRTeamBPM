@@ -6,7 +6,7 @@
 USING(Engine)
 
 CGun_Screen::CGun_Screen(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CGameObject(pGraphicDev)
+	: CGameObject(pGraphicDev), m_bShootAnimation(false)
 {
 }
 
@@ -27,12 +27,16 @@ HRESULT CGun_Screen::Ready_Object(CGameObject* pPlayer)
 
 	m_pPlayer = pPlayer;
 
+	m_bShootAnimation = false;
+
 	return S_OK;
 }
 
 _int CGun_Screen::Update_Object(const _float & fTimeDelta)
 {
 	Engine::CGameObject::Update_Object(fTimeDelta);
+
+	Shoot_Motion();
 
 	Add_RenderGroup(RENDER_UI, this);
 
@@ -53,7 +57,7 @@ void CGun_Screen::Render_Obejct(void)
 	m_pGraphicDev->SetTransform(D3DTS_VIEW, &m_pOrthoTransCom->m_matView);
 	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &m_pOrthoTransCom->m_matOrtho);
 	
-	m_pTextureCom->Set_Texture(0);// m_pAnimationCom->m_iMotion);
+	m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);
 
 	m_pBufferCom->Render_Buffer();
 	
@@ -67,6 +71,17 @@ HRESULT CGun_Screen::Add_Component(void)
 	m_pCalculatorCom = CAbstractFactory<CCalculator>::Clone_Proto_Component(L"Proto_CalculatorCom", m_mapComponent, ID_STATIC);
 	m_pAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_STATIC);
 	
+	return S_OK;
+}
+
+HRESULT CGun_Screen::Shoot_Motion(void)
+{
+	if (m_bShootAnimation == true)
+	{
+		m_pAnimationCom->Gun_Animation(&m_bShootAnimation);
+		
+	}		
+
 	return S_OK;
 }
 

@@ -31,6 +31,11 @@ private:
 	HRESULT				Add_Component(void);
 
 public:
+	HRESULT				Shoot_Motion(void);
+
+	void				Set_Shoot(_bool pShoot) { m_bShootAnimation = pShoot; }
+
+public:
 	CRcTex*				m_pBufferCom = nullptr;	
 	CTexture*			m_pTextureCom = nullptr;
 	CCalculator*		m_pCalculatorCom = nullptr;
@@ -39,9 +44,9 @@ public:
 	COrthoTransform*	m_pOrthoTransCom = nullptr;
 	
 	CGameObject*		m_pPlayer;
-	
-private:
-	_matrix				m_matCameraView;
+
+public:
+	_bool				m_bShootAnimation = false;
 	
 public:
 	static CGun_Screen*		Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* pPlayer);
