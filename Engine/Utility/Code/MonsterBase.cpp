@@ -91,6 +91,23 @@ CharacterInfo&	CMonsterBase::Get_InfoRef()
 	return m_pInfoCom->Get_InfoRef();
 }
 
+void CMonsterBase::Get_MonsterToPlayer_Distance(float* _Distance)
+{
+	CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
+	NULL_CHECK(pPlayerTransformCom);
+
+	_vec3		vPlayerPos, vMonsterPos;
+	pPlayerTransformCom->Get_Info(INFO_POS, &vPlayerPos);
+	m_pDynamicTransCom->Get_Info(INFO_POS, &vMonsterPos);
+
+	float fMtoPDistance; // 몬스터와 플레이어 간의 거리
+
+	fMtoPDistance = sqrtf((powf(vMonsterPos.x - vPlayerPos.x, 2) + powf(vMonsterPos.y - vPlayerPos.y, 2) + powf(vMonsterPos.z - vPlayerPos.z, 2)));
+
+	memcpy(_Distance, &fMtoPDistance, sizeof(float));
+	return;
+}
+
 
 void Engine::CMonsterBase::Free(void)
 {

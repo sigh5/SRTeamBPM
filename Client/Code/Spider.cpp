@@ -37,7 +37,7 @@ HRESULT CSpider::Ready_Object(int Posx, int Posy)
 	{
 		Set_TransformPositon(g_hWnd, m_pCalculatorCom);
 	}
-	m_pDynamicTransCom->Set_Scale(&_vec3{ 0.5f, 0.5f, 0.5f });
+
 	return S_OK;
 }
 
@@ -55,7 +55,7 @@ _int CSpider::Update_Object(const _float & fTimeDelta)
 
 	//Set_OnTerrain();
 	float TerrainY = m_pDynamicTransCom->Get_TerrainY1(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC, m_pCalculatorCom, m_pDynamicTransCom);
-	m_pDynamicTransCom->Set_Y(TerrainY + 2.f);
+	m_pDynamicTransCom->Set_Y(TerrainY + 1.f);
 	//지형에 올림
 
 	_vec3		vPlayerPos, vMonsterPos;
@@ -64,7 +64,8 @@ _int CSpider::Update_Object(const _float & fTimeDelta)
 
 	float fMtoPDistance; // 몬스터와 플레이어 간의 거리
 
-	fMtoPDistance = sqrtf((powf(vMonsterPos.x - vPlayerPos.x, 2) + powf(vMonsterPos.y - vPlayerPos.y, 2) + powf(vMonsterPos.z - vPlayerPos.z, 2)));
+	//fMtoPDistance = sqrtf((powf(vMonsterPos.x - vPlayerPos.x, 2) + powf(vMonsterPos.y - vPlayerPos.y, 2) + powf(vMonsterPos.z - vPlayerPos.z, 2)));
+	Get_MonsterToPlayer_Distance(&fMtoPDistance);
 
 	if (fMtoPDistance > 2.f && m_bAttacking == false)
 	{
@@ -106,7 +107,7 @@ void CSpider::LateUpdate_Object(void)
 	D3DXMatrixInverse(&matBill, 0, &matBill);
 
 	_matrix      matScale, matTrans;
-	D3DXMatrixScaling(&matScale, 2.f, 2.f, 2.f);
+	D3DXMatrixScaling(&matScale, 1.f, 1.f, 1.f);
 
 	_matrix      matRot;
 	D3DXMatrixIdentity(&matRot);
