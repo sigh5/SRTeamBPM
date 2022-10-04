@@ -2,7 +2,6 @@
 #include "..\Header\HitBlood.h"
 
 #include "Export_Function.h"
-#include "MyCamera.h"
 
 CHitBlood::CHitBlood(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -31,92 +30,46 @@ _int CHitBlood::Update_Object(const _float & fTimeDelta)
 	if (m_pAnimationCom->m_iMotion == m_pAnimationCom->m_iMaxMotion)
 	{
 		//삭제
-		return 0;
+		return 2;
 	}
 
 	m_pAnimationCom->Move_Animation(fTimeDelta);
 
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
-	LateUpdate_Object();
-	//_matrix		matWorld, matView, matBill;
+	_matrix		matWorld, matView, matBill;
 
-	//m_pTransCom->Set_Scale(&_vec3{ 0.2f, 0.2f, 0.2f });
-	//D3DXMatrixIdentity(&matBill);
+	m_pTransCom->Set_Scale(&_vec3{ 0.2f, 0.2f, 0.2f });
+	D3DXMatrixIdentity(&matBill);
 
-	//m_pTransCom->Get_WorldMatrix(&matWorld);
-	//m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
+	m_pTransCom->Get_WorldMatrix(&matWorld);
+	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
 
-	//matBill._11 = matView._11;
-	//matBill._13 = matView._13;
-	//matBill._31 = matView._31;
-	//matBill._33 = matView._33;
+	matBill._11 = matView._11;
+	matBill._13 = matView._13;
+	matBill._31 = matView._31;
+	matBill._33 = matView._33;
 
-	//D3DXMatrixInverse(&matBill, 0, &matBill);
+	D3DXMatrixInverse(&matBill, 0, &matBill);
 
-	//// 현재 지금 이 코드는 문제가 없지만 나중에 문제가 될 수 있음
-	//m_pTransCom->Set_WorldMatrix(&(matBill * matWorld));
+	// 현재 지금 이 코드는 문제가 없지만 나중에 문제가 될 수 있음
+	m_pTransCom->Set_WorldMatrix(&(matBill * matWorld));
 
+
+	Add_RenderGroup(RENDER_ALPHA, this);
 
 	return 0;
 }
 
 void CHitBlood::LateUpdate_Object(void)
 {
-
-	CMyCamera* pCamera;
-
-	CTransform*	pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC));
-	NULL_CHECK(pPlayerTransform);
-
-	if (SCENE_TOOLTEST == Get_Scene()->Get_SceneType())
-	{
-		pCamera = static_cast<CMyCamera*>(Get_GameObject(L"TestLayer", L"DynamicCamera"));
-		NULL_CHECK(pCamera);
-	}
-	else
-	{
-		pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"DynamicCamera"));
-		NULL_CHECK(pCamera);
-	}
-
-	_matrix		matWorld, matView, matBill;
-
-	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
-	D3DXMatrixIdentity(&matBill);
-	memcpy(&matBill, &matView, sizeof(_matrix));
-	memset(&matBill._41, 0, sizeof(_vec3));
-	D3DXMatrixInverse(&matBill, 0, &matBill);
-
-	_matrix      matScale, matTrans;
-	D3DXMatrixScaling(&matScale, 2.f, 2.f, 2.f);
-
-	_matrix      matRot;
-	D3DXMatrixIdentity(&matRot);
-	D3DXMatrixRotationY(&matRot, pCamera->Get_BillBoardDir());
-
-	_vec3 vPos;
-	m_pTransCom->Get_Info(INFO_POS, &vPos);
-
-	D3DXMatrixTranslation(&matTrans,
-		vPos.x,
-		vPos.y,
-		vPos.z);
-
-	D3DXMatrixIdentity(&matWorld);
-	matWorld = matScale* matRot * matBill * matTrans;
-	m_pTransCom->Set_WorldMatrix(&(matWorld));
-
-	// 빌보드 에러 해결
-	Add_RenderGroup(RENDER_ALPHA, this);
-
 	Engine::CGameObject::LateUpdate_Object();
 }
 
 void CHitBlood::Render_Obejct(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
-	//m_pGraphicDev->SetRenderState(D3DRS_ZENABLE, false);
+	m_pGraphicDev->SetRenderState(D3DRS_ZENABLE, false);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
@@ -129,7 +82,7 @@ void CHitBlood::Render_Obejct(void)
 	m_pBufferCom->Render_Buffer();
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-	//m_pGraphicDev->SetRenderState(D3DRS_ZENABLE, true);
+	m_pGraphicDev->SetRenderState(D3DRS_ZENABLE, true);
 }
 
 HRESULT CHitBlood::Add_Component(void)

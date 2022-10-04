@@ -743,7 +743,6 @@ void CImGuiMgr::MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 				OBJ_MONSTER);
 			break;
 		}
-	}
 		ImGui::SameLine();
 		if (ImGui::Button("Load"))
 		{
@@ -876,7 +875,7 @@ void CImGuiMgr::MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 		if (pTranscom != nullptr)
 			m_pSelectedTransform = pTranscom;
 
-		
+		ImGui::End();
 		if (pGameObject != nullptr)
 		{
 			CharacterInfo* monInfo = nullptr;
@@ -891,10 +890,8 @@ void CImGuiMgr::MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 
 			ImGui::End();
 		}
-		ImGui::End();
 	}
-
-
+}
 
 
 // Player Tool

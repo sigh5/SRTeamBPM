@@ -23,7 +23,7 @@ public:
 public:
 	_bool		Check_Sphere_InterSect(_vec3 vCenter1 , _vec3 vCenter2,_float fRadius1, _float fRadius2);
 	_bool		Check_Lay_InterSect(CRcTex * rcTex, CTransform* pMonsterCom, HWND hWnd);
-	_bool		Check_Lay_InterSect(CRcTex * rcTex, CTransform* pMonsterCom, HWND hWnd, _vec3* PickPos);
+	_bool		Check_Lay_InterSect(CRcTex * rcTex, CTransform* pMonsterCom, HWND hWnd, _vec3& PickPos);
 
 public:
 	virtual CComponent* Clone(void) override;

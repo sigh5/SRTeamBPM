@@ -20,17 +20,13 @@ HRESULT CSpider::Ready_Object(int Posx, int Posy)
 
 	CComponent* pComponent = nullptr;
 
-	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_MonsterTexture3", m_mapComponent, ID_STATIC);
+	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_MonsterTexture3", m_mapComponent, ID_DYNAMIC);
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
 	m_pCalculatorCom = CAbstractFactory<CCalculator>::Clone_Proto_Component(L"Proto_CalculatorCom", m_mapComponent, ID_STATIC);
-	m_pAttackTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Spider_Attack_Texture", m_mapComponent, ID_STATIC);
-	m_pAttackAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_DYNAMIC);
-	
+
 	m_iMonsterIndex = 2;
-	m_fAttackDelay = 1.5f;
 	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
 	m_pAnimationCom->Ready_Animation(4, 1, 0.2f);
-	m_pAttackAnimationCom->Ready_Animation(13, 0, 0.2f);
 	if (Posx == 0 && Posy == 0) {}
 	else
 	{
@@ -43,11 +39,6 @@ HRESULT CSpider::Ready_Object(int Posx, int Posy)
 _int CSpider::Update_Object(const _float & fTimeDelta)
 {
 	_int iResult = Engine::CGameObject::Update_Object(fTimeDelta);
-	
-	//쿨타임 루프
-	
-	AttackJudge(fTimeDelta);
-	//~
 
 	CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC));
 	NULL_CHECK(pPlayerTransformCom);
@@ -65,7 +56,7 @@ _int CSpider::Update_Object(const _float & fTimeDelta)
 
 	fMtoPDistance = sqrtf((powf(vMonsterPos.x - vPlayerPos.x, 2) + powf(vMonsterPos.y - vPlayerPos.y, 2) + powf(vMonsterPos.z - vPlayerPos.z, 2)));
 
-	if (fMtoPDistance > 2.f && m_bAttacking == false)
+	if (fMtoPDistance > 5.f)
 	{
 		m_pDynamicTransCom->Chase_Target_notRot(&vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
 
@@ -73,15 +64,7 @@ _int CSpider::Update_Object(const _float & fTimeDelta)
 	}
 	else
 	{
-		//공격
-		if (m_bAttack)
-		{
-			Attack(fTimeDelta);
-		}
-		else
-		{
-			m_pAnimationCom->m_iMotion = 0;
-		}
+		m_pAnimationCom->m_iMotion = 0;
 	}
 
 	_matrix		matWorld, matView, matBill;
@@ -121,52 +104,11 @@ void CSpider::Render_Obejct(void)
 	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
 
-	if (m_bAttack)
-	{
-		m_pAttackTextureCom->Set_Texture(m_pAttackAnimationCom->m_iMotion);
-		m_pAnimationCom->m_iMotion = 0;
-	}
-	else
-	{
-		m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);	// 텍스처 정보 세팅을 우선적으로 한다.
-	}
+	m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);	// 텍스처 정보 세팅을 우선적으로 한다.
 
 	m_pBufferCom->Render_Buffer();
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-}
-
-void		CSpider::Attack(const _float& fTimeDelta)
-{
-	m_pAttackAnimationCom->Move_Animation(fTimeDelta);
-	if (m_pAttackAnimationCom->m_iMotion >= m_pAttackAnimationCom->m_iMaxMotion)
-	{
-		m_bAttack = false;
-	}
-}
-
-void		CSpider::AttackJudge(const _float& fTimeDelta)
-{
-	if (m_bAttack == false)
-	{
-		m_fAttackDelayTime += fTimeDelta;
-		if (m_fAttackDelay <= m_fAttackDelayTime)
-		{
-			m_bAttack = true;
-			m_fAttackDelayTime = 0.f;
-		}
-	}
-
-	if (m_pAttackAnimationCom->m_iMotion<m_pAttackAnimationCom->m_iMaxMotion
-		&& m_pAttackAnimationCom->m_iMotion>m_pAttackAnimationCom->m_iMinMotion)
-	{
-		m_bAttacking = true;
-	}
-	else
-	{
-		m_bAttacking = false;
-	}
-
 }
 
 CSpider * CSpider::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)
