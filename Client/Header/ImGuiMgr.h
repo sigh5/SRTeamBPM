@@ -4,13 +4,13 @@
 #include "ImGuiFileBrowser.h"
 #include "ImGuiFileDialog.h"
 #include "ImGuiFileDialogConfig.h"
-#include "Scene.h"
+
 
 BEGIN(Engine)
 
 class CCamera;
 class CTransform;
-
+class CScene;
 
 END
 class CWallCube;

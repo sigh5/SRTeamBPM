@@ -21,7 +21,7 @@ CBox::~CBox()
 HRESULT CBox::Ready_Object(_uint iX, _uint iY, CGameObject* pPlayer)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-	m_pTransCom->Set_Pos(iX, 1.f, iY);
+	m_pTransCom->Set_Pos((_float)iX, 1.f, (_float)iY);
 	m_pTransCom->Compulsion_Update();
 	m_pAnimationCom->Ready_Animation(1, 0, 0.2f, 3); // 애니메이션이 자동으로 돌아가는 함수. 바꿔줘야 한다.
 

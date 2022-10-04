@@ -3,6 +3,7 @@
 #include "ImGuizmo.h"
 #include "imgui.h"
 
+#include "Scene.h"
 #include "Export_Function.h"
 #include "Terrain.h"
 #include "TestCube.h"
@@ -154,7 +155,7 @@ void CImGuiMgr::TransformEdit(CCamera* pCamera, CTransform* pTransform, _bool& W
 		GetClientRect(g_hWnd, &rt);
 		POINT lt{ rt.left, rt.top };
 		ClientToScreen(g_hWnd, &lt);
-		ImGuizmo::SetRect(lt.x, lt.y, io.DisplaySize.x, io.DisplaySize.y);
+		ImGuizmo::SetRect((_float)lt.x, (_float)lt.y, (_float)io.DisplaySize.x, (_float)io.DisplaySize.y);
 
 		// ImGuizmo::DrawGrid(m_pCam->GetView(), m_pCam->GetPrj(), matId, 100.f);
 
@@ -256,7 +257,7 @@ void CImGuiMgr::TransformEdit(CCamera* pCamera, CTransform* pTransform, _bool& W
 		GetClientRect(g_hWnd, &rt);
 		POINT lt{ rt.left, rt.top };
 		ClientToScreen(g_hWnd, &lt);
-		ImGuizmo::SetRect(lt.x, lt.y, io.DisplaySize.x, io.DisplaySize.y);
+		ImGuizmo::SetRect((_float)lt.x, (_float)lt.y, (_float)io.DisplaySize.x, (_float)io.DisplaySize.y);
 
 		// ImGuizmo::DrawGrid(m_pCam->GetView(), m_pCam->GetPrj(), matId, 100.f);
 
@@ -842,7 +843,7 @@ void CImGuiMgr::MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 
 				NameList.push_back(test1);
 
-				pGameObject = CAnubis::Create(pGrahicDev, temp.x, temp.y);
+				pGameObject = CAnubis::Create(pGrahicDev, (_int)temp.x, (_int)temp.y);
 				NULL_CHECK_RETURN(pGameObject, );
 
 				CLayer* pMonsterlayer = pScene->GetLayer(L"TestLayer3");

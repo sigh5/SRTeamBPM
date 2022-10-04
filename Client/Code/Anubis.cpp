@@ -96,7 +96,7 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 	else*/
 	{
 		CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
-		NULL_CHECK(pPlayerTransformCom);
+		NULL_CHECK_RETURN(pPlayerTransformCom,-1);
 
 		////Set_OnTerrain();
 		float TerrainY = m_pDynamicTransCom->Get_TerrainY1(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC, m_pCalculatorCom, m_pDynamicTransCom);
@@ -174,7 +174,7 @@ void CAnubis::LateUpdate_Object(void)
 
 	_matrix      matRot;
 	D3DXMatrixIdentity(&matRot);
-	D3DXMatrixRotationY(&matRot, pCamera->Get_BillBoardDir());
+	D3DXMatrixRotationY(&matRot, (_float)pCamera->Get_BillBoardDir());
 
 	_vec3 vPos;
 	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
@@ -221,7 +221,8 @@ void CAnubis::Collision_Event(CGameObject * pGameObject)
 	{
 		CPlayer* pPlayer = static_cast<CPlayer*>(::Get_GameObject(L"Layer_GameLogic", L"Player"));
 		pPlayer->Set_ComboCount(1);
-		m_pInfoCom->Receive_Damage(1.f);
+
+		m_pInfoCom->Receive_Damage(1);
 		cout << m_pInfoCom->Get_InfoRef()._iHp << endl;
 	}
 	else
