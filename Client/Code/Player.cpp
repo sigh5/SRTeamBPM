@@ -128,7 +128,7 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
 		m_pDynamicTransCom->Move_Pos(&(m_vDirection * 5.f * fTimeDelta));
 		m_pDynamicTransCom->Set_CountMovePos(&(m_vDirection * 5.f * fTimeDelta));
-		m_eDirType = DIR_UP;
+		
 	}
 
 	if (Get_DIKeyState(DIK_S) & 0X80)
@@ -137,7 +137,7 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
 		m_pDynamicTransCom->Move_Pos(&(m_vDirection * -5.f * fTimeDelta));
 		m_pDynamicTransCom->Set_CountMovePos(&(m_vDirection * -5.f * fTimeDelta));
-		m_eDirType = DIR_DOWN;
+		
 	}
 
 	if (Get_DIKeyState(DIK_A) & 0X80)
@@ -149,7 +149,7 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		D3DXVec3Cross(&vRight, &m_vDirection, &m_vUp);
 		m_pDynamicTransCom->Move_Pos(&(vRight * 5.f * fTimeDelta));
 		m_pDynamicTransCom->Set_CountMovePos(&(vRight * 5.f * fTimeDelta));
-		m_eDirType = DIR_LEFT;
+		
 	}
 
 	if (Get_DIKeyState(DIK_D) & 0X80)
@@ -161,7 +161,7 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		D3DXVec3Cross(&vRight, &m_vDirection, &m_vUp);
 		m_pDynamicTransCom->Move_Pos(&(vRight * -5.f * fTimeDelta));
 		m_pDynamicTransCom->Set_CountMovePos(&(vRight * -5.f * fTimeDelta));
-		m_eDirType = DIR_RIGHT;
+		
 	}
 
 	if (Get_DIKeyState(DIK_SPACE) & 0X80)

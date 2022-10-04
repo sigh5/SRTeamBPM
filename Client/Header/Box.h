@@ -50,7 +50,7 @@ public:
 
 	
 public:
-	static CBox*		Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint iX, _uint iY, CTestPlayer* pPlayer);
+	static CBox*		Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint iX, _uint iY, CGameObject* pPlayer);
 	virtual void		Free(void);
 
 };

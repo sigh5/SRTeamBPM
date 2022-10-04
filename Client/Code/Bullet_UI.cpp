@@ -79,7 +79,7 @@ void CBullet_UI::Render_Obejct(void)
 		Render_Font(L"BMYEONSUNG", m_szComboCount.c_str(), &_vec2(660.f, 100.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 
 
-	}*/
+	}
 
 
 
