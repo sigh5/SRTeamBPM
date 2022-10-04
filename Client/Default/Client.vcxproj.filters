@@ -184,6 +184,9 @@
     <ClCompile Include="..\Code\Stage_BIH.cpp">
       <Filter>01. Scene\96.Stage_BIH</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\Gun_Screen.cpp">
+      <Filter>02. GameObject\01. For_Stage\13. Gun_Screen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -387,6 +390,9 @@
     <ClInclude Include="..\Header\Stage_BIH.h">
       <Filter>01. Scene\96.Stage_BIH</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Gun_Screen.h">
+      <Filter>02. GameObject\01. For_Stage\13. Gun_Screen</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -555,6 +561,9 @@
     </Filter>
     <Filter Include="01. Scene\96.Stage_BIH">
       <UniqueIdentifier>{95da0eaf-6815-47e4-ac7b-77679616c28f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\13. Gun_Screen">
+      <UniqueIdentifier>{094e6665-e320-42fb-91fe-5b6f14027206}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

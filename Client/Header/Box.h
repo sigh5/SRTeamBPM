@@ -32,6 +32,8 @@ private:
 
 public:
 	HRESULT				Open_Event(CGameObject* pGameObject);
+
+	void				Set_Open(_bool pOpen) { m_bBoxOpen = pOpen; }
 	
 private:
 	CTransform*			m_pTransCom = nullptr;
@@ -43,6 +45,10 @@ private:
 
 	CTestPlayer*		m_pPlayer;
 
+public:
+	_bool				m_bBoxOpen = true;  // 박스 개방
+
+	
 public:
 	static CBox*		Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint iX, _uint iY, CTestPlayer* pPlayer);
 	virtual void		Free(void);

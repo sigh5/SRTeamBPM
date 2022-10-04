@@ -66,14 +66,15 @@ void CAnimation::Control_Animation(_uint iCount)
 
 void CAnimation::Open_Box_Animation(_bool bOpen)
 {
-	if (bOpen)
-		m_bOpen = true;
+	_uint iOrig = m_iMotion;
 
-	if (m_bOpen)
+	if (bOpen)
 	{
 		m_iMotion++;
-		m_bOpen = false;
+		iOrig = m_iMotion;
 	}
+	m_iMotion = iOrig;
+
 }
 
 CComponent * CAnimation::Clone(void)

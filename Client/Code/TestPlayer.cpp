@@ -419,7 +419,7 @@ void CTestPlayer::Collision_Event(CGameObject * pGameObject)
 		if (pGameObject == pMyLayer->Get_GameObject(L"HealthPotion"))
 		{				
 			m_pInfoCom->Add_Hp(25);
-			m_iHpBarChange += 1;				
+			//m_iHpBarChange += 1;				
 			pMyLayer->Delete_GameObject(L"HealthPotion"); // 이벤트 처리		
 		}
 
@@ -437,19 +437,16 @@ void CTestPlayer::Collision_Event(CGameObject * pGameObject)
 			if (Get_DIKeyState(DIK_F) & 0X80)
 			{
 				CAnimation* pBoxAnimation = dynamic_cast<CAnimation*>(pGameObject->Get_Component(L"Proto_AnimationCom", ID_STATIC));
-				// 박스를 여는 부분, 꼼수(오픈 이미지만 늘림) 수정 필요
-
+				
 				CBox* pBox = dynamic_cast<CBox*> (Engine::Get_GameObject(L"Layer_GameLogic", L"Box"));
-
-
-				m_bBoxOpen = true;
-
-				pBoxAnimation->Open_Box_Animation(m_bBoxOpen);
-				pBox->Open_Event(this);
-				m_bBoxOpen = false;
+					
+				pBox->Open_Event(this);		
+				pBox->Set_Open(false);
+							
 			}
 		}
 	}
+	
 }
 
 

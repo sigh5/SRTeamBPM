@@ -30,7 +30,7 @@ public:
 
 	// Pjw's Add
 	_uint	m_iOrigin = 0;
-	_bool	m_bOpen = false;
+
 
 	_bool   m_bClone;
 

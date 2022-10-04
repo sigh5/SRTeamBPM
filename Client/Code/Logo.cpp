@@ -83,7 +83,7 @@ void CLogo::LateUpdate_Scene(void)
 void CLogo::Render_Scene(void)
 {
 	
-	Render_Font(L"Font_Jinji", m_pLoading->Get_String(), &_vec2(250.f, 450.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+	Render_Font(L"Font_Jinji", m_pLoading->Get_String(), &_vec2(240.f, 420.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 
 }
 
