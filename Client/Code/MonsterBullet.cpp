@@ -31,7 +31,7 @@ HRESULT CMonsterBullet::Ready_Object(_vec3 vPos)
 
 	_vec3 vScale = { 0.5f,0.5f,0.5f };
 
-	Set_MoveDir(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC, &vPos,MONSTER_BULLET, &vScale);
+	Set_MoveDir(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC, &vPos,MONSTER_BULLET, &vScale);
 
 
 
@@ -83,7 +83,7 @@ void CMonsterBullet::Render_Obejct(void)
 HRESULT CMonsterBullet::Add_Component(void)
 {
 	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_BulletTexture", m_mapComponent, ID_STATIC);
-	m_pTransCom = CAbstractFactory<CTransform>::Clone_Proto_Component(L"Proto_TransformCom", m_mapComponent, ID_DYNAMIC);
+	m_pTransCom = CAbstractFactory<CTransform>::Clone_Proto_Component(L"Proto_DynamicTransformCom", m_mapComponent, ID_DYNAMIC);
 	m_pCubeTexCom = CAbstractFactory<CCubeTex>::Clone_Proto_Component(L"Proto_CubeTexCom", m_mapComponent, ID_STATIC);
 	return S_OK;
 }
