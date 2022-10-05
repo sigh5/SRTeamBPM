@@ -200,6 +200,7 @@ call CopyUtility.bat</Command>
     <ClInclude Include="..\..\Header\Transform.h" />
     <ClInclude Include="..\..\Header\TriCol.h" />
     <ClInclude Include="..\..\Header\VIBuffer.h" />
+    <ClInclude Include="ThunderTex.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Animation.cpp" />
@@ -233,6 +234,7 @@ call CopyUtility.bat</Command>
     <ClCompile Include="..\Code\Transform.cpp" />
     <ClCompile Include="..\Code\TriCol.cpp" />
     <ClCompile Include="..\Code\VIBuffer.cpp" />
+    <ClCompile Include="ThunderTex.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Header\Export_Utility.inl" />
