@@ -161,6 +161,7 @@
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h" />
     <ClInclude Include="..\Header\Anubis.h" />
+    <ClInclude Include="..\Header\AnubisThunder.h" />
     <ClInclude Include="..\Header\BackGround.h" />
     <ClInclude Include="..\Header\Box.h" />
     <ClInclude Include="..\Header\Bullet.h" />
@@ -228,6 +229,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Anubis.cpp" />
+    <ClCompile Include="..\Code\AnubisThunder.cpp" />
     <ClCompile Include="..\Code\BackGround.cpp" />
     <ClCompile Include="..\Code\Box.cpp" />
     <ClCompile Include="..\Code\Bullet.cpp" />

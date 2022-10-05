@@ -26,6 +26,7 @@
 #include "Anubis.h"
 #include "Spider.h"
 #include "FatBat.h"
+#include "AnubisThunder.h"
 
 
 
@@ -170,6 +171,9 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Box", pGameObject), E_FAIL);
 
+	pGameObject = CAnubisThunder::Create(m_pGraphicDev, 20, 20);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Thunder", pGameObject), E_FAIL);
 
 	/*CPlayer*		pPlayer = dynamic_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"));
 	pGameObject = CBox::Create(m_pGraphicDev, 5, 10, pPlayer);

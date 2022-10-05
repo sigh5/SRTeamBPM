@@ -7,6 +7,7 @@
 #include "MyCamera.h"
 #include "Player.h"
 #include "HitBlood.h"
+#include "AnubisThunder.h"
 
 CAnubis::CAnubis(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -31,6 +32,8 @@ HRESULT CAnubis::Ready_Object(int Posx, int Posy)
 	
 
 	m_iMonsterIndex = 0;
+	m_fAttackDelay = 0.5f;
+
 	_vec3	vScale = { 2.f,2.f,2.f };
 
 	m_pDynamicTransCom->Set_Scale(&vScale);
@@ -39,6 +42,7 @@ HRESULT CAnubis::Ready_Object(int Posx, int Posy)
 	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
 	m_pAnimationCom->Ready_Animation(6, 1, 0.2f);
 	m_iPreHp = (m_pInfoCom->Get_InfoRef()._iHp);
+	m_pAttackAnimationCom->Ready_Animation(17, 0, 0.15f);
 	if (Posx == 0 && Posy == 0) {}
 	else
 	{
@@ -126,13 +130,13 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 	//		m_pAnimationCom->m_iMotion = 7;
 	//	}
 	//}
-
+	AttackJudge(fTimeDelta);
 	CMonsterBase::Calculator_Distance();
 
 
 	if (m_bHit == false)
 	{
-		if (fMtoPDistance > 5.f)
+		if ((m_bHit == false && (fMtoPDistance >7.f)) || (fMtoPDistance > 7.f && m_bAttacking == false))
 		{
 			m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
 
@@ -140,7 +144,14 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 		}
 		else
 		{
-			m_pAnimationCom->m_iMotion = 0;
+			if (m_bAttack)
+			{
+				Attack(fTimeDelta);
+			}
+			else
+			{
+				m_pAnimationCom->m_iMotion = 0;
+			}
 		}
 	}
 
@@ -167,6 +178,10 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 	Excution_Event();
 
 	_int iResult = Engine::CGameObject::Update_Object(fTimeDelta);
+	for (auto iter = m_AnubisThunderlist.begin(); iter != m_AnubisThunderlist.end(); ++iter)
+	{
+		(*iter)->Update_Object(fTimeDelta);
+	}
 	Add_RenderGroup(RENDER_ALPHA, this);
 
 
@@ -297,6 +312,45 @@ void				CAnubis::Clear_Blood(const _float& fTimeDelta)
 	//		++iter;
 	//	}
 	//} //코드병합으로 잠굼
+}
+
+void		CAnubis::AttackJudge(const _float& fTimeDelta)
+{
+	if (m_bAttack == false)
+	{
+		m_fAttackDelayTime += fTimeDelta;
+		if (m_fAttackDelay <= m_fAttackDelayTime)
+		{
+			m_bAttack = true;
+			m_fAttackDelayTime = 0.f;
+		}
+	}
+
+	if (m_pAttackAnimationCom->m_iMotion<m_pAttackAnimationCom->m_iMaxMotion
+		&& m_pAttackAnimationCom->m_iMotion>m_pAttackAnimationCom->m_iMinMotion)
+	{
+		m_bAttacking = true;
+	}
+	else
+	{
+		m_bAttacking = false;
+	}
+}
+
+void CAnubis::Attack(const _float& fTimeDelta)
+{
+	m_pAttackAnimationCom->Move_Animation(fTimeDelta);
+
+	CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
+	_vec3 AnubisInfo;
+	m_pDynamicTransCom->Get_Info(INFO_POS, &AnubisInfo);
+	if (11 == m_pAttackAnimationCom->m_iMotion)
+	{
+		CAnubisThunder* pThunder;
+		pThunder = CAnubisThunder::Create(m_pGraphicDev, AnubisInfo.x, AnubisInfo.y);
+		m_AnubisThunderlist.push_back(pThunder);
+	}
+
 }
 
 CAnubis * CAnubis::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)

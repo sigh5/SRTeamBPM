@@ -28,7 +28,7 @@
 
 #include "Animation.h"
 #include "Camera.h"
-
+#include "ThunderTex.h"
 
 #include "ProtoMgr.h"
 #include "Management.h"

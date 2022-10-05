@@ -42,12 +42,12 @@ HRESULT CFatBat::Ready_Object(int Posx, int Posy)
 
 	m_iDodgeDir = 0;
 	m_fActionDelay = 2.f;
-	m_fMaxY = 3.f;
+	m_fMaxY = 4.f;
 	m_fFlyDelayCount = 0.f;
 	m_fDodgeDelayCount = 0.f;
 	m_bAltitude = false;
 	m_fDodgeSpeed = 3.5f;
-	m_fDodgeStopper = 0.15f;
+	m_fDodgeStopper = 0.2f;
 	m_fStopperDelay = 0.1f;
 	m_fStopperDelayCount = 0.f;
 	return S_OK;
@@ -217,7 +217,7 @@ void	CFatBat::FatBat_Fly(const _float& fTimeDelta)
 		break;
 	}
 
-	
+	m_pDynamicTransCom->Update_Component(fTimeDelta);
 	//m_pDynamicTransCom->Monster_Fly(m_pDynamicTransCom, TerrainY, 3.f);
 
 }
@@ -275,7 +275,7 @@ void CFatBat::FatBat_Dodge(const _float& fTimeDelta, _vec3* _vPlayerPos, _vec3* 
 		break;
 
 	}
-
+	m_pDynamicTransCom->Update_Component(fTimeDelta);
 }
 
 CFatBat * CFatBat::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)
