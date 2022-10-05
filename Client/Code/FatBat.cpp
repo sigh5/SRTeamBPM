@@ -9,6 +9,8 @@
 #include "MyCamera.h"
 #include "Player.h"
 
+#include "Gun_Screen.h"
+
 CFatBat::CFatBat(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
 {
@@ -25,7 +27,7 @@ HRESULT CFatBat::Ready_Object(int Posx, int Posy)
 
 	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_MonsterTexture2", m_mapComponent, ID_DYNAMIC);
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
-
+	
 	m_iMonsterIndex = 1;
 	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
 	m_pAnimationCom->Ready_Animation(6, 0, 0.2f);
@@ -76,25 +78,25 @@ _int CFatBat::Update_Object(const _float & fTimeDelta)
 	}
 	// 수정 쿨타임 대신 타임
 
-	CMonsterBase::Calculator_Distance();
-	
+	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
+
 	if (m_bHit == false)
 	{
-		FatBat_Fly(fTimeDelta);
-		FatBat_Dodge(fTimeDelta, &m_vPlayerPos, &m_vMonsterPos);
+	FatBat_Fly(fTimeDelta);
+	FatBat_Dodge(fTimeDelta, &m_vPlayerPos, &m_vMonsterPos);
 
-
-		//Set_OnTerrain();
-		//지형에 올림
-		if (fMtoPDistance > 13.f)
-		{
-			m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
-
-		}
+	
+	//Set_OnTerrain();
+	//지형에 올림
+	if (fMtoPDistance > 13.f)
+	{
+		m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
+		
+	}
 		else if (fMtoPDistance < 10.f)
-		{
-			m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, -m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
-		}
+	{
+		m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, -m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
+	}
 		m_pAnimationCom->Move_Animation(fTimeDelta);
 	}
 	else
@@ -183,11 +185,11 @@ void CFatBat::Collision_Event()
 	CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
 	NULL_CHECK_RETURN(pLayer, );
 	CGameObject *pGameObject = nullptr;
-	pGameObject = static_cast<CPlayer*>(::Get_GameObject(L"Layer_GameLogic", L"Player"));
+	pGameObject = static_cast<CGun_Screen*>(::Get_GameObject(L"Layer_UI", L"Gun"));
 
 	_vec3 PickPos;
 
-	if (static_cast<CPlayer*>(pGameObject)->Get_CheckShot() == true &&
+	if (static_cast<CGun_Screen*>(pGameObject)->Get_Shoot() == true &&
 		fMtoPDistance < MAX_CROSSROAD &&
 		m_pColliderCom->Check_Lay_InterSect(m_pBufferCom, m_pDynamicTransCom, g_hWnd))
 	{
@@ -196,6 +198,11 @@ void CFatBat::Collision_Event()
 
 		m_pInfoCom->Receive_Damage(1);
 		cout << "FatBat" << m_pInfoCom->Get_InfoRef()._iHp << endl;
+	}
+
+	if (m_bHit)
+	{
+		static_cast<CGun_Screen*>(pGameObject)->Set_Shoot(false);
 	}
 
 }

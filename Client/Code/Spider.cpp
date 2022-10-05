@@ -6,6 +6,8 @@
 #include "MyCamera.h"
 #include "Player.h"
 
+#include "Gun_Screen.h"
+
 CSpider::CSpider(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
 {
@@ -79,30 +81,28 @@ _int CSpider::Update_Object(const _float & fTimeDelta)
 	//
 	//Get_MonsterToPlayer_Distance(&fMtoPDistance);
 
-	
-
 	AttackJudge(fTimeDelta);
 	CMonsterBase::Calculator_Distance();
 	
 	if (m_bHit == false)
 	{
 		if (fMtoPDistance > 3.f && m_bAttacking == false)
-		{
-			m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
+	{
+		m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
 
-			m_pAnimationCom->Move_Animation(fTimeDelta);
+		m_pAnimationCom->Move_Animation(fTimeDelta);
+	}
+	else
+	{
+		//공격
+		if (m_bAttack)
+		{
+			Attack(fTimeDelta);
 		}
 		else
 		{
-			//공격
-			if (m_bAttack)
-			{
-				Attack(fTimeDelta);
-			}
-			else
-			{
-				m_pAnimationCom->m_iMotion = 0;
-			}
+			m_pAnimationCom->m_iMotion = 0;
+		}
 		}
 	}
 	else
@@ -110,7 +110,7 @@ _int CSpider::Update_Object(const _float & fTimeDelta)
 		// 피격 시 모션
 		m_pAnimationCom->m_iMotion = 5;
 	}
-
+	
 
 	if (m_bHit)
 	{
@@ -205,10 +205,10 @@ void CSpider::Collision_Event()
 	CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
 	NULL_CHECK_RETURN(pLayer, );
 	CGameObject *pGameObject = nullptr;
-	pGameObject = static_cast<CPlayer*>(::Get_GameObject(L"Layer_GameLogic", L"Player"));
+	pGameObject = static_cast<CGun_Screen*>(::Get_GameObject(L"Layer_UI", L"Gun"));
 
 
-	if (static_cast<CPlayer*>(pGameObject)->Get_CheckShot() == true &&
+	if (static_cast<CGun_Screen*>(pGameObject)->Get_Shoot()&&
 		fMtoPDistance < MAX_CROSSROAD  &&
 		m_pColliderCom->Check_Lay_InterSect(m_pBufferCom, m_pDynamicTransCom, g_hWnd))
 	{
@@ -217,9 +217,9 @@ void CSpider::Collision_Event()
 
 		m_pInfoCom->Receive_Damage(1);
 		cout << "Spider "<<m_pInfoCom->Get_InfoRef()._iHp << endl;
+		static_cast<CGun_Screen*>(pGameObject)->Set_Shoot(false);
 	}
 
-	//static_cast<CPlayer*>(pGameObject)->Set_CheckShot(false);
 
 
 }
@@ -272,15 +272,15 @@ void		CSpider::AttackJudge(const _float& fTimeDelta)
 
 	if (false == m_bHit)
 	{
-		if (m_pAttackAnimationCom->m_iMotion<m_pAttackAnimationCom->m_iMaxMotion
-			&& m_pAttackAnimationCom->m_iMotion>m_pAttackAnimationCom->m_iMinMotion)
-		{
-			m_bAttacking = true;
-		}
-		else
-		{
-			m_bAttacking = false;
-		}
+	if (m_pAttackAnimationCom->m_iMotion<m_pAttackAnimationCom->m_iMaxMotion
+		&& m_pAttackAnimationCom->m_iMotion>m_pAttackAnimationCom->m_iMinMotion)
+	{
+		m_bAttacking = true;
+	}
+	else
+	{
+		m_bAttacking = false;
+	}
 	}
 	else
 		m_pAttackAnimationCom->m_iMotion = 0;

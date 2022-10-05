@@ -193,6 +193,9 @@
     <ClCompile Include="..\Code\AnubisThunder.cpp">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\DashUI.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\06. DashUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -405,6 +408,9 @@
     <ClInclude Include="..\Header\AnubisThunder.h">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\DashUI.h">
+      <Filter>02. GameObject\01. For_Stage\10. UI\06. DashUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -579,6 +585,9 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\13. Gun_Screen">
       <UniqueIdentifier>{094e6665-e320-42fb-91fe-5b6f14027206}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\06. DashUI">
+      <UniqueIdentifier>{8bdec330-a553-40a1-a16d-384b7bc1d56f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
