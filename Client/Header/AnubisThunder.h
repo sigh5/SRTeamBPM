@@ -20,6 +20,8 @@ public:
 	virtual void		LateUpdate_Object(void) override;
 	virtual void		Render_Obejct(void) override;
 
+	void				Set_Direction(_vec3* _Dirvec);
+
 private:
 	HRESULT				Add_Component(void);
 

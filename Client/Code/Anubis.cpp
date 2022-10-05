@@ -29,7 +29,8 @@ HRESULT CAnubis::Ready_Object(int Posx, int Posy)
 
 	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_MonsterTexture", m_mapComponent, ID_DYNAMIC);
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
-	
+	m_pAttackAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_STATIC);
+	m_pAttackTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Anubis_Attack_Texture", m_mapComponent, ID_STATIC);
 
 	m_iMonsterIndex = 0;
 	m_fAttackDelay = 0.5f;
@@ -136,7 +137,7 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 
 	if (m_bHit == false)
 	{
-		if ((m_bHit == false && (fMtoPDistance >7.f)) || (fMtoPDistance > 7.f && m_bAttacking == false))
+		if (fMtoPDistance > 7.f && m_bAttacking == false)
 		{
 			m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
 
@@ -182,6 +183,7 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 	{
 		(*iter)->Update_Object(fTimeDelta);
 	}
+
 	Add_RenderGroup(RENDER_ALPHA, this);
 
 
@@ -238,7 +240,14 @@ void CAnubis::Render_Obejct(void)
 	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-	m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);	// 텍스처 정보 세팅을 우선적으로 한다.
+	if (m_bAttacking)
+	{
+		m_pAttackTextureCom->Set_Texture(m_pAttackAnimationCom->m_iMotion);
+	}
+	else
+	{
+		m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);	// 텍스처 정보 세팅을 우선적으로 한다.
+	}	// 텍스처 정보 세팅을 우선적으로 한다.
 
 	m_pBufferCom->Render_Buffer();
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
@@ -342,15 +351,28 @@ void CAnubis::Attack(const _float& fTimeDelta)
 	m_pAttackAnimationCom->Move_Animation(fTimeDelta);
 
 	CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
+	CTransform* pPlayerTransform = static_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
 	_vec3 AnubisInfo;
 	m_pDynamicTransCom->Get_Info(INFO_POS, &AnubisInfo);
+	if (1 == m_pAttackAnimationCom->m_iMotion)
+	{
+		pPlayerTransform->Get_Info(INFO_POS, &m_bOldPlayerPos);
+		
+	}
 	if (11 == m_pAttackAnimationCom->m_iMotion)
 	{
 		CAnubisThunder* pThunder;
-		pThunder = CAnubisThunder::Create(m_pGraphicDev, AnubisInfo.x, AnubisInfo.y);
+		pThunder = CAnubisThunder::Create(m_pGraphicDev, AnubisInfo.x, AnubisInfo.z);
+		// 플레이어 방향으로 발사
+		_vec3 DirForPlayer = m_bOldPlayerPos - AnubisInfo;
+		pThunder->Set_Direction(&DirForPlayer);
 		m_AnubisThunderlist.push_back(pThunder);
-	}
 
+	}
+	if (m_pAttackAnimationCom->m_iMotion >= m_pAttackAnimationCom->m_iMaxMotion)
+	{
+		m_bAttack = false;
+	}
 }
 
 CAnubis * CAnubis::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)
@@ -370,4 +392,9 @@ CAnubis * CAnubis::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)
 void CAnubis::Free(void)
 {
 	CGameObject::Free();
+	for (auto iter : m_AnubisThunderlist)
+	{
+		Safe_Release(iter);
+	}
+	m_AnubisThunderlist.clear();
 }

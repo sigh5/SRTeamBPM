@@ -4,7 +4,7 @@
 BEGIN(Engine)
 class CCollider;
 END
-
+class CAnubisThunder;
 
 class CAnubis :public CMonsterBase
 {
@@ -44,8 +44,10 @@ private:
 	bool m_bAttack = true;
 	bool m_bAttacking = false;
 
+	_vec3 m_bOldPlayerPos;
 
 	CTexture*		m_pTextureCom = nullptr;
+	CTexture*		m_pAttackTextureCom = nullptr;
 	CRcTex*			m_pBufferCom = nullptr;
 	CAnimation*		m_pAttackAnimationCom = nullptr;
 

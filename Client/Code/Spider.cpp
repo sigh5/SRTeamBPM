@@ -81,25 +81,31 @@ _int CSpider::Update_Object(const _float & fTimeDelta)
 	AttackJudge(fTimeDelta);
 	CMonsterBase::Calculator_Distance();
 	
-	if ((m_bHit == false && (fMtoPDistance >3.f) ) ||(fMtoPDistance > 3.f && m_bAttacking == false))
+	if (m_bHit == false)
 	{
-		m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
-
-		m_pAnimationCom->Move_Animation(fTimeDelta);
-	}
-	else
-	{
-		//공격
-		if (m_bAttack)
+		if ((m_bHit == false && (fMtoPDistance > 3.f)) || (fMtoPDistance > 3.f && m_bAttacking == false))
 		{
-			Attack(fTimeDelta);
+			m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
+
+			m_pAnimationCom->Move_Animation(fTimeDelta);
 		}
 		else
 		{
-			m_pAnimationCom->m_iMotion = 0;
+			//공격
+			if (m_bAttack)
+			{
+				Attack(fTimeDelta);
+			}
+			else
+			{
+				m_pAnimationCom->m_iMotion = 0;
+			}
 		}
 	}
-	
+	else
+	{
+		// 피격 시 모션
+	}
 
 
 	if (m_bHit)
