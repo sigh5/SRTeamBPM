@@ -10,6 +10,12 @@ class CCalculator;
 
 END
 
+enum CUBE_OPTION
+{
+	CUBE_WALL, CUBE_OBSTACLE, CUBE_TELEPORT, CUBE_END
+};
+
+
 class CWallCube : public CGameObject
 {
 private:
@@ -26,6 +32,9 @@ public:
 	_bool*				Get_WireFrame() { return &m_bWireFrame; }
 	void				Set_WireFrame(_bool bWireFrame) { m_bWireFrame = bWireFrame; }
 
+	const _int&			Get_Option()const		{ return m_iOption; }
+	void				Set_Option(_int iOption) { m_iOption = iOption; }
+
 private:
 	HRESULT				Add_Component(void);
 
@@ -38,7 +47,7 @@ public:
 private:
 	_bool				m_bWireFrame = false;
 	_bool				m_bIsOnterrrain = false;
-
+	_int				m_iOption = 0;			// 0: Wall 1: Obstacle 2: TelePortCube 3.....
 public:
 	static CWallCube*	Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec2 *vPos);
 

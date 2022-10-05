@@ -102,6 +102,8 @@ private:		// Jw
 	// Gun
 	CGun_Screen*		pEquipItem;
 
+	
+
 
 
 public:

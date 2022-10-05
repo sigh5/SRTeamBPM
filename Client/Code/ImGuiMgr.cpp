@@ -613,6 +613,46 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 	//CWallCube* pGameObject = dynamic_cast<CWallCube*>(Engine::Get_GameObject(L"MapCubeLayer", m_CurrentSelectGameObjectObjKey.c_str()));
 	if (m_pWallCube)
 	{
+		
+		CUBE_OPTION iOption = (CUBE_OPTION)m_pWallCube->Get_Option();
+		char szOption[20] = "";
+		if (iOption == CUBE_WALL)
+		{
+			strcpy_s(szOption,sizeof(char)*20,"wall");
+		}
+		if (iOption == CUBE_OBSTACLE)
+		{
+			strcpy_s(szOption, sizeof(char) * 20, "Obstacle");
+		}
+		if (iOption == CUBE_TELEPORT)
+		{
+			strcpy_s(szOption, sizeof(char) * 20, "TeleportCube");
+		}
+		ImGui::Text("Cube Option : ");
+		ImGui::SameLine();
+		ImGui::Text(szOption);
+		
+		static _bool bCubeOption[CUBE_END] = { false, false ,false};
+		if (ImGui::Checkbox("Wall", &bCubeOption[CUBE_WALL]))
+		{
+			m_pWallCube->Set_Option(0);
+		}
+		ImGui::SameLine();
+
+		if (ImGui::Checkbox("Obstacle", &bCubeOption[CUBE_OBSTACLE]))
+		{
+			m_pWallCube->Set_Option(1);
+		}
+		ImGui::SameLine();
+
+		if (ImGui::Checkbox("TeleportCube", &bCubeOption[CUBE_TELEPORT]))
+		{
+			m_pWallCube->Set_Option(2);
+		}
+		ImGui::SameLine();
+
+
+
 		ImGui::NewLine();
 		if (ImGui::CollapsingHeader("Options", ImGuiTreeNodeFlags_DefaultOpen))
 		{
@@ -643,7 +683,7 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 						m_iMapCubeIndex = i;
 						m_pWallCube->Set_DrawTexIndex(m_iMapCubeIndex);
 					}
-					if (i == 0 || (i + 1) % 6)
+					if (i == 0 || (i + 1) % 5)
 						ImGui::SameLine();
 				}
 			}
