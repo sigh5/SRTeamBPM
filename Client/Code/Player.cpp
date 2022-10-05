@@ -4,6 +4,7 @@
 #include "AbstractFactory.h"
 #include "Export_Function.h"
 #include "Box.h"
+#include "Gun_Screen.h"
 
 
 
@@ -15,6 +16,7 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	, m_fJumpPower(5.0f)
 	, m_fDashPower(0.3f)
 	, m_tpType(TYPING_END)
+	, pEquipItem(nullptr)
 {
 }
 
@@ -24,7 +26,7 @@ CPlayer::~CPlayer()
 
 HRESULT CPlayer::Ready_Object(void)
 {
-
+	
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
@@ -34,23 +36,27 @@ HRESULT CPlayer::Ready_Object(void)
 	m_pDynamicTransCom->Set_Scale(&vScale);
 	m_pDynamicTransCom->Update_Component(1.5f);
 
+	
+
 	return S_OK;
 }
 
 _int CPlayer::Update_Object(const _float & fTimeDelta)
 {
+	
+	pEquipItem = dynamic_cast<CGun_Screen*>(Get_GameObject(L"Layer_UI", L"Gun"));
+	NULL_CHECK_RETURN(pEquipItem, -1);
+	
 	m_fTimeDelta = fTimeDelta;
 	m_fFrame += 1.0f * fTimeDelta;
 
 	if (m_fFrame >= 1.0f)
 	{
-		m_bOneShot = false;
+		pEquipItem->Set_ReadyShot(false);
 		m_fFrame = 0.f;
 	}
 
-
 	Key_Input(fTimeDelta);
-
 
 	if (m_bJump == TRUE)
 	{
@@ -112,7 +118,6 @@ HRESULT CPlayer::Add_Component(void)
 	m_pColliderCom = CAbstractFactory<CCollider>::Clone_Proto_Component(L"Proto_ColliderCom", m_mapComponent, ID_STATIC);
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
 
-
 	return S_OK;
 }
 
@@ -128,7 +133,6 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
 		m_pDynamicTransCom->Move_Pos(&(m_vDirection * 5.f * fTimeDelta));
 		m_pDynamicTransCom->Set_CountMovePos(&(m_vDirection * 5.f * fTimeDelta));
-		
 	}
 
 	if (Get_DIKeyState(DIK_S) & 0X80)
@@ -148,8 +152,7 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		D3DXVec3Normalize(&m_vUp, &m_vUp);
 		D3DXVec3Cross(&vRight, &m_vDirection, &m_vUp);
 		m_pDynamicTransCom->Move_Pos(&(vRight * 5.f * fTimeDelta));
-		m_pDynamicTransCom->Set_CountMovePos(&(vRight * 5.f * fTimeDelta));
-		
+		m_pDynamicTransCom->Set_CountMovePos(&(vRight * 5.f * fTimeDelta));		
 	}
 
 	if (Get_DIKeyState(DIK_D) & 0X80)
@@ -177,20 +180,13 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 
 	if (::Mouse_Down(DIM_LB)) // Picking
 	{
-		if (m_iMagazine <= 0)
-			m_bOneShot = FALSE;
-		m_bCheckShot = Create_RayCheck(fTimeDelta);
-		if (m_bCheckShot == false)
-		{
-			::PlaySoundW(L"Rythm_Check_Fail.wav", SOUND_EFFECT, 0.1f);
-			m_iComboCount = 0;
-		}
-	}
-	if (Get_DIKeyState(DIK_R) & 0X80)
-	{
-		m_iMagazine = 8;
+		Ready_MonsterShotPicking();
 	}
 
+	if (Get_DIKeyState(DIK_R) & 0X80)
+	{
+		pEquipItem->Set_Magazine(8);
+	}
 }
 
 void CPlayer::Set_OnTerrain(void)
@@ -217,17 +213,35 @@ _vec3 CPlayer::PickUp_OnTerrain(void)
 	return m_pCalculatorCom->PickingOnTerrain(g_hWnd, pTerrainBufferCom, pTerrainTransformCom);
 }
 
-_bool CPlayer::Create_RayCheck(const _float & fTimeDelta)
+void CPlayer::Ready_MonsterShotPicking()
 {
-	if (m_bOneShot)
+	if (pEquipItem->Get_Magazine() <= 0)
+		pEquipItem->Set_ReadyShot(false);
+
+	if (static_cast<CGun_Screen*>(pEquipItem)->Get_ReadyShot())
 	{
-		m_iMagazine -= 1;
-		m_bOneShot = false;
-		return true;
+		static_cast<CGun_Screen*>(pEquipItem)->Add_Magazine(-1);
+		pEquipItem->Set_AnimationCheck(true);
+		pEquipItem->Set_Shoot(true);
+		return;
 	}
 
-	return false;
+	pEquipItem->GunFailSound();
+	m_iComboCount = 0;
 }
+
+void CPlayer::ComboCheck()
+{
+	if (m_bMissCheck)
+		m_bMissCheck = false;
+	else
+	{
+		m_iComboCount = 0;
+	}
+	
+}
+
+
 
 void CPlayer::Collision_Event()
 {

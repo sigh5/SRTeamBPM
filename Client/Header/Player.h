@@ -14,6 +14,7 @@ namespace Engine
 	class CCollider;
 }
 
+class CGun_Screen;
 
 class CPlayer :public CGameObject
 {
@@ -39,22 +40,15 @@ public:
 
 
 public:
-	_bool				Create_RayCheck(const _float & fTimeDelta); //레이피킹
-	// SoundCheck
-	_bool				Get_SoundCheck() { return m_bSoundCheck; }
-	void				Set_SoundCheck(_bool bSoundCheck) { m_bSoundCheck = bSoundCheck; }
-	
+	void				Ready_MonsterShotPicking(); //레이피킹
+
 	_int				Get_ComboCount() { return m_iComboCount; }
 	void				Set_ComboCount(_int iCount) { m_iComboCount += iCount; }
+	void				Reset_ComboCount() { m_iComboCount = 0; }
 
-	_bool				Get_Shoot(void) { return m_bOneShot; }
-	void				Set_OneShot(_bool bMetro) { m_bOneShot = bMetro; }
+	inline void			Push_Hitcheck(_bool _bhitCheck) { if (m_bMissCheck){return;}m_bMissCheck = _bhitCheck;}
+	void				ComboCheck();
 
-	
-	_uint				Get_Magazine(void) { return m_iMagazine; }
-	_bool				Get_CheckShot() { return m_bCheckShot; }
-	
-	void				Set_CheckShot(_bool bCheckShot) { m_bCheckShot = bCheckShot; }
 
 public:
 	_uint				Get_HpChange(void) { return m_iHpBarChange; }
@@ -93,20 +87,22 @@ private:		// Jw
 	_float				m_fBuffDashPower = 0.f; //가중된 가속력
 	// ~Dash
 
-	// Bullet
-	_bool				m_bOneShot = false;		// 1 클릭 사격 횟수 제한
-	_uint				m_iMagazine = 8;		// 탄창
-	_bool				m_bCheckShot = false;
-	_bool				m_bMissCheck = false;
-	_bool				m_bSoundCheck = false;
+	// Player_Combo
 	_int				m_iComboCount = 0;
-												
-	// ~Bullet
+	_bool				m_bMissCheck = false;
+	// Player_Combo											
+	
+
 	_uint				m_iSkillPower = 1;
 	_uint				m_iHpBarChange = 4;
 	
+	_float				m_fTimeDelta = 0.f;
 
-	_float			m_fTimeDelta = 0.f;
+
+	// Gun
+	CGun_Screen*		pEquipItem;
+
+
 
 public:
 	static CPlayer*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

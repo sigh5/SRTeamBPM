@@ -2,7 +2,7 @@
 #include "GameObject.h"
 
 #include "Engine_Include.h"
-#include "TestPlayer.h"
+
 
 BEGIN(Engine)
 
@@ -12,6 +12,9 @@ class COrthoTransform;
 class CRcTex;
 class CAnimation;
 END
+
+class CGun_Screen;
+
 
 class CBullet_UI :
 	public CGameObject
@@ -40,7 +43,7 @@ public:
 	CCalculator*		m_pCalculatorCom = nullptr;
 	CAnimation*			m_pAnimationCom = nullptr;
 
-	CGameObject*		m_pPlayer;
+	CGun_Screen*		m_pGun=nullptr;
 
 private:
 	wstring				m_szMagazine = L"";		   // 탄창 수 실시간

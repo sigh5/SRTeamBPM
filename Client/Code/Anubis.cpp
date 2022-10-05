@@ -8,6 +8,9 @@
 #include "Player.h"
 #include "HitBlood.h"
 
+#include "Gun_Screen.h"
+
+
 CAnubis::CAnubis(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
 {
@@ -166,7 +169,7 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 
 	Excution_Event();
 
-	_int iResult = Engine::CGameObject::Update_Object(fTimeDelta);
+	Engine::CGameObject::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
 
 
@@ -208,7 +211,7 @@ void CAnubis::LateUpdate_Object(void)
 	m_pDynamicTransCom->Set_WorldMatrix(&(matWorld));
 
 	// 빌보드 에러 해결
-	Engine::CGameObject::LateUpdate_Object();
+	Engine::CMonsterBase::LateUpdate_Object();
 }
 
 void CAnubis::Render_Obejct(void)
@@ -232,53 +235,32 @@ void CAnubis::Render_Obejct(void)
 
 void CAnubis::Collision_Event()
 {
-	
 	CScene  *pScene = ::Get_Scene();
 	NULL_CHECK_RETURN(pScene, );
 	CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
 	NULL_CHECK_RETURN(pLayer, );
 	CGameObject *pGameObject = nullptr;
-	pGameObject = static_cast<CPlayer*>(::Get_GameObject(L"Layer_GameLogic", L"Player"));
+	pGameObject = static_cast<CGun_Screen*>(::Get_GameObject(L"Layer_UI", L"Gun"));
 
 	_vec3 PickPos;
 	
-	if (static_cast<CPlayer*>(pGameObject)->Get_CheckShot() == true &&
+
+	if (static_cast<CGun_Screen*>(pGameObject)->Get_Shoot()&&
 		fMtoPDistance < MAX_CROSSROAD &&
 		m_pColliderCom->Check_Lay_InterSect(m_pBufferCom, m_pDynamicTransCom, g_hWnd))
 	{
 		m_bHit = true;
-		static_cast<CPlayer*>(pGameObject)->Set_ComboCount(1);
-
+		static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic",L"Player"))->Set_ComboCount(1);
 		m_pInfoCom->Receive_Damage(1);
 		cout << "Anubis"<<m_pInfoCom->Get_InfoRef()._iHp << endl;
+		static_cast<CGun_Screen*>(pGameObject)->Set_Shoot(false);
 	}
 
-	if (m_bHit)
+	/*if (m_bHit)
 	{
-		static_cast<CPlayer*>(pGameObject)->Set_CheckShot(false);
+
 	}
-
-
-	//static_cast<CPlayer*>(pGameObject)->Set_CheckShot(false);
-
-
-	//if (fMtoPDistance <4.f && m_pColliderCom->Check_Lay_InterSect(m_pBufferCom,m_pDynamicTransCom,g_hWnd, PickPos))
-	//{
-	//	CPlayer* pPlayer = static_cast<CPlayer*>(::Get_GameObject(L"Layer_GameLogic", L"Player"));
-	//	pPlayer->Set_ComboCount(1);
-
-	//	m_pInfoCom->Receive_Damage(1);
-	//	cout << m_pInfoCom->Get_InfoRef()._iHp << endl;
-	//}
-	//else
-	//{
-	//	// 지금은 단일객체라서 안맞으면 콤보 0뜨게하지만 나중에는 
-	//	// 다중객체로 콜리젼 이벤트를 만들어야됀다.
-	//	// 나중에는 콤보 0 + 잘못맞으면 소리나는것 까지해야한다.
-	//	cout << "1234" << endl;
-	//}
-
-
+*/
 	
 }
 

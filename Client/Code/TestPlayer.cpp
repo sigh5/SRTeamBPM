@@ -283,7 +283,7 @@ void CTestPlayer::Key_Input(const _float& fTimeDelta)
 		CGun_Screen* pGunScreen = dynamic_cast<CGun_Screen*> (Engine::Get_GameObject(L"Layer_UI", L"Gun_Screen"));
 	
 		if(m_bOneShot)
-		pGunScreen->Set_Shoot(true);
+			pGunScreen->Set_Shoot(true);
 	}
 
 	if (Get_DIKeyState(DIK_R) & 0X80)

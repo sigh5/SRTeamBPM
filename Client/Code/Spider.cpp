@@ -6,6 +6,8 @@
 #include "MyCamera.h"
 #include "Player.h"
 
+#include "Gun_Screen.h"
+
 CSpider::CSpider(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
 {
@@ -191,21 +193,20 @@ void CSpider::Collision_Event()
 	CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
 	NULL_CHECK_RETURN(pLayer, );
 	CGameObject *pGameObject = nullptr;
-	pGameObject = static_cast<CPlayer*>(::Get_GameObject(L"Layer_GameLogic", L"Player"));
+	pGameObject = static_cast<CGun_Screen*>(::Get_GameObject(L"Layer_UI", L"Gun"));
 
 
-	if (static_cast<CPlayer*>(pGameObject)->Get_CheckShot() == true &&
+	if (static_cast<CGun_Screen*>(pGameObject)->Get_Shoot()&&
 		fMtoPDistance < MAX_CROSSROAD  &&
 		m_pColliderCom->Check_Lay_InterSect(m_pBufferCom, m_pDynamicTransCom, g_hWnd))
 	{
 		m_bHit = true;
-		static_cast<CPlayer*>(pGameObject)->Set_ComboCount(1);
-
+		static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"))->Set_ComboCount(1);
 		m_pInfoCom->Receive_Damage(1);
 		cout << "Spider "<<m_pInfoCom->Get_InfoRef()._iHp << endl;
+		static_cast<CGun_Screen*>(pGameObject)->Set_Shoot(false);
 	}
 
-	//static_cast<CPlayer*>(pGameObject)->Set_CheckShot(false);
 
 
 }
