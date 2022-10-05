@@ -2,15 +2,17 @@
 #include "..\Header\Gun_Screen.h"
 #include "Export_Function.h"
 #include "AbstractFactory.h"
+#include "Player.h"
+
 
 USING(Engine)
 
 CGun_Screen::CGun_Screen(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CGameObject(pGraphicDev), m_bShootAnimation(false)
+	: CGameObject(pGraphicDev)
 {
 }
 
-CGun_Screen::CGun_Screen(const CGameObject & rhs)
+CGun_Screen::CGun_Screen(const CGun_Screen & rhs)
 	: CGameObject(rhs)
 {
 }
@@ -19,24 +21,22 @@ CGun_Screen::~CGun_Screen()
 {
 }
 
-HRESULT CGun_Screen::Ready_Object(CGameObject* pPlayer)
+HRESULT CGun_Screen::Ready_Object()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	
 	m_pAnimationCom->Ready_Animation(4, 0, 0.2f);
 
-	m_pPlayer = pPlayer;
-
-	m_bShootAnimation = false;
+	m_bShootCheck = false;
 
 	return S_OK;
 }
 
 _int CGun_Screen::Update_Object(const _float & fTimeDelta)
 {
-	Engine::CGameObject::Update_Object(fTimeDelta);
 
-	Shoot_Motion();
+	Engine::CGameObject::Update_Object(fTimeDelta);
+	
 	
 	Add_RenderGroup(RENDER_UI, this);
 
@@ -45,12 +45,25 @@ _int CGun_Screen::Update_Object(const _float & fTimeDelta)
 
 void CGun_Screen::LateUpdate_Object(void)
 {
-	m_pOrthoTransCom->OrthoMatrix(280.f, 230.f, 80.f, -190.f, WINCX, WINCY);
+	Shoot_Motion();
 
-	m_pOrthoTransCom->Set_OrthoScale(0.75f, 0.75f);
+	m_pOrthoTransCom->OrthoMatrix(280.f, 230.f, 50.f, -150.f, WINCX, WINCY);
 
+	
+	CPlayer* pPlayer = static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic",L"Player"));
+
+	if (m_bShootCheck)
+	{
+		pPlayer->Reset_ComboCount();
+	}
+
+	m_bShootCheck = false;
 
 	CGameObject::LateUpdate_Object();
+	
+
+	
+
 }
 
 void CGun_Screen::Render_Obejct(void)
@@ -93,32 +106,36 @@ void CGun_Screen::Render_Obejct(void)
 HRESULT CGun_Screen::Add_Component(void)
 {
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
-	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Gun_ScreenTexture", m_mapComponent, ID_STATIC);
 	m_pOrthoTransCom = CAbstractFactory<COrthoTransform>::Clone_Proto_Component(L"Proto_OrthoTransformCom", m_mapComponent, ID_DYNAMIC);
 	m_pCalculatorCom = CAbstractFactory<CCalculator>::Clone_Proto_Component(L"Proto_CalculatorCom", m_mapComponent, ID_STATIC);
 	m_pAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_STATIC);
-	
+	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Gun_ScreenTexture", m_mapComponent, ID_STATIC);
 	return S_OK;
 }
 
 HRESULT CGun_Screen::Shoot_Motion(void)
 {
-	CTestPlayer* pPlayer = dynamic_cast<CTestPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"TestPlayer"));
+	CPlayer* pPlayer = dynamic_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
 
-	if (m_bShootAnimation == true)
+	if (m_bAnimation == true)
 	{
-		m_pAnimationCom->Gun_Animation(&m_bShootAnimation);
+		m_pAnimationCom->Gun_Animation(&m_bAnimation);
 		
 	}		
 
 	return S_OK;
 }
 
-CGun_Screen * CGun_Screen::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* pPlayer)
+void CGun_Screen::GunFailSound()
+{
+	::PlaySoundW(L"Rythm_Check_Fail.wav", SOUND_EFFECT, 0.1f);
+}
+
+CGun_Screen * CGun_Screen::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
 	CGun_Screen* pInstance = new CGun_Screen(pGraphicDev);
 
-	if (FAILED(pInstance->Ready_Object(pPlayer)))
+	if (FAILED(pInstance->Ready_Object()))
 	{
 		Safe_Release(pInstance);
 		return nullptr;

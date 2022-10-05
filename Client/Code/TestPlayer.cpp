@@ -128,7 +128,7 @@ void CTestPlayer::LateUpdate_Object(void)
 
 	_matrix      matRot;
 	D3DXMatrixIdentity(&matRot);
-	D3DXMatrixRotationY(&matRot, pCamera->Get_BillBoardDir());
+	D3DXMatrixRotationY(&matRot, (_float)pCamera->Get_BillBoardDir());
 
 	_vec3 vPos;
 	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
@@ -283,7 +283,7 @@ void CTestPlayer::Key_Input(const _float& fTimeDelta)
 		CGun_Screen* pGunScreen = dynamic_cast<CGun_Screen*> (Engine::Get_GameObject(L"Layer_UI", L"Gun_Screen"));
 	
 		if(m_bOneShot)
-		pGunScreen->Set_Shoot(true);
+			pGunScreen->Set_Shoot(true);
 	}
 
 	if (Get_DIKeyState(DIK_R) & 0X80)

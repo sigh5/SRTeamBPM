@@ -178,7 +178,7 @@ HRESULT CStage_Pjw::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	*/
 	CTestPlayer*		pPlayer = dynamic_cast<CTestPlayer*>(Get_GameObject(L"Layer_GameLogic", L"TestPlayer"));
 
-	pGameObject = CBox::Create(m_pGraphicDev, 5, 10, pPlayer);
+	pGameObject = CBox::Create(m_pGraphicDev, 5, 10);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Box", pGameObject), E_FAIL);
 			
@@ -227,9 +227,9 @@ HRESULT CStage_Pjw::Ready_Layer_UI(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"CoinKey_UI", pGameObject), E_FAIL);
 
-	pGameObject = CGun_Screen::Create(m_pGraphicDev, pPlayer);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Gun_Screen", pGameObject), E_FAIL);
+	//pGameObject = CGun_Screen::Create(m_pGraphicDev, pPlayer);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Gun_Screen", pGameObject), E_FAIL);
 
 	pGameObject = CDashUI::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);

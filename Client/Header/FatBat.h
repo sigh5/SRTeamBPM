@@ -13,8 +13,18 @@ public:
 	virtual _int		Update_Object(const _float& fTimeDelta) override;
 	virtual void		LateUpdate_Object(void) override;
 	virtual void		Render_Obejct(void) override;
-	void				FatBat_Fly(void);
+	virtual void		Collision_Event()override;
+	
+
+public:
+	// 처형 판독
+	virtual void		Excution_Event();
+
+public:
+	void				FatBat_Fly(const _float& fTimeDelta);
 	void				FatBat_Shoot(void);
+	void				FatBat_Dodge(const _float& fTimeDelta, _vec3* _vPlayerPos, _vec3* _vMonsterPos);
+
 
 public:
 	static CFatBat*		Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx = 0, int Posy = 0);
@@ -25,7 +35,18 @@ private:
 
 private:
 	int m_iPreIndex = 0;
-	int	m_iCoolTime;
+	float m_fActionDelay;
+	float m_fFlyDelayCount;
+	float m_fMaxY;
+	bool  m_bAltitude;
+
+	float m_fDodgeDelayCount;
+	int m_iDodgeDir;
+	float m_fDodgeSpeed;
+	float m_fDodgeStopper;
+	float m_fStopperDelay;
+	float m_fStopperDelayCount;
+
 
 	CTexture*		m_pTextureCom = nullptr;
 	CRcTex*			m_pBufferCom = nullptr;

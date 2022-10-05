@@ -165,18 +165,18 @@ void CMyCamera::Target_Renewal(const _float& fTimeDelta)
 	//_matrix		matCamWorld;
 	//D3DXMatrixInverse(&matCamWorld, nullptr, &m_matView);
 
-	//if (m_bExecution)
-	//{
-	//	::PlaySoundW(L"executionEffect.wav", SOUND_EFFECT, 0.1f);
-	//	_vec3		vLook;
-	//	memcpy(&vLook, &matCamWorld.m[2][0], sizeof(_vec3));
+	/*if (m_bExecution)
+	{
+		::PlaySoundW(L"executionEffect.wav", SOUND_EFFECT, 0.1f);
+		_vec3		vLook;
+		memcpy(&vLook, &matCamWorld.m[2][0], sizeof(_vec3));
 
-	//	_vec3		vLength = *D3DXVec3Normalize(&vLook, &vLook) * 5.f * 1;
+		_vec3		vLength = *D3DXVec3Normalize(&vLook, &vLook) * 5.f * 1;
 
-	//	m_vEye -= vLength;
-	//	m_vAt -= vLength;
-	//	m_bExecution = false;
-	//}
+		m_vEye -= vLength;
+		m_vAt -= vLength;
+		m_bExecution = false;
+	}*/
 
 }
 

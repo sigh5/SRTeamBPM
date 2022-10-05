@@ -62,11 +62,20 @@ HRESULT CMonsterBase::Add_Component(void)
 
 	pComponent = m_pInfoCom = dynamic_cast<CCharacterInfo*>(Clone_Proto(L"Proto_CharacterInfoCom"));
 	NULL_CHECK_RETURN(m_pInfoCom, E_FAIL);
-	m_mapComponent[ID_DYNAMIC].insert({ L"Proto_CharacterInfoCom", pComponent });
+	m_mapComponent[ID_STATIC].insert({ L"Proto_CharacterInfoCom", pComponent });
 
 	pComponent = m_pDynamicTransCom = dynamic_cast<CDynamic_Transform*>(Clone_Proto(L"Proto_DynamicTransformCom"));
 	NULL_CHECK_RETURN(m_pDynamicTransCom, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].insert({ L"Proto_DynamicTransformCom" , pComponent });
+
+	pComponent = m_pColliderCom = dynamic_cast<CCollider*>(Clone_Proto(L"Proto_ColliderCom"));
+	NULL_CHECK_RETURN(m_pColliderCom, E_FAIL);
+	m_mapComponent[ID_STATIC].insert({ L"Proto_ColliderCom" , pComponent });
+
+	pComponent = m_pCalculatorCom = dynamic_cast<CCalculator*>(Clone_Proto(L"Proto_CalculatorCom"));
+	NULL_CHECK_RETURN(m_pCalculatorCom, E_FAIL);
+	m_mapComponent[ID_STATIC].insert({ L"Proto_CalculatorCom" , pComponent });
+
 
 	return S_OK;
 }
@@ -78,7 +87,6 @@ bool CMonsterBase::Set_TransformPositon(HWND g_hWnd, CCalculator* _pCalcul)
 
 	CTransform*		pTerrainTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"TestLayer", L"TestMap", L"Proto_TransformCom", ID_DYNAMIC));
 	NULL_CHECK_RETURN(pTerrainTransformCom, false);
-
 
 	_vec3 Temp = _pCalcul->PickingOnTerrainCube(g_hWnd, pTerrainBufferCom, pTerrainTransformCom);
 
@@ -97,16 +105,14 @@ void CMonsterBase::Get_MonsterToPlayer_Distance(float* _Distance)
 	CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
 	NULL_CHECK(pPlayerTransformCom);
 
-	_vec3		vPlayerPos, vMonsterPos;
-	pPlayerTransformCom->Get_Info(INFO_POS, &vPlayerPos);
-	m_pDynamicTransCom->Get_Info(INFO_POS, &vMonsterPos);
+	pPlayerTransformCom->Get_Info(INFO_POS, &m_vPlayerPos);
+	m_pDynamicTransCom->Get_Info(INFO_POS, &m_vMonsterPos);
 
 	float fMtoPDistance; // 몬스터와 플레이어 간의 거리
 
-	fMtoPDistance = sqrtf((powf(vMonsterPos.x - vPlayerPos.x, 2) + powf(vMonsterPos.y - vPlayerPos.y, 2) + powf(vMonsterPos.z - vPlayerPos.z, 2)));
+	fMtoPDistance = sqrtf((powf(m_vMonsterPos.x - m_vPlayerPos.x, 2) + powf(m_vMonsterPos.y - m_vPlayerPos.y, 2) + powf(m_vMonsterPos.z - m_vPlayerPos.z, 2)));
 
 	memcpy(_Distance, &fMtoPDistance, sizeof(float));
-	return;
 }
 
 

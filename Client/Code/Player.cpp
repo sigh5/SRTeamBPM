@@ -4,6 +4,7 @@
 #include "AbstractFactory.h"
 #include "Export_Function.h"
 #include "Box.h"
+#include "Gun_Screen.h"
 
 
 
@@ -15,6 +16,7 @@ CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	, m_fJumpPower(5.0f)
 	, m_fDashPower(0.3f)
 	, m_tpType(TYPING_END)
+	, pEquipItem(nullptr)
 {
 }
 
@@ -24,7 +26,7 @@ CPlayer::~CPlayer()
 
 HRESULT CPlayer::Ready_Object(void)
 {
-
+	
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
@@ -34,23 +36,27 @@ HRESULT CPlayer::Ready_Object(void)
 	m_pDynamicTransCom->Set_Scale(&vScale);
 	m_pDynamicTransCom->Update_Component(1.5f);
 
+	
+
 	return S_OK;
 }
 
 _int CPlayer::Update_Object(const _float & fTimeDelta)
 {
+	
+	pEquipItem = dynamic_cast<CGun_Screen*>(Get_GameObject(L"Layer_UI", L"Gun"));
+	NULL_CHECK_RETURN(pEquipItem, -1);
+	
 	m_fTimeDelta = fTimeDelta;
 	m_fFrame += 1.0f * fTimeDelta;
 
 	if (m_fFrame >= 1.0f)
 	{
-		m_bOneShot = false;
+		pEquipItem->Set_ReadyShot(false);
 		m_fFrame = 0.f;
 	}
 
-
 	Key_Input(fTimeDelta);
-
 
 	if (m_bJump == TRUE)
 	{
@@ -84,7 +90,7 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 void CPlayer::LateUpdate_Object(void)
 {
 
-	Set_OnTerrain();
+	//Set_OnTerrain();
 
 	CGameObject::LateUpdate_Object();
 }
@@ -112,7 +118,6 @@ HRESULT CPlayer::Add_Component(void)
 	m_pColliderCom = CAbstractFactory<CCollider>::Clone_Proto_Component(L"Proto_ColliderCom", m_mapComponent, ID_STATIC);
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
 
-
 	return S_OK;
 }
 
@@ -128,7 +133,6 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
 		m_pDynamicTransCom->Move_Pos(&(m_vDirection * 5.f * fTimeDelta));
 		m_pDynamicTransCom->Set_CountMovePos(&(m_vDirection * 5.f * fTimeDelta));
-		
 	}
 
 	if (Get_DIKeyState(DIK_S) & 0X80)
@@ -148,8 +152,7 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		D3DXVec3Normalize(&m_vUp, &m_vUp);
 		D3DXVec3Cross(&vRight, &m_vDirection, &m_vUp);
 		m_pDynamicTransCom->Move_Pos(&(vRight * 5.f * fTimeDelta));
-		m_pDynamicTransCom->Set_CountMovePos(&(vRight * 5.f * fTimeDelta));
-		
+		m_pDynamicTransCom->Set_CountMovePos(&(vRight * 5.f * fTimeDelta));		
 	}
 
 	if (Get_DIKeyState(DIK_D) & 0X80)
@@ -163,14 +166,11 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		m_pDynamicTransCom->Set_CountMovePos(&(vRight * -5.f * fTimeDelta));
 		
 	}
-
 	if (Get_DIKeyState(DIK_SPACE) & 0X80)
 		m_bJump = TRUE;
-
 	if (Get_DIKeyState(DIK_LSHIFT) & 0X80)
 	{
 		m_bDash = TRUE;
-
 		if (m_bDash)
 		{
 			m_pDynamicTransCom->Dashing(fTimeDelta, m_pDynamicTransCom, m_vUp, m_vDirection, m_tpType);
@@ -178,27 +178,15 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		}
 	}
 
-
 	if (::Mouse_Down(DIM_LB)) // Picking
 	{
-		if (m_iMagazine <= 0)
-			m_bOneShot = FALSE;
-
-		m_bCheckShot = Create_RayCheck(fTimeDelta);
-
-		if (m_bCheckShot == false)
-		{
-			::PlaySoundW(L"Rythm_Check_Fail.wav", SOUND_EFFECT, 0.1f);
-			m_iComboCount = 0;
-		}
+		Ready_MonsterShotPicking();
 	}
-
 
 	if (Get_DIKeyState(DIK_R) & 0X80)
 	{
-		m_iMagazine = 8;
+		pEquipItem->Set_Magazine(8);
 	}
-
 }
 
 void CPlayer::Set_OnTerrain(void)
@@ -225,17 +213,35 @@ _vec3 CPlayer::PickUp_OnTerrain(void)
 	return m_pCalculatorCom->PickingOnTerrain(g_hWnd, pTerrainBufferCom, pTerrainTransformCom);
 }
 
-_bool CPlayer::Create_RayCheck(const _float & fTimeDelta)
+void CPlayer::Ready_MonsterShotPicking()
 {
-	if (m_bOneShot)
+	if (pEquipItem->Get_Magazine() <= 0)
+		pEquipItem->Set_ReadyShot(false);
+
+	if (static_cast<CGun_Screen*>(pEquipItem)->Get_ReadyShot())
 	{
-		m_iMagazine -= 1;
-		m_bOneShot = false;
-		return true;
+		static_cast<CGun_Screen*>(pEquipItem)->Add_Magazine(-1);
+		pEquipItem->Set_AnimationCheck(true);
+		pEquipItem->Set_Shoot(true);
+		return;
 	}
 
-	return false;
+	pEquipItem->GunFailSound();
+	m_iComboCount = 0;
 }
+
+void CPlayer::ComboCheck()
+{
+	if (m_bMissCheck)
+		m_bMissCheck = false;
+	else
+	{
+		m_iComboCount = 0;
+	}
+	
+}
+
+
 
 void CPlayer::Collision_Event()
 {
@@ -254,48 +260,6 @@ void CPlayer::Collision_Event()
 
 	pLayer = pScene->GetLayer(L"Layer_GameLogic");
 	NULL_CHECK_RETURN(pLayer, );
-
-	// HealthPotion
-	//pGameObject = pLayer->Get_GameObject(L"HealthPotion");
-	//NULL_CHECK(pGameObject, );
-	//CTransform *pTransform = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
-
-	//if (m_pColliderCom->Check_Collision(pGameObject, this,1,1))
-	//{
-	//	m_pInfoCom->Add_Hp(25);
-	//	m_iHpBarChange += 1;
-	//	pLayer->Delete_GameObject(L"HealthPotion"); // 이벤트 처리
-	//}
-
-	//// Coin
-	//pGameObject = pLayer->Get_GameObject(L"Coin");
-	//NULL_CHECK_RETURN(pGameObject, );
-	//if (m_pColliderCom->Check_Collision(pGameObject, this))
-	//{
-	//	m_pInfoCom->Get_InfoRef()._iCoin += 1;
-	//	pLayer->Delete_GameObject(L"Coin"); // 이벤트 처리
-
-	//}
-
-	//pGameObject = pLayer->Get_GameObject(L"Box");
-	//NULL_CHECK_RETURN(pGameObject, );
-	//if (m_pColliderCom->Check_Collision(pGameObject, this))
-	//{
-	//	if (Get_DIKeyState(DIK_F) & 0X80)
-	//	{
-	//		CAnimation* pBoxAnimation = dynamic_cast<CAnimation*>(pGameObject->Get_Component(L"Proto_AnimationCom", ID_STATIC));
-	//		// 박스를 여는 부분, 꼼수(오픈 이미지만 늘림) 수정 필요
-	//		CBox* pBox = dynamic_cast<CBox*> (Engine::Get_GameObject(L"Layer_GameLogic", L"Box"))
-	//		m_bBoxOpen = true;
-	//		pBoxAnimation->Open_Box_Animation(m_bBoxOpen);
-	//		pBox->Open_Event(this);
-	//		m_bBoxOpen = false;
-	//	}
-	//}
-
-
-
-
 
 }
 

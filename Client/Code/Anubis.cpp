@@ -8,6 +8,9 @@
 #include "Player.h"
 #include "HitBlood.h"
 
+#include "Gun_Screen.h"
+
+
 CAnubis::CAnubis(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
 {
@@ -24,13 +27,11 @@ HRESULT CAnubis::Ready_Object(int Posx, int Posy)
 	
 	m_fHitDelay = 0.f;
 
-
 	CComponent* pComponent = nullptr;
 
 	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_MonsterTexture", m_mapComponent, ID_DYNAMIC);
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
-	m_pCalculatorCom = CAbstractFactory<CCalculator>::Clone_Proto_Component(L"Proto_CalculatorCom", m_mapComponent, ID_STATIC);
-	m_pColliderCom = CAbstractFactory<CCollider>::Clone_Proto_Component(L"Proto_ColliderCom", m_mapComponent, ID_STATIC);
+	
 
 	m_iMonsterIndex = 0;
 	_vec3	vScale = { 2.f,2.f,2.f };
@@ -56,7 +57,6 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 
 	if (m_iPreHp > m_pInfoCom->Get_Hp())
 	{
-		m_bHit = true;
 		m_iPreHp = m_pInfoCom->Get_Hp();
 		if (m_fHitDelay != 0)
 		{
@@ -94,48 +94,73 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 		}
 	}
 	else*/
+	//{
+	//	CDynamic_Transform*		pPlayerTransformCom = dynamic_cast<CDynamic_Transform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
+	//	NULL_CHECK_RETURN(pPlayerTransformCom, -1);
+
+	//	////Set_OnTerrain();
+	//	float TerrainY = m_pDynamicTransCom->Get_TerrainY1(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC, m_pCalculatorCom, m_pDynamicTransCom);
+	//	m_pDynamicTransCom->Set_Y(TerrainY + 2.f);
+	//	//지형에 올림
+
+	//	_vec3		vPlayerPos, vMonsterPos;
+	//	pPlayerTransformCom->Get_Info(INFO_POS, &vPlayerPos);
+	//	m_pDynamicTransCom->Get_Info(INFO_POS, &vMonsterPos);
+
+	//	fMtoPDistance = sqrtf((powf(vMonsterPos.x - vPlayerPos.x, 2) + powf(vMonsterPos.y - vPlayerPos.y, 2) + powf(vMonsterPos.z - vPlayerPos.z, 2)));
+
+
+	//	if (m_bHit == false)
+	//	{
+	//		if (fMtoPDistance > 5.f)
+	//		{
+	//			m_pDynamicTransCom->Chase_Target_notRot(&vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
+
+	//			m_pAnimationCom->Move_Animation(fTimeDelta);
+	//		}
+	//		else
+	//		{
+	//			m_pAnimationCom->m_iMotion = 0;
+	//		}
+	//	}
+	//	else
+	//	{
+	//		//피격 시 피격모션
+	//		m_pAnimationCom->m_iMotion = 7;
+	//	}
+	//}
+
+	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
+
+
+	if (m_bHit == false)
 	{
-		CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
-		NULL_CHECK_RETURN(pPlayerTransformCom,-1);
-
-		////Set_OnTerrain();
-		float TerrainY = m_pDynamicTransCom->Get_TerrainY1(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC, m_pCalculatorCom, m_pDynamicTransCom);
-		m_pDynamicTransCom->Set_Y(TerrainY + 2.f);
-		//지형에 올림
-
-		_vec3		vPlayerPos, vMonsterPos;
-		pPlayerTransformCom->Get_Info(INFO_POS, &vPlayerPos);
-		m_pDynamicTransCom->Get_Info(INFO_POS, &vMonsterPos);
-
-		fMtoPDistance = sqrtf((powf(vMonsterPos.x - vPlayerPos.x, 2) + powf(vMonsterPos.y - vPlayerPos.y, 2) + powf(vMonsterPos.z - vPlayerPos.z, 2)));
-		
-
-		if (m_bHit == false)
+		if (fMtoPDistance > 5.f)
 		{
-			if (fMtoPDistance > 5.f)
-			{
-				m_pDynamicTransCom->Chase_Target_notRot(&vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
+			m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
 
-				m_pAnimationCom->Move_Animation(fTimeDelta);
-			}
-			else
-			{
-				m_pAnimationCom->m_iMotion = 0;
-			}
+			m_pAnimationCom->Move_Animation(fTimeDelta);
 		}
 		else
 		{
-			//피격 시 피격모션
-			m_pAnimationCom->m_iMotion = 7;
+			m_pAnimationCom->m_iMotion = 0;
 		}
 	}
-	
+
+	else
+	{
+		// 피격 시 모션
+		m_pAnimationCom->m_iMotion = 7;
+	}
+
+
+
 	if (m_bHit)
 	{
 		m_fHitDelay += fTimeDelta;
 		if (m_fHitDelay > 1.5f)
 		{
-		
+
 			m_bHit = false;
 			m_fHitDelay = 0.f;
 		}
@@ -144,7 +169,7 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 
 	Excution_Event();
 
-	_int iResult = Engine::CGameObject::Update_Object(fTimeDelta);
+	Engine::CGameObject::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
 
 
@@ -155,9 +180,6 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 void CAnubis::LateUpdate_Object(void)
 {
 	// 빌보드 에러 해결
-	/*CTransform*	pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC));
-	NULL_CHECK(pPlayerTransform);*/
-
 	CMyCamera* pCamera =static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
 	NULL_CHECK(pCamera);
 
@@ -189,7 +211,7 @@ void CAnubis::LateUpdate_Object(void)
 	m_pDynamicTransCom->Set_WorldMatrix(&(matWorld));
 
 	// 빌보드 에러 해결
-	Engine::CGameObject::LateUpdate_Object();
+	Engine::CMonsterBase::LateUpdate_Object();
 }
 
 void CAnubis::Render_Obejct(void)
@@ -211,30 +233,35 @@ void CAnubis::Render_Obejct(void)
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 }
 
-void CAnubis::Collision_Event(CGameObject * pGameObject)
+void CAnubis::Collision_Event()
 {
+	CScene  *pScene = ::Get_Scene();
+	NULL_CHECK_RETURN(pScene, );
+	CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+	NULL_CHECK_RETURN(pLayer, );
+	CGameObject *pGameObject = nullptr;
+	pGameObject = static_cast<CGun_Screen*>(::Get_GameObject(L"Layer_UI", L"Gun"));
+
 	_vec3 PickPos;
 	
-	
-	
-	if (fMtoPDistance <4.f &&m_pColliderCom->Check_Lay_InterSect(m_pBufferCom,m_pDynamicTransCom,g_hWnd, PickPos))
-	{
-		CPlayer* pPlayer = static_cast<CPlayer*>(::Get_GameObject(L"Layer_GameLogic", L"Player"));
-		pPlayer->Set_ComboCount(1);
 
+	if (static_cast<CGun_Screen*>(pGameObject)->Get_Shoot()&&
+		fMtoPDistance < MAX_CROSSROAD &&
+		m_pColliderCom->Check_Lay_InterSect(m_pBufferCom, m_pDynamicTransCom, g_hWnd))
+	{
+		m_bHit = true;
+		static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic",L"Player"))->Set_ComboCount(1);
 		m_pInfoCom->Receive_Damage(1);
-		cout << m_pInfoCom->Get_InfoRef()._iHp << endl;
+		cout << "Anubis"<<m_pInfoCom->Get_InfoRef()._iHp << endl;
+		static_cast<CGun_Screen*>(pGameObject)->Set_Shoot(false);
 	}
-	else
+
+	/*if (m_bHit)
 	{
-		// 지금은 단일객체라서 안맞으면 콤보 0뜨게하지만 나중에는 
-		// 다중객체로 콜리젼 이벤트를 만들어야됀다.
-		// 나중에는 콤보 0 + 잘못맞으면 소리나는것 까지해야한다.
-		cout << "1234" << endl;
+
 	}
-
-
-	static_cast<CPlayer*>(pGameObject)->Set_CheckShot(false);
+*/
+	
 }
 
 void CAnubis::Excution_Event()
