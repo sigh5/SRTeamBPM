@@ -173,6 +173,7 @@ call CopyUtility.bat</Command>
     <ClInclude Include="..\..\Header\Calculator.h" />
     <ClInclude Include="..\..\Header\Camera.h" />
     <ClInclude Include="..\..\Header\CharacterInfo.h" />
+    <ClInclude Include="..\..\Header\CheckEvent.h" />
     <ClInclude Include="..\..\Header\Collider.h" />
     <ClInclude Include="..\..\Header\Component.h" />
     <ClInclude Include="..\..\Header\CubeTex.h" />
@@ -199,6 +200,7 @@ call CopyUtility.bat</Command>
     <ClInclude Include="..\..\Header\Transform.h" />
     <ClInclude Include="..\..\Header\TriCol.h" />
     <ClInclude Include="..\..\Header\VIBuffer.h" />
+    <ClInclude Include="ThunderTex.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Animation.cpp" />
@@ -206,6 +208,7 @@ call CopyUtility.bat</Command>
     <ClCompile Include="..\Code\Calculator.cpp" />
     <ClCompile Include="..\Code\Camera.cpp" />
     <ClCompile Include="..\Code\CharacterInfo.cpp" />
+    <ClCompile Include="..\Code\CheckEvent.cpp" />
     <ClCompile Include="..\Code\Collider.cpp" />
     <ClCompile Include="..\Code\Component.cpp" />
     <ClCompile Include="..\Code\CubeTex.cpp" />
@@ -231,6 +234,7 @@ call CopyUtility.bat</Command>
     <ClCompile Include="..\Code\Transform.cpp" />
     <ClCompile Include="..\Code\TriCol.cpp" />
     <ClCompile Include="..\Code\VIBuffer.cpp" />
+    <ClCompile Include="ThunderTex.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Header\Export_Utility.inl" />

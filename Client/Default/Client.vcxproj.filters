@@ -187,6 +187,9 @@
     <ClCompile Include="..\Code\Spider.cpp">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\02. Spider</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\Gun_Screen.cpp">
+      <Filter>02. GameObject\01. For_Stage\13. Gun_Screen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -393,6 +396,9 @@
     <ClInclude Include="..\Header\Spider.h">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\02. Spider</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Gun_Screen.h">
+      <Filter>02. GameObject\01. For_Stage\13. Gun_Screen</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -564,6 +570,9 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\00. Player">
       <UniqueIdentifier>{17ed71c8-b3b0-47c9-aa3a-ebd75232e61f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\13. Gun_Screen">
+      <UniqueIdentifier>{094e6665-e320-42fb-91fe-5b6f14027206}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

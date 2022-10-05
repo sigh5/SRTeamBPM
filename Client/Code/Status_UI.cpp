@@ -7,7 +7,6 @@
 USING(Engine)
 
 
-
 CStatus_UI::CStatus_UI(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
 {

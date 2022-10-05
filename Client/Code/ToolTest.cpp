@@ -53,8 +53,8 @@ HRESULT CToolTest::Ready_Scene()
 	//
 
 	pGameObject = CTerrain::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, );
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestMap", pGameObject), );
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestMap", pGameObject), E_FAIL);
 
 	m_mapLayer.insert({ L"TestLayer", pLayer });
 

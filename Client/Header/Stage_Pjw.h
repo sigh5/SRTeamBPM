@@ -10,6 +10,8 @@
 #include "DynamicCamera.h"
 #include "Start_Button.h"
 
+// 플레ㅔ이어 들고 있는 무기
+#include "Gun_Screen.h"
 //Item
 #include "Box.h"
 #include "HealthPotion.h"

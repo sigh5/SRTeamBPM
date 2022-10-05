@@ -13,6 +13,14 @@ public:
 	virtual _int		Update_Object(const _float& fTimeDelta) override;
 	virtual void		LateUpdate_Object(void) override;
 	virtual void		Render_Obejct(void) override;
+	virtual void		Collision_Event()override;
+	
+
+public:
+	// 처형 판독
+	virtual void		Excution_Event();
+
+public:
 	void				FatBat_Fly(const _float& fTimeDelta);
 	void				FatBat_Shoot(void);
 	void				FatBat_Dodge(const _float& fTimeDelta, _vec3* _vPlayerPos, _vec3* _vMonsterPos);
@@ -44,6 +52,3 @@ private:
 	CRcTex*			m_pBufferCom = nullptr;
 	CCalculator*	m_pCalculatorCom = nullptr;
 };
-/*function easeOutQuint(x: number) : number{
-return 1 - Math.pow(1 - x, 5);
-}*/

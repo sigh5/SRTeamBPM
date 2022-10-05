@@ -54,7 +54,7 @@ HRESULT CStage::Ready_Scene(void)
 	FAILED_CHECK_RETURN(Ready_Layer_UI(L"Layer_UI"), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_CubeCollsion(L"Layer_CubeCollsion"), E_FAIL);
 	
-	::PlaySoundW(L"SamTow.wav", SOUND_BGM, 0.1f); // BGM
+	::PlaySoundW(L"SamTow.wav", SOUND_BGM, 0.05f); // BGM
 
 	return S_OK;
 }
@@ -81,17 +81,17 @@ _int CStage::Update_Scene(const _float & fTimeDelta)
 		m_fFrame = 0.f;
 	}
 
-	CLayer *pLayer1 = GetLayer(L"Layer_GameLogic");
-	CPlayer* pPlayer = dynamic_cast<CPlayer*>(pLayer1->Get_GameObject(L"Player"));
+	//CLayer *pLayer1 = GetLayer(L"Layer_GameLogic");
+	//CPlayer* pPlayer = dynamic_cast<CPlayer*>(pLayer1->Get_GameObject(L"Player"));
 
-	CLayer * pLayer2 = GetLayer(L"Layer_CubeCollsion");
+	//CLayer * pLayer2 = GetLayer(L"Layer_CubeCollsion");
 
-	pLayer2->Get_GameObjectMap();
+	//pLayer2->Get_GameObjectMap();
 
-	for (auto iter = pLayer2->Get_GameObjectMap().begin(); iter != pLayer2->Get_GameObjectMap().end(); ++iter)
-	{
-		pPlayer->Collsion_CubeMap(iter->second, fTimeDelta);
-	}
+	//for (auto iter = pLayer2->Get_GameObjectMap().begin(); iter != pLayer2->Get_GameObjectMap().end(); ++iter)
+	//{
+	//	pPlayer->Collsion_CubeMap(iter->second, fTimeDelta);
+	//}
 
 
 	return Engine::CScene::Update_Scene(fTimeDelta);
@@ -99,41 +99,24 @@ _int CStage::Update_Scene(const _float & fTimeDelta)
 
 void CStage::LateUpdate_Scene(void)
 {
-	CLayer *pLayer = GetLayer(L"Layer_GameLogic");
-
-	CPlayer* pPlayer = dynamic_cast<CPlayer*>(pLayer->Get_GameObject(L"Player"));
-
-	// Potion Collision
-	CHealthPotion* pPotion = dynamic_cast<CHealthPotion*>(pLayer->Get_GameObject(L"HealthPotion"));
-
-	if (pPotion != nullptr)
-	{
-		pPlayer->Collision_Event(pPotion);
-	}
-
-	//// Coin Collision
-	//CCoin* pCoin = dynamic_cast<CCoin*>(pLayer->Get_GameObject(L"Coin"));
-	//
-	//if (pCoin != nullptr)
-	//{
-	//	pPlayer->Collision_Event(pCoin);
-	//}
-
-	CBox* pBox = dynamic_cast<CBox*>(pLayer->Get_GameObject(L"Box"));
-
-	if (pBox != nullptr)
-	{
-		pPlayer->Collision_Event(pBox);
-	}
 
 	/*CAnubis* pAbubis = dynamic_cast<CAnubis*>(pLayer->Get_GameObject(L"TestMonster1"));
 
 	if (pPlayer->Get_CheckShot() == true)
 	{
 		pAbubis->Collision_Event(pPlayer);
-	}
-*/
+	}*/
 
+	CLayer *pLayer1 = GetLayer(L"Layer_GameLogic");
+
+	for (auto iter = pLayer1->Get_GameObjectMap().begin(); iter != pLayer1->Get_GameObjectMap().end(); ++iter)
+	{
+		iter->second->Collision_Event();
+	}
+
+	// Test
+	CPlayer* pPlayer = static_cast<CPlayer*>(pLayer1->Get_GameObject(L"Player"));
+	pPlayer->Set_CheckShot(false);
 
 	Engine::CScene::LateUpdate_Scene();
 }
@@ -183,16 +166,21 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 
 	READY_LAYER(pGameObject, CPlayer, pLayer, m_pGraphicDev, L"Player");
 
-	CPlayer*		pPlayer = dynamic_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"));
-	pGameObject = CBox::Create(m_pGraphicDev, 5, 10, pPlayer);
+	pGameObject = CBox::Create(m_pGraphicDev, 20, 20);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Box", pGameObject), E_FAIL);
 
 
+	/*CPlayer*		pPlayer = dynamic_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"));
+	pGameObject = CBox::Create(m_pGraphicDev, 5, 10, pPlayer);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Box", pGameObject), E_FAIL);
+*/
 
-	READY_LAYER(pGameObject, CFatBat, pLayer, m_pGraphicDev, L"TestMonster1");
 
-
+	READY_LAYER(pGameObject, CAnubis, pLayer, m_pGraphicDev, L"TestMonster1");
+	READY_LAYER(pGameObject, CSpider, pLayer, m_pGraphicDev, L"TestMonster2");
+	READY_LAYER(pGameObject, CFatBat, pLayer, m_pGraphicDev, L"TestMonster3");
 
 	/*CFileIOMgr::GetInstance()->Load_FileData(m_pGraphicDev,
 		this,

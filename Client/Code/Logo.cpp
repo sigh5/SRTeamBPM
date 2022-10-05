@@ -83,7 +83,7 @@ void CLogo::LateUpdate_Scene(void)
 void CLogo::Render_Scene(void)
 {
 	
-	Render_Font(L"Font_Jinji", m_pLoading->Get_String(), &_vec2(250.f, 450.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+	Render_Font(L"Font_Jinji", m_pLoading->Get_String(), &_vec2(240.f, 420.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 
 }
 
@@ -145,7 +145,7 @@ HRESULT CLogo::Ready_Proto(void)
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ButtonTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Button/Start_Button.png", TEX_NORMAL)), E_FAIL);
 	
 	
-	//FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ButtonTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Button/Credits_Button.png", TEX_NORMAL)), E_FAIL);
+	//FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ButtonTexture", CTexture::Create(m_pGraphicDev, L"../QBin/Resource/Texture/Button/Credits_Button.png", TEX_NORMAL)), E_FAIL);
 		
 	
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ButtonTexture2", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Button/Exit_Button.png", TEX_NORMAL)), E_FAIL);

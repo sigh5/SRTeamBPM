@@ -3,6 +3,7 @@
 #include "Export_Function.h"
 
 #include "AbstractFactory.h"
+#include "MyCamera.h"
 
 USING(Engine)
 
@@ -18,7 +19,7 @@ CHealthPotion::~CHealthPotion()
 HRESULT CHealthPotion::Ready_Object(_uint iX, _uint iY)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-	m_pTransCom->Set_Pos(iX, 1.f, iY);
+	m_pTransCom->Set_Pos((_float)iX, 1.f, (_float)iY);
 	m_pTransCom->Compulsion_Update();
 	m_pAnimationCom->Ready_Animation(3, 0, 0.2f); 
 
@@ -51,7 +52,39 @@ _int CHealthPotion::Update_Object(const _float & fTimeDelta)
 
 void CHealthPotion::LateUpdate_Object(void)
 {
-	
+	CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
+	NULL_CHECK(pCamera);
+
+	// 
+	_matrix		matWorld, matView, matBill;
+
+	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
+	D3DXMatrixIdentity(&matBill);
+	memcpy(&matBill, &matView, sizeof(_matrix));
+	memset(&matBill._41, 0, sizeof(_vec3));
+	D3DXMatrixInverse(&matBill, 0, &matBill);
+
+	_matrix      matScale, matTrans;
+	D3DXMatrixScaling(&matScale, 2.f, 2.f, 2.f);
+
+	_matrix      matRot;
+	D3DXMatrixIdentity(&matRot);
+	D3DXMatrixRotationY(&matRot, (_float)pCamera->Get_BillBoardDir());
+
+	_vec3 vPos;
+	m_pTransCom->Get_Info(INFO_POS, &vPos);
+
+	D3DXMatrixTranslation(&matTrans,
+		vPos.x,
+		vPos.y,
+		vPos.z);
+
+	D3DXMatrixIdentity(&matWorld);
+	matWorld = matScale* matRot * matBill * matTrans;
+	m_pTransCom->Set_WorldMatrix(&(matWorld));
+
+
+	CItemBase::LateUpdate_Object();
 }
 
 void CHealthPotion::Render_Obejct(void)
@@ -73,6 +106,28 @@ void CHealthPotion::Render_Obejct(void)
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);	
 }
 
+void CHealthPotion::Collision_Event()
+{
+	//CScene  *pScene = ::Get_Scene();
+	//NULL_CHECK_RETURN(pScene, );
+	//CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+	//NULL_CHECK_RETURN(pLayer, );
+	//CGameObject *pGameObject = nullptr;
+
+	//pGameObject = pLayer->Get_GameObject(L"Player");
+	//NULL_CHECK_RETURN(pGameObject, );
+	//CTransform *pTransform = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_DynamicTransformCom", ID_DYNAMIC));
+
+	//if (m_pColliderCom->Check_Collision(pGameObject, this,1,1))
+	//{
+	//	m_pInfoCom->Add_Hp(25);
+	//	//m_iHpBarChange += 1;
+	//	pLayer->Delete_GameObject(L"HealthPotion"); // 이벤트 처리
+	//}
+
+
+}
+
 HRESULT CHealthPotion::Add_Component(void)
 {
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
@@ -80,7 +135,7 @@ HRESULT CHealthPotion::Add_Component(void)
 	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_HpPotionTexture", m_mapComponent, ID_STATIC);
 	m_pCalculatorCom = CAbstractFactory<CCalculator>::Clone_Proto_Component(L"Proto_CalculatorCom", m_mapComponent, ID_STATIC);
 	m_pAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_STATIC);
-	
+	m_pColliderCom = CAbstractFactory<CCollider>::Clone_Proto_Component(L"Proto_ColliderCom", m_mapComponent, ID_STATIC);
 	return S_OK;
 }
 

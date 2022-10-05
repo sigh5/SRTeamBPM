@@ -172,7 +172,7 @@ void CHWPlayer::Key_Input(const _float & fTimeDelta)
 			m_iComboCount = 0;
 		}
 	}
-
+	
 
 
 	if (Get_DIKeyState(DIK_R) & 0X80)

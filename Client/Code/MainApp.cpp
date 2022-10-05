@@ -118,7 +118,7 @@ HRESULT CMainApp::SetUp_DefaultSetting(LPDIRECT3DDEVICE9 * ppGraphicDev)
 
 	// Font
 	FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"Font_Default", L"¹ÙÅÁ", 10, 10, FW_HEAVY), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"Font_Jinji", L"±Ã¼­", 30, 30, FW_NORMAL), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"Font_Jinji", L"±Ã¼­", 17, 19, FW_NORMAL), E_FAIL);
 
 
 	// ÀÌ¹ÌÁö ÇÊÅÍ¸µ
@@ -192,10 +192,12 @@ void CMainApp::Free(void)
 	ImGui_ImplDX9_Shutdown();
 	ImGui_ImplWin32_Shutdown();
 	ImGui::DestroyContext();
+	CImGuiMgr::GetInstance()->DestroyInstance();
+
 #endif // _DEBUG
 	CObjectMgr::GetInstance()->DestroyInstance();
 	CFileIOMgr::GetInstance()->DestroyInstance();
-	CImGuiMgr::GetInstance()->DestroyInstance();
+
 	FreeConsole();
 	
 	

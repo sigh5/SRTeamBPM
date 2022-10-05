@@ -222,6 +222,55 @@ _bool CCollider::Check_Lay_InterSect(CRcTex * rcTex, CTransform* pMonsterCom, HW
 	return false;
 }
 
+_bool CCollider::Check_Collision_Wall(CGameObject* pCubeObject, CGameObject* pDest)
+{
+	CTransform *pTrnasform = dynamic_cast<CTransform*>(pCubeObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+	CDynamic_Transform* pDynamicTransCom = dynamic_cast<CDynamic_Transform*>(pDest->Get_Component(L"Proto_DynamicTransformCom", ID_DYNAMIC));
+
+	_vec3 vCenter1Pos;
+	_vec3 vPos;
+
+	pTrnasform->Get_Info(INFO_POS, &vCenter1Pos);
+	pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+
+	if (Check_Sphere_InterSect(vCenter1Pos, vPos, 4.f, 1.f))
+	{
+		_vec3 vDirection, vUp, vPos,vRight;
+
+		pDynamicTransCom->Get_Info(INFO_LOOK, &vDirection);
+		pDynamicTransCom->Get_Info(INFO_UP, &vUp);
+		pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+
+		pDynamicTransCom->Move_Pos(&pDynamicTransCom->Get_CounterMovePos());
+
+		pDynamicTransCom->Update_Component(1.f);
+
+		return true;
+	}
+
+	return false;
+
+}
+
+_bool CCollider::Check_Collision(CGameObject * pItemObject, CGameObject * pPlayer, const _float& fItemRadius, const _float& fPlayerRadius)
+{
+	CTransform *pTrnasform = dynamic_cast<CTransform*>(pItemObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+	CDynamic_Transform* pDynamicTransCom = dynamic_cast<CDynamic_Transform*>(pPlayer->Get_Component(L"Proto_DynamicTransformCom", ID_DYNAMIC));
+
+	_vec3 vItemPos;
+	_vec3 vPos;
+
+	pTrnasform->Get_Info(INFO_POS, &vItemPos);
+	pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+
+	if (Check_Sphere_InterSect(vItemPos, vPos, fItemRadius, fPlayerRadius))
+	{
+		return true;
+	}
+
+	return false;
+}
+
 CComponent * CCollider::Clone(void)
 {
 	return new CCollider(*this);

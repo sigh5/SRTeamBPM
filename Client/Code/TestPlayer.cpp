@@ -9,6 +9,8 @@
 #include "HpPotion.h"
 #include "Coin.h"
 #include "Box.h"
+#include "MyCamera.h"
+#include "Gun_Screen.h"
 
 
 CTestPlayer::CTestPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -54,7 +56,7 @@ _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 
 		// cout << "총알 수 :" << m_iMagazine << endl;
 		
-	Engine::CGameObject::Update_Object(fTimeDelta);
+
 	
 	if (m_bJump == TRUE)
 	{
@@ -106,7 +108,41 @@ _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 
 void CTestPlayer::LateUpdate_Object(void)
 {
+	// 빌보드 에러 해결
+	CTransform*	pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC));
+	NULL_CHECK(pPlayerTransform);
 
+	CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"DynamicCamera"));
+	NULL_CHECK(pCamera);
+
+	_matrix		matWorld, matView, matBill;
+
+	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
+	D3DXMatrixIdentity(&matBill);
+	memcpy(&matBill, &matView, sizeof(_matrix));
+	memset(&matBill._41, 0, sizeof(_vec3));
+	D3DXMatrixInverse(&matBill, 0, &matBill);
+
+	_matrix      matScale, matTrans;
+	D3DXMatrixScaling(&matScale, 2.f, 2.f, 2.f);
+
+	_matrix      matRot;
+	D3DXMatrixIdentity(&matRot);
+	D3DXMatrixRotationY(&matRot, (_float)pCamera->Get_BillBoardDir());
+
+	_vec3 vPos;
+	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+
+	D3DXMatrixTranslation(&matTrans,
+		vPos.x,
+		vPos.y,
+		vPos.z);
+
+	D3DXMatrixIdentity(&matWorld);
+	matWorld = matScale* matRot * matBill * matTrans;
+	m_pDynamicTransCom->Set_WorldMatrix(&(matWorld));
+
+	// 빌보드 에러 해결
 }
 
 void CTestPlayer::Render_Obejct(void)
@@ -234,7 +270,7 @@ void CTestPlayer::Key_Input(const _float& fTimeDelta)
 		}
 	}
 
-	if (Engine::Get_DIMouseState(DIM_LB) & 0X80) // Picking
+	if (Engine::Mouse_Down(DIM_LB)) // Picking
 	{
 		Create_Bullet(m_vPos);
 		
@@ -243,8 +279,11 @@ void CTestPlayer::Key_Input(const _float& fTimeDelta)
 		// Magazine 0 = Don't Shoot
 		if (m_iMagazine == 0)
 			m_bOneShot = FALSE;
+
+		CGun_Screen* pGunScreen = dynamic_cast<CGun_Screen*> (Engine::Get_GameObject(L"Layer_UI", L"Gun_Screen"));
 	
-		
+		if(m_bOneShot)
+		pGunScreen->Set_Shoot(true);
 	}
 
 	if (Get_DIKeyState(DIK_R) & 0X80)
@@ -384,7 +423,7 @@ void CTestPlayer::Collision_Event(CGameObject * pGameObject)
 		if (pGameObject == pMyLayer->Get_GameObject(L"HealthPotion"))
 		{				
 			m_pInfoCom->Add_Hp(25);
-			m_iHpBarChange += 1;				
+			//m_iHpBarChange += 1;				
 			pMyLayer->Delete_GameObject(L"HealthPotion"); // 이벤트 처리		
 		}
 
@@ -402,19 +441,16 @@ void CTestPlayer::Collision_Event(CGameObject * pGameObject)
 			if (Get_DIKeyState(DIK_F) & 0X80)
 			{
 				CAnimation* pBoxAnimation = dynamic_cast<CAnimation*>(pGameObject->Get_Component(L"Proto_AnimationCom", ID_STATIC));
-				// 박스를 여는 부분, 꼼수(오픈 이미지만 늘림) 수정 필요
-
+				
 				CBox* pBox = dynamic_cast<CBox*> (Engine::Get_GameObject(L"Layer_GameLogic", L"Box"));
-
-
-				m_bBoxOpen = true;
-
-				pBoxAnimation->Open_Box_Animation(m_bBoxOpen);
-				pBox->Open_Event(this);
-				m_bBoxOpen = false;
+					
+				pBox->Open_Event(this);		
+				pBox->Set_Open(false);
+							
 			}
 		}
 	}
+	
 }
 
 

@@ -4,6 +4,7 @@
 #include "Export_Function.h"
 #include "AbstractFactory.h"
 #include "MyCamera.h"
+#include "Player.h"
 
 CSpider::CSpider(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -23,9 +24,9 @@ HRESULT CSpider::Ready_Object(int Posx, int Posy)
 
 	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_MonsterTexture3", m_mapComponent, ID_STATIC);
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
-	m_pCalculatorCom = CAbstractFactory<CCalculator>::Clone_Proto_Component(L"Proto_CalculatorCom", m_mapComponent, ID_STATIC);
 	m_pAttackTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Spider_Attack_Texture", m_mapComponent, ID_STATIC);
 	m_pAttackAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_DYNAMIC);
+
 
 	m_iMonsterIndex = 2;
 	m_fAttackDelay = 0.3f;
@@ -33,6 +34,7 @@ HRESULT CSpider::Ready_Object(int Posx, int Posy)
 	m_pAnimationCom->Ready_Animation(4, 1, 0.07f);
 	m_pAttackAnimationCom->Ready_Animation(13, 0, 0.2f);
 	if (Posx == 0 && Posy == 0) {}
+	
 	else
 	{
 		Set_TransformPositon(g_hWnd, m_pCalculatorCom);
@@ -43,33 +45,45 @@ HRESULT CSpider::Ready_Object(int Posx, int Posy)
 
 _int CSpider::Update_Object(const _float & fTimeDelta)
 {
-	_int iResult = Engine::CGameObject::Update_Object(fTimeDelta);
-
 	//쿨타임 루프
 
-	AttackJudge(fTimeDelta);
-	//~
+	m_fTimeDelta = fTimeDelta;
 
-	CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
-	NULL_CHECK(pPlayerTransformCom);
-
-	//Set_OnTerrain();
-	float TerrainY = m_pDynamicTransCom->Get_TerrainY1(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC, m_pCalculatorCom, m_pDynamicTransCom);
-	m_pDynamicTransCom->Set_Y(TerrainY + 1.f);
-	//지형에 올림
-
-	_vec3		vPlayerPos, vMonsterPos;
-	pPlayerTransformCom->Get_Info(INFO_POS, &vPlayerPos);
-	m_pDynamicTransCom->Get_Info(INFO_POS, &vMonsterPos);
-
-	float fMtoPDistance; // 몬스터와 플레이어 간의 거리
-
-	//fMtoPDistance = sqrtf((powf(vMonsterPos.x - vPlayerPos.x, 2) + powf(vMonsterPos.y - vPlayerPos.y, 2) + powf(vMonsterPos.z - vPlayerPos.z, 2)));
-	Get_MonsterToPlayer_Distance(&fMtoPDistance);
-
-	if (fMtoPDistance > 2.f && m_bAttacking == false)
+	if (m_iPreHp > m_pInfoCom->Get_Hp())
 	{
-		m_pDynamicTransCom->Chase_Target_notRot(&vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
+		m_iPreHp = m_pInfoCom->Get_Hp();
+		if (m_fHitDelay != 0)
+		{
+			m_fHitDelay = 0;
+		}
+	}
+
+	//AttackJudge(fTimeDelta);
+	////~
+
+	//CDynamic_Transform*		pPlayerTransformCom = dynamic_cast<CDynamic_Transform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
+	//NULL_CHECK_RETURN(pPlayerTransformCom, -1);
+
+	////Set_OnTerrain();
+	//float TerrainY = m_pDynamicTransCom->Get_TerrainY1(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC, m_pCalculatorCom, m_pDynamicTransCom);
+	//m_pDynamicTransCom->Set_Y(TerrainY + 1.f);
+	////지형에 올림
+
+	//_vec3		vPlayerPos, vMonsterPos;
+	//pPlayerTransformCom->Get_Info(INFO_POS, &vPlayerPos);
+	//m_pDynamicTransCom->Get_Info(INFO_POS, &vMonsterPos);
+
+	//
+	//Get_MonsterToPlayer_Distance(&fMtoPDistance);
+
+	
+
+	AttackJudge(fTimeDelta);
+	CMonsterBase::Calculator_Distance();
+	
+	if ((m_bHit == false && (fMtoPDistance >3.f) ) ||(fMtoPDistance > 3.f && m_bAttacking == false))
+	{
+		m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
 
 		m_pAnimationCom->Move_Animation(fTimeDelta);
 	}
@@ -85,8 +99,27 @@ _int CSpider::Update_Object(const _float & fTimeDelta)
 			m_pAnimationCom->m_iMotion = 0;
 		}
 	}
+	
 
+
+	if (m_bHit)
+	{
+		m_fHitDelay += fTimeDelta;
+		if (m_fHitDelay > 1.5f)
+		{
+
+			m_bHit = false;
+			m_fHitDelay = 0.f;
+		}
+	}
+
+	// 처형이벤트
+	Excution_Event();
+	
+	Engine::CMonsterBase::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
+
+	return 0;
 }
 
 void CSpider::LateUpdate_Object(void)
@@ -111,7 +144,7 @@ void CSpider::LateUpdate_Object(void)
 
 	_matrix      matRot;
 	D3DXMatrixIdentity(&matRot);
-	D3DXMatrixRotationY(&matRot, pCamera->Get_BillBoardDir());
+	D3DXMatrixRotationY(&matRot, (_float)pCamera->Get_BillBoardDir());
 
 	_vec3 vPos;
 	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
@@ -126,7 +159,7 @@ void CSpider::LateUpdate_Object(void)
 	m_pDynamicTransCom->Set_WorldMatrix(&(matWorld));
 
 	// 빌보드 에러 해결
-	Engine::CGameObject::LateUpdate_Object();
+	Engine::CMonsterBase::LateUpdate_Object();
 }
 
 void CSpider::Render_Obejct(void)
@@ -147,7 +180,7 @@ void CSpider::Render_Obejct(void)
 	}
 	else
 	{
-		m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);	// 텍스처 정보 세팅을 우선적으로 한다.
+	m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);	// 텍스처 정보 세팅을 우선적으로 한다.
 	}
 
 	m_pBufferCom->Render_Buffer();
@@ -155,11 +188,42 @@ void CSpider::Render_Obejct(void)
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 }
 
+void CSpider::Collision_Event()
+{
+	CScene  *pScene = ::Get_Scene();
+	NULL_CHECK_RETURN(pScene, );
+	CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+	NULL_CHECK_RETURN(pLayer, );
+	CGameObject *pGameObject = nullptr;
+	pGameObject = static_cast<CPlayer*>(::Get_GameObject(L"Layer_GameLogic", L"Player"));
+
+
+	if (static_cast<CPlayer*>(pGameObject)->Get_CheckShot() == true &&
+		fMtoPDistance < MAX_CROSSROAD  &&
+		m_pColliderCom->Check_Lay_InterSect(m_pBufferCom, m_pDynamicTransCom, g_hWnd))
+	{
+		m_bHit = true;
+		static_cast<CPlayer*>(pGameObject)->Set_ComboCount(1);
+
+		m_pInfoCom->Receive_Damage(1);
+		cout << "Spider "<<m_pInfoCom->Get_InfoRef()._iHp << endl;
+	}
+
+	//static_cast<CPlayer*>(pGameObject)->Set_CheckShot(false);
+
+
+}
+
+void CSpider::Excution_Event()
+{
+	// 나중에 로직추가
+}
+
 void		CSpider::Attack(const _float& fTimeDelta)
 {
 	m_pAttackAnimationCom->Move_Animation(fTimeDelta);
 
-	CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_DYNAMIC));
+	CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
 	float Distance;
 	Get_MonsterToPlayer_Distance(&Distance);
 	if (6==m_pAttackAnimationCom->m_iMotion)

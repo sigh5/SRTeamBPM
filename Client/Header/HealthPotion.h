@@ -9,7 +9,7 @@ class CTransform;
 class CTexture;
 class CCalculator;
 class CAnimation;
-
+class CCollider;
 END
 
 class CHealthPotion : public CItemBase
@@ -23,6 +23,8 @@ public:
 	virtual _int		Update_Object(const _float& fTimeDelta) override;
 	virtual void		LateUpdate_Object(void) override;
 	virtual void		Render_Obejct(void) override;
+	virtual void		Collision_Event()override;
+
 
 private:
 	HRESULT				Add_Component(void);
@@ -34,7 +36,8 @@ private:
 	CTransform*			m_pTransCom = nullptr;
 	CTexture*			m_pTextureCom = nullptr;
 	CCalculator*		m_pCalculatorCom = nullptr;	
-	
+	CCollider*			m_pColliderCom = nullptr;
+
 
 
 private:
