@@ -14,7 +14,7 @@ namespace Engine
 #define		VTXITV		1
 
 
-#define		MAX_CROSSROAD 5.f	// 사거리
+#define		MAX_CROSSROAD 15.f	// 사거리
 
 
 

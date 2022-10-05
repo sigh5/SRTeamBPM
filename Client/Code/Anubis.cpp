@@ -60,6 +60,8 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 	if (m_iPreHp > m_pInfoCom->Get_Hp())
 	{
 		m_iPreHp = m_pInfoCom->Get_Hp();
+		m_bHit = true;
+		m_bAttacking = false;
 		if (m_fHitDelay != 0)
 		{
 			m_fHitDelay = 0;
@@ -142,6 +144,7 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 			m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
 
 			m_pAnimationCom->Move_Animation(fTimeDelta);
+
 		}
 		else
 		{
@@ -240,6 +243,7 @@ void CAnubis::Render_Obejct(void)
 	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
+	
 	if (m_bAttacking)
 	{
 		m_pAttackTextureCom->Set_Texture(m_pAttackAnimationCom->m_iMotion);
@@ -270,7 +274,7 @@ void CAnubis::Collision_Event()
 		fMtoPDistance < MAX_CROSSROAD &&
 		m_pColliderCom->Check_Lay_InterSect(m_pBufferCom, m_pDynamicTransCom, g_hWnd))
 	{
-		m_bHit = true;
+
 		static_cast<CPlayer*>(pGameObject)->Set_ComboCount(1);
 
 		m_pInfoCom->Receive_Damage(1);
@@ -334,16 +338,20 @@ void		CAnubis::AttackJudge(const _float& fTimeDelta)
 			m_fAttackDelayTime = 0.f;
 		}
 	}
-
-	if (m_pAttackAnimationCom->m_iMotion<m_pAttackAnimationCom->m_iMaxMotion
-		&& m_pAttackAnimationCom->m_iMotion>m_pAttackAnimationCom->m_iMinMotion)
+	if (false == m_bHit)
 	{
-		m_bAttacking = true;
+		if (m_pAttackAnimationCom->m_iMotion<m_pAttackAnimationCom->m_iMaxMotion
+			&& m_pAttackAnimationCom->m_iMotion>m_pAttackAnimationCom->m_iMinMotion)
+		{
+			m_bAttacking = true;
+		}
+		else
+		{
+			m_bAttacking = false;
+		}
 	}
 	else
-	{
-		m_bAttacking = false;
-	}
+		m_pAttackAnimationCom->m_iMotion = 0;
 }
 
 void CAnubis::Attack(const _float& fTimeDelta)

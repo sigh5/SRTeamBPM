@@ -50,6 +50,7 @@ HRESULT CFatBat::Ready_Object(int Posx, int Posy)
 	m_fDodgeStopper = 0.2f;
 	m_fStopperDelay = 0.1f;
 	m_fStopperDelayCount = 0.f;
+	m_iPreHp = (m_pInfoCom->Get_InfoRef()._iHp);
 	return S_OK;
 }
 
@@ -57,35 +58,61 @@ _int CFatBat::Update_Object(const _float & fTimeDelta)
 {
 	// 수정 쿨타임 대신 타임
 	m_fFrame += fTimeDelta;
+	if(false == m_bHit)
 	if (m_fFrame > m_fActionDelay)
 	{
 		FatBat_Shoot();
 		m_fFrame = 0.f;
 	}
+
+	if (m_iPreHp > m_pInfoCom->Get_Hp())
+	{
+		m_iPreHp = m_pInfoCom->Get_Hp();
+		m_bHit = true;
+		if (m_fHitDelay != 0)
+		{
+			m_fHitDelay = 0;
+		}
+	}
 	// 수정 쿨타임 대신 타임
 
 	CMonsterBase::Calculator_Distance();
 	
-	FatBat_Fly(fTimeDelta);
-	FatBat_Dodge(fTimeDelta, &m_vPlayerPos, &m_vMonsterPos);
+	if (m_bHit == false)
+	{
+		FatBat_Fly(fTimeDelta);
+		FatBat_Dodge(fTimeDelta, &m_vPlayerPos, &m_vMonsterPos);
 
 
-	//Set_OnTerrain();
-	//지형에 올림
-	if (fMtoPDistance > 13.f)
-	{
-		m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
-		
-	}
-	else if(fMtoPDistance < 10.f)
-	{
-		m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, -m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
+		//Set_OnTerrain();
+		//지형에 올림
+		if (fMtoPDistance > 13.f)
+		{
+			m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
+
+		}
+		else if (fMtoPDistance < 10.f)
+		{
+			m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, -m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
+		}
+		m_pAnimationCom->Move_Animation(fTimeDelta);
 	}
 	else
 	{
-
+		m_pAnimationCom->m_iMotion = 7;
 	}
-	m_pAnimationCom->Move_Animation(fTimeDelta);
+
+
+	if (m_bHit)
+	{
+		m_fHitDelay += fTimeDelta;
+		if (m_fHitDelay > 1.5f)
+		{
+
+			m_bHit = false;
+			m_fHitDelay = 0.f;
+		}
+	}
 
 	CMonsterBase::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
@@ -164,7 +191,7 @@ void CFatBat::Collision_Event()
 		fMtoPDistance < MAX_CROSSROAD &&
 		m_pColliderCom->Check_Lay_InterSect(m_pBufferCom, m_pDynamicTransCom, g_hWnd))
 	{
-		m_bHit = true;
+
 		static_cast<CPlayer*>(pGameObject)->Set_ComboCount(1);
 
 		m_pInfoCom->Receive_Damage(1);

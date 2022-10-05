@@ -98,19 +98,14 @@ void				CAnubisThunder::Set_Direction(_vec3* _Dirvec)
 	////m_pTransformCom->
 	////???
 
-	_matrix matworld;
-	m_pTransformCom->Get_WorldMatrix(&matworld);
+	//_matrix matworld;
+	//m_pTransformCom->Get_WorldMatrix(&matworld);
 
-	_vec3 vUp, vLook, vRight;
+	//_vec3 vUp, vLook, vRight;
 
-	vLook = *_Dirvec;
+	//vLook = *_Dirvec;
 
-	D3DXVec3Normalize(&vLook, &vLook);
-
-
-	//m_pTransformCom->Rotation(ROT_Y,)
-
-
+	//D3DXVec3Normalize(&vLook, &vLook);
 	
 	//vUp = { 0.f, 1.f, 0.f };
 
@@ -133,7 +128,7 @@ void				CAnubisThunder::Set_Direction(_vec3* _Dirvec)
 
 
  //matworld =  matRot;
- //m_pTransformCom->Set_WorldMatrix(&matworld);
+ //m_pTransformCom->Set_WorldMatrix(&(matworld));
  //m_pTransformCom->Update_Component(1.0f);
 
 }
