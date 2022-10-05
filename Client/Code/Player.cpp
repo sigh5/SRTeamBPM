@@ -84,7 +84,7 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 void CPlayer::LateUpdate_Object(void)
 {
 
-	Set_OnTerrain();
+	//Set_OnTerrain();
 
 	CGameObject::LateUpdate_Object();
 }
@@ -163,14 +163,11 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		m_pDynamicTransCom->Set_CountMovePos(&(vRight * -5.f * fTimeDelta));
 		
 	}
-
 	if (Get_DIKeyState(DIK_SPACE) & 0X80)
 		m_bJump = TRUE;
-
 	if (Get_DIKeyState(DIK_LSHIFT) & 0X80)
 	{
 		m_bDash = TRUE;
-
 		if (m_bDash)
 		{
 			m_pDynamicTransCom->Dashing(fTimeDelta, m_pDynamicTransCom, m_vUp, m_vDirection, m_tpType);
@@ -178,22 +175,17 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		}
 	}
 
-
 	if (::Mouse_Down(DIM_LB)) // Picking
 	{
 		if (m_iMagazine <= 0)
 			m_bOneShot = FALSE;
-
 		m_bCheckShot = Create_RayCheck(fTimeDelta);
-
 		if (m_bCheckShot == false)
 		{
 			::PlaySoundW(L"Rythm_Check_Fail.wav", SOUND_EFFECT, 0.1f);
 			m_iComboCount = 0;
 		}
 	}
-
-
 	if (Get_DIKeyState(DIK_R) & 0X80)
 	{
 		m_iMagazine = 8;

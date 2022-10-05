@@ -127,7 +127,7 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 	//	}
 	//}
 
-	CMonsterBase::Calculator_Distance();
+	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 
 
 	if (m_bHit == false)
@@ -252,6 +252,12 @@ void CAnubis::Collision_Event()
 		m_pInfoCom->Receive_Damage(1);
 		cout << "Anubis"<<m_pInfoCom->Get_InfoRef()._iHp << endl;
 	}
+
+	if (m_bHit)
+	{
+		static_cast<CPlayer*>(pGameObject)->Set_CheckShot(false);
+	}
+
 
 	//static_cast<CPlayer*>(pGameObject)->Set_CheckShot(false);
 

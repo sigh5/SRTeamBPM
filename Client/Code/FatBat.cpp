@@ -64,7 +64,7 @@ _int CFatBat::Update_Object(const _float & fTimeDelta)
 	}
 	// 수정 쿨타임 대신 타임
 
-	CMonsterBase::Calculator_Distance();
+	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 
 	FatBat_Fly(fTimeDelta);
 	FatBat_Dodge(fTimeDelta, &m_vPlayerPos, &m_vMonsterPos);
@@ -166,10 +166,15 @@ void CFatBat::Collision_Event()
 	{
 		m_bHit = true;
 		static_cast<CPlayer*>(pGameObject)->Set_ComboCount(1);
-
 		m_pInfoCom->Receive_Damage(1);
 		cout << "FatBat" << m_pInfoCom->Get_InfoRef()._iHp << endl;
 	}
+
+	if (m_bHit)
+	{
+		static_cast<CPlayer*>(pGameObject)->Set_CheckShot(false);
+	}
+
 
 }
 

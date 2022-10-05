@@ -76,10 +76,8 @@ _int CSpider::Update_Object(const _float & fTimeDelta)
 	//
 	//Get_MonsterToPlayer_Distance(&fMtoPDistance);
 
-	
-
 	AttackJudge(fTimeDelta);
-	CMonsterBase::Calculator_Distance();
+	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 	
 	if ((m_bHit == false && (fMtoPDistance >3.f) ) ||(fMtoPDistance > 3.f && m_bAttacking == false))
 	{
@@ -100,8 +98,6 @@ _int CSpider::Update_Object(const _float & fTimeDelta)
 		}
 	}
 	
-
-
 	if (m_bHit)
 	{
 		m_fHitDelay += fTimeDelta;
