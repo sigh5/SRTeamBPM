@@ -95,6 +95,9 @@
     <ClCompile Include="..\Code\CheckEvent.cpp">
       <Filter>00. Component\07.CheckEvent</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\UI_Base.cpp">
+      <Filter>01. GameObject\UI_Base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Animation.h">
@@ -201,6 +204,9 @@
     <ClInclude Include="..\..\Header\CheckEvent.h">
       <Filter>00. Component\07.CheckEvent</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Header\UI_Base.h">
+      <Filter>01. GameObject\UI_Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="00. Component">
@@ -304,6 +310,9 @@
     </Filter>
     <Filter Include="00. Component\07.CheckEvent">
       <UniqueIdentifier>{4ff48e49-846f-488c-9860-9456c1a59ad7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. GameObject\UI_Base">
+      <UniqueIdentifier>{9ccf19c7-c374-4ab2-90ab-27f517d2f44e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
