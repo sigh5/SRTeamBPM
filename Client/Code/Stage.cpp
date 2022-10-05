@@ -20,6 +20,7 @@
 #include "Status_UI.h"
 #include "MetronomeUI.h"
 #include "Gun_Screen.h"
+#include "DashUI.h"
 
 
 #include "Snowfall.h"
@@ -211,7 +212,12 @@ HRESULT CStage::Ready_Layer_UI(const _tchar * pLayerTag)
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"CoinKey_UI", pGameObject), E_FAIL);
 
 	
-	READY_LAYER(pGameObject, CGun_Screen, pLayer, m_pGraphicDev, L"Gun")
+	READY_LAYER(pGameObject, CGun_Screen, pLayer, m_pGraphicDev, L"Gun");
+
+	pGameObject = CDashUI::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Dash_UI", pGameObject), E_FAIL);
+
 	m_mapLayer.insert({ pLayerTag, pLayer });
 	return S_OK;
 }
