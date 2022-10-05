@@ -33,6 +33,7 @@ HRESULT CSpider::Ready_Object(int Posx, int Posy)
 	m_pInfoCom->Ready_CharacterInfo(100, 10, 8.f);
 	m_pAnimationCom->Ready_Animation(4, 1, 0.07f);
 	m_pAttackAnimationCom->Ready_Animation(13, 0, 0.2f);
+	m_iPreHp = (m_pInfoCom->Get_InfoRef()._iHp);
 	if (Posx == 0 && Posy == 0) {}
 	
 	else
@@ -52,6 +53,8 @@ _int CSpider::Update_Object(const _float & fTimeDelta)
 	if (m_iPreHp > m_pInfoCom->Get_Hp())
 	{
 		m_iPreHp = m_pInfoCom->Get_Hp();
+		m_bHit = true;
+		m_bAttacking = false;
 		if (m_fHitDelay != 0)
 		{
 			m_fHitDelay = 0;
@@ -83,7 +86,7 @@ _int CSpider::Update_Object(const _float & fTimeDelta)
 	
 	if (m_bHit == false)
 	{
-		if ((m_bHit == false && (fMtoPDistance > 3.f)) || (fMtoPDistance > 3.f && m_bAttacking == false))
+		if (fMtoPDistance > 3.f && m_bAttacking == false)
 		{
 			m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
 
@@ -105,6 +108,7 @@ _int CSpider::Update_Object(const _float & fTimeDelta)
 	else
 	{
 		// 피격 시 모션
+		m_pAnimationCom->m_iMotion = 5;
 	}
 
 
@@ -208,7 +212,7 @@ void CSpider::Collision_Event()
 		fMtoPDistance < MAX_CROSSROAD  &&
 		m_pColliderCom->Check_Lay_InterSect(m_pBufferCom, m_pDynamicTransCom, g_hWnd))
 	{
-		m_bHit = true;
+
 		static_cast<CPlayer*>(pGameObject)->Set_ComboCount(1);
 
 		m_pInfoCom->Receive_Damage(1);
@@ -266,16 +270,20 @@ void		CSpider::AttackJudge(const _float& fTimeDelta)
 		}
 	}
 
-	if (m_pAttackAnimationCom->m_iMotion<m_pAttackAnimationCom->m_iMaxMotion
-		&& m_pAttackAnimationCom->m_iMotion>m_pAttackAnimationCom->m_iMinMotion)
+	if (false == m_bHit)
 	{
-		m_bAttacking = true;
+		if (m_pAttackAnimationCom->m_iMotion<m_pAttackAnimationCom->m_iMaxMotion
+			&& m_pAttackAnimationCom->m_iMotion>m_pAttackAnimationCom->m_iMinMotion)
+		{
+			m_bAttacking = true;
+		}
+		else
+		{
+			m_bAttacking = false;
+		}
 	}
 	else
-	{
-		m_bAttacking = false;
-	}
-
+		m_pAttackAnimationCom->m_iMotion = 0;
 }
 
 CSpider * CSpider::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)
