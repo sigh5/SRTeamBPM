@@ -68,6 +68,15 @@ HRESULT CMonsterBase::Add_Component(void)
 	NULL_CHECK_RETURN(m_pDynamicTransCom, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].insert({ L"Proto_DynamicTransformCom" , pComponent });
 
+	pComponent = m_pColliderCom = dynamic_cast<CCollider*>(Clone_Proto(L"Proto_ColliderCom"));
+	NULL_CHECK_RETURN(m_pColliderCom, E_FAIL);
+	m_mapComponent[ID_STATIC].insert({ L"Proto_ColliderCom" , pComponent });
+
+	pComponent = m_pCalculatorCom = dynamic_cast<CCalculator*>(Clone_Proto(L"Proto_CalculatorCom"));
+	NULL_CHECK_RETURN(m_pCalculatorCom, E_FAIL);
+	m_mapComponent[ID_STATIC].insert({ L"Proto_CalculatorCom" , pComponent });
+
+
 	return S_OK;
 }
 
@@ -107,6 +116,22 @@ void CMonsterBase::Get_MonsterToPlayer_Distance(float* _Distance)
 
 	memcpy(_Distance, &fMtoPDistance, sizeof(float));
 	return;
+}
+
+void CMonsterBase::Calculator_Distance()
+{
+	CDynamic_Transform*		pPlayerTransformCom = dynamic_cast<CDynamic_Transform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
+	NULL_CHECK_RETURN(pPlayerTransformCom, );
+
+	////Set_OnTerrain();
+	float TerrainY = m_pDynamicTransCom->Get_TerrainY1(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC, m_pCalculatorCom, m_pDynamicTransCom);
+	m_pDynamicTransCom->Set_Y(TerrainY + 2.f);
+	//지형에 올림
+
+	pPlayerTransformCom->Get_Info(INFO_POS, &m_vPlayerPos);
+	m_pDynamicTransCom->Get_Info(INFO_POS, &m_vMonsterPos);
+
+	Get_MonsterToPlayer_Distance(&fMtoPDistance);
 }
 
 

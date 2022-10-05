@@ -13,6 +13,11 @@ namespace Engine
 #define		VTXCNTZ		129
 #define		VTXITV		1
 
+
+#define		MAX_CROSSROAD 5.f	// »ç°Å¸®
+
+
+
 #ifndef			MSG_BOX
 #define			MSG_BOX(_message)			MessageBox(NULL, TEXT(_message), L"System Message", MB_OK)
 #endif

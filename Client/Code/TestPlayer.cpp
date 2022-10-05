@@ -128,7 +128,7 @@ void CTestPlayer::LateUpdate_Object(void)
 
 	_matrix      matRot;
 	D3DXMatrixIdentity(&matRot);
-	D3DXMatrixRotationY(&matRot, pCamera->Get_BillBoardDir());
+	D3DXMatrixRotationY(&matRot, (_float)pCamera->Get_BillBoardDir());
 
 	_vec3 vPos;
 	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);

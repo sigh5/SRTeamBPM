@@ -113,7 +113,10 @@ void CStage::LateUpdate_Scene(void)
 	{
 		iter->second->Collision_Event();
 	}
-*/
+
+	// Test
+	CPlayer* pPlayer = static_cast<CPlayer*>(pLayer1->Get_GameObject(L"Player"));
+	pPlayer->Set_CheckShot(false);
 
 	Engine::CScene::LateUpdate_Scene();
 }
@@ -163,6 +166,11 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 
 	READY_LAYER(pGameObject, CPlayer, pLayer, m_pGraphicDev, L"Player");
 
+	pGameObject = CBox::Create(m_pGraphicDev, 20, 20);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Box", pGameObject), E_FAIL);
+
+
 	/*CPlayer*		pPlayer = dynamic_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"));
 	pGameObject = CBox::Create(m_pGraphicDev, 5, 10, pPlayer);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -170,9 +178,9 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 */
 
 
-	READY_LAYER(pGameObject, CFatBat, pLayer, m_pGraphicDev, L"TestMonster1");
-
-
+	READY_LAYER(pGameObject, CAnubis, pLayer, m_pGraphicDev, L"TestMonster1");
+	READY_LAYER(pGameObject, CSpider, pLayer, m_pGraphicDev, L"TestMonster2");
+	READY_LAYER(pGameObject, CFatBat, pLayer, m_pGraphicDev, L"TestMonster3");
 
 	/*CFileIOMgr::GetInstance()->Load_FileData(m_pGraphicDev,
 		this,

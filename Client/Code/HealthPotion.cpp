@@ -3,6 +3,7 @@
 #include "Export_Function.h"
 
 #include "AbstractFactory.h"
+#include "MyCamera.h"
 
 USING(Engine)
 
@@ -51,6 +52,38 @@ _int CHealthPotion::Update_Object(const _float & fTimeDelta)
 
 void CHealthPotion::LateUpdate_Object(void)
 {
+	CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
+	NULL_CHECK(pCamera);
+
+	// 
+	_matrix		matWorld, matView, matBill;
+
+	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
+	D3DXMatrixIdentity(&matBill);
+	memcpy(&matBill, &matView, sizeof(_matrix));
+	memset(&matBill._41, 0, sizeof(_vec3));
+	D3DXMatrixInverse(&matBill, 0, &matBill);
+
+	_matrix      matScale, matTrans;
+	D3DXMatrixScaling(&matScale, 2.f, 2.f, 2.f);
+
+	_matrix      matRot;
+	D3DXMatrixIdentity(&matRot);
+	D3DXMatrixRotationY(&matRot, (_float)pCamera->Get_BillBoardDir());
+
+	_vec3 vPos;
+	m_pTransCom->Get_Info(INFO_POS, &vPos);
+
+	D3DXMatrixTranslation(&matTrans,
+		vPos.x,
+		vPos.y,
+		vPos.z);
+
+	D3DXMatrixIdentity(&matWorld);
+	matWorld = matScale* matRot * matBill * matTrans;
+	m_pTransCom->Set_WorldMatrix(&(matWorld));
+
+
 	CItemBase::LateUpdate_Object();
 }
 

@@ -17,13 +17,13 @@ public:
 	virtual _int		Update_Object(const _float& fTimeDelta) override;
 	virtual void		LateUpdate_Object(void) override;
 	virtual void		Render_Obejct(void) override;
-	virtual void		Collision_Event(CGameObject* pGameObject);
+	virtual void		Collision_Event()override;
 	void				Clear_Blood(const _float& fTimeDelta);
 
 
 public:
 	// 처형 판독
-	void				Excution_Event();
+	virtual void		Excution_Event();
 
 public:
 	CCalculator*		Get_Calculator(void) { return m_pCalculatorCom; }
@@ -31,16 +31,15 @@ public:
 
 public:
 	static CAnubis*		Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx = 0, int Posy = 0);
-	virtual void	Free(void);
+	virtual void		Free(void);
 
 private:
 	int m_iPreIndex = 0;
-	_float	m_fTimeDelta = 0.f;
+
 	CTexture*		m_pTextureCom = nullptr;
 	CRcTex*			m_pBufferCom = nullptr;
-	CCalculator*	m_pCalculatorCom = nullptr;
-	CCollider*		m_pColliderCom = nullptr;
+	
 
-	_float fMtoPDistance; // 몬스터와 플레이어 간의 거리
+	
 };
 

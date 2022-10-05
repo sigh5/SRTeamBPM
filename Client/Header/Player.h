@@ -39,10 +39,7 @@ public:
 
 
 public:
-	_bool				Get_BoxOpen(void)
-	{	if (m_bBoxOpen == true)
-			return m_bBoxOpen;
-	}
+
 	_bool				Create_RayCheck(const _float & fTimeDelta); //레이피킹
 	// SoundCheck
 	_bool				Get_SoundCheck() { return m_bSoundCheck; }
@@ -98,12 +95,9 @@ private:		// Jw
 	
 
 
-	_bool				m_bBoxOpen = false;  // 박스 개방
-
 
 
 	_uint				m_iSkillPower = 1;
-	
 	_uint				m_iHpBarChange = 4;
 
 
@@ -115,7 +109,7 @@ private: //hw
 	_int			m_iComboCount = 0;
 
 	_float			m_fTimeDelta = 0.f;
-	DIR					m_eDirType = DIR_END;
+	DIR				m_eDirType = DIR_END;
 
 
 public:
