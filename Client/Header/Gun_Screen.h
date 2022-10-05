@@ -37,7 +37,7 @@ public:	// Get/Set
 	void				Set_ReadyShot(_bool bMetro)		{ m_bReadyShot = bMetro; }
 
 	const _uint&		Get_Magazine(void)const		 { return m_iMagazine; }
-	void				Set_Magazine(_int iNumber)	 { m_iMagazine = iNumber; }
+	void				Set_Magazine(_int iNumber)	 { m_iMagazine = iNumber; } // 각 총 별 정보에서 탄창량도 제어할 것
 	void				Add_Magazine(_int iNumber)	 { m_iMagazine += iNumber; }
 
 	void				Set_AnimationCheck(_bool bAnimation) { m_bAnimation = bAnimation; }

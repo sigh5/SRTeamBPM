@@ -43,6 +43,7 @@ namespace Engine
 	//세이브, 로드 파일 구분용
 	enum ITEM_TYPE { ITEM_POTION, ITEM_COIN, ITEM_END };
 
+
 }
 
 #endif // Engine_Enum_h__

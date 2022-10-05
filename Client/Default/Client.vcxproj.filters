@@ -170,7 +170,7 @@
       <Filter>02. GameObject\01. For_Stage\10. UI\05. CoinUI</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Box.cpp">
-      <Filter>02. GameObject\01. For_Stage\12. Box</Filter>
+      <Filter>02. GameObject\01. For_Stage\11. Item\02. Box</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\HitBlood.cpp">
       <Filter>02. GameObject\01. For_Stage\07. Effect</Filter>
@@ -382,7 +382,7 @@
       <Filter>02. GameObject\01. For_Stage\10. UI\05. CoinUI</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Box.h">
-      <Filter>02. GameObject\01. For_Stage\12. Box</Filter>
+      <Filter>02. GameObject\01. For_Stage\11. Item\02. Box</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\HitBlood.h">
       <Filter>02. GameObject\01. For_Stage\07. Effect</Filter>
@@ -568,9 +568,6 @@
     <Filter Include="02. GameObject\01. For_Stage\10. UI\05. CoinUI">
       <UniqueIdentifier>{92542f0f-363b-40f8-841a-cee2898d67f2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. For_Stage\12. Box">
-      <UniqueIdentifier>{fcce3ad6-01b1-4087-91bc-f0124ed3c294}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01. Scene\96.Stage_BIH">
       <UniqueIdentifier>{95da0eaf-6815-47e4-ac7b-77679616c28f}</UniqueIdentifier>
     </Filter>
@@ -582,6 +579,15 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\10. UI\06. DashUI">
       <UniqueIdentifier>{8bdec330-a553-40a1-a16d-384b7bc1d56f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\11. Item\02. Box">
+      <UniqueIdentifier>{fcce3ad6-01b1-4087-91bc-f0124ed3c294}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\14. Equipment">
+      <UniqueIdentifier>{b0e8b2ae-a59b-4e27-9b1a-45aa8c658639}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\14. Equipment\00. Weapon">
+      <UniqueIdentifier>{d8fb6363-8779-46f3-8455-7efca470b3af}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

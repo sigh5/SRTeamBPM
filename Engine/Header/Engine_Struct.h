@@ -60,6 +60,16 @@ namespace Engine
 	}CharacterInfo;
 
 
+	typedef struct tagEquipInfo
+	{
+		_uint	_iAddAttack;
+		_uint	_iAddDefense;
+		_float	_fAddSpeed;
+		_float	_fAddRange;
+
+	}EquipInfo;
+
+
 	typedef struct tagParticleInfo
 	{
 		_vec3		_position;
