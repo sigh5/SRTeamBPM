@@ -52,6 +52,7 @@ HRESULT CFatBat::Ready_Object(int Posx, int Posy)
 	m_fDodgeStopper = 0.15f;
 	m_fStopperDelay = 0.1f;
 	m_fStopperDelayCount = 0.f;
+	m_fHitDelay = 1.5f;
 	return S_OK;
 }
 
@@ -103,7 +104,7 @@ _int CFatBat::Update_Object(const _float & fTimeDelta)
 			m_fHitDelay = 0.f;
 		}
 	}
-
+	m_pDynamicTransCom->Update_Component(fTimeDelta);
 	CMonsterBase::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
 

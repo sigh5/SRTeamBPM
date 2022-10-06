@@ -35,6 +35,7 @@ HRESULT CSpider::Ready_Object(int Posx, int Posy)
 	m_pInfoCom->Ready_CharacterInfo(100, 10, 8.f);
 	m_pAnimationCom->Ready_Animation(4, 1, 0.07f);
 	m_pAttackAnimationCom->Ready_Animation(13, 0, 0.2f);
+	m_fHitDelay = 1.5f;
 	if (Posx == 0 && Posy == 0) {}
 	
 	else
