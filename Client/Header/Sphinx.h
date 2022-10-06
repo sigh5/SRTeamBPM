@@ -29,13 +29,16 @@ private:
 	float m_fAttackDelayTime = 0;
 	bool m_bAttack = true;
 	bool m_bAttacking = false;
-
+	_vec3 m_vOldPlayerPos;
 	bool m_bBattle = false;
 	bool m_bHeadOff = false;
+	int		m_iShootLeftRight;
 
 	_vec3 m_vScale;
 
 private:
+
+
 	CTexture*		m_pTextureCom = nullptr;
 	CTexture*		m_pAttackTextureCom = nullptr;
 	CAnimation*		m_pAttackAnimationCom = nullptr;

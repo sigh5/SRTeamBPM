@@ -7,6 +7,7 @@
 #include "MetronomeUI.h"
 #include "MonsterBullet.h"
 #include "Bullet.h"
+#include "SphinxBullet.h"
 
 IMPLEMENT_SINGLETON(CObjectMgr)
 
@@ -36,6 +37,14 @@ void CObjectMgr::Collect_PlayerBulletObj(CBaseBullet * pObj)
 
 	m_PlayerBulletList.push_back(pObj);
 
+}
+
+void CObjectMgr::Collect_SphinxBulletObj(CBaseBullet * pObj)
+{
+	if (nullptr == pObj)
+		return;
+
+	m_SphinxBulletList.push_back(pObj);
 }
 
 CBaseBullet * CObjectMgr::Reuse_MonsterBulltObj(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos)
@@ -72,6 +81,24 @@ CBaseBullet * CObjectMgr::Reuse_PlayerBulltObj(LPDIRECT3DDEVICE9 pGraphicDev, _v
 	return pObject;
 }
 
+
+
+CBaseBullet * CObjectMgr::Reuse_SphinxBulletObj(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos)
+{
+	CBaseBullet*		pObject = nullptr;
+	if (m_SphinxBulletList.empty())
+	{
+		pObject = CSphinxBullet::Create(pGraphicDev, vPos);
+	}
+	else
+	{
+		pObject = m_SphinxBulletList.front();
+		_vec3 vScale = { 0.5f,0.5f,0.5f };
+		dynamic_cast<CSphinxBullet*>(pObject)->Set_MoveDir(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC, &vPos, MONSTER_BULLET, &vScale);
+		m_SphinxBulletList.pop_front();
+	}
+	return pObject;
+}
 
 void CObjectMgr::Collect_UIObj(CGameObject * pObj)
 {

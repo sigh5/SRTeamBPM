@@ -22,7 +22,8 @@ public:
 	void				Collect_PlayerBulletObj(CBaseBullet* pObj);		// 사용을 마친 오브젝트를 회수하는 함수
 	CBaseBullet*		Reuse_PlayerBulltObj(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos);	// 현재 풀에 있는 오브젝트를 재사용하는 함수
 
-
+	void				Collect_SphinxBulletObj(CBaseBullet* pObj);
+	CBaseBullet*		Reuse_SphinxBulletObj(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos);
 
 
 	void				Collect_UIObj(CGameObject* pObj);		// 사용을 마친 오브젝트를 회수하는 함수
@@ -32,6 +33,7 @@ private:
 	// 오브젝트 풀 쓸때마다 해야되네 두개 같이 쓰면 뻑남
 	list<CBaseBullet*>		m_MonsterBulletList;
 	list<CBaseBullet*>		m_PlayerBulletList;
+	list<CBaseBullet*>		m_SphinxBulletList;
 	list<CGameObject*>		m_UIMetroList;
 
 
