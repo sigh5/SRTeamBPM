@@ -3,7 +3,7 @@
 
 
 #include "Export_Function.h"
-
+#include "AbstractFactory.h"
 
 CWallCube::CWallCube(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -46,6 +46,8 @@ _int CWallCube::Update_Object(const _float & fTimeDelta)
 
 void CWallCube::Render_Obejct(void)
 {
+	/*if (m_iOption == (_int)CUBE_TELEPORT)
+		return;*/
 	if (m_bWireFrame)
 		m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
@@ -77,30 +79,11 @@ _bool CWallCube::Set_SelectGizmo()
 
 HRESULT CWallCube::Add_Component(void)
 {
-	CComponent* pComponent = nullptr;
-
-	pComponent = m_pBufferCom = dynamic_cast<CCubeTex*>(Clone_Proto(L"Proto_CubeTexCom"));
-	NULL_CHECK_RETURN(m_pBufferCom, E_FAIL);
-	m_mapComponent[ID_STATIC].insert({ L"Proto_CubeTexCom", pComponent });
-
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_MapCubeTexture"));
-	NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
-	m_mapComponent[ID_STATIC].insert({ L"Proto_MapCubeTexture", pComponent });
-
-	pComponent = m_pTransCom = dynamic_cast<CTransform*>(Clone_Proto(L"Proto_TransformCom"));
-	NULL_CHECK_RETURN(m_pTransCom, E_FAIL);
-	m_mapComponent[ID_DYNAMIC].insert({ L"Proto_TransformCom", pComponent });
-
-	pComponent = m_pCalculatorCom = dynamic_cast<CCalculator*>(Clone_Proto(L"Proto_CalculatorCom"));
-	NULL_CHECK_RETURN(m_pCalculatorCom, E_FAIL);
-	m_mapComponent[ID_STATIC].insert({ L"Proto_CalculatorCom", pComponent });
-
-
-	//pComponent = m_pTextureCom2 = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_TerrainTexture3"));
-	//NULL_CHECK_RETURN(m_pTextureCom2, E_FAIL);
-	//m_mapComponent[ID_STATIC].insert({ L"Proto_TerrainTexture3", pComponent });
-
-
+	m_pBufferCom = CAbstractFactory<CCubeTex>::Clone_Proto_Component(L"Proto_CubeTexCom", m_mapComponent, ID_STATIC);
+	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_MapCubeTexture", m_mapComponent, ID_STATIC);
+	m_pTransCom = CAbstractFactory<CTransform>::Clone_Proto_Component(L"Proto_TransformCom", m_mapComponent, ID_DYNAMIC);
+	m_pCalculatorCom = CAbstractFactory<CCalculator>::Clone_Proto_Component(L"Proto_CalculatorCom", m_mapComponent, ID_STATIC);
+	m_pColliderCom = CAbstractFactory<CCollider>::Clone_Proto_Component(L"Proto_ColliderCom", m_mapComponent, ID_STATIC);
 
 	return S_OK;
 }

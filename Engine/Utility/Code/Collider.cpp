@@ -9,10 +9,11 @@ USING(Engine)
 CCollider::CCollider(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CComponent(pGraphicDev), m_bClone(false)
 {
+	
 }
 
 CCollider::CCollider(const CCollider & rhs)
-	: CComponent(rhs), m_bClone(true)
+	: CComponent(rhs), m_bClone(true) 
 {
 }
 
@@ -22,6 +23,9 @@ CCollider::~CCollider()
 
 HRESULT CCollider::Ready_Collider(void)
 {
+
+	 
+
 	return S_OK;
 }
 
@@ -35,6 +39,18 @@ _int CCollider::Update_Component(const _float & fTimeDelta)
 void CCollider::LateUpdate_Component(void)
 {
 	CComponent::LateUpdate_Component();
+}
+
+void CCollider::Render()
+{
+
+	
+	
+
+	
+
+	//D3DXCreateSphere(m_pGraphicDev,1.0f,20,20,nullptr,)
+
 }
 
 _bool CCollider::Check_Sphere_InterSect(_vec3 vCenter1, _vec3 vCenter2, _float fRadius1, _float fRadius2)
@@ -252,6 +268,14 @@ _bool CCollider::Check_Collision_Wall(CGameObject* pCubeObject, CGameObject* pDe
 
 }
 
+_bool CCollider::Check_collision_Wall_AABB(CCollider * pCube, CCollider * pObject)
+{
+	if (Check_Collision_AABB(&pCube->m_vMin, &pCube->m_vMax, &pObject->m_vMin, &pObject->m_vMax))
+		return true;
+
+	return false;
+}
+
 _bool CCollider::Check_Collision(CGameObject * pItemObject, CGameObject * pPlayer, const _float& fItemRadius, const _float& fPlayerRadius)
 {
 	CTransform *pTrnasform = dynamic_cast<CTransform*>(pItemObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
@@ -289,6 +313,18 @@ CCollider * CCollider::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 
 	return pInstance;
 }
+
+_bool CCollider::Check_Collision_AABB(_vec3 * vMin1, _vec3 * vMax1, _vec3 * vMin2, _vec3 * vMax2)
+{
+	if (vMin1->x <= vMax2->x && vMax1->x >= vMin2->x &&
+		vMin1->y <= vMax2->y && vMax1->y >= vMin2->y &&
+		vMin1->z <= vMax2->z && vMax1->z >= vMin2->z)
+		return true;
+
+	return false;
+}
+
+
 
 void CCollider::Free(void)
 {

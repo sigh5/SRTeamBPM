@@ -195,6 +195,7 @@ call CopyUtility.bat</Command>
     <ClInclude Include="..\..\Header\Renderer.h" />
     <ClInclude Include="..\..\Header\Scene.h" />
     <ClInclude Include="..\..\Header\SoundMgr.h" />
+    <ClInclude Include="..\..\Header\SphereTex.h" />
     <ClInclude Include="..\..\Header\TerrainTex.h" />
     <ClInclude Include="..\..\Header\Texture.h" />
     <ClInclude Include="..\..\Header\ThunderTex.h" />
@@ -230,6 +231,7 @@ call CopyUtility.bat</Command>
     <ClCompile Include="..\Code\Renderer.cpp" />
     <ClCompile Include="..\Code\Scene.cpp" />
     <ClCompile Include="..\Code\SoundMgr.cpp" />
+    <ClCompile Include="..\Code\SphereTex.cpp" />
     <ClCompile Include="..\Code\TerrainTex.cpp" />
     <ClCompile Include="..\Code\Texture.cpp" />
     <ClCompile Include="..\Code\ThunderTex.cpp" />

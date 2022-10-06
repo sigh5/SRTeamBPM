@@ -16,6 +16,9 @@ namespace Engine
 
 class CGun_Screen;
 
+
+
+
 class CPlayer :public CGameObject
 {
 private:
@@ -102,7 +105,7 @@ private:		// Jw
 	// Gun
 	CGun_Screen*		pEquipItem;
 
-
+	
 
 public:
 	static CPlayer*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
