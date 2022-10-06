@@ -13,6 +13,9 @@
 #include "Bullet_UI.h"
 #include "Weapon_UI.h"
 
+
+
+
 class CStage : public Engine::CScene
 {
 private:
@@ -41,14 +44,21 @@ private:
 private:
 	list<_tchar*>		m_szEffectName;
 	_uint				m_iCount = 0;
-	list<CBullet*>		m_BulletList;
-	list<CMonsterBullet*> m_MonBulletList;
+	
 
 	_float				m_fFrame = 0.f; // WinZero  µµÂø½Ã°£
 public:
 	static CStage*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
+
+
+
 private:
 	virtual void	Free(void);
+
+
+	
+
+
 };
 

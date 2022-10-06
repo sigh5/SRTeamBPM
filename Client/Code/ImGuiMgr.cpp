@@ -25,6 +25,9 @@ bool CImGuiMgr::Show_Main_Menu_Window = false;
 bool CImGuiMgr::Show_Cube_Tool = false;
 bool CImGuiMgr::Show_Monster_Tool = false;
 
+
+
+
 _int CImGuiMgr::m_iInterval = 100;
 _int CImGuiMgr::m_iWidth = 100;
 _int CImGuiMgr::m_iDepth = 1;
@@ -50,6 +53,10 @@ HRESULT CImGuiMgr::Ready_MapTool(LPDIRECT3DDEVICE9 pGraphicDev, CScene* pScene)
 {
 	CLayer *pLayer = Engine::CLayer::Create();
 	pScene->Add_Layer(pLayer, L"MapCubeLayer");
+
+	CLayer* TelePortpLayer = Engine::CLayer::Create();
+	pScene->Add_Layer(TelePortpLayer, L"MapTeleportLayer");
+
 
 
 	//FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_TerrainTexture2", CTexture::Create(pGraphicDev, L"../Bin/Resource/Texture/Terrain/Tile/textures_%d.png", TEX_NORMAL, 18)), E_FAIL);
@@ -351,8 +358,8 @@ void CImGuiMgr::WindowLayOut()
 		Show_Monster_Tool = false;
 	}
 
-	
-	
+
+
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 	ImGui::BeginChild("USER");
 	//유저 구분 라디오 버튼
@@ -466,6 +473,8 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 
 	CTransform * pTranscom = nullptr;
 
+
+
 	if (m_bCubeCreateCheck)
 	{
 		if (ImGui::Button("UP"))
@@ -487,10 +496,10 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 		{
 			cubePlane = CREATECUBE_RIGHT;
 		}
-
+		
 		static _float fHeight = 0.f;			// 한번 함수돌고 다시 0되면 안되므로  static으로 씀
 		ImGui::InputFloat("Snap", &fHeight);
-		if (ImGui::Button("Height Set"))
+		if (ImGui::Button("Height All Cube Set"))
 		{
 			CLayer* MyLayer = pScene->GetLayer(L"MapCubeLayer");
 			map<const _tchar*, CGameObject*> test = MyLayer->Get_GameObjectMap();
@@ -499,19 +508,9 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 			for (auto iter = test.begin(); iter != test.end(); ++iter)
 			{
 				CTransform* pCubeTrnasform = dynamic_cast<CTransform*>(iter->second->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
-
 				pCubeTrnasform->Set_Y(fHeight);
 			}
 		}
-
-
-		/*	char* str = "Text";
-			ImGui::InputText("Text", str);
-
-	*/
-	
-
-
 
 		ImGui::Text("if double click Create Cube");
 		if (ImGui::IsMouseDoubleClicked(0))
@@ -519,7 +518,7 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 			ImVec2 temp = ImGui::GetMousePos();
 			CGameObject *pGameObject = nullptr;
 			CLayer* MyLayer = pScene->GetLayer(L"MapCubeLayer");
-		
+
 			_tchar* test1 = new _tchar[20];
 
 			wstring t = pObjectName + L"%d";
@@ -534,8 +533,8 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 
 			for (auto iter = test.begin(); iter != test.end(); ++iter)
 			{
-				if(dynamic_cast<CWallCube*>(iter->second)->Set_SelectGizmo())
-				{ 
+				if (dynamic_cast<CWallCube*>(iter->second)->Set_SelectGizmo())
+				{
 					isUpcube = true;
 					pWallCube = iter->second;
 					iCount++;
@@ -589,7 +588,7 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 		}
 	}
 
-	
+
 	if (m_bCubeSelcetCheck)
 	{
 		if (ImGui::IsMouseClicked(0))
@@ -599,7 +598,6 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 
 			for (auto iter = CubeMap.begin(); iter != CubeMap.end(); ++iter)
 			{
-
 				if (dynamic_cast<CWallCube*>(iter->second)->Set_SelectGizmo())
 				{
 					pTranscom = dynamic_cast<CTransform*>(iter->second->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
@@ -621,32 +619,52 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 			{
 				CLayer* MyLayer = pScene->GetLayer(L"MapCubeLayer");
 				map<const _tchar*, CGameObject*> CubeMap = MyLayer->Get_GameObjectMap();
-				
+
 				for (auto iter = CubeMap.begin(); iter != CubeMap.end(); ++iter)
 				{
 					static_cast<CWallCube*>(iter->second)->Set_WireFrame(bWireFrame);
 				}
 			}
 		}
+		ImGui::NewLine();
+		ImGui::Text("Choose Option");
 
-			ImGui::NewLine();
-			if (ImGui::CollapsingHeader("Tile Texture", ImGuiTreeNodeFlags_DefaultOpen))
-			{
-				CTexture* pTextureCom = dynamic_cast<CTexture*>(m_pWallCube->Get_Component(L"Proto_MapCubeTexture", ID_STATIC));
+		static _int iCubeOption = 0;			// 한번 함수돌고 다시 0되면 안되므로  static으로 씀
+		ImGui::InputInt("Snap", &iCubeOption);
+		if (ImGui::Button("CubeOption Change"))
+		{
+			m_pWallCube->Set_Option((CUBE_TYPE)iCubeOption);
+		}
+
+		ImGui::Text("Current choose Cube Option : ");
+		ImGui::SameLine();
+		char szOption[20];
+		sprintf_s(szOption, "%d", m_pWallCube->Get_Option());
+		
+		
+		ImGui::Text(szOption);
+	
+
+
+
+		ImGui::NewLine();
+		if (ImGui::CollapsingHeader("Tile Texture", ImGuiTreeNodeFlags_DefaultOpen))
+		{
+			CTexture* pTextureCom = dynamic_cast<CTexture*>(m_pWallCube->Get_Component(L"Proto_MapCubeTexture", ID_STATIC));
 
 			vector<IDirect3DBaseTexture9*> vecTexture = pTextureCom->Get_Texture();
 
-				for (_uint i = 0; i < vecTexture.size(); ++i)
+			for (_uint i = 0; i < vecTexture.size(); ++i)
+			{
+				if (ImGui::ImageButton((void*)vecTexture[i], ImVec2(60.f, 60.f)))
 				{
-					if (ImGui::ImageButton((void*)vecTexture[i], ImVec2(60.f, 60.f)))
-					{
-						m_iMapCubeIndex = i;
-						m_pWallCube->Set_DrawTexIndex(m_iMapCubeIndex);
-					}
-					if (i == 0 || (i + 1) % 6)
-						ImGui::SameLine();
+					m_iMapCubeIndex = i;
+					m_pWallCube->Set_DrawTexIndex(m_iMapCubeIndex);
 				}
+				if (i == 0 || (i + 1) % 6)
+					ImGui::SameLine();
 			}
+		}
 	}
 	else
 	{
@@ -808,7 +826,6 @@ void CImGuiMgr::MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 			CLayer* MyLayer = pScene->GetLayer(L"TestLayer3");
 			MyLayer->Delete_GameObject(m_CurrentSelectGameObjectObjKey.c_str());
 		}
-		//�ϴ� ���̺� �ε� ���� ���� ���� ����
 
 		if (ImGui::CollapsingHeader("Monster Create & Chose Button", ImGuiTreeNodeFlags_DefaultOpen))
 		{
@@ -911,7 +928,7 @@ void CImGuiMgr::MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 			ImGui::InputInt("Hp", &monInfo->_iHp);
 			ImGui::InputInt("AttackPower", &monInfo->_iAttackPower);
 			ImGui::InputInt("MonsterIndex", &(static_cast<CMonsterBase*>(pGameObject)->Get_MonsterType()));
-			//������ �޾ƿ��� ������ �� �ִ� ����� ������ ��
+		
 
 			ImGui::End();
 		}
@@ -935,8 +952,6 @@ void CImGuiMgr::Player_Tool(LPDIRECT3DDEVICE9 pGraphicDev, CScene * pScene, wstr
 		{
 			CTexture* pTextureCom = dynamic_cast<CTexture*>(pGameObject->Get_Component(L"Proto_PlayerTexture2", ID_STATIC));
 
-			//CTransform* pTransformCom = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
-
 			vector<IDirect3DBaseTexture9*> vecPlayerTexture = pTextureCom->Get_Texture();
 
 			for (_uint i = 0; i < 5; ++i)
@@ -953,23 +968,13 @@ void CImGuiMgr::Player_Tool(LPDIRECT3DDEVICE9 pGraphicDev, CScene * pScene, wstr
 		ImGui::Text("this is Transform_ButtonMenu");
 		if (ImGui::Button("Save"))
 		{
-			//CFileIOMgr::GetInstance()->Save_FileData(pScene, L"TestLayer2", L"../../Data/", L"TESp.dat", OBJ_CUBE);
 			CFileIOMgr::GetInstance()->Save_FileData(pScene, pLayerTag, L"../../Data/", L"Player.dat", OBJ_PLAYER);
-			//Save_Obj_Transform(pScene, pDirectory, pLayerTag, pObjTag, pComponentTag, eId);
+	
 
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("Load"))
 		{
-			//Load_Obj_Transform(pGraphicDev, pScene, pDirectory, pLayerTag, pComponentTag, eId, PlayerList, pObjTag);
-
-			/*CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev,
-			pScene,
-			L"TestLayer2",
-			L"../../Data/",
-			L"TESp.dat",
-			L"TestCube",
-			OBJ_CUBE);*/
 
 			CFileIOMgr::GetInstance()->Load_FileData(pGraphicDev,
 				pScene,
@@ -985,129 +990,6 @@ void CImGuiMgr::Player_Tool(LPDIRECT3DDEVICE9 pGraphicDev, CScene * pScene, wstr
 	ImGui::End();
 
 }
-
-// Stage -> this
-//void CImGuiMgr::Save_Obj_Transform(CScene * pScene, wstring pDirectory, const _tchar* pLayerTag, const _tchar* pObjTag, const _tchar * pComponentTag, COMPONENTID eID)
-//{						// L"../../Data/Map.dat"
-//	wstring Directory = pDirectory;
-//
-//	HANDLE      hFile = CreateFile(Directory.c_str(),
-//		// ������ ��ο� �̸�
-//		GENERIC_WRITE,         // ���� ���� ��� (GENERIC_WRITE : ���� ����, GENERIC_READ : �б� ����)
-//		NULL,               // ���� ���(������ �����ִ� ���¿��� �ٸ� ���μ����� ������ �� ����� ���ΰ�)    
-//		NULL,               // ���� �Ӽ�(NULL�� �����ϸ� �⺻�� ����)
-//		CREATE_ALWAYS,         // CREATE_ALWAYS : ������ ���ٸ� ����, �ִٸ� �����, OPEN_EXISTING  : ������ ���� ��쿡�� ����
-//		FILE_ATTRIBUTE_NORMAL,  // ���� �Ӽ�(�б� ����, ���� ��) : FILE_ATTRIBUTE_NORMAL : �ƹ��� �Ӽ��� ���� ����
-//		NULL);               // ������ ������ �Ӽ��� ������ ���ø� ����(�Ⱦ��ϱ� NULL)
-//
-//	if (INVALID_HANDLE_VALUE == hFile)
-//	{
-//		return;
-//	}
-//	// L"TestLayer2" 
-//	CLayer* MyLayer = pScene->GetLayer(pLayerTag);
-//	DWORD   dwByte = 0;
-//
-//	map<const _tchar*, CGameObject*> map_SearchObj = MyLayer->Get_GameObjectMap();
-//	auto iter = find_if(map_SearchObj.begin(), map_SearchObj.end(), CTag_Finder(pObjTag));
-//
-//	// L"Proto_TransformCom", ID_DYNAMIC
-//	CTransform* Transcom = dynamic_cast<CTransform*>(iter->second->Get_Component(pComponentTag, eID));
-//
-//	_vec3   vRight, vUp, vLook, vPos, vScale, vAngle;
-//	_int	iDrawNum = 0;
-//
-//	Transcom->Get_Info(INFO_RIGHT, &vRight);
-//	Transcom->Get_Info(INFO_UP, &vUp);
-//	Transcom->Get_Info(INFO_LOOK, &vLook);
-//	Transcom->Get_Info(INFO_POS, &vPos);
-//	memcpy(vScale, Transcom->m_vScale, sizeof(_vec3));
-//	memcpy(vAngle, Transcom->m_vAngle, sizeof(_vec3));
-//	iDrawNum = iter->second->Get_DrawTexIndex();
-//
-//	WriteFile(hFile, &vRight, sizeof(_vec3), &dwByte, nullptr);
-//	WriteFile(hFile, &vUp, sizeof(_vec3), &dwByte, nullptr);
-//	WriteFile(hFile, &vLook, sizeof(_vec3), &dwByte, nullptr);
-//	WriteFile(hFile, &vPos, sizeof(_vec3), &dwByte, nullptr);
-//	WriteFile(hFile, &vScale, sizeof(_vec3), &dwByte, nullptr);
-//	WriteFile(hFile, &vAngle, sizeof(_vec3), &dwByte, nullptr);
-//	WriteFile(hFile, &iDrawNum, sizeof(_int), &dwByte, nullptr);
-//
-//
-//
-//	CloseHandle(hFile);
-//	MSG_BOX("Save_Complete");
-//
-//}
-//// m_pGraphicDev	// Stage -> this
-//void CImGuiMgr::Load_Obj_Transform(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, wstring pDirectory, const _tchar* pLayerTag, const _tchar * pComponentTag, COMPONENTID eId, list<_tchar*> pList, const _tchar* pObjTag)
-//{						// L"../../Data/Map.dat";
-//	wstring Directory = pDirectory;
-//
-//	HANDLE      hFile = CreateFile(Directory.c_str(),      // ������ ��ο� �̸�
-//		GENERIC_READ,         // ���� ���� ��� (GENERIC_WRITE : ���� ����, GENERIC_READ : �б� ����)
-//		NULL,               // ���� ���(������ �����ִ� ���¿��� �ٸ� ���μ����� ������ �� ����� ���ΰ�)    
-//		NULL,               // ���� �Ӽ�(NULL�� �����ϸ� �⺻�� ����)
-//		OPEN_EXISTING,         // CREATE_ALWAYS : ������ ���ٸ� ����, �ִٸ� �����, OPEN_EXISTING  : ������ ���� ��쿡�� ����
-//		FILE_ATTRIBUTE_NORMAL,  // ���� �Ӽ�(�б� ����, ���� ��) : FILE_ATTRIBUTE_NORMAL : �ƹ��� �Ӽ��� ���� ����
-//		NULL);               // ������ ������ �Ӽ��� ������ ���ø� ����(�Ⱦ��ϱ� NULL)
-//
-//	if (INVALID_HANDLE_VALUE == hFile)
-//	{
-//		return;
-//	}
-//
-//	DWORD   dwByte = 0;
-//
-//	_vec3   vRight, vUp, vLook, vPos, vScale, vAngle;
-//	_int	iDrawIndex = 0;
-//	CLayer* pMyLayer = nullptr;
-//
-//
-//	ReadFile(hFile, &vRight, sizeof(_vec3), &dwByte, nullptr);
-//	ReadFile(hFile, &vUp, sizeof(_vec3), &dwByte, nullptr);
-//	ReadFile(hFile, &vLook, sizeof(_vec3), &dwByte, nullptr);
-//	ReadFile(hFile, &vPos, sizeof(_vec3), &dwByte, nullptr);
-//	ReadFile(hFile, &vScale, sizeof(_vec3), &dwByte, nullptr);
-//	ReadFile(hFile, &vAngle, sizeof(_vec3), &dwByte, nullptr);
-//	ReadFile(hFile, &iDrawIndex, sizeof(_int), &dwByte, nullptr);
-//	
-//	pMyLayer = pScene->GetLayer(pLayerTag);
-//	
-//	CGameObject *pGameObject = nullptr;
-//	_tchar* szObjName = new _tchar[20];
-//	szObjName = L"TestPlayer";
-//
-//	//pList.push_back(szObjName);
-//	pMyLayer->AddNameList(szObjName);
-//
-//	pGameObject = CTestPlayer::Create(pGrahicDev);
-//	
-//
-//	FAILED_CHECK_RETURN(pMyLayer->Delete_GameObject(pObjTag));
-//	FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(szObjName, pGameObject), );
-//	pGameObject->Set_DrawTexIndex(iDrawIndex);
-//	++m_iIndex;
-//
-//	CTransform* Transcom = dynamic_cast<CTransform*>(pGameObject->Get_Component(pComponentTag, eId));
-//
-//	Transcom->Set_Info(INFO_RIGHT, &vRight);
-//	Transcom->Set_Info(INFO_UP, &vUp);
-//	Transcom->Set_Info(INFO_LOOK, &vLook);
-//	Transcom->Set_Info(INFO_POS, &vPos);
-//	Transcom->Set_Angle(&vAngle);
-//	Transcom->Set_Scale(&vScale);
-//
-//	Transcom->Update_Component(0.01f);
-//
-//
-//	MSG_BOX("Save_Complete");
-//	pScene->Add_Layer2(pMyLayer, pLayerTag);
-//
-//
-//	CloseHandle(hFile);
-//
-//}
 
 
 

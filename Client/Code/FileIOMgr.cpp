@@ -10,7 +10,6 @@
 #include "TestPlayer.h"
 #include "WallCube.h"
 
-
 IMPLEMENT_SINGLETON(CFileIOMgr)
 
 CFileIOMgr::CFileIOMgr()
@@ -55,7 +54,7 @@ void CFileIOMgr::Save_FileData(CScene * pScene,
 			CTransform* Transcom = dynamic_cast<CTransform*>(iter->second->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
 			_vec3   vRight, vUp, vLook, vPos, vScale, vAngle;
 			_int	iDrawNum = 0;
-
+			_int	iOption = 0;
 			Transcom->Get_Info(INFO_RIGHT, &vRight);
 			Transcom->Get_Info(INFO_UP, &vUp);
 			Transcom->Get_Info(INFO_LOOK, &vLook);
@@ -63,6 +62,7 @@ void CFileIOMgr::Save_FileData(CScene * pScene,
 			memcpy(vScale, Transcom->m_vScale, sizeof(_vec3));
 			memcpy(vAngle, Transcom->m_vAngle, sizeof(_vec3));
 			iDrawNum = iter->second->Get_DrawTexIndex();
+			iOption = static_cast<CWallCube*>(iter->second)->Get_Option();
 
 			WriteFile(hFile, &vRight, sizeof(_vec3), &dwByte, nullptr);
 			WriteFile(hFile, &vUp, sizeof(_vec3), &dwByte, nullptr);
@@ -71,6 +71,7 @@ void CFileIOMgr::Save_FileData(CScene * pScene,
 			WriteFile(hFile, &vScale, sizeof(_vec3), &dwByte, nullptr);
 			WriteFile(hFile, &vAngle, sizeof(_vec3), &dwByte, nullptr);
 			WriteFile(hFile, &iDrawNum, sizeof(_int), &dwByte, nullptr);
+			WriteFile(hFile, &iOption, sizeof(_int), &dwByte, nullptr);
 		}
 	
 	}
@@ -121,7 +122,7 @@ void CFileIOMgr::Save_FileData(CScene * pScene,
 		WriteFile(hFile, &iDrawNum, sizeof(_int), &dwByte, nullptr);
 
 	}
-
+	
 
 
 
@@ -160,6 +161,7 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 	CLayer* pMyLayer = nullptr;
 	pMyLayer = pScene->GetLayer(LayerName);
 	_int	 iIndex = 0;
+	_int	iCubeOption = 0;
 	_int iMonsterType = 0;
 
 	if (eObjType == OBJ_CUBE)
@@ -173,6 +175,8 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 			ReadFile(hFile, &vScale, sizeof(_vec3), &dwByte, nullptr);
 			ReadFile(hFile, &vAngle, sizeof(_vec3), &dwByte, nullptr);
 			ReadFile(hFile, &iDrawIndex, sizeof(_int), &dwByte, nullptr);
+			ReadFile(hFile, &iCubeOption, sizeof(_int), &dwByte, nullptr);
+
 			CGameObject *pGameObject = nullptr;
 			_tchar* test1 = new _tchar[20];
 			wstring t = pObjectName + L"%d";
@@ -180,8 +184,28 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 			pMyLayer->AddNameList(test1);
 			++iIndex;
 			pGameObject = CWallCube::Create(pGrahicDev, &_vec2{0,0});
-			FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(test1, pGameObject), );
 			pGameObject->Set_DrawTexIndex(iDrawIndex);
+			static_cast<CWallCube*>(pGameObject)->Set_Option(CUBE_TYPE(iCubeOption));
+			// 다른 레이어에 큐브옵션이 다르면
+			
+			if (iCubeOption == CUBE_START_TELE)
+			{
+				pScene->Get_CubeList(STARTCUBELIST)->push_back(pGameObject);
+				//pScene->Get_CubeList()[STARTCUBELIST]->push_back(pGameObject);
+			}
+			
+			else if (iCubeOption == CUBE_END_TELE)
+			{
+				pScene->Get_CubeList(ENDCUBELIST)->push_back(pGameObject);
+				//pScene->Get_CubeList()[ENDCUBELIST]->push_back(pGameObject);
+			}
+			else
+			{
+				FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(test1, pGameObject), );
+
+			}
+			
+
 			CTransform* Transcom = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
 			Transcom->Set_Info(INFO_RIGHT, &vRight);
 			Transcom->Set_Info(INFO_UP, &vUp);
@@ -290,6 +314,8 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 
 		Transcom->Update_Component(0.01f);
 	}
+
+	
 
 
 

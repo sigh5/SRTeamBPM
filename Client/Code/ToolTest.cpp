@@ -13,7 +13,6 @@
 #include "TestPlayer.h"
 
 
-
 CToolTest::CToolTest(LPDIRECT3DDEVICE9 pGraphicDev) : CScene(pGraphicDev)
 {
 }
@@ -56,6 +55,10 @@ HRESULT CToolTest::Ready_Scene()
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestMap", pGameObject), E_FAIL);
 
+
+	
+	
+	
 	m_mapLayer.insert({ L"TestLayer", pLayer });
 
 	

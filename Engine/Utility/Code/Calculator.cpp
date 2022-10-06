@@ -262,7 +262,6 @@ _vec3 CCalculator::PickingOnTerrainCube(HWND hWnd, const CTerrainTex * pTerrainB
 
 _bool  CCalculator::PickingOnTransform(HWND hWnd, const CCubeTex * pCubeTexBufferCom, const CTransform * pCubeTransCom)
 {
-
 	POINT		ptMouse{};
 	
 	GetCursorPos(&ptMouse);
