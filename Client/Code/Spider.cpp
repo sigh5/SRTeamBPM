@@ -82,7 +82,7 @@ _int CSpider::Update_Object(const _float & fTimeDelta)
 	//Get_MonsterToPlayer_Distance(&fMtoPDistance);
 
 	AttackJudge(fTimeDelta);
-	CMonsterBase::Calculator_Distance();
+	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 	
 	if (m_bHit == false)
 	{

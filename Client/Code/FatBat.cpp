@@ -193,17 +193,14 @@ void CFatBat::Collision_Event()
 		fMtoPDistance < MAX_CROSSROAD &&
 		m_pColliderCom->Check_Lay_InterSect(m_pBufferCom, m_pDynamicTransCom, g_hWnd))
 	{
-
+		static_cast<CGun_Screen*>(pGameObject)->Set_Shoot(false);
 		static_cast<CPlayer*>(pGameObject)->Set_ComboCount(1);
 
 		m_pInfoCom->Receive_Damage(1);
 		cout << "FatBat" << m_pInfoCom->Get_InfoRef()._iHp << endl;
 	}
 
-	if (m_bHit)
-	{
-		static_cast<CGun_Screen*>(pGameObject)->Set_Shoot(false);
-	}
+	
 
 }
 

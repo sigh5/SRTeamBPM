@@ -69,7 +69,7 @@ _int CDashUI::Update_Object(const _float & fTimeDelta)
 
 					
 	
-	cout << "시간 : " << m_fDelayTime << endl;
+	//cout << "시간 : " << m_fDelayTime << endl;
 
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
