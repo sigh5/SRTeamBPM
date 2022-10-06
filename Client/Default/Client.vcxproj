@@ -168,6 +168,7 @@
     <ClInclude Include="..\Header\Coin.h" />
     <ClInclude Include="..\Header\CoinKeyUI.h" />
     <ClInclude Include="..\Header\ColliderStage.h" />
+    <ClInclude Include="..\Header\DashUI.h" />
     <ClInclude Include="..\Header\DynamicCamera.h" />
     <ClInclude Include="..\Header\Effect.h" />
     <ClInclude Include="..\Header\Exit_Button.h" />
@@ -181,12 +182,14 @@
     <ClInclude Include="..\Header\ImGuiMgr.h" />
     <ClInclude Include="..\Header\Loading.h" />
     <ClInclude Include="..\Header\Logo.h" />
+    <ClInclude Include="..\Header\Magnum.h" />
     <ClInclude Include="..\Header\MainApp.h" />
     <ClInclude Include="..\Header\MetronomeUI.h" />
     <ClInclude Include="..\Header\MonsterBullet.h" />
     <ClInclude Include="..\Header\MyCamera.h" />
     <ClInclude Include="..\Header\ObjectMgr.h" />
     <ClInclude Include="..\Header\Player.h" />
+    <ClInclude Include="..\Header\ShotGun.h" />
     <ClInclude Include="..\Header\SkyBox.h" />
     <ClInclude Include="..\Header\Snowfall.h" />
     <ClInclude Include="..\Header\Spider.h" />
@@ -235,6 +238,7 @@
     <ClCompile Include="..\Code\Coin.cpp" />
     <ClCompile Include="..\Code\CoinKeyUI.cpp" />
     <ClCompile Include="..\Code\ColliderStage.cpp" />
+    <ClCompile Include="..\Code\DashUI.cpp" />
     <ClCompile Include="..\Code\DynamicCamera.cpp" />
     <ClCompile Include="..\Code\Effect.cpp" />
     <ClCompile Include="..\Code\Exit_Button.cpp" />
@@ -248,12 +252,14 @@
     <ClCompile Include="..\Code\ImGuiMgr.cpp" />
     <ClCompile Include="..\Code\Loading.cpp" />
     <ClCompile Include="..\Code\Logo.cpp" />
+    <ClCompile Include="..\Code\Magnum.cpp" />
     <ClCompile Include="..\Code\MainApp.cpp" />
     <ClCompile Include="..\Code\MonsterBullet.cpp" />
     <ClCompile Include="..\Code\MetronomeUI.cpp" />
     <ClCompile Include="..\Code\MyCamera.cpp" />
     <ClCompile Include="..\Code\ObjectMgr.cpp" />
     <ClCompile Include="..\Code\Player.cpp" />
+    <ClCompile Include="..\Code\ShotGun.cpp" />
     <ClCompile Include="..\Code\SkyBox.cpp" />
     <ClCompile Include="..\Code\Snowfall.cpp" />
     <ClCompile Include="..\Code\Spider.cpp" />

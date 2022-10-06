@@ -71,6 +71,16 @@ namespace Engine
 
 	const _ulong  FVF_Particle = D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1;
 
+	typedef struct tagEquipInfo
+	{
+		_uint	_iAddAttack;
+		_uint	_iAddDefense;
+		_float	_fAddSpeed;
+		_float	_fAddRange;
+		WEAPON_TYPE		m_WeaponType = WEAPON_END;
+	}EquipInfo;
+
+
 	struct Attribute
 	{
 		D3DXVECTOR3 _position;

@@ -14,10 +14,15 @@
 #include "Collider.h"
 //캐릭터 인포
 #include "CharacterInfo.h"
+
 //~
 #include "MonsterBase.h"
 #include "BaseBullet.h"
 #include "ItemBase.h"
+#include "UI_Base.h"
+#include "EquipmentBase.h"
+
+
 
 #include "PSystem.h"
 
