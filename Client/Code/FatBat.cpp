@@ -188,10 +188,7 @@ void CFatBat::Collision_Event()
 		cout << "FatBat" << m_pInfoCom->Get_InfoRef()._iHp << endl;
 	}
 
-	if (m_bHit)
-	{
-		static_cast<CGun_Screen*>(pGameObject)->Set_Shoot(false);
-	}
+
 
 }
 
