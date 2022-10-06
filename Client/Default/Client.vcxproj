@@ -161,7 +161,6 @@
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h" />
     <ClInclude Include="..\Header\Anubis.h" />
-    <ClInclude Include="..\Header\AnubisThunder.h" />
     <ClInclude Include="..\Header\BackGround.h" />
     <ClInclude Include="..\Header\Box.h" />
     <ClInclude Include="..\Header\Bullet.h" />
@@ -169,7 +168,6 @@
     <ClInclude Include="..\Header\Coin.h" />
     <ClInclude Include="..\Header\CoinKeyUI.h" />
     <ClInclude Include="..\Header\ColliderStage.h" />
-    <ClInclude Include="..\Header\DashUI.h" />
     <ClInclude Include="..\Header\DynamicCamera.h" />
     <ClInclude Include="..\Header\Effect.h" />
     <ClInclude Include="..\Header\Exit_Button.h" />
@@ -230,7 +228,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Anubis.cpp" />
-    <ClCompile Include="..\Code\AnubisThunder.cpp" />
     <ClCompile Include="..\Code\BackGround.cpp" />
     <ClCompile Include="..\Code\Box.cpp" />
     <ClCompile Include="..\Code\Bullet.cpp" />
@@ -238,7 +235,6 @@
     <ClCompile Include="..\Code\Coin.cpp" />
     <ClCompile Include="..\Code\CoinKeyUI.cpp" />
     <ClCompile Include="..\Code\ColliderStage.cpp" />
-    <ClCompile Include="..\Code\DashUI.cpp" />
     <ClCompile Include="..\Code\DynamicCamera.cpp" />
     <ClCompile Include="..\Code\Effect.cpp" />
     <ClCompile Include="..\Code\Exit_Button.cpp" />

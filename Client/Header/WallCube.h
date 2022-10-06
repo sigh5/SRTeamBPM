@@ -7,7 +7,7 @@ class CTexture;
 class CCubeTex;
 class CTransform;
 class CCalculator;
-class CCollider;
+
 END
 
 enum CUBE_OPTION
@@ -43,7 +43,6 @@ public:
 	CTransform*			m_pTransCom = nullptr;
 	CTexture*			m_pTextureCom = nullptr;
 	CCalculator*		m_pCalculatorCom = nullptr;
-	CCollider*			m_pColliderCom = nullptr;
 
 private:
 	_bool				m_bWireFrame = false;

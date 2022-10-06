@@ -123,6 +123,8 @@ _int CLayer::Update_Layer(const _float & fTimeDelta)
 	
 	}
 
+
+
 	return iResult;
 }
 
@@ -130,8 +132,6 @@ void CLayer::LateUpdate_Layer(void)
 {
 	for (auto& iter : m_mapObject)
 		iter.second->LateUpdate_Object();
-	for (auto& iter : m_objPoolList)
-		iter->LateUpdate_Object();
 }
 
 CLayer* CLayer::Create(void)

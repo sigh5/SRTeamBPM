@@ -44,15 +44,14 @@ HRESULT CFatBat::Ready_Object(int Posx, int Posy)
 
 	m_iDodgeDir = 0;
 	m_fActionDelay = 2.f;
-	m_fMaxY = 4.f;
+	m_fMaxY = 3.f;
 	m_fFlyDelayCount = 0.f;
 	m_fDodgeDelayCount = 0.f;
 	m_bAltitude = false;
 	m_fDodgeSpeed = 3.5f;
-	m_fDodgeStopper = 0.2f;
+	m_fDodgeStopper = 0.15f;
 	m_fStopperDelay = 0.1f;
 	m_fStopperDelayCount = 0.f;
-	m_iPreHp = (m_pInfoCom->Get_InfoRef()._iHp);
 	return S_OK;
 }
 
@@ -60,28 +59,15 @@ _int CFatBat::Update_Object(const _float & fTimeDelta)
 {
 	// 수정 쿨타임 대신 타임
 	m_fFrame += fTimeDelta;
-	if(false == m_bHit)
 	if (m_fFrame > m_fActionDelay)
 	{
 		FatBat_Shoot();
 		m_fFrame = 0.f;
 	}
-
-	if (m_iPreHp > m_pInfoCom->Get_Hp())
-	{
-		m_iPreHp = m_pInfoCom->Get_Hp();
-		m_bHit = true;
-		if (m_fHitDelay != 0)
-		{
-			m_fHitDelay = 0;
-		}
-	}
 	// 수정 쿨타임 대신 타임
 
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 
-	if (m_bHit == false)
-	{
 	FatBat_Fly(fTimeDelta);
 	FatBat_Dodge(fTimeDelta, &m_vPlayerPos, &m_vMonsterPos);
 
@@ -93,28 +79,15 @@ _int CFatBat::Update_Object(const _float & fTimeDelta)
 		m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
 		
 	}
-		else if (fMtoPDistance < 10.f)
+	else if(fMtoPDistance < 10.f)
 	{
 		m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, -m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
 	}
-		m_pAnimationCom->Move_Animation(fTimeDelta);
-	}
 	else
 	{
-		m_pAnimationCom->m_iMotion = 7;
+
 	}
-
-
-	if (m_bHit)
-	{
-		m_fHitDelay += fTimeDelta;
-		if (m_fHitDelay > 1.5f)
-		{
-
-			m_bHit = false;
-			m_fHitDelay = 0.f;
-		}
-	}
+	m_pAnimationCom->Move_Animation(fTimeDelta);
 
 	CMonsterBase::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
@@ -193,14 +166,16 @@ void CFatBat::Collision_Event()
 		fMtoPDistance < MAX_CROSSROAD &&
 		m_pColliderCom->Check_Lay_InterSect(m_pBufferCom, m_pDynamicTransCom, g_hWnd))
 	{
-		static_cast<CGun_Screen*>(pGameObject)->Set_Shoot(false);
-		static_cast<CPlayer*>(pGameObject)->Set_ComboCount(1);
-
+		m_bHit = true;
+		static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"))->Set_ComboCount(1);
 		m_pInfoCom->Receive_Damage(1);
 		cout << "FatBat" << m_pInfoCom->Get_InfoRef()._iHp << endl;
 	}
 
-	
+	if (m_bHit)
+	{
+		static_cast<CGun_Screen*>(pGameObject)->Set_Shoot(false);
+	}
 
 }
 
@@ -248,7 +223,7 @@ void	CFatBat::FatBat_Fly(const _float& fTimeDelta)
 		break;
 	}
 
-	m_pDynamicTransCom->Update_Component(fTimeDelta);
+	
 	//m_pDynamicTransCom->Monster_Fly(m_pDynamicTransCom, TerrainY, 3.f);
 
 }
@@ -306,7 +281,7 @@ void CFatBat::FatBat_Dodge(const _float& fTimeDelta, _vec3* _vPlayerPos, _vec3* 
 		break;
 
 	}
-	m_pDynamicTransCom->Update_Component(fTimeDelta);
+
 }
 
 CFatBat * CFatBat::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)

@@ -37,15 +37,15 @@ void			SetUp_InputDev(void)
 
 bool			Key_Pressing(int _iKey)
 {
-	return CInputDev::GetInstance()->Key_Pressing(_iKey);
+	CInputDev::GetInstance()->Key_Pressing(_iKey);
 }
 bool			Key_Down(int _byKeyID)
 {
-	return CInputDev::GetInstance()->Key_Down(_byKeyID);
+	CInputDev::GetInstance()->Key_Down(_byKeyID);
 }
 bool			Key_Up(int _iKey)
 {
-	return CInputDev::GetInstance()->Key_Up(_iKey);
+	CInputDev::GetInstance()->Key_Up(_iKey);
 }
 bool			Mouse_Down(MOUSEKEYSTATE _MouseButton)
 {

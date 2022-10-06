@@ -87,15 +87,6 @@ namespace Engine
 		_vec3 vMin;
 		_vec3 vMax;
 	};
-	
-	typedef struct SPHERE_TEST
-	{
-		_vec3 vCenter;
-		_uint iColor;
-	}Sphere_tex;
-
-	const _ulong  FVF_SPHERE = D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1;
-
 }
 
 

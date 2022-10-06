@@ -238,7 +238,7 @@ void CHWPlayer::Collsion_CubeMap(CGameObject * pGameObject,const _float& fTimeDe
 	pTrnasform->Get_Info(INFO_POS, &vCenter1Pos);
 	m_pTransCom->Get_Info(INFO_POS, &vPos);
 
-	/*if (m_pColliderCom->Check_Sphere_InterSect(vCenter1Pos, vPos, 0.5f, 0.5f))
+	if (m_pColliderCom->Check_Sphere_InterSect(vCenter1Pos, vPos, 0.5f, 0.5f))
 	{
 		m_pTransCom->Get_Info(INFO_LOOK, &m_vDirection);
 		m_pTransCom->Get_Info(INFO_UP, &m_vUp);
@@ -271,7 +271,7 @@ void CHWPlayer::Collsion_CubeMap(CGameObject * pGameObject,const _float& fTimeDe
 			break;
 		}
 		m_pTransCom->Update_Component(1.f);
-	}*/
+	}
 	
 	return;
 }
