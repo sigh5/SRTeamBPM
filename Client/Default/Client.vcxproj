@@ -161,6 +161,7 @@
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h" />
     <ClInclude Include="..\Header\Anubis.h" />
+    <ClInclude Include="..\Header\AnubisThunder.h" />
     <ClInclude Include="..\Header\BackGround.h" />
     <ClInclude Include="..\Header\Box.h" />
     <ClInclude Include="..\Header\Bullet.h" />
@@ -192,6 +193,8 @@
     <ClInclude Include="..\Header\ShotGun.h" />
     <ClInclude Include="..\Header\SkyBox.h" />
     <ClInclude Include="..\Header\Snowfall.h" />
+    <ClInclude Include="..\Header\Sphinx.h" />
+    <ClInclude Include="..\Header\SphinxBullet.h" />
     <ClInclude Include="..\Header\Spider.h" />
     <ClInclude Include="..\Header\Stage.h" />
     <ClInclude Include="..\Header\Stage_BIH.h" />
@@ -231,6 +234,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Anubis.cpp" />
+    <ClCompile Include="..\Code\AnubisThunder.cpp" />
     <ClCompile Include="..\Code\BackGround.cpp" />
     <ClCompile Include="..\Code\Box.cpp" />
     <ClCompile Include="..\Code\Bullet.cpp" />
@@ -262,6 +266,8 @@
     <ClCompile Include="..\Code\ShotGun.cpp" />
     <ClCompile Include="..\Code\SkyBox.cpp" />
     <ClCompile Include="..\Code\Snowfall.cpp" />
+    <ClCompile Include="..\Code\Sphinx.cpp" />
+    <ClCompile Include="..\Code\SphinxBullet.cpp" />
     <ClCompile Include="..\Code\Spider.cpp" />
     <ClCompile Include="..\Code\Stage.cpp" />
     <ClCompile Include="..\Code\Stage_BIH.cpp" />

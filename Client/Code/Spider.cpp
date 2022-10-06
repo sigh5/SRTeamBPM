@@ -27,7 +27,7 @@ HRESULT CSpider::Ready_Object(int Posx, int Posy)
 	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_MonsterTexture3", m_mapComponent, ID_STATIC);
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
 	m_pAttackTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Spider_Attack_Texture", m_mapComponent, ID_STATIC);
-	m_pAttackAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_DYNAMIC);
+	m_pAttackAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_STATIC);
 
 
 	m_iMonsterIndex = 2;
@@ -54,6 +54,8 @@ _int CSpider::Update_Object(const _float & fTimeDelta)
 	if (m_iPreHp > m_pInfoCom->Get_Hp())
 	{
 		m_iPreHp = m_pInfoCom->Get_Hp();
+		//m_bHit = true;
+		m_bAttacking = false;
 		if (m_fHitDelay != 0)
 		{
 			m_fHitDelay = 0;
@@ -80,26 +82,34 @@ _int CSpider::Update_Object(const _float & fTimeDelta)
 
 	AttackJudge(fTimeDelta);
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
-	
-	if ((m_bHit == false && (fMtoPDistance >3.f) ) ||(fMtoPDistance > 3.f && m_bAttacking == false))
-	{
-		m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
 
-		m_pAnimationCom->Move_Animation(fTimeDelta);
-	}
-	else
+	if (m_bHit == false)
 	{
-		//공격
-		if (m_bAttack)
+		if (fMtoPDistance > 3.f && m_bAttacking == false)
 		{
-			Attack(fTimeDelta);
+			m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
+
+			m_pAnimationCom->Move_Animation(fTimeDelta);
 		}
 		else
 		{
-			m_pAnimationCom->m_iMotion = 0;
+			//공격
+			if (m_bAttack)
+			{
+				Attack(fTimeDelta);
+			}
+			else
+			{
+				m_pAnimationCom->m_iMotion = 0;
+			}
 		}
 	}
-	
+	else
+	{
+		// 피격 시 모션
+		m_pAnimationCom->m_iMotion = 5;
+	}
+
 	if (m_bHit)
 	{
 		m_fHitDelay += fTimeDelta;
@@ -171,8 +181,8 @@ void CSpider::Render_Obejct(void)
 	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-
-	if (m_bAttacking)
+	
+	if (m_bAttacking&&false == m_bHit)
 	{
 		m_pAttackTextureCom->Set_Texture(m_pAttackAnimationCom->m_iMotion);
 	}
@@ -285,6 +295,6 @@ CSpider * CSpider::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)
 
 void CSpider::Free(void)
 {
-	CGameObject::Free();
+	CMonsterBase::Free();
 }
 

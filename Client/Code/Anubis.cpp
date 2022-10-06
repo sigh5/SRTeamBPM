@@ -7,6 +7,7 @@
 #include "MyCamera.h"
 #include "Player.h"
 #include "HitBlood.h"
+#include "AnubisThunder.h"
 
 #include "Gun_Screen.h"
 
@@ -24,16 +25,19 @@ CAnubis::~CAnubis()
 HRESULT CAnubis::Ready_Object(int Posx, int Posy)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-	
+
 	m_fHitDelay = 0.f;
 
 	CComponent* pComponent = nullptr;
 
-	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_MonsterTexture", m_mapComponent, ID_DYNAMIC);
+	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_MonsterTexture", m_mapComponent, ID_STATIC);
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
-	
+	m_pAttackAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_STATIC);
+	m_pAttackTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Anubis_Attack_Texture", m_mapComponent, ID_STATIC);
 
 	m_iMonsterIndex = 0;
+	m_fAttackDelay = 0.5f;
+
 	_vec3	vScale = { 2.f,2.f,2.f };
 
 	m_pDynamicTransCom->Set_Scale(&vScale);
@@ -42,6 +46,7 @@ HRESULT CAnubis::Ready_Object(int Posx, int Posy)
 	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
 	m_pAnimationCom->Ready_Animation(6, 1, 0.2f);
 	m_iPreHp = (m_pInfoCom->Get_InfoRef()._iHp);
+	m_pAttackAnimationCom->Ready_Animation(17, 0, 0.15f);
 	if (Posx == 0 && Posy == 0) {}
 	else
 	{
@@ -58,40 +63,42 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 	if (m_iPreHp > m_pInfoCom->Get_Hp())
 	{
 		m_iPreHp = m_pInfoCom->Get_Hp();
+		//m_bHit = true;
+		m_bAttacking = false;
 		if (m_fHitDelay != 0)
 		{
 			m_fHitDelay = 0;
 		}
 	}
 
-//#ifdef _DEBUG
+	//#ifdef _DEBUG
 	/*if (SCENE_TOOLTEST == Get_Scene()->Get_SceneType())
 	{
-		CTexture*	pComponent = nullptr;
-		if (m_iPreIndex != m_iMonsterIndex)
-		{
-			m_iPreIndex = m_iMonsterIndex;
-			switch (m_iMonsterIndex)
-			{
-			case 0:
-				pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_MonsterTexture"));
-				NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
-				m_mapComponent[ID_STATIC].insert({ L"Proto_MonsterTexture", pComponent });
-				break;
+	CTexture*	pComponent = nullptr;
+	if (m_iPreIndex != m_iMonsterIndex)
+	{
+	m_iPreIndex = m_iMonsterIndex;
+	switch (m_iMonsterIndex)
+	{
+	case 0:
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_MonsterTexture"));
+	NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
+	m_mapComponent[ID_STATIC].insert({ L"Proto_MonsterTexture", pComponent });
+	break;
 
-			case 1:
-				pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_MonsterTexture2"));
-				NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
-				m_mapComponent[ID_STATIC].insert({ L"Proto_MonsterTexture2", pComponent });
-				break;
+	case 1:
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_MonsterTexture2"));
+	NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
+	m_mapComponent[ID_STATIC].insert({ L"Proto_MonsterTexture2", pComponent });
+	break;
 
-			case 2:
-				pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_MonsterTexture3"));
-				NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
-				m_mapComponent[ID_STATIC].insert({ L"Proto_MonsterTexture3", pComponent });
-				break;
-			}
-		}
+	case 2:
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_MonsterTexture3"));
+	NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
+	m_mapComponent[ID_STATIC].insert({ L"Proto_MonsterTexture3", pComponent });
+	break;
+	}
+	}
 	}
 	else*/
 	//{
@@ -129,29 +136,36 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 	//		m_pAnimationCom->m_iMotion = 7;
 	//	}
 	//}
-
+	AttackJudge(fTimeDelta);
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 
 
 	if (m_bHit == false)
 	{
-		if (fMtoPDistance > 5.f)
+		if (fMtoPDistance > 7.f && m_bAttacking == false)
 		{
 			m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
 
 			m_pAnimationCom->Move_Animation(fTimeDelta);
+
 		}
 		else
 		{
-			m_pAnimationCom->m_iMotion = 0;
+			if (m_bAttack)
+			{
+				Attack(fTimeDelta);
+			}
+			else
+			{
+				m_pAnimationCom->m_iMotion = 0;
+			}
 		}
 	}
-
-	else
-	{
-		// 피격 시 모션
-		m_pAnimationCom->m_iMotion = 7;
-	}
+else
+{
+	// 피격 시 모션
+	m_pAnimationCom->m_iMotion = 7;
+}
 
 
 
@@ -169,7 +183,13 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 
 	Excution_Event();
 
-	Engine::CGameObject::Update_Object(fTimeDelta);
+	/*_int iResult = Engine::CGameObject::Update_Object(fTimeDelta);
+	for (auto iter = m_AnubisThunderlist.begin(); iter != m_AnubisThunderlist.end(); ++iter)
+	{
+		(*iter)->Update_Object(fTimeDelta);
+	}*/
+
+	Engine::CMonsterBase::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
 
 
@@ -180,7 +200,7 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 void CAnubis::LateUpdate_Object(void)
 {
 	// 빌보드 에러 해결
-	CMyCamera* pCamera =static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
+	CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
 	NULL_CHECK(pCamera);
 
 	_matrix		matWorld, matView, matBill;
@@ -217,7 +237,7 @@ void CAnubis::LateUpdate_Object(void)
 void CAnubis::Render_Obejct(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pDynamicTransCom->Get_WorldMatrixPointer());
-	
+
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0x10);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
@@ -226,7 +246,15 @@ void CAnubis::Render_Obejct(void)
 	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-	m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);	// 텍스처 정보 세팅을 우선적으로 한다.
+
+	if (m_bAttacking && false == m_bHit)
+	{
+		m_pAttackTextureCom->Set_Texture(m_pAttackAnimationCom->m_iMotion);
+	}
+	else
+	{
+		m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);	// 텍스처 정보 세팅을 우선적으로 한다.
+	}	// 텍스처 정보 세팅을 우선적으로 한다.
 
 	m_pBufferCom->Render_Buffer();
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
@@ -242,26 +270,20 @@ void CAnubis::Collision_Event()
 	CGameObject *pGameObject = nullptr;
 	pGameObject = static_cast<CGun_Screen*>(::Get_GameObject(L"Layer_UI", L"Gun"));
 
-	_vec3 PickPos;
-	
 
-	if (static_cast<CGun_Screen*>(pGameObject)->Get_Shoot()&&
-		fMtoPDistance < MAX_CROSSROAD &&
+	if (static_cast<CGun_Screen*>(pGameObject)->Get_Shoot() &&
+		fMtoPDistance < MAX_CROSSROAD  &&
 		m_pColliderCom->Check_Lay_InterSect(m_pBufferCom, m_pDynamicTransCom, g_hWnd))
 	{
 		m_bHit = true;
-		static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic",L"Player"))->Set_ComboCount(1);
+		static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"))->Set_ComboCount(1);
 		m_pInfoCom->Receive_Damage(1);
-		cout << "Anubis"<<m_pInfoCom->Get_InfoRef()._iHp << endl;
+		cout << "Spider " << m_pInfoCom->Get_InfoRef()._iHp << endl;
 		static_cast<CGun_Screen*>(pGameObject)->Set_Shoot(false);
 	}
 
-	/*if (m_bHit)
-	{
 
-	}
-*/
-	
+
 }
 
 void CAnubis::Excution_Event()
@@ -287,6 +309,62 @@ void				CAnubis::Clear_Blood(const _float& fTimeDelta)
 	//} //코드병합으로 잠굼
 }
 
+void		CAnubis::AttackJudge(const _float& fTimeDelta)
+{
+	if (m_bAttack == false)
+	{
+		m_fAttackDelayTime += fTimeDelta;
+		if (m_fAttackDelay <= m_fAttackDelayTime)
+		{
+			m_bAttack = true;
+			m_fAttackDelayTime = 0.f;
+		}
+	}
+	if (false == m_bHit)
+	{
+		if (m_pAttackAnimationCom->m_iMotion<m_pAttackAnimationCom->m_iMaxMotion
+			&& m_pAttackAnimationCom->m_iMotion>m_pAttackAnimationCom->m_iMinMotion)
+		{
+			m_bAttacking = true;
+		}
+		else
+		{
+			m_bAttacking = false;
+		}
+	}
+	else
+		m_pAttackAnimationCom->m_iMotion = 0;
+}
+
+void CAnubis::Attack(const _float& fTimeDelta)
+{
+	m_pAttackAnimationCom->Move_Animation(fTimeDelta);
+
+	CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
+	CTransform* pPlayerTransform = static_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
+	_vec3 AnubisInfo;
+	m_pDynamicTransCom->Get_Info(INFO_POS, &AnubisInfo);
+	if (1 == m_pAttackAnimationCom->m_iMotion)
+	{
+		pPlayerTransform->Get_Info(INFO_POS, &m_bOldPlayerPos);
+
+	}
+	if (11 == m_pAttackAnimationCom->m_iMotion)
+	{
+		//CAnubisThunder* pThunder;
+		//pThunder = CAnubisThunder::Create(m_pGraphicDev, AnubisInfo.x, AnubisInfo.z);
+		//// 플레이어 방향으로 발사
+		//_vec3 DirForPlayer = m_bOldPlayerPos - AnubisInfo;
+		//pThunder->Set_Direction(&DirForPlayer);
+		//m_AnubisThunderlist.push_back(pThunder);
+
+	}
+	if (m_pAttackAnimationCom->m_iMotion >= m_pAttackAnimationCom->m_iMaxMotion)
+	{
+		m_bAttack = false;
+	}
+}
+
 CAnubis * CAnubis::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)
 {
 	CAnubis*	pInstance = new CAnubis(pGraphicDev);
@@ -303,5 +381,10 @@ CAnubis * CAnubis::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)
 
 void CAnubis::Free(void)
 {
-	CGameObject::Free();
+	CMonsterBase::Free();
+	//for (auto iter : m_AnubisThunderlist)
+	//{
+	//	Safe_Release(iter);
+	//}
+	//m_AnubisThunderlist.clear();
 }

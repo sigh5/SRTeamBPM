@@ -95,13 +95,15 @@
     <ClCompile Include="..\Code\CheckEvent.cpp">
       <Filter>00. Component\07.CheckEvent</Filter>
     </ClCompile>
-    <ClCompile Include="ThunderTex.cpp" />
     <ClCompile Include="..\Code\UI_Base.cpp">
       <Filter>01. GameObject\UI_Base</Filter>
     </ClCompile>
     <ClCompile Include="ThunderTex.cpp" />
     <ClCompile Include="..\Code\EquipmentBase.cpp">
       <Filter>01. GameObject\EquipmentBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ThunderTex.cpp">
+      <Filter>00. Component\00. VIBuffer\05.ThunderTex</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -212,9 +214,11 @@
     <ClInclude Include="..\..\Header\UI_Base.h">
       <Filter>01. GameObject\UI_Base</Filter>
     </ClInclude>
-    <ClInclude Include="ThunderTex.h" />
     <ClInclude Include="..\..\Header\EquipmentBase.h">
       <Filter>01. GameObject\EquipmentBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\ThunderTex.h">
+      <Filter>00. Component\00. VIBuffer\05.ThunderTex</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

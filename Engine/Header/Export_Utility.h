@@ -21,7 +21,7 @@
 #include "ItemBase.h"
 #include "UI_Base.h"
 #include "EquipmentBase.h"
-
+#include "ThunderTex.h"
 
 
 #include "PSystem.h"

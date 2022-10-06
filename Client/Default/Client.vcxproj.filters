@@ -205,6 +205,15 @@
     <ClCompile Include="..\Code\Magnum.cpp">
       <Filter>02. GameObject\01. For_Stage\14. Equipment\00. Weapon\1. Magnum</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\Sphinx.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SphinxBullet.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\AnubisThunder.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -429,6 +438,15 @@
     <ClInclude Include="..\Header\Magnum.h">
       <Filter>02. GameObject\01. For_Stage\14. Equipment\00. Weapon\1. Magnum</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Sphinx.h">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\SphinxBullet.h">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\AnubisThunder.h">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -630,6 +648,9 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\14. Equipment\00. Weapon\1. Magnum">
       <UniqueIdentifier>{b01bfd05-4f24-4537-8e56-86a063703aea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx">
+      <UniqueIdentifier>{4036cf1d-272d-44e4-ae60-f0a2105afda5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

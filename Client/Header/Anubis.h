@@ -25,6 +25,10 @@ public:
 	// 처형 판독
 	virtual void		Excution_Event();
 
+	void AttackJudge(const _float& fTimeDelta);
+	// 공격
+	void Attack(const _float& fTimeDelta);
+
 public:
 	CCalculator*		Get_Calculator(void) { return m_pCalculatorCom; }
 	CRcTex*				Get_Buffer(void) { return m_pBufferCom; }
@@ -34,12 +38,21 @@ public:
 	virtual void		Free(void);
 
 private:
+
 	int m_iPreIndex = 0;
+	float m_fAttackDelay = 0;
+	float m_fAttackDelayTime = 0;
+	bool m_bAttack = true;
+	bool m_bAttacking = false;
+
+	_vec3 m_bOldPlayerPos;
 
 	CTexture*		m_pTextureCom = nullptr;
+	CTexture*		m_pAttackTextureCom = nullptr;
 	CRcTex*			m_pBufferCom = nullptr;
-	
+	CAnimation*		m_pAttackAnimationCom = nullptr;
 
-	
+	//list<CAnubisThunder*> m_AnubisThunderlist;
+
 };
 
