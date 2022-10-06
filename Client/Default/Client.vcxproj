@@ -230,7 +230,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Anubis.cpp" />
-    <ClCompile Include="..\Code\AnubisThunder.cpp" />
     <ClCompile Include="..\Code\BackGround.cpp" />
     <ClCompile Include="..\Code\Box.cpp" />
     <ClCompile Include="..\Code\Bullet.cpp" />

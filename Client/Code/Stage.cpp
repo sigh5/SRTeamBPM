@@ -28,8 +28,9 @@
 #include "Anubis.h"
 #include "Spider.h"
 #include "FatBat.h"
-#include "AnubisThunder.h"
+//#include "AnubisThunder.h"
 #include "Sphinx.h"
+
 
 
 
@@ -221,9 +222,9 @@ HRESULT CStage::Ready_Layer_UI(const _tchar * pLayerTag)
 	
 	READY_LAYER(pGameObject, CGun_Screen, pLayer, m_pGraphicDev, L"Gun");
 
-	pGameObject = CDashUI::Create(m_pGraphicDev);
+	/*pGameObject = CDashUI::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Dash_UI", pGameObject), E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Dash_UI", pGameObject), E_FAIL);*/
 
 	m_mapLayer.insert({ pLayerTag, pLayer });
 	return S_OK;

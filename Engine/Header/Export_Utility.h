@@ -18,6 +18,7 @@
 #include "MonsterBase.h"
 #include "BaseBullet.h"
 #include "ItemBase.h"
+#include "ThunderTex.h"
 
 #include "PSystem.h"
 
