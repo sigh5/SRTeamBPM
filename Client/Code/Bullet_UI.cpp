@@ -38,7 +38,7 @@ _int CBullet_UI::Update_Object(const _float & fTimeDelta)
 							
 	// m_pGun = 
 	// 여기만 바꾸면							// ◆ CGun_Screen
-	m_pAnimationCom->Control_Animation(dynamic_cast<CTestPlayer*>(::Get_GameObject(L"Layer_GameLogic", L"TestPlayer"))->Get_Magazine());
+	m_pAnimationCom->Control_Animation(dynamic_cast<CGun_Screen*>(::Get_GameObject(L"Layer_UI", L"Gun"))->Get_Magazine());
 	
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
@@ -62,7 +62,7 @@ void CBullet_UI::Render_Obejct(void)
 	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &m_pTransCom->m_matOrtho);
 
 
-	_uint iMagazineCount = dynamic_cast<CTestPlayer*>(::Get_GameObject(L"Layer_GameLogic", L"TestPlayer"))->Get_Magazine();
+	_uint iMagazineCount = dynamic_cast<CGun_Screen*>(::Get_GameObject(L"Layer_UI", L"Gun"))->Get_Magazine();
 	
 	// Player's Bullet Magazine left
 	

@@ -379,9 +379,9 @@ void CTestPlayer::Collision_Event(CGameObject * pGameObject)
 {
 	CScene* pScene = ::Get_Scene();
 	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
-			
+
 	CTransform *pTransform = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
-	
+
 	_vec3 vObjPos;
 	_vec3 vPlayerPos;
 
@@ -392,62 +392,62 @@ void CTestPlayer::Collision_Event(CGameObject * pGameObject)
 	if (m_pColliderCom->Check_Sphere_InterSect(vObjPos, vPlayerPos, 1.f, 1.f) == true)
 	{
 		if (pGameObject == pMyLayer->Get_GameObject(L"HealthPotion"))
-		{				
+		{
 			m_pInfoCom->Add_Hp(25);
 			//m_iHpBarChange += 1;				
 			pMyLayer->Delete_GameObject(L"HealthPotion"); // 이벤트 처리		
 		}
 
-	pLayer = pScene->GetLayer(L"Layer_GameLogic");
-	NULL_CHECK_RETURN(pLayer, );
+		pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+		NULL_CHECK_RETURN(pMyLayer, );
 
-	//CScene* pScene = ::Get_Scene();
-	//CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
-	//		
-	//CTransform *pTransform = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
-	//
-	//_vec3 vObjPos;
-	//_vec3 vPlayerPos;
+		//CScene* pScene = ::Get_Scene();
+		//CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+		//		
+		//CTransform *pTransform = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+		//
+		//_vec3 vObjPos;
+		//_vec3 vPlayerPos;
 
 
-	//pTransform->Get_Info(INFO_POS, &vObjPos);
-	//m_pTransCom->Get_Info(INFO_POS, &vPlayerPos);
-	//// ★
-	//if (m_pColliderCom->Check_Sphere_InterSect(vObjPos, vPlayerPos, 1.f, 1.f) == true)
-	//{
-	//	if (pGameObject == pMyLayer->Get_GameObject(L"HealthPotion"))
-	//	{				
-	//		m_pInfoCom->Add_Hp(25);
-	//		//m_iHpBarChange += 1;				
-	//		pMyLayer->Delete_GameObject(L"HealthPotion"); // 이벤트 처리		
-	//	}
+		//pTransform->Get_Info(INFO_POS, &vObjPos);
+		//m_pTransCom->Get_Info(INFO_POS, &vPlayerPos);
+		//// ★
+		//if (m_pColliderCom->Check_Sphere_InterSect(vObjPos, vPlayerPos, 1.f, 1.f) == true)
+		//{
+		//	if (pGameObject == pMyLayer->Get_GameObject(L"HealthPotion"))
+		//	{				
+		//		m_pInfoCom->Add_Hp(25);
+		//		//m_iHpBarChange += 1;				
+		//		pMyLayer->Delete_GameObject(L"HealthPotion"); // 이벤트 처리		
+		//	}
 
-	//	if (pGameObject == pMyLayer->Get_GameObject(L"Coin"))
-	//	{
-	//		m_pInfoCom->Get_InfoRef()._iCoin += 1;
-	//		pMyLayer->Delete_GameObject(L"Coin"); // 이벤트 처리
-	//	}				
-	//}
-	////_uint iPlayerPower = dynamic_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._iAttackPower;
-	//if (m_pColliderCom->Check_Sphere_InterSect(vObjPos, vPlayerPos, 1.f, 1.f) == true)
-	//{
-	//	if (pGameObject == pMyLayer->Get_GameObject(L"Box"))
-	//	{
-	//		if (Get_DIKeyState(DIK_F) & 0X80)
-	//		{
-	//			//CAnimation* pBoxAnimation = dynamic_cast<CAnimation*>(pGameObject->Get_Component(L"Proto_AnimationCom", ID_STATIC));
-	//			
-	//			CBox* pBox = dynamic_cast<CBox*> (Engine::Get_GameObject(L"Layer_GameLogic", L"Box"));
-	//				
-	//			pBox->Open_Event(this);		
-	//			pBox->Set_Open(false);
-	//						
-	//		}
-	//	}
-	//}
-	
+		//	if (pGameObject == pMyLayer->Get_GameObject(L"Coin"))
+		//	{
+		//		m_pInfoCom->Get_InfoRef()._iCoin += 1;
+		//		pMyLayer->Delete_GameObject(L"Coin"); // 이벤트 처리
+		//	}				
+		//}
+		////_uint iPlayerPower = dynamic_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._iAttackPower;
+		//if (m_pColliderCom->Check_Sphere_InterSect(vObjPos, vPlayerPos, 1.f, 1.f) == true)
+		//{
+		//	if (pGameObject == pMyLayer->Get_GameObject(L"Box"))
+		//	{
+		//		if (Get_DIKeyState(DIK_F) & 0X80)
+		//		{
+		//			//CAnimation* pBoxAnimation = dynamic_cast<CAnimation*>(pGameObject->Get_Component(L"Proto_AnimationCom", ID_STATIC));
+		//			
+		//			CBox* pBox = dynamic_cast<CBox*> (Engine::Get_GameObject(L"Layer_GameLogic", L"Box"));
+		//				
+		//			pBox->Open_Event(this);		
+		//			pBox->Set_Open(false);
+		//						
+		//		}
+		//	}
+		//}
+
+	}
 }
-
 
 CTestPlayer * CTestPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
