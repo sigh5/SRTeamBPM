@@ -255,6 +255,12 @@ void CAnubis::Collision_Event()
 		cout << "Anubis"<<m_pInfoCom->Get_InfoRef()._iHp << endl;
 		static_cast<CGun_Screen*>(pGameObject)->Set_Shoot(false);
 	}
+
+	/*if (m_bHit)
+	{
+
+	}
+*/
 	
 }
 

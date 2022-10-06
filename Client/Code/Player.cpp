@@ -3,9 +3,9 @@
 
 #include "AbstractFactory.h"
 #include "Export_Function.h"
-
+#include "Box.h"
 #include "Gun_Screen.h"
-#include "WallCube.h"
+
 
 
 
@@ -26,6 +26,7 @@ CPlayer::~CPlayer()
 
 HRESULT CPlayer::Ready_Object(void)
 {
+	
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
@@ -34,6 +35,8 @@ HRESULT CPlayer::Ready_Object(void)
 	_vec3 vScale = { 0.1f, 0.1f, 0.1f };
 	m_pDynamicTransCom->Set_Scale(&vScale);
 	m_pDynamicTransCom->Update_Component(1.5f);
+
+	
 
 	return S_OK;
 }

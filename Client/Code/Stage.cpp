@@ -230,7 +230,7 @@ HRESULT CStage::Ready_Layer_CubeCollsion(const _tchar * pLayerTag)
 		const_cast<_tchar*>(pLayerTag),
 		L"../../Data/",
 		L"Stage1Map.dat",
-		L"WallCube",
+		L"TestCube",
 		OBJ_CUBE);
 
 	return S_OK;
