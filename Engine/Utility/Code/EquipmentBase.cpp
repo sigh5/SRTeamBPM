@@ -2,7 +2,7 @@
 #include "Export_Function.h"
 
 #include "Calculator.h"
-#include "EquipInfo.h"
+
 #include "Texture.h"
 #include "RcTex.h"
 #include "Animation.h"
