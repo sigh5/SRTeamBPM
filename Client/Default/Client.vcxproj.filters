@@ -193,6 +193,9 @@
     <ClCompile Include="..\Code\AnubisThunder.cpp">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\Sphinx.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\03. Boss\00. Sphinx</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -405,6 +408,9 @@
     <ClInclude Include="..\Header\AnubisThunder.h">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Sphinx.h">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\03. Boss\00. Sphinx</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -579,6 +585,12 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\13. Gun_Screen">
       <UniqueIdentifier>{094e6665-e320-42fb-91fe-5b6f14027206}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\03. Boss">
+      <UniqueIdentifier>{4b16bb86-5707-485f-8452-fe1df99f4a34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\03. Boss\00. Sphinx">
+      <UniqueIdentifier>{26ef7f35-76ee-41be-823d-9a03d1c1178a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

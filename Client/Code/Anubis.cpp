@@ -369,12 +369,12 @@ void CAnubis::Attack(const _float& fTimeDelta)
 	}
 	if (11 == m_pAttackAnimationCom->m_iMotion)
 	{
-		CAnubisThunder* pThunder;
-		pThunder = CAnubisThunder::Create(m_pGraphicDev, AnubisInfo.x, AnubisInfo.z);
-		// 플레이어 방향으로 발사
-		_vec3 DirForPlayer = m_bOldPlayerPos - AnubisInfo;
-		pThunder->Set_Direction(&DirForPlayer);
-		m_AnubisThunderlist.push_back(pThunder);
+		//CAnubisThunder* pThunder;
+		//pThunder = CAnubisThunder::Create(m_pGraphicDev, AnubisInfo.x, AnubisInfo.z);
+		//// 플레이어 방향으로 발사
+		//_vec3 DirForPlayer = m_bOldPlayerPos - AnubisInfo;
+		//pThunder->Set_Direction(&DirForPlayer);
+		//m_AnubisThunderlist.push_back(pThunder);
 
 	}
 	if (m_pAttackAnimationCom->m_iMotion >= m_pAttackAnimationCom->m_iMaxMotion)
