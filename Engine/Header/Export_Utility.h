@@ -18,6 +18,7 @@
 #include "MonsterBase.h"
 #include "BaseBullet.h"
 #include "ItemBase.h"
+#include "UI_Base.h"
 
 #include "PSystem.h"
 
@@ -28,7 +29,7 @@
 
 #include "Animation.h"
 #include "Camera.h"
-
+#include "ThunderTex.h"
 
 #include "ProtoMgr.h"
 #include "Management.h"

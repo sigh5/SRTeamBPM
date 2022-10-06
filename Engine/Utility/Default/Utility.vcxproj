@@ -197,10 +197,11 @@ call CopyUtility.bat</Command>
     <ClInclude Include="..\..\Header\SoundMgr.h" />
     <ClInclude Include="..\..\Header\TerrainTex.h" />
     <ClInclude Include="..\..\Header\Texture.h" />
+    <ClInclude Include="..\..\Header\ThunderTex.h" />
     <ClInclude Include="..\..\Header\Transform.h" />
     <ClInclude Include="..\..\Header\TriCol.h" />
+    <ClInclude Include="..\..\Header\UI_Base.h" />
     <ClInclude Include="..\..\Header\VIBuffer.h" />
-    <ClInclude Include="ThunderTex.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Animation.cpp" />
@@ -231,10 +232,11 @@ call CopyUtility.bat</Command>
     <ClCompile Include="..\Code\SoundMgr.cpp" />
     <ClCompile Include="..\Code\TerrainTex.cpp" />
     <ClCompile Include="..\Code\Texture.cpp" />
+    <ClCompile Include="..\Code\ThunderTex.cpp" />
     <ClCompile Include="..\Code\Transform.cpp" />
     <ClCompile Include="..\Code\TriCol.cpp" />
+    <ClCompile Include="..\Code\UI_Base.cpp" />
     <ClCompile Include="..\Code\VIBuffer.cpp" />
-    <ClCompile Include="ThunderTex.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Header\Export_Utility.inl" />
