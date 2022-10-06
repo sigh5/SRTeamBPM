@@ -5,6 +5,7 @@
 #include "AbstractFactory.h"
 #include "MyCamera.h"
 #include "Player.h"
+
 #include "Gun_Screen.h"
 #include "ObjectMgr.h"
 
@@ -43,8 +44,10 @@ HRESULT CSphinx::Ready_Object(int Posx, int Posy)
 
 _int CSphinx::Update_Object(const _float & fTimeDelta)
 {
-	if (m_iPreHp != m_pInfoCom->Get_Hp())
+	if ( !m_bBattle && m_iPreHp != m_pInfoCom->Get_Hp() )
 	{
+		m_iPreHp = m_pInfoCom->Get_Hp();
+
 		m_bBattle = true;
 	}
 	if (m_bBattle)
@@ -149,10 +152,10 @@ void		CSphinx::Collision_Event()
 		m_pColliderCom->Check_Lay_InterSect(m_pBufferCom, m_pDynamicTransCom, g_hWnd))
 	{
 
-		static_cast<CPlayer*>(pGameObject)->Set_ComboCount(1);
-
+		m_bHit = true;
+		static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"))->Set_ComboCount(1);
 		m_pInfoCom->Receive_Damage(1);
-		cout << "Anubis" << m_pInfoCom->Get_InfoRef()._iHp << endl;
+		cout << "Sphinx" << m_pInfoCom->Get_InfoRef()._iHp << endl;
 		static_cast<CGun_Screen*>(pGameObject)->Set_Shoot(false);
 	}
 
@@ -165,7 +168,8 @@ void CSphinx::AttackJudge(const _float & fTimeDelta)
 void CSphinx::Attack(const _float & fTimeDelta)
 {
 	m_pAnimationCom->Move_Animation(fTimeDelta);
-	CTransform* pPlayerTransform = static_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
+	CTransform* pPlayerTransform =
+		static_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
 
 	if (m_pAnimationCom->m_iMotion == 5)
 	{

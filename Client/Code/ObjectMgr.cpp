@@ -137,6 +137,10 @@ void CObjectMgr::Free(void)
 	for_each(m_MonsterBulletList.begin(), m_MonsterBulletList.end(), CDeleteObj());
 	m_MonsterBulletList.clear();
 
+	for_each(m_SphinxBulletList.begin(), m_SphinxBulletList.end(), CDeleteObj());
+	m_SphinxBulletList.clear();
+
+
 	for_each(m_UIMetroList.begin(), m_UIMetroList.end(), CDeleteObj());
 	m_UIMetroList.clear();
 

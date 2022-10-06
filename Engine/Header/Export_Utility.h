@@ -7,6 +7,8 @@
 #include "RcTex.h"
 #include "TerrainTex.h"
 #include "CubeTex.h"
+#include "SphereTex.h"
+
 
 #include "Transform.h"
 #include "Calculator.h"
