@@ -54,9 +54,7 @@ public:
 	// ~Test
 
 	virtual void		Collision_Event(CGameObject* pGameObject);
-
-
-
+	
 private:
 	CRcTex*				m_pBufferCom = nullptr;
 	CTransform*			m_pTransCom = nullptr;
@@ -117,8 +115,8 @@ private:
 	
 	vector<CEquipmentBase*>		m_vecWeaponType;
 	
-//public:
-//	vector<CEquipmentBase*>*	Get_WeaponType(void) { return &m_vecWeaponType; }
+public:
+	vector<CEquipmentBase*>*	Get_WeaponType(void) { return &m_vecWeaponType; }
 	
 public:
 	static CTestPlayer*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

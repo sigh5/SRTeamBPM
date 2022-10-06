@@ -19,7 +19,7 @@ CTestPlayer::CTestPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	, m_fJumpPower(5.0f)
 	, m_fDashPower(0.3f)
 	, m_tpType(TYPING_END)
-{
+{	
 }
 
 

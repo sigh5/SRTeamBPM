@@ -5,6 +5,7 @@
 #include "AbstractFactory.h"
 #include "TestPlayer.h"
 #include "MyCamera.h"
+#include "Inventory_UI.h"
 
 CShotGun::CShotGun(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CEquipmentBase(pGraphicDev) 
@@ -19,9 +20,10 @@ HRESULT CShotGun::Ready_Object(_uint iX, _uint iZ)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	Engine::CEquipmentBase::Ready_EquipInfo(10, 0, 0, 10);
-	Engine::CEquipmentBase::Set_WeaponType(WEAPON_SHOTGUN);
+	Engine::CEquipmentBase::Ready_EquipInfo(10, 0, 0, 10, WEAPON_SHOTGUN);
 	
+	m_RenderID = RENDER_ALPHA;
+
 	m_pTransCom->Set_Pos((_float)iX, 1.f, (_float)iZ);
 	m_pTransCom->Compulsion_Update();
 
@@ -34,7 +36,7 @@ _int CShotGun::Update_Object(const _float & fTimeDelta)
 
 	Set_OnTerrain();
 
-	Add_RenderGroup(RENDER_ALPHA, this);
+	Add_RenderGroup(m_RenderID, this);
 
 	return iResult;
 }
@@ -76,7 +78,13 @@ void CShotGun::LateUpdate_Object(void)
 
 void CShotGun::Render_Obejct(void)
 {
+	//_bool 변수로 World(필드에 있을 때), Ortho(인벤토리에 들어옴) 여부 판단
+	
+	if (!m_bRenderControl)
+	{
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
+	
+	
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0x10);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
@@ -91,6 +99,40 @@ void CShotGun::Render_Obejct(void)
 
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+
+	}
+
+	if (m_bRenderControl)
+	{
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
+
+		_matrix		OldViewMatrix, OldProjMatrix;
+
+		m_pGraphicDev->GetTransform(D3DTS_VIEW, &OldViewMatrix);
+		m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &OldProjMatrix);
+
+		_matrix		ViewMatrix;
+
+		ViewMatrix = *D3DXMatrixIdentity(&ViewMatrix);
+
+		_matrix		matProj;
+
+		D3DXMatrixOrthoLH(&matProj, WINCX, WINCY, 0.f, 1.f);
+
+		m_pTransCom->Set_Pos(-50.f, -50.f, 0.1f);
+
+		m_pGraphicDev->SetTransform(D3DTS_VIEW, &ViewMatrix);
+		m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
+		
+		m_pTextureCom->Set_Texture(0);
+		m_pBufferCom->Render_Buffer();	
+
+		m_pGraphicDev->SetTransform(D3DTS_VIEW, &OldViewMatrix);
+		m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &OldProjMatrix);
+	}
+
+
+
 }
 
 void CShotGun::Collision_Event()
@@ -102,21 +144,32 @@ void CShotGun::Collision_Event()
 
 	pGameObject = pLayer->Get_GameObject(L"TestPlayer");
 	NULL_CHECK_RETURN(pGameObject, );
-
-	if (m_pColliderCom->Check_Collision(this, pGameObject, 1, 1))
+	
+	if (Get_DIKeyState(DIK_F) & 0X80)
 	{
-		if (Get_DIKeyState(DIK_F) & 0X80)
+		if (!m_pColliderCom->Check_Collision(this, pGameObject, 1, 1))
 		{
-			//pGameObject = dynamic_cast<CTestPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"TestPlayer"));
-			//for (_uint i = 0; i < WEAPON_END; ++i)
-			//{
-			//	if (i == (m_EquipInfo.m_WeaponType == WEAPON_SHOTGUN))
-			//	{
-			//		CTestPlayer* pPlayer = static_cast<CTestPlayer*>(Get_GameObject(L"Layer_GameLogic", L"TestPlayer"));
+			CInventory_UI* pInven = static_cast<CInventory_UI*>(Get_GameObject(L"Layer_UI", L"InventoryUI"));
 
-			//		//pPlayer->Get_WeaponType()->insert(i);
-			//	}
-			//}
+			//CTestPlayer* pPlayer = static_cast<CTestPlayer*>(Get_GameObject(L"Layer_GameLogic", L"TestPlayer"));
+
+			pInven->Get_WeaponType()->push_back(this);
+
+			//pPlayer->Get_WeaponType()->push_back(this);
+
+			/*for (_uint i = 0; i < WEAPON_END; ++i)
+			{
+				if (i == (m_EquipInfo.m_WeaponType == WEAPON_SHOTGUN))
+				{
+					CTestPlayer* pPlayer = static_cast<CTestPlayer*>(Get_GameObject(L"Layer_GameLogic", L"TestPlayer"));
+
+					pPlayer->Get_WeaponType()->push_back(this);
+				}
+			}*/
+
+			//_uint iAddPower = (_uint)static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._iAttackPower;
+
+			//pPlayer->
 
 		}
 	}
@@ -141,7 +194,7 @@ void CShotGun::Set_OnTerrain(void)
 HRESULT CShotGun::Add_Component(void)
 { // CDynamic_Transform
 	m_pTransCom = CAbstractFactory<CTransform>::Clone_Proto_Component(L"Proto_TransformCom", m_mapComponent, ID_DYNAMIC);
-	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_MagnumTexture", m_mapComponent, ID_STATIC);
+	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_ShotGunTexture", m_mapComponent, ID_STATIC);
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
 	m_pAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_STATIC);
 	m_pCalculatorCom = CAbstractFactory<CCalculator>::Clone_Proto_Component(L"Proto_CalculatorCom", m_mapComponent, ID_STATIC);

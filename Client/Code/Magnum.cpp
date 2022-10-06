@@ -19,9 +19,8 @@ HRESULT CMagnum::Ready_Object(void)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	Engine::CEquipmentBase::Ready_EquipInfo(5, 0, 0, 7);
-	Engine::CEquipmentBase::Set_WeaponType(WEAPON_MAGNUM);
-
+	Engine::CEquipmentBase::Ready_EquipInfo(5, 0, 0, 7, WEAPON_MAGNUM);
+	
 	return S_OK;
 }
 
@@ -95,7 +94,7 @@ void CMagnum::Set_OnTerrain(void)
 HRESULT CMagnum::Add_Component(void)
 {
 	m_pTransCom = CAbstractFactory<CTransform>::Clone_Proto_Component(L"Proto_TransformCom", m_mapComponent, ID_DYNAMIC);
-	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_ShotGunTexture", m_mapComponent, ID_STATIC);
+	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_MagnumTexture", m_mapComponent, ID_STATIC);
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
 	m_pAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_STATIC);
 	m_pCalculatorCom = CAbstractFactory<CCalculator>::Clone_Proto_Component(L"Proto_CalculatorCom", m_mapComponent, ID_STATIC);
