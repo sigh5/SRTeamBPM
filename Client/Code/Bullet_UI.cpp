@@ -73,7 +73,7 @@ void CBullet_UI::Render_Obejct(void)
 
 	Render_Font(L"BMYEONSUNG", m_szMagazine.c_str(), &_vec2(660.f, 520.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 
-	/*_uint  iComboCount = dynamic_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"))->Get_ComboCount();
+	_uint  iComboCount = dynamic_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"))->Get_ComboCount();
 	if (iComboCount != 0)
 	{
 		_tchar	tCobmoCount[MAX_PATH];
@@ -84,7 +84,7 @@ void CBullet_UI::Render_Obejct(void)
 		Render_Font(L"BMYEONSUNG", m_szComboCount.c_str(), &_vec2(660.f, 100.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 
 
-	}*/
+	}
 
 
 

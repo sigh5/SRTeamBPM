@@ -25,7 +25,6 @@
 #include "HpBar.h"
 #include "Status_UI.h"
 #include "CoinKeyUI.h"
-#include "DashUI.h"
 
 class CStage_Pjw : public Engine::CScene
 {

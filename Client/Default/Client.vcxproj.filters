@@ -190,6 +190,12 @@
     <ClCompile Include="..\Code\Gun_Screen.cpp">
       <Filter>02. GameObject\01. For_Stage\13. Gun_Screen</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\ShotGun.cpp">
+      <Filter>02. GameObject\01. For_Stage\14. Equipment\00. Weapon\00. ShotGun</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Magnum.cpp">
+      <Filter>02. GameObject\01. For_Stage\14. Equipment\00. Weapon\01. Magnum</Filter>
+    </ClCompile>
     <ClCompile Include="..\Code\DashUI.cpp">
       <Filter>02. GameObject\01. For_Stage\10. UI\06. DashUI</Filter>
     </ClCompile>
@@ -408,6 +414,12 @@
     <ClInclude Include="..\Header\Gun_Screen.h">
       <Filter>02. GameObject\01. For_Stage\13. Gun_Screen</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Magnum.h">
+      <Filter>02. GameObject\01. For_Stage\14. Equipment\00. Weapon\01. Magnum</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\ShotGun.h">
+      <Filter>02. GameObject\01. For_Stage\14. Equipment\00. Weapon\00. ShotGun</Filter>
+    </ClInclude>
     <ClInclude Include="..\Header\DashUI.h">
       <Filter>02. GameObject\01. For_Stage\10. UI\06. DashUI</Filter>
     </ClInclude>
@@ -589,8 +601,20 @@
     <Filter Include="02. GameObject\01. For_Stage\13. Gun_Screen">
       <UniqueIdentifier>{094e6665-e320-42fb-91fe-5b6f14027206}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\14. Equipment">
+      <UniqueIdentifier>{c20fcce6-c76b-4591-ba70-1825535e3116}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\14. Equipment\00. Weapon">
+      <UniqueIdentifier>{2c9e363c-afe0-4561-b701-19a8577f1d3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\14. Equipment\00. Weapon\00. ShotGun">
+      <UniqueIdentifier>{5933d512-e582-4945-a0cb-5838c90913c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\14. Equipment\00. Weapon\01. Magnum">
+      <UniqueIdentifier>{4b7b6cda-7898-4e8d-992d-84f1f3566e88}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02. GameObject\01. For_Stage\10. UI\06. DashUI">
-      <UniqueIdentifier>{8bdec330-a553-40a1-a16d-384b7bc1d56f}</UniqueIdentifier>
+      <UniqueIdentifier>{1b0a06bb-6edb-49f9-a297-40d8c5e48a47}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\11. Item\02. Box">
       <UniqueIdentifier>{fcce3ad6-01b1-4087-91bc-f0124ed3c294}</UniqueIdentifier>

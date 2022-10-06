@@ -375,22 +375,28 @@ HRESULT CTestPlayer::Create_Bullet(_vec3 vPos)
 	return S_OK;
 }
 
-void CTestPlayer::Collision_Event()
+void CTestPlayer::Collision_Event(CGameObject * pGameObject)
 {
-	// 기존에 존재하는 것들은 Player에 
-	//	씬에서 생성되는 것들은 그 객체에 
-	CScene  *pScene = ::Get_Scene();
-	NULL_CHECK_RETURN(pScene, );
-	//CLayer * pLayer = pScene->GetLayer(L"Layer_CubeCollsion");
-	//NULL_CHECK_RETURN(pLayer, );
-	CLayer* pLayer = pScene->GetLayer(L"Layer_GameLogic");
-	NULL_CHECK_RETURN(pLayer, );
-	CGameObject *pGameObject = nullptr;
+	CScene* pScene = ::Get_Scene();
+	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+			
+	CTransform *pTransform = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+	
+	_vec3 vObjPos;
+	_vec3 vPlayerPos;
 
-	for (auto iter = pLayer->Get_GameObjectMap().begin(); iter != pLayer->Get_GameObjectMap().end(); ++iter)
+
+	pTransform->Get_Info(INFO_POS, &vObjPos);
+	m_pTransCom->Get_Info(INFO_POS, &vPlayerPos);
+	// ★
+	if (m_pColliderCom->Check_Sphere_InterSect(vObjPos, vPlayerPos, 1.f, 1.f) == true)
 	{
-		m_pColliderCom->Check_Collision_Wall(iter->second, this);
-	}
+		if (pGameObject == pMyLayer->Get_GameObject(L"HealthPotion"))
+		{				
+			m_pInfoCom->Add_Hp(25);
+			//m_iHpBarChange += 1;				
+			pMyLayer->Delete_GameObject(L"HealthPotion"); // 이벤트 처리		
+		}
 
 	pLayer = pScene->GetLayer(L"Layer_GameLogic");
 	NULL_CHECK_RETURN(pLayer, );
