@@ -140,4 +140,6 @@ void CObjectMgr::Free(void)
 	for_each(m_UIMetroList.begin(), m_UIMetroList.end(), CDeleteObj());
 	m_UIMetroList.clear();
 
+
+
 }
