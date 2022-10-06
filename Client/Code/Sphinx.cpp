@@ -175,7 +175,7 @@ void CSphinx::Attack(const _float & fTimeDelta)
 			m_pDynamicTransCom->Get_Info(INFO_POS, &vPosOrigin);
 
 			vPos = vPosOrigin;
-			vPos.y += 2.f;
+			vPos.y += 2.5f;
 			vPos.x += 1.f;
 
 			CScene* pScene = ::Get_Scene();
@@ -193,7 +193,7 @@ void CSphinx::Attack(const _float & fTimeDelta)
 			m_pDynamicTransCom->Get_Info(INFO_POS, &vPosOrigin);
 
 			vPos = vPosOrigin;
-			vPos.y += 2.f;
+			vPos.y += 2.5f;
 			vPos.x -= 1.f;
 
 			CScene* pScene = ::Get_Scene();
@@ -211,6 +211,10 @@ void CSphinx::Attack(const _float & fTimeDelta)
 	{
 		m_iShootLeftRight = 0;
 	}
+	//if (m_pAnimationCom->m_iMotion == 8)
+	//{
+	//	if()
+	//}
 }
 
 CSphinx * CSphinx::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)
