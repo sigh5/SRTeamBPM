@@ -196,6 +196,9 @@
     <ClCompile Include="..\Code\Sphinx.cpp">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\03. Boss\00. Sphinx</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\DashUI.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\06. DashUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -411,6 +414,9 @@
     <ClInclude Include="..\Header\Sphinx.h">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\03. Boss\00. Sphinx</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\DashUI.h">
+      <Filter>02. GameObject\01. For_Stage\10. UI\06. DashUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -591,6 +597,9 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\03. Boss\00. Sphinx">
       <UniqueIdentifier>{26ef7f35-76ee-41be-823d-9a03d1c1178a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\06. DashUI">
+      <UniqueIdentifier>{8bdec330-a553-40a1-a16d-384b7bc1d56f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

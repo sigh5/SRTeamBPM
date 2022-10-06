@@ -3,7 +3,7 @@
 #include "Export_Function.h"
 
 #include "Player.h"
-
+#include "Gun_Screen.h"
 
 USING(Engine)
 
@@ -25,15 +25,17 @@ HRESULT CBullet_UI::Ready_Object(CGameObject* pPlayer)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pPlayer = pPlayer;
+
 		
 	return S_OK;
 }
 
 _int CBullet_UI::Update_Object(const _float & fTimeDelta)
 {			
-												// 여기만 바꾸면
-	m_pAnimationCom->Control_Animation(dynamic_cast<CPlayer*>(m_pPlayer)->Get_Magazine());
+							
+	// m_pGun = 
+	// 여기만 바꾸면
+	m_pAnimationCom->Control_Animation(dynamic_cast<CGun_Screen*>(::Get_GameObject(L"Layer_UI", L"Gun"))->Get_Magazine());
 	
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
@@ -57,7 +59,7 @@ void CBullet_UI::Render_Obejct(void)
 	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &m_pTransCom->m_matOrtho);
 
 
-	_uint iMagazineCount = dynamic_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"))->Get_Magazine();
+	_uint iMagazineCount = dynamic_cast<CGun_Screen*>(::Get_GameObject(L"Layer_UI", L"Gun"))->Get_Magazine();
 	
 	// Player's Bullet Magazine left
 	

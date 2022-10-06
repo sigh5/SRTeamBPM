@@ -31,8 +31,6 @@ public:
 	CharacterInfo&	     Get_InfoRef();
 	void			     Get_MonsterToPlayer_Distance(float* _Distance);		// 몬스터 길이 구하는것
 	virtual void		 Excution_Event() {};
-	virtual void		 Calculator_Distance();
-
 
 
 public:

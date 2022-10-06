@@ -5,6 +5,9 @@
 #include "AbstractFactory.h"
 #include "ObjectMgr.h"
 #include "Player.h"
+#include "Gun_Screen.h"
+
+
 
 CMetronomeUI::CMetronomeUI(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev) 
@@ -42,8 +45,13 @@ _int CMetronomeUI::Update_Object(const _float & fTimeDelta)
 
 	if ( m_fMoveX < 22.f && m_fMoveX >-22.f)
 	{
-		static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"))->Set_OneShot(true);
-		static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"))->Set_SoundCheck(true);
+		
+		static_cast<CGun_Screen*>(Get_GameObject(L"Layer_UI", L"Gun"))
+			->Set_ReadyShot(true);
+
+		/*static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"))
+			->Set_SoundCheck(true);*/
+
 		CObjectMgr::GetInstance()->Collect_UIObj(this);
 		
 		return 5; 

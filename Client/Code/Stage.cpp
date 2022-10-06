@@ -19,6 +19,9 @@
 #include "CoinKeyUI.h"
 #include "Status_UI.h"
 #include "MetronomeUI.h"
+#include "Gun_Screen.h"
+#include "DashUI.h"
+
 
 #include "Snowfall.h"
 #include "HitBlood.h"
@@ -64,11 +67,10 @@ HRESULT CStage::Ready_Scene(void)
 _int CStage::Update_Scene(const _float & fTimeDelta)
 {
 	
-	m_fFrame += 1 * fTimeDelta;
+	m_fFrame += 1.f * fTimeDelta;
 
 	if (m_fFrame >= 1.f)
 	{
-
 		CGameObject*		pGameObject = nullptr;
 		CLayer *pMyLayer = GetLayer(L"Layer_UI");
 
@@ -83,42 +85,29 @@ _int CStage::Update_Scene(const _float & fTimeDelta)
 		m_fFrame = 0.f;
 	}
 
-	//CLayer *pLayer1 = GetLayer(L"Layer_GameLogic");
-	//CPlayer* pPlayer = dynamic_cast<CPlayer*>(pLayer1->Get_GameObject(L"Player"));
-
-	//CLayer * pLayer2 = GetLayer(L"Layer_CubeCollsion");
-
-	//pLayer2->Get_GameObjectMap();
-
-	//for (auto iter = pLayer2->Get_GameObjectMap().begin(); iter != pLayer2->Get_GameObjectMap().end(); ++iter)
-	//{
-	//	pPlayer->Collsion_CubeMap(iter->second, fTimeDelta);
-	//}
-
-
 	return Engine::CScene::Update_Scene(fTimeDelta);
 }
 
 void CStage::LateUpdate_Scene(void)
 {
 
-	/*CAnubis* pAbubis = dynamic_cast<CAnubis*>(pLayer->Get_GameObject(L"TestMonster1"));
+	CLayer *pLayer = GetLayer(L"Layer_GameLogic");
+	//CPlayer* pPlayer = static_cast<CPlayer*>(pLayer->Get_GameObject(L"Player"));
 
-	if (pPlayer->Get_CheckShot() == true)
-	{
-		pAbubis->Collision_Event(pPlayer);
-	}*/
-
-	CLayer *pLayer1 = GetLayer(L"Layer_GameLogic");
-
-	for (auto iter = pLayer1->Get_GameObjectMap().begin(); iter != pLayer1->Get_GameObjectMap().end(); ++iter)
+	for (auto iter = pLayer->Get_GameObjectMap().begin(); iter != pLayer->Get_GameObjectMap().end(); ++iter)
 	{
 		iter->second->Collision_Event();
 	}
+	
+	/*pLayer = GetLayer(L"Layer_UI");
+	CGun_Screen* pGun = static_cast<CGun_Screen*>(pLayer->Get_GameObject(L"Gun"));
+	*/
+	//if (pGun->Get_Shoot())
+	//{
+	//	pPlayer->Reset_ComboCount();
+	//}
+	/*pGun->Set_Shoot(false);*/
 
-	// Test
-	CPlayer* pPlayer = static_cast<CPlayer*>(pLayer1->Get_GameObject(L"Player"));
-	pPlayer->Set_CheckShot(false);
 
 	Engine::CScene::LateUpdate_Scene();
 }
@@ -189,7 +178,7 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	READY_LAYER(pGameObject, CAnubis, pLayer, m_pGraphicDev, L"TestMonster1");
 	READY_LAYER(pGameObject, CSpider, pLayer, m_pGraphicDev, L"TestMonster2");
 	READY_LAYER(pGameObject, CFatBat, pLayer, m_pGraphicDev, L"TestMonster3");
-
+	//
 	/*CFileIOMgr::GetInstance()->Load_FileData(m_pGraphicDev,
 		this,
 		const_cast<_tchar*>(pLayerTag),
@@ -207,6 +196,7 @@ HRESULT CStage::Ready_Layer_UI(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 
 	CGameObject*		pGameObject = nullptr;
+
 	CPlayer* pPlayer = dynamic_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"));
 
 	pGameObject = CBullet_UI::Create(m_pGraphicDev, pPlayer);
@@ -229,10 +219,14 @@ HRESULT CStage::Ready_Layer_UI(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"CoinKey_UI", pGameObject), E_FAIL);
 
+	
+	READY_LAYER(pGameObject, CGun_Screen, pLayer, m_pGraphicDev, L"Gun");
 
+	pGameObject = CDashUI::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Dash_UI", pGameObject), E_FAIL);
 
 	m_mapLayer.insert({ pLayerTag, pLayer });
-
 	return S_OK;
 }
 
@@ -250,7 +244,7 @@ HRESULT CStage::Ready_Layer_CubeCollsion(const _tchar * pLayerTag)
 		const_cast<_tchar*>(pLayerTag),
 		L"../../Data/",
 		L"Stage1Map.dat",
-		L"TestCube",
+		L"WallCube",
 		OBJ_CUBE);
 
 	return S_OK;
