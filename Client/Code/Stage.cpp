@@ -154,9 +154,9 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 
 	READY_LAYER(pGameObject, CPlayer, pLayer, m_pGraphicDev, L"Player");
 
-	pGameObject = CBox::Create(m_pGraphicDev, 20, 20);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Box", pGameObject), E_FAIL);
+	//pGameObject = CBox::Create(m_pGraphicDev, 20, 20);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Box", pGameObject), E_FAIL);
 
 	pGameObject = CSphinx::Create(m_pGraphicDev, 30, 39);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -217,6 +217,8 @@ HRESULT CStage::Ready_Layer_UI(const _tchar * pLayerTag)
 	READY_LAYER(pGameObject, CDashUI, pLayer, m_pGraphicDev, L"DashUI");
 	READY_LAYER(pGameObject, CGun_Screen, pLayer, m_pGraphicDev, L"Gun")
 	m_mapLayer.insert({ pLayerTag, pLayer });
+
+
 	return S_OK;
 }
 

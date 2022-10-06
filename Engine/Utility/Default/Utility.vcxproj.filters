@@ -92,18 +92,17 @@
       <Filter>01. GameObject\ItemBase</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\PSystem.cpp" />
-    <ClCompile Include="..\Code\CheckEvent.cpp">
-      <Filter>00. Component\07.CheckEvent</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\UI_Base.cpp">
       <Filter>01. GameObject\UI_Base</Filter>
     </ClCompile>
-    <ClCompile Include="ThunderTex.cpp" />
     <ClCompile Include="..\Code\EquipmentBase.cpp">
       <Filter>01. GameObject\EquipmentBase</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\ThunderTex.cpp">
       <Filter>00. Component\00. VIBuffer\05.ThunderTex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SphereTex.cpp">
+      <Filter>00. Component\00. VIBuffer\06. SphereTex</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -208,9 +207,6 @@
       <Filter>01. GameObject\ItemBase</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Header\PSystem.h" />
-    <ClInclude Include="..\..\Header\CheckEvent.h">
-      <Filter>00. Component\07.CheckEvent</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Header\UI_Base.h">
       <Filter>01. GameObject\UI_Base</Filter>
     </ClInclude>
@@ -219,6 +215,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Header\ThunderTex.h">
       <Filter>00. Component\00. VIBuffer\05.ThunderTex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\SphereTex.h">
+      <Filter>00. Component\00. VIBuffer\06. SphereTex</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -338,6 +337,9 @@
     </Filter>
     <Filter Include="01. GameObject\ItemBase">
       <UniqueIdentifier>{38c524d6-8b24-4e85-a6ef-56c779367bf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00. Component\00. VIBuffer\06. SphereTex">
+      <UniqueIdentifier>{0d6c903f-400c-45b2-931a-000b88dcb6a7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
