@@ -35,15 +35,16 @@ HRESULT CPlayer::Ready_Object(void)
 	m_pDynamicTransCom->Set_Scale(&vScale);
 	m_pDynamicTransCom->Update_Component(1.5f);
 
+
 	return S_OK;
 }
 
 _int CPlayer::Update_Object(const _float & fTimeDelta)
 {
-	
+
 	pEquipItem = dynamic_cast<CGun_Screen*>(Get_GameObject(L"Layer_UI", L"Gun"));
 	NULL_CHECK_RETURN(pEquipItem, -1);
-	
+
 	m_fTimeDelta = fTimeDelta;
 	m_fFrame += 1.0f * fTimeDelta;
 
@@ -76,10 +77,15 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 
 	m_pDynamicTransCom->Set_Y(2.f);
 
+	_vec3 vCenterPos;
+	m_pDynamicTransCom->Get_Info(INFO_POS,&vCenterPos);
+
+
+	
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
 
-	//Add_RenderGroup(RENDER_ALPHA, this);
+	Add_RenderGroup(RENDER_ALPHA, this);
 
 	return 0;
 }
@@ -94,13 +100,17 @@ void CPlayer::LateUpdate_Object(void)
 
 void CPlayer::Render_Obejct(void)
 {
-	/*m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pDynamicTransCom->Get_WorldMatrixPointer());
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	//m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pDynamicTransCom->Get_WorldMatrixPointer());
+	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
-	m_pTextureCom->Set_Texture(m_iTexIndex);
-	m_pBufferCom->Render_Buffer();
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);*/
+	
+
+	//m_pTextureCom->Set_Texture(m_iTexIndex);
+	//m_pBufferCom->Render_Buffer();
+	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	//m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);*/
+
+
 }
 
 HRESULT CPlayer::Add_Component(void)
@@ -238,8 +248,6 @@ void CPlayer::ComboCheck()
 	
 }
 
-
-
 void CPlayer::Collision_Event()
 {
 	// 기존에 존재하는 것들은 Player에 
@@ -252,6 +260,10 @@ void CPlayer::Collision_Event()
 
 	for (auto iter = pLayer->Get_GameObjectMap().begin(); iter != pLayer->Get_GameObjectMap().end(); ++iter)
 	{
+		/*CCollider* pCubeCollider = static_cast<CCollider*>(iter->second->Get_Component(L"Proto_ColliderCom",ID_STATIC));
+
+		m_pColliderCom->Check_collision_Wall_AABB(pCubeCollider, m_pColliderCom);
+*/
 		m_pColliderCom->Check_Collision_Wall(iter->second, this);
 	}
 
