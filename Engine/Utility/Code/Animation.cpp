@@ -5,12 +5,12 @@
 USING(Engine)
 
 CAnimation::CAnimation(LPDIRECT3DDEVICE9 pGraphicDev)
-	:CComponent(pGraphicDev)
+	:CComponent(pGraphicDev), m_bClone(false)
 {
 }
 
 Engine::CAnimation::CAnimation(const CAnimation& rhs)
-	: CComponent(rhs)
+	: CComponent(rhs), m_bClone(true)
 {
 
 }
@@ -117,7 +117,6 @@ CAnimation * CAnimation::Create(LPDIRECT3DDEVICE9 pGraphicDev, int _iMaxMotion, 
 void CAnimation::Free(void)
 {
 	CComponent::Free();
-
 	
 }
 

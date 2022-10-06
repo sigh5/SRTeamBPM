@@ -46,9 +46,11 @@ private:
 	float m_fDodgeStopper;
 	float m_fStopperDelay;
 	float m_fStopperDelayCount;
-
+	float m_fDeadY;
+	bool  m_bArrFalldown[4];
 
 	CTexture*		m_pTextureCom = nullptr;
+	CTexture*		m_pDeadTextureCom = nullptr;
 	CRcTex*			m_pBufferCom = nullptr;
 	CCalculator*	m_pCalculatorCom = nullptr;
 };

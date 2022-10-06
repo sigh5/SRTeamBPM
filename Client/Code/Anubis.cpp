@@ -33,7 +33,11 @@ HRESULT CAnubis::Ready_Object(int Posx, int Posy)
 	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_MonsterTexture", m_mapComponent, ID_STATIC);
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
 	m_pAttackAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_STATIC);
+	
+	
+
 	m_pAttackTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Anubis_Attack_Texture", m_mapComponent, ID_STATIC);
+	m_pDeadTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Anubis_Dead_Texture", m_mapComponent, ID_STATIC);
 
 	m_iMonsterIndex = 0;
 	m_fAttackDelay = 0.5f;
@@ -41,12 +45,13 @@ HRESULT CAnubis::Ready_Object(int Posx, int Posy)
 	_vec3	vScale = { 2.f,2.f,2.f };
 
 	m_pDynamicTransCom->Set_Scale(&vScale);
-	m_pDynamicTransCom->Set_Pos(20.f, 0.f, 20.f);
+	m_pDynamicTransCom->Set_Pos(20.f, 2.f, 20.f);
 
-	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
+	m_pInfoCom->Ready_CharacterInfo(1, 10, 5.f);
 	m_pAnimationCom->Ready_Animation(6, 1, 0.2f);
 	m_iPreHp = (m_pInfoCom->Get_InfoRef()._iHp);
 	m_pAttackAnimationCom->Ready_Animation(17, 0, 0.15f);
+	m_pDeadAnimationCom->Ready_Animation(12, 0, 0.3f);
 	if (Posx == 0 && Posy == 0) {}
 	else
 	{
@@ -58,6 +63,20 @@ HRESULT CAnubis::Ready_Object(int Posx, int Posy)
 
 _int CAnubis::Update_Object(const _float & fTimeDelta)
 {
+	if (0 >= m_pInfoCom->Get_Hp())
+	{
+		m_bDead = true;
+		//Safe_Release(m_pAttackAnimationCom);
+	}
+	if (m_bDead)
+	{
+		if(m_pDeadAnimationCom->m_iMotion<m_pDeadAnimationCom->m_iMaxMotion)
+		m_pDeadAnimationCom->Move_Animation(fTimeDelta);
+		Engine::CMonsterBase::Update_Object(fTimeDelta);
+		Add_RenderGroup(RENDER_ALPHA, this);
+		return 0;
+	}
+
 	m_fTimeDelta = fTimeDelta;
 
 	if (m_iPreHp > m_pInfoCom->Get_Hp())
@@ -246,16 +265,21 @@ void CAnubis::Render_Obejct(void)
 	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-
-	if (m_bAttacking && false == m_bHit)
+	if (false == m_bDead)
 	{
-		m_pAttackTextureCom->Set_Texture(m_pAttackAnimationCom->m_iMotion);
+		if (m_bAttacking && false == m_bHit)
+		{
+			m_pAttackTextureCom->Set_Texture(m_pAttackAnimationCom->m_iMotion);
+		}
+		else
+		{
+			m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);	// 텍스처 정보 세팅을 우선적으로 한다.
+		}	// 텍스처 정보 세팅을 우선적으로 한다.
 	}
 	else
 	{
-		m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);	// 텍스처 정보 세팅을 우선적으로 한다.
-	}	// 텍스처 정보 세팅을 우선적으로 한다.
-
+		m_pDeadTextureCom->Set_Texture(m_pDeadAnimationCom->m_iMotion);
+	}
 	m_pBufferCom->Render_Buffer();
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);

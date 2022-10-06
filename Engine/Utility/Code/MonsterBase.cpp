@@ -77,6 +77,9 @@ HRESULT CMonsterBase::Add_Component(void)
 	m_mapComponent[ID_STATIC].insert({ L"Proto_CalculatorCom" , pComponent });
 
 
+	pComponent = m_pDeadAnimationCom = dynamic_cast<CAnimation*>(Clone_Proto(L"Proto_Dead_AnimationCom"));
+	NULL_CHECK_RETURN(m_pCalculatorCom, E_FAIL);
+	m_mapComponent[ID_STATIC].insert({ L"Proto_Dead_AnimationCom" , pComponent });
 	return S_OK;
 }
 

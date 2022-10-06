@@ -43,7 +43,7 @@ protected:
 	CDynamic_Transform* m_pDynamicTransCom = nullptr;
 	CCalculator*	m_pCalculatorCom = nullptr;
 	CCollider*		m_pColliderCom = nullptr;
-
+	CAnimation*		m_pDeadAnimationCom = nullptr;
 
 
 
@@ -55,7 +55,7 @@ protected:
 	_float			m_fTimeDelta = 0.f;
 	vector<CGameObject*> m_vecBlood;
 	_vec3		m_vPlayerPos, m_vMonsterPos;
-
+	bool m_bDead = false;
 
 
 protected:
