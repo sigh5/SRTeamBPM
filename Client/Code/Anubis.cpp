@@ -137,7 +137,7 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 	//	}
 	//}
 	AttackJudge(fTimeDelta);
-	CMonsterBase::Calculator_Distance();
+	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 
 
 	if (m_bHit == false)
