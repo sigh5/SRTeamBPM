@@ -40,6 +40,16 @@ void CEquipmentBase::LateUpdate_Object(void)
 {
 }
 
+HRESULT CEquipmentBase::Ready_EquipInfo(_uint iPlusAtk, _uint iPlusDefense, _float fPlusSpeed, _float fPlusRange)
+{
+	memcpy(&m_EquipInfo._iAddAttack, &iPlusAtk, sizeof(_uint));
+	memcpy(&m_EquipInfo._iAddDefense, &iPlusDefense, sizeof(_uint));
+	memcpy(&m_EquipInfo._fAddSpeed, &fPlusSpeed, sizeof(_float));
+	memcpy(&m_EquipInfo._fAddRange, &fPlusRange, sizeof(_float));
+
+	return S_OK;
+}
+
 
 HRESULT CEquipmentBase::Add_Component(void)
 {

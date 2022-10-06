@@ -10,7 +10,7 @@ class CRcTex;
 class CAnimation;
 class CCalculator;
 class CCollider;
-class CEquipInfo;
+
 
 END
 
@@ -35,7 +35,7 @@ private:
 	CAnimation*				m_pAnimationCom = nullptr;
 	CCalculator*			m_pCalculatorCom = nullptr;
 	CCollider*				m_pColliderCom = nullptr;
-	CEquipInfo*				m_pInfoCom = nullptr;
+	
 
 private:
 	HRESULT					Add_Component(void);

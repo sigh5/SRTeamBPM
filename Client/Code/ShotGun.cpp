@@ -19,8 +19,8 @@ HRESULT CShotGun::Ready_Object(_uint iX, _uint iZ)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pInfoCom->Ready_EquipInfo(10, 0, 0, 10);
-	m_pInfoCom->Set_WeaponType(WEAPON_SHOTGUN);
+	Engine::CEquipmentBase::Ready_EquipInfo(10, 0, 0, 10);
+	Engine::CEquipmentBase::Set_WeaponType(WEAPON_SHOTGUN);
 	
 	m_pTransCom->Set_Pos((_float)iX, 1.f, (_float)iZ);
 	m_pTransCom->Compulsion_Update();
@@ -107,7 +107,17 @@ void CShotGun::Collision_Event()
 	{
 		if (Get_DIKeyState(DIK_F) & 0X80)
 		{
-			
+			//pGameObject = dynamic_cast<CTestPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"TestPlayer"));
+			//for (_uint i = 0; i < WEAPON_END; ++i)
+			//{
+			//	if (i == (m_EquipInfo.m_WeaponType == WEAPON_SHOTGUN))
+			//	{
+			//		CTestPlayer* pPlayer = static_cast<CTestPlayer*>(Get_GameObject(L"Layer_GameLogic", L"TestPlayer"));
+
+			//		//pPlayer->Get_WeaponType()->insert(i);
+			//	}
+			//}
+
 		}
 	}
 
@@ -136,7 +146,7 @@ HRESULT CShotGun::Add_Component(void)
 	m_pAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_STATIC);
 	m_pCalculatorCom = CAbstractFactory<CCalculator>::Clone_Proto_Component(L"Proto_CalculatorCom", m_mapComponent, ID_STATIC);
 	m_pColliderCom = CAbstractFactory<CCollider>::Clone_Proto_Component(L"Proto_ColliderCom", m_mapComponent, ID_STATIC);
-	m_pInfoCom = CAbstractFactory<CEquipInfo>::Clone_Proto_Component(L"Proto_EquipInfoCom", m_mapComponent, ID_STATIC);
+	
 
 	return S_OK;
 }

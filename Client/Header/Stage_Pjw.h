@@ -57,7 +57,7 @@ private:
 private:
 	list<_tchar*>		m_szEffectName;
 	_uint				m_iCount = 0;
-
+	
 	// Object Pool for Bullet
 	list<CBullet*>		m_BulletList;
 	list<CMonsterBullet*> m_MonBulletList;

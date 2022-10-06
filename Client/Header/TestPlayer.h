@@ -13,7 +13,8 @@ namespace Engine
 
 	class CCharacterInfo;
 	class CCollider;
-
+	
+	class CEquipmentBase;
 }
 
 class CTestPlayer :public CGameObject
@@ -54,6 +55,8 @@ public:
 
 	virtual void		Collision_Event();
 
+
+
 private:
 	CRcTex*				m_pBufferCom = nullptr;
 	CTransform*			m_pTransCom = nullptr;
@@ -64,6 +67,10 @@ private:
 
 	CCharacterInfo*		m_pInfoCom = nullptr;
 	CCollider*			m_pColliderCom = nullptr;
+
+	// Weapon Change Test
+
+	// ~Weapon Change Test
 
 private:
 	// _vec3
@@ -107,7 +114,12 @@ private:
 	// Player's Status(Private)
 	_uint				m_iSkillPower = 1;		// Usually This Function is Off, But if Player Get Skill Book, m_iSkillPower Can be Used. 
 	// ~Player's Status(Private)
-
+	
+	vector<CEquipmentBase*>		m_vecWeaponType;
+	
+//public:
+//	vector<CEquipmentBase*>*	Get_WeaponType(void) { return &m_vecWeaponType; }
+	
 public:
 	static CTestPlayer*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
 	virtual void	Free(void);

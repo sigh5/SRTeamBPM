@@ -62,10 +62,11 @@ namespace Engine
 
 	typedef struct tagEquipInfo
 	{
-		_uint	_iAddAttack;
-		_uint	_iAddDefense;
-		_float	_fAddSpeed;
-		_float	_fAddRange;
+		_uint			_iAddAttack;
+		_uint			_iAddDefense;
+		_float			_fAddSpeed;
+		_float			_fAddRange;
+		WEAPON_TYPE		m_WeaponType = WEAPON_END;
 
 	}EquipInfo;
 

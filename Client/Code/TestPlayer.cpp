@@ -32,7 +32,7 @@ HRESULT CTestPlayer::Ready_Object(void)
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 							// int _hp, int _Attack, float _fSpeed
 	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
-
+	
 	//m_preItem = m_pInfoCom->Get_InfoRef()._iCoin;
 		
 	return S_OK;
@@ -181,6 +181,7 @@ HRESULT CTestPlayer::Add_Component(void)
 	pComponent = m_pColliderCom = dynamic_cast<CCollider*>(Clone_Proto(L"Proto_ColliderCom"));
 	NULL_CHECK_RETURN(m_pColliderCom, E_FAIL);
 	m_mapComponent[ID_STATIC].insert({ L"Proto_ColliderCom", pComponent });
+
 
 
 	return S_OK;
