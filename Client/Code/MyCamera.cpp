@@ -60,7 +60,7 @@ void CMyCamera::LateUpdate_Object(void)
 void CMyCamera::Mouse_Move(const _float& fTimeDelta)
 {
 	CTransform*	pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
-	NULL_CHECK(pPlayerTransform);
+ 	NULL_CHECK(pPlayerTransform);
 
 
 	_long		dwMouseMove = 0;

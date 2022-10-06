@@ -3,7 +3,6 @@
 
 BEGIN(Engine)
 
-class CEquipInfo;
 class CTransform;
 class CRcTex;
 class CTexture;
@@ -22,11 +21,8 @@ public:
 	virtual HRESULT		 Ready_Object(void)							override;
 	virtual _int		 Update_Object(const _float& fTimeDelta)	override;
 	virtual void		 LateUpdate_Object(void)					override;
-
-//	CEquipInfo&			Get_EquipInfoRef();
-
+	
 protected:
-	CEquipInfo*			m_pEquipInfoCom = nullptr;
 	CAnimation*			m_pAnimationCom = nullptr;
 	CDynamic_Transform* m_pDynamicTransCom = nullptr;
 

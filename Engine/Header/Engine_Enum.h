@@ -43,6 +43,8 @@ namespace Engine
 	//세이브, 로드 파일 구분용
 	enum ITEM_TYPE { ITEM_POTION, ITEM_COIN, ITEM_END };
 
+	// 무기 종류
+	enum WEAPON_TYPE { WEAPON_MAGNUM, WEAPON_SHOTGUN, WEAPON_END };
 
 }
 

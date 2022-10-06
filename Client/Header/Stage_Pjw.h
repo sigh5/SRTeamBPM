@@ -17,6 +17,8 @@
 #include "HealthPotion.h"
 #include "Coin.h"
 
+#include "ShotGun.h"
+
 //UI
 #include "Bullet_UI.h"
 #include "Weapon_UI.h"

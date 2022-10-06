@@ -240,8 +240,13 @@ _uint CLoading::Loading_ForPlayer_UI(void)
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_CoinTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Item/Coin/Coin%d.png", TEX_NORMAL, 6)), E_FAIL);
 	
 
-		// Box																						// Bin\Resource\Texture\Item\Box
+	// Box																						// Bin\Resource\Texture\Item\Box
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_BoxTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Item/Box/Box%d.png", TEX_NORMAL, 2)), E_FAIL);
+
+	// ShotGun 																			 // \Bin\Resource\Texture\Equipment\Equip-Weapon/Shotgun_Rot.png
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ShotGunTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Equipment/Equip-Weapon/Equip_Weapon1.png", TEX_NORMAL, 1)), E_FAIL);
+	// Magnum 																			 // \Bin\Resource\Texture\Equipment\Equip-Weapon/Shotgun_Rot.png
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MagnumTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Equipment/Equip-Weapon/Equip_Weapon0.png", TEX_NORMAL, 1)), E_FAIL);
 
 	// ~Item Texture
 
@@ -262,7 +267,6 @@ _uint CLoading::Loading_ForPlayer_UI(void)
 
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_CharacterInfoCom", CCharacterInfo::Create(m_pGraphicDev, 0, 0, 0.f)), E_FAIL);
 	
-
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_EquipInfoCom", CEquipInfo::Create(m_pGraphicDev, 0, 0, 0.f, 0.f)), E_FAIL);
 
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_DynamicTransformCom", CDynamic_Transform::Create()), E_FAIL);

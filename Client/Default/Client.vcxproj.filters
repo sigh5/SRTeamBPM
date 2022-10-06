@@ -193,6 +193,12 @@
     <ClCompile Include="..\Code\DashUI.cpp">
       <Filter>02. GameObject\01. For_Stage\10. UI\06. DashUI</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\ShotGun.cpp">
+      <Filter>02. GameObject\01. For_Stage\14. Equipment\00. Weapon\0. ShotGun</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Magnum.cpp">
+      <Filter>02. GameObject\01. For_Stage\14. Equipment\00. Weapon\1. Magnum</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -405,6 +411,12 @@
     <ClInclude Include="..\Header\DashUI.h">
       <Filter>02. GameObject\01. For_Stage\10. UI\06. DashUI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\ShotGun.h">
+      <Filter>02. GameObject\01. For_Stage\14. Equipment\00. Weapon\0. ShotGun</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Magnum.h">
+      <Filter>02. GameObject\01. For_Stage\14. Equipment\00. Weapon\1. Magnum</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -588,6 +600,12 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\14. Equipment\00. Weapon">
       <UniqueIdentifier>{d8fb6363-8779-46f3-8455-7efca470b3af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\14. Equipment\00. Weapon\0. ShotGun">
+      <UniqueIdentifier>{db98f97f-e6eb-42a2-be40-5b784520abc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\14. Equipment\00. Weapon\1. Magnum">
+      <UniqueIdentifier>{b01bfd05-4f24-4537-8e56-86a063703aea}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

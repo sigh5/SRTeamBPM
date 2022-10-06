@@ -108,41 +108,7 @@ _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 
 void CTestPlayer::LateUpdate_Object(void)
 {
-	// 빌보드 에러 해결
-	CTransform*	pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC));
-	NULL_CHECK(pPlayerTransform);
-
-	CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"DynamicCamera"));
-	NULL_CHECK(pCamera);
-
-	_matrix		matWorld, matView, matBill;
-
-	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
-	D3DXMatrixIdentity(&matBill);
-	memcpy(&matBill, &matView, sizeof(_matrix));
-	memset(&matBill._41, 0, sizeof(_vec3));
-	D3DXMatrixInverse(&matBill, 0, &matBill);
-
-	_matrix      matScale, matTrans;
-	D3DXMatrixScaling(&matScale, 2.f, 2.f, 2.f);
-
-	_matrix      matRot;
-	D3DXMatrixIdentity(&matRot);
-	D3DXMatrixRotationY(&matRot, (_float)pCamera->Get_BillBoardDir());
-
-	_vec3 vPos;
-	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
-
-	D3DXMatrixTranslation(&matTrans,
-		vPos.x,
-		vPos.y,
-		vPos.z);
-
-	D3DXMatrixIdentity(&matWorld);
-	matWorld = matScale* matRot * matBill * matTrans;
-	m_pDynamicTransCom->Set_WorldMatrix(&(matWorld));
-
-	// 빌보드 에러 해결
+	
 }
 
 void CTestPlayer::Render_Obejct(void)
@@ -211,8 +177,12 @@ HRESULT CTestPlayer::Add_Component(void)
 	pComponent = m_pInfoCom = dynamic_cast<CCharacterInfo*>(Clone_Proto(L"Proto_CharacterInfoCom"));
 	NULL_CHECK_RETURN(m_pInfoCom, E_FAIL);
 	m_mapComponent[ID_STATIC].insert({ L"Proto_CharacterInfoCom", pComponent });
+	// Proto_ColliderCom
+	pComponent = m_pColliderCom = dynamic_cast<CCollider*>(Clone_Proto(L"Proto_ColliderCom"));
+	NULL_CHECK_RETURN(m_pColliderCom, E_FAIL);
+	m_mapComponent[ID_STATIC].insert({ L"Proto_ColliderCom", pComponent });
 
-	
+
 	return S_OK;
 }
 
@@ -280,10 +250,10 @@ void CTestPlayer::Key_Input(const _float& fTimeDelta)
 		if (m_iMagazine == 0)
 			m_bOneShot = FALSE;
 
-		CGun_Screen* pGunScreen = dynamic_cast<CGun_Screen*> (Engine::Get_GameObject(L"Layer_UI", L"Gun_Screen"));
+	/*	CGun_Screen* pGunScreen = dynamic_cast<CGun_Screen*> (Engine::Get_GameObject(L"Layer_UI", L"Gun_Screen"));
 	
 		if(m_bOneShot)
-			pGunScreen->Set_Shoot(true);
+			pGunScreen->Set_Shoot(true);*/
 	}
 
 	if (Get_DIKeyState(DIK_R) & 0X80)
@@ -421,9 +391,8 @@ void CTestPlayer::Collision_Event()
 		m_pColliderCom->Check_Collision_Wall(iter->second, this);
 	}
 
-	//pLayer = pScene->GetLayer(L"Layer_GameLogic");
-	//NULL_CHECK_RETURN(pLayer, );
-
+	pLayer = pScene->GetLayer(L"Layer_GameLogic");
+	NULL_CHECK_RETURN(pLayer, );
 
 	//CScene* pScene = ::Get_Scene();
 	//CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");

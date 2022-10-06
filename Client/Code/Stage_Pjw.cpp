@@ -9,6 +9,7 @@
 
 #include "MyCamera.h"
 
+
 CStage_Pjw::CStage_Pjw(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CScene(pGraphicDev)
 {
@@ -66,30 +67,36 @@ void CStage_Pjw::LateUpdate_Scene(void)
 {
 	CLayer *pLayer = GetLayer(L"Layer_GameLogic");
 
-	CTestPlayer* pPlayer = dynamic_cast<CTestPlayer*>(pLayer->Get_GameObject(L"TestPlayer"));
-	
-	// Potion Collision
-	CHealthPotion* pPotion = dynamic_cast<CHealthPotion*>(pLayer->Get_GameObject(L"HealthPotion"));
-	
-	if (pPotion != nullptr)
+	//CTestPlayer* pPlayer = dynamic_cast<CTestPlayer*>(pLayer->Get_GameObject(L"TestPlayer"));
+
+	for (auto iter = pLayer->Get_GameObjectMap().begin(); iter != pLayer->Get_GameObjectMap().end(); ++iter)
 	{
-		pPlayer->Collision_Event();//pPotion);
+		iter->second->Collision_Event();
 	}
 
-	//// Coin Collision
-	//CCoin* pCoin = dynamic_cast<CCoin*>(pLayer->Get_GameObject(L"Coin"));
+
+	// Potion Collision
+	//CHealthPotion* pPotion = dynamic_cast<CHealthPotion*>(pLayer->Get_GameObject(L"HealthPotion"));
 	//
-	//if (pCoin != nullptr)
+	//if (pPotion != nullptr)
 	//{
-	//	pPlayer->Collision_Event(pCoin);
+	//	pPlayer->Collision_Event();//pPotion);
 	//}
 
-	CBox* pBox = dynamic_cast<CBox*>(pLayer->Get_GameObject(L"Box"));
+	////// Coin Collision
+	////CCoin* pCoin = dynamic_cast<CCoin*>(pLayer->Get_GameObject(L"Coin"));
+	////
+	////if (pCoin != nullptr)
+	////{
+	////	pPlayer->Collision_Event(pCoin);
+	////}
 
-	if (pBox != nullptr)
-	{
-		pPlayer->Collision_Event();// pBox);
-	}
+	//CBox* pBox = dynamic_cast<CBox*>(pLayer->Get_GameObject(L"Box"));
+
+	//if (pBox != nullptr)
+	//{
+	//	pPlayer->Collision_Event();// pBox);
+	//}
 
 
 	Engine::CScene::LateUpdate_Scene();
@@ -130,9 +137,9 @@ HRESULT CStage_Pjw::Ready_Layer_Environment(const _tchar * pLayerTag)
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"CMyCamera", pGameObject), E_FAIL);*/
 
 	// StaticCamera
-	/*pGameObject = CStaticCamera::Create(m_pGraphicDev, &_vec3(0.f, 20.f, -10.f), &_vec3(0.f, 0.f, 0.f), &_vec3(0.f, 1.f, 0.f));
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"StaticCamera", pGameObject), E_FAIL);*/
+	//pGameObject = CStaticCamera::Create(m_pGraphicDev, &_vec3(0.f, 20.f, -10.f), &_vec3(0.f, 0.f, 0.f), &_vec3(0.f, 1.f, 0.f));
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"StaticCamera", pGameObject), E_FAIL);
 
 	// skybox
 	pGameObject = CSkyBox::Create(m_pGraphicDev);
@@ -177,11 +184,15 @@ HRESULT CStage_Pjw::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 
 	*/
 	CTestPlayer*		pPlayer = dynamic_cast<CTestPlayer*>(Get_GameObject(L"Layer_GameLogic", L"TestPlayer"));
-
+	
 	pGameObject = CBox::Create(m_pGraphicDev, 5, 10);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Box", pGameObject), E_FAIL);
 			
+	pGameObject = CShotGun::Create(m_pGraphicDev, 10, 10);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"ShotGun", pGameObject), E_FAIL);
+
 	//몬스터 테스트용
 	/*pGameObject = CMonster::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);

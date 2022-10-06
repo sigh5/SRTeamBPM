@@ -14,10 +14,12 @@ public:
 	HRESULT	 Ready_EquipInfo(_uint iPlusAtk, _uint iPlusDefense, _float fPlusSpeed, _float fPlusRange);
 
 	EquipInfo&	Get_EquipInfoRef() { return m_EquipInfo; }
+	void		Set_WeaponType(WEAPON_TYPE eID) { m_WeaponType = eID; }
 
 private:
-	EquipInfo		 m_EquipInfo;
-	bool			 m_bClone;
+	EquipInfo			 m_EquipInfo;
+	bool				 m_bClone;
+	WEAPON_TYPE			 m_WeaponType = WEAPON_END;
 
 public:
 

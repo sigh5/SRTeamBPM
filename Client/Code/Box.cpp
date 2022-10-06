@@ -70,7 +70,7 @@ void CBox::Collision_Event()
 	CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
 	CGameObject *pGameObject = nullptr;
 
-	pGameObject = pLayer->Get_GameObject(L"Player");
+	pGameObject = pLayer->Get_GameObject(L"TestPlayer");
 	NULL_CHECK_RETURN(pGameObject, );
 	
 	if (m_pColliderCom->Check_Collision(this, pGameObject,1,1))
