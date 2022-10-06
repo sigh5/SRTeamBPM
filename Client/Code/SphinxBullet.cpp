@@ -20,7 +20,7 @@ HRESULT CSphinxBullet::Ready_Object(_vec3 vPos)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pAnimationCom->Ready_Animation(3, 0, 0.03f);
+	m_pAnimationCom->Ready_Animation(3, 0, 0.1f);
 
 	/*CTransform* pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC));
 	NULL_CHECK_RETURN(pPlayerTransformCom, E_FAIL);
@@ -50,7 +50,7 @@ _int CSphinxBullet::Update_Object(const _float & fTimeDelta)
 
 	if (m_fFrame > 2.f)
 	{
-		CObjectMgr::GetInstance()->Collect_SphinxBulletObj(this);
+		CObjectMgr::GetInstance()->Collect_MonsterBulletObj(this);
 		m_fFrame = 0.f;
 		return 5;
 	}

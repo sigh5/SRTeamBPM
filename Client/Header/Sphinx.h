@@ -33,7 +33,6 @@ private:
 	bool m_bBattle = false;
 	bool m_bHeadOff = false;
 	int		m_iShootLeftRight;
-	//int		m_iFireCycle;
 
 	_vec3 m_vScale;
 
