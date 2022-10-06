@@ -73,7 +73,7 @@ void CStage_Pjw::LateUpdate_Scene(void)
 	
 	if (pPotion != nullptr)
 	{
-		pPlayer->Collision_Event();//pPotion);
+		pPlayer->Collision_Event(pPotion);
 	}
 
 	//// Coin Collision
@@ -88,7 +88,7 @@ void CStage_Pjw::LateUpdate_Scene(void)
 
 	if (pBox != nullptr)
 	{
-		pPlayer->Collision_Event();// pBox);
+		pPlayer->Collision_Event(pBox);
 	}
 
 
@@ -230,10 +230,6 @@ HRESULT CStage_Pjw::Ready_Layer_UI(const _tchar * pLayerTag)
 	//pGameObject = CGun_Screen::Create(m_pGraphicDev, pPlayer);
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Gun_Screen", pGameObject), E_FAIL);
-
-	pGameObject = CDashUI::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Dash_UI", pGameObject), E_FAIL);
 
 	m_mapLayer.insert({ pLayerTag, pLayer });
 

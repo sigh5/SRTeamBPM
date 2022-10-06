@@ -7,7 +7,6 @@
 #include "MyCamera.h"
 #include "Player.h"
 #include "HitBlood.h"
-#include "AnubisThunder.h"
 
 #include "Gun_Screen.h"
 
@@ -32,12 +31,9 @@ HRESULT CAnubis::Ready_Object(int Posx, int Posy)
 
 	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_MonsterTexture", m_mapComponent, ID_DYNAMIC);
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
-	m_pAttackAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_STATIC);
-	m_pAttackTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Anubis_Attack_Texture", m_mapComponent, ID_STATIC);
 	
-	m_iMonsterIndex = 0;
-	m_fAttackDelay = 0.5f;
 
+	m_iMonsterIndex = 0;
 	_vec3	vScale = { 2.f,2.f,2.f };
 
 	m_pDynamicTransCom->Set_Scale(&vScale);
@@ -46,7 +42,6 @@ HRESULT CAnubis::Ready_Object(int Posx, int Posy)
 	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
 	m_pAnimationCom->Ready_Animation(6, 1, 0.2f);
 	m_iPreHp = (m_pInfoCom->Get_InfoRef()._iHp);
-	m_pAttackAnimationCom->Ready_Animation(17, 0, 0.15f);
 	if (Posx == 0 && Posy == 0) {}
 	else
 	{
@@ -63,8 +58,6 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 	if (m_iPreHp > m_pInfoCom->Get_Hp())
 	{
 		m_iPreHp = m_pInfoCom->Get_Hp();
-		m_bHit = true;
-		m_bAttacking = false;
 		if (m_fHitDelay != 0)
 		{
 			m_fHitDelay = 0;
@@ -140,6 +133,7 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 
 
+
 	if (m_bHit == false)
 	{
 		if (fMtoPDistance > 7.f && m_bAttacking == false)
@@ -147,7 +141,6 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 			m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
 
 			m_pAnimationCom->Move_Animation(fTimeDelta);
-
 		}
 		else
 		{
@@ -246,15 +239,7 @@ void CAnubis::Render_Obejct(void)
 	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-	
-	if (m_bAttacking)
-	{
-		m_pAttackTextureCom->Set_Texture(m_pAttackAnimationCom->m_iMotion);
-	}
-	else
-	{
 	m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);	// 텍스처 정보 세팅을 우선적으로 한다.
-	}	// 텍스처 정보 세팅을 우선적으로 한다.
 
 	m_pBufferCom->Render_Buffer();
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
@@ -284,12 +269,6 @@ void CAnubis::Collision_Event()
 		cout << "Anubis"<<m_pInfoCom->Get_InfoRef()._iHp << endl;
 		static_cast<CGun_Screen*>(pGameObject)->Set_Shoot(false);
 	}
-
-	/*if (m_bHit)
-	{
-
-	}
-*/
 	
 }
 
@@ -389,9 +368,4 @@ CAnubis * CAnubis::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)
 void CAnubis::Free(void)
 {
 	CGameObject::Free();
-	for (auto iter : m_AnubisThunderlist)
-	{
-		Safe_Release(iter);
-	}
-	m_AnubisThunderlist.clear();
 }
