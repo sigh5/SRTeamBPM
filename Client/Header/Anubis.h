@@ -45,12 +45,18 @@ private:
 	bool m_bAttack = true;
 	bool m_bAttacking = false;
 
+
+	
 	_vec3 m_bOldPlayerPos;
 
 	CTexture*		m_pTextureCom = nullptr;
 	CTexture*		m_pAttackTextureCom = nullptr;
-	CRcTex*			m_pBufferCom = nullptr;
+	CTexture*		m_pDeadTextureCom = nullptr;
+
 	CAnimation*		m_pAttackAnimationCom = nullptr;
+
+
+	CRcTex*			m_pBufferCom = nullptr;
 
 	//list<CAnubisThunder*> m_AnubisThunderlist;
 

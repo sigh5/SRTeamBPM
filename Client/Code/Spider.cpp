@@ -29,13 +29,15 @@ HRESULT CSpider::Ready_Object(int Posx, int Posy)
 	m_pAttackTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Spider_Attack_Texture", m_mapComponent, ID_STATIC);
 	m_pAttackAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_STATIC);
 
+	m_pDeadTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Spider_Dead_Texture", m_mapComponent, ID_STATIC);
 
 	m_iMonsterIndex = 2;
 	m_fAttackDelay = 0.3f;
-	m_pInfoCom->Ready_CharacterInfo(100, 10, 8.f);
+	m_pInfoCom->Ready_CharacterInfo(1, 10, 8.f);
 	m_pAnimationCom->Ready_Animation(4, 1, 0.07f);
+	m_pDeadAnimationCom->Ready_Animation(13, 0, 0.2f);
 	m_pAttackAnimationCom->Ready_Animation(13, 0, 0.2f);
-	m_fHitDelay = 1.5f;
+	m_fHitDelay = 0.f;
 	if (Posx == 0 && Posy == 0) {}
 	
 	else
@@ -49,6 +51,19 @@ HRESULT CSpider::Ready_Object(int Posx, int Posy)
 _int CSpider::Update_Object(const _float & fTimeDelta)
 {
 	//쿨타임 루프
+	if (0 >= m_pInfoCom->Get_Hp())
+	{
+		m_bDead = true;
+		//Safe_Release(m_pAttackAnimationCom);
+	}
+	if (m_bDead)
+	{
+		if (m_pDeadAnimationCom->m_iMotion<m_pDeadAnimationCom->m_iMaxMotion)
+			m_pDeadAnimationCom->Move_Animation(fTimeDelta);
+		Engine::CMonsterBase::Update_Object(fTimeDelta);
+		Add_RenderGroup(RENDER_ALPHA, this);
+		return 0;
+	}
 
 	m_fTimeDelta = fTimeDelta;
 
@@ -182,16 +197,21 @@ void CSpider::Render_Obejct(void)
 	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-	
-	if (m_bAttacking&&false == m_bHit)
+	if (false == m_bDead)
 	{
-		m_pAttackTextureCom->Set_Texture(m_pAttackAnimationCom->m_iMotion);
+		if (m_bAttacking && false == m_bHit)
+		{
+			m_pAttackTextureCom->Set_Texture(m_pAttackAnimationCom->m_iMotion);
+		}
+		else
+		{
+			m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);	// 텍스처 정보 세팅을 우선적으로 한다.
+		}
 	}
 	else
 	{
-	m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);	// 텍스처 정보 세팅을 우선적으로 한다.
+		m_pDeadTextureCom->Set_Texture(m_pDeadAnimationCom->m_iMotion);
 	}
-
 	m_pBufferCom->Render_Buffer();
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);

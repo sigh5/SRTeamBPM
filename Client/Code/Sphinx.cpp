@@ -32,6 +32,7 @@ HRESULT CSphinx::Ready_Object(int Posx, int Posy)
 	m_iPreHp = m_pInfoCom->Get_Hp();
 	m_iShootLeftRight = 0;
 	m_vScale = { 7.f, 7.f, 1.f };
+	m_iShootCycle = 0;
 
 	if (Posx == 0 && Posy == 0) {}
 	else
@@ -215,10 +216,18 @@ void CSphinx::Attack(const _float & fTimeDelta)
 	{
 		m_iShootLeftRight = 0;
 	}
-	//if (m_pAnimationCom->m_iMotion == 8)
-	//{
-	//	if()
-	//}
+	if (m_pAnimationCom->m_iMotion == 8)
+	{
+		if (2 > m_iShootCycle)
+		{
+			m_pAnimationCom->m_iMotion = 5;
+			++m_iShootCycle;
+		}
+	}
+	if (m_pAnimationCom->m_iMotion == m_pAnimationCom->m_iMaxMotion)
+	{
+		m_iShootCycle = 0;
+	}
 }
 
 CSphinx * CSphinx::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)

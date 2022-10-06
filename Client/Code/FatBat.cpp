@@ -27,11 +27,16 @@ HRESULT CFatBat::Ready_Object(int Posx, int Posy)
 
 	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_MonsterTexture2", m_mapComponent, ID_DYNAMIC);
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
-	
-	m_iMonsterIndex = 1;
-	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
-	m_pAnimationCom->Ready_Animation(6, 0, 0.2f);
+	m_pDeadTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Fatbat_Dead_Texture", m_mapComponent, ID_STATIC);
 
+	m_iMonsterIndex = 1;
+	m_pInfoCom->Ready_CharacterInfo(1, 10, 5.f);
+	m_pAnimationCom->Ready_Animation(6, 0, 0.2f);
+	m_pDeadAnimationCom->Ready_Animation(14, 0, 0.2f);
+	for (int i = 0; i < 4; ++i)
+	{
+		m_bArrFalldown[i] = false;
+	}
 	_vec3	vScale = { 0.5f,0.5f,0.5f };
 
 	m_pDynamicTransCom->Set_Scale(&vScale);
@@ -52,14 +57,77 @@ HRESULT CFatBat::Ready_Object(int Posx, int Posy)
 	m_fDodgeStopper = 0.15f;
 	m_fStopperDelay = 0.1f;
 	m_fStopperDelayCount = 0.f;
-	m_fHitDelay = 1.5f;
+	m_fHitDelay = 0.f;
+	m_fDeadY = 0.f;
 	return S_OK;
 }
 
 _int CFatBat::Update_Object(const _float & fTimeDelta)
 {
 	// 수정 쿨타임 대신 타임
+	if (0 >= m_pInfoCom->Get_Hp()&& false == m_bDead)
+	{
+		m_bDead = true;
+		_vec3 vPos;
+		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+		m_fDeadY = vPos.y;
+	}
+	if (m_bDead)
+	{
+		if (m_pDeadAnimationCom->m_iMotion < m_pDeadAnimationCom->m_iMaxMotion)
+		{
+			m_pDeadAnimationCom->Move_Animation(fTimeDelta);
+			
+		}
+		if (3 == m_pDeadAnimationCom->m_iMotion)
+		{
+			if (false == m_bArrFalldown[0])
+			{
+				m_pDynamicTransCom->Add_Y(-m_fDeadY * 0.2f);
+				m_bArrFalldown[0] = true;
+			}
+		}
+		else if (4 == m_pDeadAnimationCom->m_iMotion)
+		{
+			if (false == m_bArrFalldown[1])
+			{
+				m_pDynamicTransCom->Add_Y(-m_fDeadY * 0.2f);
+				m_bArrFalldown[1] = true;
+			}
+		}
+		else if (5 == m_pDeadAnimationCom->m_iMotion)
+		{
+			if (false == m_bArrFalldown[2])
+			{
+				m_pDynamicTransCom->Add_Y(-m_fDeadY * 0.2f);
+				m_bArrFalldown[2] = true;
+			}
+		}
+		else if (6 == m_pDeadAnimationCom->m_iMotion)
+		{
+			if (false == m_bArrFalldown[3])
+			{
+				//m_pDynamicTransCom->Add_Y(-m_fDeadY * 0.2f);
+				m_pDynamicTransCom->Set_Y(1);
+				m_bArrFalldown[3] = true;
+			}
+		}
+
+		m_pDynamicTransCom->Update_Component(fTimeDelta);
+		Engine::CMonsterBase::Update_Object(fTimeDelta);
+		Add_RenderGroup(RENDER_ALPHA, this);
+		return 0;
+	}
 	m_fFrame += fTimeDelta;
+	if (m_iPreHp > m_pInfoCom->Get_Hp())
+	{
+		m_iPreHp = m_pInfoCom->Get_Hp();
+		//m_bHit = true;
+		if (m_fHitDelay != 0)
+		{
+			m_fHitDelay = 0;
+		}
+	}
 	if (false == m_bHit)
 	if (m_fFrame > m_fActionDelay)
 	{
@@ -159,9 +227,14 @@ void CFatBat::Render_Obejct(void)
 	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-
+	if (false == m_bDead)
+	{
 	m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);	// 텍스처 정보 세팅을 우선적으로 한다.
-
+	}
+	else
+	{
+		m_pDeadTextureCom->Set_Texture(m_pDeadAnimationCom->m_iMotion);
+	}
 	m_pBufferCom->Render_Buffer();
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
@@ -199,7 +272,7 @@ void CFatBat::Excution_Event()
 
 void	CFatBat::FatBat_Fly(const _float& fTimeDelta)
 {
-	float TerrainY = m_pDynamicTransCom->Get_TerrainY1(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC, m_pCalculatorCom, m_pDynamicTransCom);
+	float TerrainY = 0.f;/* m_pDynamicTransCom->Get_TerrainY1(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC, m_pCalculatorCom, m_pDynamicTransCom);*/
 	//L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC, m_pCalculatorCom, m_pDynamicTransCom); 
 	_vec3 vPos;
 	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);

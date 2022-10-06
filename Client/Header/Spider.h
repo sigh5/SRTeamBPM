@@ -41,6 +41,7 @@ private:
 private:
 	CTexture*		m_pTextureCom = nullptr;
 	CTexture*		m_pAttackTextureCom = nullptr;
+	CTexture*		m_pDeadTextureCom = nullptr;
 	CAnimation*		m_pAttackAnimationCom = nullptr;
 	CRcTex*			m_pBufferCom = nullptr;
 	
