@@ -27,21 +27,17 @@ HRESULT CAnubis::Ready_Object(int Posx, int Posy)
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	
 	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_MonsterTexture", m_mapComponent, ID_STATIC);
-	
-	
 
 	m_fHitDelay = 0.f;
 
 	CComponent* pComponent = nullptr;
-
 	
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
 	
-	
 	m_pAttackAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_STATIC);
 
-		m_pAttackTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Anubis_Attack_Texture", m_mapComponent, ID_STATIC);
-		m_pDeadTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Anubis_Dead_Texture", m_mapComponent, ID_STATIC);
+	m_pAttackTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Anubis_Attack_Texture", m_mapComponent, ID_STATIC);
+	m_pDeadTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Anubis_Dead_Texture", m_mapComponent, ID_STATIC);
 
 	m_iMonsterIndex = 0;
 	m_fAttackDelay = 0.5f;

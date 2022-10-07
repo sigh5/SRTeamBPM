@@ -189,6 +189,7 @@
     <ClInclude Include="..\Header\MonsterBullet.h" />
     <ClInclude Include="..\Header\MonsterToolObject.h" />
     <ClInclude Include="..\Header\MyCamera.h" />
+    <ClInclude Include="..\Header\Obelisk.h" />
     <ClInclude Include="..\Header\ObjectMgr.h" />
     <ClInclude Include="..\Header\Player.h" />
     <ClInclude Include="..\Header\ShotGun.h" />
@@ -263,6 +264,7 @@
     <ClCompile Include="..\Code\MetronomeUI.cpp" />
     <ClCompile Include="..\Code\MonsterToolObject.cpp" />
     <ClCompile Include="..\Code\MyCamera.cpp" />
+    <ClCompile Include="..\Code\Obelisk.cpp" />
     <ClCompile Include="..\Code\ObjectMgr.cpp" />
     <ClCompile Include="..\Code\Player.cpp" />
     <ClCompile Include="..\Code\ShotGun.cpp" />

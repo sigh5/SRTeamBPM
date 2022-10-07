@@ -215,6 +215,7 @@
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\MonsterToolObject.cpp" />
+    <ClCompile Include="..\Code\Obelisk.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -449,6 +450,7 @@
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\MonsterToolObject.h" />
+    <ClInclude Include="..\Header\Obelisk.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">

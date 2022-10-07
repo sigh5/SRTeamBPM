@@ -17,6 +17,7 @@ public:
 
 	void			BattleLoop(const _float& fTimeDelta);
 	void			IdleLoop(const _float& fTimeDelta);
+
 private:
 	void		AttackJudge(const _float& fTimeDelta);
 	void		Attack(const _float& fTimeDelta);

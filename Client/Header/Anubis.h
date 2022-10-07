@@ -45,10 +45,6 @@ public:
 
 private:
 
-
-
-
-	
 	_vec3 m_bOldPlayerPos;
 
 	CTexture*		m_pTextureCom = nullptr;
