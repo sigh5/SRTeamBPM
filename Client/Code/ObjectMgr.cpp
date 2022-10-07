@@ -8,6 +8,7 @@
 #include "MonsterBullet.h"
 #include "Bullet.h"
 #include "SphinxBullet.h"
+#include "Ghul.h"
 
 IMPLEMENT_SINGLETON(CObjectMgr)
 
@@ -61,6 +62,33 @@ CBaseBullet * CObjectMgr::Reuse_SphinxBulletObj(LPDIRECT3DDEVICE9 pGraphicDev, _
 		_vec3 vScale = { 0.5f,0.5f,0.5f };
 		dynamic_cast<CSphinxBullet*>(pObject)->Set_MoveDir(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC, &vPos, MONSTER_BULLET, &vScale);
 		m_SphinxBulletList.pop_front();
+	}
+	return pObject;
+}
+
+void CObjectMgr::Collect_GhulObj(CGhul * pObj)
+{
+	if (nullptr == pObj)
+		return;
+
+	m_GhulList.push_back(pObj);
+}
+
+CGhul * CObjectMgr::Reuse_GhulObj(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos)
+{
+	CGhul*		pObject = nullptr;
+	if (m_GhulList.empty())
+	{
+		pObject = CGhul::Create(pGraphicDev, (int)vPos.x, (int)vPos.z);
+	}
+	else
+	{
+		pObject = m_GhulList.front();
+
+		CTransform* pTransfrom;
+		pTransfrom = static_cast<CTransform*>(pObject->Get_Component(L"Proto_DynamicTransformCom",ID_DYNAMIC));
+		pTransfrom->Set_Pos(vPos.x, vPos.y, vPos.z);
+		m_GhulList.pop_front();
 	}
 	return pObject;
 }

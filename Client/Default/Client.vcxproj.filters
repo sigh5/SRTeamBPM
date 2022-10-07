@@ -214,8 +214,15 @@
     <ClCompile Include="..\Code\AnubisThunder.cpp">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\MonsterToolObject.cpp" />
-    <ClCompile Include="..\Code\Obelisk.cpp" />
+    <ClCompile Include="..\Code\Obelisk.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\04. Obelisk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MonsterToolObject.cpp">
+      <Filter>97. Mgr\02. ImGuiMgr\00. MonsterToolObj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Ghul.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\05. Ghul</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -449,8 +456,15 @@
     <ClInclude Include="..\Header\AnubisThunder.h">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\MonsterToolObject.h" />
-    <ClInclude Include="..\Header\Obelisk.h" />
+    <ClInclude Include="..\Header\Obelisk.h">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\04. Obelisk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\MonsterToolObject.h">
+      <Filter>97. Mgr\02. ImGuiMgr\00. MonsterToolObj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Ghul.h">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\05. Ghul</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -658,6 +672,12 @@
     </Filter>
     <Filter Include="97. Mgr\02. ImGuiMgr\00. MonsterToolObj">
       <UniqueIdentifier>{94074cfb-2041-4ff1-982e-ef03ca650ed6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\04. Obelisk">
+      <UniqueIdentifier>{24df725a-8063-4029-bbcc-ff32d1eb87d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\05. Ghul">
+      <UniqueIdentifier>{6f0ad008-e216-4bfa-8af1-675a50495ed8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

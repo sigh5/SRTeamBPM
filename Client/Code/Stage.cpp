@@ -29,7 +29,8 @@
 #include "Spider.h"
 #include "FatBat.h"
 #include "Sphinx.h"
-
+#include "Ghul.h"
+#include "Obelisk.h"
 
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -158,10 +159,17 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Box", pGameObject), E_FAIL);
 
-	pGameObject = CSphinx::Create(m_pGraphicDev, 30, 39);
+	/*pGameObject = CSphinx::Create(m_pGraphicDev, 30, 39);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Sphinx", pGameObject), E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Sphinx", pGameObject), E_FAIL);*/
 
+	pGameObject = CObelisk::Create(m_pGraphicDev, 20, 15);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Obelisk", pGameObject), E_FAIL);
+
+	//pGameObject = CGhul::Create(m_pGraphicDev, 20, 15);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Ghul", pGameObject), E_FAIL);
 
 	/*CPlayer*		pPlayer = dynamic_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"));
 	pGameObject = CBox::Create(m_pGraphicDev, 5, 10, pPlayer);
@@ -170,9 +178,10 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 */
 
 
-	READY_LAYER(pGameObject, CAnubis, pLayer, m_pGraphicDev, L"TestMonster1");
-	READY_LAYER(pGameObject, CSpider, pLayer, m_pGraphicDev, L"TestMonster2");
-	READY_LAYER(pGameObject, CFatBat, pLayer, m_pGraphicDev, L"TestMonster3");
+	//READY_LAYER(pGameObject, CAnubis, pLayer, m_pGraphicDev, L"TestMonster1");
+	//READY_LAYER(pGameObject, CSpider, pLayer, m_pGraphicDev, L"TestMonster2");
+	//READY_LAYER(pGameObject, CFatBat, pLayer, m_pGraphicDev, L"TestMonster3");
+	
 	//
 	/*CFileIOMgr::GetInstance()->Load_FileData(m_pGraphicDev,
 		this,

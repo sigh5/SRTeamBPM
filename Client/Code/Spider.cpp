@@ -221,7 +221,6 @@ void		CSpider::Attack(const _float& fTimeDelta)
 			pPlayerInfo->Receive_Damage(m_pInfoCom->Get_AttackPower());
 		}
 	}
-	
 
 	if (m_pAttackAnimationCom->m_iMotion >= m_pAttackAnimationCom->m_iMaxMotion)
 	{

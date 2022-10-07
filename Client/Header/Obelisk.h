@@ -1,7 +1,6 @@
 #pragma once
 #include "MonsterBase.h"
-class CObelisk :
-	public CMonsterBase
+class CObelisk : public CMonsterBase
 {
 private:
 	explicit CObelisk(LPDIRECT3DDEVICE9 pGraphicDev);
@@ -23,13 +22,15 @@ private:
 
 	virtual void NoHit_Loop(const _float& fTimeDelta);
 	virtual void Hit_Loop(const _float& fTimeDelta);
-
-private:
-	CTexture* m_pTextureCom = nullptr;
-
 public:
 	static CObelisk*		Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx = 0, int Posy = 0);
 	virtual void		Free(void);
+
+private:
+	CTexture* m_pTextureCom = nullptr;
+	CRcTex* m_pBufferCom = nullptr;
+
+
 
 };
 
