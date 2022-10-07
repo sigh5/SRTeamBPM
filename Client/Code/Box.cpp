@@ -31,6 +31,10 @@ HRESULT CBox::Ready_Object(_uint iX, _uint iY)
 
 _int CBox::Update_Object(const _float & fTimeDelta)
 {
+	_vec3 vecScale = { 1.5f, 1.5f, 1.0f };
+
+	m_pTransCom->Set_Scale(&vecScale);
+
 	_uint iResult = Engine::CGameObject::Update_Object(fTimeDelta);
 
 	Set_OnTerrain();

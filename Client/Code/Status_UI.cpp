@@ -4,6 +4,7 @@
 #include "AbstractFactory.h"
 
 #include "Player.h"
+#include "ShotGun.h"
 USING(Engine)
 
 
@@ -24,7 +25,7 @@ CStatus_UI::~CStatus_UI()
 HRESULT CStatus_UI::Ready_Object(CGameObject * pPlayer)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-
+	
 	m_pPlayer = pPlayer;
 
 	return S_OK;
@@ -33,6 +34,14 @@ HRESULT CStatus_UI::Ready_Object(CGameObject * pPlayer)
 _int CStatus_UI::Update_Object(const _float & fTimeDelta)
 {
 	// Tab 키 입력에 따라 Status_UI가 갖는 Transform의 vScale을 조절해주는 기능 구현할 것
+
+	m_iPlayerPower = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._iAttackPower;
+
+	m_iPlayerSkillPower = static_cast<CTestPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"TestPlayer"))->Get_Skill();
+
+	m_iPlayerSpeed = (_uint)static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._fSpeed;
+
+	Dynamic_StatusUpdate();
 
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
@@ -43,7 +52,7 @@ _int CStatus_UI::Update_Object(const _float & fTimeDelta)
 
 void CStatus_UI::LateUpdate_Object(void)
 {							// 1번, 2번 인자는 Scale X, Y. Default로는 WINCX, WINCY 밖에 이미지가 존재하도록 늘리고 Tab키를 누르면 줄어들어서 화면에 보이도록
-	m_pTransCom->OrthoMatrix(1200.f, 400.f, 0.f, 0.f, WINCX, WINCY);
+	m_pTransCom->OrthoMatrix(2400.f, 800.f, 0.f, 0.f, WINCX, WINCY);
 
 	if (Get_DIKeyState(DIK_TAB) & 0x80)
 	{
@@ -61,19 +70,10 @@ void CStatus_UI::Render_Obejct(void)
 	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &m_pTransCom->m_matOrtho);
 
 	if (Get_DIKeyState(DIK_TAB) & 0x80)
-	{
-		//m_pTransCom->Set_OrthoScale(0.5f, 0.5f);		
-		
-		_uint iPlayerPower = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._iAttackPower;
-
-		_uint iPlayerSkillPower = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"TestPlayer"))->Get_Skill();
-
-		_uint iPlayerSpeed = (_uint)static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._fSpeed;
-
-
+	{	
 		// Player's Bullet Power
 		_tchar	tBpower[MAX_PATH];
-		swprintf_s(tBpower, L"%d", iPlayerPower);
+		swprintf_s(tBpower, L"%d", m_iPlayerPower);
 		m_szPower = L"";
 		m_szPower += tBpower;
 
@@ -84,10 +84,11 @@ void CStatus_UI::Render_Obejct(void)
 		Render_Font(L"DalseoHealingBold", szBPname, &_vec2(565.f, 114.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 		// ~Player's Bullet Power
 
+		//cout << "플레이어 공격력 : " << m_iPlayerPower << endl;
 
 		// Player's Skill Power
 		_tchar	tSpower[MAX_PATH];
-		swprintf_s(tSpower, L"%d", iPlayerSkillPower);
+		swprintf_s(tSpower, L"%d", m_iPlayerSkillPower);
 		m_szSkillPower = L"";
 		m_szSkillPower += tSpower;
 
@@ -101,7 +102,7 @@ void CStatus_UI::Render_Obejct(void)
 
 		// Player's Speed
 		_tchar	tSspeed[MAX_PATH];
-		swprintf_s(tSspeed, L"%d", iPlayerSpeed);
+		swprintf_s(tSspeed, L"%d", m_iPlayerSpeed);
 		m_szSPeed = L"";
 		m_szSPeed += tSspeed;
 
@@ -153,6 +154,17 @@ HRESULT CStatus_UI::Add_Component(void)
 	m_pAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_STATIC);
 
 	return S_OK;
+}
+
+void CStatus_UI::Dynamic_StatusUpdate(void)
+{
+	CShotGun* pShotGun = static_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"));
+
+	if (pShotGun->Get_RenderFalse() == true)	
+		m_iPlayerPower = pShotGun->Get_EquipInfoRef()._iAddAttack;
+
+
+	
 }
 
 CStatus_UI * CStatus_UI::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject * pPlayer)

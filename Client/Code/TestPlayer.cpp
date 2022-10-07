@@ -11,6 +11,7 @@
 #include "Box.h"
 #include "MyCamera.h"
 #include "Gun_Screen.h"
+#include "ShotGun.h"
 
 
 CTestPlayer::CTestPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -33,6 +34,7 @@ HRESULT CTestPlayer::Ready_Object(void)
 							// int _hp, int _Attack, float _fSpeed
 	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
 	
+	
 	//m_preItem = m_pInfoCom->Get_InfoRef()._iCoin;
 		
 	return S_OK;
@@ -42,7 +44,7 @@ _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 {
 	++m_iCountDash;
 	Key_Input(fTimeDelta);
-	
+	cout << "체력 : " << m_pInfoCom->Get_InfoRef()._iHp << "m_iHpBarChange " << m_iHpBarChange << endl;
 	//if (m_preItem = m_pInfoCom->Get_InfoRef()._iCoin) // Coin 획득했는가를 체크하는 코드
 	//{
 	//	//system("cls");
@@ -55,8 +57,6 @@ _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 	//}	
 
 		// cout << "총알 수 :" << m_iMagazine << endl;
-		
-
 	
 	if (m_bJump == TRUE)
 	{
@@ -108,7 +108,7 @@ _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 
 void CTestPlayer::LateUpdate_Object(void)
 {
-	
+	EquipItem_Add_Stat();
 }
 
 void CTestPlayer::Render_Obejct(void)
@@ -121,8 +121,7 @@ void CTestPlayer::Render_Obejct(void)
 	m_pTextureCom->Set_Texture(m_iTexIndex);
 	m_pBufferCom->Render_Buffer();
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-
+	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);	
 
 	/*m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
@@ -277,12 +276,14 @@ void CTestPlayer::Key_Input(const _float& fTimeDelta)
 	// HpBar Change
 	if (Get_DIKeyState(DIK_C) & 0X80)
 	{		
+		m_pInfoCom->Get_InfoRef()._iHp -= 1;
+		// Test
 		m_iHpBarChange -= 1;
 	}
 
 	if (Get_DIKeyState(DIK_V) & 0X80)
 	{
-		m_iHpBarChange = 4;
+		//m_iHpBarChange = 4;
 	}
 
 	if (Get_DIKeyState(DIK_P) & 0X80)
@@ -394,7 +395,7 @@ void CTestPlayer::Collision_Event(CGameObject * pGameObject)
 		if (pGameObject == pMyLayer->Get_GameObject(L"HealthPotion"))
 		{
 			m_pInfoCom->Add_Hp(25);
-			//m_iHpBarChange += 1;				
+					
 			pMyLayer->Delete_GameObject(L"HealthPotion"); // 이벤트 처리		
 		}
 
@@ -449,6 +450,16 @@ void CTestPlayer::Collision_Event(CGameObject * pGameObject)
 	}
 }
 
+void CTestPlayer::EquipItem_Add_Stat(void)
+{
+	CShotGun* pShotGun = static_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"));
+
+	// ShotGun을 먹은 경우
+	if (pShotGun->Get_RenderFalse() == true)
+		m_pInfoCom->Get_InfoRef()._iAttackPower = pShotGun->Get_EquipInfoRef()._iAddAttack;
+
+}
+
 CTestPlayer * CTestPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
 	CTestPlayer *	pInstance = new CTestPlayer(pGraphicDev);
@@ -464,7 +475,6 @@ CTestPlayer * CTestPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 }
 
 void CTestPlayer::Free(void)
-{
-	
+{	
 	CGameObject::Free();
 }

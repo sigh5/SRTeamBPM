@@ -6,6 +6,7 @@
 #include "TestPlayer.h"
 #include "MyCamera.h"
 #include "Inventory_UI.h"
+#include "Status_UI.h"
 
 CShotGun::CShotGun(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CEquipmentBase(pGraphicDev) 
@@ -20,9 +21,13 @@ HRESULT CShotGun::Ready_Object(_uint iX, _uint iZ)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	Engine::CEquipmentBase::Ready_EquipInfo(10, 0, 0, 10, WEAPON_SHOTGUN);
+	Engine::CEquipmentBase::Ready_EquipInfo(20, 0, 0, 10, WEAPON_SHOTGUN);
 	
 	m_RenderID = RENDER_ALPHA;
+
+	_vec3 vecScale = { 1.5f, 1.5f, 0.1f };
+
+	m_pTransCom->Set_Scale(&vecScale);
 
 	m_pTransCom->Set_Pos((_float)iX, 1.f, (_float)iZ);
 	m_pTransCom->Compulsion_Update();
@@ -82,27 +87,29 @@ void CShotGun::Render_Obejct(void)
 	
 	if (!m_bRenderControl && !m_bRenderFalse)
 	{
-	m_RenderID = RENDER_ALPHA;
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
-	
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0x10);
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+		m_RenderID = RENDER_ALPHA;
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
+		
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0x10);
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+		m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+		m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
 
-	m_pTextureCom->Set_Texture(0);	
-	m_pBufferCom->Render_Buffer();
+		m_pTextureCom->Set_Texture(0);	
+		m_pBufferCom->Render_Buffer();
 
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 
 	}
+
+	CInventory_UI* pInven = static_cast<CInventory_UI*>(Get_GameObject(L"Layer_UI", L"InventoryUI"));
 	
-	if (m_bRenderControl && m_bRenderFalse)
+	if (pInven->Get_InvenSwitch() == true && m_bRenderFalse == true)
 	{
 		m_RenderID = RENDER_ICON;
 		m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
@@ -126,22 +133,63 @@ void CShotGun::Render_Obejct(void)
 
 		m_pTransCom->Set_Pos(vecInvenPos.x - 50.f, vecInvenPos.y - 50.f, 0.1f);
 
-		_vec3		vecIconScale = { 20.f, 20.f, 20.f };
+		_vec3		vecIconScale = { 30.f, 30.f, 0.f };
 
 		m_pTransCom->Set_Scale(&vecIconScale);
 
 		m_pGraphicDev->SetTransform(D3DTS_VIEW, &ViewMatrix);
 		m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
-		
+
 		m_pTextureCom->Set_Texture(0);
-		m_pBufferCom->Render_Buffer();	
+		m_pBufferCom->Render_Buffer();
 
 		m_pGraphicDev->SetTransform(D3DTS_VIEW, &OldViewMatrix);
 		m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &OldProjMatrix);
 	}
 
 
+	if (m_bRenderControl && m_bRenderFalse)  
+	{
+		m_RenderID = RENDER_ICON;
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
 
+		_matrix		OldViewMatrix, OldProjMatrix;
+
+		m_pGraphicDev->GetTransform(D3DTS_VIEW, &OldViewMatrix);
+		m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &OldProjMatrix);
+
+		_matrix		ViewMatrix;
+
+		ViewMatrix = *D3DXMatrixIdentity(&ViewMatrix);
+
+		_matrix		matProj;
+
+		D3DXMatrixOrthoLH(&matProj, WINCX, WINCY, 0.f, 1.f);
+
+		_vec3 vecInvenPos;
+
+		dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_UI", L"InventoryUI", L"Proto_OrthoTransformCom", ID_DYNAMIC))->Get_Info(INFO_POS, &vecInvenPos);
+
+		m_pTransCom->Set_Pos(vecInvenPos.x - 50.f, vecInvenPos.y - 50.f, 0.1f);
+
+		_vec3		vecIconScale = { 30.f, 30.f, 0.f };
+
+		m_pTransCom->Set_Scale(&vecIconScale);
+
+		/*if (Get_DIMouseState(DIM_LB) & 0X80)
+		{
+			m_pCalculatorCom->PickingOnTransform_Monster(g_hWnd, this->m_pBufferCom, this->m_pTransCom);
+		}*/
+
+		m_pGraphicDev->SetTransform(D3DTS_VIEW, &ViewMatrix);
+		m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
+		
+		m_pTextureCom->Set_Texture(0);
+		m_pBufferCom->Render_Buffer();			
+
+		m_pGraphicDev->SetTransform(D3DTS_VIEW, &OldViewMatrix);
+		m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &OldProjMatrix);
+	}
 }
 
 void CShotGun::Collision_Event()
@@ -156,34 +204,14 @@ void CShotGun::Collision_Event()
 	
 	if (Get_DIKeyState(DIK_F) & 0X80)
 	{
-		if (!m_pColliderCom->Check_Collision(this, pGameObject, 1, 1))
+		if (!m_pColliderCom->Check_Collision(this, pGameObject, 2.f, 2.f))
 		{
+			m_bRenderFalse = true;			
+		
 			CInventory_UI* pInven = static_cast<CInventory_UI*>(Get_GameObject(L"Layer_UI", L"InventoryUI"));
-
-			//CTestPlayer* pPlayer = static_cast<CTestPlayer*>(Get_GameObject(L"Layer_GameLogic", L"TestPlayer"));
-
 			pInven->Get_WeaponType()->push_back(this);
-			m_bRenderFalse = true;
-
-			//pPlayer->Get_WeaponType()->push_back(this);
-
-			/*for (_uint i = 0; i < WEAPON_END; ++i)
-			{
-				if (i == (m_EquipInfo.m_WeaponType == WEAPON_SHOTGUN))
-				{
-					CTestPlayer* pPlayer = static_cast<CTestPlayer*>(Get_GameObject(L"Layer_GameLogic", L"TestPlayer"));
-
-					pPlayer->Get_WeaponType()->push_back(this);
-				}
-			}*/
-
-			//_uint iAddPower = (_uint)static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._iAttackPower;
-
-			//pPlayer->
-
-		}
+		}		
 	}
-
 }
 
 void CShotGun::Set_OnTerrain(void)

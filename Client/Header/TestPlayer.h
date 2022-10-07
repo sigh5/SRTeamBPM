@@ -54,6 +54,7 @@ public:
 	// ~Test
 
 	virtual void		Collision_Event(CGameObject* pGameObject);
+	void				EquipItem_Add_Stat(void);
 	
 private:
 	CRcTex*				m_pBufferCom = nullptr;
@@ -104,9 +105,9 @@ private:
 
 	// Test
 	_uint				m_iChangeImage = 1;
-	_uint				m_iHpBarChange = 4;
+	_uint				m_iHpBarChange = 100;
 	_uint				m_preItem = 0;
-		
+
 	// ~Test
 
 	// Player's Status(Private)
@@ -120,6 +121,6 @@ public:
 	
 public:
 	static CTestPlayer*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual void	Free(void);
+	virtual void			Free(void);
 };
 

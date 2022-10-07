@@ -16,8 +16,6 @@ CBackGround::~CBackGround()
 HRESULT CBackGround::Ready_Object(void)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-
-	
 	
 	return S_OK;
 }

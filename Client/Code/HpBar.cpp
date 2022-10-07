@@ -34,7 +34,11 @@ HRESULT CHpBar::Ready_Object(CGameObject * pPlayer)
 
 _int CHpBar::Update_Object(const _float & fTimeDelta)
 {
-	m_pAnimationCom->Control_Animation(static_cast<CPlayer*>(m_pPlayer)->Get_HpChange());
+	CTestPlayer* pPlayer = static_cast<CTestPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"TestPlayer"));
+
+	_uint iA = (pPlayer->Get_HpChange()) / 25;
+
+	m_pAnimationCom->Control_Animation(iA);
 
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
@@ -45,7 +49,7 @@ _int CHpBar::Update_Object(const _float & fTimeDelta)
 
 void CHpBar::LateUpdate_Object(void)
 {
-	m_pTransCom->OrthoMatrix(80.f, 15.f, -300.f, -270.f, WINCX, WINCY);
+	m_pTransCom->OrthoMatrix(150.f, 30.f, -300.f, -270.f, WINCX, WINCY);
 
 	CGameObject::LateUpdate_Object();
 
@@ -64,12 +68,6 @@ void CHpBar::Render_Obejct(void)
 
 HRESULT CHpBar::Add_Component(void)
 {
-	/*m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
-	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_HpBar_Texture", m_mapComponent, ID_STATIC);
-	m_pTransCom = CAbstractFactory<COrthoTransform>::Clone_Proto_Component(L"Proto_OrthoTransformCom", m_mapComponent, ID_DYNAMIC);
-	m_pCalculatorCom = CAbstractFactory<CCalculator>::Clone_Proto_Component(L"Proto_CalculatorCom", m_mapComponent, ID_STATIC);
-	m_pAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_DYNAMIC);*/
-
 	CComponent* pComponent = nullptr;
 
 	pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Clone_Proto(L"Proto_RcTexCom"));
@@ -90,7 +88,7 @@ HRESULT CHpBar::Add_Component(void)
 
 	pComponent = m_pAnimationCom = dynamic_cast<CAnimation*>(Clone_Proto(L"Proto_AnimationCom"));
 	NULL_CHECK_RETURN(m_pAnimationCom, E_FAIL);
-	m_pAnimationCom->Ready_Animation(4, 0, 0.2f, 4); // 8
+	m_pAnimationCom->Ready_Animation(4, 0, 0.2f, 3); // 8
 	m_mapComponent[ID_DYNAMIC].insert({ L"Proto_AnimationCom", pComponent });
 
 	return S_OK;

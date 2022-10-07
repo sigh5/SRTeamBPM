@@ -25,7 +25,7 @@ HRESULT CDashUI::Ready_Object()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	Set_OrthoMatrix(150.f, 150.f, 0.f, 0.f);
+	Set_OrthoMatrix(250.f, 250.f, 0.f, 0.f);
 
 	m_vecScale = { m_fSizeX * 0.3f, m_fSizeY * 0.3f, 1.f };
 
@@ -69,7 +69,7 @@ _int CDashUI::Update_Object(const _float & fTimeDelta)
 
 					
 	
-	cout << "시간 : " << m_fDelayTime << endl;
+	//cout << "시간 : " << m_fDelayTime << endl;
 
 	Engine::CGameObject::Update_Object(fTimeDelta);
 

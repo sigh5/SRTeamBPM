@@ -11,6 +11,8 @@ class COrthoTransform;
 class CCalculator;
 class CAnimation;
 
+class CCollider;
+
 class CEquipmentBase;
 
 END
@@ -31,6 +33,8 @@ public:
 
 	void				Find_Equip_Item(void);
 
+	_bool				Get_InvenSwitch(void) { return m_bInvenSwitch; }
+
 private:
 	HRESULT				Add_Component(void);
 
@@ -40,6 +44,8 @@ public:
 	COrthoTransform*	m_pTransCom = nullptr;
 	CCalculator*		m_pCalculatorCom = nullptr;
 	CAnimation*			m_pAnimationCom = nullptr;
+
+	CCollider*			m_pColliderCom = nullptr;
 
 private:
 	_vec3				m_vecScale;
