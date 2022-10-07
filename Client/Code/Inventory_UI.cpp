@@ -34,7 +34,7 @@ HRESULT CInventory_UI::Ready_Object()
 	m_vecScale = { m_fSizeX, m_fSizeY, 1.f };
 
 	m_pTransCom->Set_Scale(&m_vecScale);
-	m_pTransCom->Set_Pos(m_fX + 50.f, m_fY + WINCY * 0.2f, 0.f);
+	m_pTransCom->Set_Pos(m_fX + 50.f, m_fY + WINCY * 0.2f, 0.2f);
 
 	return S_OK;
 }
@@ -52,23 +52,25 @@ _int CInventory_UI::Update_Object(const _float & fTimeDelta)
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
 	Add_RenderGroup(RENDER_UI, this);
-
+	
 	return 0;
 }
 
 void CInventory_UI::LateUpdate_Object(void)
 {
-	/*RECT		rcUI = { m_fX - m_fSizeX * 0.5f, m_fY - m_fSizeY * 0.5f, m_fX + m_fSizeX * 0.5f, m_fY + m_fSizeY * 0.5f };
+	RECT		rcUI = { m_fX + m_fSizeX * 0.5f, m_fY + m_fSizeY * 0.5f, m_fX + m_fSizeX * 1.5f, m_fY + m_fSizeY * 1.5f };
 
 	POINT		ptMouse;
 	GetCursorPos(&ptMouse);
 	ScreenToClient(g_hWnd, &ptMouse);
-
-	_vec3	vecTest = { (_float)ptMouse.x, (_float)ptMouse.y, 1.f};
-
-	if (PtInRect(&rcUI, ptMouse))
+		
+	if (Engine::Mouse_Down(DIM_LB))
 	{
-	}*/
+		if (PtInRect(&rcUI, ptMouse))
+		{
+			m_pTransCom->Set_Pos((_float)ptMouse.x, (_float)ptMouse.y, 0.2f);
+		}
+	}
 
 	CGameObject::LateUpdate_Object();
 }
@@ -118,55 +120,57 @@ void CInventory_UI::Find_Equip_Item(void)
 {
 	/*_matrix matOrtho;
 	Get_ProjMatrix(&matOrtho);
-	
-	D3DXMatrixInverse(&matOrtho, nullptr, &matOrtho);*/ 
+
+	D3DXMatrixInverse(&matOrtho, nullptr, &matOrtho);*/
 
 	//m_pGraphicDev->GetViewport()
 
 	if (0 != m_vecWeaponType.size())
 	{
-		//WEAPON_TYPE weapon = dynamic_cast<CEquipmentBase*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"))->Get_EquipInfoRef().m_WeaponType;
-
-		//vector<CEquipmentBase*>::iterator iter = find(m_vecWeaponType.begin(), m_vecWeaponType.end(), 1);
-
-		//_uint iWeapon = distance(m_vecWeaponType.begin(), iter);
-
-		for (_uint i = 0; i < 5; ++i)
-		{
-			_matrix matShotgun;
-			D3DXMatrixIdentity(&matShotgun);
-
-			matShotgun = *(dynamic_cast<CTransform*>(m_vecWeaponType[i]->Get_Component(L"Proto_TransformCom", ID_DYNAMIC))->Get_WorldMatrixPointer());
-			// 인벤토리에 들어온 객체의 월드 행렬
-		
-			Get_ProjMatrix(&matShotgun);
-			
-			matShotgun._11 *= 1000.f;
-			matShotgun._22 *= 1000.f;
-
-			_matrix matTest;
-			D3DXMatrixIdentity(&matTest);
-
-			m_pTransCom->Get_WorldMatrix(&matTest);
-
-			matShotgun._41 = matTest._41;
-			matShotgun._42 = matTest._42;
-
-			matShotgun._41 += 150.f;
-			matShotgun._42 += 150.f;
-			
-			m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matShotgun);
-			_uint iA = 0;
-		}	
-			//	인벤토리에서 들어온 객체(샷건)의 불변수 컨트롤해서 렌더 상태 관리
 	}
 
-			// m_vecWeaponType[iWeapon]->Get_Component(L"Proto_TransformCom", ID_DYNAMIC);
+	//WEAPON_TYPE weapon = dynamic_cast<CEquipmentBase*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"))->Get_EquipInfoRef().m_WeaponType;
 
-		/*if (find(m_vecWeaponType.begin(), m_vecWeaponType.end(), (weapon == WEAPON_SHOTGUN)) != m_vecWeaponType.end())
-		{
+	//vector<CEquipmentBase*>::iterator iter = find(m_vecWeaponType.begin(), m_vecWeaponType.end(), 1);
 
-		}*/
+	//_uint iWeapon = distance(m_vecWeaponType.begin(), iter);
+
+//	for (_uint i = 0; i < 5; ++i)
+//	{
+//		_matrix matShotgun;
+//		D3DXMatrixIdentity(&matShotgun);
+
+//		matShotgun = *(dynamic_cast<CTransform*>(m_vecWeaponType[i]->Get_Component(L"Proto_TransformCom", ID_DYNAMIC))->Get_WorldMatrixPointer());
+//		// 인벤토리에 들어온 객체의 월드 행렬
+//	
+//		Get_ProjMatrix(&matShotgun);
+//		
+//		matShotgun._11 *= 1000.f;
+//		matShotgun._22 *= 1000.f;
+
+//		_matrix matTest;
+//		D3DXMatrixIdentity(&matTest);
+
+//		m_pTransCom->Get_WorldMatrix(&matTest);
+
+//		matShotgun._41 = matTest._41;
+//		matShotgun._42 = matTest._42;
+
+//		matShotgun._41 += 150.f;
+//		matShotgun._42 += 150.f;
+//		
+//		m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matShotgun);
+//		_uint iA = 0;
+//	}	
+//		//	인벤토리에서 들어온 객체(샷건)의 불변수 컨트롤해서 렌더 상태 관리
+//}
+
+		// m_vecWeaponType[iWeapon]->Get_Component(L"Proto_TransformCom", ID_DYNAMIC);
+
+	/*if (find(m_vecWeaponType.begin(), m_vecWeaponType.end(), (weapon == WEAPON_SHOTGUN)) != m_vecWeaponType.end())
+	{
+
+	}*/
 
 	/*CTestPlayer* pPlayer = static_cast<CTestPlayer*>(Get_GameObject(L"Layer_GameLogic", L"TestPlayer"));
 
@@ -175,14 +179,14 @@ void CInventory_UI::Find_Equip_Item(void)
 	if (0 != pPlayer->Get_WeaponType()->size())
 	{
 		if (find(pPlayer->Get_WeaponType()->begin(), pPlayer->Get_WeaponType()->end(), pShotGun) != pPlayer->Get_WeaponType()->end())
-		{			
+		{
 			vector<IDirect3DBaseTexture9*> vecShotTexture = static_cast<CTexture*>(Engine::Get_Component(L"Layer_GameLogic", L"ShotGun", L"Proto_ShotGunTexture", ID_STATIC))->Get_Texture();
-									
-			_uint iA = 0;	
+
+			_uint iA = 0;
 		}
 	}*/
-
 }
+
 
 HRESULT CInventory_UI::Add_Component(void)
 {

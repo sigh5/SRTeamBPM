@@ -27,8 +27,6 @@ CBullet_UI::~CBullet_UI()
 HRESULT CBullet_UI::Ready_Object(CGameObject* pPlayer)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-
-
 		
 	return S_OK;
 }
@@ -49,7 +47,7 @@ _int CBullet_UI::Update_Object(const _float & fTimeDelta)
 
 void CBullet_UI::LateUpdate_Object(void)
 {
-	m_pTransCom->OrthoMatrix(70.f, 20.f, 300.f, -270.f, WINCX, WINCY);
+	m_pTransCom->OrthoMatrix(120.f, 30.f, 300.f, -270.f, WINCX, WINCY);
 
 	CGameObject::LateUpdate_Object();
 }

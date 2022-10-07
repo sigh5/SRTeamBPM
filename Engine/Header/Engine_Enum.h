@@ -8,8 +8,8 @@ namespace Engine
 // ID_DYNAMIC : 매 프레임마다 갱신을 해야하는 컴포넌트 집단
 // ID_STATIC : 한 번 만들면 그대로 사용할 컴포넌트 집단
 	enum COMPONENTID { ID_DYNAMIC, ID_STATIC, ID_END };
-
-	enum RENDERID { RENDER_PRIORITY, RENDER_NONALPHA, RENDER_ALPHA, RENDER_UI, RENDER_END };
+																			 // 인벤토리에 들어온 아이템
+	enum RENDERID { RENDER_PRIORITY, RENDER_NONALPHA, RENDER_ALPHA, RENDER_UI, RENDER_ICON, RENDER_END };
 
 	enum INFOID { INFO_RIGHT, INFO_UP, INFO_LOOK, INFO_POS, INFO_END };
 

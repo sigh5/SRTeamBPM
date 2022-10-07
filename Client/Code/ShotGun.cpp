@@ -37,7 +37,7 @@ _int CShotGun::Update_Object(const _float & fTimeDelta)
 	Set_OnTerrain();
 
 	Add_RenderGroup(m_RenderID, this);
-
+	
 	return iResult;
 }
 
@@ -80,10 +80,10 @@ void CShotGun::Render_Obejct(void)
 {
 	//_bool 변수로 World(필드에 있을 때), Ortho(인벤토리에 들어옴) 여부 판단
 	
-	if (!m_bRenderControl)
+	if (!m_bRenderControl && !m_bRenderFalse)
 	{
+	m_RenderID = RENDER_ALPHA;
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
-	
 	
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0x10);
@@ -101,9 +101,10 @@ void CShotGun::Render_Obejct(void)
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 
 	}
-
-	if (m_bRenderControl)
+	
+	if (m_bRenderControl && m_bRenderFalse)
 	{
+		m_RenderID = RENDER_ICON;
 		m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
 
 		_matrix		OldViewMatrix, OldProjMatrix;
@@ -119,7 +120,15 @@ void CShotGun::Render_Obejct(void)
 
 		D3DXMatrixOrthoLH(&matProj, WINCX, WINCY, 0.f, 1.f);
 
-		m_pTransCom->Set_Pos(-50.f, -50.f, 0.1f);
+		_vec3 vecInvenPos;
+
+		dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_UI", L"InventoryUI", L"Proto_OrthoTransformCom", ID_DYNAMIC))->Get_Info(INFO_POS, &vecInvenPos);
+
+		m_pTransCom->Set_Pos(vecInvenPos.x - 50.f, vecInvenPos.y - 50.f, 0.1f);
+
+		_vec3		vecIconScale = { 20.f, 20.f, 20.f };
+
+		m_pTransCom->Set_Scale(&vecIconScale);
 
 		m_pGraphicDev->SetTransform(D3DTS_VIEW, &ViewMatrix);
 		m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
@@ -154,6 +163,7 @@ void CShotGun::Collision_Event()
 			//CTestPlayer* pPlayer = static_cast<CTestPlayer*>(Get_GameObject(L"Layer_GameLogic", L"TestPlayer"));
 
 			pInven->Get_WeaponType()->push_back(this);
+			m_bRenderFalse = true;
 
 			//pPlayer->Get_WeaponType()->push_back(this);
 

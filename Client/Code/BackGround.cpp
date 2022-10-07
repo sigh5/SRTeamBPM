@@ -29,6 +29,10 @@ Engine::_int CBackGround::Update_Object(const _float& fTimeDelta)
 
 	//m_pTransCom->m_vAngle.z = D3DXToRadian(45.f);
 
+	_vec3 vecScale = { 2.0f, 2.0f, 2.0f};
+
+	m_pTransCom->Set_Scale(&vecScale);
+
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
 	Add_RenderGroup(RENDER_PRIORITY, this);
