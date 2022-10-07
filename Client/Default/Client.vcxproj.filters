@@ -214,6 +214,7 @@
     <ClCompile Include="..\Code\AnubisThunder.cpp">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\MonsterToolObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -447,6 +448,7 @@
     <ClInclude Include="..\Header\AnubisThunder.h">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\MonsterToolObject.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -651,6 +653,9 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx">
       <UniqueIdentifier>{4036cf1d-272d-44e4-ae60-f0a2105afda5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97. Mgr\02. ImGuiMgr\00. MonsterToolObj">
+      <UniqueIdentifier>{94074cfb-2041-4ff1-982e-ef03ca650ed6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

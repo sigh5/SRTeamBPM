@@ -9,6 +9,7 @@
 #include "Spider.h"
 #include "TestPlayer.h"
 #include "WallCube.h"
+#include "MonsterToolObject.h"
 
 IMPLEMENT_SINGLETON(CFileIOMgr)
 
@@ -81,14 +82,14 @@ void CFileIOMgr::Save_FileData(CScene * pScene,
 		for (auto iter = MyLayerMap.begin(); iter != MyLayerMap.end(); ++iter)
 		{
 
-			CTransform* Transcom = dynamic_cast<CTransform*>(iter->second->Get_Component(L"Proto_DynamicTransformCom", ID_DYNAMIC));
+			CTransform* Transcom = dynamic_cast<CTransform*>(iter->second->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
 
 			_vec3   vPos, vScale;
 			_int	iMonsterType = 0;
 
 			Transcom->Get_Info(INFO_POS, &vPos);
 			memcpy(vScale, Transcom->m_vScale, sizeof(_vec3));
-			iMonsterType = static_cast<CMonsterBase*>(iter->second)->Get_MonsterType();
+			iMonsterType = static_cast<CMonsterToolObject*>(iter->second)->Get_MonsterType();
 
 			WriteFile(hFile, &vPos, sizeof(_vec3), &dwByte, nullptr);
 			WriteFile(hFile, &vScale, sizeof(_vec3), &dwByte, nullptr);
@@ -259,16 +260,24 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 			}
 			else
 			{
-				pGameObject = CAnubis::Create(pGrahicDev);
+				pGameObject = CMonsterToolObject::Create(pGrahicDev);
 			}
-			//switch(iMonsterType) ???? ???? ???? ???? ???????
+
 			pMyLayer = pScene->GetLayer(LayerName);
 
 			FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(test1, pGameObject), );
-			static_cast<CMonsterBase*>(pGameObject)->Get_MonsterType() = iMonsterType;
+			CTransform* Transcom = nullptr;
+			if (SCENE_TOOLTEST != Get_Scene()->Get_SceneType())
+			{
+				static_cast<CMonsterBase*>(pGameObject)->Get_MonsterType() = iMonsterType;
+				Transcom = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_DynamicTransformCom", ID_DYNAMIC));
+			}
+			else
+			{
+				static_cast<CMonsterToolObject*>(pGameObject)->Get_MonsterType() = iMonsterType;
+				Transcom = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+			}
 			++m_iIndex;
-
-			CTransform* Transcom = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_DynamicTransformCom", ID_DYNAMIC));
 
 
 			Transcom->Set_Info(INFO_POS, &vPos);
