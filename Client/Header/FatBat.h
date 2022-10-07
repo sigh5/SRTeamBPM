@@ -14,8 +14,10 @@ public:
 	virtual void		LateUpdate_Object(void) override;
 	virtual void		Render_Obejct(void) override;
 	virtual void		Collision_Event()override;
-	
+	virtual bool		Dead_Judge(const _float& fTimeDelta);
 
+	virtual void NoHit_Loop(const _float& fTimeDelta);
+	virtual void Hit_Loop(const _float& fTimeDelta);
 public:
 	// 처형 판독
 	virtual void		Excution_Event();

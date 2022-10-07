@@ -18,9 +18,15 @@ public:
 	virtual void		LateUpdate_Object(void) override;
 	virtual void		Render_Obejct(void) override;
 	virtual void		Collision_Event()override;
+
+	virtual bool		Dead_Judge(const _float& fTimeDelta);
+
+	virtual void NoHit_Loop(const _float& fTimeDelta);
+	virtual void Hit_Loop(const _float& fTimeDelta);
+
+	void MonsterTool_Anubis_Logic(void);
+
 	void				Clear_Blood(const _float& fTimeDelta);
-
-
 public:
 	// 처형 판독
 	virtual void		Excution_Event();
@@ -39,11 +45,7 @@ public:
 
 private:
 
-	int m_iPreIndex = 0;
-	float m_fAttackDelay = 0;
-	float m_fAttackDelayTime = 0;
-	bool m_bAttack = true;
-	bool m_bAttacking = false;
+
 
 
 	

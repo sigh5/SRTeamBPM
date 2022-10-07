@@ -18,6 +18,10 @@ public:
 	virtual void		Render_Obejct(void) override;
 	virtual void		Collision_Event();
 	virtual void		Excution_Event();
+	virtual bool		Dead_Judge(const _float& fTimeDelta);
+
+	virtual void NoHit_Loop(const _float& fTimeDelta);
+	virtual void Hit_Loop(const _float& fTimeDelta);
 	//~
 
 	//개별 함수
@@ -32,11 +36,7 @@ public:
 	virtual void	Free(void);
 	//~
 private:
-	int m_iPreIndex = 0;
-	float m_fAttackDelay = 0;
-	float m_fAttackDelayTime = 0;
-	bool m_bAttack = true;
-	bool m_bAttacking = false;
+
 
 private:
 	CTexture*		m_pTextureCom = nullptr;

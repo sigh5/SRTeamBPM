@@ -15,6 +15,8 @@ public:
 	virtual void		Render_Obejct(void) override;
 	virtual void		Collision_Event();
 
+	void			BattleLoop(const _float& fTimeDelta);
+	void			IdleLoop(const _float& fTimeDelta);
 private:
 	void		AttackJudge(const _float& fTimeDelta);
 	void		Attack(const _float& fTimeDelta);
@@ -24,16 +26,16 @@ public:
 	virtual void	Free(void);
 
 private:
-	int m_iPreIndex = 0;
-	float m_fAttackDelay = 0;
-	float m_fAttackDelayTime = 0;
-	bool m_bAttack = true;
-	bool m_bAttacking = false;
+
 	_vec3 m_vOldPlayerPos;
 	bool m_bBattle = false;
 	bool m_bHeadOff = false;
 	int		m_iShootLeftRight;
 	int		m_iShootCycle;
+
+
+
+	int		m_iAliveStatue;    //남아있는 비석의 갯수
 
 	_vec3 m_vScale;
 

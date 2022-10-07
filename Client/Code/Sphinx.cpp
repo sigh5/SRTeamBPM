@@ -45,15 +45,13 @@ HRESULT CSphinx::Ready_Object(int Posx, int Posy)
 
 _int CSphinx::Update_Object(const _float & fTimeDelta)
 {
-	if ( !m_bBattle && m_iPreHp != m_pInfoCom->Get_Hp() )
+	if ( !m_bBattle  )
 	{
-		m_iPreHp = m_pInfoCom->Get_Hp();
-
-		m_bBattle = true;
+		IdleLoop(fTimeDelta);
 	}
 	if (m_bBattle)
 	{
-		Attack(fTimeDelta);
+		BattleLoop(fTimeDelta);
 	}
 
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
@@ -160,6 +158,21 @@ void		CSphinx::Collision_Event()
 		static_cast<CGun_Screen*>(pGameObject)->Set_Shoot(false);
 	}
 
+}
+
+void CSphinx::BattleLoop(const _float & fTimeDelta)
+{
+		Attack(fTimeDelta);
+}
+
+void CSphinx::IdleLoop(const _float & fTimeDelta)
+{
+	if (m_iPreHp != m_pInfoCom->Get_Hp())
+	{
+		m_iPreHp = m_pInfoCom->Get_Hp();
+
+		m_bBattle = true;
+	}
 }
 
 void CSphinx::AttackJudge(const _float & fTimeDelta)

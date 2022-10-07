@@ -61,7 +61,7 @@ HRESULT CAnubis::Ready_Object(int Posx, int Posy)
 	return S_OK;
 }
 
-_int CAnubis::Update_Object(const _float & fTimeDelta)
+bool	CAnubis::Dead_Judge(const _float& fTimeDelta)
 {
 	if (0 >= m_pInfoCom->Get_Hp())
 	{
@@ -70,139 +70,49 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 	}
 	if (m_bDead)
 	{
-		if(m_pDeadAnimationCom->m_iMotion<m_pDeadAnimationCom->m_iMaxMotion)
-		m_pDeadAnimationCom->Move_Animation(fTimeDelta);
+		if (m_pDeadAnimationCom->m_iMotion<m_pDeadAnimationCom->m_iMaxMotion)
+			m_pDeadAnimationCom->Move_Animation(fTimeDelta);
 		Engine::CMonsterBase::Update_Object(fTimeDelta);
 		Add_RenderGroup(RENDER_ALPHA, this);
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+_int CAnubis::Update_Object(const _float & fTimeDelta)
+{
+	MonsterTool_Anubis_Logic();
+
+	if (Dead_Judge(fTimeDelta))
+	{
 		return 0;
 	}
 
 	m_fTimeDelta = fTimeDelta;
 
-	if (m_iPreHp > m_pInfoCom->Get_Hp())
-	{
-		m_iPreHp = m_pInfoCom->Get_Hp();
-		//m_bHit = true;
-		m_bAttacking = false;
-		if (m_fHitDelay != 0)
-		{
-			m_fHitDelay = 0;
-		}
-	}
+	Hit_Delay_toZero();
 
-	//#ifdef _DEBUG
-	/*if (SCENE_TOOLTEST == Get_Scene()->Get_SceneType())
-	{
-	CTexture*	pComponent = nullptr;
-	if (m_iPreIndex != m_iMonsterIndex)
-	{
-	m_iPreIndex = m_iMonsterIndex;
-	switch (m_iMonsterIndex)
-	{
-	case 0:
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_MonsterTexture"));
-	NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
-	m_mapComponent[ID_STATIC].insert({ L"Proto_MonsterTexture", pComponent });
-	break;
-
-	case 1:
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_MonsterTexture2"));
-	NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
-	m_mapComponent[ID_STATIC].insert({ L"Proto_MonsterTexture2", pComponent });
-	break;
-
-	case 2:
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_MonsterTexture3"));
-	NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
-	m_mapComponent[ID_STATIC].insert({ L"Proto_MonsterTexture3", pComponent });
-	break;
-	}
-	}
-	}
-	else*/
-	//{
-	//	CDynamic_Transform*		pPlayerTransformCom = dynamic_cast<CDynamic_Transform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
-	//	NULL_CHECK_RETURN(pPlayerTransformCom, -1);
-
-	//	////Set_OnTerrain();
-	//	float TerrainY = m_pDynamicTransCom->Get_TerrainY1(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC, m_pCalculatorCom, m_pDynamicTransCom);
-	//	m_pDynamicTransCom->Set_Y(TerrainY + 2.f);
-	//	//지형에 올림
-
-	//	_vec3		vPlayerPos, vMonsterPos;
-	//	pPlayerTransformCom->Get_Info(INFO_POS, &vPlayerPos);
-	//	m_pDynamicTransCom->Get_Info(INFO_POS, &vMonsterPos);
-
-	//	fMtoPDistance = sqrtf((powf(vMonsterPos.x - vPlayerPos.x, 2) + powf(vMonsterPos.y - vPlayerPos.y, 2) + powf(vMonsterPos.z - vPlayerPos.z, 2)));
-
-
-	//	if (m_bHit == false)
-	//	{
-	//		if (fMtoPDistance > 5.f)
-	//		{
-	//			m_pDynamicTransCom->Chase_Target_notRot(&vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
-
-	//			m_pAnimationCom->Move_Animation(fTimeDelta);
-	//		}
-	//		else
-	//		{
-	//			m_pAnimationCom->m_iMotion = 0;
-	//		}
-	//	}
-	//	else
-	//	{
-	//		//피격 시 피격모션
-	//		m_pAnimationCom->m_iMotion = 7;
-	//	}
-	//}
 	AttackJudge(fTimeDelta);
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 
 
 	if (m_bHit == false)
 	{
-		if (fMtoPDistance > 7.f && m_bAttacking == false)
-		{
-			m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
-
-			m_pAnimationCom->Move_Animation(fTimeDelta);
-
-		}
-		else
-		{
-			if (m_bAttack)
-			{
-				Attack(fTimeDelta);
-			}
-			else
-			{
-				m_pAnimationCom->m_iMotion = 0;
-			}
-		}
+		NoHit_Loop(fTimeDelta);
 	}
-else
-{
-	// 피격 시 모션
-	m_pAnimationCom->m_iMotion = 7;
-}
-
-
-
-	if (m_bHit)
+	else
 	{
-		m_fHitDelay += fTimeDelta;
-		if (m_fHitDelay > 1.5f)
-		{
-
-			m_bHit = false;
-			m_fHitDelay = 0.f;
-		}
+		Hit_Loop(fTimeDelta);
 	}
+
 
 
 	Excution_Event();
 
-	/*_int iResult = Engine::CGameObject::Update_Object(fTimeDelta);
+/*
 	for (auto iter = m_AnubisThunderlist.begin(); iter != m_AnubisThunderlist.end(); ++iter)
 	{
 		(*iter)->Update_Object(fTimeDelta);
@@ -210,8 +120,6 @@ else
 
 	Engine::CMonsterBase::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
-
-
 
 	return 0;
 }
@@ -318,6 +226,41 @@ void CAnubis::Excution_Event()
 	}
 }
 
+void CAnubis::NoHit_Loop(const _float& fTimeDelta)
+{
+	if (fMtoPDistance > 7.f && m_bAttacking == false)
+	{
+		m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
+
+		m_pAnimationCom->Move_Animation(fTimeDelta);
+
+	}
+	else
+	{
+		if (m_bAttack)
+		{
+			Attack(fTimeDelta);
+		}
+		else
+		{
+			m_pAnimationCom->m_iMotion = 0;
+		}
+	}
+}
+
+void CAnubis::Hit_Loop(const _float& fTimeDelta)
+{
+	// 피격 시 모션
+	m_pAnimationCom->m_iMotion = 7;
+	m_fHitDelay += fTimeDelta;
+	if (m_fHitDelay > 1.5f)
+	{
+
+		m_bHit = false;
+		m_fHitDelay = 0.f;
+	}
+}
+
 void				CAnubis::Clear_Blood(const _float& fTimeDelta)
 {
 	//for (auto iter = m_vecBlood.front(); iter != m_vecBlood.back();)
@@ -331,6 +274,40 @@ void				CAnubis::Clear_Blood(const _float& fTimeDelta)
 	//		++iter;
 	//	}
 	//} //코드병합으로 잠굼
+}
+
+void CAnubis::MonsterTool_Anubis_Logic(void)
+{
+#ifdef _DEBUG
+	if (SCENE_TOOLTEST == Get_Scene()->Get_SceneType())
+	{
+	CTexture*	pComponent = nullptr;
+	if (m_iPreIndex != m_iMonsterIndex)
+	{
+	m_iPreIndex = m_iMonsterIndex;
+	switch (m_iMonsterIndex)
+	{
+	case 0:
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_MonsterTexture"));
+	NULL_CHECK(m_pTextureCom, E_FAIL);
+	m_mapComponent[ID_STATIC].insert({ L"Proto_MonsterTexture", pComponent });
+	break;
+
+	case 1:
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_MonsterTexture2"));
+	NULL_CHECK(m_pTextureCom, E_FAIL);
+	m_mapComponent[ID_STATIC].insert({ L"Proto_MonsterTexture2", pComponent });
+	break;
+
+	case 2:
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_MonsterTexture3"));
+	NULL_CHECK(m_pTextureCom, E_FAIL);
+	m_mapComponent[ID_STATIC].insert({ L"Proto_MonsterTexture3", pComponent });
+	break;
+	}
+	}
+	}
+#endif
 }
 
 void		CAnubis::AttackJudge(const _float& fTimeDelta)
