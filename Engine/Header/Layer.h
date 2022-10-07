@@ -22,7 +22,8 @@ public:
 public:
 	HRESULT			Add_GameObject(const _tchar* pObjTag, CGameObject* pInstance);
 	HRESULT			Add_GameObjectList(CGameObject* pInstance);
-	
+	void			Add_GhulList(CGameObject* pGhul);
+
 	
 	
 	HRESULT			Ready_Layer(void);
@@ -40,7 +41,7 @@ public:
 private:
 	map<const _tchar*, CGameObject*>			m_mapObject;
 
-
+	list<CGameObject*>  m_GhulList;
 	list<CGameObject*>  m_objPoolList;
 
 	list<_tchar* > NameList;

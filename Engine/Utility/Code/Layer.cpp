@@ -85,6 +85,11 @@ HRESULT CLayer::Add_GameObjectList(CGameObject * pInstance)
 	return S_OK;
 }
 
+void			CLayer::Add_GhulList(CGameObject* pGhul)
+{
+
+}
+
 HRESULT CLayer::Ready_Layer(void)
 {
 	return S_OK;

@@ -31,7 +31,7 @@ HRESULT CObelisk::Ready_Object(int Posx, int Posy)
 
 	
 
-	m_pInfoCom->Ready_CharacterInfo(5, 10, 5.f);
+	m_pInfoCom->Ready_CharacterInfo(4, 10, 5.f);
 	m_iPreHp = (m_pInfoCom->Get_InfoRef()._iHp);
 
 
@@ -40,7 +40,7 @@ HRESULT CObelisk::Ready_Object(int Posx, int Posy)
 	if (Posx == 0 && Posy == 0) {}
 	else
 	{
-		m_pDynamicTransCom->Set_Pos( (float)Posx, 1.f, (float)Posy );
+		m_pDynamicTransCom->Set_Pos( (float)Posx, 2.f, (float)Posy );
 	}
 
 	m_pDynamicTransCom->Update_Component(1.f);
@@ -192,8 +192,8 @@ void CObelisk::Attack(const _float & fTimeDelta)
 	CGhul* pGameObject = nullptr;
 	vPos.x += 1 + rand() % 4;
 	vPos.z += 1 + rand() % 4;
-	pGameObject = CObjectMgr::GetInstance()->Reuse_GhulObj(m_pGraphicDev, vPos);
-	NULL_CHECK_RETURN(pGameObject, );
+	pGameObject = CGhul::Create(m_pGraphicDev, vPos.x, vPos.z);
+
 	pMyLayer->Add_GameObjectList(pGameObject);
 
 	m_bAttack = false;
@@ -212,13 +212,13 @@ void CObelisk::NoHit_Loop(const _float & fTimeDelta)
 void CObelisk::Hit_Loop(const _float & fTimeDelta)
 {
 	if (4 == m_pInfoCom->Get_Hp())
-		m_pAnimationCom->m_iMotion = 1;
+		m_pAnimationCom->m_iMotion = 0;
 	if (3 == m_pInfoCom->Get_Hp())
-		m_pAnimationCom->m_iMotion = 2;
+		m_pAnimationCom->m_iMotion = 1;
 	if (2 == m_pInfoCom->Get_Hp())
-		m_pAnimationCom->m_iMotion = 3;
+		m_pAnimationCom->m_iMotion = 2;
 	if (1 == m_pInfoCom->Get_Hp())
-		m_pAnimationCom->m_iMotion = 4;
+		m_pAnimationCom->m_iMotion = 3;
 }
 
 CObelisk * CObelisk::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)
