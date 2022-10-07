@@ -1,6 +1,5 @@
-#include "..\..\Header\Calculator.h"
-#include "TerrainTex.h"
-#include "Transform.h"
+#include "Calculator.h"
+
 
 #include "Export_Function.h"
 
@@ -38,7 +37,7 @@ Engine::_float CCalculator::HeightOnTerrain(_vec3* pPos, const _vec3* pTerrainVt
 
 	D3DXPLANE		Plane;
 
-	// ������ �� �ﰢ��
+	
 	if (fWidth > fHeight)
 	{
 		D3DXPlaneFromPoints(&Plane,
@@ -47,7 +46,7 @@ Engine::_float CCalculator::HeightOnTerrain(_vec3* pPos, const _vec3* pTerrainVt
 			&pTerrainVtxPos[dwIndex + 1]);
 
 	}
-	// ���� �Ʒ� �ﰢ��
+
 	else
 	{
 		D3DXPlaneFromPoints(&Plane,
@@ -74,12 +73,12 @@ Engine::_vec3 Engine::CCalculator::PickingOnTerrain(HWND hWnd, const CTerrainTex
 	ZeroMemory(&ViewPort, sizeof(D3DVIEWPORT9));
 	m_pGraphicDev->GetViewport(&ViewPort);
 
-	// ����Ʈ -> ����
+	
 	vPoint.x = ptMouse.x / (ViewPort.Width * 0.5f) - 1.f;
 	vPoint.y = ptMouse.y / -(ViewPort.Height * 0.5f) + 1.f;
 	vPoint.z = 0.f;
 
-	// ���� -> �� �����̽�
+	
 	_matrix		matProj;
 
 	m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &matProj);
@@ -91,7 +90,7 @@ Engine::_vec3 Engine::CCalculator::PickingOnTerrain(HWND hWnd, const CTerrainTex
 	vRayPos = { 0.f, 0.f, 0.f };
 	vRayDir = vPoint - vRayPos;	
 
-	// �� �����̽� -> ����
+	
 
 	_matrix		matView;
 	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
@@ -99,7 +98,7 @@ Engine::_vec3 Engine::CCalculator::PickingOnTerrain(HWND hWnd, const CTerrainTex
 	D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matView);
 	D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matView);
 
-	// ���� -> ����
+	
 	_matrix		matWorld;
 	
 	pTerrainTransformCom->Get_WorldMatrix(&matWorld);
@@ -176,19 +175,19 @@ _vec3 CCalculator::PickingOnTerrainCube(HWND hWnd, const CTerrainTex * pTerrainB
 	vPoint.y = ptMouse.y / -(ViewPort.Height * 0.5f) + 1.f;
 	vPoint.z = 0.f;
 
-	// ���� -> �� �����̽�
+
 	_matrix		matProj;
 
 	m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &matProj);
 	D3DXMatrixInverse(&matProj, nullptr, &matProj);
 	D3DXVec3TransformCoord(&vPoint, &vPoint, &matProj);
 
-	_vec3	vRayDir, vRayPos;		// �� �����̽� ������ �ִ� ����
+	_vec3	vRayDir, vRayPos;		
 
 	vRayPos = { 0.f, 0.0f, 0.f };
 	vRayDir = vPoint - vRayPos;
 
-	// �� �����̽� -> ����
+	
 
 	_matrix		matView;
 	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);

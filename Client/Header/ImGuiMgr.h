@@ -182,9 +182,6 @@ void CImGuiMgr::ObjectCreate(LPDIRECT3DDEVICE9 pGrahicDev, CLayer* pLayer, CGame
 template<typename T>
 CGameObject* CImGuiMgr::SelectObject(CLayer* pLayer,wstring* currentObjectName)
 {
-	
-
-
 	map<const _tchar*, CGameObject*> MapLayer = pLayer->Get_GameObjectMap();
 
 	for (auto iter = MapLayer.begin(); iter != MapLayer.end(); ++iter)
@@ -207,6 +204,11 @@ CGameObject* CImGuiMgr::SelectObject(CLayer* pLayer,wstring* currentObjectName)
 	
 	if (m_pSelectedObject != nullptr)
 		return m_pSelectedObject;
+
+	else
+	{
+		return m_pSelectedObject;
+	}
 
 }
 
