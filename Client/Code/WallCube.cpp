@@ -46,6 +46,15 @@ _int CWallCube::Update_Object(const _float & fTimeDelta)
 
 void CWallCube::Render_Obejct(void)
 {
+	if (m_iOption == 2 || m_iOption ==3 )
+	{
+		if (Get_DIKeyState(DIK_C) & 0X80)
+		{
+			return;
+		}
+	}
+
+
 	if (m_bWireFrame)
 		m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 

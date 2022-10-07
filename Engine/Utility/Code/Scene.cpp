@@ -65,5 +65,13 @@ void Engine::CScene::Free(void)
 	for_each(m_mapLayer.begin(), m_mapLayer.end(), CDeleteMap());
 	m_mapLayer.clear();
 
+
+	for (int i = 0; i < TELEPORT_CUBE_LIST_END; ++i)
+	{
+		for_each(m_TeleportCubeList[i].begin(), m_TeleportCubeList[i].end(), CDeleteObj());
+		m_TeleportCubeList[i].clear();
+	}
+
+
 	Safe_Release(m_pGraphicDev);
 }
