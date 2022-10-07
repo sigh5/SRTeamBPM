@@ -14,11 +14,12 @@ CWallCube::~CWallCube()
 {
 }
 
-HRESULT CWallCube::Ready_Object(_vec2 *vPos)
+HRESULT CWallCube::InitSetting(_vec2* vMousPos, const wstring & LayerName, const wstring & MapName)
 {
-	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-	
-	if ((*vPos).x == 0 && (*vPos).y == 0) {}
+
+	Set_Layer_Map_Name(LayerName, MapName);
+
+	if ((*vMousPos).x == 0 && (*vMousPos).y == 0) {}
 	else
 	{
 		MousePostoScreen(); // 현재 마우스 더블클릭한 위치로 큐브를 만들어주는 함수
@@ -32,6 +33,14 @@ HRESULT CWallCube::Ready_Object(_vec2 *vPos)
 	_vec3	vScale = { 0.5f,0.5f,0.5f };
 	m_pTransCom->Set_Scale(&vScale);
 
+
+	return S_OK;
+}
+
+HRESULT CWallCube::Ready_Object()
+{
+	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+	
 	return S_OK;
 }
 
@@ -68,10 +77,14 @@ void CWallCube::Render_Obejct(void)
 
 void CWallCube::MousePostoScreen()	// 지형타기
 {
-	CTerrainTex*	pTerrainBufferCom = dynamic_cast<CTerrainTex*>(Engine::Get_Component(L"TestLayer", L"TestMap", L"Proto_TerrainTexCom", ID_STATIC));
+	CTerrainTex*	pTerrainBufferCom = dynamic_cast<CTerrainTex*>(Engine::Get_Component(m_LayerName.c_str(),
+		m_MapName.c_str(),
+		L"Proto_TerrainTexCom", ID_STATIC));
 	NULL_CHECK_RETURN(pTerrainBufferCom, );
 
-	CTransform*		pTerrainTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"TestLayer", L"TestMap", L"Proto_TransformCom", ID_DYNAMIC));
+	CTransform*		pTerrainTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(m_LayerName.c_str(),
+		m_MapName.c_str(),
+		L"Proto_TransformCom", ID_DYNAMIC));
 	NULL_CHECK_RETURN(pTerrainTransformCom, );
 
 	_vec3 Temp = m_pCalculatorCom->PickingOnTerrainCube(g_hWnd, pTerrainBufferCom, pTerrainTransformCom);
@@ -105,21 +118,17 @@ HRESULT CWallCube::Add_Component(void)
 	m_mapComponent[ID_STATIC].insert({ L"Proto_CalculatorCom", pComponent });
 
 
-	//pComponent = m_pTextureCom2 = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_TerrainTexture3"));
-	//NULL_CHECK_RETURN(m_pTextureCom2, E_FAIL);
-	//m_mapComponent[ID_STATIC].insert({ L"Proto_TerrainTexture3", pComponent });
-
 
 
 	return S_OK;
 }
 
-CWallCube * CWallCube::Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec2 *vPos)
+CWallCube * CWallCube::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
 	CWallCube*	pInstance = new CWallCube(pGraphicDev);
 
 
-	if (FAILED(pInstance->Ready_Object(vPos)))
+	if (FAILED(pInstance->Ready_Object()))
 	{
 		Safe_Release(pInstance);
 		return nullptr;

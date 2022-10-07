@@ -16,7 +16,8 @@ private:
 	explicit			CWallCube(LPDIRECT3DDEVICE9 pGraphicDev);
 	virtual				~CWallCube();
 public:
-	HRESULT				Ready_Object(_vec2 *vPos);
+	HRESULT				InitSetting(_vec2* vMousPos, const wstring& LayerName, const wstring& MapName);
+	HRESULT				Ready_Object();
 	virtual _int		Update_Object(const _float& fTimeDelta) override;
 	virtual void		Render_Obejct(void) override;
 
@@ -25,7 +26,7 @@ public:// For Tool
 	_bool				Set_SelectGizmo();
 	_bool*				Get_WireFrame() { return &m_bWireFrame; }
 	void				Set_WireFrame(_bool bWireFrame) { m_bWireFrame = bWireFrame; }
-
+	void				Set_Layer_Map_Name(const wstring& LayerName, const wstring& MapName) {m_LayerName = LayerName; m_MapName = MapName;}
 
 public:
 	const _int&			Get_Option() {return m_iOption;}
@@ -45,8 +46,12 @@ private:
 	_bool				m_bIsOnterrrain = false;
 	_int				m_iOption = 0;					// 0: Wall 1: Obstacle 2: TeleportStart 3: TelePortEnd
 
+	wstring				m_LayerName =L"";
+	wstring				m_MapName =L"";
+
+
 public:
-	static CWallCube*	Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec2 *vPos);
+	static CWallCube*	Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
 	virtual void		Free()override;
 

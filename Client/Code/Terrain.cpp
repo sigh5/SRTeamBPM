@@ -27,7 +27,6 @@ HRESULT CTerrain::Ready_Object(void)
 _int CTerrain::Update_Object(const _float & fTimeDelta)
 {
 
-
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
 	Add_RenderGroup(RENDER_NONALPHA, this);
@@ -48,16 +47,19 @@ void CTerrain::Render_Obejct(void)
 	if (m_bWireFrame)
 		m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
-//	if (m_bGeneratedCurrentFrame)
-	//{
-		m_pTextureCom->Set_Texture(m_iTerrainIdx);	// 텍스처 정보 세팅을 우선적으로 한다.
-	//	m_bGeneratedCurrentFrame = false;
-	//}
+	m_pTextureCom->Set_Texture(m_iTexIndex);	// 텍스처 정보 세팅을 우선적으로 한다.
+
 	m_pBufferCom->Render_Buffer();
 
 	if (m_bWireFrame)
 		m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 
+}
+
+_bool CTerrain::Set_SelectGizmo()
+{
+
+	return m_pCalculatorCom->PickingTerrainObject(g_hWnd, m_pBufferCom, m_pTransCom);
 }
 
 HRESULT CTerrain::Add_Component(void)
@@ -75,6 +77,10 @@ HRESULT CTerrain::Add_Component(void)
 	pComponent = m_pTransCom = dynamic_cast<CTransform*>(Clone_Proto(L"Proto_TransformCom"));
 	NULL_CHECK_RETURN(m_pTransCom, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].insert({ L"Proto_TransformCom", pComponent });
+
+	pComponent = m_pCalculatorCom = dynamic_cast<CCalculator*>(Clone_Proto(L"Proto_CalculatorCom"));
+	NULL_CHECK_RETURN(m_pCalculatorCom, E_FAIL);
+	m_mapComponent[ID_STATIC].insert({ L"Proto_CalculatorCom", pComponent });
 
 
 	return S_OK;

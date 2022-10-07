@@ -51,9 +51,9 @@ HRESULT CToolTest::Ready_Scene()
 	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestPlayer", pGameObject), E_FAIL);
 	//
 
-	pGameObject = CTerrain::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestMap", pGameObject), E_FAIL);
+	//pGameObject = CTerrain::Create(m_pGraphicDev);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestMap", pGameObject), E_FAIL);
 
 
 	
@@ -73,7 +73,7 @@ HRESULT CToolTest::Ready_Scene()
 _int CToolTest::Update_Scene(const _float& fTimeDelta)
 {
 	CImGuiMgr::GetInstance()->WindowLayOut();
-	CImGuiMgr::GetInstance()->TerrainTool(m_pGraphicDev, this);
+	CImGuiMgr::GetInstance()->TerrainTool(m_pGraphicDev, m_pCam,this);
 	CImGuiMgr::GetInstance()->CreateObject(m_pGraphicDev, this, m_pCam,L"TestCube");
 	CImGuiMgr::GetInstance()->MonsterTool(m_pGraphicDev, this, m_pCam);
 
