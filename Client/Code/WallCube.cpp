@@ -3,6 +3,8 @@
 
 
 #include "Export_Function.h"
+#include "Terrain.h"
+
 
 
 CWallCube::CWallCube(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -14,10 +16,28 @@ CWallCube::~CWallCube()
 {
 }
 
-HRESULT CWallCube::InitSetting(_vec2* vMousPos, const wstring & LayerName, const wstring & MapName)
+HRESULT CWallCube::InitSetting(_vec2* vMousPos, const wstring & LayerName,wstring* RoomName)
 {
 
-	Set_Layer_Map_Name(LayerName, MapName);
+	Set_Layer_Map_Name(LayerName, RoomName);
+
+
+	CScene* pScene = ::Get_Scene();
+
+	CLayer* pLayer = pScene->GetLayer(LayerName.c_str());
+
+	/*map<const _tchar*, CGameObject*> RoomMap = pLayer->Get_GameObjectMap();
+
+
+	for (auto iter = RoomMap.begin(); iter != RoomMap.end(); ++iter)
+	{
+		if (true == static_cast<CTerrain*>(iter->second)->Set_SelectGizmo())
+		{
+			m_RoomName = iter->first;
+		}
+	}*/
+
+
 
 	if ((*vMousPos).x == 0 && (*vMousPos).y == 0) {}
 	else
@@ -30,8 +50,8 @@ HRESULT CWallCube::InitSetting(_vec2* vMousPos, const wstring & LayerName, const
 	vCurretPos.y += 0.5f;
 	m_pTransCom->Set_Y(vCurretPos.y);
 								
-	_vec3	vScale = { 0.5f,0.5f,0.5f };
-	m_pTransCom->Set_Scale(&vScale);
+	//_vec3	vScale = { 0.5f,0.5f,0.5f };
+	//m_pTransCom->Set_Scale(&vScale);
 
 
 	return S_OK;
@@ -78,18 +98,47 @@ void CWallCube::Render_Obejct(void)
 void CWallCube::MousePostoScreen()	// 지형타기
 {
 	CTerrainTex*	pTerrainBufferCom = dynamic_cast<CTerrainTex*>(Engine::Get_Component(m_LayerName.c_str(),
-		m_MapName.c_str(),
+		m_RoomName.c_str(),
 		L"Proto_TerrainTexCom", ID_STATIC));
 	NULL_CHECK_RETURN(pTerrainBufferCom, );
 
 	CTransform*		pTerrainTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(m_LayerName.c_str(),
-		m_MapName.c_str(),
+		m_RoomName.c_str(),
 		L"Proto_TransformCom", ID_DYNAMIC));
 	NULL_CHECK_RETURN(pTerrainTransformCom, );
 
+
+
+
+
 	_vec3 Temp = m_pCalculatorCom->PickingOnTerrainCube(g_hWnd, pTerrainBufferCom, pTerrainTransformCom);
 
+	//_vec3 vPos,vAngle,RealPos, vScale;
+	//pTerrainTransformCom->Get_Info(INFO_POS, &vPos);
+	//vScale = pTerrainTransformCom->Get_Scale();
+	//vAngle = pTerrainTransformCom->Get_Angle();
+
+	//RealPos = { vPos.x + Temp.x *vScale.x, vPos.y + Temp.y*vScale.y, vPos.z + Temp.z*vScale.x };
+
+	//_matrix matRot;
+	//D3DXMatrixIdentity(&matRot);
+
+	////D3DXMatrixIdentity(&matRot);
+	//D3DXMatrixRotationY(&matRot, vAngle.y);
+
+
+
+	//D3DXVec3TransformNormal(&RealPos, &RealPos, &matRot);
+
+
+	
+
 	m_pTransCom->Set_Pos(Temp.x, Temp.y, Temp.z);
+
+	
+
+	
+
 }
 
 _bool CWallCube::Set_SelectGizmo()

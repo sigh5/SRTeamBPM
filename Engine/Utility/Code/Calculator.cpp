@@ -185,7 +185,7 @@ _vec3 CCalculator::PickingOnTerrainCube(HWND hWnd, const CTerrainTex * pTerrainB
 
 	_vec3	vRayDir, vRayPos;		// �� �����̽� ������ �ִ� ����
 
-	vRayPos = { 0.f, 0.f, 0.f };
+	vRayPos = { 0.f, 0.0f, 0.f };
 	vRayDir = vPoint - vRayPos;
 
 	// �� �����̽� -> ����
@@ -196,13 +196,15 @@ _vec3 CCalculator::PickingOnTerrainCube(HWND hWnd, const CTerrainTex * pTerrainB
 	D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matView);
 	D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matView);
 
-	// ���� -> ����
-	_matrix		matWorld;
-
+	
+	_matrix		matWorld ,matRevese;
+	_vec3	Temp;
 	pTerrainTransformCom->Get_WorldMatrix(&matWorld);
-	D3DXMatrixInverse(&matWorld, nullptr, &matWorld);
-	D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matWorld);
-	D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matWorld);
+
+	D3DXMatrixInverse(&matRevese, nullptr, &matWorld);
+	D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matRevese);
+	D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matRevese);
+
 
 	const _vec3*	pTerrainVtx = pTerrainBufferCom->Get_VtxPos();
 
@@ -211,6 +213,8 @@ _vec3 CCalculator::PickingOnTerrainCube(HWND hWnd, const CTerrainTex * pTerrainB
 
 	_ulong	dwVtxIdx[3]{};
 	_float	fU, fV, fDist;
+
+	// 로컬에서 말고 지금 로컬이니까 월드로 
 
 	for (_ulong i = 0; i < dwVtxCntZ - 1; ++i)
 	{
@@ -232,7 +236,8 @@ _vec3 CCalculator::PickingOnTerrainCube(HWND hWnd, const CTerrainTex * pTerrainB
 				&vRayPos, &vRayDir,
 				&fU, &fV, &fDist))
 			{
-				return Normal;
+				D3DXVec3TransformCoord(&Normal, &Normal, &matWorld);
+				return  Normal;
 			}
 
 			// ���� �Ʒ�
@@ -246,7 +251,8 @@ _vec3 CCalculator::PickingOnTerrainCube(HWND hWnd, const CTerrainTex * pTerrainB
 				&vRayPos, &vRayDir,
 				&fU, &fV, &fDist))
 			{
-				return Normal;
+				D3DXVec3TransformCoord(&Normal, &Normal, &matWorld);
+				return  Normal;
 			}
 		}
 	}

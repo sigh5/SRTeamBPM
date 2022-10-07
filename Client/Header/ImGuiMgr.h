@@ -182,6 +182,8 @@ void CImGuiMgr::ObjectCreate(LPDIRECT3DDEVICE9 pGrahicDev, CLayer* pLayer, CGame
 template<typename T>
 CGameObject* CImGuiMgr::SelectObject(CLayer* pLayer,wstring* currentObjectName)
 {
+	
+
 
 	map<const _tchar*, CGameObject*> MapLayer = pLayer->Get_GameObjectMap();
 
@@ -189,9 +191,11 @@ CGameObject* CImGuiMgr::SelectObject(CLayer* pLayer,wstring* currentObjectName)
 	{
 		if (dynamic_cast<T*>(iter->second)->Set_SelectGizmo())
 		{
+			m_pSelectedTransform = nullptr;
+			m_pSelectedObject = nullptr;
 			m_pSelectedTransform = dynamic_cast<CTransform*>(iter->second->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
 			m_pSelectedObject = dynamic_cast<T*>(iter->second);
-			m_CurrentObjectName = iter->first;
+			//m_CurrentObjectName = iter->first;
 			
 			*currentObjectName = iter->first;
 
@@ -209,16 +213,14 @@ CGameObject* CImGuiMgr::SelectObject(CLayer* pLayer,wstring* currentObjectName)
 template<typename T>
 HRESULT CImGuiMgr::EditObjectTexture(const wstring& m_CureentTextureProtoName)
 {
+	if (m_pSelectedObject != nullptr)
+	{
+		T* pTemp = dynamic_cast<T*>(m_pSelectedObject);
+		if (pTemp == nullptr)
+			m_pSelectedObject = nullptr;			// 타입 검사
+	}
 	if (m_pSelectedObject)
 	{
-		//ImGui::NewLine();
-		//if (ImGui::CollapsingHeader("Options", ImGuiTreeNodeFlags_DefaultOpen))
-		//{
-		//	static _bool	bWireFrame = false;
-		//	/*	if (ImGui::Checkbox("WireFrame", &bWireFrame))
-		//	static_cast<T>(m_pSelectedObject)->Set_WireFrame(bWireFrame);*/
-		//}
-
 		ImGui::NewLine();
 		if (ImGui::CollapsingHeader("Tile Texture", ImGuiTreeNodeFlags_DefaultOpen))
 		{

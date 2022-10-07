@@ -26,7 +26,7 @@ public:
 		OBJ_TYPE eObjType);
 
 
-
+	
 public:
 	_int		Get_Index() { return m_iIndex; }
 

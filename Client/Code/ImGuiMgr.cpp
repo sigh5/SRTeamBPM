@@ -543,7 +543,8 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 			ImVec2 temp = ImGui::GetMousePos();
 			_vec2 vec2MousePos = { temp.x,temp.y };
 			ObjectCreate<CWallCube>(pGrahicDev, MyLayer, &pGameObject, pObjectName);
-			static_cast<CWallCube*>(pGameObject)->InitSetting(&vec2MousePos, L"TerrainLayer", m_CurrentTerrainObjectName.c_str());
+			static_cast<CWallCube*>(pGameObject)->InitSetting(&vec2MousePos, L"TerrainLayer", &m_CurrentTerrainObjectName);
+			
 			static_cast<CWallCube*>(pGameObject)->Set_DrawTexIndex(m_iMapCubeIndex);
 			
 			if(pGameObject != nullptr && pWallCube != nullptr)
@@ -556,7 +557,9 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 		if (ImGui::IsMouseClicked(0))
 		{
 			CLayer* MyLayer = pScene->GetLayer(L"MapCubeLayer");
-			m_pWallCube = dynamic_cast<CWallCube*>(SelectObject<CWallCube>(MyLayer, &m_CurrentObjectName));
+			(m_pWallCube) = dynamic_cast<CWallCube*>(SelectObject<CWallCube>(MyLayer, &m_CurrentObjectName));
+		
+				
 		}
 	}
 
@@ -613,6 +616,7 @@ void CImGuiMgr::TerrainTool(LPDIRECT3DDEVICE9 pGrahicDev, CCamera* pCam, CScene*
 	ImGui::SameLine();
 
 	if (ImGui::Button("Load"))
+	{
 		CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev,
 			pScene,
 			L"TerrainLayer",
@@ -620,7 +624,7 @@ void CImGuiMgr::TerrainTool(LPDIRECT3DDEVICE9 pGrahicDev, CCamera* pCam, CScene*
 			L"Stage1Room.dat",
 			L"StageRoom",
 			OBJ_ROOM);
-
+	}
 	if (ImGui::CollapsingHeader("Tile Count", ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		CLayer* pLayer = pScene->GetLayer(L"TerrainLayer");
@@ -635,11 +639,21 @@ void CImGuiMgr::TerrainTool(LPDIRECT3DDEVICE9 pGrahicDev, CCamera* pCam, CScene*
 			ObjectCreate<CTerrain>(pGrahicDev, pLayer, &pGameObject,L"TerrainObj");
 		}
 	}
-	if (ImGui::IsMouseClicked(0))
+
+	if (ImGui::Button("Delete"))
+	{
+		CLayer* MyLayer = pScene->GetLayer(L"TerrainLayer");
+		MyLayer->Delete_GameObject(m_CurrentTerrainObjectName.c_str());
+		m_pSelectedObject = nullptr;
+	}
+
+
+	if (ImGui::IsMouseClicked(1))
 	{
 		CLayer* pLayer = pScene->GetLayer(L"TerrainLayer");
 		CGameObject* temp = SelectObject<CTerrain>(pLayer, &m_CurrentTerrainObjectName);
 	}
+
 
 	EditObjectTexture<CTerrain>(L"Proto_TerrainTexture2");
 

@@ -132,7 +132,6 @@ void CFileIOMgr::Save_FileData(CScene * pScene,
 			CTransform* Transcom = dynamic_cast<CTransform*>(iter->second->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
 			_vec3   vRight, vUp, vLook, vPos, vScale, vAngle;
 			_int	iDrawNum = 0;
-			_int	iOption = 0;
 			Transcom->Get_Info(INFO_RIGHT, &vRight);
 			Transcom->Get_Info(INFO_UP, &vUp);
 			Transcom->Get_Info(INFO_LOOK, &vLook);
@@ -166,6 +165,7 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 	wstring pObjectName,
 	OBJ_TYPE eObjType)
 {
+
 	wstring Directory = filePath + FileName;
 
 	HANDLE      hFile = CreateFile(Directory.c_str(),      // 파일의 경로와 이름
@@ -188,11 +188,10 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 	CLayer* pMyLayer = nullptr;
 	pMyLayer = pScene->GetLayer(LayerName);
 	_int	 iIndex = 0;
-	_int	iCubeOption = 0;
-	_int iMonsterType = 0;
 
 	if (eObjType == OBJ_CUBE)
 	{
+		_int	iCubeOption = 0;
 		while (true)
 		{
 			ReadFile(hFile, &vRight, sizeof(_vec3), &dwByte, nullptr);
@@ -203,6 +202,10 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 			ReadFile(hFile, &vAngle, sizeof(_vec3), &dwByte, nullptr);
 			ReadFile(hFile, &iDrawIndex, sizeof(_int), &dwByte, nullptr);
 			ReadFile(hFile, &iCubeOption, sizeof(_int), &dwByte, nullptr);
+
+			if (0 == dwByte)
+				break;
+
 
 			CGameObject *pGameObject = nullptr;
 			_tchar* test1 = new _tchar[20];
@@ -216,18 +219,18 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 			static_cast<CWallCube*>(pGameObject)->Set_Option(CUBE_TYPE(iCubeOption));
 			// 다른 레이어에 큐브옵션이 다르면
 
-			if (iCubeOption == CUBE_START_TELE)
-			{
-				pScene->Get_CubeList(STARTCUBELIST)->push_back(pGameObject);
-				//pScene->Get_CubeList()[STARTCUBELIST]->push_back(pGameObject);
-			}
+			//if (iCubeOption == CUBE_START_TELE)
+			//{
+			//	pScene->Get_CubeList(STARTCUBELIST)->push_back(pGameObject);
+			//	//pScene->Get_CubeList()[STARTCUBELIST]->push_back(pGameObject);
+			//}
 
-			else if (iCubeOption == CUBE_END_TELE)
-			{
-				pScene->Get_CubeList(ENDCUBELIST)->push_back(pGameObject);
-				//pScene->Get_CubeList()[ENDCUBELIST]->push_back(pGameObject);
-			}
-			else
+			//else if (iCubeOption == CUBE_END_TELE)
+			//{
+			//	pScene->Get_CubeList(ENDCUBELIST)->push_back(pGameObject);
+			//	//pScene->Get_CubeList()[ENDCUBELIST]->push_back(pGameObject);
+			//}
+			//else
 			{
 				FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(test1, pGameObject), );
 
@@ -243,14 +246,14 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 			Transcom->Set_Scale(&vScale);
 			Transcom->Update_Component(0.01f);
 			//   받아온 정보 입력해줘야함
-			if (0 == dwByte)
-				break;
+			
 		}
 
 	}
 
 	else if (eObjType == OBJ_MONSTER)
 	{
+		_int iMonsterType = 0;
 		while (true)
 		{
 
@@ -347,13 +350,17 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 	{
 		while (true)
 		{
-			ReadFile(hFile, &vRight, sizeof(_vec3), &dwByte, nullptr);
-			ReadFile(hFile, &vUp, sizeof(_vec3), &dwByte, nullptr);
-			ReadFile(hFile, &vLook, sizeof(_vec3), &dwByte, nullptr);
-			ReadFile(hFile, &vPos, sizeof(_vec3), &dwByte, nullptr);
-			ReadFile(hFile, &vScale, sizeof(_vec3), &dwByte, nullptr);
-			ReadFile(hFile, &vAngle, sizeof(_vec3), &dwByte, nullptr);
-			ReadFile(hFile, &iDrawIndex, sizeof(_int), &dwByte, nullptr);
+			ReadFile(hFile, &vRight, sizeof(_vec3), &dwByte, nullptr); //WriteFile(hFile, &vRight, sizeof(_vec3), &dwByte, nullptr);
+			ReadFile(hFile, &vUp, sizeof(_vec3), &dwByte, nullptr); // WriteFile(hFile, &vUp, sizeof(_vec3), &dwByte, nullptr);
+			ReadFile(hFile, &vLook, sizeof(_vec3), &dwByte, nullptr); //WriteFile(hFile, &vLook, sizeof(_vec3), &dwByte, nullptr);
+			ReadFile(hFile, &vPos, sizeof(_vec3), &dwByte, nullptr); // WriteFile(hFile, &vPos, sizeof(_vec3), &dwByte, nullptr);
+			ReadFile(hFile, &vScale, sizeof(_vec3), &dwByte, nullptr); //	WriteFile(hFile, &vScale, sizeof(_vec3), &dwByte, nullptr);
+			ReadFile(hFile, &vAngle, sizeof(_vec3), &dwByte, nullptr); //	WriteFile(hFile, &vAngle, sizeof(_vec3), &dwByte, nullptr);
+			ReadFile(hFile, &iDrawIndex, sizeof(_int), &dwByte, nullptr); //	WriteFile(hFile, &iDrawNum, sizeof(_int), &dwByte, nullptr);
+
+
+			if (0 == dwByte)
+				break;
 
 			CGameObject *pGameObject = nullptr;
 			_tchar* test1 = new _tchar[20];
@@ -361,10 +368,11 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 			wsprintfW(test1, t.c_str(), iIndex);
 			pMyLayer->AddNameList(test1);
 			++iIndex;
+
 			pGameObject = CTerrain::Create(pGrahicDev);
 			pGameObject->Set_DrawTexIndex(iDrawIndex);
+		
 			FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(test1, pGameObject), );
-
 			CTransform* Transcom = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
 			Transcom->Set_Info(INFO_RIGHT, &vRight);
 			Transcom->Set_Info(INFO_UP, &vUp);
@@ -374,8 +382,7 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 			Transcom->Set_Scale(&vScale);
 			Transcom->Update_Component(0.01f);
 			//   받아온 정보 입력해줘야함
-			if (0 == dwByte)
-				break;
+			
 		}
 	}
 
@@ -388,6 +395,8 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 
 	CloseHandle(hFile);
 }
+
+
 
 
 
