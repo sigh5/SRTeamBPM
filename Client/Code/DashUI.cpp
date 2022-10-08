@@ -69,7 +69,7 @@ _int CDashUI::Update_Object(const _float & fTimeDelta)
 
 					
 	
-	cout << "½Ã°£ : " << m_fDelayTime << endl;
+	
 
 	Engine::CGameObject::Update_Object(fTimeDelta);
 

@@ -1,14 +1,15 @@
 #pragma once
 #include "Component.h"
-
+#include "VIBuffer.h"
 
 BEGIN(Engine)
 
 class CGameObject;
 class CRcTex;
 class CTransform;
+class CCubeTex;
 
-class ENGINE_DLL CCollider :public CComponent
+class ENGINE_DLL CCollider :public CVIBuffer
 {
 private:
 	explicit CCollider(LPDIRECT3DDEVICE9 pGraphicDev);
@@ -16,7 +17,10 @@ private:
 	virtual ~CCollider();
 
 public:
-	HRESULT		Ready_Collider(void);
+	
+	HRESULT		Ready_Buffer(void);
+	virtual void Render_Buffer(void) override;
+	
 	virtual _int			Update_Component(const _float& fTimeDelta);
 	virtual void			LateUpdate_Component(void);
 
@@ -32,14 +36,35 @@ public:
 	_bool		Check_Collision(CGameObject* pItemObject, CGameObject* pPlayer,const _float& fItemRadius,const _float& fPlayerRadius);
 
 
+	_bool		Check_CollisonUseCollider(CCollider* pSour, CCollider* pDest);
+
+
+public:
+	void		Set_HitBoxMatrix(_matrix* matWorld);
+	const	_matrix& HitBoxWolrdmat() { return m_HitBoxWolrdmat; }
+
+	void		Set_HitRadiuos(_float fRadius) { m_fRadius = fRadius; }
+
+
+
 public:
 	virtual CComponent* Clone(void) override;
 	static CCollider*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
 
-private:
-	bool		m_bClone;
 
+
+
+
+private:
+	_matrix		m_HitBoxWolrdmat;
+
+	bool		m_bClone;
+	_vec3*		m_pPos;
+	_vec3		m_vMin;
+	_vec3		 m_vMax;
+	_vec3		 m_vCenter;
+	_float		 m_fRadius;
 
 private:
 	virtual void Free(void) override;

@@ -19,6 +19,9 @@ public:
 	void		Render_GameObject(LPDIRECT3DDEVICE9& pGraphicDev);
 	void		Render_UIObject(LPDIRECT3DDEVICE9& pGraphicDev);
 	
+	void		Render_List(LPDIRECT3DDEVICE9& pGraphicDev);
+
+
 	void		Clear_RenderGroup(void);
 
 

@@ -20,6 +20,8 @@ public:
 	HRESULT				Ready_Object();
 	virtual _int		Update_Object(const _float& fTimeDelta) override;
 	virtual void		Render_Obejct(void) override;
+	virtual void		Collision_Event() override;
+
 
 public:// For Tool
 	void				MousePostoScreen(); // 현재 마우스 더블클릭한 위치로 큐브를 만들어주는 함수
@@ -42,6 +44,8 @@ public:
 	CTransform*			m_pTransCom = nullptr;
 	CTexture*			m_pTextureCom = nullptr;
 	CCalculator*		m_pCalculatorCom = nullptr;
+	CCollider*			m_pColliderCom = nullptr;
+
 
 private:
 	_bool				m_bWireFrame = false;
@@ -51,6 +55,9 @@ private:
 	wstring				m_LayerName =L"";
 public:
 	wstring				m_RoomName =L"";
+
+
+
 
 
 public:

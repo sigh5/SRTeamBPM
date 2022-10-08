@@ -192,7 +192,7 @@ CGameObject* CImGuiMgr::SelectObject(CLayer* pLayer,wstring* currentObjectName)
 			m_pSelectedObject = nullptr;
 			m_pSelectedTransform = dynamic_cast<CTransform*>(iter->second->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
 			m_pSelectedObject = dynamic_cast<T*>(iter->second);
-			//m_CurrentObjectName = iter->first;
+			m_CurrentSelectGameObjectObjKey = iter->first;
 			
 			*currentObjectName = iter->first;
 
@@ -219,7 +219,10 @@ HRESULT CImGuiMgr::EditObjectTexture(const wstring& m_CureentTextureProtoName)
 	{
 		T* pTemp = dynamic_cast<T*>(m_pSelectedObject);
 		if (pTemp == nullptr)
+		{
 			m_pSelectedObject = nullptr;			// 타입 검사
+			m_CurrentSelectGameObjectObjKey = L"";
+		}
 	}
 	if (m_pSelectedObject)
 	{

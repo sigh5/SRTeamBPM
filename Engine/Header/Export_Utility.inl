@@ -73,6 +73,8 @@ void		Render_GameObject(LPDIRECT3DDEVICE9& pGraphicDev)
 {
 	CRenderer::GetInstance()->Render_GameObject(pGraphicDev);
 	CRenderer::GetInstance()->Render_UIObject(pGraphicDev);
+
+
 }
 void		Clear_RenderGroup(void)
 {

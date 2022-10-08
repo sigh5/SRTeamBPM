@@ -501,8 +501,15 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 	if (ImGui::Button("Delete"))
 	{
 		CLayer* MyLayer = pScene->GetLayer(L"MapCubeLayer");
-		MyLayer->Delete_GameObject(m_CurrentSelectGameObjectObjKey.c_str());
-		m_pWallCube = nullptr;
+		HRESULT Temp = MyLayer->Delete_GameObject(m_CurrentSelectGameObjectObjKey.c_str());
+		
+		if (Temp == S_OK)
+		{
+			m_pWallCube = nullptr;
+			m_pSelectedObject = nullptr;
+			m_pSelectedTransform = nullptr;
+		}
+
 	}
 
 	if (ImGui::CollapsingHeader("Cube Create & Chose Button", ImGuiTreeNodeFlags_DefaultOpen))
