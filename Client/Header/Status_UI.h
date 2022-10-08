@@ -30,6 +30,7 @@ public:
 private:
 	HRESULT				Add_Component(void);
 
+
 public:
 	CRcTex*				m_pBufferCom = nullptr;
 	CTexture*			m_pTextureCom = nullptr;
@@ -46,6 +47,13 @@ private: // Status 각 요소에 쓰는 폰트
 	wstring				m_szLuck = L"";			  // Item's Drop Percentage Increase
 	wstring				m_szCritical = L"";		  // empty 
 	wstring				m_szRange = L"";		  // Gun's Max Range 
+
+
+	_uint m_iPlayerPower = 0;
+
+	_uint m_iPlayerSkillPower = 0;
+
+	_uint m_iPlayerSpeed = 0;
 
 
 public:

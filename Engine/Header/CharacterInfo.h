@@ -22,7 +22,7 @@ public:
 
 	// Test - Pjw
 	void	Add_Hp(_uint iAddHp);
-
+	void	Add_Atk(_uint iAddAtk) { m_Info._iAttackPower += iAddAtk; }
 	// ~Test - Pjw
 private:
 	CharacterInfo m_Info;

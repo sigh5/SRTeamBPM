@@ -17,7 +17,7 @@ HRESULT CExit_Button::Ready_Object(void)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	_vec3		vScale = { 0.15f, 0.08f, 0.f };
+	_vec3		vScale = { 0.28f, 0.18f, 0.f };
 
 	m_pTransCom->Set_Scale(&vScale);
 
@@ -25,7 +25,7 @@ HRESULT CExit_Button::Ready_Object(void)
 }
 
 _int CExit_Button::Update_Object(const _float & fTimeDelta)
-{
+{	
 	if (MouseCheck())
 	{
 		m_bCheck = TRUE;

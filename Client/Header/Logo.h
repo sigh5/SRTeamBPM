@@ -37,8 +37,9 @@ private:
 	CStart_Button*		m_pStartButton = nullptr;
 	CExit_Button*		m_pExitButton = nullptr;
 
-
-
+private:
+	_uint				m_iCount = 0;
+	_bool				m_bRender = false;
 
 public:
 	static CLogo*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

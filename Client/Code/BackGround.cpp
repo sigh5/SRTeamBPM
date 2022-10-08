@@ -16,8 +16,6 @@ CBackGround::~CBackGround()
 HRESULT CBackGround::Ready_Object(void)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-
-	
 	
 	return S_OK;
 }
@@ -28,6 +26,10 @@ Engine::_int CBackGround::Update_Object(const _float& fTimeDelta)
 	//m_pTransCom->m_vScale.y = 2.f;
 
 	//m_pTransCom->m_vAngle.z = D3DXToRadian(45.f);
+
+	_vec3 vecScale = { 2.0f, 2.0f, 2.0f};
+
+	m_pTransCom->Set_Scale(&vecScale);
 
 	Engine::CGameObject::Update_Object(fTimeDelta);
 

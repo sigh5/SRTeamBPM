@@ -3,6 +3,10 @@
 #include "Export_Function.h"
 #include "AbstractFactory.h"
 
+#include "Player.h"
+#include "TestPlayer.h"
+#include "Coin.h" 
+
 USING(Engine)
 
 CCoinKeyUI::CCoinKeyUI(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -30,6 +34,10 @@ HRESULT CCoinKeyUI::Ready_Object(CGameObject * pPlayer)
 
 _int CCoinKeyUI::Update_Object(const _float & fTimeDelta)
 {
+	m_iPlayerCoin = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._iCoin;
+
+	m_iPlayerKey = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._iKey;
+
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
 	Add_RenderGroup(RENDER_UI, this);
@@ -39,7 +47,7 @@ _int CCoinKeyUI::Update_Object(const _float & fTimeDelta)
 
 void CCoinKeyUI::LateUpdate_Object(void)
 {
-	m_pTransCom->OrthoMatrix(60.f, 15.f, -193.f, -230.f, WINCX, WINCY);
+	m_pTransCom->OrthoMatrix(110.f, 30.f, -193.f, -200.f, WINCX, WINCY);
 
 	CGameObject::LateUpdate_Object();
 }
@@ -50,6 +58,26 @@ void CCoinKeyUI::Render_Obejct(void)
 
 	m_pGraphicDev->SetTransform(D3DTS_VIEW, &m_pTransCom->m_matView);
 	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &m_pTransCom->m_matOrtho);
+
+	/* m_szCoin, m_szKey */
+
+	// Coin
+	_tchar	tBCoin[MAX_PATH];
+	swprintf_s(tBCoin, L"%d", m_iPlayerCoin);
+	m_szCoin = L"";
+	m_szCoin += tBCoin;
+
+	Render_Font(L"BMYEONSUNG", m_szCoin.c_str(), &_vec2(158.f, 530.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+	// ~Coin
+
+	// Key
+	_tchar	tBKey[MAX_PATH];
+	swprintf_s(tBKey, L"%d", m_iPlayerKey);
+	m_szKey = L"";
+	m_szKey += tBKey;
+
+	Render_Font(L"BMYEONSUNG", m_szKey.c_str(), &_vec2(213.f, 530.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+	// ~Key
 
 	m_pTextureCom->Set_Texture(0);
 	m_pBufferCom->Render_Buffer();

@@ -214,6 +214,12 @@
     <ClCompile Include="..\Code\AnubisThunder.cpp">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\Inventory_UI.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\07.Inventory_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Key.cpp">
+      <Filter>02. GameObject\01. For_Stage\11. Item\03. Key</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -447,6 +453,12 @@
     <ClInclude Include="..\Header\AnubisThunder.h">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Inventory_UI.h">
+      <Filter>02. GameObject\01. For_Stage\10. UI\07.Inventory_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Key.h">
+      <Filter>02. GameObject\01. For_Stage\11. Item\03. Key</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -643,11 +655,11 @@
     <Filter Include="02. GameObject\01. For_Stage\14. Equipment\00. Weapon">
       <UniqueIdentifier>{d8fb6363-8779-46f3-8455-7efca470b3af}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. For_Stage\14. Equipment\00. Weapon\0. ShotGun">
-      <UniqueIdentifier>{db98f97f-e6eb-42a2-be40-5b784520abc8}</UniqueIdentifier>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\07.Inventory_UI">
+      <UniqueIdentifier>{c458b4bb-99e5-449e-aa12-712aceab5423}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. For_Stage\14. Equipment\00. Weapon\1. Magnum">
-      <UniqueIdentifier>{b01bfd05-4f24-4537-8e56-86a063703aea}</UniqueIdentifier>
+    <Filter Include="02. GameObject\01. For_Stage\11. Item\03. Key">
+      <UniqueIdentifier>{7d6dcb47-a4e8-4524-bd9a-8e1214f132ce}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx">
       <UniqueIdentifier>{4036cf1d-272d-44e4-ae60-f0a2105afda5}</UniqueIdentifier>
