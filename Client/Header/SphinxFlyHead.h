@@ -19,7 +19,12 @@ public:
 	void		 AttackJudge(const _float& fTimeDelta);
 	void		BattleLoop(const _float& fTimeDelta);
 	void		Attack(const _float& fTimeDelta);
+	//LeftRight
 	void		AttackLeftRight(const _float& fTimeDelta);
+	void		LeftRightJudge(const _float& fTimeDelta);
+	void		LeftAttack(const _float& fTimeDelta);
+	void		RightAttack(const _float& fTimeDelta);
+	//~
 
 public:
 	static CSphinxFlyHead*		Create(LPDIRECT3DDEVICE9 pGraphicDev, float Posx = 0, float Posy = 0, float Size = 0);
@@ -30,17 +35,19 @@ private:
 	//HeadActivated
 	CTexture*		m_pActivatedTextureCom = nullptr;
 	CAnimation*		m_pHeadActivatedAnimationCom = nullptr;
-	bool	m_bLRJudge = false;
-	bool	m_bGet_PlayerPos;
-	bool	m_bSelectedLeftRight;
-	_vec3  m_vPrePlayerPosdir;
+
 	//~
 
 	//LRAttack
 	CTexture*		m_pLRAttackTextureCom = nullptr;
 	CAnimation*		m_pLRAttackAnimationCom = nullptr;
+	bool	m_bLRJudge = false;
+	bool	m_bGet_PlayerPos = false;
+	bool	m_bSelectedLeftRight = true;
+	_vec3  m_vPrePlayerPosdir;
 	//~
 
+	int		m_iAttackPattern;
 	
 	CRcTex*			m_pBufferCom = nullptr;
 	

@@ -43,6 +43,8 @@ HRESULT CSphinxFlyHead::Ready_Object(float Posx, float Posy, float Size)
 	m_pInfoCom->Ready_CharacterInfo(5, 10, 2.f);
 
 
+	m_iAttackPattern = 0;
+
 	m_fAttackDelay = 0.3f;
 
 	if (Posx == 0 && Posy == 0) {}
@@ -126,10 +128,24 @@ void CSphinxFlyHead::Render_Obejct(void)
 	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
 	if (false == m_bBattle)
+	{
 		m_pActivatedTextureCom->Set_Texture(m_pHeadActivatedAnimationCom->m_iMotion);
+	}
 	else
-		m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);
+	{
+		switch (m_iAttackPattern)
+		{
+		case 0:    //LR
+			m_pLRAttackTextureCom->Set_Texture(m_pLRAttackAnimationCom->m_iMotion);
+			break;
+		
+		case 1:		//BodyAttack
+			m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);
+			break;
 
+		}
+		
+	}
 	m_pBufferCom->Render_Buffer();
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
@@ -156,6 +172,7 @@ void CSphinxFlyHead::AttackJudge(const _float & fTimeDelta)
 		if (m_fAttackDelay <= m_fAttackDelayTime)
 		{
 			m_bAttack = true;
+			m_iAttackPattern = 0; //rand
 			m_fAttackDelayTime = 0.f;
 		}
 	}
@@ -177,12 +194,9 @@ void	CSphinxFlyHead::Attack(const _float& fTimeDelta)
 
 void		CSphinxFlyHead::AttackLeftRight(const _float& fTimeDelta)
 {
+	m_pLRAttackAnimationCom->m_fMotionChangeCounter += fTimeDelta;
 	if (m_pLRAttackAnimationCom->m_iMinMotion == m_pLRAttackAnimationCom->m_iMotion)
 	{
-
-		m_pLRAttackAnimationCom->m_fMotionChangeCounter += fTimeDelta;
-
-		
 		if (false == m_bSelectedLeftRight)
 		{
 			m_bLRJudge = rand() % 2;
@@ -190,6 +204,7 @@ void		CSphinxFlyHead::AttackLeftRight(const _float& fTimeDelta)
 		}
 		if (m_pLRAttackAnimationCom->m_fIntervalMotion < m_pLRAttackAnimationCom->m_fMotionChangeCounter)
 		{
+			m_pLRAttackAnimationCom->m_fMotionChangeCounter = 0.f;
 			switch (m_bLRJudge)
 			{
 			case true:
@@ -204,6 +219,7 @@ void		CSphinxFlyHead::AttackLeftRight(const _float& fTimeDelta)
 	}
 	else
 	{
+		m_pLRAttackAnimationCom->m_fMotionChangeCounter += fTimeDelta;
 		CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
 		if (false == m_bGet_PlayerPos)
 		{
@@ -217,6 +233,15 @@ void		CSphinxFlyHead::AttackLeftRight(const _float& fTimeDelta)
 			vCurPlayerPosdir = m_vPlayerPos - m_pDynamicTransCom->m_vInfo[INFO_POS];
 			D3DXVec3Normalize(&vCurPlayerPosdir, &vCurPlayerPosdir);
 			float fRadian = acos(D3DXVec3Dot(&m_vPrePlayerPosdir, &vCurPlayerPosdir));
+			
+			if (m_pLRAttackAnimationCom->m_fIntervalMotion < m_pLRAttackAnimationCom->m_fMotionChangeCounter)
+			{
+				m_pLRAttackAnimationCom->m_fMotionChangeCounter = 0.f;
+				if (1 == m_pLRAttackAnimationCom->m_iMotion)
+					m_pLRAttackAnimationCom->m_iMotion = 2;
+				else
+					m_pLRAttackAnimationCom->m_iMotion = 4;
+			}
 			if (m_bLRJudge)//LR
 			{
 
@@ -235,6 +260,18 @@ void		CSphinxFlyHead::AttackLeftRight(const _float& fTimeDelta)
 			}
 		}
 	}
+}
+
+void CSphinxFlyHead::LeftRightJudge(const _float & fTimeDelta)
+{
+}
+
+void CSphinxFlyHead::LeftAttack(const _float & fTimeDelta)
+{
+}
+
+void CSphinxFlyHead::RightAttack(const _float & fTimeDelta)
+{
 }
 
 CSphinxFlyHead * CSphinxFlyHead::Create(LPDIRECT3DDEVICE9 pGraphicDev, float Posx, float Posy, float Size)
