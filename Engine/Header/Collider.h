@@ -32,12 +32,8 @@ public:
 	
 	// 이동관련
 	_bool		Check_Collision_Wall(CGameObject* pCubeObject, CGameObject* pDest );
-
 	_bool		Check_Collision(CGameObject* pItemObject, CGameObject* pPlayer,const _float& fItemRadius,const _float& fPlayerRadius);
-
-
 	_bool		Check_CollisonUseCollider(CCollider* pSour, CCollider* pDest);
-
 
 public:
 	void		Set_HitBoxMatrix(_matrix* matWorld);
