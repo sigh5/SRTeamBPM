@@ -80,6 +80,10 @@ _int CStage::Update_Scene(const _float & fTimeDelta)
 		NULL_CHECK_RETURN(pGameObject, 0);
 		pMyLayer->Add_GameObjectList(pGameObject);
 
+		for (auto iter = pMyLayer->Get_GhulList().begin(); iter != pMyLayer->Get_GhulList().end(); ++iter)
+		{
+			(*iter)->Update_Object(fTimeDelta);
+		}
 		m_fFrame = 0.f;
 	}
 
@@ -96,7 +100,12 @@ void CStage::LateUpdate_Scene(void)
 	{
 		iter->second->Collision_Event();
 	}
-	
+
+	for (auto iter = pLayer->Get_GhulList().begin(); iter != pLayer->Get_GhulList().end(); ++iter)
+	{
+		(*iter)->LateUpdate_Object();
+		(*iter)->Collision_Event();
+	}
 	/*pLayer = GetLayer(L"Layer_UI");
 	CGun_Screen* pGun = static_cast<CGun_Screen*>(pLayer->Get_GameObject(L"Gun"));
 	*/
@@ -159,13 +168,13 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Box", pGameObject), E_FAIL);
 
-	/*pGameObject = CSphinx::Create(m_pGraphicDev, 30, 39);
+	pGameObject = CSphinx::Create(m_pGraphicDev, 30, 39);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Sphinx", pGameObject), E_FAIL);*/
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Sphinx", pGameObject), E_FAIL);
 
-	pGameObject = CObelisk::Create(m_pGraphicDev, 20, 15);
+	/*pGameObject = CObelisk::Create(m_pGraphicDev, 20, 15);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Obelisk", pGameObject), E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Obelisk", pGameObject), E_FAIL);*/
 
 	//pGameObject = CGhul::Create(m_pGraphicDev, 20, 15);
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);

@@ -15,12 +15,17 @@ public:
 	virtual void		Render_Obejct(void) override;
 	virtual void		Collision_Event();
 
-	void			BattleLoop(const _float& fTimeDelta);
-	void			IdleLoop(const _float& fTimeDelta);
+
 
 private:
+	void			BattleLoop(const _float& fTimeDelta);
+	void			IdleLoop(const _float& fTimeDelta);
 	void		AttackJudge(const _float& fTimeDelta);
 	void		Attack(const _float& fTimeDelta);
+	void		HeadOff_Judge(const _float& fTimeDelta);
+	void		HeadOff_Animation(const _float& fTimeDelta);
+
+
 
 public:
 	static CSphinx*		Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx = 0, int Posy = 0);
@@ -31,6 +36,7 @@ private:
 	_vec3 m_vOldPlayerPos;
 	bool m_bBattle = false;
 	bool m_bHeadOff = false;
+	bool m_bHeadOff_Finish = false;
 	int		m_iShootLeftRight;
 	int		m_iShootCycle;
 
@@ -45,7 +51,12 @@ private:
 
 	CTexture*		m_pTextureCom = nullptr;
 	CTexture*		m_pAttackTextureCom = nullptr;
+	CTexture*		m_pHeadOffTextureCom = nullptr;
+	CTexture*		m_pBodyTextureCom = nullptr;
+	CTexture*		m_pFlyHeadTextureCom = nullptr;
 	CAnimation*		m_pAttackAnimationCom = nullptr;
 	CRcTex*			m_pBufferCom = nullptr;
-};
+	CAnimation*		m_pHeadOffAnimationCom = nullptr;
 
+
+};

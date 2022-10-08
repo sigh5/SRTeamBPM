@@ -208,9 +208,6 @@
     <ClCompile Include="..\Code\Sphinx.cpp">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\SphinxBullet.cpp">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\AnubisThunder.cpp">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
     </ClCompile>
@@ -222,6 +219,15 @@
     </ClCompile>
     <ClCompile Include="..\Code\Ghul.cpp">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\05. Ghul</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SphinxBody.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx\00. body</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SphinxBullet.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx\01. bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SphinxFlyHead.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx\02. FlyHead</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -450,9 +456,6 @@
     <ClInclude Include="..\Header\Sphinx.h">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\SphinxBullet.h">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\AnubisThunder.h">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
     </ClInclude>
@@ -464,6 +467,15 @@
     </ClInclude>
     <ClInclude Include="..\Header\Ghul.h">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\05. Ghul</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\SphinxBody.h">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx\00. body</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\SphinxBullet.h">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx\01. bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\SphinxFlyHead.h">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx\02. FlyHead</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -678,6 +690,15 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\05. Ghul">
       <UniqueIdentifier>{6f0ad008-e216-4bfa-8af1-675a50495ed8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx\00. body">
+      <UniqueIdentifier>{fc0aa3b7-7fed-4a17-86c9-d06aafa9325e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx\01. bullet">
+      <UniqueIdentifier>{00dfc730-1b01-457a-8a4c-ce40a51fe809}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx\02. FlyHead">
+      <UniqueIdentifier>{f6afe790-46c1-4b4b-ae92-51e1de7f2e4b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

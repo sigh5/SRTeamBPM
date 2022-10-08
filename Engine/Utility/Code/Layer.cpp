@@ -87,6 +87,7 @@ HRESULT CLayer::Add_GameObjectList(CGameObject * pInstance)
 
 void			CLayer::Add_GhulList(CGameObject* pGhul)
 {
+	m_GhulList.push_back(pGhul);
 
 }
 
@@ -125,9 +126,14 @@ _int CLayer::Update_Layer(const _float & fTimeDelta)
 		}
 		++iter;
 
+		
 	
 	}
+	for (auto iter = m_GhulList.begin(); iter != m_GhulList.end(); ++iter)
+	{
+		(*iter)->Update_Object(fTimeDelta);
 
+	}
 
 
 	return iResult;
@@ -139,6 +145,7 @@ void CLayer::LateUpdate_Layer(void)
 		iter.second->LateUpdate_Object();
 	for (auto& iter : m_objPoolList)
 		iter->LateUpdate_Object();
+
 }
 
 CLayer* CLayer::Create(void)
@@ -170,6 +177,11 @@ void CLayer::Free(void)
 	for_each(m_mapObject.begin(), m_mapObject.end(), CDeleteMap());
 	m_mapObject.clear();
 
+	for (auto iter : m_GhulList)
+	{
+		Safe_Release(iter);
+	}
+	m_GhulList.clear();
 
 	
 

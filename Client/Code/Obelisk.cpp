@@ -82,7 +82,7 @@ void CObelisk::LateUpdate_Object(void)
 		D3DXMatrixInverse(&matBill, 0, &matBill);
 
 		_matrix      matScale, matTrans;
-		D3DXMatrixScaling(&matScale, 2.f, 5.f, 2.f);
+		D3DXMatrixScaling(&matScale, 2.f, m_pDynamicTransCom->m_vScale.y, 2.f);
 
 		_matrix      matRot;
 		D3DXMatrixIdentity(&matRot);
@@ -194,7 +194,7 @@ void CObelisk::Attack(const _float & fTimeDelta)
 	vPos.z += 1 + rand() % 4;
 	pGameObject = CGhul::Create(m_pGraphicDev, vPos.x, vPos.z);
 
-	pMyLayer->Add_GameObjectList(pGameObject);
+	pMyLayer->Add_GhulList(pGameObject);
 
 	m_bAttack = false;
 }
@@ -211,14 +211,28 @@ void CObelisk::NoHit_Loop(const _float & fTimeDelta)
 
 void CObelisk::Hit_Loop(const _float & fTimeDelta)
 {
+	_vec3 pScale;
+	pScale = m_pDynamicTransCom->m_vScale;
 	if (4 == m_pInfoCom->Get_Hp())
+	{
 		m_pAnimationCom->m_iMotion = 0;
+		m_pDynamicTransCom->Set_Scale(&_vec3{ pScale.x, pScale.y * 0.75f, pScale.z });
+	}
 	if (3 == m_pInfoCom->Get_Hp())
+	{
 		m_pAnimationCom->m_iMotion = 1;
+		m_pDynamicTransCom->Set_Scale(&_vec3{ pScale.x, pScale.y * 0.75f, pScale.z });
+	}
 	if (2 == m_pInfoCom->Get_Hp())
+	{
 		m_pAnimationCom->m_iMotion = 2;
+		m_pDynamicTransCom->Set_Scale(&_vec3{ pScale.x, pScale.y * 0.75f, pScale.z });
+	}
 	if (1 == m_pInfoCom->Get_Hp())
+	{
 		m_pAnimationCom->m_iMotion = 3;
+		m_pDynamicTransCom->Set_Scale(&_vec3{ pScale.x, pScale.y * 0.75f, pScale.z });
+	}
 }
 
 CObelisk * CObelisk::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)

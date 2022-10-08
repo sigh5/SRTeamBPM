@@ -37,6 +37,9 @@ public:
 	list<_tchar* > Get_NameList() { return NameList; }
 	void AddNameList(_tchar* name) { NameList.push_back(name); }
 	// ~맵오류때문에 키값으로 찾게 하는코드
+	
+	//구울 리스트 가져오기
+	list<CGameObject*>&		Get_GhulList() { return m_GhulList; }
 
 private:
 	map<const _tchar*, CGameObject*>			m_mapObject;
