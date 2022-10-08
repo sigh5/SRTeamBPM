@@ -31,11 +31,9 @@ public:// For Tool
 	void				Set_Layer_Map_Name(const wstring& LayerName, wstring* RoomName)
 	{m_LayerName = LayerName;
 	m_RoomName = *RoomName;	}
-
-public:
-	const _int&			Get_Option() {return m_iOption;}
+	const _int&			Get_Option() { return m_iOption; }
 	void				Set_Option(CUBE_TYPE eType) { m_iOption = (_int)eType; }
-
+	
 private:
 	HRESULT				Add_Component(void);
 
@@ -45,7 +43,6 @@ public:
 	CTexture*			m_pTextureCom = nullptr;
 	CCalculator*		m_pCalculatorCom = nullptr;
 	CCollider*			m_pColliderCom = nullptr;
-
 
 private:
 	_bool				m_bWireFrame = false;
