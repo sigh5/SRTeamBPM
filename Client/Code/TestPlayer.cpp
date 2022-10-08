@@ -8,9 +8,11 @@
 #include "Stage.h"
 #include "HpPotion.h"
 #include "Coin.h"
+#include "Key.h"
 #include "Box.h"
 #include "MyCamera.h"
 #include "Gun_Screen.h"
+#include "ShotGun.h"
 
 
 CTestPlayer::CTestPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -19,7 +21,7 @@ CTestPlayer::CTestPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	, m_fJumpPower(5.0f)
 	, m_fDashPower(0.3f)
 	, m_tpType(TYPING_END)
-{
+{	
 }
 
 
@@ -32,7 +34,11 @@ HRESULT CTestPlayer::Ready_Object(void)
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 							// int _hp, int _Attack, float _fSpeed
 	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
-	
+	// default Coin, Key has a 0.
+	m_pInfoCom->Get_InfoRef()._iCoin = 0;
+	m_pInfoCom->Get_InfoRef()._iKey = 0;
+	m_pDynamicTransCom->Set_Pos(10.f, 2.f, 10.f);
+	m_pDynamicTransCom->Update_Component(1.5f);
 	//m_preItem = m_pInfoCom->Get_InfoRef()._iCoin;
 		
 	return S_OK;
@@ -42,7 +48,8 @@ _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 {
 	++m_iCountDash;
 	Key_Input(fTimeDelta);
-	
+
+	//cout << "체력 : " << m_pInfoCom->Get_InfoRef()._iHp << "m_iHpBarChange " << m_iHpBarChange << endl;
 	//if (m_preItem = m_pInfoCom->Get_InfoRef()._iCoin) // Coin 획득했는가를 체크하는 코드
 	//{
 	//	//system("cls");
@@ -53,11 +60,11 @@ _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 	//	cout << "코인 : " << m_pInfoCom->Get_InfoRef()._iCoin << endl;
 
 	//}	
-
-		// cout << "총알 수 :" << m_iMagazine << endl;
-		
-
 	
+		// cout << "총알 수 :" << m_iMagazine << endl;
+	//cout << "공격력 : " << m_pInfoCom->Get_InfoRef()._iAttackPower << "true : " << m_bPreStat << endl;
+	cout << "Key : " << m_pInfoCom->Get_InfoRef()._iKey << endl;
+
 	if (m_bJump == TRUE)
 	{
 		m_pDynamicTransCom->Jumping(m_fJumpPower, fTimeDelta, m_pTransCom);
@@ -97,8 +104,7 @@ _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 	matBill._33 = matView._33;
 
 	D3DXMatrixInverse(&matBill, 0, &matBill);
-
-
+	
 	m_pTransCom->Set_WorldMatrix(&(matBill * matWorld));*/
 	
 	Add_RenderGroup(RENDER_ALPHA, this);
@@ -108,7 +114,7 @@ _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 
 void CTestPlayer::LateUpdate_Object(void)
 {
-	
+	EquipItem_Add_Stat();
 }
 
 void CTestPlayer::Render_Obejct(void)
@@ -121,8 +127,7 @@ void CTestPlayer::Render_Obejct(void)
 	m_pTextureCom->Set_Texture(m_iTexIndex);
 	m_pBufferCom->Render_Buffer();
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-
+	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);	
 
 	/*m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
@@ -277,12 +282,14 @@ void CTestPlayer::Key_Input(const _float& fTimeDelta)
 	// HpBar Change
 	if (Get_DIKeyState(DIK_C) & 0X80)
 	{		
+		m_pInfoCom->Get_InfoRef()._iHp -= 1;
+		// Test
 		m_iHpBarChange -= 1;
 	}
 
 	if (Get_DIKeyState(DIK_V) & 0X80)
 	{
-		m_iHpBarChange = 4;
+		//m_iHpBarChange = 4;
 	}
 
 	if (Get_DIKeyState(DIK_P) & 0X80)
@@ -375,78 +382,63 @@ HRESULT CTestPlayer::Create_Bullet(_vec3 vPos)
 	return S_OK;
 }
 
-void CTestPlayer::Collision_Event(CGameObject * pGameObject)
+void CTestPlayer::Collision_Event()
 {
 	CScene* pScene = ::Get_Scene();
+	NULL_CHECK_RETURN(pScene, );
+
 	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+	NULL_CHECK_RETURN(pMyLayer, );
 
-	CTransform *pTransform = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
-
-	_vec3 vObjPos;
-	_vec3 vPlayerPos;
-
-
-	pTransform->Get_Info(INFO_POS, &vObjPos);
-	m_pTransCom->Get_Info(INFO_POS, &vPlayerPos);
-	// ★
-	if (m_pColliderCom->Check_Sphere_InterSect(vObjPos, vPlayerPos, 1.f, 1.f) == true)
+	for (auto iter = pMyLayer->Get_GameObjectMap().begin(); iter != pMyLayer->Get_GameObjectMap().end(); ++iter)
 	{
-		if (pGameObject == pMyLayer->Get_GameObject(L"HealthPotion"))
-		{
-			m_pInfoCom->Add_Hp(25);
-			//m_iHpBarChange += 1;				
-			pMyLayer->Delete_GameObject(L"HealthPotion"); // 이벤트 처리		
-		}
-
-		pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
-		NULL_CHECK_RETURN(pMyLayer, );
-
-		//CScene* pScene = ::Get_Scene();
-		//CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
-		//		
-		//CTransform *pTransform = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
-		//
-		//_vec3 vObjPos;
-		//_vec3 vPlayerPos;
-
-
-		//pTransform->Get_Info(INFO_POS, &vObjPos);
-		//m_pTransCom->Get_Info(INFO_POS, &vPlayerPos);
-		//// ★
-		//if (m_pColliderCom->Check_Sphere_InterSect(vObjPos, vPlayerPos, 1.f, 1.f) == true)
-		//{
-		//	if (pGameObject == pMyLayer->Get_GameObject(L"HealthPotion"))
-		//	{				
-		//		m_pInfoCom->Add_Hp(25);
-		//		//m_iHpBarChange += 1;				
-		//		pMyLayer->Delete_GameObject(L"HealthPotion"); // 이벤트 처리		
-		//	}
-
-		//	if (pGameObject == pMyLayer->Get_GameObject(L"Coin"))
-		//	{
-		//		m_pInfoCom->Get_InfoRef()._iCoin += 1;
-		//		pMyLayer->Delete_GameObject(L"Coin"); // 이벤트 처리
-		//	}				
-		//}
-		////_uint iPlayerPower = dynamic_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._iAttackPower;
-		//if (m_pColliderCom->Check_Sphere_InterSect(vObjPos, vPlayerPos, 1.f, 1.f) == true)
-		//{
-		//	if (pGameObject == pMyLayer->Get_GameObject(L"Box"))
-		//	{
-		//		if (Get_DIKeyState(DIK_F) & 0X80)
-		//		{
-		//			//CAnimation* pBoxAnimation = dynamic_cast<CAnimation*>(pGameObject->Get_Component(L"Proto_AnimationCom", ID_STATIC));
-		//			
-		//			CBox* pBox = dynamic_cast<CBox*> (Engine::Get_GameObject(L"Layer_GameLogic", L"Box"));
-		//				
-		//			pBox->Open_Event(this);		
-		//			pBox->Set_Open(false);
-		//						
-		//		}
-		//	}
-		//}
-
+		m_pColliderCom->Check_Collision_Wall(iter->second, this);
 	}
+
+	pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+	NULL_CHECK_RETURN(pMyLayer, );
+
+
+}
+
+void CTestPlayer::EquipItem_Add_Stat(void)
+{
+	CShotGun* pShotGun = static_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"));
+	CCoin* pCoin = static_cast<CCoin*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Coin"));
+	CKey* pKey = static_cast<CKey*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Key"));
+
+	// ShotGun을 먹은 경우
+	if (pShotGun->Get_RenderFalse() == true && m_bCurStat)
+	{
+		m_bPreStat = true;
+	}
+
+	if (pCoin->Get_bAddCoin() == true && m_bCurStat)
+	{
+		m_bPreStat = true;
+	}
+
+	if (pKey->Get_bAddKey() == true && m_bCurStat)
+	{
+		m_bPreStat = true;
+	}
+	
+
+	if (m_bPreStat)
+	{
+		_uint iAtk = 0;
+		iAtk = m_pInfoCom->Get_InfoRef()._iAttackPower + pShotGun->Get_EquipInfoRef()._iAddAttack;
+
+		m_pInfoCom->Get_InfoRef()._iAttackPower = iAtk;
+
+		m_pInfoCom->Add_Coin();
+		m_pInfoCom->Add_Key();
+
+		m_bPreStat = false;
+		m_bCurStat = false;
+	}
+
+
 }
 
 CTestPlayer * CTestPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -464,7 +456,6 @@ CTestPlayer * CTestPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 }
 
 void CTestPlayer::Free(void)
-{
-	
+{	
 	CGameObject::Free();
 }

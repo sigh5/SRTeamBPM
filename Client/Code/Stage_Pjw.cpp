@@ -176,13 +176,20 @@ HRESULT CStage_Pjw::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	pGameObject = CHealthPotion::Create(m_pGraphicDev, 5, 10);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"HealthPotion", pGameObject), E_FAIL);
+	*/
 
-	// Coin
-	pGameObject = CCoin::Create(m_pGraphicDev, 22, 10);
+	// Tes Coin
+	pGameObject = CCoin::Create(m_pGraphicDev, 15, 10);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Coin", pGameObject), E_FAIL);
+	
 
-	*/
+	// Test Key
+	pGameObject = CKey::Create(m_pGraphicDev, 20, 5);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Key", pGameObject), E_FAIL);
+
+	
 	CTestPlayer*		pPlayer = dynamic_cast<CTestPlayer*>(Get_GameObject(L"Layer_GameLogic", L"TestPlayer"));
 	
 	pGameObject = CBox::Create(m_pGraphicDev, 5, 10);
@@ -238,6 +245,15 @@ HRESULT CStage_Pjw::Ready_Layer_UI(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"CoinKey_UI", pGameObject), E_FAIL);
 
+	pGameObject = CDashUI::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"DashUI", pGameObject), E_FAIL);
+
+	pGameObject = CInventory_UI::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"InventoryUI", pGameObject), E_FAIL);
+
+	READY_LAYER(pGameObject, CGun_Screen, pLayer, m_pGraphicDev, L"Gun");
 	//pGameObject = CGun_Screen::Create(m_pGraphicDev, pPlayer);
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Gun_Screen", pGameObject), E_FAIL);

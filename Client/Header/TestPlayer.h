@@ -51,12 +51,14 @@ public:
 
 	_uint				Get_Skill(void) { return m_iSkillPower; }	// Player의 스킬 공격력값을 Status_UI로 넘겨주기 위한 함수
 
+
+	void				Set_bPreStat(_bool _AddStat) { m_bPreStat = _AddStat; }
+	void				Set_bCurStat(_bool _bStat) { m_bCurStat = _bStat; }
 	// ~Test
 
-	virtual void		Collision_Event(CGameObject* pGameObject);
-
-
-
+	virtual void		Collision_Event();
+	void				EquipItem_Add_Stat(void);
+	
 private:
 	CRcTex*				m_pBufferCom = nullptr;
 	CTransform*			m_pTransCom = nullptr;
@@ -106,22 +108,25 @@ private:
 
 	// Test
 	_uint				m_iChangeImage = 1;
-	_uint				m_iHpBarChange = 4;
+	_uint				m_iHpBarChange = 100;
 	_uint				m_preItem = 0;
-		
+
 	// ~Test
 
 	// Player's Status(Private)
 	_uint				m_iSkillPower = 1;		// Usually This Function is Off, But if Player Get Skill Book, m_iSkillPower Can be Used. 
+	
+	_bool				m_bPreStat = false;
+	_bool				m_bCurStat = false;
 	// ~Player's Status(Private)
 	
 	vector<CEquipmentBase*>		m_vecWeaponType;
 	
-//public:
-//	vector<CEquipmentBase*>*	Get_WeaponType(void) { return &m_vecWeaponType; }
+public:
+	vector<CEquipmentBase*>*	Get_WeaponType(void) { return &m_vecWeaponType; }
 	
 public:
 	static CTestPlayer*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual void	Free(void);
+	virtual void			Free(void);
 };
 

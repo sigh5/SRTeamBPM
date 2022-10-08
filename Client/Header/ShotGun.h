@@ -29,6 +29,9 @@ public:
 	virtual void		Collision_Event()override;
 	
 	void				 Set_OnTerrain(void);
+
+	_bool				Get_RenderFalse(void) { return m_bRenderFalse; }
+
 private:
 	CTransform*				m_pTransCom = nullptr;
 	CTexture*				m_pTextureCom = nullptr;
@@ -43,6 +46,8 @@ private:
 
 	// 샷건이 가지는 기본 탄창량
 	_uint				m_iShotgunMagazine = 6;
+	
+	_bool				m_bRenderFalse = false;
 
 public:
 	static CShotGun*	Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint iX, _uint iZ);

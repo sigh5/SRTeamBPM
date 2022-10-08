@@ -6,6 +6,7 @@
 #include "Coin.h"
 #include "HealthPotion.h"
 #include "Player.h"
+#include "MyCamera.h"
 
 USING(Engine)
 
@@ -30,6 +31,10 @@ HRESULT CBox::Ready_Object(_uint iX, _uint iY)
 
 _int CBox::Update_Object(const _float & fTimeDelta)
 {
+	_vec3 vecScale = { 1.5f, 1.5f, 1.0f };
+
+	m_pTransCom->Set_Scale(&vecScale);
+
 	_uint iResult = Engine::CGameObject::Update_Object(fTimeDelta);
 
 	Set_OnTerrain();
@@ -41,6 +46,36 @@ _int CBox::Update_Object(const _float & fTimeDelta)
 
 void CBox::LateUpdate_Object(void)
 {
+	//CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
+	//NULL_CHECK(pCamera);
+
+	//// 
+	//_matrix		matWorld, matView, matBill;
+
+	//m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
+	//D3DXMatrixIdentity(&matBill);
+	//memcpy(&matBill, &matView, sizeof(_matrix));
+	//memset(&matBill._41, 0, sizeof(_vec3));
+	//D3DXMatrixInverse(&matBill, 0, &matBill);
+
+	//_matrix      matScale, matTrans;
+	//D3DXMatrixScaling(&matScale, 2.f, 2.f, 2.f);
+
+	//_matrix      matRot;
+	//D3DXMatrixIdentity(&matRot);
+	//D3DXMatrixRotationY(&matRot, (_float)pCamera->Get_BillBoardDir());
+
+	//_vec3 vPos;
+	//m_pTransCom->Get_Info(INFO_POS, &vPos);
+
+	//D3DXMatrixTranslation(&matTrans,
+	//	vPos.x,
+	//	vPos.y,
+	//	vPos.z);
+
+	//D3DXMatrixIdentity(&matWorld);
+	//matWorld = matScale* matRot * matBill * matTrans;
+	//m_pTransCom->Set_WorldMatrix(&(matWorld));
 
 }
 
@@ -70,12 +105,12 @@ void CBox::Collision_Event()
 	CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
 	CGameObject *pGameObject = nullptr;
 
-	pGameObject = pLayer->Get_GameObject(L"Player");
+	pGameObject = pLayer->Get_GameObject(L"TestPlayer");
 	NULL_CHECK_RETURN(pGameObject, );
 	
 	if (m_pColliderCom->Check_Collision(this, pGameObject,1,1))
 	{
-		if (Get_DIKeyState(DIK_F) & 0X80)
+		if (Engine::Key_Down(DIK_F))
 		{
 			CAnimation* pBoxAnimation = dynamic_cast<CAnimation*>(pGameObject->Get_Component(L"Proto_AnimationCom", ID_STATIC));
 
@@ -121,18 +156,32 @@ HRESULT CBox::Open_Event(CGameObject * pGameObject)
 
 		_vec3 vPos;
 
-	//	m_pTransCom->Get_Info(INFO_POS, &vPos);
+		//	m_pTransCom->Get_Info(INFO_POS, &vPos);
 
-		// HealthPotion
+
 		CGameObject* pGameObj = nullptr;
-	
-		pGameObj = CHealthPotion::Create(m_pGraphicDev, (_uint)vPos.x+1, (_uint)vPos.z+3 );
-		NULL_CHECK_RETURN(pGameObj, E_FAIL);
-		FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(L"HealthPotion", pGameObj), E_FAIL);
-		
-		return S_OK;		
-	}
 
+		if (m_bBoxOpen && rand() % 3 == 0)
+		{
+			// HealthPotion
+			pGameObj = CHealthPotion::Create(m_pGraphicDev, (_uint)vPos.x + 1, (_uint)vPos.z + 3);
+			NULL_CHECK_RETURN(pGameObj, E_FAIL);
+			FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(L"HealthPotion", pGameObj), E_FAIL);
+		}
+
+		else if (m_bBoxOpen && rand() % 3 == 1)
+		{
+			// Coin
+			pGameObj = CCoin::Create(m_pGraphicDev, (_uint)vPos.x + 1, (_uint)vPos.z + 3);
+			NULL_CHECK_RETURN(pGameObj, E_FAIL);
+			FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(L"Coin", pGameObj), E_FAIL);
+		}
+
+		else if (m_bBoxOpen && rand() % 3 == 2)
+		{
+			return S_OK;
+		}
+	}
 	return S_OK;
 }
 

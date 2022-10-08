@@ -27,8 +27,6 @@ CBullet_UI::~CBullet_UI()
 HRESULT CBullet_UI::Ready_Object(CGameObject* pPlayer)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-
-
 		
 	return S_OK;
 }
@@ -38,7 +36,7 @@ _int CBullet_UI::Update_Object(const _float & fTimeDelta)
 							
 	// m_pGun = 
 	// 여기만 바꾸면							// ◆ CGun_Screen
-	m_pAnimationCom->Control_Animation(dynamic_cast<CGun_Screen*>(::Get_GameObject(L"Layer_UI", L"Gun"))->Get_Magazine());
+	m_pAnimationCom->Control_Animation(dynamic_cast<CTestPlayer*>(::Get_GameObject(L"Layer_GameLogic", L"TestPlayer"))->Get_Magazine());
 	
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
@@ -49,7 +47,7 @@ _int CBullet_UI::Update_Object(const _float & fTimeDelta)
 
 void CBullet_UI::LateUpdate_Object(void)
 {
-	m_pTransCom->OrthoMatrix(70.f, 20.f, 300.f, -270.f, WINCX, WINCY);
+	m_pTransCom->OrthoMatrix(120.f, 30.f, 300.f, -270.f, WINCX, WINCY);
 
 	CGameObject::LateUpdate_Object();
 }
@@ -62,7 +60,7 @@ void CBullet_UI::Render_Obejct(void)
 	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &m_pTransCom->m_matOrtho);
 
 
-	_uint iMagazineCount = dynamic_cast<CGun_Screen*>(::Get_GameObject(L"Layer_UI", L"Gun"))->Get_Magazine();
+	_uint iMagazineCount = dynamic_cast<CTestPlayer*>(::Get_GameObject(L"Layer_GameLogic", L"TestPlayer"))->Get_Magazine();
 	
 	// Player's Bullet Magazine left
 	
@@ -73,7 +71,7 @@ void CBullet_UI::Render_Obejct(void)
 
 	Render_Font(L"BMYEONSUNG", m_szMagazine.c_str(), &_vec2(660.f, 520.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 
-	_uint  iComboCount = dynamic_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"))->Get_ComboCount();
+	/*_uint  iComboCount = dynamic_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"))->Get_ComboCount();
 	if (iComboCount != 0)
 	{
 		_tchar	tCobmoCount[MAX_PATH];
@@ -84,7 +82,7 @@ void CBullet_UI::Render_Obejct(void)
 		Render_Font(L"BMYEONSUNG", m_szComboCount.c_str(), &_vec2(660.f, 100.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 
 
-	}
+	}*/
 
 
 

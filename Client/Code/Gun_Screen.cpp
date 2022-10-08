@@ -3,6 +3,7 @@
 #include "Export_Function.h"
 #include "AbstractFactory.h"
 #include "Player.h"
+#include "TestPlayer.h"
 
 
 USING(Engine)
@@ -50,14 +51,14 @@ void CGun_Screen::LateUpdate_Object(void)
 	m_pOrthoTransCom->OrthoMatrix(280.f, 230.f, 50.f, -150.f, WINCX, WINCY);
 
 	
-	CPlayer* pPlayer = static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic",L"Player"));
+	/*CPlayer* pPlayer = static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic",L"Player"));
 
 	if (m_bShootCheck)
 	{
 		pPlayer->Reset_ComboCount();
 	}
 
-	m_bShootCheck = false;
+	m_bShootCheck = false;*/
 
 	CGameObject::LateUpdate_Object();
 	
@@ -102,7 +103,7 @@ HRESULT CGun_Screen::Add_Component(void)
 
 HRESULT CGun_Screen::Shoot_Motion(void)
 {
-	CPlayer* pPlayer = dynamic_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
+	//CPlayer* pPlayer = dynamic_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
 
 	if (m_bAnimation == true)
 	{

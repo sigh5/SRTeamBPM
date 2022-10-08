@@ -33,7 +33,7 @@ HRESULT CLogo::Ready_Scene(void)
 
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(L"Ready_Layer_Environment"), E_FAIL);
 												// LOADING_STAGE
-	m_pLoading = CLoading::Create(m_pGraphicDev, LOADING_STAGE);
+	m_pLoading = CLoading::Create(m_pGraphicDev, LOADING_PLAYER_UI);
 	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
 		
 	Engine::LoadSoundFile();
@@ -44,7 +44,10 @@ HRESULT CLogo::Ready_Scene(void)
 
 Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 {
-	
+	++m_iCount;
+
+	//cout << "Å×½ºÆ® : " << m_iCount << endl;
+
 	m_pStartButton = dynamic_cast<CStart_Button*>(Engine::Get_GameObject(L"Ready_Layer_Environment", L"StartButton"));
 	m_pExitButton = dynamic_cast<CExit_Button*>(Engine::Get_GameObject(L"Ready_Layer_Environment", L"ExitButton"));
 
@@ -55,7 +58,7 @@ Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 	{
 		if (m_pStartButton->Get_Click())
 		{						// CStage
-			CScene*		pScene = CStage::Create(m_pGraphicDev);
+			CScene*		pScene = CStage_Pjw::Create(m_pGraphicDev);
 			NULL_CHECK_RETURN(pScene, E_FAIL);
 
 			//m_SceneType = SCENE_STAGE_PJW;
@@ -70,8 +73,7 @@ Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 		//	//DestroyWindow(g_hWnd);
 		//	return SCENE_END;
 		//}
-	}
-	
+	}	
 	return iResult;
 }
 
@@ -82,8 +84,21 @@ void CLogo::LateUpdate_Scene(void)
 
 void CLogo::Render_Scene(void)
 {
+
+	if (m_iCount > 20)
+		m_bRender = true;
+
+
+	if (m_bRender)	
+		Render_Font(L"Font_Jinji", m_pLoading->Get_String(), &_vec2(240.f, 420.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+
+
+	if (m_iCount > 50)
+	{
+		m_bRender = false;
+		m_iCount = 0;
+	}
 	
-	Render_Font(L"Font_Jinji", m_pLoading->Get_String(), &_vec2(240.f, 420.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 
 }
 

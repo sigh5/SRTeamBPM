@@ -11,6 +11,7 @@ class CAnimation;
 class CCalculator;
 class CDynamic_Transform;
 class COrthoTransform;
+class CCollider;
 
 
 class ENGINE_DLL CUI_Base : public CGameObject
