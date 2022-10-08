@@ -146,6 +146,12 @@ void CLayer::Free(void)
 	}
 	m_objPoolList.clear();
 
+	for (int i = 0; i < TELEPORT_CUBE_LIST_END; ++i)
+	{
+		for_each(m_TeleportCubeList[i].begin(), m_TeleportCubeList[i].end(), CDeleteObj());
+		m_TeleportCubeList[i].clear();
+	}
+
 
 	for_each(m_mapObject.begin(), m_mapObject.end(), CDeleteMap());
 	m_mapObject.clear();

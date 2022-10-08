@@ -221,12 +221,12 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 
 			if (iCubeOption == CUBE_START_TELE)
 			{
-				pScene->Get_CubeList(STARTCUBELIST)->push_back(pGameObject);
+				pMyLayer->Get_CubeList(STARTCUBELIST)->push_back(pGameObject);
 			}
 
 			else if (iCubeOption == CUBE_END_TELE)
 			{
-				pScene->Get_CubeList(ENDCUBELIST)->push_back(pGameObject);
+				pMyLayer->Get_CubeList(ENDCUBELIST)->push_back(pGameObject);
 			}
 			else
 			{

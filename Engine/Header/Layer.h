@@ -2,7 +2,7 @@
 
 #include "GameObject.h"
 #include "Engine_Include.h"
-
+#include <stack>
 BEGIN(Engine)
 
 class ENGINE_DLL CLayer : public CBase
@@ -37,18 +37,69 @@ public:
 	void AddNameList(_tchar* name) { NameList.push_back(name); }
 	// ~맵오류때문에 키값으로 찾게 하는코드
 
+	list<CGameObject*> *Get_CubeList(_int iIndex) { return &m_TeleportCubeList[iIndex]; }
+
+	void				initStartCube()
+	{ 
+		for (auto iter : m_TeleportCubeList[STARTCUBELIST])
+		{
+			m_RestCubevec.push_back(iter);
+		}
+	
+	}
+
+	vector<CGameObject*>*		  GetRestCube() {return &m_RestCubevec;}
+	
+	void				  Delete_Current_Room(_int iIndex){m_RestCubevec.erase(m_RestCubevec.begin() + iIndex);}
+	
+	
+													// 엔드 저장
+	void				  Save_CurrentRoom(CGameObject* pGameObject){
+		m_vecVistedCube.push(pGameObject);
+	}
+
+
+	CGameObject*		Get_PreRoomTeleCube()
+	{
+		
+		if (m_vecVistedCube.empty())
+			return nullptr;
+		
+		CGameObject *pTeleEndCube = m_vecVistedCube.top();
+		m_vecVistedCube.pop();
+		return pTeleEndCube;
+	}
+
+
+	void			  Clear_Stack()
+	{
+		while (!m_vecVistedCube.empty())
+		{
+			m_vecVistedCube.pop();
+		}
+	}
+
+
+
 private:
 	map<const _tchar*, CGameObject*>			m_mapObject;
 
+	list<CGameObject*> m_TeleportCubeList[TELEPORT_CUBE_LIST_END];
+	vector<CGameObject*> m_RestCubevec;	 // 이동후 남은 큐브 계수
+	
+	stack<CGameObject*> m_vecVistedCube;
+
 
 	list<CGameObject*>  m_objPoolList;
-
 	list<_tchar* > NameList;
 
 public:
 	static CLayer*		Create(void);
 	virtual void		Free(void);
 
+
+	_int				m_iRoomIndex = 0;
+	_int				m_iRestRoom = 5;
 };
 
 END
