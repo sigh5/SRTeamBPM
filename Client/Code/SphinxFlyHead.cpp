@@ -24,7 +24,7 @@ HRESULT CSphinxFlyHead::Ready_Object(float Posx, float Posy, float Size)
 	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Sphinx_FlyHead_Texture", m_mapComponent, ID_STATIC);
 	m_pActivatedTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Sphinx_Activated_Texture", m_mapComponent, ID_STATIC);
 	m_pLRAttackTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Sphinx_lrattack_Texture", m_mapComponent, ID_STATIC);
-	
+	m_pBodyAttackTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Sphinx_bodyattack_Texture", m_mapComponent, ID_STATIC);
 
 	m_pHeadActivatedAnimationCom = dynamic_cast<CAnimation*>(Clone_Proto(L"Proto_AnimationCom"));
 	NULL_CHECK_RETURN(m_pHeadActivatedAnimationCom, E_FAIL);
@@ -34,18 +34,31 @@ HRESULT CSphinxFlyHead::Ready_Object(float Posx, float Posy, float Size)
 	NULL_CHECK_RETURN(m_pLRAttackAnimationCom, E_FAIL);
 	m_mapComponent[ID_STATIC].insert({ L"Proto_LRAttack_AnimationCom", m_pLRAttackAnimationCom });
 
+	m_pBodyAttackAnimation = dynamic_cast<CAnimation*>(Clone_Proto(L"Proto_AnimationCom"));
+	NULL_CHECK_RETURN(m_pBodyAttackAnimation, E_FAIL);
+	m_mapComponent[ID_STATIC].insert({ L"Proto_bodyAttack_AnimationCom", m_pBodyAttackAnimation });
+
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
 
 	m_pAnimationCom->Ready_Animation(7, 0, 100);
 	
 	m_pHeadActivatedAnimationCom->Ready_Animation(5, 0, 0.5f);
 	m_pLRAttackAnimationCom->Ready_Animation(4, 0, 0.5f);
+	m_pBodyAttackAnimation->Ready_Animation(8, 0, 0.4f);
+
 	m_pInfoCom->Ready_CharacterInfo(5, 10, 2.f);
 
 
-	m_iAttackPattern = 0;
+	m_iAttackPattern = 1;
+	m_fAttackDelay = 0.4f;
 
-	m_fAttackDelay = 0.3f;
+	m_fTackleSpeed = 3.5f;
+	m_fTackleAttenuationTime = 0.01f;
+	m_fTackleAttenuationTimeCount = 0;
+	m_fTackleStopper = 0.05f;
+	m_fOriginTackleStopper = m_fTackleStopper;
+
+	m_fRearrangementDelay = 1.f;
 
 	if (Posx == 0 && Posy == 0) {}
 	else
@@ -140,7 +153,11 @@ void CSphinxFlyHead::Render_Obejct(void)
 			break;
 		
 		case 1:		//BodyAttack
-			m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);
+			if (m_bRenderBodyAttack)
+				m_pBodyAttackTextureCom->Set_Texture(m_pBodyAttackAnimation->m_iMotion);
+			else
+				m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);
+			//m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);
 			break;
 
 		}
@@ -169,11 +186,19 @@ void CSphinxFlyHead::AttackJudge(const _float & fTimeDelta)
 	if (m_bAttack == false)
 	{
 		m_fAttackDelayTime += fTimeDelta;
-		if (m_fAttackDelay <= m_fAttackDelayTime)
+
+		if (m_pAnimationCom->m_iMotion != 0)
 		{
-			m_bAttack = true;
-			m_iAttackPattern = 0; //rand
-			m_fAttackDelayTime = 0.f;
+			Rearrangement(fTimeDelta);
+		}
+		else
+		{
+			if (m_fAttackDelay <= m_fAttackDelayTime)
+			{
+				m_bAttack = true;
+				m_iAttackPattern = 1; //rand
+				m_fAttackDelayTime = 0.f;
+			}
 		}
 	}
 }
@@ -189,91 +214,366 @@ void CSphinxFlyHead::BattleLoop(const _float & fTimeDelta)
 
 void	CSphinxFlyHead::Attack(const _float& fTimeDelta)
 {
-	AttackLeftRight(fTimeDelta);
+	switch (m_iAttackPattern)
+	{
+	case 0:
+		AttackLeftRight(fTimeDelta);
+		break;
+
+	case 1:
+		BodyAttack(fTimeDelta);
+		break;
+
+	}
+
 }
 
 void		CSphinxFlyHead::AttackLeftRight(const _float& fTimeDelta)
 {
 	m_pLRAttackAnimationCom->m_fMotionChangeCounter += fTimeDelta;
-	if (m_pLRAttackAnimationCom->m_iMinMotion == m_pLRAttackAnimationCom->m_iMotion)
+	if (4 == m_pLRAttackAnimationCom->m_iMotion)
 	{
-		if (false == m_bSelectedLeftRight)
+		LeftAttack(fTimeDelta);
+	}
+	if (2 == m_pLRAttackAnimationCom->m_iMotion)
+	{
+		RightAttack(fTimeDelta);
+	}
+	if (3 == m_pLRAttackAnimationCom->m_iMotion || 1 == m_pLRAttackAnimationCom->m_iMotion)
+	{
+		if (false == m_bGet_PlayerPos_LR&&2.9f < m_pLRAttackAnimationCom->m_fMotionChangeCounter)
 		{
-			m_bLRJudge = rand() % 2;
-			m_bSelectedLeftRight = true;
+			Save_PlayerPos_forLR(fTimeDelta);
 		}
-		if (m_pLRAttackAnimationCom->m_fIntervalMotion < m_pLRAttackAnimationCom->m_fMotionChangeCounter)
+		if (3.f < m_pLRAttackAnimationCom->m_fMotionChangeCounter)
 		{
+			++m_pLRAttackAnimationCom->m_iMotion;
 			m_pLRAttackAnimationCom->m_fMotionChangeCounter = 0.f;
-			switch (m_bLRJudge)
-			{
-			case true:
-				m_pLRAttackAnimationCom->m_iMotion = 1;
-				break;
+		}
+	}
+	if (0 == m_pLRAttackAnimationCom->m_iMotion)
+	{
+		LeftRightJudge(fTimeDelta);
+	}
 
-			case false:
-				m_pLRAttackAnimationCom->m_iMotion = 3;
-				break;
+	
+	
+}
+
+void CSphinxFlyHead::LeftRightJudge(const _float & fTimeDelta)
+{
+	if (false == m_bSelectedLeftRight)
+	{
+		m_iLRJudge = rand() % 2;
+		m_bSelectedLeftRight = true;
+	}
+
+	if (m_pLRAttackAnimationCom->m_fIntervalMotion < m_pLRAttackAnimationCom->m_fMotionChangeCounter)
+	{
+		m_pLRAttackAnimationCom->m_fMotionChangeCounter = 0.f;
+		switch (m_iLRJudge)
+		{
+		case 0:
+			m_pLRAttackAnimationCom->m_iMotion = 1;
+			break;
+
+		case 1:
+			m_pLRAttackAnimationCom->m_iMotion = 3;
+			break;
+		}
+	}
+
+}
+
+void CSphinxFlyHead::LeftAttack(const _float & fTimeDelta)
+{
+	CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
+	_vec3 vCurPlayerPosdir;
+	vCurPlayerPosdir = m_vPlayerPos - m_pDynamicTransCom->m_vInfo[INFO_POS];
+
+	float fValue = D3DXVec3Dot(&m_vPrePlayerPosdir, &vCurPlayerPosdir);
+	if (0 <= fValue)
+	{
+		pPlayerInfo->Receive_Damage(m_pInfoCom->Get_AttackPower());
+	}
+	if (m_pLRAttackAnimationCom->m_fIntervalMotion < m_pLRAttackAnimationCom->m_fMotionChangeCounter)
+	{
+		m_bAttack = false;
+		m_pLRAttackAnimationCom->m_iMotion = 0;
+		m_pLRAttackAnimationCom->m_fMotionChangeCounter = 0.f;
+		m_bGet_PlayerPos_LR = false;
+		m_bSelectedLeftRight = false;
+		m_iLRJudge = 0;
+	}
+}
+
+void CSphinxFlyHead::RightAttack(const _float & fTimeDelta)
+{
+	CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
+	_vec3 vCurPlayerPosdir;
+	vCurPlayerPosdir = m_vPlayerPos - m_pDynamicTransCom->m_vInfo[INFO_POS];
+
+	float fValue = D3DXVec3Dot(&m_vPrePlayerPosdir, &vCurPlayerPosdir);
+	if (0 >= fValue)
+	{
+		pPlayerInfo->Receive_Damage(m_pInfoCom->Get_AttackPower());
+	}
+	if (m_pLRAttackAnimationCom->m_fIntervalMotion < m_pLRAttackAnimationCom->m_fMotionChangeCounter)
+	{
+		m_bAttack = false;
+		m_pLRAttackAnimationCom->m_iMotion = 0;
+		m_pLRAttackAnimationCom->m_fMotionChangeCounter = 0.f;
+		m_bGet_PlayerPos_LR = false;
+		m_bSelectedLeftRight = false;
+		m_iLRJudge = 0;
+	}
+}
+
+void	CSphinxFlyHead::Save_PlayerPos_forLR(const _float& fTimeDelta)
+{
+	m_vPrePlayerPosdir = m_vPlayerPos - m_pDynamicTransCom->m_vInfo[INFO_POS];
+	D3DXVec3Cross(&m_vPrePlayerPosdir, &m_vPrePlayerPosdir, &_vec3{ 0.f, 1.f, 0.f });
+	//D3DXVec3Normalize(&m_vPrePlayerPosdir, &m_vPrePlayerPosdir);
+	m_bGet_PlayerPos_LR = true;
+}
+
+void	CSphinxFlyHead::BodyAttack(const _float& fTimeDelta)
+{
+	switch (m_iBodyAttackLevel)
+	{
+	case 0:
+		//Ready level
+		m_bRenderBodyAttack = true;
+		m_pBodyAttackAnimation->Move_Animation(fTimeDelta);
+		if (m_pBodyAttackAnimation->m_iMaxMotion <= m_pBodyAttackAnimation->m_iMotion)
+		{
+			m_pBodyAttackAnimation->m_iMotion = 0;
+			m_iBodyAttackLevel = 1;
+			m_bRenderBodyAttack = false;
+		}
+			break;
+
+	case 1:
+		//Set direction
+		Save_PlayerPos_forBody(fTimeDelta);
+		m_iBodyAttackLevel = 2;
+		break;
+
+	case 2:
+		Tackle(fTimeDelta);
+		if (m_bAttack == false)
+		{
+			m_iBodyAttackLevel = 0;
+		}
+		break;
+
+
+	}
+	/*if (false == m_bBodyAttackChargeFinish)
+	{
+		m_pBodyAttackAnimation->Move_Animation(fTimeDelta);
+
+		if (m_pBodyAttackAnimation->m_iMaxMotion == m_pBodyAttackAnimation->m_iMotion)
+		{
+			m_pBodyAttackAnimation->m_iMotion = 0;
+			m_bBodyAttackChargeFinish = true;
+			Save_PlayerPos_forBody(fTimeDelta);
+		}
+	}
+	if (m_bBodyAttackChargeFinish)
+	{
+		Tackle(fTimeDelta);
+	}*/
+	
+	
+	
+}
+void		CSphinxFlyHead::Save_PlayerPos_forBody(const _float& fTimeDelta)
+{
+	m_bGet_PlayerPos_Body = true;
+
+	m_vTackleDir = m_vPlayerPos - m_pDynamicTransCom->m_vInfo[INFO_POS];
+	D3DXVec3Normalize(&m_vTackleDir, &m_vTackleDir);
+	m_bTackleStart = true;
+}
+void		CSphinxFlyHead::Tackle(const _float& fTimeDelta)
+{
+	m_fTackleAttenuationTimeCount += fTimeDelta;
+	Tackle_HeadSpin(fTimeDelta);
+	if (m_bAttenuationStart)
+	{
+		if (m_fTackleAttenuationTime < m_fTackleAttenuationTimeCount)
+		{
+			m_fTackleStopper *= 1.1;
+			m_fTackleAttenuationTimeCount = 0.f;
+		}
+	}
+	else
+	{
+		if (2.f < m_fTackleAttenuationTimeCount)
+		{
+			m_bAttenuationStart = true;
+			m_fTackleAttenuationTimeCount = 0.f;
+		}
+	}
+	if(0<m_fTackleSpeed - m_fTackleStopper)
+		m_pDynamicTransCom->Move_Pos(&(m_vTackleDir * (m_fTackleSpeed-m_fTackleStopper) * 0.1f));
+	else
+		{
+			m_fTackleStopper = m_fOriginTackleStopper;
+			m_bTackleStart = false;
+			m_bGet_PlayerPos_Body = false;
+			m_bBodyAttackChargeFinish = false;
+			m_bAttack = false;
+			m_bAttenuationStart = false;
+		}
+		m_pDynamicTransCom->Update_Component(fTimeDelta);
+	}
+
+void	CSphinxFlyHead::Tackle_HeadSpin(const _float& fTimeDelta)
+{
+	_vec3 vNowdir, vleft;
+	vNowdir = m_vPlayerPos - m_pDynamicTransCom->m_vInfo[INFO_POS];
+	D3DXVec3Normalize(&vNowdir, &vNowdir);
+
+	D3DXVec3Cross(&vleft, &m_vTackleDir, &_vec3(0.f, 1.f, 0.f));
+
+	float fFrontBack = D3DXVec3Dot(&m_vTackleDir, &vNowdir);
+
+	if (0 < fFrontBack)
+	{
+		m_bFrontback = true;
+	}
+	else
+	{
+		m_bFrontback = false;
+	}
+
+	float fLeftRight = D3DXVec3Dot(&vleft, &vNowdir);
+
+	if (0 < fLeftRight)
+	{
+		m_bLeftRight = true;
+	}
+	else
+	{
+		m_bLeftRight = false;
+	}
+
+	float fDegree = acosf(fFrontBack);
+	
+	if (m_bFrontback)
+	{
+		if (m_bLeftRight)
+		{//14분면
+			if (0.7 < fDegree)
+			{
+				m_pAnimationCom->m_iMotion = 2;
+			}
+			else if (0.3 < fDegree)
+			{
+				m_pAnimationCom->m_iMotion = 1;
+			}
+			else if (0 < fDegree)
+			{
+				m_pAnimationCom->m_iMotion = 0;
+			}
+
+		}
+		else
+		{//24분면
+			if (0.7 < fDegree)
+			{
+				m_pAnimationCom->m_iMotion = 6;
+			}
+			else if (0.3 < fDegree)
+			{
+				m_pAnimationCom->m_iMotion = 7;
+			}
+			else if (0 < fDegree)
+			{
+				m_pAnimationCom->m_iMotion = 0;
 			}
 		}
 	}
 	else
 	{
-		m_pLRAttackAnimationCom->m_fMotionChangeCounter += fTimeDelta;
-		CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
-		if (false == m_bGet_PlayerPos)
-		{
-			m_vPrePlayerPosdir = m_vPlayerPos - m_pDynamicTransCom->m_vInfo[INFO_POS];
-			D3DXVec3Normalize(&m_vPrePlayerPosdir, &m_vPrePlayerPosdir);
-			m_bGet_PlayerPos = true;
+		float minusdgree = acosf(D3DXVec3Dot(&m_vTackleDir, &-vNowdir));
+		
+		if (m_bLeftRight)
+		{//34분면
+			if (0.8 < minusdgree)
+			{
+				m_pAnimationCom->m_iMotion = 2;
+			}
+			else if (0.3 < minusdgree)
+			{
+				m_pAnimationCom->m_iMotion = 3;
+			}
+			else if (0 < minusdgree)
+			{
+				m_pAnimationCom->m_iMotion = 4;
+			}
+
 		}
 		else
-		{
-			_vec3 vCurPlayerPosdir;
-			vCurPlayerPosdir = m_vPlayerPos - m_pDynamicTransCom->m_vInfo[INFO_POS];
-			D3DXVec3Normalize(&vCurPlayerPosdir, &vCurPlayerPosdir);
-			float fRadian = acos(D3DXVec3Dot(&m_vPrePlayerPosdir, &vCurPlayerPosdir));
-			
-			if (m_pLRAttackAnimationCom->m_fIntervalMotion < m_pLRAttackAnimationCom->m_fMotionChangeCounter)
+		{//44분면
+			if (0.8 < minusdgree)
 			{
-				m_pLRAttackAnimationCom->m_fMotionChangeCounter = 0.f;
-				if (1 == m_pLRAttackAnimationCom->m_iMotion)
-					m_pLRAttackAnimationCom->m_iMotion = 2;
-				else
-					m_pLRAttackAnimationCom->m_iMotion = 4;
+				m_pAnimationCom->m_iMotion = 6;
 			}
-			if (m_bLRJudge)//LR
+			else if (0.3 < minusdgree)
 			{
-
-				if (0 < fRadian)
-				{
-					pPlayerInfo->Receive_Damage(m_pInfoCom->Get_AttackPower());
-				}
+				m_pAnimationCom->m_iMotion = 5;
 			}
-			else
+			else if (0 < minusdgree)
 			{
-
-				if (0 > fRadian)
-				{
-					pPlayerInfo->Receive_Damage(m_pInfoCom->Get_AttackPower());
-				}
+				m_pAnimationCom->m_iMotion = 4;
 			}
 		}
 	}
+
 }
 
-void CSphinxFlyHead::LeftRightJudge(const _float & fTimeDelta)
+void	CSphinxFlyHead::Rearrangement(const _float& fTimeDelta)
 {
-}
+	m_fRearrangementDealyCount += fTimeDelta;
+	if (m_fRearrangementDelay < m_fRearrangementDealyCount)
+	{
+		m_fRearrangementDealyCount = 0.f;
+		switch (m_pAnimationCom->m_iMotion)
+		{
+		case 0:
 
-void CSphinxFlyHead::LeftAttack(const _float & fTimeDelta)
-{
-}
+			break;
+		case 1:
+			m_pAnimationCom->m_iMotion = 0;
+			break;
+		case 2:
+			m_pAnimationCom->m_iMotion = 1;
+			break;
+		case 3:
+			m_pAnimationCom->m_iMotion = 2;
+			break;
 
-void CSphinxFlyHead::RightAttack(const _float & fTimeDelta)
-{
-}
+		case 4:
+			if (m_bLeftRight)
+				m_pAnimationCom->m_iMotion = 3;
+			else
+				m_pAnimationCom->m_iMotion = 5;
+			break;
 
+		case 5:
+			m_pAnimationCom->m_iMotion = 6;
+			break;
+		case 6:
+			m_pAnimationCom->m_iMotion = 7;
+			break;
+		case 7:
+			m_pAnimationCom->m_iMotion = 0;
+		}
+	}
+}
 CSphinxFlyHead * CSphinxFlyHead::Create(LPDIRECT3DDEVICE9 pGraphicDev, float Posx, float Posy, float Size)
 {
 	CSphinxFlyHead*	pInstance = new CSphinxFlyHead(pGraphicDev);

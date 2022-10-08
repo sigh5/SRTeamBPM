@@ -42,7 +42,7 @@ HRESULT CObelisk::Ready_Object(int Posx, int Posy)
 	{
 		m_pDynamicTransCom->Set_Pos( (float)Posx, 2.f, (float)Posy );
 	}
-
+	m_pDynamicTransCom->Set_Scale(&_vec3(2.f, 4.f, 2.f));
 	m_pDynamicTransCom->Update_Component(1.f);
 	return S_OK;
 }
