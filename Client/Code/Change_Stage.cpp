@@ -43,6 +43,8 @@ _int CChange_Stage::Update_Scene(const _float & fTimeDelta)
 
 		FAILED_CHECK_RETURN(Engine::Set_Scene(pScene), E_FAIL);
 
+		_uint ia = 0;
+		
 		return 0;
 	}
 	
