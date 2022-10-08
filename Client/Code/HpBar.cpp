@@ -34,7 +34,7 @@ HRESULT CHpBar::Ready_Object(CGameObject * pPlayer)
 
 _int CHpBar::Update_Object(const _float & fTimeDelta)
 {
-	CTestPlayer* pPlayer = static_cast<CTestPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"TestPlayer"));
+	CPlayer* pPlayer = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
 
 	_uint iA = (pPlayer->Get_HpChange()) / 25;
 

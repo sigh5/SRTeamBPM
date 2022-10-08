@@ -45,7 +45,7 @@ _int CDashUI::Update_Object(const _float & fTimeDelta)
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 	CGameObject* pGameObject = nullptr;
 
-	pGameObject = pLayer->Get_GameObject(L"TestPlayer");
+	pGameObject = pLayer->Get_GameObject(L"Player");
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);	
 	
 
