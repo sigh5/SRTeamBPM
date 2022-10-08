@@ -31,8 +31,11 @@ public:
 	CharacterInfo&	     Get_InfoRef();
 	void			     Get_MonsterToPlayer_Distance(float* _Distance);		// 몬스터 길이 구하는것
 	virtual void		 Excution_Event() {};
+	virtual bool		 Dead_Judge(const _float& fTimeDelta) { return 0; }
+	virtual void		Hit_Delay_toZero(void);
 
-
+	virtual void NoHit_Loop(const _float& fTimeDelta) {};
+	virtual void Hit_Loop(const _float& fTimeDelta) {};
 public:
 	const _bool&		 Get_Hit()const { return m_bHit; }
 
@@ -56,6 +59,12 @@ protected:
 	vector<CGameObject*> m_vecBlood;
 	_vec3		m_vPlayerPos, m_vMonsterPos;
 	bool m_bDead = false;
+
+	int m_iPreIndex = 0;
+	float m_fAttackDelay = 0;
+	float m_fAttackDelayTime = 0;
+	bool m_bAttack = true;
+	bool m_bAttacking = false;
 
 
 protected:

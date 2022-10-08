@@ -83,6 +83,20 @@ HRESULT CMonsterBase::Add_Component(void)
 	return S_OK;
 }
 
+void		CMonsterBase::Hit_Delay_toZero(void)
+{
+	if (m_iPreHp > m_pInfoCom->Get_Hp())
+	{
+		m_iPreHp = m_pInfoCom->Get_Hp();
+		//m_bHit = true;
+		m_bAttacking = false;
+		if (m_fHitDelay != 0)
+		{
+			m_fHitDelay = 0;
+		}
+	}
+}
+
 bool CMonsterBase::Set_TransformPositon(HWND g_hWnd, CCalculator* _pCalcul)
 {
 	CTerrainTex*	pTerrainBufferCom = dynamic_cast<CTerrainTex*>(Engine::Get_Component(L"TestLayer", L"TestMap", L"Proto_TerrainTexCom", ID_STATIC));

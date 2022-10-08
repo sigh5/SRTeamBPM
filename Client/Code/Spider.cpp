@@ -47,10 +47,8 @@ HRESULT CSpider::Ready_Object(int Posx, int Posy)
 
 	return S_OK;
 }
-
-_int CSpider::Update_Object(const _float & fTimeDelta)
+bool	CSpider::Dead_Judge(const _float& fTimeDelta)
 {
-	//쿨타임 루프
 	if (0 >= m_pInfoCom->Get_Hp())
 	{
 		m_bDead = true;
@@ -62,79 +60,34 @@ _int CSpider::Update_Object(const _float & fTimeDelta)
 			m_pDeadAnimationCom->Move_Animation(fTimeDelta);
 		Engine::CMonsterBase::Update_Object(fTimeDelta);
 		Add_RenderGroup(RENDER_ALPHA, this);
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+_int CSpider::Update_Object(const _float & fTimeDelta)
+{
+	//쿨타임 루프
+	if (Dead_Judge(fTimeDelta))
+	{
 		return 0;
 	}
-
 	m_fTimeDelta = fTimeDelta;
 
-	if (m_iPreHp > m_pInfoCom->Get_Hp())
-	{
-		m_iPreHp = m_pInfoCom->Get_Hp();
-		//m_bHit = true;
-		m_bAttacking = false;
-		if (m_fHitDelay != 0)
-		{
-			m_fHitDelay = 0;
-		}
-	}
-
-	//AttackJudge(fTimeDelta);
-	////~
-
-	//CDynamic_Transform*		pPlayerTransformCom = dynamic_cast<CDynamic_Transform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
-	//NULL_CHECK_RETURN(pPlayerTransformCom, -1);
-
-	////Set_OnTerrain();
-	//float TerrainY = m_pDynamicTransCom->Get_TerrainY1(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC, m_pCalculatorCom, m_pDynamicTransCom);
-	//m_pDynamicTransCom->Set_Y(TerrainY + 1.f);
-	////지형에 올림
-
-	//_vec3		vPlayerPos, vMonsterPos;
-	//pPlayerTransformCom->Get_Info(INFO_POS, &vPlayerPos);
-	//m_pDynamicTransCom->Get_Info(INFO_POS, &vMonsterPos);
-
-	//
-	//Get_MonsterToPlayer_Distance(&fMtoPDistance);
+	Hit_Delay_toZero();
 
 	AttackJudge(fTimeDelta);
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 
 	if (m_bHit == false)
 	{
-		if (fMtoPDistance > 3.f && m_bAttacking == false)
-		{
-			m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
-
-			m_pAnimationCom->Move_Animation(fTimeDelta);
-		}
-		else
-		{
-			//공격
-			if (m_bAttack)
-			{
-				Attack(fTimeDelta);
-			}
-			else
-			{
-				m_pAnimationCom->m_iMotion = 0;
-			}
-		}
+		NoHit_Loop(fTimeDelta);
 	}
 	else
 	{
-		// 피격 시 모션
-		m_pAnimationCom->m_iMotion = 5;
-	}
-
-	if (m_bHit)
-	{
-		m_fHitDelay += fTimeDelta;
-		if (m_fHitDelay > 1.5f)
-		{
-
-			m_bHit = false;
-			m_fHitDelay = 0.f;
-		}
+		Hit_Loop(fTimeDelta);
 	}
 
 	// 처형이벤트
@@ -300,6 +253,38 @@ void		CSpider::AttackJudge(const _float& fTimeDelta)
 
 }
 
+void CSpider::NoHit_Loop(const _float& fTimeDelta)
+{
+	if (fMtoPDistance > 3.f && m_bAttacking == false)
+	{
+		m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
+
+		m_pAnimationCom->Move_Animation(fTimeDelta);
+	}
+	else
+	{
+		//공격
+		if (m_bAttack)
+		{
+			Attack(fTimeDelta);
+		}
+		else
+		{
+			m_pAnimationCom->m_iMotion = 0;
+		}
+	}
+}
+void CSpider::Hit_Loop(const _float& fTimeDelta)
+{
+	m_pAnimationCom->m_iMotion = 5;
+
+	m_fHitDelay += fTimeDelta;
+	if (m_fHitDelay > 1.5f)
+	{
+		m_bHit = false;
+		m_fHitDelay = 0.f;
+	}
+}
 CSpider * CSpider::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)
 {
 	CSpider*	pInstance = new CSpider(pGraphicDev);

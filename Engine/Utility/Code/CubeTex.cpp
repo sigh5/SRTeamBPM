@@ -39,7 +39,7 @@ HRESULT CCubeTex::Ready_Buffer(void)
 	// 3인자 : 배열에 저장된 첫 번째 버텍스의 주소를 얻어옴
 
 	// 앞면
-	pVertex[0].vPos = { -1.f, 1.f, -1.f };
+	pVertex[0].vPos = { -0.5f, 0.5f, -0.5f };
 	pVertex[0].vTexUV = pVertex[0].vPos;
 	m_vPos[0] = pVertex[0].vPos;
 

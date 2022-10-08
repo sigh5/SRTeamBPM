@@ -62,10 +62,9 @@ HRESULT CFatBat::Ready_Object(int Posx, int Posy)
 	return S_OK;
 }
 
-_int CFatBat::Update_Object(const _float & fTimeDelta)
+bool	CFatBat::Dead_Judge(const _float& fTimeDelta)
 {
-	// 수정 쿨타임 대신 타임
-	if (0 >= m_pInfoCom->Get_Hp()&& false == m_bDead)
+	if (0 >= m_pInfoCom->Get_Hp() && false == m_bDead)
 	{
 		m_bDead = true;
 		_vec3 vPos;
@@ -77,7 +76,7 @@ _int CFatBat::Update_Object(const _float & fTimeDelta)
 		if (m_pDeadAnimationCom->m_iMotion < m_pDeadAnimationCom->m_iMaxMotion)
 		{
 			m_pDeadAnimationCom->Move_Animation(fTimeDelta);
-			
+
 		}
 		if (3 == m_pDeadAnimationCom->m_iMotion)
 		{
@@ -116,62 +115,40 @@ _int CFatBat::Update_Object(const _float & fTimeDelta)
 		m_pDynamicTransCom->Update_Component(fTimeDelta);
 		Engine::CMonsterBase::Update_Object(fTimeDelta);
 		Add_RenderGroup(RENDER_ALPHA, this);
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+
+_int CFatBat::Update_Object(const _float & fTimeDelta)
+{
+	// 수정 쿨타임 대신 타임
+
+	if (Dead_Judge(fTimeDelta))
+	{
 		return 0;
 	}
+
 	m_fFrame += fTimeDelta;
-	if (m_iPreHp > m_pInfoCom->Get_Hp())
-	{
-		m_iPreHp = m_pInfoCom->Get_Hp();
-		//m_bHit = true;
-		if (m_fHitDelay != 0)
-		{
-			m_fHitDelay = 0;
-		}
-	}
-	if (false == m_bHit)
-	if (m_fFrame > m_fActionDelay)
-	{
-		FatBat_Shoot();
-		m_fFrame = 0.f;
-	}
+	Hit_Delay_toZero();
+	
 	// 수정 쿨타임 대신 타임
 
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 
 	if (m_bHit == false)
 	{
-		FatBat_Fly(fTimeDelta);
-		FatBat_Dodge(fTimeDelta, &m_vPlayerPos, &m_vMonsterPos);
-
-
-		//Set_OnTerrain();
-		//지형에 올림
-		if (fMtoPDistance > 13.f)
-		{
-			m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
-
-		}
-		else if (fMtoPDistance < 10.f)
-		{
-			m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, -m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
-		}
-		m_pAnimationCom->Move_Animation(fTimeDelta);
+		NoHit_Loop(fTimeDelta);
 	}
 	else
 	{
-		m_pAnimationCom->m_iMotion = 7;
+		Hit_Loop(fTimeDelta);
 	}
 
-	if (m_bHit)
-	{
-		m_fHitDelay += fTimeDelta;
-		if (m_fHitDelay > 1.5f)
-		{
-
-			m_bHit = false;
-			m_fHitDelay = 0.f;
-		}
-	}
 	m_pDynamicTransCom->Update_Component(fTimeDelta);
 	CMonsterBase::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
@@ -214,6 +191,42 @@ void CFatBat::LateUpdate_Object(void)
 	// 빌보드 에러 해결
 	Engine::CGameObject::LateUpdate_Object();
 
+}
+
+void CFatBat::NoHit_Loop(const _float& fTimeDelta)
+{
+	if (m_fFrame > m_fActionDelay)
+	{
+		FatBat_Shoot();
+		m_fFrame = 0.f;
+	}
+	FatBat_Fly(fTimeDelta);
+	FatBat_Dodge(fTimeDelta, &m_vPlayerPos, &m_vMonsterPos);
+
+
+	//Set_OnTerrain();
+	//지형에 올림
+	if (fMtoPDistance > 13.f)
+	{
+		m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
+
+	}
+	else if (fMtoPDistance < 10.f)
+	{
+		m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, -m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
+	}
+	m_pAnimationCom->Move_Animation(fTimeDelta);
+}
+void CFatBat::Hit_Loop(const _float& fTimeDelta)
+{
+	m_pAnimationCom->m_iMotion = 7;
+	m_fHitDelay += fTimeDelta;
+	if (m_fHitDelay > 1.5f)
+	{
+
+		m_bHit = false;
+		m_fHitDelay = 0.f;
+	}
 }
 
 void CFatBat::Render_Obejct(void)
