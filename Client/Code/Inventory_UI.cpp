@@ -34,7 +34,7 @@ HRESULT CInventory_UI::Ready_Object()
 	m_vecScale = { m_fSizeX, m_fSizeY, 1.f };
 
 	m_pTransCom->Set_Scale(&m_vecScale);
-	m_pTransCom->Set_Pos(m_fX , m_fY , 0.2f);
+	m_pTransCom->Set_Pos(m_fX , m_fY , 0.3f);
 	//m_pTransCom->Set_Pos(m_fX - WINCX * 0.5f, -m_fY + WINCY * 0.5f, 0.2f);
 											// 120.f
 	return S_OK;

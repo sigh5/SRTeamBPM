@@ -48,7 +48,7 @@ void CGun_Screen::LateUpdate_Object(void)
 {
 	Shoot_Motion();
 
-	m_pOrthoTransCom->OrthoMatrix(280.f, 230.f, 50.f, -150.f, WINCX, WINCY);
+	m_pOrthoTransCom->OrthoMatrix(290.f, 260.f, 150.f, -203.f, WINCX, WINCY);
 
 	
 	/*CPlayer* pPlayer = static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic",L"Player"));

@@ -11,6 +11,7 @@ class CTransform;
 
 
 END
+
 class CBackGround :	public Engine::CGameObject
 {
 private:

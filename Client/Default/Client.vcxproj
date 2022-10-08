@@ -166,6 +166,7 @@
     <ClInclude Include="..\Header\Box.h" />
     <ClInclude Include="..\Header\Bullet.h" />
     <ClInclude Include="..\Header\Bullet_UI.h" />
+    <ClInclude Include="..\Header\Change_Stage.h" />
     <ClInclude Include="..\Header\Coin.h" />
     <ClInclude Include="..\Header\CoinKeyUI.h" />
     <ClInclude Include="..\Header\ColliderStage.h" />
@@ -184,6 +185,7 @@
     <ClInclude Include="..\Header\Inventory_UI.h" />
     <ClInclude Include="..\Header\Key.h" />
     <ClInclude Include="..\Header\Loading.h" />
+    <ClInclude Include="..\Header\Loading_Image.h" />
     <ClInclude Include="..\Header\Logo.h" />
     <ClInclude Include="..\Header\Magnum.h" />
     <ClInclude Include="..\Header\MainApp.h" />
@@ -210,6 +212,7 @@
     <ClInclude Include="..\Header\TestPlayer.h" />
     <ClInclude Include="..\Header\TestUI.h" />
     <ClInclude Include="..\Header\ToolTest.h" />
+    <ClInclude Include="..\Header\UI_Frame.h" />
     <ClInclude Include="..\Header\WallCube.h" />
     <ClInclude Include="..\Header\Weapon_UI.h" />
     <ClInclude Include="Client.h" />
@@ -241,6 +244,7 @@
     <ClCompile Include="..\Code\Box.cpp" />
     <ClCompile Include="..\Code\Bullet.cpp" />
     <ClCompile Include="..\Code\Bullet_UI.cpp" />
+    <ClCompile Include="..\Code\Change_Stage.cpp" />
     <ClCompile Include="..\Code\Coin.cpp" />
     <ClCompile Include="..\Code\CoinKeyUI.cpp" />
     <ClCompile Include="..\Code\ColliderStage.cpp" />
@@ -259,6 +263,7 @@
     <ClCompile Include="..\Code\Inventory_UI.cpp" />
     <ClCompile Include="..\Code\Key.cpp" />
     <ClCompile Include="..\Code\Loading.cpp" />
+    <ClCompile Include="..\Code\Loading_Image.cpp" />
     <ClCompile Include="..\Code\Logo.cpp" />
     <ClCompile Include="..\Code\Magnum.cpp" />
     <ClCompile Include="..\Code\MainApp.cpp" />
@@ -285,6 +290,7 @@
     <ClCompile Include="..\Code\TestPlayer.cpp" />
     <ClCompile Include="..\Code\TestUI.cpp" />
     <ClCompile Include="..\Code\ToolTest.cpp" />
+    <ClCompile Include="..\Code\UI_Frame.cpp" />
     <ClCompile Include="..\Code\WallCube.cpp" />
     <ClCompile Include="..\Code\Weapon_UI.cpp" />
     <ClCompile Include="Client.cpp" />

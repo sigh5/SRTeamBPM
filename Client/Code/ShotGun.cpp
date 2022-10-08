@@ -200,7 +200,7 @@ void CShotGun::Collision_Event()
 			
 	if (!m_pColliderCom->Check_Collision(this, pGameObject, 1, 1))
 	{
-		if (Engine::Key_Down(DIK_F))
+		if (Get_DIKeyState(DIK_F) & 0x80)//Engine::Key_Down(DIK_F))
 		{
 			m_bRenderFalse = true;
 			

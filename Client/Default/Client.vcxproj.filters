@@ -220,6 +220,15 @@
     <ClCompile Include="..\Code\Key.cpp">
       <Filter>02. GameObject\01. For_Stage\11. Item\03. Key</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\UI_Frame.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\08. UI_Frame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Change_Stage.cpp">
+      <Filter>01. Scene\51. Change_Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Loading_Image.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\09. Loading_Image</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -459,6 +468,15 @@
     <ClInclude Include="..\Header\Key.h">
       <Filter>02. GameObject\01. For_Stage\11. Item\03. Key</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\UI_Frame.h">
+      <Filter>02. GameObject\01. For_Stage\10. UI\08. UI_Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Change_Stage.h">
+      <Filter>01. Scene\51. Change_Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Loading_Image.h">
+      <Filter>02. GameObject\01. For_Stage\10. UI\09. Loading_Image</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -663,6 +681,15 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx">
       <UniqueIdentifier>{4036cf1d-272d-44e4-ae60-f0a2105afda5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\08. UI_Frame">
+      <UniqueIdentifier>{0152d5c7-f12f-4e32-9e22-3ce2b3910ac8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\51. Change_Stage">
+      <UniqueIdentifier>{e9a4eb7a-d924-4b57-a574-c943789ec527}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\09. Loading_Image">
+      <UniqueIdentifier>{79a9a898-40e7-4e81-86a1-65661f92c58a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

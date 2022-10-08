@@ -63,7 +63,7 @@ _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 	
 		// cout << "총알 수 :" << m_iMagazine << endl;
 	//cout << "공격력 : " << m_pInfoCom->Get_InfoRef()._iAttackPower << "true : " << m_bPreStat << endl;
-	cout << "Key : " << m_pInfoCom->Get_InfoRef()._iKey << endl;
+	//cout << "Key : " << m_pInfoCom->Get_InfoRef()._iKey << endl;
 
 	if (m_bJump == TRUE)
 	{

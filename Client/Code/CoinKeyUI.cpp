@@ -40,14 +40,14 @@ _int CCoinKeyUI::Update_Object(const _float & fTimeDelta)
 
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
-	Add_RenderGroup(RENDER_UI, this);
+	Add_RenderGroup(RENDER_ICON, this);
 
 	return 0;
 }
 
 void CCoinKeyUI::LateUpdate_Object(void)
 {
-	m_pTransCom->OrthoMatrix(110.f, 30.f, -193.f, -200.f, WINCX, WINCY);
+	m_pTransCom->OrthoMatrix(75.f, 25.f, -328.f, -182.f, WINCX, WINCY);
 
 	CGameObject::LateUpdate_Object();
 }
@@ -67,7 +67,7 @@ void CCoinKeyUI::Render_Obejct(void)
 	m_szCoin = L"";
 	m_szCoin += tBCoin;
 
-	Render_Font(L"BMYEONSUNG", m_szCoin.c_str(), &_vec2(158.f, 530.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+	Render_Font(L"HoengseongHanu", m_szCoin.c_str(), &_vec2(46.f, 506.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 	// ~Coin
 
 	// Key
@@ -76,8 +76,16 @@ void CCoinKeyUI::Render_Obejct(void)
 	m_szKey = L"";
 	m_szKey += tBKey;
 
-	Render_Font(L"BMYEONSUNG", m_szKey.c_str(), &_vec2(213.f, 530.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+	Render_Font(L"HoengseongHanu", m_szKey.c_str(), &_vec2(82.f, 506.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 	// ~Key
+
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0x10);
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
 	m_pTextureCom->Set_Texture(0);
 	m_pBufferCom->Render_Buffer();

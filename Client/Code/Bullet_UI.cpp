@@ -40,14 +40,14 @@ _int CBullet_UI::Update_Object(const _float & fTimeDelta)
 	
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
-	Add_RenderGroup(RENDER_UI, this);                     
+	Add_RenderGroup(RENDER_ICON, this);
 
 	return 0;
 }
 
 void CBullet_UI::LateUpdate_Object(void)
 {
-	m_pTransCom->OrthoMatrix(120.f, 30.f, 300.f, -270.f, WINCX, WINCY);
+	m_pTransCom->OrthoMatrix(80.f, 120.f, 337.f, -260.f, WINCX, WINCY);
 
 	CGameObject::LateUpdate_Object();
 }
@@ -69,7 +69,7 @@ void CBullet_UI::Render_Obejct(void)
 	m_szMagazine = L"";
 	m_szMagazine += tMagazine;
 
-	Render_Font(L"BMYEONSUNG", m_szMagazine.c_str(), &_vec2(660.f, 520.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+	Render_Font(L"HoengseongHanu", m_szMagazine.c_str(), &_vec2(715.f, 530.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 
 	/*_uint  iComboCount = dynamic_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"))->Get_ComboCount();
 	if (iComboCount != 0)
@@ -83,10 +83,15 @@ void CBullet_UI::Render_Obejct(void)
 
 
 	}*/
-
-
-
 	// ~Player's Bullet Magazine left
+
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0x10);
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
 	m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);
 	m_pBufferCom->Render_Buffer();

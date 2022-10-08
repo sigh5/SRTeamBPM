@@ -36,14 +36,14 @@ _int CWeapon_UI::Update_Object(const _float & fTimeDelta)
 
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
-	Add_RenderGroup(RENDER_UI, this);
+	Add_RenderGroup(RENDER_ICON, this);
 
 	return 0;
 }
 
 void CWeapon_UI::LateUpdate_Object(void)
 {
-	m_pTransCom->OrthoMatrix(70.f, 25.f, 300.f, -176.f, WINCX, WINCY);
+	m_pTransCom->OrthoMatrix(110.f, 40.f, 336.f, -190.f, WINCX, WINCY);
 
 	CGameObject::LateUpdate_Object();
 }
@@ -54,6 +54,14 @@ void CWeapon_UI::Render_Obejct(void)
 
 	m_pGraphicDev->SetTransform(D3DTS_VIEW, &m_pTransCom->m_matView);
 	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &m_pTransCom->m_matOrtho);
+
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0x10);
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
 	m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);
 	m_pBufferCom->Render_Buffer();
