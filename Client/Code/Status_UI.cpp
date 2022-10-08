@@ -41,7 +41,7 @@ _int CStatus_UI::Update_Object(const _float & fTimeDelta)
 
 	m_iPlayerSpeed = (_uint)static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._fSpeed;
 
-	Dynamic_StatusUpdate();
+
 
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
@@ -154,17 +154,6 @@ HRESULT CStatus_UI::Add_Component(void)
 	m_pAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_STATIC);
 
 	return S_OK;
-}
-
-void CStatus_UI::Dynamic_StatusUpdate(void)
-{
-	CShotGun* pShotGun = static_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"));
-
-	if (pShotGun->Get_RenderFalse() == true)	
-		m_iPlayerPower = pShotGun->Get_EquipInfoRef()._iAddAttack;
-
-
-	
 }
 
 CStatus_UI * CStatus_UI::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject * pPlayer)

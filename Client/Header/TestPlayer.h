@@ -51,9 +51,12 @@ public:
 
 	_uint				Get_Skill(void) { return m_iSkillPower; }	// Player의 스킬 공격력값을 Status_UI로 넘겨주기 위한 함수
 
+
+	void				Set_bPreStat(_bool _AddStat) { m_bPreStat = _AddStat; }
+	void				Set_bCurStat(_bool _bStat) { m_bCurStat = _bStat; }
 	// ~Test
 
-	virtual void		Collision_Event(CGameObject* pGameObject);
+	virtual void		Collision_Event();
 	void				EquipItem_Add_Stat(void);
 	
 private:
@@ -112,6 +115,9 @@ private:
 
 	// Player's Status(Private)
 	_uint				m_iSkillPower = 1;		// Usually This Function is Off, But if Player Get Skill Book, m_iSkillPower Can be Used. 
+	
+	_bool				m_bPreStat = false;
+	_bool				m_bCurStat = false;
 	// ~Player's Status(Private)
 	
 	vector<CEquipmentBase*>		m_vecWeaponType;

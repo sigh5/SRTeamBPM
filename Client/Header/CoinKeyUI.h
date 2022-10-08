@@ -41,6 +41,9 @@ public:
 private: // Status 각 요소에 쓰는 폰트
 	wstring				m_szCoin = L"";		  // The number of coins the player has
 	wstring				m_szKey = L"";	  // The number of Keys the player has
+
+	_uint				m_iPlayerCoin = 0;
+	_uint				m_iPlayerKey = 0;
 	
 public:
 	static CCoinKeyUI*		Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* pPlayer);

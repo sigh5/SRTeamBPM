@@ -1,47 +1,46 @@
 #include "stdafx.h"
-#include "..\Header\Coin.h"
+#include "..\Header\Key.h"
 #include "Export_Function.h"
-#include "AbstractFactory.h"
 
+#include "AbstractFactory.h"
 #include "MyCamera.h"
 #include "TestPlayer.h"
+#include "Player.h"
 
 USING(Engine)
 
-CCoin::CCoin(LPDIRECT3DDEVICE9 pGraphicDev)
-	:CItemBase(pGraphicDev)
+
+CKey::CKey(LPDIRECT3DDEVICE9 pGraphicDev)
+	: CItemBase(pGraphicDev)
 {
 }
 
-CCoin::~CCoin()
+CKey::~CKey()
 {
 }
 
-HRESULT CCoin::Ready_Object(_uint iX, _uint iY)
+HRESULT CKey::Ready_Object(_uint iX, _uint iY)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+
 	m_pTransCom->Set_Pos((_float)iX, 1.f, (_float)iY);
 	m_pTransCom->Compulsion_Update();
-	m_pAnimationCom->Ready_Animation(5, 0, 0.2f);
 
 	return S_OK;
 }
 
-_int CCoin::Update_Object(const _float & fTimeDelta)
+_int CKey::Update_Object(const _float & fTimeDelta)
 {
-	_uint iResult = Engine::CGameObject::Update_Object(fTimeDelta);
-
-	m_pAnimationCom->Move_Animation(fTimeDelta);
+	_uint iRssult = Engine::CGameObject::Update_Object(fTimeDelta);
 
 	Set_OnTerrain();
 
-
 	Add_RenderGroup(RENDER_ALPHA, this);
 
-	return iResult;
+	return iRssult;
 }
 
-void CCoin::LateUpdate_Object(void)
+void CKey::LateUpdate_Object(void)
 {
 	//CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
 	//NULL_CHECK(pCamera);
@@ -78,7 +77,7 @@ void CCoin::LateUpdate_Object(void)
 	//CItemBase::LateUpdate_Object();
 }
 
-void CCoin::Render_Obejct(void)
+void CKey::Render_Obejct(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
@@ -90,7 +89,7 @@ void CCoin::Render_Obejct(void)
 	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
 
-	m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);	// 텍스처 정보 세팅을 우선적으로 한다.
+	m_pTextureCom->Set_Texture(0);	// 텍스처 정보 세팅을 우선적으로 한다.
 
 	m_pBufferCom->Render_Buffer();
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
@@ -98,7 +97,7 @@ void CCoin::Render_Obejct(void)
 
 }
 
-void CCoin::Collision_Event()
+void CKey::Collision_Event()
 {
 	CScene  *pScene = ::Get_Scene();
 	NULL_CHECK_RETURN(pScene, );
@@ -108,37 +107,32 @@ void CCoin::Collision_Event()
 
 	pGameObject = pLayer->Get_GameObject(L"TestPlayer");
 	NULL_CHECK_RETURN(pGameObject, );
-	CTransform *pTransform = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_DynamicTransformCom", ID_DYNAMIC));
 
-	if (!m_pColliderCom->Check_Collision(this, pGameObject , 1, 1))
+	if (!m_pColliderCom->Check_Collision(this, pGameObject, 1, 1))
 	{
 		if (Engine::Key_Down(DIK_F))
 		{
 			CTestPlayer* pTestPlayer = static_cast<CTestPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"TestPlayer"));
 
-			m_bAddCoin = true;
+			m_bAddKey = true;
 			pTestPlayer->Set_bCurStat(true);
-
 		}
 	}
-	
-	//if(m_bAddCoin)
-		//pLayer->Delete_GameObject(L"Coin"); 
 }
 
-HRESULT CCoin::Add_Component(void)
+HRESULT CKey::Add_Component(void)
 {
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
 	m_pTransCom = CAbstractFactory<CTransform>::Clone_Proto_Component(L"Proto_TransformCom", m_mapComponent, ID_DYNAMIC);
-	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_CoinTexture", m_mapComponent, ID_STATIC);
+	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_KeyTexture", m_mapComponent, ID_STATIC);
 	m_pCalculatorCom = CAbstractFactory<CCalculator>::Clone_Proto_Component(L"Proto_CalculatorCom", m_mapComponent, ID_STATIC);
-	m_pAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_STATIC);
+	
 	m_pColliderCom = CAbstractFactory<CCollider>::Clone_Proto_Component(L"Proto_ColliderCom", m_mapComponent, ID_STATIC);
 
 	return S_OK;
 }
 
-void CCoin::Set_OnTerrain(void)
+void CKey::Set_OnTerrain(void)
 {
 	_vec3		vPos;
 	m_pTransCom->Get_Info(INFO_POS, &vPos);
@@ -151,20 +145,19 @@ void CCoin::Set_OnTerrain(void)
 	m_pTransCom->Set_Pos(vPos.x, fHeight, vPos.z);
 }
 
-CCoin * CCoin::Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint iX, _uint iY)
+CKey * CKey::Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint iX, _uint iY)
 {
-	CCoin* pInstance = new CCoin(pGraphicDev);
+	CKey* pInstance = new CKey(pGraphicDev);
 
 	if (FAILED(pInstance->Ready_Object(iX, iY)))
 	{
 		Safe_Release(pInstance);
 		return nullptr;
 	}
-
 	return pInstance;
 }
 
-void CCoin::Free(void)
+void CKey::Free(void)
 {
 	CItemBase::Free();
 }

@@ -8,16 +8,16 @@ class CRcTex;
 class CTransform;
 class CTexture;
 class CCalculator;
-class CAnimation;
+
 class CCollider;
 
 END
 
-class CCoin : public CItemBase
+class CKey : public CItemBase
 {
 private:
-	explicit CCoin(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual ~CCoin();
+	explicit CKey(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual ~CKey();
 
 public:
 	HRESULT				Ready_Object(_uint iX, _uint iY);
@@ -26,7 +26,7 @@ public:
 	virtual void		Render_Obejct(void) override;
 
 	virtual void		Collision_Event()override;
-	_bool				Get_bAddCoin() { return m_bAddCoin; }
+	_bool				Get_bAddKey() { return m_bAddKey; }
 
 private:
 	HRESULT				Add_Component(void);
@@ -38,19 +38,14 @@ private:
 	CTransform*			m_pTransCom = nullptr;
 	CTexture*			m_pTextureCom = nullptr;
 	CCalculator*		m_pCalculatorCom = nullptr;
-	CAnimation*			m_pAnimationCom = nullptr;
+	
 	CCollider*			m_pColliderCom = nullptr;
 
 private:
-	// _vec3
-	_vec3				m_vDirection;
-	_vec3				m_vUp;
-	_vec3				m_vPos;
-
-	_bool				m_bAddCoin = false;
+	_bool				m_bAddKey = false;
 
 public:
-	static CCoin*				Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint iX, _uint iY);
+	static CKey*				Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint iX, _uint iY);
 	virtual void				Free(void);
 };
 

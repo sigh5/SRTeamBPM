@@ -181,6 +181,7 @@
     <ClInclude Include="..\Header\HWPlayer.h" />
     <ClInclude Include="..\Header\ImGuiMgr.h" />
     <ClInclude Include="..\Header\Inventory_UI.h" />
+    <ClInclude Include="..\Header\Key.h" />
     <ClInclude Include="..\Header\Loading.h" />
     <ClInclude Include="..\Header\Logo.h" />
     <ClInclude Include="..\Header\Magnum.h" />
@@ -252,6 +253,7 @@
     <ClCompile Include="..\Code\HWPlayer.cpp" />
     <ClCompile Include="..\Code\ImGuiMgr.cpp" />
     <ClCompile Include="..\Code\Inventory_UI.cpp" />
+    <ClCompile Include="..\Code\Key.cpp" />
     <ClCompile Include="..\Code\Loading.cpp" />
     <ClCompile Include="..\Code\Logo.cpp" />
     <ClCompile Include="..\Code\Magnum.cpp" />

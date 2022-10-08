@@ -29,7 +29,7 @@ public:
 
 private:
 	HRESULT				Add_Component(void);
-	void				Dynamic_StatusUpdate(void);
+
 
 public:
 	CRcTex*				m_pBufferCom = nullptr;

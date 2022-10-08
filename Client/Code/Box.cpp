@@ -110,7 +110,7 @@ void CBox::Collision_Event()
 	
 	if (m_pColliderCom->Check_Collision(this, pGameObject,1,1))
 	{
-		if (Get_DIKeyState(DIK_F) & 0X80)
+		if (Engine::Key_Down(DIK_F))
 		{
 			CAnimation* pBoxAnimation = dynamic_cast<CAnimation*>(pGameObject->Get_Component(L"Proto_AnimationCom", ID_STATIC));
 
@@ -156,18 +156,32 @@ HRESULT CBox::Open_Event(CGameObject * pGameObject)
 
 		_vec3 vPos;
 
-	//	m_pTransCom->Get_Info(INFO_POS, &vPos);
+		//	m_pTransCom->Get_Info(INFO_POS, &vPos);
 
-		// HealthPotion
+
 		CGameObject* pGameObj = nullptr;
-	
-		pGameObj = CHealthPotion::Create(m_pGraphicDev, (_uint)vPos.x+1, (_uint)vPos.z+3 );
-		NULL_CHECK_RETURN(pGameObj, E_FAIL);
-		FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(L"HealthPotion", pGameObj), E_FAIL);
-		
-		return S_OK;		
-	}
 
+		if (m_bBoxOpen && rand() % 3 == 0)
+		{
+			// HealthPotion
+			pGameObj = CHealthPotion::Create(m_pGraphicDev, (_uint)vPos.x + 1, (_uint)vPos.z + 3);
+			NULL_CHECK_RETURN(pGameObj, E_FAIL);
+			FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(L"HealthPotion", pGameObj), E_FAIL);
+		}
+
+		else if (m_bBoxOpen && rand() % 3 == 1)
+		{
+			// Coin
+			pGameObj = CCoin::Create(m_pGraphicDev, (_uint)vPos.x + 1, (_uint)vPos.z + 3);
+			NULL_CHECK_RETURN(pGameObj, E_FAIL);
+			FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(L"Coin", pGameObj), E_FAIL);
+		}
+
+		else if (m_bBoxOpen && rand() % 3 == 2)
+		{
+			return S_OK;
+		}
+	}
 	return S_OK;
 }
 

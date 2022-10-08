@@ -21,14 +21,10 @@ HRESULT CShotGun::Ready_Object(_uint iX, _uint iZ)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	Engine::CEquipmentBase::Ready_EquipInfo(20, 0, 0, 10, WEAPON_SHOTGUN);
+	Engine::CEquipmentBase::Ready_EquipInfo(10, 0, 0, 10, WEAPON_SHOTGUN);
 	
 	m_RenderID = RENDER_ALPHA;
-
-	_vec3 vecScale = { 1.5f, 1.5f, 0.1f };
-
-	m_pTransCom->Set_Scale(&vecScale);
-
+	
 	m_pTransCom->Set_Pos((_float)iX, 1.f, (_float)iZ);
 	m_pTransCom->Compulsion_Update();
 
@@ -108,7 +104,7 @@ void CShotGun::Render_Obejct(void)
 	}
 
 	CInventory_UI* pInven = static_cast<CInventory_UI*>(Get_GameObject(L"Layer_UI", L"InventoryUI"));
-	
+	// 인벤토리(I)키를 눌러둔 상태에서 먹었을 때 직교투영이 되도록 하는 부분
 	if (pInven->Get_InvenSwitch() == true && m_bRenderFalse == true)
 	{
 		m_RenderID = RENDER_ICON;
@@ -147,7 +143,7 @@ void CShotGun::Render_Obejct(void)
 		m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &OldProjMatrix);
 	}
 
-
+	// 직교투영이 되는 부분
 	if (m_bRenderControl && m_bRenderFalse)  
 	{
 		m_RenderID = RENDER_ICON;
@@ -201,16 +197,22 @@ void CShotGun::Collision_Event()
 
 	pGameObject = pLayer->Get_GameObject(L"TestPlayer");
 	NULL_CHECK_RETURN(pGameObject, );
-	
-	if (Get_DIKeyState(DIK_F) & 0X80)
+			
+	if (!m_pColliderCom->Check_Collision(this, pGameObject, 1, 1))
 	{
-		if (!m_pColliderCom->Check_Collision(this, pGameObject, 2.f, 2.f))
+		if (Engine::Key_Down(DIK_F))
 		{
-			m_bRenderFalse = true;			
-		
+			m_bRenderFalse = true;
+			
+			// 인벤토리에 들어감
 			CInventory_UI* pInven = static_cast<CInventory_UI*>(Get_GameObject(L"Layer_UI", L"InventoryUI"));
 			pInven->Get_WeaponType()->push_back(this);
-		}		
+
+			// 플레이어의 스탯에 관여하기 위함
+			CTestPlayer* pTestPlayer = static_cast<CTestPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"TestPlayer"));
+			pTestPlayer->Set_bCurStat(true);
+		}
+
 	}
 }
 
