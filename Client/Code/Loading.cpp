@@ -91,8 +91,9 @@ _uint CLoading::Loading_ForStage(void)
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Ghul_dig_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Ghul/Ghul_dig%d.png", TEX_NORMAL, 17)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Ghul_Attack_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Ghul/Ghul_Attack%d.png", TEX_NORMAL, 14)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Ghul_Dead_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Ghul/Ghul_Dead%d.png", TEX_NORMAL, 12)), E_FAIL);
-	
-
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_EarthShaker_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/EarthShaker/earthshaker%d.png", TEX_NORMAL, 10)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_EarthShaker_Attack_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/EarthShaker/earthshaker_attack%d.png", TEX_NORMAL, 9)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_EarthShaker_Dead_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/EarthShaker/earthshaker_dead%d.png", TEX_NORMAL, 9)), E_FAIL);
 	// ~Monster
 
 	// _UI

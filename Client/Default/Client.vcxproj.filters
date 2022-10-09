@@ -229,6 +229,7 @@
     <ClCompile Include="..\Code\SphinxFlyHead.cpp">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx\02. FlyHead</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\EarthShaker.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -477,6 +478,7 @@
     <ClInclude Include="..\Header\SphinxFlyHead.h">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx\02. FlyHead</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\EarthShaker.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -699,6 +701,9 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx\02. FlyHead">
       <UniqueIdentifier>{f6afe790-46c1-4b4b-ae92-51e1de7f2e4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\06. EarthShaker">
+      <UniqueIdentifier>{b50d45e7-f572-4432-bc4c-06ca92748024}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

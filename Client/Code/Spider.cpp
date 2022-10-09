@@ -39,10 +39,9 @@ HRESULT CSpider::Ready_Object(int Posx, int Posy)
 	m_pAttackAnimationCom->Ready_Animation(13, 0, 0.2f);
 	m_fHitDelay = 0.f;
 	if (Posx == 0 && Posy == 0) {}
-	
 	else
 	{
-		Set_TransformPositon(g_hWnd, m_pCalculatorCom);
+		m_pDynamicTransCom->Set_Pos(Posx, m_pDynamicTransCom->m_vScale.y * 0.5f, Posy);
 	}
 
 	return S_OK;
@@ -117,7 +116,7 @@ void CSpider::LateUpdate_Object(void)
 	D3DXMatrixInverse(&matBill, 0, &matBill);
 
 	_matrix      matScale, matTrans;
-	D3DXMatrixScaling(&matScale, 1.f, 1.f, 1.f);
+	D3DXMatrixScaling(&matScale, m_pDynamicTransCom->m_vScale.x, m_pDynamicTransCom->m_vScale.y, m_pDynamicTransCom->m_vScale.z);
 
 	_matrix      matRot;
 	D3DXMatrixIdentity(&matRot);

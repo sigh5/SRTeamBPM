@@ -69,7 +69,7 @@ HRESULT CSphinxFlyHead::Ready_Object(float Posx, float Posy, float Size)
 	if (Posx == 0 && Posy == 0) {}
 	else
 	{
-		m_pDynamicTransCom->Set_Pos(Posx, Size, Posy);
+		m_pDynamicTransCom->Set_Pos(Posx, Size*0.5f, Posy);
 	}
 	m_pDynamicTransCom->Set_Scale(&_vec3{ Size, Size, 1.f });
 	m_pDynamicTransCom->Update_Component(1.f);

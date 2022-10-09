@@ -171,6 +171,7 @@
     <ClInclude Include="..\Header\ColliderStage.h" />
     <ClInclude Include="..\Header\DashUI.h" />
     <ClInclude Include="..\Header\DynamicCamera.h" />
+    <ClInclude Include="..\Header\EarthShaker.h" />
     <ClInclude Include="..\Header\Effect.h" />
     <ClInclude Include="..\Header\Exit_Button.h" />
     <ClInclude Include="..\Header\FatBat.h" />
@@ -249,6 +250,7 @@
     <ClCompile Include="..\Code\ColliderStage.cpp" />
     <ClCompile Include="..\Code\DashUI.cpp" />
     <ClCompile Include="..\Code\DynamicCamera.cpp" />
+    <ClCompile Include="..\Code\EarthShaker.cpp" />
     <ClCompile Include="..\Code\Effect.cpp" />
     <ClCompile Include="..\Code\Exit_Button.cpp" />
     <ClCompile Include="..\Code\FatBat.cpp" />

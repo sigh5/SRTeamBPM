@@ -139,7 +139,7 @@ void CMyCamera::Target_Renewal(const _float& fTimeDelta)
 	D3DXVec3Normalize(&m_vEye, &m_vEye);
 	
 	m_vEye.y = m_fCameraHeight; //0.5f;
-
+	//이걸 흔들면 쉐이킹 효과를 줄 수 있을 것이다
 	m_vEye *= m_fDistance;	// 방향 벡터
 
 	m_vEye += pPlayerTransform->m_vInfo[INFO_POS];

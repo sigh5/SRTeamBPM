@@ -42,14 +42,14 @@ HRESULT CSphinx::Ready_Object(int Posx, int Posy)
 	m_pHeadOffAnimationCom->Ready_Animation(19, 0, 0.3f);
 	m_iPreHp = m_pInfoCom->Get_Hp();
 	m_iShootLeftRight = 0;
-	m_vScale = { 7.f, 7.f, 1.f };
+	m_vScale = { 14.f, 14.f, 1.f };
 	m_iShootCycle = 0;
 
 
 	if (Posx == 0 && Posy == 0) {}
 	else
 	{
-		m_pDynamicTransCom->Set_Pos((float)Posx, m_vScale.y, (float)Posy);
+		m_pDynamicTransCom->Set_Pos((float)Posx, m_vScale.y * 0.5f, (float)Posy);
 	}
 	m_pDynamicTransCom->Compulsion_Update();
 	return S_OK;
