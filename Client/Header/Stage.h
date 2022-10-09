@@ -34,11 +34,13 @@ private:
 	HRESULT			Ready_Layer_GameLogic(const _tchar* pLayerTag);
 	HRESULT			Ready_Layer_UI(const _tchar* pLayerTag);
 	HRESULT			Ready_Layer_CubeCollsion(const _tchar * pLayerTag);
-
+	HRESULT			Ready_Layer_Room(const _tchar* pLayerTag);
 
 	HRESULT			Ready_Proto(void);
 	HRESULT			Ready_Light(void);
 
+
+	void			TeleportCubeUpdate(const _float& fTimeDelta);
 
 	// Effect : multimap -> map issue
 private:

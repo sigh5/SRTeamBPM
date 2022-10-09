@@ -7,22 +7,182 @@ USING(Engine)
 
 
 CCollider::CCollider(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CComponent(pGraphicDev), m_bClone(false)
+	: CVIBuffer(pGraphicDev), m_bClone(false),m_pPos(nullptr)
 {
 }
 
 CCollider::CCollider(const CCollider & rhs)
-	: CComponent(rhs), m_bClone(true)
+	: CVIBuffer(rhs), m_bClone(true) ,m_pPos(rhs.m_pPos)
 {
+}
+
+HRESULT CCollider::Ready_Buffer(void)
+{
+	m_dwVtxCnt = 8;
+	m_pPos = new _vec3[m_dwVtxCnt];
+	m_dwTriCnt = 12;
+	m_dwVtxSize = sizeof(VTXCUBE);
+	m_dwFVF = FVF_CUBE;
+
+	m_dwIdxSize = sizeof(INDEX32);
+	m_IdxFmt = D3DFMT_INDEX32;
+
+	FAILED_CHECK_RETURN(CVIBuffer::Ready_Buffer(), E_FAIL);
+
+	VTXCUBE*      pVertex = nullptr;
+
+	m_pVB->Lock(0, 0, (void**)&pVertex, 0);
+	// 3인자 : 배열에 저장된 첫 번째 버텍스의 주소를 얻어옴
+
+	// 앞면
+	pVertex[0].vPos = { -1.f, 1.f, -1.f };
+	pVertex[0].vTexUV = pVertex[0].vPos;
+	m_pPos[0] = pVertex[0].vPos;
+
+	pVertex[1].vPos = { 1.f, 1.f, -1.f };
+	pVertex[1].vTexUV = pVertex[1].vPos;
+	m_pPos[1] = pVertex[1].vPos;
+
+	pVertex[2].vPos = { 1.f, -1.f, -1.f };
+	pVertex[2].vTexUV = pVertex[2].vPos;
+	m_pPos[2] = pVertex[2].vPos;
+
+	pVertex[3].vPos = { -1.f, -1.f, -1.f };
+	pVertex[3].vTexUV = pVertex[3].vPos;
+	m_pPos[3] = pVertex[3].vPos;
+
+	// 뒷면
+	pVertex[4].vPos = { -1.f, 1.f, 1.f };
+	pVertex[4].vTexUV = pVertex[4].vPos;
+	m_pPos[4] = pVertex[4].vPos;
+
+	pVertex[5].vPos = { 1.f, 1.f, 1.f };
+	pVertex[5].vTexUV = pVertex[5].vPos;
+	m_pPos[5] = pVertex[5].vPos;
+
+	pVertex[6].vPos = { 1.f, -1.f, 1.f };
+	pVertex[6].vTexUV = pVertex[6].vPos;
+	m_pPos[6] = pVertex[6].vPos;
+
+	pVertex[7].vPos = { -1.f, -1.f, 1.f };
+	pVertex[7].vTexUV = pVertex[7].vPos;
+	m_pPos[7] = pVertex[7].vPos;
+
+	//pVertex[0].vPos = { -2.f, 2.f, -2.f };
+	//pVertex[0].vTexUV = pVertex[0].vPos;
+	//m_pPos[0] = pVertex[0].vPos;
+
+	//pVertex[1].vPos = { 2.f, 2.f, -2.f };
+	//pVertex[1].vTexUV = pVertex[1].vPos;
+	//m_pPos[1] = pVertex[1].vPos;
+
+	//pVertex[2].vPos = { 2.f, -2.f, -2.f };
+	//pVertex[2].vTexUV = pVertex[2].vPos;
+	//m_pPos[2] = pVertex[2].vPos;
+
+	//pVertex[3].vPos = { -2.f, -2.f, -2.f };
+	//pVertex[3].vTexUV = pVertex[3].vPos;
+	//m_pPos[3] = pVertex[3].vPos;
+
+	//// 뒷면
+	//pVertex[4].vPos = { -2.f, 2.f, 2.f };
+	//pVertex[4].vTexUV = pVertex[4].vPos;
+	//m_pPos[4] = pVertex[4].vPos;
+
+	//pVertex[5].vPos = { 2.f, 2.f, 2.f };
+	//pVertex[5].vTexUV = pVertex[5].vPos;
+	//m_pPos[5] = pVertex[5].vPos;
+
+	//pVertex[6].vPos = { 2.f, -2.f, 2.f };
+	//pVertex[6].vTexUV = pVertex[6].vPos;
+	//m_pPos[6] = pVertex[6].vPos;
+
+	//pVertex[7].vPos = { -2.f, -2.f, 2.f };
+	//pVertex[7].vTexUV = pVertex[7].vPos;
+	//m_pPos[7] = pVertex[7].vPos;
+
+
+	m_pVB->Unlock();
+
+
+	INDEX32*      pIndex = nullptr;
+
+	m_pIB->Lock(0, 0, (void**)&pIndex, 0);
+
+	// X+
+
+	pIndex[0]._0 = 1;
+	pIndex[0]._1 = 5;
+	pIndex[0]._2 = 6;
+
+	pIndex[1]._0 = 1;
+	pIndex[1]._1 = 6;
+	pIndex[1]._2 = 2;
+
+	// X-
+	pIndex[2]._0 = 4;
+	pIndex[2]._1 = 0;
+	pIndex[2]._2 = 3;
+
+	pIndex[3]._0 = 4;
+	pIndex[3]._1 = 3;
+	pIndex[3]._2 = 7;
+
+	// Y+
+	pIndex[4]._0 = 4;
+	pIndex[4]._1 = 5;
+	pIndex[4]._2 = 1;
+
+	pIndex[5]._0 = 4;
+	pIndex[5]._1 = 1;
+	pIndex[5]._2 = 0;
+
+	// Y-
+	pIndex[6]._0 = 3;
+	pIndex[6]._1 = 2;
+	pIndex[6]._2 = 6;
+
+	pIndex[7]._0 = 3;
+	pIndex[7]._1 = 6;
+	pIndex[7]._2 = 7;
+
+	// Z+
+	pIndex[8]._0 = 7;
+	pIndex[8]._1 = 6;
+	pIndex[8]._2 = 5;
+
+	pIndex[9]._0 = 7;
+	pIndex[9]._1 = 5;
+	pIndex[9]._2 = 4;
+
+	// Z-
+	pIndex[10]._0 = 0;
+	pIndex[10]._1 = 1;
+	pIndex[10]._2 = 2;
+
+	pIndex[11]._0 = 0;
+	pIndex[11]._1 = 2;
+	pIndex[11]._2 = 3;
+
+	m_pIB->Unlock();
+
+
+	m_vMin = pVertex[3].vPos;
+	m_vMax = pVertex[5].vPos;
+	m_vCenter = { m_vMin.x + 1.f, m_vMin.y + 1.f, m_vMin.z + 1.f };
+	m_fRadius = 1.f;
+
+	return S_OK;
+
+}
+
+void CCollider::Render_Buffer(void)
+{
+	CVIBuffer::Render_Buffer();
 }
 
 CCollider::~CCollider()
 {
-}
-
-HRESULT CCollider::Ready_Collider(void)
-{
-	return S_OK;
 }
 
 _int CCollider::Update_Component(const _float & fTimeDelta)
@@ -49,6 +209,7 @@ _bool CCollider::Check_Sphere_InterSect(_vec3 vCenter1, _vec3 vCenter2, _float f
 
 	return false;
 }
+
 _bool CCollider::Check_Lay_InterSect(CRcTex * rcTex, CTransform* pMonsterCom, HWND hWnd)
 {
 	POINT		ptMouse{};
@@ -130,6 +291,7 @@ _bool CCollider::Check_Lay_InterSect(CRcTex * rcTex, CTransform* pMonsterCom, HW
 
 	return false;
 }
+
 _bool CCollider::Check_Lay_InterSect(CRcTex * rcTex, CTransform* pMonsterCom, HWND hWnd, _vec3& PickPos)
 {
 	POINT		ptMouse{};
@@ -271,6 +433,39 @@ _bool CCollider::Check_Collision(CGameObject * pItemObject, CGameObject * pPlaye
 	return false;
 }
 
+_bool CCollider::Check_CollisonUseCollider(CCollider * pSour, CCollider * pDest)
+{
+	if (Check_Sphere_InterSect(pSour->m_vCenter, pDest->m_vCenter, pSour->m_fRadius, pDest->m_fRadius))
+		return true;
+	
+	return false;
+}
+
+void CCollider::Set_HitBoxMatrix(_matrix* matWorld)
+{
+	_matrix		matScale, matRotX, matRotY, matRotZ, matTrans;
+
+	_vec3	vPos;
+	
+	memcpy(&vPos, &(matWorld->_41), sizeof(_vec3));
+
+	D3DXMatrixScaling(&matScale, m_fRadius, m_fRadius, m_fRadius);
+	D3DXMatrixRotationX(&matRotX, 0.f);
+	D3DXMatrixRotationY(&matRotY, 0.f);
+	D3DXMatrixRotationZ(&matRotZ, 0.f);
+	D3DXMatrixTranslation(&matTrans, vPos.x, vPos.y, vPos.z);
+
+	m_HitBoxWolrdmat = matScale * matRotX * matRotY * matRotZ * matTrans;
+
+
+	
+	memcpy(&m_vCenter, &m_HitBoxWolrdmat._41, sizeof(_vec3));
+	
+	
+
+
+}
+
 CComponent * CCollider::Clone(void)
 {
 	return new CCollider(*this);
@@ -280,7 +475,7 @@ CCollider * CCollider::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
 	CCollider*	pInstance = new CCollider(pGraphicDev);
 
-	if (FAILED(pInstance->Ready_Collider()))
+	if (FAILED(pInstance->Ready_Buffer()))
 	{
 		MSG_BOX("Collider Create Failed");
 		Safe_Release(pInstance);
@@ -292,5 +487,10 @@ CCollider * CCollider::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 
 void CCollider::Free(void)
 {
-	CComponent::Free();
+
+	if (false == m_bClone)
+		Safe_Delete(m_pPos);
+
+
+	CVIBuffer::Free();
 }

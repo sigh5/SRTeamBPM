@@ -31,10 +31,13 @@ HRESULT CPlayer::Ready_Object(void)
 
 	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
 
-	m_pDynamicTransCom->Set_Pos(10.f, 2.f, 10.f);
+	m_pDynamicTransCom->Set_Pos(6.5f, 2.f, 15.f);
 	_vec3 vScale = { 0.1f, 0.1f, 0.1f };
 	m_pDynamicTransCom->Set_Scale(&vScale);
-	m_pDynamicTransCom->Update_Component(1.5f);
+	
+	m_pColliderCom->Set_HitRadiuos(1.1f);
+
+	m_pDynamicTransCom->Update_Component(2.0f);
 
 	
 
@@ -77,12 +80,12 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 
 	}
 
-	m_pDynamicTransCom->Set_Y(2.f);
-
+	m_pDynamicTransCom->Set_Y(4.f);
+	m_pColliderCom->Set_HitBoxMatrix(&(m_pDynamicTransCom->m_matWorld));
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
 
-	//Add_RenderGroup(RENDER_ALPHA, this);
+	Add_RenderGroup(RENDER_ALPHA, this);
 
 	return 0;
 }
@@ -97,13 +100,24 @@ void CPlayer::LateUpdate_Object(void)
 
 void CPlayer::Render_Obejct(void)
 {
-	/*m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pDynamicTransCom->Get_WorldMatrixPointer());
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pDynamicTransCom->Get_WorldMatrixPointer());
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	m_pTextureCom->Set_Texture(m_iTexIndex);
 	m_pBufferCom->Render_Buffer();
+	
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pColliderCom->HitBoxWolrdmat());
+	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	m_pColliderCom->Render_Buffer();
+	
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);*/
+	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+
+	//// hitBOx
+	
+	// hitBOx
+	
+	
 }
 
 HRESULT CPlayer::Add_Component(void)
@@ -187,6 +201,17 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 	{
 		pEquipItem->Set_Magazine(8);
 	}
+
+	if (Get_DIKeyState(DIK_P) & 0X80)
+	{
+		_vec3	vcurrentPos;
+		m_pDynamicTransCom->Get_Info(INFO_POS, &vcurrentPos);
+
+
+		cout << vcurrentPos.x << " " << vcurrentPos.y<<" " << vcurrentPos.z << endl;
+	}
+
+
 }
 
 void CPlayer::Set_OnTerrain(void)
@@ -247,19 +272,19 @@ void CPlayer::Collision_Event()
 {
 	// 기존에 존재하는 것들은 Player에 
 	//	씬에서 생성되는 것들은 그 객체에 
-	CScene  *pScene = ::Get_Scene();
-	NULL_CHECK_RETURN(pScene, );
-	CLayer * pLayer = pScene->GetLayer(L"Layer_CubeCollsion");
-	NULL_CHECK_RETURN(pLayer, );
-	CGameObject *pGameObject = nullptr;
+	//CScene  *pScene = ::Get_Scene();
+	//NULL_CHECK_RETURN(pScene, );
+	//CLayer * pLayer = pScene->GetLayer(L"Layer_CubeCollsion");
+	//NULL_CHECK_RETURN(pLayer, );
+	//CGameObject *pGameObject = nullptr;
 
-	for (auto iter = pLayer->Get_GameObjectMap().begin(); iter != pLayer->Get_GameObjectMap().end(); ++iter)
-	{
-		m_pColliderCom->Check_Collision_Wall(iter->second, this);
-	}
+	//for (auto iter = pLayer->Get_GameObjectMap().begin(); iter != pLayer->Get_GameObjectMap().end(); ++iter)
+	//{
+	//	m_pColliderCom->Check_Collision_Wall(iter->second, this);
+	//}
 
-	pLayer = pScene->GetLayer(L"Layer_GameLogic");
-	NULL_CHECK_RETURN(pLayer, );
+	//pLayer = pScene->GetLayer(L"Layer_GameLogic");
+	//NULL_CHECK_RETURN(pLayer, );
 
 }
 

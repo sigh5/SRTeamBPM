@@ -50,6 +50,8 @@ public:
 	void				ComboCheck();
 
 
+
+
 public:
 	_uint				Get_HpChange(void) { return m_iHpBarChange; }
 	_uint				Get_Skill(void) { return m_iSkillPower; }
@@ -101,6 +103,8 @@ private:		// Jw
 
 	// Gun
 	CGun_Screen*		pEquipItem;
+
+	stack<CGameObject*> VistiRoomStack;
 
 
 

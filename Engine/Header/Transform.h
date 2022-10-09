@@ -28,7 +28,7 @@ public:
 	void				Set_Scale(_vec3* pInfo){m_vScale= *pInfo;}
 	void				Set_Angle(_vec3* pInfo){m_vAngle = *pInfo;}
 	_vec3				Get_Angle() { return m_vAngle; }
-
+	const _vec3&		Get_Scale() const { return m_vScale; }
 
 
 	void				Set_Y(const _float& fY) { m_vInfo[INFO_POS].y = fY; }

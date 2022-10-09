@@ -161,13 +161,14 @@ void CMyCamera::Target_Renewal(const _float& fTimeDelta)
 
 	// 카메라 보는 위치때메 더해줌
 	m_vAt = m_vEye + vLook;
-
-	//_matrix		matCamWorld;
-	//D3DXMatrixInverse(&matCamWorld, nullptr, &m_matView);
-
-	/*if (m_bExecution)
+	if (Get_DIKeyState(DIK_Q) & 0X80)
 	{
-		::PlaySoundW(L"executionEffect.wav", SOUND_EFFECT, 0.1f);
+		_matrix		matCamWorld;
+		D3DXMatrixInverse(&matCamWorld, nullptr, &m_matView);
+
+		//if (m_bExecution)
+		{
+		//::PlaySoundW(L"executionEffect.wav", SOUND_EFFECT, 0.1f);
 		_vec3		vLook;
 		memcpy(&vLook, &matCamWorld.m[2][0], sizeof(_vec3));
 
@@ -176,7 +177,9 @@ void CMyCamera::Target_Renewal(const _float& fTimeDelta)
 		m_vEye -= vLength;
 		m_vAt -= vLength;
 		m_bExecution = false;
-	}*/
+		}
+	}
+	
 
 }
 

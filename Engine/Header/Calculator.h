@@ -32,6 +32,9 @@ public:
 	_bool	PickingOnTransform(HWND hWnd, const CCubeTex* pCubeTexBufferCom, const CTransform* pCubeTransCom);
 
 	_bool	PickingOnTransform_Monster(HWND hWnd, const CRcTex* pMonsterTexBuffer, const CTransform* pMonsterTransCom);
+	
+	_bool	PickingTerrainObject(HWND hWnd, const CTerrainTex* pTerrainBufferCom, const CTransform* pTerrainTransformCom);
+
 
 public:
 	virtual CComponent* Clone(void) override;

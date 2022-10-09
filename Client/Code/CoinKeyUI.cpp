@@ -34,9 +34,9 @@ HRESULT CCoinKeyUI::Ready_Object(CGameObject * pPlayer)
 
 _int CCoinKeyUI::Update_Object(const _float & fTimeDelta)
 {
-	m_iPlayerCoin = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._iCoin;
+	m_iPlayerCoin = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._iCoin;
 
-	m_iPlayerKey = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._iKey;
+	m_iPlayerKey = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._iKey;
 
 	Engine::CGameObject::Update_Object(fTimeDelta);
 

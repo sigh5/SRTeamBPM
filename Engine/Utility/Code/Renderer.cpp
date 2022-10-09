@@ -58,6 +58,13 @@ void CRenderer::Render_UIObject(LPDIRECT3DDEVICE9 & pGraphicDev)
 
 }
 
+void CRenderer::Render_List(LPDIRECT3DDEVICE9 & pGraphicDev)
+{
+
+
+
+}
+
 void CRenderer::Clear_RenderGroup(void)
 {
 	for (_uint i = 0; i < RENDER_END; ++i)

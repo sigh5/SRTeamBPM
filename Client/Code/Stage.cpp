@@ -55,8 +55,10 @@ HRESULT CStage::Ready_Scene(void)
 	FAILED_CHECK_RETURN(Ready_Layer_GameLogic(L"Layer_GameLogic"), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_UI(L"Layer_UI"), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_CubeCollsion(L"Layer_CubeCollsion"), E_FAIL);
-	
-	::PlaySoundW(L"SamTow.wav", SOUND_BGM, 0.05f); // BGM
+	FAILED_CHECK_RETURN(Ready_Layer_Room(L"Layer_Room"), E_FAIL);
+
+
+	//::PlaySoundW(L"SamTow.wav", SOUND_BGM, 0.05f); // BGM
 
 	return S_OK;
 }
@@ -82,6 +84,8 @@ _int CStage::Update_Scene(const _float & fTimeDelta)
 		m_fFrame = 0.f;
 	}
 
+	TeleportCubeUpdate(fTimeDelta);
+
 	return Engine::CScene::Update_Scene(fTimeDelta);
 }
 
@@ -89,21 +93,30 @@ void CStage::LateUpdate_Scene(void)
 {
 
 	CLayer *pLayer = GetLayer(L"Layer_GameLogic");
-	//CPlayer* pPlayer = static_cast<CPlayer*>(pLayer->Get_GameObject(L"Player"));
 
 	for (auto iter = pLayer->Get_GameObjectMap().begin(); iter != pLayer->Get_GameObjectMap().end(); ++iter)
 	{
 		iter->second->Collision_Event();
 	}
+
+
+	pLayer = GetLayer(L"Layer_CubeCollsion");
+
+	for (auto iter = pLayer->Get_GameObjectMap().begin(); iter != pLayer->Get_GameObjectMap().end(); ++iter)
+	{
+		iter->second->Collision_Event();
+	}
+
+	// Teleport_Cube
+	for (int i = 0; i < TELEPORT_CUBE_LIST_END; ++i)
+	{
+		for (auto iter : m_TeleportCubeList[i])
+		{
+			iter->Collision_Event();
+		}
+	}
 	
-	/*pLayer = GetLayer(L"Layer_UI");
-	CGun_Screen* pGun = static_cast<CGun_Screen*>(pLayer->Get_GameObject(L"Gun"));
-	*/
-	//if (pGun->Get_Shoot())
-	//{
-	//	pPlayer->Reset_ComboCount();
-	//}
-	/*pGun->Set_Shoot(false);*/
+
 
 
 	Engine::CScene::LateUpdate_Scene();
@@ -121,14 +134,14 @@ HRESULT CStage::Ready_Layer_Environment(const _tchar * pLayerTag)
 	
 	CGameObject*		pGameObject = nullptr;
 
-	// DynamicCamera
+	// CDynamicCamera  CMyCamera
 	pGameObject = CMyCamera::Create(m_pGraphicDev, &_vec3(0.f, 10.f, -10.f), &_vec3(0.f, 0.f, 0.f), &_vec3(0.f, 1.f, 0.f));
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"CMyCamera", pGameObject), E_FAIL);
 	
 	
 	READY_LAYER(pGameObject, CSkyBox, pLayer, m_pGraphicDev, L"SkyBox");
-	READY_LAYER(pGameObject, CTerrain, pLayer, m_pGraphicDev, L"Terrain");
+	//READY_LAYER(pGameObject, CTerrain, pLayer, m_pGraphicDev, L"Terrain");
 	READY_LAYER(pGameObject, CSnowfall, pLayer, m_pGraphicDev, L"Snowfall");
 	
 
@@ -242,6 +255,27 @@ HRESULT CStage::Ready_Layer_CubeCollsion(const _tchar * pLayerTag)
 	return S_OK;
 }
 
+HRESULT CStage::Ready_Layer_Room(const _tchar * pLayerTag)
+{
+	Engine::CLayer*		pLayer = Engine::CLayer::Create();
+	NULL_CHECK_RETURN(pLayer, E_FAIL);
+
+	CGameObject*		pGameObject = nullptr;
+
+	m_mapLayer.insert({ pLayerTag, pLayer });
+
+
+	CFileIOMgr::GetInstance()->Load_FileData(m_pGraphicDev,
+		this,
+		const_cast<_tchar*>(pLayerTag),
+		L"../../Data/",
+		L"Stage1Room.dat",
+		L"Room",
+		OBJ_ROOM);
+
+	return S_OK;
+}
+
 HRESULT CStage::Ready_Proto(void)
 {
 	return S_OK;
@@ -279,4 +313,19 @@ HRESULT CStage::Ready_Light(void)
 	FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &tLightInfo, 0), E_FAIL);
 
 	return S_OK;
+}
+
+void CStage::TeleportCubeUpdate(const _float & fTimeDelta)
+{
+
+	for (int i = 0; i < TELEPORT_CUBE_LIST_END; ++i)
+	{
+		for (auto iter : m_TeleportCubeList[i])
+			iter->Update_Object(fTimeDelta);
+	}
+
+
+
+	
+
 }

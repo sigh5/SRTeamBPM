@@ -35,11 +35,11 @@ _int CStatus_UI::Update_Object(const _float & fTimeDelta)
 {
 	// Tab 키 입력에 따라 Status_UI가 갖는 Transform의 vScale을 조절해주는 기능 구현할 것
 
-	m_iPlayerPower = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._iAttackPower;
+	m_iPlayerPower = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._iAttackPower;
 
-	m_iPlayerSkillPower = static_cast<CTestPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"TestPlayer"))->Get_Skill();
+	m_iPlayerSkillPower = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"))->Get_Skill();
 
-	m_iPlayerSpeed = (_uint)static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._fSpeed;
+	m_iPlayerSpeed = (_uint)static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._fSpeed;
 
 
 

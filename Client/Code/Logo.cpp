@@ -36,7 +36,7 @@ HRESULT CLogo::Ready_Scene(void)
 
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(L"Ready_Layer_Environment"), E_FAIL);
 												// LOADING_STAGE
-	m_pLoading = CLoading::Create(m_pGraphicDev, LOADING_PLAYER_UI);
+	m_pLoading = CLoading::Create(m_pGraphicDev, LOADING_STAGE);
 	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
 		
 	Engine::LoadSoundFile();

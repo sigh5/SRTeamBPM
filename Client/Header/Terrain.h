@@ -8,6 +8,7 @@ namespace Engine
 	class CTransform;
 	class CTerrainTex;
 	class CTexture;
+	class CCalculator;
 }
 
 class CTerrain : public CGameObject
@@ -26,6 +27,10 @@ public:
 	virtual void	LateUpdate_Object(void) override;
 	virtual void	Render_Obejct(void) override;
 
+
+public:
+	_bool				Set_SelectGizmo();	//Only Use tool
+
 private:
 	HRESULT				Add_Component(void);
 	HRESULT				SetUp_Material(void);
@@ -34,11 +39,12 @@ public:
 	CTerrainTex*		m_pBufferCom = nullptr;
 	CTransform*			m_pTransCom = nullptr;
 	CTexture*			m_pTextureCom = nullptr;
+	CCalculator*	   m_pCalculatorCom = nullptr;
 
-	_bool				m_bGeneratedCurrentFrame = true;
+
 	_bool				m_bWireFrame = false;
 	_vec3				m_vDirection;
-	_int				m_iTerrainIdx=32; // 32¹ø Ã¤ÅÃ
+	
 
 public:
 	static CTerrain*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

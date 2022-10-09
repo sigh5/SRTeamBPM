@@ -16,21 +16,24 @@ private:
 	explicit			CWallCube(LPDIRECT3DDEVICE9 pGraphicDev);
 	virtual				~CWallCube();
 public:
-	HRESULT				Ready_Object(_vec2 *vPos);
+	HRESULT				InitSetting(_vec2* vMousPos, const wstring& LayerName, wstring* RoomName);
+	HRESULT				Ready_Object();
 	virtual _int		Update_Object(const _float& fTimeDelta) override;
 	virtual void		Render_Obejct(void) override;
+	virtual void		Collision_Event() override;
+
 
 public:// For Tool
 	void				MousePostoScreen(); // 현재 마우스 더블클릭한 위치로 큐브를 만들어주는 함수
 	_bool				Set_SelectGizmo();
 	_bool*				Get_WireFrame() { return &m_bWireFrame; }
 	void				Set_WireFrame(_bool bWireFrame) { m_bWireFrame = bWireFrame; }
-
-
-public:
-	const _int&			Get_Option() {return m_iOption;}
+	void				Set_Layer_Map_Name(const wstring& LayerName, wstring* RoomName)
+	{m_LayerName = LayerName;
+	m_RoomName = *RoomName;	}
+	const _int&			Get_Option() { return m_iOption; }
 	void				Set_Option(CUBE_TYPE eType) { m_iOption = (_int)eType; }
-
+	
 private:
 	HRESULT				Add_Component(void);
 
@@ -39,14 +42,23 @@ public:
 	CTransform*			m_pTransCom = nullptr;
 	CTexture*			m_pTextureCom = nullptr;
 	CCalculator*		m_pCalculatorCom = nullptr;
+	CCollider*			m_pColliderCom = nullptr;
 
 private:
 	_bool				m_bWireFrame = false;
 	_bool				m_bIsOnterrrain = false;
 	_int				m_iOption = 0;					// 0: Wall 1: Obstacle 2: TeleportStart 3: TelePortEnd
 
+	wstring				m_LayerName =L"";
 public:
-	static CWallCube*	Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec2 *vPos);
+	wstring				m_RoomName =L"";
+
+
+
+
+
+public:
+	static CWallCube*	Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
 	virtual void		Free()override;
 

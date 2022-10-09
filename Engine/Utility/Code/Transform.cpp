@@ -130,6 +130,7 @@ _int CTransform::Update_Component(const _float & fTimeDelta)
 	
 	for (_uint i = 0; i < INFO_END; ++i)
 	{
+
 		memcpy(&m_matWorld.m[i][0], &m_vInfo[i], sizeof(_vec3));
 	}
 	
