@@ -23,8 +23,6 @@ public:
 	HRESULT			Add_GameObject(const _tchar* pObjTag, CGameObject* pInstance);
 	HRESULT			Add_GameObjectList(CGameObject* pInstance);
 	
-	
-	
 	HRESULT			Ready_Layer(void);
 	_int			Update_Layer(const _float& fTimeDelta);
 	void			LateUpdate_Layer(void);
@@ -37,58 +35,26 @@ public:
 	void AddNameList(_tchar* name) { NameList.push_back(name); }
 	// ~맵오류때문에 키값으로 찾게 하는코드
 
-	list<CGameObject*> *Get_CubeList(_int iIndex) { return &m_TeleportCubeList[iIndex]; }
 
-	void				initStartCube()
-	{ 
-		for (auto iter : m_TeleportCubeList[STARTCUBELIST])
-		{
-			m_RestCubevec.push_back(iter);
-		}
-	
-	}
+	list<CGameObject*> *	Get_TeleCubeList(_int iIndex) { return &m_TeleportCubeList[iIndex]; }
+	vector<CGameObject*>*	GetRestCube() { return &m_RestCubevec; }
 
-	vector<CGameObject*>*		  GetRestCube() {return &m_RestCubevec;}
-	
-	void				  Delete_Current_Room(_int iIndex){m_RestCubevec.erase(m_RestCubevec.begin() + iIndex);}
-	
-	
-													// 엔드 저장
-	void				  Save_CurrentRoom(CGameObject* pGameObject){
-		m_vecVistedCube.push(pGameObject);
-	}
+	void					initStartCube();
+	void					Delete_Current_Room(_int iIndex){m_RestCubevec.erase(m_RestCubevec.begin() + iIndex);} //방문할 큐브목록 삭제
+	void					Save_CurrentRoom(CGameObject* pGameObject){m_vecVistedCube.push(pGameObject);} // 스택에 현재 방에서 나머지 갈방들을 삭제
 
-
-	CGameObject*		Get_PreRoomTeleCube()
-	{
-		
-		if (m_vecVistedCube.empty())
-			return nullptr;
-		
-		CGameObject *pTeleEndCube = m_vecVistedCube.top();
-		m_vecVistedCube.pop();
-		return pTeleEndCube;
-	}
-
-
-	void			  Clear_Stack()
-	{
-		while (!m_vecVistedCube.empty())
-		{
-			m_vecVistedCube.pop();
-		}
-	}
-
+	CGameObject*			Get_PreRoomTeleCube(); // 스택안의 top을 가져옴
+	void					Clear_Stack();	// 스택 안에있는 것들을 지워줌
 
 
 private:
 	map<const _tchar*, CGameObject*>			m_mapObject;
 
 	list<CGameObject*> m_TeleportCubeList[TELEPORT_CUBE_LIST_END];
-	vector<CGameObject*> m_RestCubevec;	 // 이동후 남은 큐브 계수
-	
-	stack<CGameObject*> m_vecVistedCube;
-
+	vector<CGameObject*> m_RestCubevec;		// 방문할예정인 큐브들
+	stack<CGameObject*> m_vecVistedCube;	// 방문한 큐브들
+											// 위에 3개의 자료형들은 삭제만 해줘야됌
+											// 안에있는것들을 지우면 안됌
 
 	list<CGameObject*>  m_objPoolList;
 	list<_tchar* > NameList;
@@ -98,8 +64,8 @@ public:
 	virtual void		Free(void);
 
 
-	_int				m_iRoomIndex = 0;
-	_int				m_iRestRoom = 5;
+	_int				m_iRoomIndex = 0;		// 현재방의 인덱스
+	_int				m_iRestRoom = 5;		// 나머지 방의수
 };
 
 END

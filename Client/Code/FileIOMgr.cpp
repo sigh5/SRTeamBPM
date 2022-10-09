@@ -3,13 +3,15 @@
 #include "Layer.h"
 
 #include "Export_Function.h"
-//#include "TestCube.h"
+
 #include "Anubis.h"
 #include "FatBat.h"
 #include "Spider.h"
 #include "TestPlayer.h"
 #include "WallCube.h"
 #include "Terrain.h"
+
+#include "TeleCube.h"
 
 
 IMPLEMENT_SINGLETON(CFileIOMgr)
@@ -213,28 +215,41 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 			wsprintfW(test1, t.c_str(), iIndex);
 			pMyLayer->AddNameList(test1);
 			++iIndex;
-			pGameObject = CWallCube::Create(pGrahicDev);
-			pGameObject->Set_DrawTexIndex(iDrawIndex);
-
-			static_cast<CWallCube*>(pGameObject)->Set_Option(CUBE_TYPE(iCubeOption));
+		
 			// 다른 레이어에 큐브옵션이 다르면
 
-			if (iCubeOption == CUBE_START_TELE)
+			if (SCENE_TOOLTEST == pScene->Get_SceneType())
 			{
-				pMyLayer->Get_CubeList(STARTCUBELIST)->push_back(pGameObject);
-			}
-
-			else if (iCubeOption == CUBE_END_TELE)
-			{
-				pMyLayer->Get_CubeList(ENDCUBELIST)->push_back(pGameObject);
+				pGameObject = CWallCube::Create(pGrahicDev);
+				pGameObject->Set_DrawTexIndex(iDrawIndex);
+				static_cast<CWallCube*>(pGameObject)->Set_Option(CUBE_TYPE(iCubeOption));
+				FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(test1, pGameObject), );
 			}
 			else
 			{
-				FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(test1, pGameObject), );
+				if (iCubeOption == CUBE_START_TELE)
+				{
+					pGameObject = CTeleCube::Create(pGrahicDev);
+					pGameObject->Set_DrawTexIndex(iDrawIndex);
+					static_cast<CTeleCube*>(pGameObject)->Set_Option(CUBE_TYPE(iCubeOption));
+					pMyLayer->Get_TeleCubeList(STARTCUBELIST)->push_back(pGameObject);
+				}
+				else if (iCubeOption == CUBE_END_TELE)
+				{
+					pGameObject = CTeleCube::Create(pGrahicDev);
+					pGameObject->Set_DrawTexIndex(iDrawIndex);
+					static_cast<CTeleCube*>(pGameObject)->Set_Option(CUBE_TYPE(iCubeOption));
+					pMyLayer->Get_TeleCubeList(ENDCUBELIST)->push_back(pGameObject);
+				}
+				else
+				{
+					pGameObject = CWallCube::Create(pGrahicDev);
+					pGameObject->Set_DrawTexIndex(iDrawIndex);
+					static_cast<CWallCube*>(pGameObject)->Set_Option(CUBE_TYPE(iCubeOption));
+					FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(test1, pGameObject), );
 
-			}
-
-
+				}
+			
 			CTransform* Transcom = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
 			Transcom->Set_Info(INFO_RIGHT, &vRight);
 			Transcom->Set_Info(INFO_UP, &vUp);
@@ -243,6 +258,9 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 			Transcom->Set_Angle(&vAngle);
 			Transcom->Set_Scale(&vScale);
 			Transcom->Update_Component(0.01f);
+			}
+			
+			
 			//   받아온 정보 입력해줘야함
 			
 		}

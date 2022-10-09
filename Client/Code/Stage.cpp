@@ -30,7 +30,6 @@
 #include "FatBat.h"
 #include "Sphinx.h"
 
-
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
 {
@@ -57,25 +56,7 @@ HRESULT CStage::Ready_Scene(void)
 	FAILED_CHECK_RETURN(Ready_Layer_GameLogic(L"Layer_GameLogic"), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_UI(L"Layer_UI"), E_FAIL);
 
-
-	CLayer* pLayer =GetLayer(L"Layer_CubeCollsion");
-	pLayer->m_iRoomIndex = pLayer->m_iRestRoom--;  // rand() %
-	vector<CGameObject*> m_vecCube = *pLayer->GetRestCube();
-	CGameObject* pFirstCubeObj = m_vecCube[pLayer->m_iRoomIndex];
-
-	CDynamic_Transform *pTransform = dynamic_cast<CDynamic_Transform*>(Get_Component(L"Layer_GameLogic",L"Player",L"Proto_DynamicTransformCom", ID_DYNAMIC));
-	CTransform* pFirstCubeTransform = dynamic_cast<CTransform*>(pFirstCubeObj->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
-	
-	//pLayer->Save_CurrentRoom(pLayer->m_iRoomIndex);
-	
-	_vec3 vFirstCubePos;
-	pFirstCubeTransform->Get_Info(INFO_POS, &vFirstCubePos);
-
-	pTransform->Set_Pos(vFirstCubePos.x, vFirstCubePos.y, vFirstCubePos.z + 5.f);
-	
-	pTransform->Update_Component(1.f);
-
-
+	Set_Player_StartCubePos();
 
 	//::PlaySoundW(L"SamTow.wav", SOUND_BGM, 0.05f); // BGM
 
@@ -126,19 +107,11 @@ void CStage::LateUpdate_Scene(void)
 		iter->second->Collision_Event();
 	}
 
-
-	list<CGameObject*> mTeest = *(pLayer->Get_CubeList(0));
-	// Teleport_Cube
-
-
 	for (int i = 0; i < TELEPORT_CUBE_LIST_END; ++i)
 	{
-		for (auto iter : *(pLayer->Get_CubeList(i)))
+		for (auto iter : *(pLayer->Get_TeleCubeList(i)))
 			iter->Collision_Event();
 	}
-
-
-
 
 	Engine::CScene::LateUpdate_Scene();
 }
@@ -273,10 +246,7 @@ HRESULT CStage::Ready_Layer_CubeCollsion(const _tchar * pLayerTag)
 		L"TestCube",
 		OBJ_CUBE);
 
-
 	pLayer->initStartCube();
-
-
 
 	return S_OK;
 }
@@ -343,17 +313,31 @@ HRESULT CStage::Ready_Light(void)
 
 void CStage::TeleportCubeUpdate(const _float & fTimeDelta)
 {
-
 	CLayer* pLayer = GetLayer(L"Layer_CubeCollsion");
 
 	for (int i = 0; i < TELEPORT_CUBE_LIST_END; ++i)
 	{
-		for (auto iter :  *(pLayer->Get_CubeList(i)))
+		for (auto iter :  *(pLayer->Get_TeleCubeList(i)))
 			iter->Update_Object(fTimeDelta);
 	}
+}
 
+void CStage::Set_Player_StartCubePos()
+{
+	CLayer* pLayer =GetLayer(L"Layer_CubeCollsion");
+	pLayer->m_iRoomIndex = pLayer->m_iRestRoom--;  // rand() %
+	vector<CGameObject*> m_vecCube = *pLayer->GetRestCube();
+	CGameObject* pFirstCubeObj = m_vecCube[pLayer->m_iRoomIndex];
 
-
+	CDynamic_Transform *pTransform = dynamic_cast<CDynamic_Transform*>(Get_Component(L"Layer_GameLogic",L"Player",L"Proto_DynamicTransformCom", ID_DYNAMIC));
+	CTransform* pFirstCubeTransform = dynamic_cast<CTransform*>(pFirstCubeObj->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
 	
+	//pLayer->Save_CurrentRoom(pLayer->m_iRoomIndex);
+	
+	_vec3 vFirstCubePos;
+	pFirstCubeTransform->Get_Info(INFO_POS, &vFirstCubePos);
 
+	pTransform->Set_Pos(vFirstCubePos.x, vFirstCubePos.y, vFirstCubePos.z + 5.f);
+	
+	pTransform->Update_Component(1.f);
 }

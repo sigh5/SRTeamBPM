@@ -22,7 +22,6 @@ public:
 	virtual void		Render_Obejct(void) override;
 	virtual void		Collision_Event() override;
 
-
 public:// For Tool
 	void				MousePostoScreen(); // 현재 마우스 더블클릭한 위치로 큐브를 만들어주는 함수
 	_bool				Set_SelectGizmo();
@@ -56,16 +55,6 @@ public:
 	_int				irandNum=4;					// Room이 6개니까
 	_int				iIndex = 0;
 	
-private:
-	list<CWallCube*>	m_listStartCubes;
-
-
-
-
-	
-
-
-
 
 public:
 	static CWallCube*	Create(LPDIRECT3DDEVICE9 pGraphicDev);

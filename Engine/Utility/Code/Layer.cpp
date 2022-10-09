@@ -121,6 +121,32 @@ void CLayer::LateUpdate_Layer(void)
 		iter->LateUpdate_Object();
 }
 
+void CLayer::initStartCube()
+{
+	for (auto iter : m_TeleportCubeList[STARTCUBELIST])
+	{
+		m_RestCubevec.push_back(iter);
+	}
+}
+
+CGameObject* CLayer::Get_PreRoomTeleCube()
+{
+	if (m_vecVistedCube.empty())
+		return nullptr;
+
+	CGameObject *pTeleEndCube = m_vecVistedCube.top();
+	m_vecVistedCube.pop();
+	return pTeleEndCube;
+}
+
+void CLayer::Clear_Stack()
+{
+	while (!m_vecVistedCube.empty())
+	{
+		m_vecVistedCube.pop();
+	}
+}
+
 CLayer* CLayer::Create(void)
 {
 	CLayer*	pLayer = new CLayer;

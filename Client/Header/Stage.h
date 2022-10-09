@@ -41,6 +41,9 @@ private:
 
 
 	void			TeleportCubeUpdate(const _float& fTimeDelta);
+	void			Set_Player_StartCubePos();
+
+
 
 	// Effect : multimap -> map issue
 private:
