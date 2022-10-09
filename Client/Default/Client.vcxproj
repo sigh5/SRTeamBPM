@@ -198,6 +198,7 @@
     <ClInclude Include="..\Header\MyCamera.h" />
     <ClInclude Include="..\Header\Obelisk.h" />
     <ClInclude Include="..\Header\ObjectMgr.h" />
+    <ClInclude Include="..\Header\Obstacle.h" />
     <ClInclude Include="..\Header\Player.h" />
     <ClInclude Include="..\Header\ShotGun.h" />
     <ClInclude Include="..\Header\SkyBox.h" />
@@ -213,6 +214,7 @@
     <ClInclude Include="..\Header\Start_Button.h" />
     <ClInclude Include="..\Header\StaticCamera.h" />
     <ClInclude Include="..\Header\Status_UI.h" />
+    <ClInclude Include="..\Header\TeleCube.h" />
     <ClInclude Include="..\Header\Terrain.h" />
     <ClInclude Include="..\Header\TestCube.h" />
     <ClInclude Include="..\Header\TestMonster.h" />
@@ -283,6 +285,7 @@
     <ClCompile Include="..\Code\MyCamera.cpp" />
     <ClCompile Include="..\Code\Obelisk.cpp" />
     <ClCompile Include="..\Code\ObjectMgr.cpp" />
+    <ClCompile Include="..\Code\Obstacle.cpp" />
     <ClCompile Include="..\Code\Player.cpp" />
     <ClCompile Include="..\Code\ShotGun.cpp" />
     <ClCompile Include="..\Code\SkyBox.cpp" />
@@ -298,6 +301,7 @@
     <ClCompile Include="..\Code\Start_Button.cpp" />
     <ClCompile Include="..\Code\StaticCamera.cpp" />
     <ClCompile Include="..\Code\Status_UI.cpp" />
+    <ClCompile Include="..\Code\TeleCube.cpp" />
     <ClCompile Include="..\Code\Terrain.cpp" />
     <ClCompile Include="..\Code\TestCube.cpp" />
     <ClCompile Include="..\Code\TestMonster.cpp" />
