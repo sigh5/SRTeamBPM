@@ -22,7 +22,7 @@ CAnubis::~CAnubis()
 {
 }
 
-HRESULT CAnubis::Ready_Object(int Posx, int Posy)
+HRESULT CAnubis::Ready_Object(float Posx, float Posy)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	
@@ -55,7 +55,7 @@ HRESULT CAnubis::Ready_Object(int Posx, int Posy)
 	if (Posx == 0 && Posy == 0) {}
 	else
 	{
-		m_pDynamicTransCom->Set_Pos(Posx, 2.f, Posy);
+		m_pDynamicTransCom->Set_Pos((float)Posx, 2.f, (float)Posy);
 	}
 
 	return S_OK;

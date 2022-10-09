@@ -52,25 +52,25 @@ _int CMonsterToolObject::Update_Object(const _float & fTimeDelta)
 			{
 			case 0:
 				pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_MonsterTexture"));
-				NULL_CHECK(m_pTextureCom, E_FAIL);
+				NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
 				m_mapComponent[ID_STATIC].insert({ L"Proto_MonsterTexture", pComponent });
 				break;
 
 			case 1:
 				pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_MonsterTexture2"));
-				NULL_CHECK(m_pTextureCom, E_FAIL);
+				NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
 				m_mapComponent[ID_STATIC].insert({ L"Proto_MonsterTexture2", pComponent });
 				break;
 
 			case 2:
 				pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_MonsterTexture3"));
-				NULL_CHECK(m_pTextureCom, E_FAIL);
+				NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
 				m_mapComponent[ID_STATIC].insert({ L"Proto_MonsterTexture3", pComponent });
 				break;
 
 			default:
 				pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_MonsterTexture"));
-				NULL_CHECK(m_pTextureCom, E_FAIL);
+				NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
 				m_mapComponent[ID_STATIC].insert({ L"Proto_MonsterTexture", pComponent });
 				break;
 

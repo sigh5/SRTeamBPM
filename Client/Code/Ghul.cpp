@@ -48,7 +48,7 @@ HRESULT CGhul::Ready_Object(int Posx, int Posy)
 	if (Posx == 0 && Posy == 0) {}
 	else
 	{
-		m_pDynamicTransCom->Set_Pos(Posx, 1.f, Posy);
+		m_pDynamicTransCom->Set_Pos((float)Posx, 1.f, (float)Posy);
 	}
 	m_pDynamicTransCom->Update_Component(1.f);
 	return S_OK;

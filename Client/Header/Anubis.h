@@ -13,7 +13,7 @@ private:
 	virtual ~CAnubis();
 
 public:
-	virtual HRESULT		Ready_Object(int Posx, int Posy);
+	virtual HRESULT		Ready_Object(float Posx, float Posy);
 	virtual _int		Update_Object(const _float& fTimeDelta) override;
 	virtual void		LateUpdate_Object(void) override;
 	virtual void		Render_Obejct(void) override;
