@@ -66,10 +66,7 @@ _int CDashUI::Update_Object(const _float & fTimeDelta)
 			m_fDelayTime = 0.f;
 			m_bSize = false;
 		}
-
-					
-	
-	
+			
 
 	Engine::CGameObject::Update_Object(fTimeDelta);
 

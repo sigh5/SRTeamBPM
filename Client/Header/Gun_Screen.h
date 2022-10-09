@@ -29,6 +29,8 @@ public:
 private:
 	HRESULT				Add_Component(void);
 
+	HRESULT				Add_UpdateComponent(void);
+
 public:
 	HRESULT				Shoot_Motion(void);
 
@@ -45,6 +47,9 @@ public:	// Get/Set
 	void				Set_Shoot(_bool bShoot) { m_bShootCheck = bShoot; }
 	const _bool &		Get_Shoot()const { return m_bShootCheck; }
 
+
+	void				Set_ChangeWeaponUI(_bool bChangeWeaponUI) { m_bChangeWeaponUI = bChangeWeaponUI; }
+
 public:
 	void				GunFailSound();
 
@@ -53,6 +58,11 @@ private:
 	_bool				m_bReadyShot = false;
 	_uint				m_iMagazine = 8;
 	_bool				m_bAnimation = false;
+
+
+	_bool				m_bChangeWeaponUI = false;
+
+	_bool				m_bControl = false;
 
 private:
 	CRcTex*				m_pBufferCom = nullptr;

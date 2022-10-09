@@ -6,6 +6,10 @@
 #include "Box.h"
 #include "Gun_Screen.h"
 
+#include "ShotGun.h"
+#include "Coin.h"
+#include "Key.h"
+
 
 
 
@@ -264,6 +268,45 @@ void CPlayer::ComboCheck()
 		m_iComboCount = 0;
 	}
 	
+}
+
+void CPlayer::EquipItem_Add_Stat(void)  // 현재 각 아이템들 충돌처리 부분이 애매해서 F 누르면 스탯이 다 증가할 거임. 충돌처리를 고치던지 날 잡고 한 번 뜯어봐야 함.
+{
+	CShotGun* pShotGun = static_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"));
+	CCoin* pCoin = static_cast<CCoin*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Coin"));
+	CKey* pKey = static_cast<CKey*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Key"));
+
+	// ShotGun을 먹은 경우
+	if (pShotGun->Get_RenderFalse() == true && m_bCurStat)
+	{
+		m_bPreStat = true;
+	}
+
+	if (pCoin->Get_bAddCoin() == true && m_bCurStat)
+	{
+		m_bPreStat = true;
+	}
+
+	if (pKey->Get_bAddKey() == true && m_bCurStat)
+	{
+		m_bPreStat = true;
+	}
+
+
+	if (m_bPreStat)
+	{
+		_uint iAtk = 0;
+		iAtk = m_pInfoCom->Get_InfoRef()._iAttackPower + pShotGun->Get_EquipInfoRef()._iAddAttack;
+
+		m_pInfoCom->Get_InfoRef()._iAttackPower = iAtk;
+
+		m_pInfoCom->Add_Coin();
+		m_pInfoCom->Add_Key();
+
+		m_bPreStat = false;
+		m_bCurStat = false;
+	}
+
 }
 
 

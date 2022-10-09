@@ -50,12 +50,15 @@ public:
 	void				ComboCheck();
 
 
+	void				EquipItem_Add_Stat(void);
 
-
-public:
+public:					// ★ m_pInfoCom->Get_InfoRef()._iHp를 return 해주면 실전 OK
 	_uint				Get_HpChange(void) { return m_iHpBarChange; }
 	_uint				Get_Skill(void) { return m_iSkillPower; }
 	
+
+	void				Set_bPreStat(_bool _AddStat) { m_bPreStat = _AddStat; }
+	void				Set_bCurStat(_bool _bStat) { m_bCurStat = _bStat; }
 
 private:
 	CRcTex*				m_pBufferCom = nullptr;
@@ -106,7 +109,10 @@ private:		// Jw
 
 	stack<CGameObject*> VistiRoomStack;
 
-
+	// Player's Status(Private)	
+	_bool				m_bPreStat = false;
+	_bool				m_bCurStat = false;
+	// ~Player's Status(Private)
 
 public:
 	static CPlayer*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

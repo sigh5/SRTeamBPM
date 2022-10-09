@@ -102,6 +102,8 @@ _uint CLoading::Loading_ForStage(void)
 	// \Bin\Resource\Texture\UI
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_LoadingFontBackGround_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/LoadingFont_Background.png", TEX_NORMAL)), E_FAIL);
 
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ShotGun_ScreenTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Gun_Output/Shotgun/Shotgun%d.png", TEX_NORMAL, 16)), E_FAIL);
+
 	// ~UI
 
 	// Box
@@ -130,7 +132,7 @@ _uint CLoading::Loading_ForStage(void)
 
 	m_bFinish = true;
 
-	lstrcpy(m_szLoading, L"Loading Complete!!!!!!!!!!!");
+	lstrcpy(m_szLoading, L"Press Start Button");
 
 	return 0;
 }
@@ -263,6 +265,7 @@ _uint CLoading::Loading_ForPlayer_UI(void)
 																									// Bin\Resource\Texture\Gun_Output
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Gun_ScreenTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Gun_Output/Magnum%d.png", TEX_NORMAL, 5)), E_FAIL);
 
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ShotGun_ScreenTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Gun_Output/Shotgun/Shotgun%d.png", TEX_NORMAL, 16)), E_FAIL);
 
 	// Item Texture
 

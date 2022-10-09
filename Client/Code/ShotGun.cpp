@@ -7,6 +7,8 @@
 #include "MyCamera.h"
 #include "Inventory_UI.h"
 #include "Status_UI.h"
+#include "Gun_Screen.h"
+#include "Player.h"
 
 CShotGun::CShotGun(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CEquipmentBase(pGraphicDev) 
@@ -195,7 +197,7 @@ void CShotGun::Collision_Event()
 	CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
 	CGameObject *pGameObject = nullptr;
 
-	pGameObject = pLayer->Get_GameObject(L"TestPlayer");
+	pGameObject = pLayer->Get_GameObject(L"Player");
 	NULL_CHECK_RETURN(pGameObject, );
 			
 	if (!m_pColliderCom->Check_Collision(this, pGameObject, 1, 1))
@@ -209,8 +211,11 @@ void CShotGun::Collision_Event()
 			pInven->Get_WeaponType()->push_back(this);
 
 			// 플레이어의 스탯에 관여하기 위함
-			CTestPlayer* pTestPlayer = static_cast<CTestPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"TestPlayer"));
+			CPlayer* pTestPlayer = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
 			pTestPlayer->Set_bCurStat(true);
+
+			CGun_Screen* pGun_Screen = static_cast<CGun_Screen*>(Engine::Get_GameObject(L"Layer_UI", L"Gun"));
+			pGun_Screen->Set_ChangeWeaponUI(true);
 		}
 
 	}

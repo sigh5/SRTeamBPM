@@ -105,14 +105,14 @@ void CKey::Collision_Event()
 	NULL_CHECK_RETURN(pLayer, );
 	CGameObject *pGameObject = nullptr;
 
-	pGameObject = pLayer->Get_GameObject(L"TestPlayer");
+	pGameObject = pLayer->Get_GameObject(L"Player");
 	NULL_CHECK_RETURN(pGameObject, );
 
 	if (!m_pColliderCom->Check_Collision(this, pGameObject, 1, 1))
 	{
 		if (Engine::Key_Down(DIK_F))
 		{
-			CTestPlayer* pTestPlayer = static_cast<CTestPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"TestPlayer"));
+			CPlayer* pTestPlayer = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
 
 			m_bAddKey = true;
 			pTestPlayer->Set_bCurStat(true);
