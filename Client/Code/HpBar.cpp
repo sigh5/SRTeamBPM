@@ -96,7 +96,7 @@ HRESULT CHpBar::Add_Component(void)
 
 	pComponent = m_pAnimationCom = dynamic_cast<CAnimation*>(Clone_Proto(L"Proto_AnimationCom"));
 	NULL_CHECK_RETURN(m_pAnimationCom, E_FAIL);
-	m_pAnimationCom->Ready_Animation(4, 0, 0.2f, 3); // 8
+	m_pAnimationCom->Ready_Animation(5, 0, 0.2f, 4); // 8
 	m_mapComponent[ID_DYNAMIC].insert({ L"Proto_AnimationCom", pComponent });
 
 	return S_OK;
