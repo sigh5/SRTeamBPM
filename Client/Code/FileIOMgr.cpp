@@ -218,6 +218,7 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 		
 			// 다른 레이어에 큐브옵션이 다르면
 
+
 			if (SCENE_TOOLTEST == pScene->Get_SceneType())
 			{
 				pGameObject = CWallCube::Create(pGrahicDev);
@@ -249,7 +250,7 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 					FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(test1, pGameObject), );
 
 				}
-			
+			}
 			CTransform* Transcom = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
 			Transcom->Set_Info(INFO_RIGHT, &vRight);
 			Transcom->Set_Info(INFO_UP, &vUp);
@@ -258,7 +259,7 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 			Transcom->Set_Angle(&vAngle);
 			Transcom->Set_Scale(&vScale);
 			Transcom->Update_Component(0.01f);
-			}
+			
 			
 			
 			//   받아온 정보 입력해줘야함

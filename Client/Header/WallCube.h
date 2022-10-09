@@ -44,7 +44,6 @@ public:
 	CCollider*			m_pColliderCom = nullptr;
 
 private:
-	_bool				m_bWireFrame = false;
 	_bool				m_bIsOnterrrain = false;
 	_int				m_iOption = 0;					// 0: Wall 1: Obstacle 2: TeleportStart 3: TelePortEnd
 
@@ -63,5 +62,5 @@ public:
 
 };
 
-// 왜깃만 쓰면 이러냐 
+
 
