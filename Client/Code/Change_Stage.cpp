@@ -5,6 +5,7 @@
 #include "Loading_Image.h"
 #include "LoadingBackFont.h"
 #include "Stage_Pjw.h"
+#include "Stage.h"
 
 CChange_Stage::CChange_Stage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -39,7 +40,7 @@ _int CChange_Stage::Update_Scene(const _float & fTimeDelta)
 
 	if (m_iLoadingCount > 200)
 	{
-		CScene*		pScene = CStage_Pjw::Create(m_pGraphicDev);
+		CScene*		pScene = CStage::Create(m_pGraphicDev);
 		NULL_CHECK_RETURN(pScene, E_FAIL);
 
 		FAILED_CHECK_RETURN(Engine::Set_Scene(pScene), E_FAIL);

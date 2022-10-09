@@ -66,12 +66,12 @@ void CWeapon_UI::Render_Obejct(void)
 	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 	
-	if (dynamic_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"))->Get_RenderFalse() == true)
+	/*if (dynamic_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"))->Get_RenderFalse() == true)
 	{
 		m_pTextureCom->Set_Texture(1);
 	}
 
-	else
+	else*/
 	m_pTextureCom->Set_Texture(0);
 
 	m_pBufferCom->Render_Buffer();

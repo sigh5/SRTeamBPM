@@ -94,6 +94,14 @@ _uint CLoading::Loading_ForStage(void)
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Gun_ScreenTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Gun_Output/Magnum%d.png", TEX_NORMAL, 5)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Dash_UI_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Dash_Icon.png", TEX_NORMAL)), E_FAIL);
 	
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Inventory_UI_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Inventory_UI.png", TEX_NORMAL)), E_FAIL);
+	// \Bin\Resource\Texture\UI
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UI_Frame_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/UI_Frame.png", TEX_NORMAL)), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ChangeScene_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Logo/Change_Scene/Change_Scene%d.png", TEX_NORMAL, 7)), E_FAIL);
+	// \Bin\Resource\Texture\UI
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_LoadingFontBackGround_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/LoadingFont_Background.png", TEX_NORMAL)), E_FAIL);
+
 	// ~UI
 
 	// Box
@@ -290,6 +298,7 @@ _uint CLoading::Loading_ForPlayer_UI(void)
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ChangeScene_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Logo/Change_Scene/Change_Scene%d.png", TEX_NORMAL, 7)), E_FAIL);
 																												// \Bin\Resource\Texture\UI
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_LoadingFontBackGround_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/LoadingFont_Background.png", TEX_NORMAL)), E_FAIL);
+	
 	// ~UI Texture																						
 
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_AnimationCom", CAnimation::Create(m_pGraphicDev, 0, 0, 0.f)), E_FAIL);
