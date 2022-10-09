@@ -67,7 +67,7 @@ void CTransform::Chase_Target_notRot(const _vec3 * pTargetPos, const _float & fS
 	_matrix		matScale, matTrans;
 
 	D3DXMatrixScaling(&matScale, m_vScale.x, m_vScale.y, m_vScale.z);
-	D3DXMatrixTranslation(&matTrans, m_vInfo[INFO_POS].x, m_vInfo[INFO_POS].y, m_vInfo[INFO_POS].z);
+	D3DXMatrixTranslation(&matTrans, m_vInfo[INFO_POS].x, 1.f, m_vInfo[INFO_POS].z);
 
 	m_matWorld = matScale * matTrans;
 }

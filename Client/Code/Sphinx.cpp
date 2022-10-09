@@ -55,6 +55,7 @@ HRESULT CSphinx::Ready_Object(int Posx, int Posy)
 
 _int CSphinx::Update_Object(const _float & fTimeDelta)
 {
+
 	if ( !m_bBattle  )
 	{
 		IdleLoop(fTimeDelta);

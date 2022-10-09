@@ -81,11 +81,7 @@ _int CGhul::Update_Object(const _float & fTimeDelta)
 
 	Excution_Event();
 
-	/*
-	for (auto iter = m_AnubisThunderlist.begin(); iter != m_AnubisThunderlist.end(); ++iter)
-	{
-	(*iter)->Update_Object(fTimeDelta);
-	}*/
+
 
 	Engine::CMonsterBase::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);

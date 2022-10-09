@@ -196,7 +196,7 @@ void CSphinxFlyHead::AttackJudge(const _float & fTimeDelta)
 			if (m_fAttackDelay <= m_fAttackDelayTime)
 			{
 				m_bAttack = true;
-				m_iAttackPattern = 1; //rand
+				m_iAttackPattern = rand() % 2; //rand
 				m_fAttackDelayTime = 0.f;
 			}
 		}

@@ -187,8 +187,8 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 */
 
 
-	//READY_LAYER(pGameObject, CAnubis, pLayer, m_pGraphicDev, L"TestMonster1");
-	//READY_LAYER(pGameObject, CSpider, pLayer, m_pGraphicDev, L"TestMonster2");
+	READY_LAYER(pGameObject, CAnubis, pLayer, m_pGraphicDev, L"TestMonster1");
+	READY_LAYER(pGameObject, CSpider, pLayer, m_pGraphicDev, L"TestMonster2");
 	//READY_LAYER(pGameObject, CFatBat, pLayer, m_pGraphicDev, L"TestMonster3");
 	
 	//

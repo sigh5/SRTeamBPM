@@ -30,7 +30,7 @@ HRESULT CObelisk::Ready_Object(int Posx, int Posy)
 	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Obelisk_Texture", m_mapComponent, ID_STATIC);
 
 	
-
+	m_pAnimationCom->Ready_Animation(4, 0, 100);
 	m_pInfoCom->Ready_CharacterInfo(4, 10, 5.f);
 	m_iPreHp = (m_pInfoCom->Get_InfoRef()._iHp);
 
@@ -42,7 +42,7 @@ HRESULT CObelisk::Ready_Object(int Posx, int Posy)
 	{
 		m_pDynamicTransCom->Set_Pos( (float)Posx, 2.f, (float)Posy );
 	}
-	m_pDynamicTransCom->Set_Scale(&_vec3(2.f, 4.f, 2.f));
+	m_pDynamicTransCom->Set_Scale(&_vec3(1.f, 4.f, 1.f));
 	m_pDynamicTransCom->Update_Component(1.f);
 	return S_OK;
 }
@@ -59,8 +59,11 @@ _int CObelisk::Update_Object(const _float & fTimeDelta)
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 
 	NoHit_Loop(fTimeDelta);
-	Hit_Loop(fTimeDelta);
-
+	if (m_iPreHp != m_pInfoCom->Get_Hp())
+	{
+		Hit_Loop(fTimeDelta);
+		m_iPreHp = m_pInfoCom->Get_Hp();
+	}
 	Engine::CMonsterBase::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
 
@@ -82,7 +85,7 @@ void CObelisk::LateUpdate_Object(void)
 		D3DXMatrixInverse(&matBill, 0, &matBill);
 
 		_matrix      matScale, matTrans;
-		D3DXMatrixScaling(&matScale, 2.f, m_pDynamicTransCom->m_vScale.y, 2.f);
+		D3DXMatrixScaling(&matScale, m_pDynamicTransCom->m_vScale.x, m_pDynamicTransCom->m_vScale.y, m_pDynamicTransCom->m_vScale.z);
 
 		_matrix      matRot;
 		D3DXMatrixIdentity(&matRot);
@@ -151,8 +154,13 @@ bool CObelisk::Dead_Judge(const _float & fTimeDelta)
 
 	if (0 >= m_pInfoCom->Get_Hp())
 	{
-		m_pAnimationCom->m_iMotion = 4;
-		m_bDead = true;
+		if (false == m_bDead)
+		{
+			m_pAnimationCom->m_iMotion = 4;
+			m_pDynamicTransCom->Add_Y(m_pDynamicTransCom->m_vInfo[INFO_POS].y *-0.35f);
+			m_pDynamicTransCom->Set_Scale(&_vec3{ m_pDynamicTransCom->m_vScale.x, m_pDynamicTransCom->m_vScale.y * 0.7f, m_pDynamicTransCom->m_vScale.z });
+			m_bDead = true;
+		}
 		//Safe_Release(m_pAttackAnimationCom);
 	}
 	if (m_bDead)
@@ -216,23 +224,22 @@ void CObelisk::Hit_Loop(const _float & fTimeDelta)
 	if (4 == m_pInfoCom->Get_Hp())
 	{
 		m_pAnimationCom->m_iMotion = 0;
-		m_pDynamicTransCom->Set_Scale(&_vec3{ pScale.x, pScale.y * 0.75f, pScale.z });
 	}
 	if (3 == m_pInfoCom->Get_Hp())
 	{
 		m_pAnimationCom->m_iMotion = 1;
-		m_pDynamicTransCom->Set_Scale(&_vec3{ pScale.x, pScale.y * 0.75f, pScale.z });
 	}
 	if (2 == m_pInfoCom->Get_Hp())
 	{
 		m_pAnimationCom->m_iMotion = 2;
-		m_pDynamicTransCom->Set_Scale(&_vec3{ pScale.x, pScale.y * 0.75f, pScale.z });
 	}
 	if (1 == m_pInfoCom->Get_Hp())
 	{
 		m_pAnimationCom->m_iMotion = 3;
-		m_pDynamicTransCom->Set_Scale(&_vec3{ pScale.x, pScale.y * 0.75f, pScale.z });
+		m_pDynamicTransCom->Add_Y(m_pDynamicTransCom->m_vInfo[INFO_POS].y *- 0.5f);
+		m_pDynamicTransCom->Set_Scale(&_vec3{ pScale.x, pScale.y * 0.55f, pScale.z });
 	}
+	m_pDynamicTransCom->Update_Component(fTimeDelta);
 }
 
 CObelisk * CObelisk::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)
