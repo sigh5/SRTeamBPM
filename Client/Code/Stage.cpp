@@ -29,7 +29,9 @@
 #include "Spider.h"
 #include "FatBat.h"
 #include "Sphinx.h"
-
+#include "Ghul.h"
+#include "Obelisk.h"
+#include "EarthShaker.h"
 
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -56,7 +58,7 @@ HRESULT CStage::Ready_Scene(void)
 	FAILED_CHECK_RETURN(Ready_Layer_UI(L"Layer_UI"), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_CubeCollsion(L"Layer_CubeCollsion"), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Room(L"Layer_Room"), E_FAIL);
-
+	
 
 	//::PlaySoundW(L"SamTow.wav", SOUND_BGM, 0.05f); // BGM
 
@@ -81,6 +83,10 @@ _int CStage::Update_Scene(const _float & fTimeDelta)
 		NULL_CHECK_RETURN(pGameObject, 0);
 		pMyLayer->Add_GameObjectList(pGameObject);
 
+		for (auto iter = pMyLayer->Get_GhulList().begin(); iter != pMyLayer->Get_GhulList().end(); ++iter)
+		{
+			(*iter)->Update_Object(fTimeDelta);
+		}
 		m_fFrame = 0.f;
 	}
 
@@ -98,7 +104,20 @@ void CStage::LateUpdate_Scene(void)
 	{
 		iter->second->Collision_Event();
 	}
-
+	
+	for (auto iter = pLayer->Get_GhulList().begin(); iter != pLayer->Get_GhulList().end(); ++iter)
+	{
+		(*iter)->LateUpdate_Object();
+		(*iter)->Collision_Event();
+	}
+	/*pLayer = GetLayer(L"Layer_UI");
+	CGun_Screen* pGun = static_cast<CGun_Screen*>(pLayer->Get_GameObject(L"Gun"));
+	*/
+	//if (pGun->Get_Shoot())
+	//{
+	//	pPlayer->Reset_ComboCount();
+	//}
+	/*pGun->Set_Shoot(false);*/
 
 	pLayer = GetLayer(L"Layer_CubeCollsion");
 
@@ -175,6 +194,19 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Sphinx", pGameObject), E_FAIL);
 
+	pGameObject = CEarthShaker::Create(m_pGraphicDev, 20, 20, 3.f);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Earth", pGameObject), E_FAIL);
+
+	/*pGameObject = CObelisk::Create(m_pGraphicDev, 20, 15);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Obelisk", pGameObject), E_FAIL);*/
+
+	//pLayer->Add_ObeliskList(pGameObject); //오벨리스크 생성 시 리스트에도 추가해야 함
+
+	//pGameObject = CGhul::Create(m_pGraphicDev, 20, 15);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Ghul", pGameObject), E_FAIL);
 
 	/*CPlayer*		pPlayer = dynamic_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"));
 	pGameObject = CBox::Create(m_pGraphicDev, 5, 10, pPlayer);
@@ -183,9 +215,10 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 */
 
 
-	READY_LAYER(pGameObject, CAnubis, pLayer, m_pGraphicDev, L"TestMonster1");
-	READY_LAYER(pGameObject, CSpider, pLayer, m_pGraphicDev, L"TestMonster2");
-	READY_LAYER(pGameObject, CFatBat, pLayer, m_pGraphicDev, L"TestMonster3");
+	//READY_LAYER(pGameObject, CAnubis, pLayer, m_pGraphicDev, L"TestMonster1");
+	//READY_LAYER(pGameObject, CSpider, pLayer, m_pGraphicDev, L"TestMonster2");
+	//READY_LAYER(pGameObject, CFatBat, pLayer, m_pGraphicDev, L"TestMonster3");
+
 	//
 	/*CFileIOMgr::GetInstance()->Load_FileData(m_pGraphicDev,
 		this,

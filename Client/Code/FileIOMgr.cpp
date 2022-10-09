@@ -9,6 +9,7 @@
 #include "Spider.h"
 #include "TestPlayer.h"
 #include "WallCube.h"
+#include "MonsterToolObject.h"
 #include "Terrain.h"
 
 
@@ -75,7 +76,7 @@ void CFileIOMgr::Save_FileData(CScene * pScene,
 			WriteFile(hFile, &iDrawNum, sizeof(_int), &dwByte, nullptr);
 			WriteFile(hFile, &iOption, sizeof(_int), &dwByte, nullptr);
 		}
-
+	
 	}
 
 	else if (eObjType == OBJ_MONSTER)
@@ -83,14 +84,14 @@ void CFileIOMgr::Save_FileData(CScene * pScene,
 		for (auto iter = MyLayerMap.begin(); iter != MyLayerMap.end(); ++iter)
 		{
 
-			CTransform* Transcom = dynamic_cast<CTransform*>(iter->second->Get_Component(L"Proto_DynamicTransformCom", ID_DYNAMIC));
+			CTransform* Transcom = dynamic_cast<CTransform*>(iter->second->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
 
 			_vec3   vPos, vScale;
 			_int	iMonsterType = 0;
 
 			Transcom->Get_Info(INFO_POS, &vPos);
 			memcpy(vScale, Transcom->m_vScale, sizeof(_vec3));
-			iMonsterType = static_cast<CMonsterBase*>(iter->second)->Get_MonsterType();
+			iMonsterType = static_cast<CMonsterToolObject*>(iter->second)->Get_MonsterType();
 
 			WriteFile(hFile, &vPos, sizeof(_vec3), &dwByte, nullptr);
 			WriteFile(hFile, &vScale, sizeof(_vec3), &dwByte, nullptr);
@@ -124,7 +125,7 @@ void CFileIOMgr::Save_FileData(CScene * pScene,
 		WriteFile(hFile, &iDrawNum, sizeof(_int), &dwByte, nullptr);
 
 	}
-
+	
 	else if (eObjType == OBJ_ROOM)
 	{
 		for (auto iter = MyLayerMap.begin(); iter != MyLayerMap.end(); ++iter)
@@ -139,7 +140,7 @@ void CFileIOMgr::Save_FileData(CScene * pScene,
 			memcpy(vScale, Transcom->m_vScale, sizeof(_vec3));
 			memcpy(vAngle, Transcom->m_vAngle, sizeof(_vec3));
 			iDrawNum = iter->second->Get_DrawTexIndex();
-		
+
 			WriteFile(hFile, &vRight, sizeof(_vec3), &dwByte, nullptr);
 			WriteFile(hFile, &vUp, sizeof(_vec3), &dwByte, nullptr);
 			WriteFile(hFile, &vLook, sizeof(_vec3), &dwByte, nullptr);
@@ -147,7 +148,7 @@ void CFileIOMgr::Save_FileData(CScene * pScene,
 			WriteFile(hFile, &vScale, sizeof(_vec3), &dwByte, nullptr);
 			WriteFile(hFile, &vAngle, sizeof(_vec3), &dwByte, nullptr);
 			WriteFile(hFile, &iDrawNum, sizeof(_int), &dwByte, nullptr);
-			
+
 		}
 	}
 
@@ -218,12 +219,12 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 
 			static_cast<CWallCube*>(pGameObject)->Set_Option(CUBE_TYPE(iCubeOption));
 			// 다른 레이어에 큐브옵션이 다르면
-
+			
 			if (iCubeOption == CUBE_START_TELE)
 			{
 				pScene->Get_CubeList(STARTCUBELIST)->push_back(pGameObject);
 			}
-
+			
 			else if (iCubeOption == CUBE_END_TELE)
 			{
 				pScene->Get_CubeList(ENDCUBELIST)->push_back(pGameObject);
@@ -233,7 +234,7 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 				FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(test1, pGameObject), );
 
 			}
-
+			
 
 			CTransform* Transcom = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
 			Transcom->Set_Info(INFO_RIGHT, &vRight);
@@ -288,16 +289,24 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 			}
 			else
 			{
-				pGameObject = CAnubis::Create(pGrahicDev);
+				pGameObject = CMonsterToolObject::Create(pGrahicDev);
 			}
-			//switch(iMonsterType) ???? ???? ???? ???? ???????
+
 			pMyLayer = pScene->GetLayer(LayerName);
 
 			FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(test1, pGameObject), );
+			CTransform* Transcom = nullptr;
+			if (SCENE_TOOLTEST != Get_Scene()->Get_SceneType())
+			{
 			static_cast<CMonsterBase*>(pGameObject)->Get_MonsterType() = iMonsterType;
+				Transcom = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_DynamicTransformCom", ID_DYNAMIC));
+			}
+			else
+			{
+				static_cast<CMonsterToolObject*>(pGameObject)->Get_MonsterType() = iMonsterType;
+				Transcom = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+			}
 			++m_iIndex;
-
-			CTransform* Transcom = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_DynamicTransformCom", ID_DYNAMIC));
 
 
 			Transcom->Set_Info(INFO_POS, &vPos);
@@ -309,7 +318,7 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 				break;
 		}
 	}
-
+	
 	else if (eObjType == OBJ_PLAYER)
 	{
 		ReadFile(hFile, &vRight, sizeof(_vec3), &dwByte, nullptr);
@@ -383,7 +392,7 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 			
 		}
 	}
-
+	
 
 
 

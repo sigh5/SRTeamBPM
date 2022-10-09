@@ -22,7 +22,9 @@ public:
 public:
 	HRESULT			Add_GameObject(const _tchar* pObjTag, CGameObject* pInstance);
 	HRESULT			Add_GameObjectList(CGameObject* pInstance);
-	
+	void			Add_GhulList(CGameObject* pGhul);
+	void			Add_ObeliskList(CGameObject* pObelisk);
+
 	
 	
 	HRESULT			Ready_Layer(void);
@@ -36,12 +38,17 @@ public:
 	list<_tchar* > Get_NameList() { return NameList; }
 	void AddNameList(_tchar* name) { NameList.push_back(name); }
 	// ~맵오류때문에 키값으로 찾게 하는코드
+	
+	//구울 리스트 가져오기
+	list<CGameObject*>&		Get_GhulList() { return m_GhulList; }
+	list<CGameObject*>&		Get_ObeliskList() { return m_ObeliskList; }
 
 private:
 	map<const _tchar*, CGameObject*>			m_mapObject;
 
-
+	list<CGameObject*>  m_GhulList;
 	list<CGameObject*>  m_objPoolList;
+	list<CGameObject*>	m_ObeliskList;
 
 	list<_tchar* > NameList;
 

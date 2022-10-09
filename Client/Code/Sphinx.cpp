@@ -8,6 +8,9 @@
 
 #include "Gun_Screen.h"
 #include "ObjectMgr.h"
+#include "SphinxBody.h"
+#include "SphinxFlyHead.h"
+#include "Obelisk.h"
 
 CSphinx::CSphinx(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -25,19 +28,28 @@ HRESULT CSphinx::Ready_Object(int Posx, int Posy)
 
 	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Sphinx_Texture", m_mapComponent, ID_STATIC);
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
+	m_pHeadOffTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Sphinx_HeadOff_Texture", m_mapComponent, ID_STATIC);
+	m_pFlyHeadTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Sphinx_FlyHead_Texture", m_mapComponent, ID_STATIC);
+	m_pBodyTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Sphinx_body_Texture", m_mapComponent, ID_STATIC);
+
+	m_pHeadOffAnimationCom = dynamic_cast<CAnimation*>(Clone_Proto(L"Proto_AnimationCom"));
+	NULL_CHECK_RETURN(m_pHeadOffAnimationCom, E_FAIL);
+	m_mapComponent[ID_STATIC].insert({ L"Proto_Sphinx_HeadOff_AnimationCom", m_pHeadOffAnimationCom });
 
 	m_vOldPlayerPos = { 0.f, 0.f, 0.f };
 	m_pAnimationCom->Ready_Animation(13, 0, 0.2f);
-	m_pInfoCom->Ready_CharacterInfo(100, 10, 8.f);
+	m_pInfoCom->Ready_CharacterInfo(5, 10, 8.f);
+	m_pHeadOffAnimationCom->Ready_Animation(19, 0, 0.3f);
 	m_iPreHp = m_pInfoCom->Get_Hp();
 	m_iShootLeftRight = 0;
-	m_vScale = { 7.f, 7.f, 1.f };
+	m_vScale = { 14.f, 14.f, 1.f };
 	m_iShootCycle = 0;
+
 
 	if (Posx == 0 && Posy == 0) {}
 	else
 	{
-		m_pDynamicTransCom->Set_Pos((float)Posx, m_vScale.y, (float)Posy);
+		m_pDynamicTransCom->Set_Pos((float)Posx, m_vScale.y * 0.5f, (float)Posy);
 	}
 	m_pDynamicTransCom->Compulsion_Update();
 	return S_OK;
@@ -45,6 +57,8 @@ HRESULT CSphinx::Ready_Object(int Posx, int Posy)
 
 _int CSphinx::Update_Object(const _float & fTimeDelta)
 {
+	Get_ObeliskState();
+
 	if ( !m_bBattle  )
 	{
 		IdleLoop(fTimeDelta);
@@ -64,40 +78,6 @@ _int CSphinx::Update_Object(const _float & fTimeDelta)
 
 void CSphinx::LateUpdate_Object(void)
 {
-	if (m_bHeadOff)
-	{
-		CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
-		NULL_CHECK(pCamera);
-
-		_matrix		matWorld, matView, matBill;
-
-		m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
-		D3DXMatrixIdentity(&matBill);
-		memcpy(&matBill, &matView, sizeof(_matrix));
-		memset(&matBill._41, 0, sizeof(_vec3));
-		D3DXMatrixInverse(&matBill, 0, &matBill);
-
-		_matrix      matScale, matTrans;
-		D3DXMatrixScaling(&matScale, m_vScale.x, m_vScale.y, m_vScale.z);
-
-		_matrix      matRot;
-		D3DXMatrixIdentity(&matRot);
-		D3DXMatrixRotationY(&matRot, (_float)pCamera->Get_BillBoardDir());
-
-		_vec3 vPos;
-		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
-
-		D3DXMatrixTranslation(&matTrans,
-			vPos.x,
-			vPos.y,
-			vPos.z);
-
-		D3DXMatrixIdentity(&matWorld);
-		matWorld = matScale* matRot * matBill * matTrans;
-		m_pDynamicTransCom->Set_WorldMatrix(&(matWorld));
-	}
-	else
-	{
 		_matrix      matScale, matTrans;
 		D3DXMatrixScaling(&matScale, m_vScale.x, m_vScale.y, m_vScale.z);
 
@@ -114,8 +94,6 @@ void CSphinx::LateUpdate_Object(void)
 
 		matWorld = matScale * matTrans;
 		m_pDynamicTransCom->Set_WorldMatrix(&(matWorld));
-
-	}
 }
 
 void CSphinx::Render_Obejct(void)
@@ -129,8 +107,21 @@ void CSphinx::Render_Obejct(void)
 	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-	m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);
-
+	if (m_bHeadOff_Finish)
+	{
+		m_pBodyTextureCom->Set_Texture(0);
+	}
+	else
+	{
+		if (false == m_bHeadOff)
+		{
+			m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);
+		}
+		else
+		{
+			m_pHeadOffTextureCom->Set_Texture(m_pHeadOffAnimationCom->m_iMotion);
+		}
+	}
 	m_pBufferCom->Render_Buffer();
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
@@ -162,17 +153,45 @@ void		CSphinx::Collision_Event()
 
 void CSphinx::BattleLoop(const _float & fTimeDelta)
 {
+	if (m_iPreHp != m_pInfoCom->Get_Hp())
+	{
+		if (m_bUnbreakable)
+		{
+			m_pInfoCom->Add_Hp(m_iPreHp - m_pInfoCom->Get_Hp());
+		}
+		m_iPreHp = m_pInfoCom->Get_Hp();
+	}
+	HeadOff_Judge(fTimeDelta);
+	if (false == m_bHeadOff)
+	{
 		Attack(fTimeDelta);
+	}
+	else
+	{
+		if (false == m_bHeadOff_Finish)
+		{
+			HeadOff_Animation(fTimeDelta);
+		}
+		else
+		{
+
+		}
+	}
 }
 
 void CSphinx::IdleLoop(const _float & fTimeDelta)
 {
 	if (m_iPreHp != m_pInfoCom->Get_Hp())
 	{
+		if (m_bUnbreakable)
+		{
+			m_pInfoCom->Add_Hp(m_iPreHp - m_pInfoCom->Get_Hp());
+		}
 		m_iPreHp = m_pInfoCom->Get_Hp();
 
 		m_bBattle = true;
 	}
+	
 }
 
 void CSphinx::AttackJudge(const _float & fTimeDelta)
@@ -240,6 +259,56 @@ void CSphinx::Attack(const _float & fTimeDelta)
 	if (m_pAnimationCom->m_iMotion == m_pAnimationCom->m_iMaxMotion)
 	{
 		m_iShootCycle = 0;
+	}
+}
+void	CSphinx::HeadOff_Judge(const _float& fTimeDelta)
+{
+	if (1 >= m_pInfoCom->Get_Hp())
+	{
+		m_bHeadOff = true;
+
+	}
+	
+}
+
+void CSphinx::HeadOff_Animation(const _float& fTimeDelta)
+{
+	m_pHeadOffAnimationCom->Move_Animation(fTimeDelta);
+	if (m_pHeadOffAnimationCom->m_iMotion >= m_pHeadOffAnimationCom->m_iMaxMotion)
+	{
+		_vec3 vPos;
+		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+		//스핑크스 자리에 대가리를 남김
+		//CGameObject* pBody = CSphinxBody::Create(m_pGraphicDev, vPos.x, vPos.z, m_vScale.y);
+		CScene* pScene = ::Get_Scene();
+		CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+
+		//pMyLayer->Add_GameObject(L"Sphinx_Body", pBody);
+		//m_bHeadOff_Finish = true;
+
+		CGameObject*	pFlyHead = CSphinxFlyHead::Create(m_pGraphicDev, vPos.x, vPos.z, m_vScale.y);
+
+		pMyLayer->Add_GameObject(L"Sphinx_FlyHead", pFlyHead);
+		m_bHeadOff_Finish = true;
+	}
+}
+void		CSphinx::Get_ObeliskState()
+{
+	CScene* pScene = ::Get_Scene();
+	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+
+	m_iAliveObelisk = pMyLayer->Get_ObeliskList().size();
+
+	for (auto iter = pMyLayer->Get_ObeliskList().begin(); iter != pMyLayer->Get_ObeliskList().end(); ++iter)
+	{
+		if (static_cast<CObelisk*>((*iter))->Get_Dead())
+		{
+			++m_iDeadObelisk;
+		}
+	}
+	if (0 >= m_iAliveObelisk - m_iDeadObelisk)
+	{
+		m_bUnbreakable = false;
 	}
 }
 

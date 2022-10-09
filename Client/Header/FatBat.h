@@ -26,7 +26,7 @@ public:
 	void				FatBat_Fly(const _float& fTimeDelta);
 	void				FatBat_Shoot(void);
 	void				FatBat_Dodge(const _float& fTimeDelta, _vec3* _vPlayerPos, _vec3* _vMonsterPos);
-
+	void				Dead_Action(const _float& fTimeDelta);
 
 public:
 	static CFatBat*		Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx = 0, int Posy = 0);

@@ -24,7 +24,7 @@ public:
 	virtual void NoHit_Loop(const _float& fTimeDelta);
 	virtual void Hit_Loop(const _float& fTimeDelta);
 
-	void MonsterTool_Anubis_Logic(void);
+
 
 	void				Clear_Blood(const _float& fTimeDelta);
 public:
@@ -45,10 +45,6 @@ public:
 
 private:
 
-
-
-
-	
 	_vec3 m_bOldPlayerPos;
 
 	CTexture*		m_pTextureCom = nullptr;

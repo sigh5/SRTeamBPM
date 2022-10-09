@@ -119,17 +119,20 @@ CharacterInfo&	CMonsterBase::Get_InfoRef()
 
 void CMonsterBase::Get_MonsterToPlayer_Distance(float* _Distance)
 {
-	CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
-	NULL_CHECK(pPlayerTransformCom);
+	if (SCENE_TOOLTEST != Get_Scene()->Get_SceneType())
+	{
+		CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
+		NULL_CHECK(pPlayerTransformCom);
 
-	pPlayerTransformCom->Get_Info(INFO_POS, &m_vPlayerPos);
-	m_pDynamicTransCom->Get_Info(INFO_POS, &m_vMonsterPos);
+		pPlayerTransformCom->Get_Info(INFO_POS, &m_vPlayerPos);
+		m_pDynamicTransCom->Get_Info(INFO_POS, &m_vMonsterPos);
 
-	float fMtoPDistance; // 몬스터와 플레이어 간의 거리
+		float fMtoPDistance; // 몬스터와 플레이어 간의 거리
 
-	fMtoPDistance = sqrtf((powf(m_vMonsterPos.x - m_vPlayerPos.x, 2) + powf(m_vMonsterPos.y - m_vPlayerPos.y, 2) + powf(m_vMonsterPos.z - m_vPlayerPos.z, 2)));
+		fMtoPDistance = sqrtf((powf(m_vMonsterPos.x - m_vPlayerPos.x, 2) + powf(m_vMonsterPos.y - m_vPlayerPos.y, 2) + powf(m_vMonsterPos.z - m_vPlayerPos.z, 2)));
 
-	memcpy(_Distance, &fMtoPDistance, sizeof(float));
+		memcpy(_Distance, &fMtoPDistance, sizeof(float));
+	}
 }
 
 
