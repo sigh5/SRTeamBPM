@@ -13,7 +13,9 @@ public:
 	virtual void		LateUpdate_Object(void) override;
 	virtual void		Render_Obejct(void) override;
 	virtual void		Collision_Event();
+	virtual bool		 Dead_Judge(const _float& fTimeDelta);
 
+	void				Dead_Action(const _float& fTimeDelta);
 
 	void		HeadActive(const _float& fTimeDelta);
 	void		 AttackJudge(const _float& fTimeDelta);
@@ -43,6 +45,13 @@ private:
 	int		m_iAttackPattern;
 	CRcTex*			m_pBufferCom = nullptr;
 	bool	m_bBattle = false;
+	float m_fDeadY = 0;
+	bool  m_bArrFalldown[4];
+
+	//dead
+	CTexture*		m_pDeadTexture = nullptr;
+	//~
+
 	//HeadActivated
 	CTexture*		m_pActivatedTextureCom = nullptr;
 	CAnimation*		m_pHeadActivatedAnimationCom = nullptr;

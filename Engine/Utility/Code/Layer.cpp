@@ -91,6 +91,11 @@ void			CLayer::Add_GhulList(CGameObject* pGhul)
 
 }
 
+void			CLayer::Add_ObeliskList(CGameObject* pObelisk)
+{
+	m_ObeliskList.emplace_back(pObelisk);
+}
+
 HRESULT CLayer::Ready_Layer(void)
 {
 	return S_OK;
@@ -182,6 +187,7 @@ void CLayer::Free(void)
 		Safe_Release(iter);
 	}
 	m_GhulList.clear();
+	m_ObeliskList.clear();
 
 	
 

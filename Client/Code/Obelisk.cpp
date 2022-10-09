@@ -14,6 +14,7 @@
 CObelisk::CObelisk(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
 {
+
 }
 
 
@@ -33,7 +34,6 @@ HRESULT CObelisk::Ready_Object(int Posx, int Posy)
 	m_pAnimationCom->Ready_Animation(4, 0, 100);
 	m_pInfoCom->Ready_CharacterInfo(4, 10, 5.f);
 	m_iPreHp = (m_pInfoCom->Get_InfoRef()._iHp);
-
 
 	m_fAttackDelay = 5.f;
 

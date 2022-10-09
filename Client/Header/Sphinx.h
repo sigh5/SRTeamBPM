@@ -25,7 +25,7 @@ private:
 	void		HeadOff_Judge(const _float& fTimeDelta);
 	void		HeadOff_Animation(const _float& fTimeDelta);
 
-
+	void		Get_ObeliskState();
 
 public:
 	static CSphinx*		Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx = 0, int Posy = 0);
@@ -42,7 +42,10 @@ private:
 
 
 
-	int		m_iAliveStatue;    //남아있는 비석의 갯수
+	int		m_iAliveObelisk = 0;
+	int		m_iDeadObelisk = 0;
+	bool	m_bUnbreakable = true;
+   //남아있는 비석의 갯수
 
 	_vec3 m_vScale;
 

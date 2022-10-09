@@ -13,6 +13,7 @@ public:
 	virtual void		Render_Obejct(void) override;
 	virtual void		Collision_Event()override;
 
+	bool			Get_Dead() { return m_bDead; }
 private:
 	virtual bool		Dead_Judge(const _float& fTimeDelta);
 
@@ -29,8 +30,6 @@ public:
 private:
 	CTexture* m_pTextureCom = nullptr;
 	CRcTex* m_pBufferCom = nullptr;
-
-
 
 };
 

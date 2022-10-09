@@ -172,9 +172,11 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Sphinx", pGameObject), E_FAIL);
 
-	pGameObject = CObelisk::Create(m_pGraphicDev, 20, 15);
+	/*pGameObject = CObelisk::Create(m_pGraphicDev, 20, 15);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Obelisk", pGameObject), E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Obelisk", pGameObject), E_FAIL);*/
+
+	//pLayer->Add_ObeliskList(pGameObject); //오벨리스크 생성 시 리스트에도 추가해야 함
 
 	//pGameObject = CGhul::Create(m_pGraphicDev, 20, 15);
 	//NULL_CHECK_RETURN(pGameObject, E_FAIL);

@@ -25,6 +25,7 @@ HRESULT CSphinxFlyHead::Ready_Object(float Posx, float Posy, float Size)
 	m_pActivatedTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Sphinx_Activated_Texture", m_mapComponent, ID_STATIC);
 	m_pLRAttackTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Sphinx_lrattack_Texture", m_mapComponent, ID_STATIC);
 	m_pBodyAttackTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Sphinx_bodyattack_Texture", m_mapComponent, ID_STATIC);
+	m_pDeadTexture = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Sphinx_dead_Texture", m_mapComponent, ID_STATIC);
 
 	m_pHeadActivatedAnimationCom = dynamic_cast<CAnimation*>(Clone_Proto(L"Proto_AnimationCom"));
 	NULL_CHECK_RETURN(m_pHeadActivatedAnimationCom, E_FAIL);
@@ -45,9 +46,14 @@ HRESULT CSphinxFlyHead::Ready_Object(float Posx, float Posy, float Size)
 	m_pHeadActivatedAnimationCom->Ready_Animation(5, 0, 0.5f);
 	m_pLRAttackAnimationCom->Ready_Animation(4, 0, 0.5f);
 	m_pBodyAttackAnimation->Ready_Animation(8, 0, 0.4f);
+	m_pDeadAnimationCom->Ready_Animation(23, 0, 0.3f);
 
-	m_pInfoCom->Ready_CharacterInfo(5, 10, 2.f);
+	m_pInfoCom->Ready_CharacterInfo(3, 10, 2.f);
 
+	for (int i = 0; i < 4; ++i)
+	{
+		m_bArrFalldown[i] = false;
+	}
 
 	m_iAttackPattern = 1;
 	m_fAttackDelay = 0.4f;
@@ -140,28 +146,33 @@ void CSphinxFlyHead::Render_Obejct(void)
 	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-	if (false == m_bBattle)
+	if (false == m_bDead)
 	{
-		m_pActivatedTextureCom->Set_Texture(m_pHeadActivatedAnimationCom->m_iMotion);
+		if (false == m_bBattle)
+		{
+			m_pActivatedTextureCom->Set_Texture(m_pHeadActivatedAnimationCom->m_iMotion);
+		}
+		else
+		{
+			switch (m_iAttackPattern)
+			{
+			case 0:    //LR
+				m_pLRAttackTextureCom->Set_Texture(m_pLRAttackAnimationCom->m_iMotion);
+				break;
+
+			case 1:		//BodyAttack
+				if (m_bRenderBodyAttack)
+					m_pBodyAttackTextureCom->Set_Texture(m_pBodyAttackAnimation->m_iMotion);
+				else
+					m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);
+				//m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);
+				break;
+			}
+		}
 	}
 	else
 	{
-		switch (m_iAttackPattern)
-		{
-		case 0:    //LR
-			m_pLRAttackTextureCom->Set_Texture(m_pLRAttackAnimationCom->m_iMotion);
-			break;
-		
-		case 1:		//BodyAttack
-			if (m_bRenderBodyAttack)
-				m_pBodyAttackTextureCom->Set_Texture(m_pBodyAttackAnimation->m_iMotion);
-			else
-				m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);
-			//m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);
-			break;
-
-		}
-		
+		m_pDeadTexture->Set_Texture(m_pDeadAnimationCom->m_iMotion);
 	}
 	m_pBufferCom->Render_Buffer();
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
@@ -170,6 +181,24 @@ void CSphinxFlyHead::Render_Obejct(void)
 
 void CSphinxFlyHead::Collision_Event()
 {
+	CScene  *pScene = ::Get_Scene();
+	NULL_CHECK_RETURN(pScene, );
+	CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+	NULL_CHECK_RETURN(pLayer, );
+	CGameObject *pGameObject = nullptr;
+	pGameObject = static_cast<CGun_Screen*>(::Get_GameObject(L"Layer_UI", L"Gun"));
+
+
+	if (static_cast<CGun_Screen*>(pGameObject)->Get_Shoot() &&
+		fMtoPDistance < MAX_CROSSROAD  &&
+		m_pColliderCom->Check_Lay_InterSect(m_pBufferCom, m_pDynamicTransCom, g_hWnd))
+	{
+		m_bHit = true;
+		static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"))->Set_ComboCount(1);
+		m_pInfoCom->Receive_Damage(1);
+		cout << "Obelisk " << m_pInfoCom->Get_InfoRef()._iHp << endl;
+		static_cast<CGun_Screen*>(pGameObject)->Set_Shoot(false);
+	}
 }
 
 void		CSphinxFlyHead::HeadActive(const _float& fTimeDelta)
@@ -368,25 +397,7 @@ void	CSphinxFlyHead::BodyAttack(const _float& fTimeDelta)
 		break;
 
 
-	}
-	/*if (false == m_bBodyAttackChargeFinish)
-	{
-		m_pBodyAttackAnimation->Move_Animation(fTimeDelta);
-
-		if (m_pBodyAttackAnimation->m_iMaxMotion == m_pBodyAttackAnimation->m_iMotion)
-		{
-			m_pBodyAttackAnimation->m_iMotion = 0;
-			m_bBodyAttackChargeFinish = true;
-			Save_PlayerPos_forBody(fTimeDelta);
-		}
-	}
-	if (m_bBodyAttackChargeFinish)
-	{
-		Tackle(fTimeDelta);
-	}*/
-	
-	
-	
+	}	
 }
 void		CSphinxFlyHead::Save_PlayerPos_forBody(const _float& fTimeDelta)
 {
@@ -574,6 +585,75 @@ void	CSphinxFlyHead::Rearrangement(const _float& fTimeDelta)
 		}
 	}
 }
+
+bool		CSphinxFlyHead::Dead_Judge(const _float& fTimeDelta)
+{
+	if (0 >= m_pInfoCom->Get_Hp())
+	{
+		m_bDead = true;
+		_vec3 vPos;
+		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+		m_fDeadY = vPos.y;
+		//Safe_Release(m_pAttackAnimationCom);
+	}
+	if (m_bDead)
+	{
+		Dead_Action(fTimeDelta);
+
+		m_pDynamicTransCom->Update_Component(fTimeDelta);
+		Engine::CMonsterBase::Update_Object(fTimeDelta);
+		Add_RenderGroup(RENDER_ALPHA, this);
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+void		CSphinxFlyHead::Dead_Action(const _float& fTimeDelta)
+{
+	if (m_pDeadAnimationCom->m_iMotion < m_pDeadAnimationCom->m_iMaxMotion)
+	{
+		m_pDeadAnimationCom->Move_Animation(fTimeDelta);
+
+	}
+	if (12 == m_pDeadAnimationCom->m_iMotion)
+	{
+		if (false == m_bArrFalldown[0])
+		{
+			m_pDynamicTransCom->Add_Y(-m_fDeadY * 0.2f);
+			m_bArrFalldown[0] = true;
+		}
+	}
+	else if (13 == m_pDeadAnimationCom->m_iMotion)
+	{
+		if (false == m_bArrFalldown[1])
+		{
+			m_pDynamicTransCom->Add_Y(-m_fDeadY * 0.2f);
+			m_bArrFalldown[1] = true;
+		}
+	}
+	else if (14 == m_pDeadAnimationCom->m_iMotion)
+	{
+		if (false == m_bArrFalldown[2])
+		{
+			m_pDynamicTransCom->Add_Y(-m_fDeadY * 0.2f);
+			m_bArrFalldown[2] = true;
+		}
+	}
+	else if (15 == m_pDeadAnimationCom->m_iMotion)
+	{
+		if (false == m_bArrFalldown[3])
+		{
+			//m_pDynamicTransCom->Add_Y(-m_fDeadY * 0.2f);
+			m_pDynamicTransCom->Set_Y(m_pDynamicTransCom->m_vScale.y*0.5f);
+			//m_pDynamicTransCom->Set_Y(5.f);
+			m_bArrFalldown[3] = true;
+		}
+	}
+}
+
 CSphinxFlyHead * CSphinxFlyHead::Create(LPDIRECT3DDEVICE9 pGraphicDev, float Posx, float Posy, float Size)
 {
 	CSphinxFlyHead*	pInstance = new CSphinxFlyHead(pGraphicDev);

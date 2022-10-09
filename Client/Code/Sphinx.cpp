@@ -10,6 +10,7 @@
 #include "ObjectMgr.h"
 #include "SphinxBody.h"
 #include "SphinxFlyHead.h"
+#include "Obelisk.h"
 
 CSphinx::CSphinx(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -44,6 +45,7 @@ HRESULT CSphinx::Ready_Object(int Posx, int Posy)
 	m_vScale = { 7.f, 7.f, 1.f };
 	m_iShootCycle = 0;
 
+
 	if (Posx == 0 && Posy == 0) {}
 	else
 	{
@@ -55,6 +57,7 @@ HRESULT CSphinx::Ready_Object(int Posx, int Posy)
 
 _int CSphinx::Update_Object(const _float & fTimeDelta)
 {
+	Get_ObeliskState();
 
 	if ( !m_bBattle  )
 	{
@@ -150,6 +153,14 @@ void		CSphinx::Collision_Event()
 
 void CSphinx::BattleLoop(const _float & fTimeDelta)
 {
+	if (m_iPreHp != m_pInfoCom->Get_Hp())
+	{
+		if (m_bUnbreakable)
+		{
+			m_pInfoCom->Add_Hp(m_iPreHp - m_pInfoCom->Get_Hp());
+		}
+		m_iPreHp = m_pInfoCom->Get_Hp();
+	}
 	HeadOff_Judge(fTimeDelta);
 	if (false == m_bHeadOff)
 	{
@@ -172,10 +183,15 @@ void CSphinx::IdleLoop(const _float & fTimeDelta)
 {
 	if (m_iPreHp != m_pInfoCom->Get_Hp())
 	{
+		if (m_bUnbreakable)
+		{
+			m_pInfoCom->Add_Hp(m_iPreHp - m_pInfoCom->Get_Hp());
+		}
 		m_iPreHp = m_pInfoCom->Get_Hp();
 
 		m_bBattle = true;
 	}
+	
 }
 
 void CSphinx::AttackJudge(const _float & fTimeDelta)
@@ -274,6 +290,25 @@ void CSphinx::HeadOff_Animation(const _float& fTimeDelta)
 
 		pMyLayer->Add_GameObject(L"Sphinx_FlyHead", pFlyHead);
 		m_bHeadOff_Finish = true;
+	}
+}
+void		CSphinx::Get_ObeliskState()
+{
+	CScene* pScene = ::Get_Scene();
+	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+
+	m_iAliveObelisk = pMyLayer->Get_ObeliskList().size();
+
+	for (auto iter = pMyLayer->Get_ObeliskList().begin(); iter != pMyLayer->Get_ObeliskList().end(); ++iter)
+	{
+		if (static_cast<CObelisk*>((*iter))->Get_Dead())
+		{
+			++m_iDeadObelisk;
+		}
+	}
+	if (0 >= m_iAliveObelisk - m_iDeadObelisk)
+	{
+		m_bUnbreakable = false;
 	}
 }
 
