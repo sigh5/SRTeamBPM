@@ -7,13 +7,25 @@ USING(Engine)
 
 
 CCollider::CCollider(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CVIBuffer(pGraphicDev), m_bClone(false),m_pPos(nullptr)
+	: CVIBuffer(pGraphicDev), m_bClone(false),m_pPos(nullptr), m_fRadius(0.f)
 {
+	D3DXMatrixIdentity(&m_HitBoxWolrdmat);
+
+	ZeroMemory(m_vMin, sizeof(_vec3));
+	ZeroMemory(m_vMax, sizeof(_vec3));
+	ZeroMemory(m_vCenter, sizeof(_vec3));
+	
+	
+	 
 }
 
 CCollider::CCollider(const CCollider & rhs)
-	: CVIBuffer(rhs), m_bClone(true) ,m_pPos(rhs.m_pPos)
+	: CVIBuffer(rhs), m_bClone(true) ,m_pPos(rhs.m_pPos),m_fRadius(rhs.m_fRadius)
 {
+	memcpy(&m_vMin, &rhs.m_vMin, sizeof(_vec3));
+	memcpy(&m_vMax, &rhs.m_vMax, sizeof(_vec3));
+	memcpy(&m_vCenter, &rhs.m_vCenter, sizeof(_vec3));
+
 }
 
 HRESULT CCollider::Ready_Buffer(void)

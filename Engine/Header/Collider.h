@@ -40,7 +40,7 @@ public:
 	const	_matrix& HitBoxWolrdmat() { return m_HitBoxWolrdmat; }
 
 	void		Set_HitRadiuos(_float fRadius) { m_fRadius = fRadius; }
-
+	void		Set_vCenter(_vec3* vCenter) { m_vCenter = *vCenter; }
 
 
 public:

@@ -28,7 +28,19 @@ public:
 private:
 	wstring m_PpDirectory = L"../../Data/PlayerPos.dat";
 
+	
 private:
 	class CDynamicCamera* m_pCam = nullptr;
 };
+
+
+
+
+
+
+
+
+
+
+
 

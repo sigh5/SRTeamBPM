@@ -47,8 +47,7 @@ public:
 		m_mapLayer.insert({ LayerName,pLayer });
 	}
 
-	list<CGameObject*> *Get_CubeList(_int iIndex) { return &m_TeleportCubeList[iIndex]; }
-
+	
 
 protected:
 	LPDIRECT3DDEVICE9				m_pGraphicDev;
@@ -58,7 +57,7 @@ protected:
 	SCENE_TYPE			m_SceneType;
 
 	// 룸이동을 도와주는 게임오브젝트를 묶는 리스트
-	list<CGameObject*> m_TeleportCubeList[TELEPORT_CUBE_LIST_END];
+	
 public:
 	virtual void	Free(void);
 };

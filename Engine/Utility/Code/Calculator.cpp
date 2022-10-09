@@ -467,6 +467,7 @@ _bool  CCalculator::PickingOnTransform(HWND hWnd, const CCubeTex * pCubeTexBuffe
 
 	return false;
 }
+
 _bool CCalculator::PickingOnTransform_Monster(HWND hWnd, const CRcTex * pMonsterTexBuffer, const CTransform * pMonsterTransCom)
 {
 	POINT		ptMouse{};
@@ -652,6 +653,93 @@ _bool CCalculator::PickingTerrainObject(HWND hWnd, const CTerrainTex * pTerrainB
 
 	return false;
 }
+
+_bool CCalculator::PickingOnTransform_RcTex(HWND hWnd, const CRcTex* pRcTexCom, const CTransform* pTransform)
+{
+	POINT		ptMouse{};
+
+	GetCursorPos(&ptMouse);
+	ScreenToClient(hWnd, &ptMouse);
+
+	_vec3		vPoint;
+
+	D3DVIEWPORT9		ViewPort;
+	ZeroMemory(&ViewPort, sizeof(D3DVIEWPORT9));
+	m_pGraphicDev->GetViewport(&ViewPort);
+
+	// ����Ʈ -> ����
+	vPoint.x = ptMouse.x / (ViewPort.Width * 0.5f) - 1.f;
+	vPoint.y = ptMouse.y / -(ViewPort.Height * 0.5f) + 1.f;
+	vPoint.z = 0.f;
+
+
+	_matrix		matProj;
+
+	m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &matProj);
+	D3DXMatrixInverse(&matProj, nullptr, &matProj);
+	D3DXVec3TransformCoord(&vPoint, &vPoint, &matProj);
+
+	_vec3	vRayDir, vRayPos;
+
+	vRayPos = { 0.f, 0.0f, 0.f };
+	vRayDir = vPoint - vRayPos;
+
+
+
+	_matrix		matView;
+	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
+	D3DXMatrixInverse(&matView, nullptr, &matView);
+	D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matView);
+	D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matView);
+
+
+	_matrix		matWorld;
+	pTransform->Get_WorldMatrix(&matWorld);
+	D3DXMatrixInverse(&matWorld, nullptr, &matWorld);
+	D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matWorld);
+	D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matWorld);
+
+
+	const _vec3*	pTerrainVtx = pRcTexCom->Get_VtxPos();
+
+
+	_ulong	dwVtxIdx[3]{};
+	_float	fU, fV, fDist;
+
+	dwVtxIdx[0] = 0;
+	dwVtxIdx[1] = 1;
+	dwVtxIdx[2] = 2;
+
+	if (D3DXIntersectTri(&pTerrainVtx[dwVtxIdx[0]],
+		&pTerrainVtx[dwVtxIdx[1]],
+		&pTerrainVtx[dwVtxIdx[2]],
+		&vRayPos, &vRayDir,
+		&fU, &fV, &fDist))
+	{
+		return true;
+	}
+
+	// ���� �Ʒ�
+	dwVtxIdx[0] = 0;
+	dwVtxIdx[1] = 2;
+	dwVtxIdx[2] = 3;
+
+	if (D3DXIntersectTri(&pTerrainVtx[dwVtxIdx[0]],
+		&pTerrainVtx[dwVtxIdx[1]],
+		&pTerrainVtx[dwVtxIdx[2]],
+		&vRayPos, &vRayDir,
+		&fU, &fV, &fDist))
+	{
+		return true;
+	}
+
+	return false;
+}
+
+
+
+
+
 
 CComponent* CCalculator::Clone(void)
 {

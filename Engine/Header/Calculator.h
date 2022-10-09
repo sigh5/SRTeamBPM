@@ -36,6 +36,10 @@ public:
 	_bool	PickingTerrainObject(HWND hWnd, const CTerrainTex* pTerrainBufferCom, const CTransform* pTerrainTransformCom);
 
 
+	_bool	PickingOnTransform_RcTex(HWND hWnd, const CRcTex* pRcTexCom, const CTransform* pTransform);
+
+
+
 public:
 	virtual CComponent* Clone(void) override;
 	static CCalculator*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

@@ -138,6 +138,32 @@ void CLayer::LateUpdate_Layer(void)
 
 }
 
+void CLayer::initStartCube()
+{
+	for (auto iter : m_TeleportCubeList[STARTCUBELIST])
+	{
+		m_RestCubevec.push_back(iter);
+	}
+}
+
+CGameObject* CLayer::Get_PreRoomTeleCube()
+{
+	if (m_vecVistedCube.empty())
+		return nullptr;
+
+	CGameObject *pTeleEndCube = m_vecVistedCube.top();
+	m_vecVistedCube.pop();
+	return pTeleEndCube;
+}
+
+void CLayer::Clear_Stack()
+{
+	while (!m_vecVistedCube.empty())
+	{
+		m_vecVistedCube.pop();
+	}
+}
+
 CLayer* CLayer::Create(void)
 {
 	CLayer*	pLayer = new CLayer;
@@ -162,6 +188,12 @@ void CLayer::Free(void)
 		Safe_Release(iter);
 	}
 	m_objPoolList.clear();
+
+	for (int i = 0; i < TELEPORT_CUBE_LIST_END; ++i)
+	{
+		for_each(m_TeleportCubeList[i].begin(), m_TeleportCubeList[i].end(), CDeleteObj());
+		m_TeleportCubeList[i].clear();
+	}
 
 
 	for_each(m_mapObject.begin(), m_mapObject.end(), CDeleteMap());

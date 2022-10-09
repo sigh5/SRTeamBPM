@@ -22,7 +22,6 @@ public:
 	virtual void		Render_Obejct(void) override;
 	virtual void		Collision_Event() override;
 
-
 public:// For Tool
 	void				MousePostoScreen(); // 현재 마우스 더블클릭한 위치로 큐브를 만들어주는 함수
 	_bool				Set_SelectGizmo();
@@ -33,7 +32,7 @@ public:// For Tool
 	m_RoomName = *RoomName;	}
 	const _int&			Get_Option() { return m_iOption; }
 	void				Set_Option(CUBE_TYPE eType) { m_iOption = (_int)eType; }
-	
+	// ~For Tool
 private:
 	HRESULT				Add_Component(void);
 
@@ -45,17 +44,16 @@ public:
 	CCollider*			m_pColliderCom = nullptr;
 
 private:
-	_bool				m_bWireFrame = false;
 	_bool				m_bIsOnterrrain = false;
 	_int				m_iOption = 0;					// 0: Wall 1: Obstacle 2: TeleportStart 3: TelePortEnd
 
 	wstring				m_LayerName =L"";
+
 public:
 	wstring				m_RoomName =L"";
-
-
-
-
+	_int				irandNum=4;					// Room이 6개니까
+	_int				iIndex = 0;
+	
 
 public:
 	static CWallCube*	Create(LPDIRECT3DDEVICE9 pGraphicDev);
@@ -64,5 +62,5 @@ public:
 
 };
 
-// 왜깃만 쓰면 이러냐 
+
 

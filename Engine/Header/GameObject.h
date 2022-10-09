@@ -29,6 +29,9 @@ public:
 	virtual		void		Set_Pos(_vec3 vPos) {}
 	virtual		void		Collision_Event() {}
 
+	const _bool&			Get_WireFrame() { return m_bWireFrame; }
+	void					Set_WireFrame(_bool bWireFrame) { m_bWireFrame = bWireFrame; }
+
 private:
 	CComponent*		Find_Component(const _tchar* pComponentTag, COMPONENTID eID);
 
@@ -38,7 +41,8 @@ protected:
 
 protected:
 	_int				m_iTexIndex = 0;
-
+	_bool				m_bWireFrame = false;
+	
 public:
 	virtual void	Free(void);
 };

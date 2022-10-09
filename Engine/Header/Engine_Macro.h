@@ -14,6 +14,7 @@ namespace Engine
 #define		VTXITV		1
 
 
+
 #define		MAX_CROSSROAD 15.f	// »ç°Å¸®
 
 
