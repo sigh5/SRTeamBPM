@@ -45,7 +45,7 @@ private:
 	_float				m_fDelay = 0.f;
 	_float				m_fDelayTime = 0.f;
 
-	_bool				m_bTest = false;
+	_bool				m_bSize = false;
 
 public:
 	static CDashUI*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

@@ -3,6 +3,7 @@
 #include "Export_Function.h"
 
 #include "Loading_Image.h"
+#include "LoadingBackFont.h"
 #include "Stage_Pjw.h"
 
 CChange_Stage::CChange_Stage(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -36,15 +37,13 @@ _int CChange_Stage::Update_Scene(const _float & fTimeDelta)
 
 	//cout << "How Count : " << m_iLoadingCount << endl;
 
-	if (m_iLoadingCount > 100)
+	if (m_iLoadingCount > 200)
 	{
 		CScene*		pScene = CStage_Pjw::Create(m_pGraphicDev);
 		NULL_CHECK_RETURN(pScene, E_FAIL);
 
 		FAILED_CHECK_RETURN(Engine::Set_Scene(pScene), E_FAIL);
 
-		_uint ia = 0;
-		
 		return 0;
 	}
 	
@@ -71,6 +70,10 @@ HRESULT CChange_Stage::Ready_Layer_Environment(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"LoadingImage", pGameObject), E_FAIL);
 
+	pGameObject = CLoadingBackFont::Create(m_pGraphicDev, 0.58f, -0.75f);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"LoadingFontBackGround", pGameObject), E_FAIL);
+		
 	m_mapLayer.insert({ pLayerTag, pLayer });
 
 	return S_OK;
@@ -78,7 +81,7 @@ HRESULT CChange_Stage::Ready_Layer_Environment(const _tchar * pLayerTag)
 
 HRESULT CChange_Stage::Ready_Proto(void)
 {
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ChangeScene_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Logo/Change_Scene/Change_Scene%d.png", TEX_NORMAL, 7)), E_FAIL);
+	//	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ChangeScene_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Logo/Change_Scene/Change_Scene%d.png", TEX_NORMAL, 7)), E_FAIL);
 	
 	return S_OK;
 }

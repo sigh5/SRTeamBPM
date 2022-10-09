@@ -17,7 +17,7 @@ HRESULT CLoading_Image::Ready_Object(_bool _bTrue)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	
-	m_bB = _bTrue;
+	m_bChangePNG = _bTrue;
 
 	return S_OK;
 }
@@ -46,13 +46,13 @@ void CLoading_Image::Render_Obejct(void)
 
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	
-		if (m_bB)
+		if (m_bChangePNG)
 		{
-		    m_iA = rand() % 7;
-			m_bB = false;
+			m_iChangePNG = rand() % 7;
+			m_bChangePNG = false;
 		}	
 
-	m_pTextureCom->Set_Texture(m_iA);
+	m_pTextureCom->Set_Texture(m_iChangePNG);
 		
 	m_pBufferCom->Render_Buffer();
 }
@@ -78,10 +78,12 @@ CLoading_Image * CLoading_Image::Create(LPDIRECT3DDEVICE9 pGraphicDev, _bool _bT
 		return nullptr;
 	}
 
+	pInstance->m_pTransCom->Set_Pos(0.f, 0.f, 0.3f);
+
 	return pInstance;
 }
 
 void CLoading_Image::Free(void)
 {
-	Engine::CGameObject::Free();
+	CGameObject::Free();
 }

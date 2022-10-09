@@ -173,6 +173,8 @@ HRESULT CLogo::Ready_Proto(void)
 	FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"DalseoHealingBold", L"Healing", 8, 10, FW_NORMAL), E_FAIL);
 	
 	FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"HoengseongHanu", L"BulletUIFont", 11, 13, FW_NORMAL), E_FAIL);
-	
+	// LeeSoonSin
+	FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"LeeSoonSin", L"LoadingHUD_Font", 11, 15, FW_HEAVY), E_FAIL);
+
 	return S_OK;
 }

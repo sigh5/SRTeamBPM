@@ -25,9 +25,7 @@ public:
 	virtual _int Update_Object(const _float& fTimeDelta) override;
 	virtual void LateUpdate_Object(void) override;
 	virtual void Render_Obejct(void) override;
-
-	void	Set_B(_bool _b) { m_bB = _b; }
-
+	
 private:
 	HRESULT				Add_Component(void);
 
@@ -40,8 +38,8 @@ private:
 	CStart_Button*		m_pStartButton = nullptr;
 
 
-	_bool				m_bB = false;
-	_uint				m_iA = 0;
+	_bool				m_bChangePNG = false;
+	_uint				m_iChangePNG = 0;
 public:
 	static CLoading_Image*		Create(LPDIRECT3DDEVICE9 pGraphicDev, _bool _bTrue);
 

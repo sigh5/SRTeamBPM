@@ -229,6 +229,9 @@
     <ClCompile Include="..\Code\Loading_Image.cpp">
       <Filter>02. GameObject\01. For_Stage\10. UI\09. Loading_Image</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\LoadingBackFont.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\10. LoadingFont_BackGround</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -477,6 +480,9 @@
     <ClInclude Include="..\Header\Loading_Image.h">
       <Filter>02. GameObject\01. For_Stage\10. UI\09. Loading_Image</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\LoadingBackFont.h">
+      <Filter>02. GameObject\01. For_Stage\10. UI\10. LoadingFont_BackGround</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -690,6 +696,9 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\10. UI\09. Loading_Image">
       <UniqueIdentifier>{79a9a898-40e7-4e81-86a1-65661f92c58a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\10. LoadingFont_BackGround">
+      <UniqueIdentifier>{0e8c38f9-bafb-4a84-8e22-dec9aa260e1a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
