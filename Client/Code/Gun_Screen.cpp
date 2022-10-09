@@ -5,6 +5,8 @@
 #include "Player.h"
 #include "TestPlayer.h"
 
+#include "ShotGun.h"
+
 
 USING(Engine)
 
@@ -35,10 +37,17 @@ HRESULT CGun_Screen::Ready_Object()
 
 _int CGun_Screen::Update_Object(const _float & fTimeDelta)
 {
+	Add_UpdateComponent();
+
+	CShotGun* pShotGun = static_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"));
+
+	if (pShotGun->Get_RenderFalse() == true)
+	{
+		m_pAnimationCom->Ready_Animation(15, 0, 0.2f);
+	}
 
 	Engine::CGameObject::Update_Object(fTimeDelta);
-	
-	
+		
 	Add_RenderGroup(RENDER_UI, this);
 
 	return 0;
@@ -48,23 +57,20 @@ void CGun_Screen::LateUpdate_Object(void)
 {
 	Shoot_Motion();
 
-	m_pOrthoTransCom->OrthoMatrix(280.f, 230.f, 50.f, -150.f, WINCX, WINCY);
+	m_pOrthoTransCom->OrthoMatrix(290.f, 260.f, 150.f, -203.f, WINCX, WINCY);
 
 	
-	/*CPlayer* pPlayer = static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic",L"Player"));
+	CPlayer* pPlayer = static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic",L"Player"));
 
 	if (m_bShootCheck)
 	{
 		pPlayer->Reset_ComboCount();
 	}
 
-	m_bShootCheck = false;*/
+	m_bShootCheck = false;
 
 	CGameObject::LateUpdate_Object();
 	
-
-	
-
 }
 
 void CGun_Screen::Render_Obejct(void)
@@ -97,7 +103,26 @@ HRESULT CGun_Screen::Add_Component(void)
 	m_pOrthoTransCom = CAbstractFactory<COrthoTransform>::Clone_Proto_Component(L"Proto_OrthoTransformCom", m_mapComponent, ID_DYNAMIC);
 	m_pCalculatorCom = CAbstractFactory<CCalculator>::Clone_Proto_Component(L"Proto_CalculatorCom", m_mapComponent, ID_STATIC);
 	m_pAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_STATIC);
+		
+	if(!m_bChangeWeaponUI)
 	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Gun_ScreenTexture", m_mapComponent, ID_STATIC);
+	//
+	//if(m_bChangeWeaponUI)
+	//m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_ShotGun_ScreenTexture", m_mapComponent, ID_STATIC);
+
+
+	return S_OK;
+}
+
+HRESULT CGun_Screen::Add_UpdateComponent(void)
+{							// 임시 _bool 변수
+	if (m_bChangeWeaponUI && !m_bControl)
+	{
+		m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_ShotGun_ScreenTexture", m_mapComponent, ID_STATIC);
+
+		m_bControl = true;
+	}
+	
 	return S_OK;
 }
 
@@ -107,8 +132,7 @@ HRESULT CGun_Screen::Shoot_Motion(void)
 
 	if (m_bAnimation == true)
 	{
-		m_pAnimationCom->Gun_Animation(&m_bAnimation);
-		
+		m_pAnimationCom->Gun_Animation(&m_bAnimation);		
 	}		
 
 	return S_OK;
@@ -132,6 +156,8 @@ CGun_Screen * CGun_Screen::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 } 
 
 void CGun_Screen::Free(void)
-{
+{	
+	Safe_Release(m_pTextureCom);
+
 	CGameObject::Free();
 }

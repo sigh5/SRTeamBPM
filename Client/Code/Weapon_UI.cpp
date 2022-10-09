@@ -4,6 +4,9 @@
 #include "Export_Function.h"
 #include "Player.h"
 
+#include "ShotGun.h"
+#include "Magnum.h"
+
 USING(Engine)
 
 
@@ -36,14 +39,14 @@ _int CWeapon_UI::Update_Object(const _float & fTimeDelta)
 
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
-	Add_RenderGroup(RENDER_UI, this);
+	Add_RenderGroup(RENDER_ICON, this);
 
 	return 0;
 }
 
 void CWeapon_UI::LateUpdate_Object(void)
 {
-	m_pTransCom->OrthoMatrix(70.f, 25.f, 300.f, -176.f, WINCX, WINCY);
+	m_pTransCom->OrthoMatrix(110.f, 40.f, 336.f, -190.f, WINCX, WINCY);
 
 	CGameObject::LateUpdate_Object();
 }
@@ -55,7 +58,22 @@ void CWeapon_UI::Render_Obejct(void)
 	m_pGraphicDev->SetTransform(D3DTS_VIEW, &m_pTransCom->m_matView);
 	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &m_pTransCom->m_matOrtho);
 
-	m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0x01);
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	
+	if (dynamic_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"))->Get_RenderFalse() == true)
+	{
+		m_pTextureCom->Set_Texture(1);
+	}
+
+	else
+	m_pTextureCom->Set_Texture(0);
+
 	m_pBufferCom->Render_Buffer();
 }
 
@@ -79,10 +97,10 @@ HRESULT CWeapon_UI::Add_Component(void)
 	NULL_CHECK_RETURN(m_pCalculatorCom, E_FAIL);
 	m_mapComponent[ID_STATIC].insert({ L"Proto_CalculatorCom", pComponent });
 
-	pComponent = m_pAnimationCom = dynamic_cast<CAnimation*>(Clone_Proto(L"Proto_AnimationCom"));
-	NULL_CHECK_RETURN(m_pAnimationCom, E_FAIL);
-	m_pAnimationCom->Ready_Animation(1, 0, 0.2f, 1); // 8
-	m_mapComponent[ID_DYNAMIC].insert({ L"Proto_AnimationCom", pComponent });
+	//pComponent = m_pAnimationCom = dynamic_cast<CAnimation*>(Clone_Proto(L"Proto_AnimationCom"));
+	//NULL_CHECK_RETURN(m_pAnimationCom, E_FAIL);
+	//m_pAnimationCom->Ready_Animation(2, 0, 0.2f, 1); // 8
+	//m_mapComponent[ID_DYNAMIC].insert({ L"Proto_AnimationCom", pComponent });
 
 	return S_OK;
 }

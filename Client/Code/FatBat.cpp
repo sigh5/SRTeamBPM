@@ -73,44 +73,8 @@ bool	CFatBat::Dead_Judge(const _float& fTimeDelta)
 	}
 	if (m_bDead)
 	{
-		if (m_pDeadAnimationCom->m_iMotion < m_pDeadAnimationCom->m_iMaxMotion)
-		{
-			m_pDeadAnimationCom->Move_Animation(fTimeDelta);
-
-		}
-		if (3 == m_pDeadAnimationCom->m_iMotion)
-		{
-			if (false == m_bArrFalldown[0])
-			{
-				m_pDynamicTransCom->Add_Y(-m_fDeadY * 0.2f);
-				m_bArrFalldown[0] = true;
-			}
-		}
-		else if (4 == m_pDeadAnimationCom->m_iMotion)
-		{
-			if (false == m_bArrFalldown[1])
-			{
-				m_pDynamicTransCom->Add_Y(-m_fDeadY * 0.2f);
-				m_bArrFalldown[1] = true;
-			}
-		}
-		else if (5 == m_pDeadAnimationCom->m_iMotion)
-		{
-			if (false == m_bArrFalldown[2])
-			{
-				m_pDynamicTransCom->Add_Y(-m_fDeadY * 0.2f);
-				m_bArrFalldown[2] = true;
-			}
-		}
-		else if (6 == m_pDeadAnimationCom->m_iMotion)
-		{
-			if (false == m_bArrFalldown[3])
-			{
-				//m_pDynamicTransCom->Add_Y(-m_fDeadY * 0.2f);
-				m_pDynamicTransCom->Set_Y(1);
-				m_bArrFalldown[3] = true;
-			}
-		}
+		Dead_Action(fTimeDelta);
+		
 
 		m_pDynamicTransCom->Update_Component(fTimeDelta);
 		Engine::CMonsterBase::Update_Object(fTimeDelta);
@@ -383,6 +347,47 @@ void CFatBat::FatBat_Dodge(const _float& fTimeDelta, _vec3* _vPlayerPos, _vec3* 
 
 }
 
+void		CFatBat::Dead_Action(const _float& fTimeDelta)
+{
+	if (m_pDeadAnimationCom->m_iMotion < m_pDeadAnimationCom->m_iMaxMotion)
+	{
+		m_pDeadAnimationCom->Move_Animation(fTimeDelta);
+
+	}
+	if (3 == m_pDeadAnimationCom->m_iMotion)
+	{
+		if (false == m_bArrFalldown[0])
+		{
+			m_pDynamicTransCom->Add_Y(-m_fDeadY * 0.2f);
+			m_bArrFalldown[0] = true;
+		}
+	}
+	else if (4 == m_pDeadAnimationCom->m_iMotion)
+	{
+		if (false == m_bArrFalldown[1])
+		{
+			m_pDynamicTransCom->Add_Y(-m_fDeadY * 0.2f);
+			m_bArrFalldown[1] = true;
+		}
+	}
+	else if (5 == m_pDeadAnimationCom->m_iMotion)
+	{
+		if (false == m_bArrFalldown[2])
+		{
+			m_pDynamicTransCom->Add_Y(-m_fDeadY * 0.2f);
+			m_bArrFalldown[2] = true;
+		}
+	}
+	else if (6 == m_pDeadAnimationCom->m_iMotion)
+	{
+		if (false == m_bArrFalldown[3])
+		{
+			//m_pDynamicTransCom->Add_Y(-m_fDeadY * 0.2f);
+			m_pDynamicTransCom->Set_Y(1);
+			m_bArrFalldown[3] = true;
+		}
+	}
+}
 CFatBat * CFatBat::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)
 {
 	CFatBat*	pInstance = new CFatBat(pGraphicDev);

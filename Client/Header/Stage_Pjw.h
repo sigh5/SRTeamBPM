@@ -28,6 +28,7 @@
 #include "CoinKeyUI.h"
 #include "DashUI.h"
 #include "Inventory_UI.h"
+#include "UI_Frame.h"
 
 class CStage_Pjw : public Engine::CScene
 {
@@ -50,6 +51,8 @@ private:
 
 	HRESULT			Ready_Layer_GameLogic(const _tchar* pLayerTag);
 	HRESULT			Ready_Layer_UI(const _tchar* pLayerTag);
+
+	HRESULT			Ready_Layer_Icon(const _tchar* pLayerTag);
 
 	HRESULT			Ready_Proto(void);
 	HRESULT			Ready_Light(void);

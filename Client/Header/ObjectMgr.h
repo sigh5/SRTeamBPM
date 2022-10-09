@@ -3,7 +3,7 @@
 #include "GameObject.h"
 
 #include "BaseBullet.h"
-
+class CGhul;
 class CObjectMgr :public CBase
 {
 	DECLARE_SINGLETON(CObjectMgr)
@@ -25,6 +25,8 @@ public:
 	void				Collect_SphinxBulletObj(CBaseBullet* pObj);
 	CBaseBullet*		Reuse_SphinxBulletObj(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos);
 
+	void				Collect_GhulObj(CGhul* pObj);
+	CGhul*				Reuse_GhulObj(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos);
 
 	void				Collect_UIObj(CGameObject* pObj);		// 사용을 마친 오브젝트를 회수하는 함수
 	CGameObject*		Reuse_MetronomeUI(LPDIRECT3DDEVICE9 pGraphicDev,_float fPosX, _float fPosY, _float fSpeed, int iTexIndex);	// 현재 풀에 있
@@ -34,6 +36,7 @@ private:
 	list<CBaseBullet*>		m_MonsterBulletList;
 	list<CBaseBullet*>		m_PlayerBulletList;
 	list<CBaseBullet*>		m_SphinxBulletList;
+	list<CGhul*>			m_GhulList;
 	list<CGameObject*>		m_UIMetroList;
 
 

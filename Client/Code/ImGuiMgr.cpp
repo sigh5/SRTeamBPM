@@ -13,6 +13,7 @@
 
 #include "FileIOMgr.h"
 #include "WallCube.h"
+#include "MonsterToolObject.h"
 #include "Obstacle.h"
 
 IMPLEMENT_SINGLETON(CImGuiMgr)
@@ -316,7 +317,7 @@ void CImGuiMgr::TransformEdit(CCamera* pCamera, CTransform* pTransform, _bool& W
 			ImGui::Text("Object Delete or nullptr");
 			ImGui::End();
 			return;
-		}
+}
 
 		float matrixTranslation[3], matrixRotation[3], matrixScale[3];
 		_matrix matWorld = pTransform->m_matWorld;
@@ -679,8 +680,8 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 
 			if (pGameObject != nullptr && pWallCube != nullptr)
 				Set_Create_Cube_Pos(&pGameObject, &pWallCube, &isUpcube);
-		}
-	}
+				}
+			}
 
 	if (m_bCubeSelcetCheck)
 	{
@@ -736,7 +737,7 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 		ImGui::SameLine();
 		char szOption[20];
 		sprintf_s(szOption, "%d", m_pWallCube->Get_Option());
-
+		
 		ImGui::Text(szOption);
 		EditObjectTexture<CWallCube>(L"Proto_MapCubeTexture");
 		TransformEdit(pCam, m_pSelectedTransform, Show_Cube_Tool);
@@ -836,15 +837,15 @@ void CImGuiMgr::TerrainTool(LPDIRECT3DDEVICE9 pGrahicDev, CCamera* pCam, CScene*
 	}
 
 	if (ImGui::Button("Delete"))
-	{
+		{
 		CLayer* MyLayer = pScene->GetLayer(L"TerrainLayer");
 		MyLayer->Delete_GameObject(m_CurrentTerrainObjectName.c_str());
 		m_pSelectedObject = nullptr;
-	}
+		}
 
 
 	if (ImGui::IsMouseClicked(1))
-	{
+				{
 		CLayer* pLayer = pScene->GetLayer(L"TerrainLayer");
 		CGameObject* temp = SelectObject<CTerrain>(pLayer, &m_CurrentTerrainObjectName);
 	}
@@ -978,7 +979,7 @@ void CImGuiMgr::MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 
 				NameList.push_back(test1);
 
-				pGameObject = CAnubis::Create(pGrahicDev, (_int)temp.x, (_int)temp.y);
+				pGameObject = CMonsterToolObject::Create(pGrahicDev, (_int)temp.x, (_int)temp.y);
 				NULL_CHECK_RETURN(pGameObject, );
 
 				CLayer* pMonsterlayer = pScene->GetLayer(L"TestLayer3");
@@ -1001,18 +1002,18 @@ void CImGuiMgr::MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 
 				for (auto iter = test.begin(); iter != test.end(); ++iter)
 				{
-					if (dynamic_cast<CMonsterBase*>(iter->second)->Set_SelectGizmo(g_hWnd, static_cast<CAnubis*>(iter->second)->Get_Calculator(), static_cast<CAnubis*>(iter->second)->Get_Buffer()))
+					if (dynamic_cast<CMonsterToolObject*>(iter->second)->Set_SelectGizmo(g_hWnd, static_cast<CMonsterToolObject*>(iter->second)->Get_Calculator(), static_cast<CMonsterToolObject*>(iter->second)->Get_Buffer()))
 					{
-						pTranscom = dynamic_cast<CTransform*>(iter->second->Get_Component(L"Proto_DynamicTransformCom", ID_DYNAMIC));
+						pTranscom = dynamic_cast<CTransform*>(iter->second->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
 						m_CurrentSelectGameObjectObjKey = iter->first;
 					}
 				}
 			}
 		}
-		CGameObject* pGameObject = dynamic_cast<CMonsterBase*>(Engine::Get_GameObject(L"TestLayer3", m_CurrentSelectGameObjectObjKey.c_str()));
+		CGameObject* pGameObject = dynamic_cast<CMonsterToolObject*>(Engine::Get_GameObject(L"TestLayer3", m_CurrentSelectGameObjectObjKey.c_str()));
 
 		ImGui::NewLine();
-		//����Ʈ �� ���� ���� Ȥ�� �̸� �����ؼ� create �ؾ���
+	
 		//if (ImGui::CollapsingHeader("Monster Texture", ImGuiTreeNodeFlags_DefaultOpen))
 		//{
 		//	CTexture* pTextureCom = dynamic_cast<CTexture*>(pGameObject->Get_Component(L"Proto_TerrainTexture2", ID_STATIC));
@@ -1031,26 +1032,26 @@ void CImGuiMgr::MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 		//	}
 		//}
 		TransformEdit(pCam, m_pSelectedTransform, Show_Monster_Tool);
-		// ������ư�� ���Ѱ�
+		
 		if (pTranscom != nullptr)
 			m_pSelectedTransform = pTranscom;
 
-		ImGui::End();
+
 		if (pGameObject != nullptr)
 		{
-			CharacterInfo* monInfo = nullptr;
-			monInfo = &(static_cast<CMonsterBase*>(pGameObject)->Get_InfoRef());
+			//CharacterInfo* monInfo = nullptr;
+			//monInfo = &(static_cast<CMonsterBase*>(pGameObject)->Get_InfoRef());
 			ImGui::Begin("Monster Stat");
 
 			ImGui::Text("Monster Stat Setting Window");
-			ImGui::InputInt("Hp", &monInfo->_iHp);
-			ImGui::InputInt("AttackPower", &monInfo->_iAttackPower);
-			ImGui::InputInt("MonsterIndex", &(static_cast<CMonsterBase*>(pGameObject)->Get_MonsterType()));
-
+			//ImGui::InputInt("Hp", &monInfo->_iHp);
+			//ImGui::InputInt("AttackPower", &monInfo->_iAttackPower);
+			ImGui::InputInt("MonsterIndex", &(static_cast<CMonsterToolObject*>(pGameObject)->Get_MonsterType()));
+		
 
 			ImGui::End();
 		}
-	}
+		ImGui::End();
 }
 
 // Player Tool
@@ -1086,7 +1087,6 @@ void CImGuiMgr::Player_Tool(LPDIRECT3DDEVICE9 pGraphicDev, CScene * pScene, wstr
 		if (ImGui::Button("Save"))
 		{
 			CFileIOMgr::GetInstance()->Save_FileData(pScene, pLayerTag, L"../../Data/", L"Player.dat", OBJ_PLAYER);
-
 
 		}
 		ImGui::SameLine();

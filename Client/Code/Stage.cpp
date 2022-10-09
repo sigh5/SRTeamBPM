@@ -14,6 +14,7 @@
 
 #include "Box.h"
 #include "HealthPotion.h"
+#include "ShotGun.h"
 
 #include "HpBar.h"
 #include "CoinKeyUI.h"
@@ -21,6 +22,8 @@
 #include "MetronomeUI.h"
 #include "Gun_Screen.h"
 #include "DashUI.h"
+#include "Inventory_UI.h"
+#include "UI_Frame.h"
 
 #include "Snowfall.h"
 #include "HitBlood.h"
@@ -29,6 +32,9 @@
 #include "Spider.h"
 #include "FatBat.h"
 #include "Sphinx.h"
+#include "Ghul.h"
+#include "Obelisk.h"
+#include "EarthShaker.h"
 
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -55,6 +61,10 @@ HRESULT CStage::Ready_Scene(void)
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(L"Layer_Environment"), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_GameLogic(L"Layer_GameLogic"), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_UI(L"Layer_UI"), E_FAIL);
+	FAILED_CHECK_RETURN(Ready_Layer_Icon(L"Layer_Icon"), E_FAIL);
+	FAILED_CHECK_RETURN(Ready_Layer_CubeCollsion(L"Layer_CubeCollsion"), E_FAIL);
+	FAILED_CHECK_RETURN(Ready_Layer_Room(L"Layer_Room"), E_FAIL);
+	
 
 	Set_Player_StartCubePos();
 
@@ -81,6 +91,10 @@ _int CStage::Update_Scene(const _float & fTimeDelta)
 		NULL_CHECK_RETURN(pGameObject, 0);
 		pMyLayer->Add_GameObjectList(pGameObject);
 
+		for (auto iter = pMyLayer->Get_GhulList().begin(); iter != pMyLayer->Get_GhulList().end(); ++iter)
+		{
+			(*iter)->Update_Object(fTimeDelta);
+		}
 		m_fFrame = 0.f;
 	}
 
@@ -97,6 +111,12 @@ void CStage::LateUpdate_Scene(void)
 	for (auto iter = pLayer->Get_GameObjectMap().begin(); iter != pLayer->Get_GameObjectMap().end(); ++iter)
 	{
 		iter->second->Collision_Event();
+	}
+	
+	for (auto iter = pLayer->Get_GhulList().begin(); iter != pLayer->Get_GhulList().end(); ++iter)
+	{
+		(*iter)->LateUpdate_Object();
+		(*iter)->Collision_Event();
 	}
 
 
@@ -169,6 +189,19 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Sphinx", pGameObject), E_FAIL);
 
+	pGameObject = CEarthShaker::Create(m_pGraphicDev, 20, 20, 3.f);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Earth", pGameObject), E_FAIL);
+
+	/*pGameObject = CObelisk::Create(m_pGraphicDev, 20, 15);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Obelisk", pGameObject), E_FAIL);*/
+
+	//pLayer->Add_ObeliskList(pGameObject); //오벨리스크 생성 시 리스트에도 추가해야 함
+
+	//pGameObject = CGhul::Create(m_pGraphicDev, 20, 15);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Ghul", pGameObject), E_FAIL);
 
 	/*CPlayer*		pPlayer = dynamic_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"));
 	pGameObject = CBox::Create(m_pGraphicDev, 5, 10, pPlayer);
@@ -176,10 +209,16 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Box", pGameObject), E_FAIL);
 */
 
+	// Gun_Screen 테스트 용으로 넣어놨음 참고
+	pGameObject = CShotGun::Create(m_pGraphicDev, 10, 10);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"ShotGun", pGameObject), E_FAIL);
 
-	READY_LAYER(pGameObject, CAnubis, pLayer, m_pGraphicDev, L"TestMonster1");
-	READY_LAYER(pGameObject, CSpider, pLayer, m_pGraphicDev, L"TestMonster2");
-	READY_LAYER(pGameObject, CFatBat, pLayer, m_pGraphicDev, L"TestMonster3");
+
+	//READY_LAYER(pGameObject, CAnubis, pLayer, m_pGraphicDev, L"TestMonster1");
+	//READY_LAYER(pGameObject, CSpider, pLayer, m_pGraphicDev, L"TestMonster2");
+	//READY_LAYER(pGameObject, CFatBat, pLayer, m_pGraphicDev, L"TestMonster3");
+
 	//
 	/*CFileIOMgr::GetInstance()->Load_FileData(m_pGraphicDev,
 		this,
@@ -200,6 +239,32 @@ HRESULT CStage::Ready_Layer_UI(const _tchar * pLayerTag)
 	CGameObject*		pGameObject = nullptr;
 
 	CPlayer* pPlayer = dynamic_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"));
+	
+	pGameObject = CStatus_UI::Create(m_pGraphicDev, pPlayer);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Status_UI", pGameObject), E_FAIL);
+
+	pGameObject = CInventory_UI::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"InventoryUI", pGameObject), E_FAIL);
+
+	READY_LAYER(pGameObject, CGun_Screen, pLayer, m_pGraphicDev, L"Gun");
+
+	READY_LAYER(pGameObject, CUI_Frame, pLayer, m_pGraphicDev, L"Frame");
+
+	m_mapLayer.insert({ pLayerTag, pLayer });
+
+
+	return S_OK;
+}
+
+HRESULT CStage::Ready_Layer_Icon(const _tchar * pLayerTag)
+{
+	Engine::CLayer*		pLayer = Engine::CLayer::Create();
+	NULL_CHECK_RETURN(pLayer, E_FAIL);
+
+	CGameObject*		pGameObject = nullptr;
+	CTestPlayer*		pPlayer = dynamic_cast<CTestPlayer*>(Get_GameObject(L"Layer_GameLogic", L"TestPlayer"));
 
 	pGameObject = CBullet_UI::Create(m_pGraphicDev, pPlayer);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -213,18 +278,15 @@ HRESULT CStage::Ready_Layer_UI(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"HpBar", pGameObject), E_FAIL);
 
-	pGameObject = CStatus_UI::Create(m_pGraphicDev, pPlayer);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Status_UI", pGameObject), E_FAIL);
-
 	pGameObject = CCoinKeyUI::Create(m_pGraphicDev, pPlayer);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"CoinKey_UI", pGameObject), E_FAIL);
 
-	READY_LAYER(pGameObject, CDashUI, pLayer, m_pGraphicDev, L"DashUI");
-	READY_LAYER(pGameObject, CGun_Screen, pLayer, m_pGraphicDev, L"Gun")
-	m_mapLayer.insert({ pLayerTag, pLayer });
+	pGameObject = CDashUI::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"DashUI", pGameObject), E_FAIL);
 
+	m_mapLayer.insert({ pLayerTag, pLayer });
 
 	return S_OK;
 }

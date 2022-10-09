@@ -22,19 +22,19 @@ CAnubis::~CAnubis()
 {
 }
 
-HRESULT CAnubis::Ready_Object(int Posx, int Posy)
+HRESULT CAnubis::Ready_Object(float Posx, float Posy)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+	
+	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_MonsterTexture", m_mapComponent, ID_STATIC);
 
 	m_fHitDelay = 0.f;
 
 	CComponent* pComponent = nullptr;
-
-	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_MonsterTexture", m_mapComponent, ID_STATIC);
+	
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
+	
 	m_pAttackAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_STATIC);
-	
-	
 
 	m_pAttackTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Anubis_Attack_Texture", m_mapComponent, ID_STATIC);
 	m_pDeadTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Anubis_Dead_Texture", m_mapComponent, ID_STATIC);
@@ -45,7 +45,7 @@ HRESULT CAnubis::Ready_Object(int Posx, int Posy)
 	_vec3	vScale = { 2.f,2.f,2.f };
 
 	m_pDynamicTransCom->Set_Scale(&vScale);
-	m_pDynamicTransCom->Set_Pos(20.f, 2.f, 20.f);
+
 
 	m_pInfoCom->Ready_CharacterInfo(1, 10, 5.f);
 	m_pAnimationCom->Ready_Animation(6, 1, 0.2f);
@@ -55,7 +55,7 @@ HRESULT CAnubis::Ready_Object(int Posx, int Posy)
 	if (Posx == 0 && Posy == 0) {}
 	else
 	{
-		Set_TransformPositon(g_hWnd, m_pCalculatorCom);
+		m_pDynamicTransCom->Set_Pos((float)Posx, 2.f, (float)Posy);
 	}
 
 	return S_OK;
@@ -84,7 +84,7 @@ bool	CAnubis::Dead_Judge(const _float& fTimeDelta)
 
 _int CAnubis::Update_Object(const _float & fTimeDelta)
 {
-	MonsterTool_Anubis_Logic();
+
 
 	if (Dead_Judge(fTimeDelta))
 	{
@@ -127,37 +127,40 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 void CAnubis::LateUpdate_Object(void)
 {
 	// 빌보드 에러 해결
-	CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
-	NULL_CHECK(pCamera);
+	if (SCENE_TOOLTEST != Get_Scene()->Get_SceneType())
+	{
+		CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
+		NULL_CHECK(pCamera);
 
-	_matrix		matWorld, matView, matBill;
+		_matrix		matWorld, matView, matBill;
 
-	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
-	D3DXMatrixIdentity(&matBill);
-	memcpy(&matBill, &matView, sizeof(_matrix));
-	memset(&matBill._41, 0, sizeof(_vec3));
-	D3DXMatrixInverse(&matBill, 0, &matBill);
+		m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
+		D3DXMatrixIdentity(&matBill);
+		memcpy(&matBill, &matView, sizeof(_matrix));
+		memset(&matBill._41, 0, sizeof(_vec3));
+		D3DXMatrixInverse(&matBill, 0, &matBill);
 
-	_matrix      matScale, matTrans;
-	D3DXMatrixScaling(&matScale, 2.f, 2.f, 2.f);
+		_matrix      matScale, matTrans;
+		D3DXMatrixScaling(&matScale, 2.f, 2.f, 2.f);
 
-	_matrix      matRot;
-	D3DXMatrixIdentity(&matRot);
-	D3DXMatrixRotationY(&matRot, (_float)pCamera->Get_BillBoardDir());
+		_matrix      matRot;
+		D3DXMatrixIdentity(&matRot);
+		D3DXMatrixRotationY(&matRot, (_float)pCamera->Get_BillBoardDir());
 
-	_vec3 vPos;
-	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+		_vec3 vPos;
+		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
 
-	D3DXMatrixTranslation(&matTrans,
-		vPos.x,
-		vPos.y,
-		vPos.z);
+		D3DXMatrixTranslation(&matTrans,
+			vPos.x,
+			vPos.y,
+			vPos.z);
 
-	D3DXMatrixIdentity(&matWorld);
-	matWorld = matScale* matRot * matBill * matTrans;
-	m_pDynamicTransCom->Set_WorldMatrix(&(matWorld));
+		D3DXMatrixIdentity(&matWorld);
+		matWorld = matScale* matRot * matBill * matTrans;
+		m_pDynamicTransCom->Set_WorldMatrix(&(matWorld));
 
-	// 빌보드 에러 해결
+		// 빌보드 에러 해결
+	}
 	Engine::CMonsterBase::LateUpdate_Object();
 }
 
@@ -274,40 +277,6 @@ void				CAnubis::Clear_Blood(const _float& fTimeDelta)
 	//		++iter;
 	//	}
 	//} //코드병합으로 잠굼
-}
-
-void CAnubis::MonsterTool_Anubis_Logic(void)
-{
-#ifdef _DEBUG
-	if (SCENE_TOOLTEST == Get_Scene()->Get_SceneType())
-	{
-	CTexture*	pComponent = nullptr;
-	if (m_iPreIndex != m_iMonsterIndex)
-	{
-	m_iPreIndex = m_iMonsterIndex;
-	switch (m_iMonsterIndex)
-	{
-	case 0:
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_MonsterTexture"));
-	NULL_CHECK(m_pTextureCom, E_FAIL);
-	m_mapComponent[ID_STATIC].insert({ L"Proto_MonsterTexture", pComponent });
-	break;
-
-	case 1:
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_MonsterTexture2"));
-	NULL_CHECK(m_pTextureCom, E_FAIL);
-	m_mapComponent[ID_STATIC].insert({ L"Proto_MonsterTexture2", pComponent });
-	break;
-
-	case 2:
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_MonsterTexture3"));
-	NULL_CHECK(m_pTextureCom, E_FAIL);
-	m_mapComponent[ID_STATIC].insert({ L"Proto_MonsterTexture3", pComponent });
-	break;
-	}
-	}
-	}
-#endif
 }
 
 void		CAnubis::AttackJudge(const _float& fTimeDelta)

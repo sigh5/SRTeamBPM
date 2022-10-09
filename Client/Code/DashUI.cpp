@@ -30,7 +30,7 @@ HRESULT CDashUI::Ready_Object()
 	m_vecScale = { m_fSizeX * 0.3f, m_fSizeY * 0.3f, 1.f };
 
 	m_pTransCom->Set_Scale(&m_vecScale);
-	m_pTransCom->Set_Pos(m_fX - 30.f, m_fY - WINCY * 0.4f, 0.f);
+	m_pTransCom->Set_Pos(m_fX - 34.f, m_fY - WINCY * 0.38f, 0.1f);
 
 	m_fDelay = 15.f;
 	
@@ -51,54 +51,33 @@ _int CDashUI::Update_Object(const _float & fTimeDelta)
 
 	if (Engine::Get_DIKeyState(DIK_LSHIFT) & 0x80)
 	{
-		m_bTest = true;
+		m_bSize = true;
 
-		_vec3	vecLSHIFT = { m_vecScale.x * 0.7f, m_vecScale.y * 0.7f, 1.f };
+		_vec3	vecLSHIFT = { m_vecScale.x * 0.7f, m_vecScale.y * 0.7f, 0.1f };
 		m_pTransCom->Set_Scale(&vecLSHIFT);
 	}
 
-		if(m_bTest)
+		if(m_bSize)
 		m_fDelayTime += 50.f * fTimeDelta;
 
 		if (m_fDelay < m_fDelayTime)
 		{
 			m_pTransCom->Set_Scale(&m_vecScale);
 			m_fDelayTime = 0.f;
-			m_bTest = false;
+			m_bSize = false;
 		}
-
-					
-	
-	
+			
 
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
-	Add_RenderGroup(RENDER_UI, this);
+	Add_RenderGroup(RENDER_ICON, this);
 
 	return 0;
 }
 
 void CDashUI::LateUpdate_Object(void)
 {
-	/*if (Get_DIKeyState(DIK_LSHIFT) & 0x80)
-	{
-		m_fFrame += 30.f * fTimeDelta;
-
-		if (m_fFrame >= 1.f)
-			m_fFrame = 0.f;
-
-		_vec3	vecLSHIFT = { m_vecScale.x * 0.7f, m_vecScale.y * 0.7f, 1.f };
-
-		m_pTransCom->Set_Scale(&vecLSHIFT);
-
-		
-		
-			m_pTransCom->Set_Scale(&m_vecScale);
-
-			
-		
-	}*/
-
+	
 	CGameObject::LateUpdate_Object();
 }
 
@@ -121,6 +100,16 @@ void CDashUI::Render_Obejct(void)
 
 	m_pGraphicDev->SetTransform(D3DTS_VIEW, &ViewMatrix);
 	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
+
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0x10);
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+
 	m_pTextureCom->Set_Texture(0);	// 텍스처 정보 세팅을 우선적으로 한다.
 	m_pBufferCom->Render_Buffer();
 

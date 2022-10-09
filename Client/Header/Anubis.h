@@ -13,7 +13,7 @@ private:
 	virtual ~CAnubis();
 
 public:
-	virtual HRESULT		Ready_Object(int Posx, int Posy);
+	virtual HRESULT		Ready_Object(float Posx, float Posy);
 	virtual _int		Update_Object(const _float& fTimeDelta) override;
 	virtual void		LateUpdate_Object(void) override;
 	virtual void		Render_Obejct(void) override;
@@ -24,7 +24,7 @@ public:
 	virtual void NoHit_Loop(const _float& fTimeDelta);
 	virtual void Hit_Loop(const _float& fTimeDelta);
 
-	void MonsterTool_Anubis_Logic(void);
+
 
 	void				Clear_Blood(const _float& fTimeDelta);
 public:
@@ -45,10 +45,6 @@ public:
 
 private:
 
-
-
-
-	
 	_vec3 m_bOldPlayerPos;
 
 	CTexture*		m_pTextureCom = nullptr;

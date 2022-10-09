@@ -39,7 +39,6 @@ private:
 	CCollider*			m_pColliderCom = nullptr;
 
 
-
 private:
 	// _vec3
 	_vec3				m_vDirection;

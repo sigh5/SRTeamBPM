@@ -7,7 +7,10 @@
 #include "Stage.h"
 #include "ToolTest.h"
 #include "ColliderStage.h"
+
 #include "Stage_Pjw.h"
+#include "Change_Stage.h"
+
 #include "STAGE_BIH.h"
 
 // UI Test
@@ -161,14 +164,17 @@ HRESULT CLogo::Ready_Proto(void)
 	
 	
 	//FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ButtonTexture", CTexture::Create(m_pGraphicDev, L"../QBin/Resource/Texture/Button/Credits_Button.png", TEX_NORMAL)), E_FAIL);
-		
 	
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ButtonTexture2", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Button/Exit_Button.png", TEX_NORMAL)), E_FAIL);
 				
 	// Font
-	FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"BMYEONSUNG", L"Power", 16, 20, FW_HEAVY), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"BMYEONSUNG", L"Power", 14, 18, FW_HEAVY), E_FAIL);
 
-	FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"DalseoHealingBold", L"Healing", 10, 12, FW_NORMAL), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"DalseoHealingBold", L"Healing", 8, 10, FW_NORMAL), E_FAIL);
+	
+	FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"HoengseongHanu", L"BulletUIFont", 11, 13, FW_NORMAL), E_FAIL);
+	// LeeSoonSin
+	FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"LeeSoonSin", L"LoadingHUD_Font", 11, 15, FW_HEAVY), E_FAIL);
 
 	return S_OK;
 }
