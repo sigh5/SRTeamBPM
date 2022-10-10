@@ -205,9 +205,6 @@
     <ClCompile Include="..\Code\Magnum.cpp">
       <Filter>02. GameObject\01. For_Stage\14. Equipment\00. Weapon\1. Magnum</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Sphinx.cpp">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\AnubisThunder.cpp">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
     </ClCompile>
@@ -250,7 +247,15 @@
     <ClCompile Include="..\Code\TeleCube.cpp">
       <Filter>02. GameObject\02. For_public\05. TeleCube</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Obstacle.cpp" />
+    <ClCompile Include="..\Code\Sphinx.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Obstacle.cpp">
+      <Filter>02. GameObject\01. For_Stage\15. Obstacle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EarthShaker.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\06. EarthShaker</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -475,9 +480,6 @@
     <ClInclude Include="..\Header\Magnum.h">
       <Filter>02. GameObject\01. For_Stage\14. Equipment\00. Weapon\1. Magnum</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Sphinx.h">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\AnubisThunder.h">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
     </ClInclude>
@@ -520,7 +522,15 @@
     <ClInclude Include="..\Header\TeleCube.h">
       <Filter>02. GameObject\02. For_public\05. TeleCube</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Obstacle.h" />
+    <ClInclude Include="..\Header\Sphinx.h">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Obstacle.h">
+      <Filter>02. GameObject\01. For_Stage\15. Obstacle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EarthShaker.h">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\06. EarthShaker</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">

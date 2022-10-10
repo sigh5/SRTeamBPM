@@ -27,7 +27,7 @@ HRESULT CShotGun::Ready_Object(_uint iX, _uint iZ)
 	
 	m_RenderID = RENDER_ALPHA;
 	
-	m_pTransCom->Set_Pos((_float)iX, 1.f, (_float)iZ);
+	m_pTransCom->Set_Pos((_float)100, 1.f, (_float)120);
 	m_pTransCom->Compulsion_Update();
 
 	return S_OK;
@@ -37,7 +37,7 @@ _int CShotGun::Update_Object(const _float & fTimeDelta)
 {
 	_uint iResult = Engine::CGameObject::Update_Object(fTimeDelta);
 
-	Set_OnTerrain();
+	//Set_OnTerrain();
 
 	Add_RenderGroup(m_RenderID, this);
 	
@@ -47,9 +47,9 @@ _int CShotGun::Update_Object(const _float & fTimeDelta)
 void CShotGun::LateUpdate_Object(void)
 {
 	// MyCamera를 통한 빌보드
-	/*CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
+	CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
 	NULL_CHECK(pCamera);
-	
+
 	_matrix		matWorld, matView, matBill;
 
 	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
@@ -75,8 +75,10 @@ void CShotGun::LateUpdate_Object(void)
 
 	D3DXMatrixIdentity(&matWorld);
 	matWorld = matScale* matRot * matBill * matTrans;
-	m_pTransCom->Set_WorldMatrix(&(matWorld));*/
+	m_pTransCom->Set_WorldMatrix(&(matWorld));
 
+
+	CEquipmentBase::LateUpdate_Object();
 }
 
 void CShotGun::Render_Obejct(void)
@@ -226,8 +228,16 @@ void CShotGun::Set_OnTerrain(void)
 	_vec3		vPos;
 	m_pTransCom->Get_Info(INFO_POS, &vPos);
 
-	Engine::CTerrainTex*	pTerrainTexCom = dynamic_cast<Engine::CTerrainTex*>(Engine::Get_Component(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC));
-	NULL_CHECK(pTerrainTexCom);
+	Engine::CTerrainTex*	pTerrainTexCom = 
+		dynamic_cast<CTerrainTex*>(Engine::Get_Component(m_LayerName.c_str(),
+			m_RoomName.c_str(),
+			L"Proto_TerrainTexCom", ID_STATIC));
+	//NULL_CHECK(pTerrainTexCom);
+
+	if (pTerrainTexCom == nullptr)
+	{
+		MSG_BOX("Nullptr TerrainTex");
+	}
 
 	_float fHeight = m_pCalculatorCom->HeightOnTerrain(&vPos, pTerrainTexCom->Get_VtxPos(), VTXCNTX, VTXCNTZ);
 
