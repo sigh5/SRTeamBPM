@@ -1185,7 +1185,7 @@ void CImGuiMgr::Object_Tool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 		}
 
 		pTerrain->Set_WireFrame(true);
-		EditObjectTexture<CObstacle>(L"Proto_HpPotionTexture");
+		EditObjectTexture<CObstacle>(L"Proto_fetrues_Texture");
 	}
 
 	ImGui::End();
