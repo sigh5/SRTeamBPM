@@ -237,7 +237,6 @@ _bool CObstacle::Set_SelectGizmo()
 	return m_pCalculatorCom->PickingOnTransform_RcTex(g_hWnd, m_pBufferCom, m_pTransCom);
 }
 
-
 HRESULT CObstacle::Add_Component(void)
 {
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
