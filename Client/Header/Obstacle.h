@@ -15,7 +15,7 @@ enum OBSTACLE
 {
 	OBSTACLE_CRYSTAL, OBSTACLE_STREET_LAMP , OBJSTACLE_TREE , OBJSTACLE_END
 };
-
+//Áö¿ì¼À
 
 class CObstacle : public CGameObject
 {

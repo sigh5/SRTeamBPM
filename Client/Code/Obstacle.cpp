@@ -73,7 +73,7 @@ _int CObstacle::Update_Object(const _float & fTimeDelta)
 			m_bControlAnim = true;
 		}
 	}
-
+		//Áö¿ì¼À
 	else
 	{
 		m_pAnimationCom->Move_Animation(fTimeDelta);

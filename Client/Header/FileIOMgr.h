@@ -14,7 +14,7 @@ private:
 	explicit CFileIOMgr();
 	virtual ~CFileIOMgr();
 
-
+	//Áö¿ì¼À
 public:
 	void Save_FileData(CScene * pScene, wstring LayerName, wstring FilePath, wstring FileName, OBJ_TYPE eObjType);
 	void Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
