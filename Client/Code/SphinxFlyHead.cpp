@@ -415,7 +415,7 @@ void		CSphinxFlyHead::Tackle(const _float& fTimeDelta)
 	{
 		if (m_fTackleAttenuationTime < m_fTackleAttenuationTimeCount)
 		{
-			m_fTackleStopper *= 1.1;
+			m_fTackleStopper *= 1.1f;
 			m_fTackleAttenuationTimeCount = 0.f;
 		}
 	}

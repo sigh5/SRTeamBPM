@@ -340,7 +340,7 @@ CAnubis * CAnubis::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)
 	CAnubis*	pInstance = new CAnubis(pGraphicDev);
 
 
-	if (FAILED(pInstance->Ready_Object(Posx, Posy)))
+	if (FAILED(pInstance->Ready_Object((_float)Posx, (_float)Posy)))
 	{
 		Safe_Release(pInstance);
 		return nullptr;

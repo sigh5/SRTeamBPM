@@ -41,7 +41,7 @@ HRESULT CSpider::Ready_Object(int Posx, int Posy)
 	if (Posx == 0 && Posy == 0) {}
 	else
 	{
-		m_pDynamicTransCom->Set_Pos(Posx, m_pDynamicTransCom->m_vScale.y * 0.5f, Posy);
+		m_pDynamicTransCom->Set_Pos((_float)Posx, m_pDynamicTransCom->m_vScale.y * 0.5f, (_float)Posy);
 	}
 
 	return S_OK;
