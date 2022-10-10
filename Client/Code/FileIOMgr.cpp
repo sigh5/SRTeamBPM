@@ -370,7 +370,7 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 				break;
 		}
 	}
-	
+	//주석지우셈
 	else if (eObjType == OBJ_PLAYER)
 	{
 		ReadFile(hFile, &vRight, sizeof(_vec3), &dwByte, nullptr);
