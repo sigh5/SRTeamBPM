@@ -19,7 +19,7 @@ public:
 	void	Control_Animation(_uint iCount);	
 
 	void	Control_Event_Animation(_bool bEvent);
-
+	void	Test();
 
 
 	void	Open_Box_Animation(_bool bOpen);
