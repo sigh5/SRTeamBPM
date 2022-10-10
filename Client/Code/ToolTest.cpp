@@ -20,7 +20,7 @@ CToolTest::CToolTest(LPDIRECT3DDEVICE9 pGraphicDev) : CScene(pGraphicDev)
 
 CToolTest::~CToolTest()
 {
-	
+	//Áö¿ì¼À
 }
 
 HRESULT CToolTest::Ready_Scene()

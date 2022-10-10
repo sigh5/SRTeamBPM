@@ -39,6 +39,7 @@
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
 {
+	//Áö¿ì¼À
 }
 
 CStage::~CStage()
