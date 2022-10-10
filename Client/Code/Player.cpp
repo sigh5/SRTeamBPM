@@ -64,7 +64,7 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 	if (m_pInfoCom->Get_Hp() <= 0)
 	{
 		Random_ResurrectionRoom();
-		m_pInfoCom->Ready_CharacterInfo(1, 10, 5.f);
+		m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
 		
 		CScene* pScene = Get_Scene();
 		CLayer* pLayer = pScene->GetLayer(L"Layer_GameLogic");
