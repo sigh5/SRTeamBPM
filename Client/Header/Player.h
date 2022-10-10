@@ -15,7 +15,7 @@ namespace Engine
 }
 
 class CGun_Screen;
-
+//주석지우셈
 class CPlayer :public CGameObject
 {
 private:

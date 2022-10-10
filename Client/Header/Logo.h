@@ -14,7 +14,7 @@ class CLogo : public Engine::CScene
 private:
 	explicit CLogo(LPDIRECT3DDEVICE9 pGraphicDev);
 	virtual ~CLogo();
-
+	//주석지우셈
 public:
 	virtual HRESULT Ready_Scene(void) override;
 	virtual _int Update_Scene(const _float& fTimeDelta) override;

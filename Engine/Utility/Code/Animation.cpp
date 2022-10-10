@@ -17,6 +17,7 @@ Engine::CAnimation::CAnimation(const CAnimation& rhs)
 
 CAnimation::~CAnimation()
 {
+	//주석지우셈
 }
 // 애니메이션 사용을 위한 기본 세팅 함수
 HRESULT CAnimation::Ready_Animation(int _iMaxMotion, int _iMinMotion, float _fInterval, _uint _iOrigin)

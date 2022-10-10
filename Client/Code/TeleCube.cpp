@@ -14,7 +14,7 @@ CTeleCube::~CTeleCube()
 {
 }
 
-
+//주석지우셈
 
 HRESULT CTeleCube::Ready_Object()
 {

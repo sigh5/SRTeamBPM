@@ -39,6 +39,7 @@
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
 {
+	//주석지우셈
 }
 
 CStage::~CStage()

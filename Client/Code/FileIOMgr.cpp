@@ -24,6 +24,7 @@ CFileIOMgr::CFileIOMgr()
 
 CFileIOMgr::~CFileIOMgr()
 {
+	//주석지우셈
 }
 
 void CFileIOMgr::Save_FileData(CScene * pScene,

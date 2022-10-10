@@ -15,7 +15,7 @@ public:
 
 public:
 	HRESULT		Ready_Loading(LOADINGID eID);
-
+	//주석지우셈
 	_uint		Loading_ForStage(void);
 	
 	_uint		Loading_ForColliderStage(void);

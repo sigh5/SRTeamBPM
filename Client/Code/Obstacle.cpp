@@ -65,7 +65,12 @@ _int CObstacle::Update_Object(const _float & fTimeDelta)
 		m_fFrame = 0.f;
 	}
 
-	if (m_iTexIndex == OBSTACLE_STREET_LAMP)
+
+	CScene  *pScene = ::Get_Scene();
+	NULL_CHECK_RETURN(pScene, );
+
+	
+	if (m_iTexIndex == OBSTACLE_STREET_LAMP &&pScene->Get_SceneType() != SCENE_TOOLTEST)
 	{
 		if (static_cast<CGun_Screen*>(Get_GameObject(L"Layer_UI", L"Gun"))->Get_ReadyShot() && !m_bControlAnim)
 		{
@@ -224,7 +229,7 @@ void CObstacle::MousePostoScreen()
 		MSG_BOX("Choose Terrain");
 		return;
 	}
-
+	//ÁÖ¼®Áö¿ì¼À
 	_vec3 Temp = m_pCalculatorCom->PickingOnTerrainCube(g_hWnd, pTerrainBufferCom, pTerrainTransformCom);
 	m_pTransCom->Set_Pos(Temp.x, Temp.y, Temp.z);
 }

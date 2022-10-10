@@ -10,7 +10,7 @@ class CCalculator;
 END
 
 
-
+//주석지우셈
 class CToolTest : public CScene
 {
 private:

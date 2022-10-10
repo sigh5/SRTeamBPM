@@ -1205,7 +1205,7 @@ _int CImGuiMgr::CheckCubeinPicking(CLayer* pLayer, T** pGameObject, _bool* bUp)
 		ImGui::End();
 		return -1;
 	}
-
+	//주석지우셈
 	return 0;
 }
 

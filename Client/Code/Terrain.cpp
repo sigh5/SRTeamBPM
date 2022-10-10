@@ -8,7 +8,7 @@ CTerrain::CTerrain(LPDIRECT3DDEVICE9 pGraphicDev)
 {
 	
 }
-
+//주석지우셈
 
 CTerrain::~CTerrain()
 {

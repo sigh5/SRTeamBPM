@@ -14,6 +14,7 @@ CWallCube::CWallCube(LPDIRECT3DDEVICE9 pGraphicDev)
 
 CWallCube::~CWallCube()
 {
+	//주석지우셈
 }
 
 HRESULT CWallCube::InitSetting(_vec2* vMousPos, const wstring & LayerName,wstring* RoomName)
