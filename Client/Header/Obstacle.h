@@ -8,7 +8,14 @@ namespace Engine
 	class CTransform;
 	class CCalculator;
 	class CCollider;
+	class CAnimation;
 }
+
+enum OBSTACLE
+{
+	OBSTACLE_CRYSTAL, OBSTACLE_STREET_LAMP , OBJSTACLE_TREE , OBJSTACLE_END
+};
+
 
 class CObstacle : public CGameObject
 {
@@ -46,13 +53,14 @@ private:
 	CTexture*			m_pTextureCom = nullptr;
 	CCalculator*		m_pCalculatorCom = nullptr;
 	CCollider*			m_pColliderCom = nullptr;
-
+	CAnimation*			m_pAnimationCom = nullptr;
 private:
 	wstring				m_LayerName = L"";
 	wstring				m_RoomName = L"";
 	_int				m_iOption = 0;					// 0: Collision 1: NonCollision 
 	
 
+	_bool				m_bControlAnim = false;
 	
 public:
 	static	CObstacle*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
