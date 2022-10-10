@@ -42,7 +42,7 @@ _int CHealthPotion::Update_Object(const _float & fTimeDelta)
 	
 	m_pAnimationCom->Move_Animation(fTimeDelta);
 
-	Set_OnTerrain();
+	//Set_OnTerrain();
 	
 
 	Add_RenderGroup(RENDER_ALPHA, this);
