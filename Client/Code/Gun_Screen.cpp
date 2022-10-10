@@ -157,5 +157,7 @@ CGun_Screen * CGun_Screen::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 
 void CGun_Screen::Free(void)
 {	
+	Safe_Release(m_pTextureCom);
+
 	CGameObject::Free();
 }

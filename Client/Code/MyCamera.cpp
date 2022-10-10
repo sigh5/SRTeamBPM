@@ -39,7 +39,6 @@ HRESULT CMyCamera::Ready_Object(const _vec3 * pEye,
 
 _int CMyCamera::Update_Object(const _float & fTimeDelta)
 {
-	
 	Mouse_Fix();
 	Key_Input(fTimeDelta);
 
