@@ -36,6 +36,9 @@ public:
 	virtual void	Free(void);
 	//~
 private:
+	// µ¥¹ÌÁö HW
+	_bool			m_bHitDamage = true;
+
 
 
 private:

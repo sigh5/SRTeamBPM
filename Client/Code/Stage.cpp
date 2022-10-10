@@ -65,9 +65,6 @@ HRESULT CStage::Ready_Scene(void)
 	FAILED_CHECK_RETURN(Ready_Layer_Icon(L"Layer_Icon"), E_FAIL);
 
 
-
-
-
 	Set_Player_StartCubePos();
 
 	//::PlaySoundW(L"SamTow.wav", SOUND_BGM, 0.05f); // BGM
@@ -211,6 +208,11 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"ShotGun", pGameObject), E_FAIL);
 
+	READY_LAYER_POS(pGameObject, CAnubis, pLayer, m_pGraphicDev, L"TestMonster1", 100, 100);
+	READY_LAYER_POS(pGameObject, CSpider, pLayer, m_pGraphicDev, L"TestMonster10", 130, 100);
+	READY_LAYER_POS(pGameObject, CSpider, pLayer, m_pGraphicDev, L"TestMonster11", 130, 100);
+
+	
 
 	//READY_LAYER(pGameObject, CAnubis, pLayer, m_pGraphicDev, L"TestMonster1");
 	//READY_LAYER(pGameObject, CSpider, pLayer, m_pGraphicDev, L"TestMonster2");

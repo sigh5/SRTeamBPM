@@ -8,14 +8,17 @@ USING(Engine)
 
 
 CCharacterInfo::CCharacterInfo(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CComponent(pGraphicDev), m_bClone(false)
+	: CComponent(pGraphicDev), m_bClone(false) 
 {
+	ZeroMemory(&m_Info, sizeof(CharacterInfo));
+
 }
 
 
 CCharacterInfo::CCharacterInfo(const CCharacterInfo & rhs)
-	: CComponent(rhs), m_bClone(true)
+	: CComponent(rhs), m_bClone(true) 
 {
+	memcpy(&m_Info, &rhs.m_Info, sizeof(CharacterInfo));
 }
 
 CCharacterInfo::~CCharacterInfo()

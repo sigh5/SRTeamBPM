@@ -34,10 +34,7 @@ _int CTeleCube::Update_Object(const _float & fTimeDelta)
 {
 	m_pColliderCom->Set_HitBoxMatrix(&(m_pTransCom->m_matWorld));
 
-	if (Get_DIKeyState(DIK_M) & 0X80)
-	{
-		Random_ResurrectionRoom();
-	}
+
 
 
 	CGameObject::Update_Object(fTimeDelta);

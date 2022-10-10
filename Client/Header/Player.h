@@ -35,7 +35,7 @@ private:
 	void				Key_Input(const _float& fTimeDelta);
 
 public:
-	void				Set_OnTerrain(void);
+	
 	_vec3				PickUp_OnTerrain(void);
 
 
@@ -53,12 +53,19 @@ public:
 	void				EquipItem_Add_Stat(void);
 
 public:					// ★ m_pInfoCom->Get_InfoRef()._iHp를 return 해주면 실전 OK
-	_uint				Get_HpChange(void) { return m_iHpBarChange; }
+	_uint				Get_HpChange(void) { return m_iOriginHP; }
 	_uint				Get_Skill(void) { return m_iSkillPower; }
 	
 
 	void				Set_bPreStat(_bool _AddStat) { m_bPreStat = _AddStat; }
 	void				Set_bCurStat(_bool _bStat) { m_bCurStat = _bStat; }
+
+	void				Loss_Damage();
+	
+private:
+	void				Random_ResurrectionRoom();
+
+
 
 private:
 	CRcTex*				m_pBufferCom = nullptr;
@@ -99,19 +106,22 @@ private:		// Jw
 	
 
 	_uint				m_iSkillPower = 1;
-	_uint				m_iHpBarChange = 4;
+	_uint				m_iHpBarChange = 100;
+	
+	
 	
 	_float				m_fTimeDelta = 0.f;
+	_int				m_iOriginHP = 0;
 
 
 	// Gun
 	CGun_Screen*		pEquipItem;
 
-	stack<CGameObject*> VistiRoomStack;
-
 	// Player's Status(Private)	
 	_bool				m_bPreStat = false;
 	_bool				m_bCurStat = false;
+	_bool				m_bGainItem[3] = { false, }; //나중에 숫자만큼 넣으세요
+
 	// ~Player's Status(Private)
 
 public:

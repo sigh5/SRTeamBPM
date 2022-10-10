@@ -36,9 +36,14 @@ public:
 
 	virtual void NoHit_Loop(const _float& fTimeDelta) {};
 	virtual void Hit_Loop(const _float& fTimeDelta) {};
+	
+	// 캐릭터 다시 살아나게하는것
+	void		Set_ResetCheck(_bool bReset) { m_bResetCheck = bReset; }
+
 public:
 	const _bool&		 Get_Hit()const { return m_bHit; }
 
+	
 
 protected:
 	CCharacterInfo*		m_pInfoCom = nullptr;    // 남길것 
@@ -58,7 +63,13 @@ protected:
 	_float			m_fTimeDelta = 0.f;
 	vector<CGameObject*> m_vecBlood;
 	_vec3		m_vPlayerPos, m_vMonsterPos;
-	bool m_bDead = false;
+	
+	_bool	m_bResetCheck = false;
+
+	_bool	m_bExcutionCheck = false;
+	
+	
+	//bool m_bDead = false;
 
 	int m_iPreIndex = 0;
 	float m_fAttackDelay = 0;
