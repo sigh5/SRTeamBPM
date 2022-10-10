@@ -12,7 +12,7 @@
 
 #include "TestPlayer.h"
 
-
+//주석지우셈
 CToolTest::CToolTest(LPDIRECT3DDEVICE9 pGraphicDev) : CScene(pGraphicDev)
 {
 	m_SceneType = SCENE_TOOLTEST;

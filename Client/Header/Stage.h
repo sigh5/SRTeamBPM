@@ -15,7 +15,7 @@
 
 
 
-
+//주석지우셈
 class CStage : public Engine::CScene
 {
 private:

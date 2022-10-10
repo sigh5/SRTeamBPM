@@ -10,7 +10,7 @@ class CCalculator;
 class CCollider;
 END
 
-
+//주석지우셈
 class CTeleCube :public CGameObject
 {
 private:

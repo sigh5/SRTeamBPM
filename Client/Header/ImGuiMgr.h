@@ -33,7 +33,7 @@ class CImGuiMgr : public CBase
 private:
 	explicit CImGuiMgr();
 	virtual ~CImGuiMgr();
-
+	//주석지우셈
 public:
 	// 예시
 	static void TransformEdit(CCamera* pCamera, CTransform* pTransform, _bool& Window); // Gizmo

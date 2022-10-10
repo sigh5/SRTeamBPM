@@ -10,7 +10,7 @@ namespace Engine
 	class CTexture;
 	class CCalculator;
 }
-
+//주석지우셈
 class CTerrain : public CGameObject
 {
 private:

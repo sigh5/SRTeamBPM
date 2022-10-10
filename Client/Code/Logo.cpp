@@ -44,7 +44,7 @@ HRESULT CLogo::Ready_Scene(void)
 	
 	return S_OK;
 }
-
+ //주석지우셈
 Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 {
 	++m_iCount;

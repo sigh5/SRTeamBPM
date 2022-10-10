@@ -25,7 +25,7 @@ public:
 		wstring pObjectName,
 		OBJ_TYPE eObjType);
 
-
+	//주석지우셈
 	
 public:
 	_int		Get_Index() { return m_iIndex; }

@@ -18,7 +18,7 @@ public:
 	void	Control_Animation(_uint iCount);	
 
 	void	Control_Event_Animation(_bool bEvent);
-
+	//주석지우셈
 
 	void	Open_Box_Animation(_bool bOpen);
 
