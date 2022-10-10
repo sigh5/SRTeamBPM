@@ -245,6 +245,24 @@ _uint CLoading::Loading_ForTest(void)
 
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_hitbloodTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Effect/hitblood_%d.png", TEX_NORMAL, 8)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Spider_Attack_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Spider/Spider_Attack%d.png", TEX_NORMAL, 14)), E_FAIL);
+	
+	
+	
+	// Obstacle Anim
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_CrystralAnimTexCom", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/features/CrystralAnim_0/featureAnim_%d.png", TEX_NORMAL, 4)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_StreetTexCom", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/features/StreetLamp_1/featureAnim_%d.png", TEX_NORMAL, 3)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_TreeAnimTexCom", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/features/TreeAnim_2/features_%d.png", TEX_NORMAL, 2)), E_FAIL);
+
+
+
+	// Obstacle Anim
+	
+	
+	
+	
+	
+	
+	
 	m_bFinish = true;
 
 	lstrcpy(m_szLoading, L"Loading Complete!!!!!!!!!!!");
@@ -368,6 +386,11 @@ _uint CLoading::Loading_For_ToolScene()
 	
 	//~
 		
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_fetrues_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/features/features_%d.png", TEX_NORMAL, 8)), E_FAIL);
+
+	// しいけかい
+
+
 	//FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MonsterTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Anubis/anubis%d.png", TEX_NORMAL, 8)), E_FAIL);
 	m_bFinish = true;
 	
