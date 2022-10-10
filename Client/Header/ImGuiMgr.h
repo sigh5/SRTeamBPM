@@ -29,7 +29,7 @@ struct TexturePath
 class CImGuiMgr : public CBase
 {
 	DECLARE_SINGLETON(CImGuiMgr)
-
+	//지우셈
 private:
 	explicit CImGuiMgr();
 	virtual ~CImGuiMgr();

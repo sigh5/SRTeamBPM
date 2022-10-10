@@ -99,6 +99,7 @@ void CMyCamera::Mouse_Fix(void)
 	//	ClientToScreen(g_hWnd, &pt2);
 	//	SetCursorPos(pt2.x,pt2.y);
 	//}
+	//zz
 	POINT	pt{ WINCX >> 1 , WINCY >> 1 };
 
 	ClientToScreen(g_hWnd, &pt);

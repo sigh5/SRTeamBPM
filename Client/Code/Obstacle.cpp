@@ -50,7 +50,7 @@ HRESULT CObstacle::Ready_Object(void)
 	m_pColliderCom->Set_vCenter(&vPos);
 
 	
-
+	//Áö¿ì¼À
 
 	return S_OK; 
 }
