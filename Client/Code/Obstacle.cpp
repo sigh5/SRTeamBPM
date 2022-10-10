@@ -4,7 +4,7 @@
 #include "Export_Function.h"
 #include "AbstractFactory.h"
 #include "MyCamera.h"
-
+#include "Gun_Screen.h"
 
 CObstacle::CObstacle(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -86,23 +86,23 @@ _int CObstacle::Update_Object(const _float & fTimeDelta)
 
 void CObstacle::LateUpdate_Object(void)
 {
-	//CScene  *pScene = ::Get_Scene();
-	//NULL_CHECK_RETURN(pScene, );
-	//
-	//if (pScene->Get_SceneType() == SCENE_TOOLTEST)
-	//	return;
+	CScene  *pScene = ::Get_Scene();
+	NULL_CHECK_RETURN(pScene, );
+	
+	if (pScene->Get_SceneType() == SCENE_TOOLTEST)
+		return;
 
-	//// 빌보드 에러 해결
-	//CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
-	//NULL_CHECK(pCamera);
+	// 빌보드 에러 해결
+	CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
+	NULL_CHECK(pCamera);
 
-	//_matrix		matWorld, matView, matBill;
+	_matrix		matWorld, matView, matBill;
 
-	//m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
-	//D3DXMatrixIdentity(&matBill);
-	//memcpy(&matBill, &matView, sizeof(_matrix));
-	//memset(&matBill._41, 0, sizeof(_vec3));
-	//D3DXMatrixInverse(&matBill, 0, &matBill);
+	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
+	D3DXMatrixIdentity(&matBill);
+	memcpy(&matBill, &matView, sizeof(_matrix));
+	memset(&matBill._41, 0, sizeof(_vec3));
+	D3DXMatrixInverse(&matBill, 0, &matBill);
 
 	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
 	D3DXMatrixIdentity(&matBill);

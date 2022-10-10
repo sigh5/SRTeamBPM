@@ -38,6 +38,7 @@ public: //For Tool
 public:
 	void				Set_Layer_Map_Name(const wstring& LayerName, wstring* RoomName){m_LayerName = LayerName; m_RoomName = *RoomName;	}
 
+	void				Set_TextureCom();
 
 public:
 	const _int&			Get_Option() { return m_iOption; }
@@ -60,6 +61,7 @@ private:
 	_int				m_iOption = 0;					// 0: Collision 1: NonCollision 
 	
 
+	_float				m_fFrame = 0.f;
 	_bool				m_bControlAnim = false;
 	
 public:

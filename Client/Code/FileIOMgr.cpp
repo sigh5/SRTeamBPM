@@ -13,7 +13,7 @@
 #include "Terrain.h"
 
 #include "TeleCube.h"
-#include "Obstacle.h
+#include "Obstacle.h"
 
 IMPLEMENT_SINGLETON(CFileIOMgr)
 
