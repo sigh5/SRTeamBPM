@@ -447,7 +447,7 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 	
 
 	else if (eObjType == OBJ_OBSTRACLE)
-	{
+	{//Áö¿ì¼À
 		_int iOption = 0;
 		while (true)
 		{
