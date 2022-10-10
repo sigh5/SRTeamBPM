@@ -28,7 +28,7 @@ _int CMagnum::Update_Object(const _float & fTimeDelta)
 {
 	_uint iResult = Engine::CGameObject::Update_Object(fTimeDelta);
 
-	//Set_OnTerrain();
+	Set_OnTerrain();
 
 	Add_RenderGroup(RENDER_ALPHA, this);
 

@@ -39,7 +39,6 @@ HRESULT CMyCamera::Ready_Object(const _vec3 * pEye,
 
 _int CMyCamera::Update_Object(const _float & fTimeDelta)
 {
-	
 	Mouse_Fix();
 	Key_Input(fTimeDelta);
 
@@ -83,27 +82,22 @@ void CMyCamera::Mouse_Move(const _float& fTimeDelta)
 
 void CMyCamera::Mouse_Fix(void)
 {
-	//POINT	pt{};
-	//GetCursorPos(&pt);
-	//ScreenToClient(g_hWnd, &pt);
+	POINT	pt{};
+	GetCursorPos(&pt);
+	ScreenToClient(g_hWnd, &pt);
 
-	//if (WINCX+50 >= pt.x  && pt.x > -50 && WINCY+50 >= pt.y && pt.y >= -50)
-	//{
-	//	ClientToScreen(g_hWnd, &pt);
-	//	
-	//}
-	//else
-	//{
-	//	POINT pt2{ WINCX / 2 , WINCY / 2 };
-	//	//GetCursorPos(&pt2);
-	//	ClientToScreen(g_hWnd, &pt2);
-	//	SetCursorPos(pt2.x,pt2.y);
-	//}
-	POINT	pt{ WINCX >> 1 , WINCY >> 1 };
-
-	ClientToScreen(g_hWnd, &pt);
-	SetCursorPos(pt.x, pt.y);
-
+	if (WINCX+50 >= pt.x  && pt.x > -50 && WINCY+50 >= pt.y && pt.y >= -50)
+	{
+		ClientToScreen(g_hWnd, &pt);
+		
+	}
+	else
+	{
+		POINT pt2{ WINCX / 2 , WINCY / 2 };
+		//GetCursorPos(&pt2);
+		ClientToScreen(g_hWnd, &pt2);
+		SetCursorPos(pt2.x,pt2.y);
+	}
 }
 
 

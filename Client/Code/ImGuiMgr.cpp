@@ -1132,11 +1132,19 @@ void CImGuiMgr::Object_Tool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 		m_pSelectedObject = nullptr;
 	}
 
+	static _int		iWidth = 100;
+	static _int		iHeight = 100;
+
 	if (ImGui::CollapsingHeader("Tile Count", ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		CLayer* pLayer = pScene->GetLayer(L"ObjectLayer");
 
+		ImGui::SliderInt("Width", &iWidth, 0, 1000);
+		ImGui::SliderInt("Depth", &iHeight, 0, 1000);
+
 		ImGui::NewLine();
+
+
 		ImGui::Text("if double click Create Obj");
 		if (ImGui::IsMouseDoubleClicked(0))
 		{
@@ -1157,7 +1165,7 @@ void CImGuiMgr::Object_Tool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 	if (ImGui::IsMouseClicked(0))
 	{
 		CLayer* pLayer = pScene->GetLayer(L"ObjectLayer");
-		CGameObject* temp = SelectObject<CObstacle>(pLayer, &m_CurrentObstaclName);
+		CGameObject* temp = SelectObject<CObstacle>(pLayer, &m_CurrentTerrainObjectName);
 	}
 
 	CObstacle *pTerrain = dynamic_cast<CObstacle*>(m_pSelectedObject);
@@ -1177,8 +1185,7 @@ void CImGuiMgr::Object_Tool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 		}
 
 		pTerrain->Set_WireFrame(true);
-		EditObjectTexture<CObstacle>(L"Proto_fetrues_Texture");
-		TransformEdit(pCam, m_pSelectedTransform, Show_Object_Tool);
+		EditObjectTexture<CObstacle>(L"Proto_HpPotionTexture");
 	}
 
 	ImGui::End();
