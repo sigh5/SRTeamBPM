@@ -36,7 +36,7 @@ HRESULT CLogo::Ready_Scene(void)
 
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(L"Ready_Layer_Environment"), E_FAIL);
 												// LOADING_STAGE
-	m_pLoading = CLoading::Create(m_pGraphicDev, LOADING_TOOL);
+	m_pLoading = CLoading::Create(m_pGraphicDev, LOADING_STAGE);
 	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
 		
 	Engine::LoadSoundFile();
@@ -61,7 +61,7 @@ Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 	{
 		if (m_pStartButton->Get_Click())
 		{						// CStage
-			CScene*		pScene = CToolTest::Create(m_pGraphicDev);
+			CScene*		pScene = CChange_Stage::Create(m_pGraphicDev);
 			NULL_CHECK_RETURN(pScene, E_FAIL);
 
 			m_SceneType = SCENE_TOOLTEST;
