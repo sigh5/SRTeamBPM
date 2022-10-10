@@ -20,7 +20,6 @@ public:
 	void	Control_Event_Animation(_bool bEvent);
 
 
-
 	void	Open_Box_Animation(_bool bOpen);
 
 	// Gun_Screen
