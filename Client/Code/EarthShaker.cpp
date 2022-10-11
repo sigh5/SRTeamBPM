@@ -40,6 +40,7 @@ HRESULT CEarthShaker::Ready_Object(float Posx, float Posy, float Size)
 	m_bDead = false;
 	m_fHitDelay = 0.f;
 
+	
 	if (Size != 0)
 	{
 		m_pDynamicTransCom->Set_Scale(&_vec3(Size, Size, Size));
@@ -51,8 +52,10 @@ HRESULT CEarthShaker::Ready_Object(float Posx, float Posy, float Size)
 	if (Posx == 0 && Posy == 0) {}
 	else
 	{
-		m_pDynamicTransCom->Set_Pos(Posx, 3.f, Posy);
+		m_pDynamicTransCom->Set_Pos((_float)Posx, 1.f, (_float)Posy);
 	}
+	
+	m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, 0.1f);// 임시
 	m_pDynamicTransCom->Update_Component(1.f);
 	Save_OriginPos();
 	return S_OK;
@@ -87,6 +90,9 @@ _int CEarthShaker::Update_Object(const _float & fTimeDelta)
 	{
 		Hit_Loop(fTimeDelta);
 	}
+	// 임시로 추가한 y값
+	m_pDynamicTransCom->Set_Y(3.f);
+	
 	Excution_Event();
 
 	Engine::CMonsterBase::Update_Object(fTimeDelta);
@@ -270,10 +276,12 @@ void	CEarthShaker::Ready_Attack(const _float& fTimeDelta)
 }
 void CEarthShaker::NoHit_Loop(const _float& fTimeDelta)
 {
-	if (fMtoPDistance > 10.f && m_bAttacking == false)
+	// 거리
+	if (20.f >  fMtoPDistance  && fMtoPDistance > 10.f && m_bAttacking == false)
 	{
 		m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
-		
+		m_pDynamicTransCom->Set_Y(3.f);	// 임시 추가
+
 		m_pAnimationCom->Move_Animation(fTimeDelta);
 	}
 	else

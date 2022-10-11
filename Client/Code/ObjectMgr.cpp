@@ -9,6 +9,9 @@
 #include "Bullet.h"
 #include "SphinxBullet.h"
 #include "Ghul.h"
+#include "MetronomeSmallUI.h"
+#include "MetronomeRect.h"
+
 
 IMPLEMENT_SINGLETON(CObjectMgr)
 
@@ -143,15 +146,69 @@ CGameObject * CObjectMgr::Reuse_MetronomeUI(LPDIRECT3DDEVICE9 pGraphicDev, _floa
 	if(m_UIMetroList.empty())
 	{
 		pObject = CMetronomeUI::Create(pGraphicDev, fPosX, fPosY, fSpeed, iTexIndex);
-		++m_iCount;
 	}
 	else
 	{
 		pObject = m_UIMetroList.front();
-		dynamic_cast<CMetronomeUI*>(pObject)->init(fPosX, fPosY, fSpeed, iTexIndex);
+		dynamic_cast<CMetronomeUI*>(pObject)->init(fPosX, fPosY, fSpeed, iTexIndex,150);
+		
 		m_UIMetroList.pop_front();
 	}
 
+
+	return pObject;
+}
+
+void CObjectMgr::Collect_UISmallObj(CGameObject * pObj)
+{
+	if (nullptr == pObj)
+		return;
+
+	m_UISmallMetroList.push_back(pObj);
+}
+
+CGameObject * CObjectMgr::Reuse_MetronomeSmallUI(LPDIRECT3DDEVICE9 pGraphicDev, _float fPosX, _float fPosY, _float fSpeed, int iTexIndex)
+{
+	CGameObject*		pObject = nullptr;
+	if (m_UISmallMetroList.empty())
+	{
+		pObject = CMetronomeSmallUI::Create(pGraphicDev, fPosX, fPosY, fSpeed, iTexIndex);
+	}
+	else
+	{
+		pObject = m_UISmallMetroList.front();
+		dynamic_cast<CMetronomeSmallUI*>(pObject)->init(fPosX, fPosY, fSpeed, iTexIndex, 150);
+
+		m_UISmallMetroList.pop_front();
+	}
+
+	return pObject;
+}
+
+void CObjectMgr::Collect_UIRect(CGameObject * pObj)
+{
+	if (nullptr == pObj)
+		return;
+
+	m_UIMetroRectList.push_back(pObj);
+}
+
+
+CGameObject * CObjectMgr::Reuse_MetronomeRectUI(LPDIRECT3DDEVICE9 pGraphicDev, int iTexIndex)
+{
+	CGameObject*		pObject = nullptr;
+	if (m_UIMetroRectList.empty())
+	{
+		pObject =CMetronomeRect::Create(pGraphicDev, iTexIndex);
+		++m_iCount;
+	}
+	else
+	{
+		pObject = m_UIMetroRectList.front();
+		dynamic_cast<CMetronomeRect*>(pObject)->init(iTexIndex, 150);
+
+		m_UIMetroRectList.pop_front();
+	}
 
 	return pObject;
 }
@@ -171,5 +228,13 @@ void CObjectMgr::Free(void)
 
 	for_each(m_UIMetroList.begin(), m_UIMetroList.end(), CDeleteObj());
 	m_UIMetroList.clear();
+
+	for_each(m_UISmallMetroList.begin(), m_UISmallMetroList.end(), CDeleteObj());
+	m_UISmallMetroList.clear();
+	
+	for_each(m_UIMetroRectList.begin(), m_UIMetroRectList.end(), CDeleteObj());
+	m_UIMetroRectList.clear();
+
+	
 
 }

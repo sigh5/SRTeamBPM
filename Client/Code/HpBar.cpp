@@ -38,7 +38,14 @@ _int CHpBar::Update_Object(const _float & fTimeDelta)
 
 	_uint iA = (pPlayer->Get_HpChange()) / 25;
 
+	if (iA <= 1)
+	{
+		iA = 1;
+	}
+
 	m_pAnimationCom->Control_Animation(iA);
+
+
 
 	Engine::CGameObject::Update_Object(fTimeDelta);
 

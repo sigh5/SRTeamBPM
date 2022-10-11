@@ -47,7 +47,7 @@ HRESULT CAnubis::Ready_Object(float Posx, float Posy)
 	m_pDynamicTransCom->Set_Scale(&vScale);
 
 
-	m_pInfoCom->Ready_CharacterInfo(1, 10, 5.f);
+	m_pInfoCom->Ready_CharacterInfo(5, 10, 5.f);
 	m_pAnimationCom->Ready_Animation(6, 1, 0.2f);
 	m_iPreHp = (m_pInfoCom->Get_InfoRef()._iHp);
 	m_pAttackAnimationCom->Ready_Animation(17, 0, 0.15f);
@@ -103,6 +103,8 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 	Hit_Delay_toZero();
 
 	AttackJudge(fTimeDelta);
+
+
 
 	if (m_bHit == false)
 	{
@@ -218,25 +220,27 @@ void CAnubis::Collision_Event()
 		m_bHit = true;
 		static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"))->Set_ComboCount(1);
 		m_pInfoCom->Receive_Damage(1);
-		cout << "Spider " << m_pInfoCom->Get_InfoRef()._iHp << endl;
+		cout << "Anubis " << m_pInfoCom->Get_InfoRef()._iHp << endl;
 		static_cast<CGun_Screen*>(pGameObject)->Set_Shoot(false);
 	}
-
-
-
 }
 
 void CAnubis::Excution_Event()
 {
-	if (m_pInfoCom->Get_InfoRef()._iHp <= 98 && m_pInfoCom->Get_InfoRef()._iHp >= 97)
+	if (!m_bExcutionCheck && m_pInfoCom->Get_Hp() <= 1 )
 	{
-		static_cast<CMyCamera*>(::Get_GameObject(L"Layer_Environment", L"CMyCamera"))->m_bExecution = true;
+		static_cast<CMyCamera*>(::Get_GameObject(L"Layer_Environment", L"CMyCamera"))->Set_Excution(true);
+		m_bExcutionCheck = true;
 	}
 }
 
 void CAnubis::NoHit_Loop(const _float& fTimeDelta)
 {
-	if (fMtoPDistance > 7.f && m_bAttacking == false)
+	if (fMtoPDistance > 15.f)
+	{
+		m_pAnimationCom->Move_Animation(fTimeDelta);
+	}
+	else if ( fMtoPDistance > 7.f && m_bAttacking == false)
 	{
 		m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
 
@@ -345,7 +349,7 @@ CAnubis * CAnubis::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)
 	CAnubis*	pInstance = new CAnubis(pGraphicDev);
 
 
-	if (FAILED(pInstance->Ready_Object(Posx, Posy)))
+	if (FAILED(pInstance->Ready_Object((_float)Posx, (_float)Posy)))
 	{
 		Safe_Release(pInstance);
 		return nullptr;

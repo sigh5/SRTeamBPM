@@ -174,10 +174,8 @@ void CFatBat::NoHit_Loop(const _float& fTimeDelta)
 	FatBat_Fly(fTimeDelta);
 	FatBat_Dodge(fTimeDelta, &m_vPlayerPos, &m_vMonsterPos);
 
-
-	//Set_OnTerrain();
 	//지형에 올림
-	if (fMtoPDistance > 13.f)
+	if (fMtoPDistance > 13.f && 14.f > fMtoPDistance)
 	{
 		m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
 

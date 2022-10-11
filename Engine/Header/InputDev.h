@@ -29,6 +29,8 @@ public:
 
 	bool		Mouse_Down(MOUSEKEYSTATE _MouseButton);
 
+	void		KeyInputReset();
+
 public:
 	HRESULT			Ready_InputDev(HINSTANCE hInst, HWND hWnd);
 	void			SetUp_InputDev(void);

@@ -52,6 +52,14 @@ bool			Mouse_Down(MOUSEKEYSTATE _MouseButton)
 	return CInputDev::GetInstance()->Mouse_Down(_MouseButton);
 }
 
+void			Key_InputReset()
+{
+	CInputDev::GetInstance()->KeyInputReset();
+}
+
+
+
+
 _float		Get_TimeDelta(const _tchar* pTimerTag)
 {
 	return CTimerMgr::GetInstance()->Get_TimeDelta(pTimerTag);

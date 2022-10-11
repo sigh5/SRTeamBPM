@@ -99,7 +99,17 @@ _int CLayer::Update_Layer(const _float & fTimeDelta)
 		if (iResult & 0x80000000)
 				return iResult;
 		
-		iter++;
+		if (iResult == OBJ_DEAD)
+		{
+			Safe_Release(iter->second);
+			iter = m_mapObject.erase(iter);
+			
+		}
+		else
+		{
+			iter++;
+		}
+		
 
 	}
 	

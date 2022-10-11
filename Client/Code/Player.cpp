@@ -9,7 +9,7 @@
 #include "ShotGun.h"
 #include "Coin.h"
 #include "Key.h"
-
+#include "MyCamera.h"
 
 //주석지우셈
 
@@ -47,7 +47,7 @@ HRESULT CPlayer::Ready_Object(void)
 
 	m_pDynamicTransCom->Update_Component(2.0f);
 
-	
+	m_iOriginHP = m_pInfoCom->Get_Hp();
 
 	return S_OK;
 }
@@ -58,6 +58,28 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 	pEquipItem = dynamic_cast<CGun_Screen*>(Get_GameObject(L"Layer_UI", L"Gun"));
 	NULL_CHECK_RETURN(pEquipItem, -1);
 	
+	m_iOriginHP = m_pInfoCom->Get_Hp();
+
+
+	if (m_pInfoCom->Get_Hp() <= 0)
+	{
+		Random_ResurrectionRoom();
+		m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
+		
+		CScene* pScene = Get_Scene();
+		CLayer* pLayer = pScene->GetLayer(L"Layer_GameLogic");
+
+		CMonsterBase* pMonster = dynamic_cast<CMonsterBase*>(pLayer->Get_GameObject(L"TestMonster10"));
+		pMonster->Set_ResetCheck(true);
+	
+
+		pMonster = dynamic_cast<CMonsterBase*>(pLayer->Get_GameObject(L"TestMonster11"));
+		pMonster->Set_ResetCheck(true);
+
+	}
+
+
+
 	m_fTimeDelta = fTimeDelta;
 	m_fFrame += 1.0f * fTimeDelta;
 
@@ -100,9 +122,19 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 
 void CPlayer::LateUpdate_Object(void)
 {
+	if (m_iOriginHP > m_pInfoCom->Get_Hp())
+	{
+		CScene* pScene = Get_Scene();
+		CLayer* pLayer = pScene->GetLayer(L"Layer_Environment");
 
-	//Set_OnTerrain();
-
+		CMyCamera *pCam = dynamic_cast<CMyCamera*> (pLayer->Get_GameObject(L"CMyCamera"));
+		
+		if (pCam != nullptr)
+			 pCam->Set_PlayerHit(true);	
+		
+	
+	}
+	EquipItem_Add_Stat();
 	CGameObject::LateUpdate_Object();
 }
 
@@ -111,15 +143,22 @@ void CPlayer::Render_Obejct(void)
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pDynamicTransCom->Get_WorldMatrixPointer());
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
-	m_pTextureCom->Set_Texture(m_iTexIndex);
+	//m_pTextureCom->Set_Texture(m_iTexIndex);
 	m_pBufferCom->Render_Buffer();
 	
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pColliderCom->HitBoxWolrdmat());
 	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	
 	m_pColliderCom->Render_Buffer();
 	
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+
+
+
+
+
+
 
 	//// hitBOx
 	
@@ -222,18 +261,7 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 
 }
 
-void CPlayer::Set_OnTerrain(void)
-{
-	_vec3		vPos;
-	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
 
-	Engine::CTerrainTex*	pTerrainTexCom = dynamic_cast<Engine::CTerrainTex*>(Engine::Get_Component(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC));
-	NULL_CHECK(pTerrainTexCom);
-
-	_float fHeight = m_pCalculatorCom->HeightOnTerrain(&vPos, pTerrainTexCom->Get_VtxPos(), VTXCNTX, VTXCNTZ);
-
-	m_pDynamicTransCom->Set_Pos(vPos.x, fHeight, vPos.z);
-}
 
 _vec3 CPlayer::PickUp_OnTerrain(void)
 {
@@ -281,35 +309,104 @@ void CPlayer::EquipItem_Add_Stat(void)  // 현재 각 아이템들 충돌처리 부분이 애매
 	CKey* pKey = static_cast<CKey*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Key"));
 
 	// ShotGun을 먹은 경우
-	if (pShotGun->Get_RenderFalse() == true && m_bCurStat)
-	{
-		m_bPreStat = true;
-	}
-
-	if (pCoin->Get_bAddCoin() == true && m_bCurStat)
-	{
-		m_bPreStat = true;
-	}
-
-	if (pKey->Get_bAddKey() == true && m_bCurStat)
-	{
-		m_bPreStat = true;
-	}
-
-
-	if (m_bPreStat)
+	if (pShotGun!=nullptr  &&pShotGun->Get_RenderFalse() == true && m_bCurStat && !m_bGainItem[0])
 	{
 		_uint iAtk = 0;
 		iAtk = m_pInfoCom->Get_InfoRef()._iAttackPower + pShotGun->Get_EquipInfoRef()._iAddAttack;
-
 		m_pInfoCom->Get_InfoRef()._iAttackPower = iAtk;
+		m_bCurStat = false;	
+		m_bGainItem[0] = true;
+	}
 
+	if (pCoin != nullptr && pCoin->Get_bAddCoin() == true && m_bCurStat && !m_bGainItem[1])
+	{
 		m_pInfoCom->Add_Coin();
-		m_pInfoCom->Add_Key();
-
-		m_bPreStat = false;
+		m_bGainItem[1] = true;
 		m_bCurStat = false;
 	}
+
+	if (pKey != nullptr  &&  pKey->Get_bAddKey() == true && m_bCurStat && !m_bGainItem[2])
+	{
+		m_pInfoCom->Add_Key();
+		m_bGainItem[2] = true;
+		m_bCurStat = false;
+
+	}
+
+	/*if (m_bGainItem[0])
+	{
+		
+		m_bGainItem[0] = false;
+	}
+
+	else if (m_bGainItem[1])
+	{
+		m_pInfoCom->Add_Key();
+		m_bGainItem[1] = false;
+		m_bCurStat = false;
+	}
+	else if (m_bGainItem[2])
+	{
+		m_pInfoCom->Add_Coin();
+		m_bGainItem[2] = false;
+		m_bCurStat = false;
+	}*/
+
+	
+
+
+	//if (m_bPreStat)
+	//{
+	//	_uint iAtk = 0;
+	//	iAtk = m_pInfoCom->Get_InfoRef()._iAttackPower + pShotGun->Get_EquipInfoRef()._iAddAttack;
+
+	//	m_pInfoCom->Get_InfoRef()._iAttackPower = iAtk;
+
+	//	m_pInfoCom->Add_Coin();
+	//	m_pInfoCom->Add_Key();
+
+	//	m_bPreStat = false;
+	//	m_bCurStat = false;
+	//}
+
+}
+
+void CPlayer::Loss_Damage()
+{
+	m_pInfoCom->Get_InfoRef()._iHp -= 1;
+	// Test
+	m_iHpBarChange -= 1;
+
+}
+
+void CPlayer::Random_ResurrectionRoom()
+{
+	CScene  *pScene = ::Get_Scene();
+	NULL_CHECK_RETURN(pScene, );
+	CLayer * pLayer = pScene->GetLayer(L"Layer_CubeCollsion");
+	NULL_CHECK_RETURN(pLayer, );
+
+	pLayer->Clear_Stack();
+	pLayer->m_iRestRoom = 5;
+
+	random_shuffle((*pLayer->GetRestCube()).begin(), (*pLayer->GetRestCube()).end());
+
+	pLayer->m_iRoomIndex = pLayer->m_iRestRoom--;
+	CGameObject* pFirstCubeObj = (*pLayer->GetRestCube())[pLayer->m_iRoomIndex];
+
+	pLayer = pScene->GetLayer(L"Layer_GameLogic");
+
+
+	
+	CTransform* pFirstCubeTransform = dynamic_cast<CTransform*>(pFirstCubeObj->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+
+	_vec3 vFirstCubePos;
+	pFirstCubeTransform->Get_Info(INFO_POS, &vFirstCubePos);
+
+	m_pDynamicTransCom->Set_Pos(vFirstCubePos.x + 5.f, vFirstCubePos.y, vFirstCubePos.z + 5.f);
+
+	m_pDynamicTransCom->Update_Component(1.f);
+
 
 }
 

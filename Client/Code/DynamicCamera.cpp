@@ -122,6 +122,18 @@ void CDynamicCamera::Key_Input(const _float& fTimeDelta)
 		m_vAt -= vLength;
 	}
 
+	if (Get_DIKeyState(DIK_Q) & 0x80)
+	{
+		_vec3		vLook;
+		memcpy(&vLook, &matCamWorld.m[2][0], sizeof(_vec3));
+
+		_vec3		vLength = *D3DXVec3Normalize(&vLook, &vLook) * 5.f * fTimeDelta;
+
+		m_vEye += vLength*10.f;
+		m_vAt += vLength*10.f;
+	}
+
+
 	if (Get_DIKeyState(DIK_T) & 0x80)
 	{
 		if (m_bCheck)

@@ -45,6 +45,7 @@ public:
 	const _bool&		 Get_Hit()const { return m_bHit; }
 	const _bool&		Get_Dead()const { return m_bDead; }
 
+
 protected:
 	CCharacterInfo*		m_pInfoCom = nullptr;    // 남길것 
 	CAnimation*			m_pAnimationCom = nullptr;	 // 남길것 
@@ -63,6 +64,13 @@ protected:
 	_float			m_fTimeDelta = 0.f;
 	vector<CGameObject*> m_vecBlood;
 	_vec3		m_vPlayerPos, m_vMonsterPos;
+	
+	_bool	m_bResetCheck = false;
+
+	_bool	m_bExcutionCheck = false;
+	
+	
+	
 	bool m_bDead = false;
 	_vec3	m_vOriginPos;
 	_int	m_iOriginHp;

@@ -64,7 +64,7 @@ _int CObstacle::Update_Object(const _float & fTimeDelta)
 
 
 	CScene  *pScene = ::Get_Scene();
-	NULL_CHECK_RETURN(pScene, );
+	NULL_CHECK_RETURN(pScene, -1 );
 
 	
 	if (m_iTexIndex == OBSTACLE_STREET_LAMP &&pScene->Get_SceneType() != SCENE_TOOLTEST)

@@ -34,13 +34,6 @@ bool CInputDev::Key_Down(int _byKeyID)
 		return true;
 	}
 
-	for (int i = 0; i < 256; ++i)
-	{
-		if (m_bKeyState[i] && !(Get_DIKeyState(i) & 0x80))
-		{
-			m_bKeyState[i] = false;
-		}
-	}
 	return false;
 }
 
@@ -79,6 +72,18 @@ bool CInputDev::Mouse_Down(MOUSEKEYSTATE _MouseButton)
 		}
 	}
 	return false;
+}
+
+void CInputDev::KeyInputReset()
+{
+	for (int i = 0; i < 256; ++i)
+	{
+		if (m_bKeyState[i] && !(Get_DIKeyState(i) & 0x80))
+			m_bKeyState[i] = false;
+
+		else if (!m_bKeyState[i] & (Get_DIKeyState(i) & 0x80))
+			m_bKeyState[i] = true;
+	}
 }
 
 

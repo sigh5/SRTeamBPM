@@ -38,7 +38,8 @@ private:
 protected:
 	LPDIRECT3DDEVICE9					m_pGraphicDev;
 	map<const _tchar*, CComponent*>		m_mapComponent[ID_END];
-
+	
+	bool m_bDead = false;
 protected:
 	_int				m_iTexIndex = 0;
 	_bool				m_bWireFrame = false;

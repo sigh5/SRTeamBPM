@@ -192,6 +192,8 @@
     <ClInclude Include="..\Header\Logo.h" />
     <ClInclude Include="..\Header\Magnum.h" />
     <ClInclude Include="..\Header\MainApp.h" />
+    <ClInclude Include="..\Header\MetronomeRect.h" />
+    <ClInclude Include="..\Header\MetronomeSmallUI.h" />
     <ClInclude Include="..\Header\MetronomeUI.h" />
     <ClInclude Include="..\Header\MonsterBullet.h" />
     <ClInclude Include="..\Header\MonsterToolObject.h" />
@@ -278,6 +280,8 @@
     <ClCompile Include="..\Code\Logo.cpp" />
     <ClCompile Include="..\Code\Magnum.cpp" />
     <ClCompile Include="..\Code\MainApp.cpp" />
+    <ClCompile Include="..\Code\MetronomeRect.cpp" />
+    <ClCompile Include="..\Code\MetronomeSmallUI.cpp" />
     <ClCompile Include="..\Code\MonsterBullet.cpp" />
     <ClCompile Include="..\Code\MetronomeUI.cpp" />
     <ClCompile Include="..\Code\MonsterToolObject.cpp" />

@@ -32,21 +32,56 @@ HRESULT CMyCamera::Ready_Object(const _vec3 * pEye,
 	m_fNear = fNear;
 	m_fFar = fFar;
 	
+	m_fOriginFov = m_fFov;
+
 	FAILED_CHECK_RETURN(CCamera::Ready_Object(), E_FAIL);
 
 	return S_OK;
 }
 
 _int CMyCamera::Update_Object(const _float & fTimeDelta)
-{//주석지우셈
-	
+{
 	Mouse_Fix();
 	Key_Input(fTimeDelta);
 
 	Mouse_Move(fTimeDelta);
-	Target_Renewal(fTimeDelta);
 	
 	
+	if (m_bExecution)
+	{
+		
+		m_fFrame += 0.2f *fTimeDelta;
+
+		Excution_Renewal(fTimeDelta);
+
+		if (m_fFrame >= 0.2f)
+		{
+			m_fFrame = 0.f;
+			m_bExecution = false;
+			m_bSoundCheck = false;
+			m_fFov = m_fOriginFov;
+		}
+	}
+
+	else if (m_bPlayerHit)
+	{
+		m_fFrame += 0.2f *fTimeDelta;
+		m_itemp *= -1;
+		m_vEye.y = m_vEye.y + (_float(m_itemp)*0.1f* fTimeDelta);
+
+		if (m_fFrame >= 0.2f)
+		{
+			m_fFrame = 0.f;
+			m_bPlayerHit = false;
+		}
+	}
+
+	else
+	{
+		Target_Renewal(fTimeDelta);
+	}
+
+
 	_int iExit = CCamera::Update_Object(fTimeDelta);
 	
 	return iExit;
@@ -69,8 +104,6 @@ void CMyCamera::Mouse_Move(const _float& fTimeDelta)
 	{
 		pPlayerTransform->Rotation(ROT_Y, D3DXToRadian(dwMouseMove / 10.f));
 		m_iBillBoardDir =(_int)(dwMouseMove / 10.f * fTimeDelta);
-		
-
 	}
 
 	if (dwMouseMove = Engine::Get_DIMouseMove(DIMS_Y))
@@ -87,23 +120,36 @@ void CMyCamera::Mouse_Fix(void)
 	//GetCursorPos(&pt);
 	//ScreenToClient(g_hWnd, &pt);
 
-	//if (WINCX+50 >= pt.x  && pt.x > -50 && WINCY+50 >= pt.y && pt.y >= -50)
-	//{
-	//	ClientToScreen(g_hWnd, &pt);
-	//	
-	//}
-	//else
-	//{
-	//	POINT pt2{ WINCX / 2 , WINCY / 2 };
-	//	//GetCursorPos(&pt2);
-	//	ClientToScreen(g_hWnd, &pt2);
-	//	SetCursorPos(pt2.x,pt2.y);
-	//}
-	//zz
-	POINT	pt{ WINCX >> 1 , WINCY >> 1 };
+	
+	
+	//int Mouse_speed = 0;
 
-	ClientToScreen(g_hWnd, &pt);
-	SetCursorPos(pt.x, pt.y);
+	//SystemParametersInfo(SPI_GETMOUSESPEED, 0, (PVOID)&Mouse_speed, 0);
+
+	int Mouse_speed = 3;
+
+	SystemParametersInfo(SPI_SETMOUSESPEED,
+		0,
+		(LPVOID)Mouse_speed,
+		SPIF_UPDATEINIFILE ||
+		SPIF_SENDCHANGE ||
+		SPIF_SENDWININICHANGE);
+
+
+	POINT	pt{};
+	GetCursorPos(&pt);
+	ScreenToClient(g_hWnd, &pt);
+
+	//  마우스 고정
+	if (pt.x >(WINCX >> 1) +200 || pt.x <(WINCX>>1) -200)
+	{
+		POINT	pt2{ WINCX >> 1 , WINCY >> 1 };
+
+		ClientToScreen(g_hWnd, &pt2);
+		SetCursorPos(pt2.x, pt2.y);
+	}
+	
+	
 
 }
 
@@ -168,25 +214,33 @@ void CMyCamera::Target_Renewal(const _float& fTimeDelta)
 
 	// 카메라 보는 위치때메 더해줌
 	m_vAt = m_vEye + vLook;
-	if (Get_DIKeyState(DIK_Q) & 0X80)
-	{
-		_matrix		matCamWorld;
-		D3DXMatrixInverse(&matCamWorld, nullptr, &m_matView);
+	//if (Get_DIKeyState(DIK_Q) & 0X80)
+	//{
+	//	_matrix		matCamWorld;
+	//	D3DXMatrixInverse(&matCamWorld, nullptr, &m_matView);
 
-		//if (m_bExecution)
-		{
-		//::PlaySoundW(L"executionEffect.wav", SOUND_EFFECT, 0.1f);
-		_vec3		vLook;
-		memcpy(&vLook, &matCamWorld.m[2][0], sizeof(_vec3));
+	//	//if (m_bExecution)
+	//	{
+	//	//::PlaySoundW(L"executionEffect.wav", SOUND_EFFECT, 0.1f);
+	//	_vec3		vLook;
+	//	memcpy(&vLook, &matCamWorld.m[2][0], sizeof(_vec3));
 
-		_vec3		vLength = *D3DXVec3Normalize(&vLook, &vLook) * 5.f * 1;
+	//	_vec3		vLength = *D3DXVec3Normalize(&vLook, &vLook) * 5.f * 1;
 
-		m_vEye -= vLength;
-		m_vAt -= vLength;
-		m_bExecution = false;
-		}
-	}
+	//	m_vEye -= vLength;
+	//	m_vAt -= vLength;
+	//	m_bExecution = false;
+	//	}
+	//}
 	
+
+}
+
+void CMyCamera::Excution_Renewal(const _float & fTimeDelta)
+{
+	
+	m_fFov -= 0.001f * fTimeDelta;
+	m_fFov = D3DXToRadian(30.f);
 
 }
 

@@ -41,7 +41,7 @@ HRESULT CSpider::Ready_Object(int Posx, int Posy)
 	if (Posx == 0 && Posy == 0) {}
 	else
 	{
-		m_pDynamicTransCom->Set_Pos(Posx, m_pDynamicTransCom->m_vScale.y * 0.5f, Posy);
+		m_pDynamicTransCom->Set_Pos((_float)Posx, m_pDynamicTransCom->m_vScale.y * 0.5f, (_float)Posy);
 	}
 	Save_OriginPos();
 	return S_OK;
@@ -51,7 +51,6 @@ bool	CSpider::Dead_Judge(const _float& fTimeDelta)
 	if (0 >= m_pInfoCom->Get_Hp())
 	{
 		m_bDead = true;
-		//Safe_Release(m_pAttackAnimationCom);
 	}
 	if (m_bDead)
 	{
@@ -215,22 +214,26 @@ void		CSpider::Attack(const _float& fTimeDelta)
 	Get_MonsterToPlayer_Distance(&Distance);
 	if (6==m_pAttackAnimationCom->m_iMotion)
 	{
-		if (2.5f > Distance)
+		if (2.5f > Distance && m_bHitDamage)
 		{
 			pPlayerInfo->Receive_Damage(m_pInfoCom->Get_AttackPower());
+			m_bHitDamage = false;
 		}
 	}
+	
 	if (9 == m_pAttackAnimationCom->m_iMotion)
 	{
-		if (2.5f > Distance)
+		if (2.5f > Distance && m_bHitDamage)
 		{
 			pPlayerInfo->Receive_Damage(m_pInfoCom->Get_AttackPower());
+			m_bHitDamage = false;
 		}
 	}
 
 	if (m_pAttackAnimationCom->m_iMotion >= m_pAttackAnimationCom->m_iMaxMotion)
 	{
 		m_bAttack = false;
+		m_bHitDamage = true;
 	}
 }
 
@@ -260,7 +263,13 @@ void		CSpider::AttackJudge(const _float& fTimeDelta)
 
 void CSpider::NoHit_Loop(const _float& fTimeDelta)
 {
-	if (fMtoPDistance > 3.f && m_bAttacking == false)
+	 // 일정 거리 이하면 추적을 안함 // 근데 공격모션 오류 있는거 수정부탁드립니다.
+	if (fMtoPDistance > 15.f)
+	{
+		m_pAnimationCom->Move_Animation(fTimeDelta);
+	}
+
+	else if (fMtoPDistance > 3.f && m_bAttacking == false)
 	{
 		m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
 

@@ -40,7 +40,9 @@ _float CDynamic_Transform::Get_TerrainY1(const _tchar * pLayerTag, const _tchar 
 	pTransform->Get_Info(INFO_POS, &vPos);
 																				
 	Engine::CTerrainTex*	pTerrainTexCom = dynamic_cast<Engine::CTerrainTex*>(Engine::Get_Component(pLayerTag, pObjTag, pComponentTag, eID));
-	NULL_CHECK_RETURN(pTerrainTexCom,0.f);  // ¡Ú
+
+	if (!pTerrainTexCom)
+		return 0.f;
 
 	_float fHeight = pCalculator->HeightOnTerrain(&vPos, pTerrainTexCom->Get_VtxPos(), VTXCNTX, VTXCNTZ);
 	
