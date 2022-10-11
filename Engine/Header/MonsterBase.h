@@ -69,7 +69,7 @@ protected:
 	_bool	m_bExcutionCheck = false;
 	
 	
-	//bool m_bDead = false;
+	
 
 	int m_iPreIndex = 0;
 	float m_fAttackDelay = 0;
