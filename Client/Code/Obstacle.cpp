@@ -25,11 +25,16 @@ HRESULT CObstacle::InitSetting(_vec2 * vMousPos, const wstring & LayerName, wstr
 	else
 		MousePostoScreen(); // 현재 마우스 더블클릭한 위치로 큐브를 만들어주는 함수
 
+	//임시 코드
 	_vec3 vCurretPos;
 	m_pTransCom->Get_Info(INFO_POS, &vCurretPos);
-	vCurretPos.y += 0.5f;
+	vCurretPos.y += 1.f;
 	
 	m_pTransCom->Set_Y(vCurretPos.y);
+
+	
+	_vec3 vScale = { 3.f,3.f,3.f };
+	m_pTransCom->Set_Scale(&vScale);
 
 	//m_pTransCom->Get_Info(INFO_POS, &vCurretPos);
 
