@@ -29,7 +29,7 @@ HRESULT CFatBat::Ready_Object(int Posx, int Posy)
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
 	m_pDeadTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Fatbat_Dead_Texture", m_mapComponent, ID_STATIC);
 
-	m_iMonsterIndex = 1;
+	m_iMonsterIndex = MONSTER_FATBAT;
 	m_pInfoCom->Ready_CharacterInfo(1, 10, 5.f);
 	m_pAnimationCom->Ready_Animation(6, 0, 0.2f);
 	m_pDeadAnimationCom->Ready_Animation(14, 0, 0.2f);
@@ -59,9 +59,7 @@ HRESULT CFatBat::Ready_Object(int Posx, int Posy)
 	m_fStopperDelayCount = 0.f;
 	m_fHitDelay = 0.f;
 	m_fDeadY = 0.f;
-
-	m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, 0.1f);
-
+	Save_OriginPos();
 	return S_OK;
 }
 
@@ -94,6 +92,14 @@ bool	CFatBat::Dead_Judge(const _float& fTimeDelta)
 _int CFatBat::Update_Object(const _float & fTimeDelta)
 {
 	// 수정 쿨타임 대신 타임
+	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
+	if (Distance_Over())
+	{
+		Engine::CMonsterBase::Update_Object(fTimeDelta);
+		Add_RenderGroup(RENDER_ALPHA, this);
+
+		return 0;
+	}
 
 	if (Dead_Judge(fTimeDelta))
 	{
@@ -104,8 +110,6 @@ _int CFatBat::Update_Object(const _float & fTimeDelta)
 	Hit_Delay_toZero();
 	
 	// 수정 쿨타임 대신 타임
-
-	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 
 	if (m_bHit == false)
 	{

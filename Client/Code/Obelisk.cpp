@@ -30,7 +30,7 @@ HRESULT CObelisk::Ready_Object(int Posx, int Posy)
 
 	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Obelisk_Texture", m_mapComponent, ID_STATIC);
 
-	
+	m_iMonsterIndex = MONSTER_OBELISK;
 	m_pAnimationCom->Ready_Animation(4, 0, 100);
 	m_pInfoCom->Ready_CharacterInfo(4, 10, 5.f);
 	m_iPreHp = (m_pInfoCom->Get_InfoRef()._iHp);
@@ -44,11 +44,21 @@ HRESULT CObelisk::Ready_Object(int Posx, int Posy)
 	}
 	m_pDynamicTransCom->Set_Scale(&_vec3(1.f, 4.f, 1.f));
 	m_pDynamicTransCom->Update_Component(1.f);
+	Save_OriginPos();
 	return S_OK;
 }
 
 _int CObelisk::Update_Object(const _float & fTimeDelta)
 {
+	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
+	if (Distance_Over())
+	{
+		Engine::CMonsterBase::Update_Object(fTimeDelta);
+		Add_RenderGroup(RENDER_ALPHA, this);
+
+		return 0;
+	}
+
 	if (Dead_Judge(fTimeDelta))
 	{
 		return 0;
@@ -56,7 +66,6 @@ _int CObelisk::Update_Object(const _float & fTimeDelta)
 
 	m_fTimeDelta = fTimeDelta;
 	AttackJudge(fTimeDelta);
-	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 
 	NoHit_Loop(fTimeDelta);
 	if (m_iPreHp != m_pInfoCom->Get_Hp())

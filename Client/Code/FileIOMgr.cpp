@@ -14,6 +14,11 @@
 
 #include "TeleCube.h"
 #include "Obstacle.h"
+#include "Obelisk.h"
+#include "Ghul.h"
+#include "Sphinx.h"
+#include "SphinxFlyHead.h"
+#include "EarthShaker.h"
 
 IMPLEMENT_SINGLETON(CFileIOMgr)
 
@@ -273,7 +278,7 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 
 	else if (eObjType == OBJ_MONSTER)
 	{
-		_int iMonsterType = 0;
+		MONSTER_INDEX iMonsterType = MONSTER_ANUBIS;
 		while (true)
 		{
 
@@ -291,16 +296,36 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 			{
 				switch (iMonsterType)
 				{
-				case 0:
+				case MONSTER_ANUBIS:
 					pGameObject = CAnubis::Create(pGrahicDev);
 					break;
 
-				case 1:
+				case MONSTER_FATBAT:
 					pGameObject = CFatBat::Create(pGrahicDev);
 					break;
 
-				case 2:
+				case MONSTER_SPIDER:
 					pGameObject = CSpider::Create(pGrahicDev);
+					break;
+
+				case MONSTER_GHUL:
+					pGameObject = CGhul::Create(pGrahicDev);
+					break;
+
+				case MONSTER_OBELISK:
+					pGameObject = CObelisk::Create(pGrahicDev);
+					break;
+
+				case MONSTER_SPHINX:
+					pGameObject = CSphinx::Create(pGrahicDev);
+					break;
+
+				case MONSTER_FLY_HEAD:
+					pGameObject = CSphinxFlyHead::Create(pGrahicDev);
+					break;
+
+				case MONSTER_EARTHSHAKER:
+					pGameObject = CEarthShaker::Create(pGrahicDev);
 					break;
 
 				default:

@@ -3,6 +3,11 @@
 
 #include "Export_Function.h"
 #include "AbstractFactory.h"
+#include "Ghul.h"
+#include "Obelisk.h"
+#include "Sphinx.h"
+#include "SphinxFlyHead.h"
+#include "EarthShaker.h"
 
 
 CMonsterToolObject::CMonsterToolObject(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -50,25 +55,58 @@ _int CMonsterToolObject::Update_Object(const _float & fTimeDelta)
 			m_iPreIndex = m_iMonsterIndex;
 			switch (m_iMonsterIndex)
 			{
-			case 0:
+
+
+			case MONSTER_ANUBIS:
 				pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_MonsterTexture"));
 				NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
 				m_mapComponent[ID_STATIC].insert({ L"Proto_MonsterTexture", pComponent });
 				break;
 
-			case 1:
+			case MONSTER_FATBAT:
 				pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_MonsterTexture2"));
 				NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
 				m_mapComponent[ID_STATIC].insert({ L"Proto_MonsterTexture2", pComponent });
 				break;
 
-			case 2:
+			case MONSTER_SPIDER:
 				pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_MonsterTexture3"));
 				NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
 				m_mapComponent[ID_STATIC].insert({ L"Proto_MonsterTexture3", pComponent });
 				break;
 
+			case MONSTER_GHUL:
+				pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_Ghul_Texture"));
+				NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
+				m_mapComponent[ID_STATIC].insert({ L"Proto_Ghul_Texture", pComponent });
+				break;
+
+			case MONSTER_OBELISK:
+				pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_Obelisk_Texture"));
+				NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
+				m_mapComponent[ID_STATIC].insert({ L"Proto_Obelisk_Texture", pComponent });
+				break;
+
+			case MONSTER_SPHINX:
+				pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_Sphinx_Texture"));
+				NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
+				m_mapComponent[ID_STATIC].insert({ L"Proto_Sphinx_Texture", pComponent });
+				break;
+				
+			case MONSTER_FLY_HEAD:
+				pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_Sphinx_FlyHead_Texture"));
+				NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
+				m_mapComponent[ID_STATIC].insert({ L"Proto_Sphinx_FlyHead_Texture", pComponent });
+				break;
+
+			case MONSTER_EARTHSHAKER:
+				pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_EarthShaker_Texture"));
+				NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
+				m_mapComponent[ID_STATIC].insert({ L"Proto_EarthShaker_Texture", pComponent });
+				break;
+
 			default:
+
 				pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_MonsterTexture"));
 				NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
 				m_mapComponent[ID_STATIC].insert({ L"Proto_MonsterTexture", pComponent });

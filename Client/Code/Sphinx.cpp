@@ -36,6 +36,7 @@ HRESULT CSphinx::Ready_Object(int Posx, int Posy)
 	NULL_CHECK_RETURN(m_pHeadOffAnimationCom, E_FAIL);
 	m_mapComponent[ID_STATIC].insert({ L"Proto_Sphinx_HeadOff_AnimationCom", m_pHeadOffAnimationCom });
 
+	m_iMonsterIndex = MONSTER_SPHINX;
 	m_vOldPlayerPos = { 0.f, 0.f, 0.f };
 	m_pAnimationCom->Ready_Animation(13, 0, 0.2f);
 	m_pInfoCom->Ready_CharacterInfo(5, 10, 8.f);
@@ -57,6 +58,15 @@ HRESULT CSphinx::Ready_Object(int Posx, int Posy)
 
 _int CSphinx::Update_Object(const _float & fTimeDelta)
 {
+	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
+	if (Distance_Over())
+	{
+		Engine::CMonsterBase::Update_Object(fTimeDelta);
+		Add_RenderGroup(RENDER_ALPHA, this);
+
+		return 0;
+	}
+
 	Get_ObeliskState();
 
 	if ( !m_bBattle  )
@@ -68,7 +78,6 @@ _int CSphinx::Update_Object(const _float & fTimeDelta)
 		BattleLoop(fTimeDelta);
 	}
 
-	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 
 	Engine::CMonsterBase::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);

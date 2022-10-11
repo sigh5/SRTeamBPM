@@ -124,13 +124,18 @@ void CStage::LateUpdate_Scene(void)
 
 	for (auto iter = pLayer->Get_GameObjectMap().begin(); iter != pLayer->Get_GameObjectMap().end(); ++iter)
 	{
+
+		if(false == static_cast<CMonsterBase*>(iter->second)->Get_Dead())
 		iter->second->Collision_Event();
 	}
 	
 	for (auto iter = pLayer->Get_GhulList().begin(); iter != pLayer->Get_GhulList().end(); ++iter)
 	{
-		(*iter)->LateUpdate_Object();
-		(*iter)->Collision_Event();
+		if (false == static_cast<CMonsterBase*>(*iter)->Get_Dead())
+		{
+			(*iter)->LateUpdate_Object();
+			(*iter)->Collision_Event();
+		}
 	}
 
 
@@ -230,7 +235,7 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	
 
 	//READY_LAYER(pGameObject, CAnubis, pLayer, m_pGraphicDev, L"TestMonster1");
-	//READY_LAYER(pGameObject, CSpider, pLayer, m_pGraphicDev, L"TestMonster2");
+	READY_LAYER(pGameObject, CSpider, pLayer, m_pGraphicDev, L"TestMonster2");
 	//READY_LAYER(pGameObject, CFatBat, pLayer, m_pGraphicDev, L"TestMonster3");
 
 	//

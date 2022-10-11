@@ -24,7 +24,7 @@ public:
 	HRESULT			Add_GameObjectList(CGameObject* pInstance);
 	void			Add_GhulList(CGameObject* pGhul);
 	void			Add_ObeliskList(CGameObject* pObelisk);
-
+	void			Delete_GhulList(void);
 	
 	
 	HRESULT			Ready_Layer(void);
@@ -49,8 +49,7 @@ public:
 
 	CGameObject*			Get_PreRoomTeleCube(); // 스택안의 top을 가져옴
 	void					Clear_Stack();	// 스택 안에있는 것들을 지워줌
-
-
+	void					Reset_Monster();
 	
 	//구울 리스트 가져오기
 	list<CGameObject*>&		Get_GhulList() { return m_GhulList; }

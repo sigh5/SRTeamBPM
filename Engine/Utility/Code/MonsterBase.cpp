@@ -111,6 +111,14 @@ bool CMonsterBase::Set_TransformPositon(HWND g_hWnd, CCalculator* _pCalcul)
 
 	return false;
 }
+bool		CMonsterBase::Distance_Over(void)
+{
+	if (fMtoPDistance > 50.f)
+	{
+		return true;
+	}
+	return false;
+}
 
 CharacterInfo&	CMonsterBase::Get_InfoRef()
 {
@@ -134,8 +142,17 @@ void CMonsterBase::Get_MonsterToPlayer_Distance(float* _Distance)
 		memcpy(_Distance, &fMtoPDistance, sizeof(float));
 	}
 }
-
-
+void		CMonsterBase::Save_OriginPos(void)
+{
+	m_vOriginPos = m_pDynamicTransCom->m_vInfo[INFO_POS];
+	m_iOriginHp = m_pInfoCom->Get_Hp();
+}
+void		CMonsterBase::Get_BackOriginPos(void)
+{
+	m_pDynamicTransCom->Set_Pos(m_vOriginPos.x, m_vOriginPos.y, m_vOriginPos.z);
+	m_pInfoCom->Add_Hp(m_iOriginHp - m_pInfoCom->Get_Hp());
+	m_bDead = false;
+}
 void Engine::CMonsterBase::Free(void)
 {
 	CGameObject::Free();
