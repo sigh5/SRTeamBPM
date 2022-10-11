@@ -98,9 +98,9 @@ void CInventory_UI::Render_Obejct(void)
 	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
 		// 텍스처 정보 세팅을 우선적으로 한다.
 
-	if (Get_DIKeyState(DIK_I) & 0X80)
+	if (Key_Down(DIK_I) )
 	{
-		m_bInvenSwitch = true;
+		m_bInvenSwitch = !m_bInvenSwitch;
 
 		if (dynamic_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"))->Get_RenderFalse() == true)
 		{
@@ -110,6 +110,11 @@ void CInventory_UI::Render_Obejct(void)
 		}	
 	}
 	
+
+
+	::Key_InputReset();
+
+
 	if (m_bInvenSwitch)
 	{
 		m_pTextureCom->Set_Texture(0);

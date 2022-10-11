@@ -14,45 +14,24 @@ CWallCube::CWallCube(LPDIRECT3DDEVICE9 pGraphicDev)
 
 CWallCube::~CWallCube()
 {
+	//주석지우셈
 }
 
 HRESULT CWallCube::InitSetting(_vec2* vMousPos, const wstring & LayerName,wstring* RoomName)
 {
-
 	Set_Layer_Map_Name(LayerName, RoomName);
-
-
+	
 	CScene* pScene = ::Get_Scene();
-
 	CLayer* pLayer = pScene->GetLayer(LayerName.c_str());
-
-	/*map<const _tchar*, CGameObject*> RoomMap = pLayer->Get_GameObjectMap();
-
-
-	for (auto iter = RoomMap.begin(); iter != RoomMap.end(); ++iter)
-	{
-		if (true == static_cast<CTerrain*>(iter->second)->Set_SelectGizmo())
-		{
-			m_RoomName = iter->first;
-		}
-	}*/
-
-
 
 	if ((*vMousPos).x == 0 && (*vMousPos).y == 0) {}
 	else
-	{
 		MousePostoScreen(); // 현재 마우스 더블클릭한 위치로 큐브를 만들어주는 함수
-	}
-
+	
 	_vec3 vCurretPos;
 	m_pTransCom->Get_Info(INFO_POS, &vCurretPos);
 	vCurretPos.y += 0.5f;
 	m_pTransCom->Set_Y(vCurretPos.y);
-								
-	//_vec3	vScale = { 0.5f,0.5f,0.5f };
-	//m_pTransCom->Set_Scale(&vScale);
-
 
 	return S_OK;
 }
@@ -60,69 +39,81 @@ HRESULT CWallCube::InitSetting(_vec2* vMousPos, const wstring & LayerName,wstrin
 HRESULT CWallCube::Ready_Object()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-	
+	_vec3 vPos;
+	m_pTransCom->Get_Info(INFO_POS, &vPos);
 
 	// set_hit_distance 
-	m_pColliderCom->Set_HitRadiuos(1.5f);
+	m_pColliderCom->Set_HitRadiuos(1.f);
+	m_pColliderCom->Set_HitRadiuos(1.f);
+	m_pColliderCom->Set_vCenter(&vPos);
 
 	return S_OK;
 }
 
 _int CWallCube::Update_Object(const _float & fTimeDelta)
 {
-
-
-
 	m_pColliderCom->Set_HitBoxMatrix(&(m_pTransCom->m_matWorld));
 
 	CGameObject::Update_Object(fTimeDelta);
-
-	
-	 
-
 	Add_RenderGroup(RENDER_PRIORITY, this);
 
-
-
 	return 0;
-
 }
 
 void CWallCube::Render_Obejct(void)
 {
-	if (m_iOption == 2 || m_iOption ==3 )
+	/*if (m_bWireFrame)
+		m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);*/
+
+	
+	// Hit Box 
+	
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
+
+	if (m_bWireFrame)
 	{
-		m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
-		m_pTextureCom->Set_Texture(m_iTexIndex);
-		m_pBufferCom->Render_Buffer();
-		// Hit Box 
-		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pColliderCom->HitBoxWolrdmat());
-		m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-		m_pColliderCom->Render_Buffer();
-		m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-		// ~Hit Box 
-		return;
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(150, 0, 0, 0));
+		m_pGraphicDev->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
+		m_pGraphicDev->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+		m_pGraphicDev->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_TFACTOR);
+		m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+		m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, (DWORD)0x00000001);
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 	}
 
-	if (m_bWireFrame)
-		m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
-	// Hit Box 
 	m_pTextureCom->Set_Texture(m_iTexIndex);
+	
+	if (m_bWireFrame)
+	{
+		m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
+
+	}
 	m_pBufferCom->Render_Buffer();
 
-	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-	m_pColliderCom->Render_Buffer();
-	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-	// ~Hit Box 
+
+
+
+	//// HitBox
+	//m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	//m_pColliderCom->Render_Buffer();
+	//m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	//// ~Hit Box 
 	
 	if (m_bWireFrame)
-		m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	{
+		m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+		m_pBufferCom->Render_Buffer();
+		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	}
 
-
-	
-
+	/*if (m_bWireFrame)
+		m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);*/
 }
 
 void CWallCube::Collision_Event()
@@ -135,37 +126,12 @@ void CWallCube::Collision_Event()
 
 	pGameObject = pLayer->Get_GameObject(L"Player");
 
+	if (pScene->Get_SceneType() == SCENE_TOOLTEST)
+		return;
 	if (m_iOption == (_int)CUBE_WALL)
 	{
 		m_pColliderCom->Check_Collision_Wall(this, pGameObject);
 	}
-
-	else if (m_iOption == (_int)CUBE_START_TELE)
-	{
-
-		CCollider *pCollider = dynamic_cast<CCollider*>(pGameObject->Get_Component(L"Proto_ColliderCom", ID_STATIC));
-
-		if (m_pColliderCom->Check_CollisonUseCollider(m_pColliderCom, pCollider))
-		{
-			CDynamic_Transform *pTransform = dynamic_cast<CDynamic_Transform*>(pGameObject->Get_Component(L"Proto_DynamicTransformCom", ID_DYNAMIC));
-			_vec3 vPos = { 100.f,0.f,100.f };
-			pTransform->Set_Pos(vPos.x, vPos.y, vPos.z);
-		}
-
-	}
-
-	else if (m_iOption == (_int)CUBE_END_TELE)
-	{
-		CCollider *pCollider = dynamic_cast<CCollider*>(pGameObject->Get_Component(L"Proto_ColliderCom", ID_STATIC));
-
-		if (m_pColliderCom->Check_CollisonUseCollider(m_pColliderCom, pCollider))
-		{
-			CDynamic_Transform *pTransform = dynamic_cast<CDynamic_Transform*>(pGameObject->Get_Component(L"Proto_DynamicTransformCom", ID_DYNAMIC));
-			_vec3 vPos = { 100.f,0.f,100.f };
-			pTransform->Set_Pos(vPos.x, vPos.y, vPos.z);
-		}
-	}
-
 
 }
 
@@ -174,17 +140,19 @@ void CWallCube::MousePostoScreen()	// 지형타기
 	CTerrainTex*	pTerrainBufferCom = dynamic_cast<CTerrainTex*>(Engine::Get_Component(m_LayerName.c_str(),
 		m_RoomName.c_str(),
 		L"Proto_TerrainTexCom", ID_STATIC));
-	NULL_CHECK_RETURN(pTerrainBufferCom, );
 
 	CTransform*		pTerrainTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(m_LayerName.c_str(),
 		m_RoomName.c_str(),
 		L"Proto_TransformCom", ID_DYNAMIC));
-	NULL_CHECK_RETURN(pTerrainTransformCom, );
 
+	if (pTerrainTransformCom == nullptr || pTerrainBufferCom == nullptr)
+	{
+		MSG_BOX("Choose Terrain");
+		return;
+
+	}
 
 	_vec3 Temp = m_pCalculatorCom->PickingOnTerrainCube(g_hWnd, pTerrainBufferCom, pTerrainTransformCom);
-
-
 	m_pTransCom->Set_Pos(Temp.x, Temp.y, Temp.z);
 
 }
@@ -196,25 +164,10 @@ _bool CWallCube::Set_SelectGizmo()
 
 HRESULT CWallCube::Add_Component(void)
 {
-	CComponent* pComponent = nullptr;
-
-	pComponent = m_pBufferCom = dynamic_cast<CCubeTex*>(Clone_Proto(L"Proto_CubeTexCom"));
-	NULL_CHECK_RETURN(m_pBufferCom, E_FAIL);
-	m_mapComponent[ID_STATIC].insert({ L"Proto_CubeTexCom", pComponent });
-
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_MapCubeTexture"));
-	NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
-	m_mapComponent[ID_STATIC].insert({ L"Proto_MapCubeTexture", pComponent });
-
-	pComponent = m_pTransCom = dynamic_cast<CTransform*>(Clone_Proto(L"Proto_TransformCom"));
-	NULL_CHECK_RETURN(m_pTransCom, E_FAIL);
-	m_mapComponent[ID_DYNAMIC].insert({ L"Proto_TransformCom", pComponent });
-
-	pComponent = m_pCalculatorCom = dynamic_cast<CCalculator*>(Clone_Proto(L"Proto_CalculatorCom"));
-	NULL_CHECK_RETURN(m_pCalculatorCom, E_FAIL);
-	m_mapComponent[ID_STATIC].insert({ L"Proto_CalculatorCom", pComponent });
-
-
+	m_pBufferCom = CAbstractFactory<CCubeTex>::Clone_Proto_Component(L"Proto_CubeTexCom", m_mapComponent, ID_STATIC);
+	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_MapCubeTexture", m_mapComponent, ID_STATIC);
+	m_pTransCom = CAbstractFactory<CTransform>::Clone_Proto_Component(L"Proto_TransformCom", m_mapComponent, ID_DYNAMIC);
+	m_pCalculatorCom = CAbstractFactory<CCalculator>::Clone_Proto_Component(L"Proto_CalculatorCom", m_mapComponent, ID_STATIC);
 	m_pColliderCom = CAbstractFactory<CCollider>::Clone_Proto_Component(L"Proto_ColliderCom", m_mapComponent, ID_STATIC);
 
 	return S_OK;

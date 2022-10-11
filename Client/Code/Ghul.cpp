@@ -216,7 +216,7 @@ bool CGhul::Dead_Judge(const _float & fTimeDelta)
 void CGhul::NoHit_Loop(const _float & fTimeDelta)
 {
 	if(m_bCanWalk)
-	if (fMtoPDistance > 6.f && m_bAttacking == false)
+	if (15.f > fMtoPDistance &&   fMtoPDistance > 6.f && m_bAttacking == false)
 	{
 		m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
 

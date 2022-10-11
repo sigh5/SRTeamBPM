@@ -12,14 +12,15 @@
 
 #include "TestPlayer.h"
 
-
+//ÁÖ¼®Áö¿ì¼À
 CToolTest::CToolTest(LPDIRECT3DDEVICE9 pGraphicDev) : CScene(pGraphicDev)
 {
+	m_SceneType = SCENE_TOOLTEST;
 }
 
 CToolTest::~CToolTest()
 {
-	
+	//Áö¿ì¼À
 }
 
 HRESULT CToolTest::Ready_Scene()
@@ -29,6 +30,8 @@ HRESULT CToolTest::Ready_Scene()
 	CImGuiMgr::GetInstance()->Ready_MapTool(m_pGraphicDev, this);
 	CImGuiMgr::GetInstance()->Ready_MonsterTool(m_pGraphicDev, this);
 	CImGuiMgr::GetInstance()->Ready_PlayerTool(m_pGraphicDev, this);
+	CImGuiMgr::GetInstance()->Ready_ObjectTool(m_pGraphicDev, this);
+
 
 	Engine::CLayer*		pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
@@ -75,7 +78,9 @@ _int CToolTest::Update_Scene(const _float& fTimeDelta)
 	CImGuiMgr::GetInstance()->WindowLayOut();
 	CImGuiMgr::GetInstance()->TerrainTool(m_pGraphicDev, m_pCam,this);
 	CImGuiMgr::GetInstance()->CreateObject(m_pGraphicDev, this, m_pCam,L"TestCube");
-	CImGuiMgr::GetInstance()->MonsterTool(m_pGraphicDev, this, m_pCam);
+	CImGuiMgr::GetInstance()->MonsterTool(m_pGraphicDev,  this, m_pCam);
+	CImGuiMgr::GetInstance()->Object_Tool(m_pGraphicDev,  this, m_pCam);
+
 
 	// Tool Test Purpose's Player
 //	CImGuiMgr::GetInstance()->Player_Tool(m_pGraphicDev, this, m_PpDirectory, L"TestLayer", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC);

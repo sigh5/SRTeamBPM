@@ -39,6 +39,7 @@
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
 {
+	//주석지우셈
 }
 
 CStage::~CStage()
@@ -56,13 +57,15 @@ HRESULT CStage::Ready_Scene(void)
 
 	FAILED_CHECK_RETURN(Ready_Light(), E_FAIL);
 
+	FAILED_CHECK_RETURN(Ready_Layer_CubeCollsion(L"Layer_CubeCollsion"), E_FAIL);
+	FAILED_CHECK_RETURN(Ready_Layer_Room(L"Layer_Room"), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(L"Layer_Environment"), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_GameLogic(L"Layer_GameLogic"), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_UI(L"Layer_UI"), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Icon(L"Layer_Icon"), E_FAIL);
-	FAILED_CHECK_RETURN(Ready_Layer_CubeCollsion(L"Layer_CubeCollsion"), E_FAIL);
-	FAILED_CHECK_RETURN(Ready_Layer_Room(L"Layer_Room"), E_FAIL);
-	
+
+
+	Set_Player_StartCubePos();
 
 	//::PlaySoundW(L"SamTow.wav", SOUND_BGM, 0.05f); // BGM
 
@@ -114,14 +117,7 @@ void CStage::LateUpdate_Scene(void)
 		(*iter)->LateUpdate_Object();
 		(*iter)->Collision_Event();
 	}
-	/*pLayer = GetLayer(L"Layer_UI");
-	CGun_Screen* pGun = static_cast<CGun_Screen*>(pLayer->Get_GameObject(L"Gun"));
-	*/
-	//if (pGun->Get_Shoot())
-	//{
-	//	pPlayer->Reset_ComboCount();
-	//}
-	/*pGun->Set_Shoot(false);*/
+
 
 	pLayer = GetLayer(L"Layer_CubeCollsion");
 
@@ -130,17 +126,11 @@ void CStage::LateUpdate_Scene(void)
 		iter->second->Collision_Event();
 	}
 
-	// Teleport_Cube
 	for (int i = 0; i < TELEPORT_CUBE_LIST_END; ++i)
 	{
-		for (auto iter : m_TeleportCubeList[i])
-		{
+		for (auto iter : *(pLayer->Get_TeleCubeList(i)))
 			iter->Collision_Event();
-		}
 	}
-	
-
-
 
 	Engine::CScene::LateUpdate_Scene();
 }
@@ -164,9 +154,7 @@ HRESULT CStage::Ready_Layer_Environment(const _tchar * pLayerTag)
 	
 	
 	READY_LAYER(pGameObject, CSkyBox, pLayer, m_pGraphicDev, L"SkyBox");
-	// ★
-	READY_LAYER(pGameObject, CTerrain, pLayer, m_pGraphicDev, L"Terrain");
-	
+	//READY_LAYER(pGameObject, CTerrain, pLayer, m_pGraphicDev, L"Terrain");
 	READY_LAYER(pGameObject, CSnowfall, pLayer, m_pGraphicDev, L"Snowfall");
 	
 
@@ -192,9 +180,9 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 
 	READY_LAYER(pGameObject, CPlayer, pLayer, m_pGraphicDev, L"Player");
 
-	//pGameObject = CBox::Create(m_pGraphicDev, 20, 20);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Box", pGameObject), E_FAIL);
+	pGameObject = CBox::Create(m_pGraphicDev, 100, 110);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Box", pGameObject), E_FAIL);
 
 	pGameObject = CSphinx::Create(m_pGraphicDev, 30, 39);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -204,27 +192,27 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Earth", pGameObject), E_FAIL);
 
-	/*pGameObject = CObelisk::Create(m_pGraphicDev, 20, 15);
+	pGameObject = CObelisk::Create(m_pGraphicDev, 20, 15);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Obelisk", pGameObject), E_FAIL);*/
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Obelisk", pGameObject), E_FAIL);
 
-	//pLayer->Add_ObeliskList(pGameObject); //오벨리스크 생성 시 리스트에도 추가해야 함
+	pLayer->Add_ObeliskList(pGameObject); //오벨리스크 생성 시 리스트에도 추가해야 함
 
-	//pGameObject = CGhul::Create(m_pGraphicDev, 20, 15);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Ghul", pGameObject), E_FAIL);
-
-	/*CPlayer*		pPlayer = dynamic_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"));
-	pGameObject = CBox::Create(m_pGraphicDev, 5, 10, pPlayer);
+	pGameObject = CGhul::Create(m_pGraphicDev, 20, 15);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Box", pGameObject), E_FAIL);
-*/
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Ghul", pGameObject), E_FAIL);
+
 
 	// Gun_Screen 테스트 용으로 넣어놨음 참고
 	pGameObject = CShotGun::Create(m_pGraphicDev, 10, 10);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"ShotGun", pGameObject), E_FAIL);
 
+	READY_LAYER_POS(pGameObject, CAnubis, pLayer, m_pGraphicDev, L"TestMonster1", 100, 100);
+	READY_LAYER_POS(pGameObject, CSpider, pLayer, m_pGraphicDev, L"TestMonster10", 130, 100);
+	READY_LAYER_POS(pGameObject, CSpider, pLayer, m_pGraphicDev, L"TestMonster11", 130, 100);
+
+	
 
 	//READY_LAYER(pGameObject, CAnubis, pLayer, m_pGraphicDev, L"TestMonster1");
 	//READY_LAYER(pGameObject, CSpider, pLayer, m_pGraphicDev, L"TestMonster2");
@@ -319,6 +307,8 @@ HRESULT CStage::Ready_Layer_CubeCollsion(const _tchar * pLayerTag)
 		L"TestCube",
 		OBJ_CUBE);
 
+	pLayer->initStartCube();
+
 	return S_OK;
 }
 
@@ -339,6 +329,12 @@ HRESULT CStage::Ready_Layer_Room(const _tchar * pLayerTag)
 		L"Stage1Room.dat",
 		L"Room",
 		OBJ_ROOM);
+
+	CFileIOMgr::GetInstance()->Load_FileData(m_pGraphicDev, this, const_cast<_tchar*>(pLayerTag),
+		L"../../Data/", L"Stage1Obstacle.dat",
+		L"Obstacle", OBJ_OBSTRACLE);
+
+
 
 	return S_OK;
 }
@@ -384,15 +380,31 @@ HRESULT CStage::Ready_Light(void)
 
 void CStage::TeleportCubeUpdate(const _float & fTimeDelta)
 {
+	CLayer* pLayer = GetLayer(L"Layer_CubeCollsion");
 
 	for (int i = 0; i < TELEPORT_CUBE_LIST_END; ++i)
 	{
-		for (auto iter : m_TeleportCubeList[i])
+		for (auto iter :  *(pLayer->Get_TeleCubeList(i)))
 			iter->Update_Object(fTimeDelta);
 	}
+}
 
+void CStage::Set_Player_StartCubePos()
+{
+	CLayer* pLayer =GetLayer(L"Layer_CubeCollsion");
+	pLayer->m_iRoomIndex = pLayer->m_iRestRoom--;  // rand() %
+	vector<CGameObject*> m_vecCube = *pLayer->GetRestCube();
+	CGameObject* pFirstCubeObj = m_vecCube[pLayer->m_iRoomIndex];
 
-
+	CDynamic_Transform *pTransform = dynamic_cast<CDynamic_Transform*>(Get_Component(L"Layer_GameLogic",L"Player",L"Proto_DynamicTransformCom", ID_DYNAMIC));
+	CTransform* pFirstCubeTransform = dynamic_cast<CTransform*>(pFirstCubeObj->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
 	
+	//pLayer->Save_CurrentRoom(pLayer->m_iRoomIndex);
+	
+	_vec3 vFirstCubePos;
+	pFirstCubeTransform->Get_Info(INFO_POS, &vFirstCubePos);
 
+	pTransform->Set_Pos(vFirstCubePos.x, vFirstCubePos.y, vFirstCubePos.z + 5.f);
+	
+	pTransform->Update_Component(1.f);
 }

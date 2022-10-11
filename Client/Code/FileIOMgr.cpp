@@ -3,7 +3,7 @@
 #include "Layer.h"
 
 #include "Export_Function.h"
-//#include "TestCube.h"
+
 #include "Anubis.h"
 #include "FatBat.h"
 #include "Spider.h"
@@ -12,6 +12,8 @@
 #include "MonsterToolObject.h"
 #include "Terrain.h"
 
+#include "TeleCube.h"
+#include "Obstacle.h"
 
 IMPLEMENT_SINGLETON(CFileIOMgr)
 
@@ -22,6 +24,7 @@ CFileIOMgr::CFileIOMgr()
 
 CFileIOMgr::~CFileIOMgr()
 {
+	//주석지우셈
 }
 
 void CFileIOMgr::Save_FileData(CScene * pScene,
@@ -214,28 +217,42 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 			wsprintfW(test1, t.c_str(), iIndex);
 			pMyLayer->AddNameList(test1);
 			++iIndex;
-			pGameObject = CWallCube::Create(pGrahicDev);
-			pGameObject->Set_DrawTexIndex(iDrawIndex);
-
-			static_cast<CWallCube*>(pGameObject)->Set_Option(CUBE_TYPE(iCubeOption));
+		
 			// 다른 레이어에 큐브옵션이 다르면
-			
-		/*	if (iCubeOption == CUBE_START_TELE)
+
+
+			if (SCENE_TOOLTEST == pScene->Get_SceneType())
 			{
-				pScene->Get_CubeList(STARTCUBELIST)->push_back(pGameObject);
-			}
-			
-			else if (iCubeOption == CUBE_END_TELE)
-			{
-				pScene->Get_CubeList(ENDCUBELIST)->push_back(pGameObject);
-			}
-			else*/
-			{
+				pGameObject = CWallCube::Create(pGrahicDev);
+				pGameObject->Set_DrawTexIndex(iDrawIndex);
+				static_cast<CWallCube*>(pGameObject)->Set_Option(CUBE_TYPE(iCubeOption));
 				FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(test1, pGameObject), );
-
 			}
-			
+			else
+			{
+				if (iCubeOption == CUBE_START_TELE)
+				{
+					pGameObject = CTeleCube::Create(pGrahicDev);
+					pGameObject->Set_DrawTexIndex(iDrawIndex);
+					static_cast<CTeleCube*>(pGameObject)->Set_Option(CUBE_TYPE(iCubeOption));
+					pMyLayer->Get_TeleCubeList(STARTCUBELIST)->push_back(pGameObject);
+				}
+				else if (iCubeOption == CUBE_END_TELE)
+				{
+					pGameObject = CTeleCube::Create(pGrahicDev);
+					pGameObject->Set_DrawTexIndex(iDrawIndex);
+					static_cast<CTeleCube*>(pGameObject)->Set_Option(CUBE_TYPE(iCubeOption));
+					pMyLayer->Get_TeleCubeList(ENDCUBELIST)->push_back(pGameObject);
+				}
+				else
+				{
+					pGameObject = CWallCube::Create(pGrahicDev);
+					pGameObject->Set_DrawTexIndex(iDrawIndex);
+					static_cast<CWallCube*>(pGameObject)->Set_Option(CUBE_TYPE(iCubeOption));
+					FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(test1, pGameObject), );
 
+				}
+			}
 			CTransform* Transcom = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
 			Transcom->Set_Info(INFO_RIGHT, &vRight);
 			Transcom->Set_Info(INFO_UP, &vUp);
@@ -244,6 +261,9 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 			Transcom->Set_Angle(&vAngle);
 			Transcom->Set_Scale(&vScale);
 			Transcom->Update_Component(0.01f);
+			
+			
+			
 			//   받아온 정보 입력해줘야함
 			
 		}
@@ -318,7 +338,7 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 				break;
 		}
 	}
-	
+	//주석지우셈
 	else if (eObjType == OBJ_PLAYER)
 	{
 		ReadFile(hFile, &vRight, sizeof(_vec3), &dwByte, nullptr);
@@ -394,9 +414,55 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 	}
 	
 
+	else if (eObjType == OBJ_OBSTRACLE)
+	{//지우셈
+		_int iOption = 0;
+		while (true)
+		{
+			ReadFile(hFile, &vRight, sizeof(_vec3), &dwByte, nullptr); //WriteFile(hFile, &vRight, sizeof(_vec3), &dwByte, nullptr);
+			ReadFile(hFile, &vUp, sizeof(_vec3), &dwByte, nullptr); // WriteFile(hFile, &vUp, sizeof(_vec3), &dwByte, nullptr);
+			ReadFile(hFile, &vLook, sizeof(_vec3), &dwByte, nullptr); //WriteFile(hFile, &vLook, sizeof(_vec3), &dwByte, nullptr);
+			ReadFile(hFile, &vPos, sizeof(_vec3), &dwByte, nullptr); // WriteFile(hFile, &vPos, sizeof(_vec3), &dwByte, nullptr);
+			ReadFile(hFile, &vScale, sizeof(_vec3), &dwByte, nullptr); //	WriteFile(hFile, &vScale, sizeof(_vec3), &dwByte, nullptr);
+			ReadFile(hFile, &vAngle, sizeof(_vec3), &dwByte, nullptr); //	WriteFile(hFile, &vAngle, sizeof(_vec3), &dwByte, nullptr);
+			ReadFile(hFile, &iDrawIndex, sizeof(_int), &dwByte, nullptr); //	WriteFile(hFile, &iDrawNum, sizeof(_int), &dwByte, nullptr);
+			ReadFile(hFile, &iOption, sizeof(_int), &dwByte, nullptr); //	WriteFile(hFile, &iDrawNum, sizeof(_int), &dwByte, nullptr);
+
+			
+			if (0 == dwByte)
+				break;
+
+			CGameObject *pGameObject = nullptr;
+			_tchar* test1 = new _tchar[20];
+			wstring t = pObjectName + L"%d";
+			wsprintfW(test1, t.c_str(), iIndex);
+			pMyLayer->AddNameList(test1);
+			++iIndex;
+
+			pGameObject = CObstacle::Create(pGrahicDev);
+			pGameObject->Set_DrawTexIndex(iDrawIndex);
+			static_cast<CObstacle*>(pGameObject)->Set_DrawTexIndex(iDrawIndex);
+			FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(test1, pGameObject), );
+			CTransform* Transcom = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+			Transcom->Set_Info(INFO_RIGHT, &vRight);
+			Transcom->Set_Info(INFO_UP, &vUp);
+			Transcom->Set_Info(INFO_LOOK, &vLook);
+			Transcom->Set_Info(INFO_POS, &vPos);
+			Transcom->Set_Angle(&vAngle);
+			Transcom->Set_Scale(&vScale);
+			
+			if(pScene->Get_SceneType() != SCENE_TOOLTEST)
+				static_cast<CObstacle*>(pGameObject)->Set_TextureCom();
+			
+			Transcom->Update_Component(0.01f);
+			//   받아온 정보 입력해줘야함
+
+		}
+	}
 
 
-	MSG_BOX("Save_Complete");
+	if(pScene->Get_SceneType()==SCENE_TOOLTEST)
+		MSG_BOX("Save_Complete");
 	pScene->Add_Layer(pMyLayer, LayerName);
 
 

@@ -31,6 +31,13 @@ public:
 	_bool		Get_RenderControl(void) { return m_bRenderControl; }
 	void		Set_RenderControl(_bool bRender) { m_bRenderControl = bRender; }
 
+
+public:
+	void				Set_Layer_Map_Name(const wstring& LayerName, const wstring& RoomName)
+	{
+		m_LayerName = LayerName;
+		m_RoomName = RoomName;
+	}
 protected:
 	CAnimation*			m_pAnimationCom = nullptr;
 	CDynamic_Transform* m_pDynamicTransCom = nullptr;
@@ -42,6 +49,10 @@ protected:
 	EquipInfo				m_EquipInfo;
 	RENDERID				m_RenderID = RENDER_END;
 	_bool					m_bRenderControl = false;
+
+protected:
+	wstring				m_LayerName = L"";
+	wstring				m_RoomName = L"";
 
 public:
 	virtual void		Free(void);

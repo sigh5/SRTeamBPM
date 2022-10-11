@@ -5,6 +5,7 @@
 #include "ImGuiFileDialog.h"
 #include "ImGuiFileDialogConfig.h"
 
+#include <set>
 
 BEGIN(Engine)
 
@@ -28,11 +29,11 @@ struct TexturePath
 class CImGuiMgr : public CBase
 {
 	DECLARE_SINGLETON(CImGuiMgr)
-
+	//지우셈
 private:
 	explicit CImGuiMgr();
 	virtual ~CImGuiMgr();
-
+	//주석지우셈
 public:
 	// 예시
 	static void TransformEdit(CCamera* pCamera, CTransform* pTransform, _bool& Window); // Gizmo
@@ -48,10 +49,10 @@ public:
 
 public:
 	HRESULT Ready_MapTool(LPDIRECT3DDEVICE9 pGraphicDev, CScene* pScene);	//  맵툴에 필요한 리소스를 생성합니다.
-	
-
 	HRESULT Ready_PlayerTool(LPDIRECT3DDEVICE9 pGraphicDev, CScene* pScene);	// 플레이어 툴
 	HRESULT Ready_MonsterTool(LPDIRECT3DDEVICE9 pGraphicDev, CScene* pScene);   // 몬스터 툴
+	HRESULT	Ready_ObjectTool(LPDIRECT3DDEVICE9 pGraphicDev, CScene* pScene);
+
 
 public: // Terrain 
 	void  TerrainTool(LPDIRECT3DDEVICE9 pGrahicDev, CCamera* pCam, CScene* pScene);	// Terrain Tool
@@ -60,18 +61,14 @@ public: // Terrain
 
 
 public: // Wall
-	_int	CheckCubeinPicking(CLayer* pLayer, CWallCube** pWallCube,_bool* bUp);
-	
+
 	void	Set_CubeDir();
 	void	Set_All_CubeHeight(CLayer* pLayer);
-	
 	void	Set_Create_Cube_Pos(CGameObject** pGameObject, CWallCube** pWallCube,_bool* isUpcube);
 	void	Set_Cube_WireFrame(CLayer* pLayer);
-
-
-	
 	void	Save_CubeMap(CScene *pScene);
 	void	Load_CubeMap(LPDIRECT3DDEVICE9 pGrahicDev, CScene *pScene);
+
 
 
 
@@ -84,18 +81,25 @@ public:
 	CGameObject*   SelectObject(CLayer* pLayer, wstring* currentObjectName);
 	template <typename T>
 	HRESULT  EditObjectTexture(const wstring& m_CureentTextureProtoName);
+	template <typename T>
+	HRESULT  MultiPleEditObjectTexture(const wstring& m_CureentTextureProtoName);
+	template<typename T>
+	_int	CheckCubeinPicking(CLayer* pLayer, T** pGameObject, _bool* bUp);
 
-	
-
+	static void	MultipleTransformEdit(CCamera* pCamera, std::list<pair<const wstring, CGameObject*>> MultipleSet, _bool& Window);
+	// 이동, 회전x 스케일만 가능 
 
 
 
 	CGameObject*	m_pSelectedObject=nullptr;
+	CGameObject*	m_pObstacleObj = nullptr;
 	CTransform*		m_pSelectedTransform = nullptr;
 	
 	wstring			m_CurrentObjectName = L"";
 	wstring         m_CurrentTerrainObjectName = L"";
-	//wstring			m_CureentTextureProtoName = L"";
+	wstring			m_CurrentObstaclName = L"";
+
+	
 
 public:
 	// Map_Tool 기능 생성
@@ -104,6 +108,9 @@ public:
 	void  CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCamera *pCam, wstring pObjectName);// 오브젝트 생성및 저장하고 불러오기																			
 	void  MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCamera *pCam); // ~Map_Tool 기능 생성
 	void  Player_Tool(LPDIRECT3DDEVICE9 pGraphicDev, CScene * pScene, wstring pDirectory, const _tchar* pLayerTag, const _tchar* pObjTag, const _tchar * pComponentTag, COMPONENTID eId);   // // 09.25 PJW 추가 작업
+	void  Object_Tool(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCamera *pCam);
+
+
 
 private:
 	USER_TYPE	m_CurrentUser;
@@ -137,6 +144,12 @@ private:
 	_bool	m_bMonsterCreateCheck = false;
 	_bool	m_bMonsterSelectCheck = false;
 
+
+	std::list<pair<const wstring,CGameObject*>>	m_SelecteObjectlist;
+	// 중복 클릭 방지를 위한 자료구조 set
+	_bool   m_bMultiple_Select = false;
+
+
 public:
 	//  window창 생성시 필요한 불변수
 	static  bool Show_Terrain_Window;
@@ -144,6 +157,7 @@ public:
 	static  bool Show_Main_Menu_Window;
 	static  bool Show_Cube_Tool;
 	static	bool Show_Monster_Tool;
+	static  bool Show_Object_Tool;
 	static ImVec4 clear_color;
 	// ~ window창 생성시 필요한 불변수
 
@@ -248,4 +262,45 @@ HRESULT CImGuiMgr::EditObjectTexture(const wstring& m_CureentTextureProtoName)
 
 	return S_OK;
 
+}
+
+template<typename T>
+inline HRESULT CImGuiMgr::MultiPleEditObjectTexture(const wstring & m_CureentTextureProtoName)
+{
+	if (!m_SelecteObjectlist.empty())
+	{
+		ImGui::NewLine();
+		if (ImGui::CollapsingHeader("Tile Texture", ImGuiTreeNodeFlags_DefaultOpen))
+		{
+			CTexture* pTextureCom = dynamic_cast<CTexture*>(dynamic_cast<T*>(m_SelecteObjectlist.begin()->second)->Get_Component(m_CureentTextureProtoName.c_str(), ID_STATIC));
+			NULL_CHECK_RETURN(pTextureCom, E_FAIL);
+
+			vector<IDirect3DBaseTexture9*> vecTexture = pTextureCom->Get_Texture();
+
+			for (_uint i = 0; i < vecTexture.size(); ++i)
+			{
+				
+				if (ImGui::ImageButton((void*)vecTexture[i], ImVec2(32.f, 32.f)))
+				{
+					for (auto iter = m_SelecteObjectlist.begin(); iter != m_SelecteObjectlist.end(); ++iter)
+					{
+						(iter->second)->Set_DrawTexIndex(i);
+					}
+
+
+				}
+				if (i == 0 || (i + 1) % 6)
+					ImGui::SameLine();
+			}
+
+
+
+
+		}
+
+			
+	}
+	
+
+	return S_OK;
 }

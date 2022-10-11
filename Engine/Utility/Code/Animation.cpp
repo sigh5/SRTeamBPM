@@ -17,6 +17,7 @@ Engine::CAnimation::CAnimation(const CAnimation& rhs)
 
 CAnimation::~CAnimation()
 {
+	//주석지우셈
 }
 // 애니메이션 사용을 위한 기본 세팅 함수
 HRESULT CAnimation::Ready_Animation(int _iMaxMotion, int _iMinMotion, float _fInterval, _uint _iOrigin)
@@ -64,6 +65,20 @@ void CAnimation::Control_Animation(_uint iCount)
 	if(iCount == m_iMaxMotion)
 		m_iMotion = m_iMinMotion;
 	
+}
+void CAnimation::Control_Event_Animation(_bool bEvent)
+{
+	if (!bEvent)
+		return;
+
+	if (m_iMaxMotion > m_iMotion)
+	{
+		m_iMotion += 1;
+	}
+
+	if (m_iMotion >= m_iMaxMotion)
+		m_iMotion = m_iMinMotion;
+
 }
 // 현재는 박스에서 사용, 매개변수를 1번 받고 그대로 애니메이션이 끝날 요소들(ex: 박스는 닫혔다가->열리고 끝)
 void CAnimation::Open_Box_Animation(_bool bOpen)

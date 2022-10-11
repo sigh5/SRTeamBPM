@@ -59,6 +59,9 @@ HRESULT CFatBat::Ready_Object(int Posx, int Posy)
 	m_fStopperDelayCount = 0.f;
 	m_fHitDelay = 0.f;
 	m_fDeadY = 0.f;
+
+	m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, 0.1f);
+
 	return S_OK;
 }
 
@@ -167,10 +170,8 @@ void CFatBat::NoHit_Loop(const _float& fTimeDelta)
 	FatBat_Fly(fTimeDelta);
 	FatBat_Dodge(fTimeDelta, &m_vPlayerPos, &m_vMonsterPos);
 
-
-	//Set_OnTerrain();
 	//지형에 올림
-	if (fMtoPDistance > 13.f)
+	if (fMtoPDistance > 13.f && 14.f > fMtoPDistance)
 	{
 		m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
 

@@ -17,6 +17,9 @@ public:
 	// 사용자가 수동적으로 Key를 누를때마다 이미지 1장 변경
 	void	Control_Animation(_uint iCount);	
 
+	void	Control_Event_Animation(_bool bEvent);
+	//주석지우셈
+
 	void	Open_Box_Animation(_bool bOpen);
 
 	// Gun_Screen

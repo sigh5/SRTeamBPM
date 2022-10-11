@@ -26,6 +26,8 @@ private:
 	void		Key_Input(const _float& fTimeDelta);
 	void		Target_Renewal(const _float& fTimeDelta);
 
+	void		Excution_Renewal(const _float& fTimeDelta);
+
 
 private:
 	_bool			m_bFix = false;
@@ -35,9 +37,16 @@ public:
 
 	void			Set_CamDistance(_float fDistance) {m_fDistance = fDistance;}
 
-public:
-	_bool			m_bExecution = false;
+	void			Set_Excution(_bool bExcution) { m_bExecution = bExcution; }
+	
+	void			Set_PlayerHit(_bool bHitCameraCam) { m_bPlayerHit = bHitCameraCam; }
 
+
+
+private:
+	_bool			m_bExecution = false;
+	_bool			m_bSoundCheck = false;
+	_bool			m_bPlayerHit = false;
 
 private:
 	_float			m_fDistance = 1.f;
@@ -45,7 +54,17 @@ private:
 	_float			m_fAngle = 0.f;
 
 	_float			m_fCameraHeight = 0.5f;
+	_float			m_fCameraOriginHeight = 0.5f;
+	
+	_int			m_itemp = -1;
+
 	_int			m_iBillBoardDir = 0;	// 0 ¿ÞÂÊ 1 ¿À¸¥ÂÊ
+
+	_float			m_fFrame = 0.f;
+
+
+
+
 
 public:
 	static CMyCamera*		Create(LPDIRECT3DDEVICE9 pGraphicDev,

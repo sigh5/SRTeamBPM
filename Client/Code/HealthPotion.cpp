@@ -38,11 +38,23 @@ HRESULT CHealthPotion::Ready_Object(_uint iX, _uint iY)
 
 _int CHealthPotion::Update_Object(const _float & fTimeDelta)
 {	
+	if (m_bDead == true)
+	{
+		CScene  *pScene = ::Get_Scene();
+		NULL_CHECK_RETURN(pScene, );
+		CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+		NULL_CHECK_RETURN(pLayer, );
+	
+
+		return OBJ_DEAD;
+	}
+
+
 	_uint iResult = Engine::CGameObject::Update_Object(fTimeDelta);
 	
 	m_pAnimationCom->Move_Animation(fTimeDelta);
 
-	Set_OnTerrain();
+	//Set_OnTerrain();
 	
 
 	Add_RenderGroup(RENDER_ALPHA, this);
@@ -108,22 +120,25 @@ void CHealthPotion::Render_Obejct(void)
 
 void CHealthPotion::Collision_Event()
 {
-	//CScene  *pScene = ::Get_Scene();
-	//NULL_CHECK_RETURN(pScene, );
-	//CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
-	//NULL_CHECK_RETURN(pLayer, );
-	//CGameObject *pGameObject = nullptr;
+	CScene  *pScene = ::Get_Scene();
+	NULL_CHECK_RETURN(pScene, );
+	CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+	NULL_CHECK_RETURN(pLayer, );
+	CGameObject *pGameObject = nullptr;
 
-	//pGameObject = pLayer->Get_GameObject(L"Player");
-	//NULL_CHECK_RETURN(pGameObject, );
-	//CTransform *pTransform = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_DynamicTransformCom", ID_DYNAMIC));
+	pGameObject = pLayer->Get_GameObject(L"Player");
+	NULL_CHECK_RETURN(pGameObject, );
+	CTransform *pTransform = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_DynamicTransformCom", ID_DYNAMIC));
 
-	//if (m_pColliderCom->Check_Collision(pGameObject, this,1,1))
-	//{
-	//	m_pInfoCom->Add_Hp(25);
-	//	//m_iHpBarChange += 1;
-	//	pLayer->Delete_GameObject(L"HealthPotion"); // 이벤트 처리
-	//}
+	if (m_pColliderCom->Check_Collision(this,pGameObject,1,1))
+	{
+		CCharacterInfo* pInfo   = dynamic_cast<CCharacterInfo*>(pGameObject->Get_Component(L"Proto_CharacterInfoCom", ID_STATIC));
+		pInfo->Add_Hp(25);
+		//m_iHpBarChange += 1;
+		m_bDead = true;
+
+		//pLayer->Delete_GameObject(L"HealthPotion"); // 이벤트 처리
+	}
 
 
 }

@@ -247,6 +247,10 @@
     <ClCompile Include="..\Code\LoadingBackFont.cpp">
       <Filter>02. GameObject\01. For_Stage\10. UI\10. LoadingFont_BackGround</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\TeleCube.cpp">
+      <Filter>02. GameObject\02. For_public\05. TeleCube</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Obstacle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -513,6 +517,10 @@
     <ClInclude Include="..\Header\LoadingBackFont.h">
       <Filter>02. GameObject\01. For_Stage\10. UI\10. LoadingFont_BackGround</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\TeleCube.h">
+      <Filter>02. GameObject\02. For_public\05. TeleCube</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Obstacle.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -750,6 +758,12 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\10. UI\10. LoadingFont_BackGround">
       <UniqueIdentifier>{0e8c38f9-bafb-4a84-8e22-dec9aa260e1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\02. For_public\05. TeleCube">
+      <UniqueIdentifier>{92bd6108-4fb3-4dc1-b9cb-d10f238d6d86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\15. Obstacle">
+      <UniqueIdentifier>{3b25bcbf-c357-4146-a9cf-d96f4b00b385}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

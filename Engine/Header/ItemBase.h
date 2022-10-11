@@ -26,6 +26,14 @@ public:
 	_uint&			Get_ItemType() { return m_iItemIndex; }
 	CharacterInfo&	Get_InfoRef();
 
+public:
+	void				Set_Layer_Map_Name(const wstring& LayerName, const wstring& RoomName)
+	{
+		m_LayerName = LayerName;
+		m_RoomName = RoomName;
+	}
+
+
 
 protected:
 	CCharacterInfo*		m_pInfoCom = nullptr;  
@@ -36,6 +44,11 @@ protected:
 
 public:
 	ITEM_TYPE			m_ItemType;
+
+protected:
+	wstring				m_LayerName = L"";
+	wstring				m_RoomName = L"";
+
 
 protected:
 	virtual HRESULT				Add_Component(void);

@@ -30,11 +30,21 @@ HRESULT CCoin::Ready_Object(_uint iX, _uint iY)
 
 _int CCoin::Update_Object(const _float & fTimeDelta)
 {
+
+	if (m_bDead == true)
+	{
+		CScene  *pScene = ::Get_Scene();
+		NULL_CHECK_RETURN(pScene, );
+		CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+		NULL_CHECK_RETURN(pLayer, );
+
+
+		return OBJ_DEAD;
+	}
+
 	_uint iResult = Engine::CGameObject::Update_Object(fTimeDelta);
 
 	m_pAnimationCom->Move_Animation(fTimeDelta);
-
-	Set_OnTerrain();
 
 
 	Add_RenderGroup(RENDER_ALPHA, this);
@@ -44,39 +54,39 @@ _int CCoin::Update_Object(const _float & fTimeDelta)
 
 void CCoin::LateUpdate_Object(void)
 {
-	//CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
-	//NULL_CHECK(pCamera);
+	CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
+	NULL_CHECK(pCamera);
 
-	//// 
-	//_matrix		matWorld, matView, matBill;
+	// 
+	_matrix		matWorld, matView, matBill;
 
-	//m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
-	//D3DXMatrixIdentity(&matBill);
-	//memcpy(&matBill, &matView, sizeof(_matrix));
-	//memset(&matBill._41, 0, sizeof(_vec3));
-	//D3DXMatrixInverse(&matBill, 0, &matBill);
+	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
+	D3DXMatrixIdentity(&matBill);
+	memcpy(&matBill, &matView, sizeof(_matrix));
+	memset(&matBill._41, 0, sizeof(_vec3));
+	D3DXMatrixInverse(&matBill, 0, &matBill);
 
-	//_matrix      matScale, matTrans;
-	//D3DXMatrixScaling(&matScale, 2.f, 2.f, 2.f);
+	_matrix      matScale, matTrans;
+	D3DXMatrixScaling(&matScale, 2.f, 2.f, 2.f);
 
-	//_matrix      matRot;
-	//D3DXMatrixIdentity(&matRot);
-	//D3DXMatrixRotationY(&matRot, (_float)pCamera->Get_BillBoardDir());
+	_matrix      matRot;
+	D3DXMatrixIdentity(&matRot);
+	D3DXMatrixRotationY(&matRot, (_float)pCamera->Get_BillBoardDir());
 
-	//_vec3 vPos;
-	//m_pTransCom->Get_Info(INFO_POS, &vPos);
+	_vec3 vPos;
+	m_pTransCom->Get_Info(INFO_POS, &vPos);
 
-	//D3DXMatrixTranslation(&matTrans,
-	//	vPos.x,
-	//	vPos.y,
-	//	vPos.z);
+	D3DXMatrixTranslation(&matTrans,
+		vPos.x,
+		vPos.y,
+		vPos.z);
 
-	//D3DXMatrixIdentity(&matWorld);
-	//matWorld = matScale* matRot * matBill * matTrans;
-	//m_pTransCom->Set_WorldMatrix(&(matWorld));
+	D3DXMatrixIdentity(&matWorld);
+	matWorld = matScale* matRot * matBill * matTrans;
+	m_pTransCom->Set_WorldMatrix(&(matWorld));
 
 
-	//CItemBase::LateUpdate_Object();
+	CItemBase::LateUpdate_Object();
 }
 
 void CCoin::Render_Obejct(void)
@@ -111,20 +121,16 @@ void CCoin::Collision_Event()
 	NULL_CHECK_RETURN(pGameObject, );
 	CTransform *pTransform = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_DynamicTransformCom", ID_DYNAMIC));
 
-	if (!m_pColliderCom->Check_Collision(this, pGameObject , 1, 1))
+	if (!m_bAddCoin && m_pColliderCom->Check_Collision(this, pGameObject , 1, 1))
 	{
-		if (Engine::Key_Down(DIK_F))
-		{
-			CPlayer* pTestPlayer = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
+		m_bAddCoin = true;
+		dynamic_cast<CPlayer*>(pGameObject)->Set_bCurStat(true);
+		//pLayer->Delete_GameObject(L"Coin");
 
-			m_bAddCoin = true;
-			pTestPlayer->Set_bCurStat(true);
-
-		}
+		m_bDead = true;
 	}
 	
-	//if(m_bAddCoin)
-		//pLayer->Delete_GameObject(L"Coin"); 
+
 }
 
 HRESULT CCoin::Add_Component(void)

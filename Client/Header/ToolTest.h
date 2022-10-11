@@ -10,7 +10,7 @@ class CCalculator;
 END
 
 
-
+//주석지우셈
 class CToolTest : public CScene
 {
 private:
@@ -28,7 +28,19 @@ public:
 private:
 	wstring m_PpDirectory = L"../../Data/PlayerPos.dat";
 
+	
 private:
 	class CDynamicCamera* m_pCam = nullptr;
 };
+
+
+
+
+
+
+
+
+
+
+
 

@@ -35,8 +35,9 @@ inline void			SetUp_InputDev(void);
 inline bool			Key_Pressing(int _iKey);
 inline bool			Key_Down(int _byKeyID);
 inline bool			Key_Up(int _iKey);
-
 inline bool			Mouse_Down(MOUSEKEYSTATE _MouseButton);
+inline void			Key_InputReset();
+
 
 // FontMgr
 
