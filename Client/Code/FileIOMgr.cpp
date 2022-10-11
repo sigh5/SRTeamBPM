@@ -253,6 +253,7 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 
 				}
 			}
+
 			CTransform* Transcom = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
 			Transcom->Set_Info(INFO_RIGHT, &vRight);
 			Transcom->Set_Info(INFO_UP, &vUp);
