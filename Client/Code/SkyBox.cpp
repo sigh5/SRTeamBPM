@@ -49,7 +49,7 @@ void CSkyBox::Render_Obejct(void)
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 	
-	m_pTextureCom->Set_Texture(3);
+	m_pTextureCom->Set_Texture(5);
 	m_pBufferCom->Render_Buffer();
 
 	m_pGraphicDev->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);

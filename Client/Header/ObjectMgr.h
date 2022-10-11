@@ -31,6 +31,16 @@ public:
 	void				Collect_UIObj(CGameObject* pObj);		// 사용을 마친 오브젝트를 회수하는 함수
 	CGameObject*		Reuse_MetronomeUI(LPDIRECT3DDEVICE9 pGraphicDev,_float fPosX, _float fPosY, _float fSpeed, int iTexIndex);	// 현재 풀에 있
 
+	void				Collect_UISmallObj(CGameObject* pObj);		// 사용을 마친 오브젝트를 회수하는 함수
+	CGameObject*		Reuse_MetronomeSmallUI(LPDIRECT3DDEVICE9 pGraphicDev, _float fPosX, _float fPosY, _float fSpeed, int iTexIndex);	// 현재 풀에 있
+
+	void				Collect_UIRect(CGameObject* pObj);		// 사용을 마친 오브젝트를 회수하는 함수
+	CGameObject*		Reuse_MetronomeRectUI(LPDIRECT3DDEVICE9 pGraphicDev, int iTexIndex);	// 현재 풀에 있
+
+
+
+
+
 private:
 	// 오브젝트 풀 쓸때마다 해야되네 두개 같이 쓰면 뻑남
 	list<CBaseBullet*>		m_MonsterBulletList;
@@ -38,8 +48,8 @@ private:
 	list<CBaseBullet*>		m_SphinxBulletList;
 	list<CGhul*>			m_GhulList;
 	list<CGameObject*>		m_UIMetroList;
-
-
+	list<CGameObject*>		m_UISmallMetroList;
+	list<CGameObject*>		m_UIMetroRectList;
 
 	_int					m_iCount;
 	_int					m_iTest = -1;

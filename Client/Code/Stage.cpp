@@ -15,14 +15,17 @@
 #include "Box.h"
 #include "HealthPotion.h"
 #include "ShotGun.h"
-
 #include "HpBar.h"
+
 #include "CoinKeyUI.h"
 #include "Status_UI.h"
 #include "MetronomeUI.h"
-#include "Gun_Screen.h"
+#include "MetronomeSmallUI.h"
 #include "DashUI.h"
 #include "Inventory_UI.h"
+#include "Gun_Screen.h"
+
+
 #include "UI_Frame.h"
 
 #include "Snowfall.h"
@@ -82,13 +85,25 @@ _int CStage::Update_Scene(const _float & fTimeDelta)
 		CGameObject*		pGameObject = nullptr;
 		CLayer *pMyLayer = GetLayer(L"Layer_UI");
 
-		pGameObject = CObjectMgr::GetInstance()->Reuse_MetronomeUI(m_pGraphicDev, -WINCX / 2.f, 0.f, +150.f, 1);
+		pGameObject = CObjectMgr::GetInstance()->Reuse_MetronomeUI(m_pGraphicDev, -WINCX / 2.f - 400.f, 0.f, +150.f, 1);
 		NULL_CHECK_RETURN(pGameObject, 0);
 		pMyLayer->Add_GameObjectList(pGameObject);
 
-		pGameObject = CObjectMgr::GetInstance()->Reuse_MetronomeUI(m_pGraphicDev, WINCX / 2.f, 0, -150.f, 0);
+		pGameObject = CObjectMgr::GetInstance()->Reuse_MetronomeUI(m_pGraphicDev, WINCX / 2.f + 400.f, 0, -150.f, 0);
 		NULL_CHECK_RETURN(pGameObject, 0);
 		pMyLayer->Add_GameObjectList(pGameObject);
+	
+
+		pGameObject = CObjectMgr::GetInstance()->Reuse_MetronomeSmallUI(m_pGraphicDev, -WINCX / 2.f - 370.f, 0.f, +150.f, 3);
+		NULL_CHECK_RETURN(pGameObject, 0);
+		pMyLayer->Add_GameObjectList(pGameObject);
+
+		pGameObject = CObjectMgr::GetInstance()->Reuse_MetronomeSmallUI(m_pGraphicDev, WINCX / 2.f + 370.f, 0, -150.f, 2);
+		NULL_CHECK_RETURN(pGameObject, 0);
+		pMyLayer->Add_GameObjectList(pGameObject);
+
+
+
 
 		for (auto iter = pMyLayer->Get_GhulList().begin(); iter != pMyLayer->Get_GhulList().end(); ++iter)
 		{
