@@ -70,11 +70,11 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 		CLayer* pLayer = pScene->GetLayer(L"Layer_GameLogic");
 
 		CMonsterBase* pMonster = dynamic_cast<CMonsterBase*>(pLayer->Get_GameObject(L"TestMonster10"));
-		pMonster->Set_ResetCheck(true);
+		//pMonster->Set_ResetCheck(true);
 	
 
 		pMonster = dynamic_cast<CMonsterBase*>(pLayer->Get_GameObject(L"TestMonster11"));
-		pMonster->Set_ResetCheck(true);
+		//pMonster->Set_ResetCheck(true);
 
 	}
 
@@ -407,7 +407,7 @@ void CPlayer::Random_ResurrectionRoom()
 
 	m_pDynamicTransCom->Update_Component(1.f);
 
-
+	pLayer->Reset_Monster();
 }
 
 

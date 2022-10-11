@@ -60,8 +60,8 @@ Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 	if (m_pLoading->Get_Finish())
 	{
 		if (m_pStartButton->Get_Click())
-		{						// CStage  CToolTest
-			CScene*		pScene = CStage::Create(m_pGraphicDev);
+		{						// CChange_Stage  CToolTest
+			CScene*		pScene = CChange_Stage::Create(m_pGraphicDev);
 			NULL_CHECK_RETURN(pScene, E_FAIL);
 
 			m_SceneType = SCENE_STAGE;
