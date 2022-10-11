@@ -109,8 +109,6 @@ void CInventory_UI::Render_Obejct(void)
 			_uint iA = 0;
 		}	
 	}
-	
-
 
 	::Key_InputReset();
 

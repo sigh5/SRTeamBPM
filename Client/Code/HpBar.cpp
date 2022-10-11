@@ -56,7 +56,7 @@ _int CHpBar::Update_Object(const _float & fTimeDelta)
 
 void CHpBar::LateUpdate_Object(void)
 {
-	m_pTransCom->OrthoMatrix(200.f, 154.f, -310.f, -268.f, WINCX, WINCY);
+	m_pTransCom->OrthoMatrix(300.f, 204.f, -492.f, -448.f, WINCX, WINCY);
 
 	CGameObject::LateUpdate_Object();
 

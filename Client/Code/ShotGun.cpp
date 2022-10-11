@@ -82,7 +82,8 @@ void CShotGun::LateUpdate_Object(void)
 void CShotGun::Render_Obejct(void)
 {
 	//_bool 변수로 World(필드에 있을 때), Ortho(인벤토리에 들어옴) 여부 판단
-	
+	CInventory_UI* pInven = static_cast<CInventory_UI*>(Get_GameObject(L"Layer_UI", L"InventoryUI"));
+
 	if (!m_bRenderControl && !m_bRenderFalse)
 	{
 		m_RenderID = RENDER_ALPHA;
@@ -99,13 +100,13 @@ void CShotGun::Render_Obejct(void)
 
 		m_pTextureCom->Set_Texture(0);	
 		m_pBufferCom->Render_Buffer();
-
+		
 		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 		m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 
 	}
 
-	CInventory_UI* pInven = static_cast<CInventory_UI*>(Get_GameObject(L"Layer_UI", L"InventoryUI"));
+	
 	// 인벤토리(I)키를 눌러둔 상태에서 먹었을 때 직교투영이 되도록 하는 부분
 	if (pInven->Get_InvenSwitch() == true && m_bRenderFalse == true)
 	{
