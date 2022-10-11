@@ -25,7 +25,7 @@ class CMetronomeUI :public CGameObject
 private:
 	explicit CMetronomeUI(LPDIRECT3DDEVICE9 pGraphicDev);
 	explicit CMetronomeUI(const CGameObject& rhs);
-
+	virtual  ~CMetronomeUI();
 public:
 	HRESULT			Ready_Object(_float fPosX, _float fPosY, _float fSpeed, int iTexIndex);
 	virtual _int	Update_Object(const _float& fTimeDelta) override;
@@ -33,15 +33,17 @@ public:
 	virtual	void	LateUpdate_Object(void);
 	virtual void	Render_Obejct(void) override;
 
+
 private:
 	HRESULT			Add_Component(void);
 public:
-	void			init(_float fPosX, _float fPosY, _float fSpeed, int iTexIndex)
+	void			init(_float fPosX, _float fPosY, _float fSpeed, int iTexIndex,_int iAlpha)
 	{
 		m_fMoveX = fPosX;
 		m_fMoveY = fPosY;
 		m_fSpeed = fSpeed;
 		m_iTexIndex = iTexIndex;
+		//m_fAlpha = iAlpha;
 	}
 
 public:
@@ -57,6 +59,8 @@ private:
 	_float				m_fSpeed = 0.f; // πÊ«‚ 
 
 	START_POSION		m_ePos;
+
+	_float				m_fAlpha = 0.f;
 
 
 public:

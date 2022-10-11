@@ -32,6 +32,8 @@ HRESULT CMyCamera::Ready_Object(const _vec3 * pEye,
 	m_fNear = fNear;
 	m_fFar = fFar;
 	
+	m_fOriginFov = m_fFov;
+
 	FAILED_CHECK_RETURN(CCamera::Ready_Object(), E_FAIL);
 
 	return S_OK;
@@ -44,19 +46,20 @@ _int CMyCamera::Update_Object(const _float & fTimeDelta)
 
 	Mouse_Move(fTimeDelta);
 	
+	
 	if (m_bExecution)
 	{
-		m_fCameraOriginHeight = m_fCameraHeight;
-		m_fFrame += 0.2f *fTimeDelta;
 		
+		m_fFrame += 0.2f *fTimeDelta;
+
 		Excution_Renewal(fTimeDelta);
 
 		if (m_fFrame >= 0.2f)
 		{
-			m_fCameraHeight = m_fCameraOriginHeight;
 			m_fFrame = 0.f;
 			m_bExecution = false;
 			m_bSoundCheck = false;
+			m_fFov = m_fOriginFov;
 		}
 	}
 
@@ -65,11 +68,11 @@ _int CMyCamera::Update_Object(const _float & fTimeDelta)
 		m_fFrame += 0.2f *fTimeDelta;
 		m_itemp *= -1;
 		m_vEye.y = m_vEye.y + (_float(m_itemp)*0.1f* fTimeDelta);
-		
+
 		if (m_fFrame >= 0.2f)
 		{
 			m_fFrame = 0.f;
-			m_bPlayerHit = false;	
+			m_bPlayerHit = false;
 		}
 	}
 
@@ -236,27 +239,8 @@ void CMyCamera::Target_Renewal(const _float& fTimeDelta)
 void CMyCamera::Excution_Renewal(const _float & fTimeDelta)
 {
 	
-	if (!m_bSoundCheck)
-	{
-		::PlaySoundW(L"executionEffect.wav", SOUND_EFFECT, 0.1f);
-		m_bSoundCheck = true;
-	}
-
-	_matrix		matCamWorld;
-	D3DXMatrixInverse(&matCamWorld, nullptr, &m_matView);
-
-	//
-	_vec3		vLook;
-	memcpy(&vLook, &matCamWorld.m[2][0], sizeof(_vec3));
-
-	_vec3		vLength = *D3DXVec3Normalize(&vLook, &vLook) * 1.5f * fTimeDelta;
-
-
-	m_vEye -= vLength;
-	m_vAt -= vLength;
-	
-	
-	
+	m_fFov -= 0.001f * fTimeDelta;
+	m_fFov = D3DXToRadian(30.f);
 
 }
 
