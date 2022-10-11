@@ -220,7 +220,7 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 			static_cast<CWallCube*>(pGameObject)->Set_Option(CUBE_TYPE(iCubeOption));
 			// 다른 레이어에 큐브옵션이 다르면
 			
-			if (iCubeOption == CUBE_START_TELE)
+		/*	if (iCubeOption == CUBE_START_TELE)
 			{
 				pScene->Get_CubeList(STARTCUBELIST)->push_back(pGameObject);
 			}
@@ -229,7 +229,7 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 			{
 				pScene->Get_CubeList(ENDCUBELIST)->push_back(pGameObject);
 			}
-			else
+			else*/
 			{
 				FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(test1, pGameObject), );
 
