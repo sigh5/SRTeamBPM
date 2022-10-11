@@ -58,16 +58,16 @@ protected:
 
 protected:
 	MONSTER_INDEX	m_iMonsterIndex;
-	_bool	m_bHit = false;
+	_bool	m_bHit ;
 	_float	m_fHitDelay;
 	_int	m_iPreHp;
-	_float			m_fTimeDelta = 0.f;
+	_float			m_fTimeDelta ;
 	vector<CGameObject*> m_vecBlood;
 	_vec3		m_vPlayerPos, m_vMonsterPos;
 	
-	_bool	m_bResetCheck = false;
+	_bool	m_bResetCheck;
 
-	_bool	m_bExcutionCheck = false;
+	_bool	m_bExcutionCheck ;
 	
 	
 	
@@ -75,11 +75,11 @@ protected:
 	_vec3	m_vOriginPos;
 	_int	m_iOriginHp;
 
-	int m_iPreIndex = 0;
-	float m_fAttackDelay = 0;
-	float m_fAttackDelayTime = 0;
-	bool m_bAttack = true;
-	bool m_bAttacking = false;
+	int m_iPreIndex ;
+	float m_fAttackDelay ;
+	float m_fAttackDelayTime;
+	bool m_bAttack ;
+	bool m_bAttacking ;
 
 
 protected:
@@ -87,7 +87,7 @@ protected:
 	virtual bool				Set_TransformPositon(HWND g_hWnd, CCalculator* _pCalcul);
 	
 protected:
-	_float fMtoPDistance =20.f; // 몬스터와 플레이어 간의 거리
+	_float fMtoPDistance; // 몬스터와 플레이어 간의 거리
 
 public:
 	virtual void		Free(void);
