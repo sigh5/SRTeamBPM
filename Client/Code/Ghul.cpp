@@ -40,9 +40,8 @@ HRESULT CGhul::Ready_Object(int Posx, int Posy)
 	m_pDeadAnimationCom->Ready_Animation(11, 0, 0.2f);
 	m_pInfoCom->Ready_CharacterInfo(5, 10, 1.f);
 
-	m_iMonsterIndex = 6;
+	m_iMonsterIndex = MONSTER_GHUL;
 	m_fHitDelay = 0.f;
-	m_iMonsterIndex = 6;
 	m_fAttackDelay = 0.5f;
 
 	if (Posx == 0 && Posy == 0) {}
@@ -51,11 +50,20 @@ HRESULT CGhul::Ready_Object(int Posx, int Posy)
 		m_pDynamicTransCom->Set_Pos((float)Posx, 1.f, (float)Posy);
 	}
 	m_pDynamicTransCom->Update_Component(1.f);
+	Save_OriginPos();
 	return S_OK;
 }
 
 _int CGhul::Update_Object(const _float & fTimeDelta)
 {
+	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
+	if (Distance_Over())
+	{
+		Engine::CMonsterBase::Update_Object(fTimeDelta);
+		Add_RenderGroup(RENDER_ALPHA, this);
+
+		return 0;
+	}
 	DigOut(fTimeDelta);
 	if (Dead_Judge(fTimeDelta))
 	{
@@ -67,8 +75,6 @@ _int CGhul::Update_Object(const _float & fTimeDelta)
 	Hit_Delay_toZero();
 
 	AttackJudge(fTimeDelta);
-	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
-
 
 	if (m_bHit == false)
 	{

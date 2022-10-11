@@ -220,9 +220,6 @@
     <ClCompile Include="..\Code\Ghul.cpp">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\05. Ghul</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\SphinxBody.cpp">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx\00. body</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\SphinxBullet.cpp">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx\01. bullet</Filter>
     </ClCompile>
@@ -251,6 +248,9 @@
       <Filter>02. GameObject\02. For_public\05. TeleCube</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Obstacle.cpp" />
+    <ClCompile Include="..\Code\EarthShaker.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\06. EarthShaker</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -490,9 +490,6 @@
     <ClInclude Include="..\Header\Ghul.h">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\05. Ghul</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\SphinxBody.h">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx\00. body</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\SphinxBullet.h">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx\01. bullet</Filter>
     </ClInclude>
@@ -521,6 +518,9 @@
       <Filter>02. GameObject\02. For_public\05. TeleCube</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Obstacle.h" />
+    <ClInclude Include="..\Header\EarthShaker.h">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\06. EarthShaker</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -734,9 +734,6 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\05. Ghul">
       <UniqueIdentifier>{6f0ad008-e216-4bfa-8af1-675a50495ed8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx\00. body">
-      <UniqueIdentifier>{fc0aa3b7-7fed-4a17-86c9-d06aafa9325e}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx\01. bullet">
       <UniqueIdentifier>{00dfc730-1b01-457a-8a4c-ce40a51fe809}</UniqueIdentifier>

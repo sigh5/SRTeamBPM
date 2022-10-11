@@ -204,7 +204,6 @@
     <ClInclude Include="..\Header\SkyBox.h" />
     <ClInclude Include="..\Header\Snowfall.h" />
     <ClInclude Include="..\Header\Sphinx.h" />
-    <ClInclude Include="..\Header\SphinxBody.h" />
     <ClInclude Include="..\Header\SphinxBullet.h" />
     <ClInclude Include="..\Header\SphinxFlyHead.h" />
     <ClInclude Include="..\Header\Spider.h" />
@@ -291,7 +290,6 @@
     <ClCompile Include="..\Code\SkyBox.cpp" />
     <ClCompile Include="..\Code\Snowfall.cpp" />
     <ClCompile Include="..\Code\Sphinx.cpp" />
-    <ClCompile Include="..\Code\SphinxBody.cpp" />
     <ClCompile Include="..\Code\SphinxBullet.cpp" />
     <ClCompile Include="..\Code\SphinxFlyHead.cpp" />
     <ClCompile Include="..\Code\Spider.cpp" />

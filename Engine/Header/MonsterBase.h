@@ -27,7 +27,7 @@ public:
 	
 public:
 	bool				 Set_SelectGizmo(HWND g_hWn, CCalculator* _pCalcul, CRcTex* _pBuffer);
-	int&				 Get_MonsterType() { return m_iMonsterIndex; }
+	MONSTER_INDEX&				 Get_MonsterType() { return m_iMonsterIndex; }
 	CharacterInfo&	     Get_InfoRef();
 	void			     Get_MonsterToPlayer_Distance(float* _Distance);		// 몬스터 길이 구하는것
 	virtual void		 Excution_Event() {};
@@ -36,9 +36,14 @@ public:
 
 	virtual void NoHit_Loop(const _float& fTimeDelta) {};
 	virtual void Hit_Loop(const _float& fTimeDelta) {};
+
+	virtual bool		Distance_Over(void);
+	virtual void		Save_OriginPos(void);
+	virtual void		Get_BackOriginPos(void);
+
 public:
 	const _bool&		 Get_Hit()const { return m_bHit; }
-
+	const _bool&		Get_Dead()const { return m_bDead; }
 
 protected:
 	CCharacterInfo*		m_pInfoCom = nullptr;    // 남길것 
@@ -51,7 +56,7 @@ protected:
 
 
 protected:
-	_int	m_iMonsterIndex;
+	MONSTER_INDEX	m_iMonsterIndex;
 	_bool	m_bHit = false;
 	_float	m_fHitDelay;
 	_int	m_iPreHp;
@@ -59,6 +64,8 @@ protected:
 	vector<CGameObject*> m_vecBlood;
 	_vec3		m_vPlayerPos, m_vMonsterPos;
 	bool m_bDead = false;
+	_vec3	m_vOriginPos;
+	_int	m_iOriginHp;
 
 	int m_iPreIndex = 0;
 	float m_fAttackDelay = 0;

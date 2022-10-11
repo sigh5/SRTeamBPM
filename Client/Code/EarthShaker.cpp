@@ -27,6 +27,7 @@ HRESULT CEarthShaker::Ready_Object(float Posx, float Posy, float Size)
 	m_pAttackAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_STATIC);
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
 
+	m_iMonsterIndex = MONSTER_EARTHSHAKER;
 	m_pAttackAnimationCom->Ready_Animation(8, 0, 0.8f);
 
 	m_pAnimationCom->Ready_Animation(7, 1, 0.4f);
@@ -53,11 +54,21 @@ HRESULT CEarthShaker::Ready_Object(float Posx, float Posy, float Size)
 		m_pDynamicTransCom->Set_Pos(Posx, 3.f, Posy);
 	}
 	m_pDynamicTransCom->Update_Component(1.f);
+	Save_OriginPos();
 	return S_OK;
 }
 
 _int CEarthShaker::Update_Object(const _float & fTimeDelta)
 {
+
+	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
+	if (Distance_Over())
+	{
+		Engine::CMonsterBase::Update_Object(fTimeDelta);
+		Add_RenderGroup(RENDER_ALPHA, this);
+
+		return 0;
+	}
 	if (Dead_Judge(fTimeDelta)) //±øÅë
 	{
 		return 0;
@@ -67,7 +78,6 @@ _int CEarthShaker::Update_Object(const _float & fTimeDelta)
 	Hit_Delay_toZero();
 
 	AttackJudge(fTimeDelta);
-	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 
 	if (m_bHit == false)
 	{

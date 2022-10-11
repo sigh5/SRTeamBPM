@@ -110,16 +110,22 @@ void CTeleCube::Collision_Event()
 
 			pTransform->Set_Pos(vPos.x + 10.f, vPos.y, vPos.z + 10.f);
 			pTransform->Update_Component(1.f);
+			//구울 정리하는 코드 삽입
+
 		}
 
 	}
 
 	else if (m_iOption == (_int)CUBE_END_TELE)
 	{
+
+
 		CCollider *pCollider = dynamic_cast<CCollider*>(pGameObject->Get_Component(L"Proto_ColliderCom", ID_STATIC));
 
 		if (m_pColliderCom->Check_CollisonUseCollider(m_pColliderCom, pCollider))
 		{
+			Get_Scene()->GetLayer(L"Layer_GameLogic")->Delete_GhulList();
+
 			CDynamic_Transform *pTransform = dynamic_cast<CDynamic_Transform*>(pGameObject->Get_Component(L"Proto_DynamicTransformCom", ID_DYNAMIC));
 
 			pLayer = pScene->GetLayer(L"Layer_CubeCollsion");
@@ -173,6 +179,8 @@ void CTeleCube::Random_ResurrectionRoom()
 	pTransform->Set_Pos(vFirstCubePos.x + 5.f, vFirstCubePos.y, vFirstCubePos.z + 5.f);
 
 	pTransform->Update_Component(1.f);
+
+	pLayer->Reset_Monster();
 }
 
 HRESULT CTeleCube::Add_Component(void)
@@ -202,3 +210,5 @@ void CTeleCube::Free()
 {
 	CGameObject::Free();
 }
+
+
