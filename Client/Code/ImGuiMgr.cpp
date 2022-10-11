@@ -1314,8 +1314,8 @@ void CImGuiMgr::Load_CubeMap(LPDIRECT3DDEVICE9 pGrahicDev, CScene *pScene)
 			pScene,
 			L"MapCubeLayer",
 			L"../../Data/",
-			L"Stage1Map.dat",
-			L"TestCube",
+			L"PjwCube.dat",
+			L"PjwCube",
 			OBJ_CUBE);
 
 		m_iIndex = CFileIOMgr::GetInstance()->Get_Index();
@@ -1351,7 +1351,7 @@ void CImGuiMgr::Save_CubeMap(CScene *pScene)
 	switch (m_CurrentUser)
 	{
 	case USER_HHW:
-		CFileIOMgr::GetInstance()->Save_FileData(pScene, L"MapCubeLayer", L"../../Data/", L"Stage1Map.dat", OBJ_CUBE);
+		CFileIOMgr::GetInstance()->Save_FileData(pScene, L"MapCubeLayer", L"../../Data/", L"PjwCube.dat", OBJ_CUBE);
 		break;
 
 	case USER_BIH:

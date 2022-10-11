@@ -105,90 +105,93 @@ void CShotGun::Render_Obejct(void)
 		m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 
 	}
-
-	
-	// 인벤토리(I)키를 눌러둔 상태에서 먹었을 때 직교투영이 되도록 하는 부분
-	if (pInven->Get_InvenSwitch() == true && m_bRenderFalse == true)
+	if (!(pInven->Get_InvenSwitch() == false))
 	{
-		m_RenderID = RENDER_ICON;
-		m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
-
-		_matrix		OldViewMatrix, OldProjMatrix;
-
-		m_pGraphicDev->GetTransform(D3DTS_VIEW, &OldViewMatrix);
-		m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &OldProjMatrix);
-
-		_matrix		ViewMatrix;
-
-		ViewMatrix = *D3DXMatrixIdentity(&ViewMatrix);
-
-		_matrix		matProj;
-
-		D3DXMatrixOrthoLH(&matProj, WINCX, WINCY, 0.f, 1.f);
-
-		_vec3 vecInvenPos;
-
-		dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_UI", L"InventoryUI", L"Proto_OrthoTransformCom", ID_DYNAMIC))->Get_Info(INFO_POS, &vecInvenPos);
-
-		m_pTransCom->Set_Pos(vecInvenPos.x - 50.f, vecInvenPos.y - 50.f, 0.1f);
-
-		_vec3		vecIconScale = { 30.f, 30.f, 0.f };
-
-		m_pTransCom->Set_Scale(&vecIconScale);
-
-		m_pGraphicDev->SetTransform(D3DTS_VIEW, &ViewMatrix);
-		m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
-
-		m_pTextureCom->Set_Texture(0);
-		m_pBufferCom->Render_Buffer();
-
-		m_pGraphicDev->SetTransform(D3DTS_VIEW, &OldViewMatrix);
-		m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &OldProjMatrix);
-	}
-
-	// 직교투영이 되는 부분
-	if (m_bRenderControl && m_bRenderFalse)  
-	{
-		m_RenderID = RENDER_ICON;
-		m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
-
-		_matrix		OldViewMatrix, OldProjMatrix;
-
-		m_pGraphicDev->GetTransform(D3DTS_VIEW, &OldViewMatrix);
-		m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &OldProjMatrix);
-
-		_matrix		ViewMatrix;
-
-		ViewMatrix = *D3DXMatrixIdentity(&ViewMatrix);
-
-		_matrix		matProj;
-
-		D3DXMatrixOrthoLH(&matProj, WINCX, WINCY, 0.f, 1.f);
-
-		_vec3 vecInvenPos;
-
-		dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_UI", L"InventoryUI", L"Proto_OrthoTransformCom", ID_DYNAMIC))->Get_Info(INFO_POS, &vecInvenPos);
-
-		m_pTransCom->Set_Pos(vecInvenPos.x - 50.f, vecInvenPos.y - 50.f, 0.1f);
-
-		_vec3		vecIconScale = { 30.f, 30.f, 0.f };
-
-		m_pTransCom->Set_Scale(&vecIconScale);
-
-		/*if (Get_DIMouseState(DIM_LB) & 0X80)
+		// 인벤토리(I)키를 눌러둔 상태에서 먹었을 때 직교투영이 되도록 하는 부분
+		if (pInven->Get_InvenSwitch() == true && m_bRenderFalse == true)
 		{
-			m_pCalculatorCom->PickingOnTransform_Monster(g_hWnd, this->m_pBufferCom, this->m_pTransCom);
-		}*/
+			m_RenderID = RENDER_ICON;
+			m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
 
-		m_pGraphicDev->SetTransform(D3DTS_VIEW, &ViewMatrix);
-		m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
-		
-		m_pTextureCom->Set_Texture(0);
-		m_pBufferCom->Render_Buffer();			
+			_matrix		OldViewMatrix, OldProjMatrix;
 
-		m_pGraphicDev->SetTransform(D3DTS_VIEW, &OldViewMatrix);
-		m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &OldProjMatrix);
+			m_pGraphicDev->GetTransform(D3DTS_VIEW, &OldViewMatrix);
+			m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &OldProjMatrix);
+
+			_matrix		ViewMatrix;
+
+			ViewMatrix = *D3DXMatrixIdentity(&ViewMatrix);
+
+			_matrix		matProj;
+
+			D3DXMatrixOrthoLH(&matProj, WINCX, WINCY, 0.f, 1.f);
+
+			_vec3 vecInvenPos;
+
+			dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_UI", L"InventoryUI", L"Proto_OrthoTransformCom", ID_DYNAMIC))->Get_Info(INFO_POS, &vecInvenPos);
+
+			m_pTransCom->Set_Pos(vecInvenPos.x - 50.f, vecInvenPos.y - 50.f, 0.1f);
+
+			_vec3		vecIconScale = { 30.f, 30.f, 0.f };
+
+			m_pTransCom->Set_Scale(&vecIconScale);
+
+			m_pGraphicDev->SetTransform(D3DTS_VIEW, &ViewMatrix);
+			m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
+
+			m_pTextureCom->Set_Texture(0);
+			m_pBufferCom->Render_Buffer();
+
+			m_pGraphicDev->SetTransform(D3DTS_VIEW, &OldViewMatrix);
+			m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &OldProjMatrix);
+		}
+
+		// 직교투영이 되는 부분
+		if (m_bRenderControl && m_bRenderFalse)
+		{
+			m_RenderID = RENDER_ICON;
+			m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
+
+			_matrix		OldViewMatrix, OldProjMatrix;
+
+			m_pGraphicDev->GetTransform(D3DTS_VIEW, &OldViewMatrix);
+			m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &OldProjMatrix);
+
+			_matrix		ViewMatrix;
+
+			ViewMatrix = *D3DXMatrixIdentity(&ViewMatrix);
+
+			_matrix		matProj;
+
+			D3DXMatrixOrthoLH(&matProj, WINCX, WINCY, 0.f, 1.f);
+
+			_vec3 vecInvenPos;
+
+			dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_UI", L"InventoryUI", L"Proto_OrthoTransformCom", ID_DYNAMIC))->Get_Info(INFO_POS, &vecInvenPos);
+
+			m_pTransCom->Set_Pos(vecInvenPos.x - 50.f, vecInvenPos.y - 50.f, 0.1f);
+
+			_vec3		vecIconScale = { 30.f, 30.f, 0.f };
+
+			m_pTransCom->Set_Scale(&vecIconScale);
+
+			/*if (Get_DIMouseState(DIM_LB) & 0X80)
+			{
+				m_pCalculatorCom->PickingOnTransform_Monster(g_hWnd, this->m_pBufferCom, this->m_pTransCom);
+			}*/
+
+			m_pGraphicDev->SetTransform(D3DTS_VIEW, &ViewMatrix);
+			m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
+
+			m_pTextureCom->Set_Texture(0);
+			m_pBufferCom->Render_Buffer();
+
+			m_pGraphicDev->SetTransform(D3DTS_VIEW, &OldViewMatrix);
+			m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &OldProjMatrix);
+		}
+
 	}
+
 }
 
 void CShotGun::Collision_Event()
