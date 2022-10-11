@@ -56,7 +56,8 @@ private:
 	_float			m_fCameraHeight = 0.5f;
 	_float			m_fCameraOriginHeight = 0.5f;
 	
-	_int			m_itemp = -1;
+	_int			m_itemp = 1;
+	_float			m_fOriginFov = 0.f;
 
 	_int			m_iBillBoardDir = 0;	// 0 왼쪽 1 오른쪽
 

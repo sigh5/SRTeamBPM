@@ -1,4 +1,5 @@
 #include "..\..\Header\Layer.h"
+#include "MonsterBase.h"
 
 USING(Engine)
 
@@ -174,6 +175,15 @@ void CLayer::Clear_Stack()
 	}
 }
 
+void	CLayer::Delete_GhulList()
+{
+	for (auto iter : m_GhulList)
+	{
+		Safe_Release(iter);
+	}
+	m_GhulList.clear();
+}
+
 CLayer* CLayer::Create(void)
 {
 	CLayer*	pLayer = new CLayer;
@@ -182,6 +192,25 @@ CLayer* CLayer::Create(void)
 		Safe_Release(pLayer);
 
 	return pLayer;
+}
+
+void		CLayer::Reset_Monster()
+{
+	for (auto iter = m_mapObject.begin(); iter != m_mapObject.end(); )
+	{
+		if (nullptr != dynamic_cast<CMonsterBase*>(iter->second))
+		{
+			if (MONSTER_FLY_HEAD == dynamic_cast<CMonsterBase*>(iter->second)->Get_MonsterType())
+			{
+				Safe_Release(iter->second);
+				iter = m_mapObject.erase(iter);
+			}
+			else
+			{
+				dynamic_cast<CMonsterBase*>(iter->second)->Get_BackOriginPos();
+			}
+		}
+	}
 }
 
 void CLayer::Free(void)

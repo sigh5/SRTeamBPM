@@ -64,6 +64,7 @@ HRESULT CSphinxFlyHead::Ready_Object(float Posx, float Posy, float Size)
 	m_fTackleStopper = 0.05f;
 	m_fOriginTackleStopper = m_fTackleStopper;
 
+	m_iMonsterIndex = MONSTER_FLY_HEAD;
 	m_fRearrangementDelay = 1.f;
 
 	if (Posx == 0 && Posy == 0) {}
@@ -78,6 +79,14 @@ HRESULT CSphinxFlyHead::Ready_Object(float Posx, float Posy, float Size)
 
 _int CSphinxFlyHead::Update_Object(const _float & fTimeDelta)
 {
+	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
+	if (Distance_Over())
+	{
+		Engine::CMonsterBase::Update_Object(fTimeDelta);
+		Add_RenderGroup(RENDER_ALPHA, this);
+
+		return 0;
+	}
 	if(false == m_bBattle)
 	HeadActive(fTimeDelta);
 	if (Dead_Judge(fTimeDelta))
@@ -88,7 +97,6 @@ _int CSphinxFlyHead::Update_Object(const _float & fTimeDelta)
 	m_fTimeDelta = fTimeDelta;
 
 	AttackJudge(fTimeDelta);
-	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 
 	if(m_bBattle)
 	BattleLoop(fTimeDelta);

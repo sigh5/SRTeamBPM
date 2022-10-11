@@ -31,7 +31,7 @@ HRESULT CSpider::Ready_Object(int Posx, int Posy)
 
 	m_pDeadTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Spider_Dead_Texture", m_mapComponent, ID_STATIC);
 
-	m_iMonsterIndex = 2;
+	m_iMonsterIndex = MONSTER_SPIDER;
 	m_fAttackDelay = 0.3f;
 	m_pInfoCom->Ready_CharacterInfo(1, 10, 8.f);
 	m_pAnimationCom->Ready_Animation(4, 1, 0.07f);
@@ -43,7 +43,7 @@ HRESULT CSpider::Ready_Object(int Posx, int Posy)
 	{
 		m_pDynamicTransCom->Set_Pos((_float)Posx, m_pDynamicTransCom->m_vScale.y * 0.5f, (_float)Posy);
 	}
-	m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, 0.1f);
+	Save_OriginPos();
 	return S_OK;
 }
 bool	CSpider::Dead_Judge(const _float& fTimeDelta)
@@ -64,21 +64,18 @@ bool	CSpider::Dead_Judge(const _float& fTimeDelta)
 	{
 		return false;
 	}
-
-
-
-
 }
 _int CSpider::Update_Object(const _float & fTimeDelta)
 {
-	if (m_bResetCheck)
-	{
-		m_pInfoCom->Ready_CharacterInfo(1, 10, 8.f);
-		m_bResetCheck = false;
-		m_bDead = false;
-	}
-
 	//쿨타임 루프
+	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
+	if (Distance_Over())
+	{
+		Engine::CMonsterBase::Update_Object(fTimeDelta);
+		Add_RenderGroup(RENDER_ALPHA, this);
+
+		return 0;
+	}
 	if (Dead_Judge(fTimeDelta))
 	{
 		return 0;
@@ -88,7 +85,6 @@ _int CSpider::Update_Object(const _float & fTimeDelta)
 	Hit_Delay_toZero();
 
 	AttackJudge(fTimeDelta);
-	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 
 	if (m_bHit == false)
 	{

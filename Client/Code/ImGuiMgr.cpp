@@ -636,6 +636,32 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 
 	}
 
+	/*if (ImGui::Button("Load_All"))
+	{
+
+		CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev,
+			pScene,
+			L"MapCubeLayer",
+			L"../../Data/",
+			L"Stage1Map_bih.dat",
+			L"TestCube3",
+			OBJ_CUBE);
+
+
+		CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev,
+			pScene,
+			L"MapCubeLayer",
+			L"../../Data/",
+			L"Stage1MapBJW.dat",
+			L"TestCube3",
+			OBJ_CUBE);
+
+
+
+
+	}*/
+	
+
 	if (ImGui::CollapsingHeader("Cube Create & Chose Button", ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		if (ImGui::Button("Create"))
@@ -820,6 +846,29 @@ void CImGuiMgr::TerrainTool(LPDIRECT3DDEVICE9 pGrahicDev, CCamera* pCam, CScene*
 			L"StageRoom",
 			OBJ_ROOM);
 	}
+
+	//if (ImGui::Button("LoadAll"))
+	//{
+	//	CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev,
+	//		pScene,
+	//		L"TerrainLayer",
+	//		L"../../Data/",
+	//		L"Stage1PJW.dat",
+	//		L"StageRoom",
+	//		OBJ_ROOM);
+
+	//	CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev,
+	//		pScene,
+	//		L"TerrainLayer",
+	//		L"../../Data/",
+	//		L"Stage1BIH.dat",
+	//		L"StageRoom",
+	//		OBJ_ROOM);
+
+	//}
+
+
+
 
 	if (ImGui::CollapsingHeader("Tile Count", ImGuiTreeNodeFlags_DefaultOpen))
 	{

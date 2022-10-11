@@ -39,14 +39,14 @@ HRESULT CAnubis::Ready_Object(float Posx, float Posy)
 	m_pAttackTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Anubis_Attack_Texture", m_mapComponent, ID_STATIC);
 	m_pDeadTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Anubis_Dead_Texture", m_mapComponent, ID_STATIC);
 
-	m_iMonsterIndex = 0;
+	m_iMonsterIndex = MONSTER_ANUBIS;
 	m_fAttackDelay = 0.5f;
 
 	_vec3	vScale = { 2.f,2.f,2.f };
 
 	m_pDynamicTransCom->Set_Scale(&vScale);
 
-	
+
 	m_pInfoCom->Ready_CharacterInfo(5, 10, 5.f);
 	m_pAnimationCom->Ready_Animation(6, 1, 0.2f);
 	m_iPreHp = (m_pInfoCom->Get_InfoRef()._iHp);
@@ -57,9 +57,7 @@ HRESULT CAnubis::Ready_Object(float Posx, float Posy)
 	{
 		m_pDynamicTransCom->Set_Pos((float)Posx, 2.f, (float)Posy);
 	}
-
-	m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, 0.1f);
-	m_pDynamicTransCom->Update_Component(.1f);
+	Save_OriginPos();
 	return S_OK;
 }
 
@@ -86,7 +84,14 @@ bool	CAnubis::Dead_Judge(const _float& fTimeDelta)
 
 _int CAnubis::Update_Object(const _float & fTimeDelta)
 {
+	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
+	if (Distance_Over())
+	{
+		Engine::CMonsterBase::Update_Object(fTimeDelta);
+		Add_RenderGroup(RENDER_ALPHA, this);
 
+		return 0;
+	}
 
 	if (Dead_Judge(fTimeDelta))
 	{
@@ -98,9 +103,7 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 	Hit_Delay_toZero();
 
 	AttackJudge(fTimeDelta);
-	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 
-	
 
 
 	if (m_bHit == false)
