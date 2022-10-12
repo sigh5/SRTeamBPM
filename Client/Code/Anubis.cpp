@@ -121,11 +121,11 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 
 	Excution_Event();
 
-/*
+
 	for (auto iter = m_AnubisThunderlist.begin(); iter != m_AnubisThunderlist.end(); ++iter)
 	{
 		(*iter)->Update_Object(fTimeDelta);
-	}*/
+	}
 
 	Engine::CMonsterBase::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
@@ -335,8 +335,8 @@ void CAnubis::Attack(const _float& fTimeDelta)
 		CAnubisThunder* pThunder;
 		pThunder = CAnubisThunder::Create(m_pGraphicDev, AnubisInfo.x, AnubisInfo.z);
 		// 플레이어 방향으로 발사
-		_vec3 DirForPlayer = m_bOldPlayerPos - AnubisInfo;
-		pThunder->Set_Direction(&DirForPlayer);
+		//_vec3 DirForPlayer = m_bOldPlayerPos - AnubisInfo;
+		//pThunder->Set_Direction(&DirForPlayer);
 		m_AnubisThunderlist.push_back(pThunder);
 
 	}
@@ -363,9 +363,9 @@ CAnubis * CAnubis::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)
 void CAnubis::Free(void)
 {
 	CMonsterBase::Free();
-	//for (auto iter : m_AnubisThunderlist)
-	//{
-	//	Safe_Release(iter);
-	//}
-	//m_AnubisThunderlist.clear();
+	for (auto iter : m_AnubisThunderlist)
+	{
+		Safe_Release(iter);
+	}
+	m_AnubisThunderlist.clear();
 }

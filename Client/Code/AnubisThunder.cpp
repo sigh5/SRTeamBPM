@@ -15,7 +15,7 @@ CAnubisThunder::~CAnubisThunder()
 {
 }
 
-HRESULT CAnubisThunder::Ready_Object(int Posx, int Posy)
+HRESULT CAnubisThunder::Ready_Object(_float Posx, _float Posy)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
@@ -177,7 +177,7 @@ HRESULT			CAnubisThunder::Add_Component(void)
 	return S_OK;
 }
 
-CAnubisThunder * CAnubisThunder::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)
+CAnubisThunder * CAnubisThunder::Create(LPDIRECT3DDEVICE9 pGraphicDev, _float Posx, _float Posy)
 {
 	CAnubisThunder*	pInstance = new CAnubisThunder(pGraphicDev);
 

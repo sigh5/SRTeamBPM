@@ -15,7 +15,7 @@ private:
 	virtual ~CAnubisThunder();
 
 public:
-	virtual HRESULT		Ready_Object(int Posx, int Posy);
+	virtual HRESULT		Ready_Object(_float Posx, _float Posy);
 	virtual _int		Update_Object(const _float& fTimeDelta) override;
 	virtual void		LateUpdate_Object(void) override;
 	virtual void		Render_Obejct(void) override;
@@ -26,7 +26,7 @@ private:
 	HRESULT				Add_Component(void);
 
 public:
-	static CAnubisThunder*		Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx = 0, int Posy = 0);
+	static CAnubisThunder*		Create(LPDIRECT3DDEVICE9 pGraphicDev, _float Posx = 0, _float Posy = 0);
 	virtual void	Free(void);
 
 private:
