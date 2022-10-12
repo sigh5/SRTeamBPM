@@ -209,7 +209,7 @@ void CObelisk::Attack(const _float & fTimeDelta)
 	CGhul* pGameObject = nullptr;
 	vPos.x += 1 + rand() % 4;
 	vPos.z += 1 + rand() % 4;
-	pGameObject = CGhul::Create(m_pGraphicDev, (_float)vPos.x, (_float)vPos.z);
+	pGameObject = CGhul::Create(m_pGraphicDev, (_int)vPos.x, (_int)vPos.z);
 
 	pMyLayer->Add_GhulList(pGameObject);
 

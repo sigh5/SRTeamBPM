@@ -156,6 +156,13 @@ _uint CLoading::Loading_ForStage(void)
 	// Obstacle Anim
 
 
+	// Effect
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_hitbloodTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Effect/hitblood_%d.png", TEX_NORMAL, 8)), E_FAIL);
+	//
+
+
+
+
 	m_bFinish = true;
 
 	lstrcpy(m_szLoading, L"Press Start Button");

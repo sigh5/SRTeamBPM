@@ -8,6 +8,7 @@
 #include "TerrainTex.h"
 #include "CubeTex.h"
 #include "SphereTex.h"
+#include "ThunderTex.h"
 
 
 #include "Transform.h"
@@ -23,7 +24,9 @@
 #include "ItemBase.h"
 #include "UI_Base.h"
 #include "EquipmentBase.h"
-#include "ThunderTex.h"
+#include "Base_Effect.h"
+
+
 
 
 #include "PSystem.h"

@@ -1,6 +1,6 @@
 #pragma once
 #include "GameObject.h"
-
+#include "Base_Effect.h"
 
 namespace Engine
 {

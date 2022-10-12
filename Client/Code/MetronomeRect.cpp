@@ -40,7 +40,7 @@ _int CMetronomeRect::Update_Object(const _float & fTimeDelta)
 	m_pOrthoTransCom->OrthoMatrix(m_fSizeX, m_fSizeY, m_fMoveX, m_fMoveY, WINCX, WINCY);
 
 	
-	m_iAlpha += fTimeDelta * 10.f;
+	m_iAlpha += (_int)(fTimeDelta * 10.f);
 
 	if (m_iAlpha > 255)
 		m_iAlpha = 255;
