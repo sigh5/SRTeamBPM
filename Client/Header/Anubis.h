@@ -5,7 +5,7 @@ BEGIN(Engine)
 class CCollider;
 
 END
-
+class CAnubisThunder;
 
 class CAnubis :public CMonsterBase
 {

@@ -36,12 +36,14 @@ HRESULT CAnubisThunder::Ready_Object(int Posx, int Posy)
 _int CAnubisThunder::Update_Object(const _float & fTimeDelta)
 {
 	m_pAnimationCom->Move_Animation(fTimeDelta);
-	Engine::CGameObject::Update_Object(fTimeDelta);
 
+	LateUpdate_Object();
 	Render_Obejct();
 
-	Add_RenderGroup(RENDER_ALPHA, this);
 	m_pTransformCom->Update_Component(fTimeDelta);
+	Engine::CGameObject::Update_Object(fTimeDelta);
+	Add_RenderGroup(RENDER_ALPHA, this);
+
 	return 0;
 }
 
@@ -84,7 +86,7 @@ void CAnubisThunder::Render_Obejct(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrixPointer());
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0x40);
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0x10);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
@@ -167,7 +169,7 @@ void				CAnubisThunder::Set_Direction(_vec3* _Dirvec)
 HRESULT			CAnubisThunder::Add_Component(void)
 {
 	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Anubis_Thunder_Texture", m_mapComponent, ID_STATIC);
-	
+	m_pAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_STATIC);
 	//m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
 	m_pBufferCom = CAbstractFactory<CThunderTex>::Clone_Proto_Component(L"Proto_ThunderTexCom", m_mapComponent, ID_STATIC);
 	m_pTransformCom = CAbstractFactory<CTransform>::Clone_Proto_Component(L"Proto_TransformCom", m_mapComponent, ID_STATIC);
