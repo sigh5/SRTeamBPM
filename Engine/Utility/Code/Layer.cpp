@@ -200,7 +200,7 @@ void		CLayer::Reset_Monster()
 	{
 		if (nullptr != dynamic_cast<CMonsterBase*>(iter->second))
 		{
-			if (MONSTER_GHUL == dynamic_cast<CMonsterBase*>(iter->second)->Get_MonsterType())
+			if (MONSTER_FLY_HEAD == dynamic_cast<CMonsterBase*>(iter->second)->Get_MonsterType())
 			{
 				Safe_Release(iter->second);
 				iter = m_mapObject.erase(iter);
