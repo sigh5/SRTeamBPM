@@ -10,6 +10,7 @@
 #include "ObjectMgr.h"
 #include "MyCamera.h"
 #include "Gun_Screen.h"
+#include "ObeliskSpawnEffect.h"
 
 CObelisk::CObelisk(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -22,7 +23,7 @@ CObelisk::~CObelisk()
 {
 }
 
-HRESULT CObelisk::Ready_Object(int Posx, int Posy)
+HRESULT CObelisk::Ready_Object(float Posx, float Posy)
 {
 	Add_Component();
 
@@ -37,12 +38,13 @@ HRESULT CObelisk::Ready_Object(int Posx, int Posy)
 
 	m_fAttackDelay = 5.f;
 
+	
+	m_pDynamicTransCom->Set_Scale(&_vec3(2.f, 6.f, 2.f));
 	if (Posx == 0 && Posy == 0) {}
 	else
 	{
-		m_pDynamicTransCom->Set_Pos( (float)Posx, 2.f, (float)Posy );
+		m_pDynamicTransCom->Set_Pos((float)Posx, m_pDynamicTransCom->m_vScale.y * 0.5f, (float)Posy);
 	}
-	m_pDynamicTransCom->Set_Scale(&_vec3(1.f, 4.f, 1.f));
 	m_pDynamicTransCom->Update_Component(1.f);
 	Save_OriginPos();
 	return S_OK;
@@ -50,6 +52,7 @@ HRESULT CObelisk::Ready_Object(int Posx, int Posy)
 
 _int CObelisk::Update_Object(const _float & fTimeDelta)
 {
+	m_pDynamicTransCom->Set_Y(m_pDynamicTransCom->m_vScale.y * 0.5f);
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 	if (Distance_Over())
 	{
@@ -73,6 +76,7 @@ _int CObelisk::Update_Object(const _float & fTimeDelta)
 		Hit_Loop(fTimeDelta);
 		m_iPreHp = m_pInfoCom->Get_Hp();
 	}
+	m_pDynamicTransCom->Update_Component(fTimeDelta);
 	Engine::CMonsterBase::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
 
@@ -209,9 +213,14 @@ void CObelisk::Attack(const _float & fTimeDelta)
 	CGhul* pGameObject = nullptr;
 	vPos.x += 1 + rand() % 4;
 	vPos.z += 1 + rand() % 4;
-	pGameObject = CGhul::Create(m_pGraphicDev, (_int)vPos.x, (_int)vPos.z);
+	pGameObject = CGhul::Create(m_pGraphicDev, vPos.x, vPos.z);
 
 	pMyLayer->Add_GhulList(pGameObject);
+
+	CObeliskSpawnEffect*	pEffect = nullptr;
+	pEffect = CObeliskSpawnEffect::Create(m_pGraphicDev, vPos);
+
+	pMyLayer->Add_EffectList(pEffect);
 
 	m_bAttack = false;
 }
@@ -251,7 +260,7 @@ void CObelisk::Hit_Loop(const _float & fTimeDelta)
 	m_pDynamicTransCom->Update_Component(fTimeDelta);
 }
 
-CObelisk * CObelisk::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)
+CObelisk * CObelisk::Create(LPDIRECT3DDEVICE9 pGraphicDev, float Posx, float Posy)
 {
 	CObelisk*	pInstance = new CObelisk(pGraphicDev);
 

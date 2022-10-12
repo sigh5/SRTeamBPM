@@ -1,5 +1,6 @@
 #pragma once
 #include "MonsterBase.h"
+class CEarthSpike;
 class CEarthShaker :
 	public CMonsterBase
 {
@@ -8,7 +9,7 @@ private:
 	virtual ~CEarthShaker();
 
 public:
-	virtual HRESULT		Ready_Object(float Posx, float Posy, float Size);
+	virtual HRESULT		Ready_Object(float Posx, float Posy);
 	virtual _int		Update_Object(const _float& fTimeDelta) override;
 	virtual void		LateUpdate_Object(void) override;
 	virtual void		Render_Obejct(void) override;
@@ -21,7 +22,7 @@ private:
 	void		Attack(const _float& fTimeDelta);
 
 public:
-	static CEarthShaker*		Create(LPDIRECT3DDEVICE9 pGraphicDev, float Posx = 0, float Posy = 0, float Size = 0);
+	static CEarthShaker*		Create(LPDIRECT3DDEVICE9 pGraphicDev, float Posx = 0, float Posy = 0);
 	virtual void	Free(void);
 
 private:
@@ -37,5 +38,14 @@ private:
 	int			m_iDefenseless = 0;
 	bool		m_bReady_Attack = false;
 	bool		m_bAttackWaiting = false;
+
+	bool		m_bSpikeCreate = false;
+
+	list<CEarthSpike*>	m_Spikelist;
+	float		m_fInterval = 0.f;
+	//float		m_fOriginInterval = 0.f;
+	float		m_fWaitingTime = 0.f;
+	//float		m_fOriginwaiting = 0.f;
+	bool		m_bSpikeType = false;
 };
 

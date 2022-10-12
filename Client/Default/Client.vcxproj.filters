@@ -271,6 +271,9 @@
     <ClCompile Include="..\Code\SkillEffct.cpp">
       <Filter>02. GameObject\01. For_Stage\07. Effect\Skill_Effect</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\AnubisStormBall.cpp" />
+    <ClCompile Include="..\Code\ObeliskSpawnEffect.cpp" />
+    <ClCompile Include="..\Code\EarthSpike.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -559,6 +562,9 @@
     <ClInclude Include="..\Header\SkillEffct.h">
       <Filter>02. GameObject\01. For_Stage\07. Effect\Skill_Effect</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\AnubisStormBall.h" />
+    <ClInclude Include="..\Header\ObeliskSpawnEffect.h" />
+    <ClInclude Include="..\Header\EarthSpike.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">

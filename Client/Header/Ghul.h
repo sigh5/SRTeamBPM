@@ -8,7 +8,7 @@ private:
 	virtual ~CGhul();
 
 public:
-	virtual HRESULT		Ready_Object(int Posx, int Posy);
+	virtual HRESULT		Ready_Object(float Posx, float Posy);
 	virtual _int		Update_Object(const _float& fTimeDelta) override;
 	virtual void		LateUpdate_Object(void) override;
 	virtual void		Render_Obejct(void) override;
@@ -26,7 +26,7 @@ public:
 	void DigOut(const _float& fTimeDelta);
 
 public:
-	static CGhul*		Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx = 0, int Posy = 0);
+	static CGhul*		Create(LPDIRECT3DDEVICE9 pGraphicDev, float Posx = 0, float Posy = 0);
 	virtual void		Free(void);
 
 private:

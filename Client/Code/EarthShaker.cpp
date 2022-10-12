@@ -4,6 +4,10 @@
 #include "Export_Function.h"
 #include "AbstractFactory.h"
 #include "MyCamera.h"
+#include "EarthSpike.h"
+#include "HitEffect.h"
+#include "Player.h"
+#include "Gun_Screen.h"
 
 CEarthShaker::CEarthShaker(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -15,7 +19,7 @@ CEarthShaker::~CEarthShaker()
 {
 }
 
-HRESULT CEarthShaker::Ready_Object(float Posx, float Posy, float Size)
+HRESULT CEarthShaker::Ready_Object(float Posx, float Posy)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
@@ -39,31 +43,41 @@ HRESULT CEarthShaker::Ready_Object(float Posx, float Posy, float Size)
 	m_fAttackDelay = 0.3f;
 	m_bDead = false;
 	m_fHitDelay = 0.f;
+	m_fInterval = 1.9f;
 
-	
-	if (Size != 0)
-	{
-		m_pDynamicTransCom->Set_Scale(&_vec3(Size, Size, Size));
-	}
-	else
-	{
-		m_pDynamicTransCom->Set_Scale(&_vec3(1.f, 1.f, 1.f));
-	}
+	m_fWaitingTime = 0.35f;
+
+	m_pDynamicTransCom->Set_Scale(&_vec3(6.f, 7.f, 6.f));
+
 	if (Posx == 0 && Posy == 0) {}
 	else
 	{
-		m_pDynamicTransCom->Set_Pos((_float)Posx, 1.f, (_float)Posy);
+		m_pDynamicTransCom->Set_Pos((_float)Posx, m_pDynamicTransCom->m_vScale.y * 0.5f, (_float)Posy);
 	}
-	
-	m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, 0.1f);// 임시
-	m_pDynamicTransCom->Update_Component(1.f);
 	Save_OriginPos();
+	m_pDynamicTransCom->Update_Component(1.f);
+
 	return S_OK;
 }
 
 _int CEarthShaker::Update_Object(const _float & fTimeDelta)
 {
 
+	for (auto iter = m_Spikelist.begin(); iter != m_Spikelist.end();)
+	{
+		_int iResult = 0;
+		iResult = (*iter)->Update_Object(fTimeDelta);
+		if (iResult == 1)
+		{
+			Safe_Release((*iter));
+			iter = m_Spikelist.erase(iter);
+		}
+		else
+		{
+			++iter;
+		}
+	}
+	m_pDynamicTransCom->Set_Y(m_pDynamicTransCom->m_vScale.y * 0.5f);
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 	if (Distance_Over())
 	{
@@ -72,7 +86,7 @@ _int CEarthShaker::Update_Object(const _float & fTimeDelta)
 
 		return 0;
 	}
-	if (Dead_Judge(fTimeDelta)) //깡통
+	if (Dead_Judge(fTimeDelta))
 	{
 		return 0;
 	}
@@ -90,11 +104,10 @@ _int CEarthShaker::Update_Object(const _float & fTimeDelta)
 	{
 		Hit_Loop(fTimeDelta);
 	}
-	// 임시로 추가한 y값
-	m_pDynamicTransCom->Set_Y(3.f);
-	
-	Excution_Event();
 
+
+	Excution_Event();
+	m_pDynamicTransCom->Update_Component(fTimeDelta);
 	Engine::CMonsterBase::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
 
@@ -171,6 +184,29 @@ void CEarthShaker::Render_Obejct(void)
 
 void CEarthShaker::Collision_Event()
 {
+	CScene  *pScene = ::Get_Scene();
+	NULL_CHECK_RETURN(pScene, );
+	CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+	NULL_CHECK_RETURN(pLayer, );
+	CGameObject *pGameObject = nullptr;
+	pGameObject = static_cast<CGun_Screen*>(::Get_GameObject(L"Layer_UI", L"Gun"));
+	_vec3	vPos;
+	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+
+	_vec3 PickPos;
+
+	if (static_cast<CGun_Screen*>(pGameObject)->Get_Shoot() == true &&
+		fMtoPDistance < MAX_CROSSROAD &&
+		m_pColliderCom->Check_Lay_InterSect(m_pBufferCom, m_pDynamicTransCom, g_hWnd))
+	{
+		m_bHit = true;
+		static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"))->Set_ComboCount(1);
+		m_pInfoCom->Receive_Damage(1);
+		cout << "FatBat" << m_pInfoCom->Get_InfoRef()._iHp << endl;
+		READY_CREATE_EFFECT_VECTOR(pGameObject, CHitEffect, pLayer, m_pGraphicDev, vPos);
+		static_cast<CHitEffect*>(pGameObject)->Set_Effect_INFO(OWNER_EARTHSHAKER, 0, 8, 0.2f);
+	}
+
 }
 
 bool CEarthShaker::Dead_Judge(const _float & fTimeDelta)
@@ -225,6 +261,7 @@ void		CEarthShaker::Attack(const _float& fTimeDelta)
 		{
 			m_pAttackAnimationCom->m_iMotion = 0;
 			--m_iReadyAttackNumber;
+			++m_iAttacknumber;
 		}
 		if (m_iReadyAttackNumber == 0)
 		{
@@ -235,14 +272,38 @@ void		CEarthShaker::Attack(const _float& fTimeDelta)
 			}
 		}
 	}
-	if (m_pAttackAnimationCom->m_iMotion == 5)
+	if (m_pAttackAnimationCom->m_iMotion == 4)
 	{
+		if (false == m_bSpikeCreate)
+		{
+			_vec3 ShakerPos, vDir;
+			m_pDynamicTransCom->Get_Info(INFO_POS, &ShakerPos);
+			vDir = m_vPlayerPos - ShakerPos;
+			D3DXVec3Normalize(&vDir, &vDir);
+
+			CEarthSpike* pSpike;
+			for (int i = 1; i < 12; ++i)
+			{
+				pSpike = CEarthSpike::Create(m_pGraphicDev, m_fWaitingTime * i, ShakerPos.x + vDir.x * m_fInterval * i, ShakerPos.z + vDir.z * m_fInterval * i, m_bSpikeType);
+				m_Spikelist.push_back(pSpike);
+				if (m_bSpikeType)
+				{
+					m_bSpikeType = false;
+				}
+				else
+				{
+					m_bSpikeType = true;
+				}
+			}
+			m_bSpikeCreate = true;
+			--m_iAttacknumber;
+		}
 		//땅을 찍는 순간 플레이어의 점프 상태를 검사
 
 		if (0 < m_iAttacknumber)
 		{
 			m_pAttackAnimationCom->m_iMotion = 2;
-			--m_iAttacknumber;
+			m_bSpikeCreate = false;
 		}
 	}
 	if (m_pAttackAnimationCom->m_iMotion == 7)
@@ -258,6 +319,8 @@ void		CEarthShaker::Attack(const _float& fTimeDelta)
 		m_bAttack = false;
 		m_bReady_Attack = false;
 		m_bAttackWaiting = false;
+		m_iAttacknumber = 0;
+		m_iReadyAttackNumber = 0;
 	}
 
 	//팔을 치켜 올린 만큼 공격
@@ -269,18 +332,17 @@ void	CEarthShaker::Ready_Attack(const _float& fTimeDelta)
 	if (m_bReady_Attack == false)
 	{
 		m_bReady_Attack = true;
-		m_iAttacknumber = 1 + rand() % 3;
-		m_iReadyAttackNumber = m_iAttacknumber - 1;
+		m_iReadyAttackNumber = 1 + rand() % 3;
+
 		m_iDefenseless = m_iReadyAttackNumber;
 	}
 }
 void CEarthShaker::NoHit_Loop(const _float& fTimeDelta)
 {
 	// 거리
-	if (20.f >  fMtoPDistance  && fMtoPDistance > 10.f && m_bAttacking == false)
+	if (20.f <  fMtoPDistance && m_bAttacking == false)
 	{
 		m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
-		m_pDynamicTransCom->Set_Y(3.f);	// 임시 추가
 
 		m_pAnimationCom->Move_Animation(fTimeDelta);
 	}
@@ -297,12 +359,12 @@ void CEarthShaker::NoHit_Loop(const _float& fTimeDelta)
 	}
 }
 
-CEarthShaker * CEarthShaker::Create(LPDIRECT3DDEVICE9 pGraphicDev, float Posx, float Posy, float Size)
+CEarthShaker * CEarthShaker::Create(LPDIRECT3DDEVICE9 pGraphicDev, float Posx, float Posy)
 {
 	CEarthShaker*	pInstance = new CEarthShaker(pGraphicDev);
 
 
-	if (FAILED(pInstance->Ready_Object(Posx, Posy, Size)))
+	if (FAILED(pInstance->Ready_Object(Posx, Posy)))
 	{
 		Safe_Release(pInstance);
 		return nullptr;
@@ -314,4 +376,9 @@ CEarthShaker * CEarthShaker::Create(LPDIRECT3DDEVICE9 pGraphicDev, float Posx, f
 void CEarthShaker::Free(void)
 {
 	CMonsterBase::Free();
+	for (auto& iter : m_Spikelist)
+	{
+		Safe_Release(iter);
+	}
+	m_Spikelist.clear();
 }

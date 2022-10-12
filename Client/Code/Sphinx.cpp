@@ -11,6 +11,7 @@
 #include "SphinxBody.h"
 #include "SphinxFlyHead.h"
 #include "Obelisk.h"
+#include "HitEffect.h"
 
 CSphinx::CSphinx(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -145,6 +146,8 @@ void		CSphinx::Collision_Event()
 	CGameObject *pGameObject = nullptr;
 	pGameObject = static_cast<CGun_Screen*>(::Get_GameObject(L"Layer_UI", L"Gun"));
 
+	_vec3	vPos;
+	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
 
 	if (static_cast<CGun_Screen*>(pGameObject)->Get_Shoot() &&
 		fMtoPDistance < MAX_CROSSROAD &&
@@ -156,6 +159,9 @@ void		CSphinx::Collision_Event()
 		m_pInfoCom->Receive_Damage(1);
 		cout << "Sphinx" << m_pInfoCom->Get_InfoRef()._iHp << endl;
 		static_cast<CGun_Screen*>(pGameObject)->Set_Shoot(false);
+		
+		READY_CREATE_EFFECT_VECTOR(pGameObject, CHitEffect, pLayer, m_pGraphicDev, vPos);
+		static_cast<CHitEffect*>(pGameObject)->Set_Effect_INFO(OWNER_SPHINX, 0, 1, 50000);
 	}
 
 }
@@ -314,6 +320,11 @@ void		CSphinx::Get_ObeliskState()
 		{
 			++m_iDeadObelisk;
 		}
+		if (static_cast<CObelisk*>((*iter))->Get_Hit())
+		{
+			m_bBattle = true;
+		}
+
 	}
 	if (0 >= m_iAliveObelisk - m_iDeadObelisk)
 	{

@@ -23,7 +23,7 @@ CGhul::~CGhul()
 {
 }
 
-HRESULT CGhul::Ready_Object(int Posx, int Posy)
+HRESULT CGhul::Ready_Object(float Posx, float Posy)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
@@ -43,16 +43,16 @@ HRESULT CGhul::Ready_Object(int Posx, int Posy)
 	m_pDigoutAnimationCom->Ready_Animation(17, 0, 0.3f);
 	m_pAttackAnimationCom->Ready_Animation(13, 0, 0.2f);
 	m_pDeadAnimationCom->Ready_Animation(11, 0, 0.2f);
-	m_pInfoCom->Ready_CharacterInfo(5, 10, 1.f);
+	m_pInfoCom->Ready_CharacterInfo(5, 10, 1.5f);
 
 	m_iMonsterIndex = MONSTER_GHUL;
 	m_fHitDelay = 0.f;
 	m_fAttackDelay = 0.5f;
-
+	m_pDynamicTransCom->Set_Scale(&_vec3(4.f, 4.f, 4.f));
 	if (Posx == 0 && Posy == 0) {}
 	else
 	{
-		m_pDynamicTransCom->Set_Pos((float)Posx, 1.f, (float)Posy);
+		m_pDynamicTransCom->Set_Pos((float)Posx, m_pDynamicTransCom->m_vScale.y * 0.5f, (float)Posy);
 	}
 	m_pDynamicTransCom->Update_Component(1.f);
 	Save_OriginPos();
@@ -61,6 +61,7 @@ HRESULT CGhul::Ready_Object(int Posx, int Posy)
 
 _int CGhul::Update_Object(const _float & fTimeDelta)
 {
+	m_pDynamicTransCom->Set_Y(m_pDynamicTransCom->m_vScale.y * 0.5f);
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 	if (Distance_Over())
 	{
@@ -93,7 +94,7 @@ _int CGhul::Update_Object(const _float & fTimeDelta)
 	Excution_Event();
 
 
-
+	m_pDynamicTransCom->Update_Component(fTimeDelta);
 	Engine::CMonsterBase::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
 
@@ -117,7 +118,7 @@ void CGhul::LateUpdate_Object(void)
 		D3DXMatrixInverse(&matBill, 0, &matBill);
 
 		_matrix      matScale, matTrans;
-		D3DXMatrixScaling(&matScale, 2.f, 2.f, 2.f);
+		D3DXMatrixScaling(&matScale, m_pDynamicTransCom->m_vScale.x, m_pDynamicTransCom->m_vScale.y, m_pDynamicTransCom->m_vScale.z);
 
 		_matrix      matRot;
 		D3DXMatrixIdentity(&matRot);
@@ -233,7 +234,7 @@ bool CGhul::Dead_Judge(const _float & fTimeDelta)
 void CGhul::NoHit_Loop(const _float & fTimeDelta)
 {
 	if(m_bCanWalk)
-	if (15.f > fMtoPDistance &&   fMtoPDistance > 6.f && m_bAttacking == false)
+	if (6.f < fMtoPDistance  && m_bAttacking == false)
 	{
 		m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
 
@@ -301,14 +302,14 @@ void CGhul::Attack(const _float & fTimeDelta)
 
 	if (6 == m_pAttackAnimationCom->m_iMotion)
 	{
-		if (2.5f > Distance)
+		if (7.f > Distance)
 		{
 			pPlayerInfo->Receive_Damage(m_pInfoCom->Get_AttackPower());
 		}
 	}
 	if (9 == m_pAttackAnimationCom->m_iMotion)
 	{
-		if (2.5f > Distance)
+		if (7.f > Distance)
 		{
 			pPlayerInfo->Receive_Damage(m_pInfoCom->Get_AttackPower());
 		}
@@ -340,7 +341,7 @@ void CGhul::DigOut(const _float& fTimeDelta)
 	}
 }
 
-CGhul * CGhul::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)
+CGhul * CGhul::Create(LPDIRECT3DDEVICE9 pGraphicDev, float Posx, float Posy)
 {
 	CGhul*	pInstance = new CGhul(pGraphicDev);
 

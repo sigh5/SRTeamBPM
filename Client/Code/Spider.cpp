@@ -7,6 +7,7 @@
 #include "Player.h"
 
 #include "Gun_Screen.h"
+#include "HitEffect.h"
 
 CSpider::CSpider(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -33,11 +34,12 @@ HRESULT CSpider::Ready_Object(int Posx, int Posy)
 
 	m_iMonsterIndex = MONSTER_SPIDER;
 	m_fAttackDelay = 0.3f;
-	m_pInfoCom->Ready_CharacterInfo(1, 10, 8.f);
+	m_pInfoCom->Ready_CharacterInfo(1, 10, 7.f);
 	m_pAnimationCom->Ready_Animation(4, 1, 0.07f);
 	m_pDeadAnimationCom->Ready_Animation(13, 0, 0.2f);
 	m_pAttackAnimationCom->Ready_Animation(13, 0, 0.2f);
 	m_fHitDelay = 0.f;
+	m_pDynamicTransCom->Set_Scale(&_vec3(3.f, 3.f, 3.f));
 	if (Posx == 0 && Posy == 0) {}
 	else
 	{
@@ -68,9 +70,11 @@ bool	CSpider::Dead_Judge(const _float& fTimeDelta)
 _int CSpider::Update_Object(const _float & fTimeDelta)
 {
 	//쿨타임 루프
+	m_pDynamicTransCom->Set_Y(m_pDynamicTransCom->m_vScale.y * 0.5f);
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 	if (Distance_Over())
 	{
+		m_pAnimationCom->m_iMotion = 0;
 		Engine::CMonsterBase::Update_Object(fTimeDelta);
 		Add_RenderGroup(RENDER_ALPHA, this);
 
@@ -97,7 +101,7 @@ _int CSpider::Update_Object(const _float & fTimeDelta)
 
 	// 처형이벤트
 	Excution_Event();
-	
+	m_pDynamicTransCom->Update_Component(fTimeDelta);
 	Engine::CMonsterBase::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
 
@@ -183,7 +187,8 @@ void CSpider::Collision_Event()
 	NULL_CHECK_RETURN(pLayer, );
 	CGameObject *pGameObject = nullptr;
 	pGameObject = static_cast<CGun_Screen*>(::Get_GameObject(L"Layer_UI", L"Gun"));
-
+	_vec3	vPos;
+	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
 
 	if (static_cast<CGun_Screen*>(pGameObject)->Get_Shoot()&&
 		fMtoPDistance < MAX_CROSSROAD  &&
@@ -194,10 +199,10 @@ void CSpider::Collision_Event()
 		m_pInfoCom->Receive_Damage(1);
 		cout << "Spider "<<m_pInfoCom->Get_InfoRef()._iHp << endl;
 		static_cast<CGun_Screen*>(pGameObject)->Set_Shoot(false);
+	
+		READY_CREATE_EFFECT_VECTOR(pGameObject, CHitEffect, pLayer, m_pGraphicDev, vPos);
+		static_cast<CHitEffect*>(pGameObject)->Set_Effect_INFO(OWNER_SPIDER, 0, 8, 0.2f);
 	}
-
-
-
 }
 
 void CSpider::Excution_Event()
@@ -214,7 +219,7 @@ void		CSpider::Attack(const _float& fTimeDelta)
 	Get_MonsterToPlayer_Distance(&Distance);
 	if (6==m_pAttackAnimationCom->m_iMotion)
 	{
-		if (2.5f > Distance && m_bHitDamage)
+		if (7.f > Distance && m_bHitDamage)
 		{
 			pPlayerInfo->Receive_Damage(m_pInfoCom->Get_AttackPower());
 			m_bHitDamage = false;
@@ -223,7 +228,7 @@ void		CSpider::Attack(const _float& fTimeDelta)
 	
 	if (9 == m_pAttackAnimationCom->m_iMotion)
 	{
-		if (2.5f > Distance && m_bHitDamage)
+		if (7.f > Distance && m_bHitDamage)
 		{
 			pPlayerInfo->Receive_Damage(m_pInfoCom->Get_AttackPower());
 			m_bHitDamage = false;
@@ -264,12 +269,9 @@ void		CSpider::AttackJudge(const _float& fTimeDelta)
 void CSpider::NoHit_Loop(const _float& fTimeDelta)
 {
 	 // 일정 거리 이하면 추적을 안함 // 근데 공격모션 오류 있는거 수정부탁드립니다.
-	if (fMtoPDistance > 15.f)
-	{
-		m_pAnimationCom->Move_Animation(fTimeDelta);
-	}
 
-	else if (fMtoPDistance > 3.f && m_bAttacking == false)
+
+	if (fMtoPDistance > 5.5f && m_bAttacking == false)
 	{
 		m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
 

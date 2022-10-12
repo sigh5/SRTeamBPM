@@ -208,19 +208,19 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Sphinx", pGameObject), E_FAIL);
 
-	pGameObject = CEarthShaker::Create(m_pGraphicDev, 20, 20, 3.f);
+	pGameObject = CEarthShaker::Create(m_pGraphicDev, 20, 20);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Earth", pGameObject), E_FAIL);
 
-	pGameObject = CObelisk::Create(m_pGraphicDev, 20, 15);
+	/*pGameObject = CObelisk::Create(m_pGraphicDev, 20, 15);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Obelisk", pGameObject), E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Obelisk", pGameObject), E_FAIL);*/
 
 	pLayer->Add_ObeliskList(pGameObject); //오벨리스크 생성 시 리스트에도 추가해야 함
 
-	pGameObject = CGhul::Create(m_pGraphicDev, 20, 15);
+	/*pGameObject = CGhul::Create(m_pGraphicDev, 20, 15);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Ghul", pGameObject), E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Ghul", pGameObject), E_FAIL);*/
 
 
 	// Gun_Screen 테스트 용으로 넣어놨음 참고
@@ -228,9 +228,9 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"ShotGun", pGameObject), E_FAIL);
 
-	READY_LAYER_POS(pGameObject, CAnubis, pLayer, m_pGraphicDev, L"TestMonster1", 100, 100);
-	READY_LAYER_POS(pGameObject, CSpider, pLayer, m_pGraphicDev, L"TestMonster10", 130, 100);
-	READY_LAYER_POS(pGameObject, CSpider, pLayer, m_pGraphicDev, L"TestMonster11", 130, 100);
+	//READY_LAYER_POS(pGameObject, CAnubis, pLayer, m_pGraphicDev, L"TestMonster1", 30, 30);
+	//READY_LAYER_POS(pGameObject, CSpider, pLayer, m_pGraphicDev, L"TestMonster10", 40, 40);
+	//READY_LAYER_POS(pGameObject, CFatBat, pLayer, m_pGraphicDev, L"TestMonster11", 50, 50);
 
 	
 	//READY_LAYER(pGameObject, CAnubis, pLayer, m_pGraphicDev, L"TestMonster1");
