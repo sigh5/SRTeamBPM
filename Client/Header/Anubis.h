@@ -3,6 +3,7 @@
 
 BEGIN(Engine)
 class CCollider;
+
 END
 
 

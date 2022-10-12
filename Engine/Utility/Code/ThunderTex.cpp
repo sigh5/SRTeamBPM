@@ -4,12 +4,12 @@
 USING(Engine)
 
 CThunderTex::CThunderTex(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CVIBuffer(pGraphicDev), m_pPos(nullptr), m_bClone(false)
+	: CVIBuffer(pGraphicDev), m_vPos(nullptr), m_bClone(false)
 {
 }
 
 Engine::CThunderTex::CThunderTex(const CThunderTex& rhs)
-	: CVIBuffer(rhs), m_pPos(rhs.m_pPos), m_bClone(true)
+	: CVIBuffer(rhs), m_vPos(rhs.m_vPos), m_bClone(true)
 {
 
 }
@@ -21,7 +21,7 @@ CThunderTex::~CThunderTex()
 HRESULT CThunderTex::Ready_Buffer(void)
 {
 	m_dwVtxCnt = 80;
-	m_pPos = new _vec3[m_dwVtxCnt];
+	m_vPos = new _vec3[m_dwVtxCnt];
 	m_dwTriCnt = 40;
 	m_dwVtxSize = sizeof(VTXTEX);
 	m_dwFVF = FVF_TEX;
@@ -75,7 +75,7 @@ HRESULT CThunderTex::Ready_Buffer(void)
 	m_pVB->Unlock();
 	for (_ulong i = 0; i < m_dwVtxCnt; ++i)
 	{
-		m_pPos[i] = pVertex[i].vPos;
+		m_vPos[i] = pVertex[i].vPos;
 	}
 	INDEX16*		pIndex = nullptr;
 
@@ -143,6 +143,6 @@ void CThunderTex::Free(void)
 
 	if (false == m_bClone) // 원본 컴포넌트를 삭제할 때 메모리 해제
 	{
-		Safe_Delete_Array(m_pPos);
+		Safe_Delete_Array(m_vPos);
 	}
 }

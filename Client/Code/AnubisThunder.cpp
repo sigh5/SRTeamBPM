@@ -75,7 +75,7 @@ void CAnubisThunder::LateUpdate_Object(void)
 
 	D3DXMatrixIdentity(&matWorld);
 	matWorld = matScale* matRot * matBill * matTrans;
-	m_pDynamicTransCom->Set_WorldMatrix(&(matWorld));
+	m_pTransformCom->Set_WorldMatrix(&(matWorld));
 
 	Engine::CGameObject::LateUpdate_Object();
 }
@@ -91,7 +91,7 @@ void CAnubisThunder::Render_Obejct(void)
 	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-	m_pTextureCom->Set_Texture(0);
+	m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);
 
 	m_pBufferCom->Render_Buffer();
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);

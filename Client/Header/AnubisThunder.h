@@ -6,7 +6,7 @@ class CTexture;
 class CThunderTex;
 class CTransform;
 class CRcTex;
-
+class CAnimation;
 END
 class CAnubisThunder :public CGameObject
 {
