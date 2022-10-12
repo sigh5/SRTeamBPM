@@ -30,10 +30,10 @@ HRESULT CHpBar::Ready_Object(CGameObject * pPlayer)
 
 	Set_OrthoMatrix(300.f, 300.f, 0.f, 0.f);
 
-	m_vecScale = { m_fSizeX * 1.1f, m_fSizeY * 1.f, 1.f };
+	m_vecScale = { m_fSizeX * 0.85f, m_fSizeY * 1.f, 1.f };
 
 	m_pTransCom->Set_Scale(&m_vecScale);
-	m_pTransCom->Set_Pos(m_fX - 345.f, m_fY - 385.f, 0.1f);
+	m_pTransCom->Set_Pos(m_fX - 365.f, m_fY - 385.f, 0.1f);
 
 	m_pPlayer = pPlayer;
 

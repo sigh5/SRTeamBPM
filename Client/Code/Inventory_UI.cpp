@@ -7,6 +7,7 @@
 #include "ShotGun.h"
 #include "Magnum.h"
 
+#include "MyCamera.h"
 #include "Player.h"
 #include "Player_Dead_UI.h"
 
@@ -110,11 +111,9 @@ void CInventory_UI::Render_Obejct(void)
 			if (dynamic_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"))->Get_RenderFalse() == true)
 			{
 				dynamic_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"))->Set_RenderControl(true);
-
-				_uint iA = 0;
 			}
 		}
-
+		
 		::Key_InputReset();
 
 
@@ -134,7 +133,6 @@ void CInventory_UI::Find_Equip_Item(void)
 {
 		
 }
-
 
 HRESULT CInventory_UI::Add_Component(void)
 {
