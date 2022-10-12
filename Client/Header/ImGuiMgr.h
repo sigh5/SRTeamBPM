@@ -202,16 +202,21 @@ CGameObject* CImGuiMgr::SelectObject(CLayer* pLayer,wstring* currentObjectName)
 	{
 		if (dynamic_cast<T*>(iter->second)->Set_SelectGizmo())
 		{
-			m_pSelectedTransform = nullptr;
-			m_pSelectedObject = nullptr;
-			m_pSelectedTransform = dynamic_cast<CTransform*>(iter->second->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
-			m_pSelectedObject = dynamic_cast<T*>(iter->second);
-			m_CurrentSelectGameObjectObjKey = iter->first;
-			
-			*currentObjectName = iter->first;
+			if (dynamic_cast<CWallCube*>(iter->second)->Get_Option() == 2 || dynamic_cast<CWallCube*>(iter->second)->Get_Option() == 3) // Only Collsion
+			{
+				m_pSelectedTransform = nullptr;
+				m_pSelectedObject = nullptr;
+				m_pSelectedTransform = dynamic_cast<CTransform*>(iter->second->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+				m_pSelectedObject = dynamic_cast<T*>(iter->second);
+				m_CurrentSelectGameObjectObjKey = iter->first;
+
+				*currentObjectName = iter->first;
 
 
-			return m_pSelectedObject;
+				return m_pSelectedObject;
+			}
+
+		
 		}
 	}
 

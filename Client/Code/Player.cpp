@@ -60,10 +60,13 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 	
 	m_iOriginHP = m_pInfoCom->Get_Hp();
 
+	if (Get_DIKeyState(DIK_O) & 0X80)
+		Random_ResurrectionRoom();
+
 
 	if (m_pInfoCom->Get_Hp() <= 0)
 	{
-		Random_ResurrectionRoom();
+		//Random_ResurrectionRoom();
 		m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
 		
 		CScene* pScene = Get_Scene();

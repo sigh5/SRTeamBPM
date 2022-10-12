@@ -423,7 +423,7 @@ void CStage::Set_Player_StartCubePos()
 	_vec3 vFirstCubePos;
 	pFirstCubeTransform->Get_Info(INFO_POS, &vFirstCubePos);
 
-	pTransform->Set_Pos(vFirstCubePos.x, vFirstCubePos.y, vFirstCubePos.z + 5.f);
+	pTransform->Set_Pos(vFirstCubePos.x+5.f, vFirstCubePos.y, vFirstCubePos.z );
 	
 	pTransform->Update_Component(1.f);
 }

@@ -701,6 +701,8 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 			CLayer* MyLayer = pScene->GetLayer(L"MapCubeLayer");
 			(m_pWallCube) = dynamic_cast<CWallCube*>(SelectObject<CWallCube>(MyLayer, &m_CurrentObjectName));
 
+			
+
 		}
 
 		if (Get_DIKeyState(DIK_LCONTROL) & 0x80 && ImGui::IsMouseClicked(0))

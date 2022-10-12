@@ -111,11 +111,31 @@ void CTeleCube::Collision_Event()
 				return;
 
 			CTransform* sour = dynamic_cast<CTransform*>(pTeleCube->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
-			pLayer->m_iRestRoom++;
+			pLayer->m_iRestRoom++; 
 			_vec3 vPos;
 			sour->Get_Info(INFO_POS, &vPos);
 
-			pTransform->Set_Pos(vPos.x + 10.f, vPos.y, vPos.z + 10.f);
+			_vec3 vRight,vLook,vAngle;
+			m_pTransCom->Get_Info(INFO_RIGHT, &vRight);
+			m_pTransCom->Get_Info(INFO_LOOK, &vLook);
+			vAngle = m_pTransCom->Get_Angle();
+
+			D3DXVec3Normalize(&vRight, &vRight);
+			D3DXVec3Normalize(&vLook, &vLook);
+			
+			_matrix matWorld;
+
+			m_pTransCom->Get_WorldMatrix(&matWorld);
+
+			cout << "Start -> End " << vAngle.x << " " << vAngle.y << " " << vAngle.z << " " << endl;
+
+			
+			if (1.0f<vAngle.y && 1.5 > vAngle.y)
+				pTransform->Set_Pos(vPos.x - 5.f, vPos.y, vPos.z + 5.f);
+			else if(0.1f > vAngle.y && -0.1 < vAngle.y)
+				pTransform->Set_Pos(vPos.x + 5.f, vPos.y, vPos.z);
+			else 
+				pTransform->Set_Pos(vPos.x + 5.f, vPos.y, vPos.z);
 			pTransform->Update_Component(1.f);
 			//구울 정리하는 코드 삽입
 
@@ -147,11 +167,38 @@ void CTeleCube::Collision_Event()
 				pLayer->Save_CurrentRoom(this);
 
 			CTransform* sour = dynamic_cast<CTransform*>(temp[iRandomNum]->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
-
 			_vec3 vPos;
 			sour->Get_Info(INFO_POS, &vPos);
-			pTransform->Set_Pos(vPos.x + 5.f, vPos.y, vPos.z + 5.f);
+
+
+			_vec3 vAngle;
+			vAngle =sour->Get_Angle();
+
+			_matrix matWorld;
+
+			m_pTransCom->Get_WorldMatrix(&matWorld);
+
+			cout << "End -> Start " << vAngle.x << " " << vAngle.y << " " << vAngle.z << " " << endl;
+			
+
+			_vec3 vRight, vLook;
+			m_pTransCom->Get_Info(INFO_RIGHT, &vRight);
+			m_pTransCom->Get_Info(INFO_LOOK, &vLook);
+			vAngle = m_pTransCom->Get_Angle();
+			D3DXVec3Normalize(&vRight, &vRight);
+			D3DXVec3Normalize(&vLook, &vLook);
+			
+		
+			//vPos += (vRight)*5.f;
+			
+			if( 1.0f<vAngle.y && 1.5 > vAngle.y)
+				pTransform->Set_Pos(vPos.x-5.f , vPos.y, vPos.z+5.f);
+			else if (0.1f > vAngle.y && -0.1 < vAngle.y)
+				pTransform->Set_Pos(vPos.x + 5.f, vPos.y, vPos.z - 5.f);
+			else
+				pTransform->Set_Pos(vPos.x + 5.f, vPos.y, vPos.z);
 			pTransform->Update_Component(1.f);
+			
 			return;
 
 		}
