@@ -83,21 +83,21 @@ void CWallCube::Render_Obejct(void)
 
 	if (m_iOption == CUBE_COLLISION_WALL)
 	{
-		return;
-		/*	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
-			m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-			m_pTextureCom->Set_Texture(m_iTexIndex);
-			m_pBufferCom->Render_Buffer();
-			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pColliderCom->HitBoxWolrdmat());
-			m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-			m_pColliderCom->Render_Buffer();
-			m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-			m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+		
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
+		m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+		m_pTextureCom->Set_Texture(m_iTexIndex);
+		m_pBufferCom->Render_Buffer();
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pColliderCom->HitBoxWolrdmat());
+		m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+		m_pColliderCom->Render_Buffer();
+		m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+		m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 
-			_vec3 vPos, vScale;
-			m_pTransCom->Get_Info(INFO_POS, &vPos);
-			cout << vPos.x << " " << vPos.y << " " << vPos.z << endl;
-			return;*/
+		/*_vec3 vPos, vScale;
+		m_pTransCom->Get_Info(INFO_POS, &vPos);
+		cout << vPos.x << " " << vPos.y << " " << vPos.z << endl;
+		return; */
 
 	}
 
@@ -173,9 +173,8 @@ void CWallCube::Collision_Event()
 		//CCollider* pColider = static_cast<CCollider*>(pGameObject->Get_Component(L"Proto_ColliderCom", ID_STATIC));
 
 		if (m_pColliderCom->Check_Collsion_CubeAABB(m_pColliderCom, pGameObject))
-		{ 
+			_bool b = false;
 		
-		}
 	}
 
 
