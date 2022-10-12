@@ -136,6 +136,23 @@ _int CLayer::Update_Layer(const _float & fTimeDelta)
 
 	}
 
+	for (auto iter = m_EffectList.begin(); iter != m_EffectList.end(); )
+	{
+		_int iResult = (*iter)->Update_Object(fTimeDelta);
+
+		if (iResult == OBJ_DEAD)
+		{
+			Safe_Release(*iter);
+			iter = m_EffectList.erase(iter);
+		}
+		else
+			iter++;
+
+	}
+
+
+
+
 
 	return iResult;
 }
@@ -145,6 +162,9 @@ void CLayer::LateUpdate_Layer(void)
 	for (auto& iter : m_mapObject)
 		iter.second->LateUpdate_Object();
 	for (auto& iter : m_objPoolList)
+		iter->LateUpdate_Object();
+
+	for (auto& iter : m_EffectList)
 		iter->LateUpdate_Object();
 
 }
@@ -208,8 +228,11 @@ void		CLayer::Reset_Monster()
 			else
 			{
 				dynamic_cast<CMonsterBase*>(iter->second)->Get_BackOriginPos();
+				iter++;
 			}
 		}
+		else
+			iter++;
 	}
 }
 
@@ -246,5 +269,10 @@ void CLayer::Free(void)
 	m_ObeliskList.clear();
 
 	
+
+	for (auto& iter : m_EffectList)
+		Safe_Release(iter);
+	m_EffectList.clear();
+
 
 }

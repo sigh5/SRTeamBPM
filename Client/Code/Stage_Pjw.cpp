@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "..\Header\Stage_Pjw.h"
 
-
 #include "Export_Function.h"
 #include "SkyBox.h"
 #include "Effect.h"

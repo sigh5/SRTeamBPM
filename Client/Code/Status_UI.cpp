@@ -52,7 +52,7 @@ _int CStatus_UI::Update_Object(const _float & fTimeDelta)
 
 void CStatus_UI::LateUpdate_Object(void)
 {							// 1번, 2번 인자는 Scale X, Y. Default로는 WINCX, WINCY 밖에 이미지가 존재하도록 늘리고 Tab키를 누르면 줄어들어서 화면에 보이도록
-	m_pTransCom->OrthoMatrix(2400.f, 800.f, 0.f, 0.f, WINCX, WINCY);
+	m_pTransCom->OrthoMatrix(3700.f, 1300.f, 0.f, 0.f, WINCX, WINCY);
 
 	if (Get_DIKeyState(DIK_TAB) & 0x80)
 	{
@@ -77,11 +77,11 @@ void CStatus_UI::Render_Obejct(void)
 		m_szPower = L"";
 		m_szPower += tBpower;
 
-		Render_Font(L"BMYEONSUNG", m_szPower.c_str(), &_vec2(574.f, 165.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+		Render_Font(L"BMYEONSUNG", m_szPower.c_str(), &_vec2(570.f, 174.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 
 		_tchar szBPname[128] = L"피해량";
 
-		Render_Font(L"DalseoHealingBold", szBPname, &_vec2(570.f, 132.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+		Render_Font(L"DalseoHealingBold", szBPname, &_vec2(563.f, 142.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 		// ~Player's Bullet Power
 
 		//cout << "플레이어 공격력 : " << m_iPlayerPower << endl;
@@ -92,11 +92,11 @@ void CStatus_UI::Render_Obejct(void)
 		m_szSkillPower = L"";
 		m_szSkillPower += tSpower;
 
-		Render_Font(L"BMYEONSUNG", m_szSkillPower.c_str(), &_vec2(585.f, 410.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+		Render_Font(L"BMYEONSUNG", m_szSkillPower.c_str(), &_vec2(578.f, 404.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 
 		_tchar szSPname[128] = L"능력";
 
-		Render_Font(L"DalseoHealingBold", szSPname, &_vec2(578.f, 370.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+		Render_Font(L"DalseoHealingBold", szSPname, &_vec2(570.f, 370.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 		// ~Player's Skill Power
 
 
@@ -106,11 +106,11 @@ void CStatus_UI::Render_Obejct(void)
 		m_szSPeed = L"";
 		m_szSPeed += tSspeed;
 
-		Render_Font(L"BMYEONSUNG", m_szSPeed.c_str(), &_vec2(196.f, 171.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+		Render_Font(L"BMYEONSUNG", m_szSPeed.c_str(), &_vec2(205.f, 176.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 
 		_tchar szSPeed[128] = L"이동속도";
 
-		Render_Font(L"DalseoHealingBold", szSPeed, &_vec2(175.f, 142.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+		Render_Font(L"DalseoHealingBold", szSPeed, &_vec2(182.f, 148.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 		// ~Player's Speed
 
 
@@ -118,7 +118,7 @@ void CStatus_UI::Render_Obejct(void)
 
 		_tchar szLuck[128] = L"행운";
 
-		Render_Font(L"DalseoHealingBold", szLuck, &_vec2(189.f, 378.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+		Render_Font(L"DalseoHealingBold", szLuck, &_vec2(200.f, 375.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 
 		// ~Player's Luck
 
@@ -127,7 +127,7 @@ void CStatus_UI::Render_Obejct(void)
 
 		_tchar szRange[128] = L"사거리";
 
-		Render_Font(L"DalseoHealingBold", szRange, &_vec2(110.f, 250.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+		Render_Font(L"DalseoHealingBold", szRange, &_vec2(120.f, 254.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 
 		// ~Player's Gun Range
 
@@ -136,7 +136,7 @@ void CStatus_UI::Render_Obejct(void)
 
 		_tchar szCritical[128] = L"크리티컬";
 
-		Render_Font(L"DalseoHealingBold", szCritical, &_vec2(635.f, 260.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+		Render_Font(L"DalseoHealingBold", szCritical, &_vec2(625.f, 265.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 
 		// ~Player's Critical
 	}

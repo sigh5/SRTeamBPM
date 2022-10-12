@@ -172,9 +172,6 @@
     <ClCompile Include="..\Code\Box.cpp">
       <Filter>02. GameObject\01. For_Stage\11. Item\02. Box</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\HitBlood.cpp">
-      <Filter>02. GameObject\01. For_Stage\07. Effect</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\Stage_BIH.cpp">
       <Filter>01. Scene\96.Stage_BIH</Filter>
     </ClCompile>
@@ -247,14 +244,32 @@
     <ClCompile Include="..\Code\TeleCube.cpp">
       <Filter>02. GameObject\02. For_public\05. TeleCube</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Obstacle.cpp" />
-    <ClCompile Include="..\Code\EarthShaker.cpp" />
     <ClCompile Include="..\Code\MetronomeSmallUI.cpp">
       <Filter>02. GameObject\01. For_Stage\10. UI\00. MetronomeUI\MetronomeSmallUI</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\MetronomeRect.cpp" />
     <ClCompile Include="..\Code\EarthShaker.cpp">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\06. EarthShaker</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MetronomeRect.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\00. MetronomeUI\MetronomeRect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Obstacle.cpp">
+      <Filter>02. GameObject\01. For_Stage\15. Obstacle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EarthShaker.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\06. EarthShaker</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\HitBlood.cpp">
+      <Filter>02. GameObject\01. For_Stage\07. Effect\Hit_Effect\Sample</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\AttackEffect.cpp">
+      <Filter>02. GameObject\01. For_Stage\07. Effect\Attack_Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\HitEffect.cpp">
+      <Filter>02. GameObject\01. For_Stage\07. Effect\Hit_Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SkillEffct.cpp">
+      <Filter>02. GameObject\01. For_Stage\07. Effect\Skill_Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -447,9 +462,6 @@
     <ClInclude Include="..\Header\Box.h">
       <Filter>02. GameObject\01. For_Stage\11. Item\02. Box</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\HitBlood.h">
-      <Filter>02. GameObject\01. For_Stage\07. Effect</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\Stage_BIH.h">
       <Filter>01. Scene\96.Stage_BIH</Filter>
     </ClInclude>
@@ -522,7 +534,6 @@
     <ClInclude Include="..\Header\TeleCube.h">
       <Filter>02. GameObject\02. For_public\05. TeleCube</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Obstacle.h" />
     <ClInclude Include="..\Header\EarthShaker.h">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\06. EarthShaker</Filter>
     </ClInclude>
@@ -530,7 +541,24 @@
     <ClInclude Include="..\Header\MetronomeSmallUI.h">
       <Filter>02. GameObject\01. For_Stage\10. UI\00. MetronomeUI\MetronomeSmallUI</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\MetronomeRect.h" />
+    <ClInclude Include="..\Header\MetronomeRect.h">
+      <Filter>02. GameObject\01. For_Stage\10. UI\00. MetronomeUI\MetronomeRect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Obstacle.h">
+      <Filter>02. GameObject\01. For_Stage\15. Obstacle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\HitBlood.h">
+      <Filter>02. GameObject\01. For_Stage\07. Effect\Hit_Effect\Sample</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\AttackEffect.h">
+      <Filter>02. GameObject\01. For_Stage\07. Effect\Attack_Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\HitEffect.h">
+      <Filter>02. GameObject\01. For_Stage\07. Effect\Hit_Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\SkillEffct.h">
+      <Filter>02. GameObject\01. For_Stage\07. Effect\Skill_Effect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -777,6 +805,21 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\10. UI\00. MetronomeUI\MetronomeRect">
       <UniqueIdentifier>{9082c8d5-8935-4e57-94b3-2e2b2fa9a98d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\07. Effect\Special_Effect">
+      <UniqueIdentifier>{fb5bc4ec-eedd-42bf-8274-006139b04071}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\07. Effect\Hit_Effect">
+      <UniqueIdentifier>{7fdda1ef-7281-4818-a091-a78195294805}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\07. Effect\Hit_Effect\Sample">
+      <UniqueIdentifier>{d4b84514-fe31-4b26-a236-fe70392fc640}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\07. Effect\Attack_Effect">
+      <UniqueIdentifier>{7e0151d2-eeb1-4d47-8f6e-658b457127da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\07. Effect\Skill_Effect">
+      <UniqueIdentifier>{e97a4632-c69b-4525-be17-354179118667}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

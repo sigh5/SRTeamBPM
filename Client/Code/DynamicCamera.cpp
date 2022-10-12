@@ -37,8 +37,9 @@ HRESULT CDynamicCamera::Ready_Object(const _vec3* pEye,
 
 Engine::_int CDynamicCamera::Update_Object(const _float& fTimeDelta)
 {
-	Key_Input(fTimeDelta);
 
+	Key_Input(fTimeDelta);
+	
 	_int iExit = CCamera::Update_Object(fTimeDelta);
 
 	return iExit;
@@ -169,7 +170,7 @@ void CDynamicCamera::Mouse_Move(void)
 		_matrix		matRot;
 		D3DXMatrixRotationAxis(&matRot, &vUp, D3DXToRadian(dwMouseMove / 10.f));
 		D3DXVec3TransformNormal(&vLook, &vLook, &matRot);
-
+		
 		m_vAt = m_vEye + vLook;
 
 	}
@@ -184,7 +185,7 @@ void CDynamicCamera::Mouse_Move(void)
 		_matrix		matRot;
 		D3DXMatrixRotationAxis(&matRot, &vRight, D3DXToRadian(dwMouseMove / 10.f));
 		D3DXVec3TransformNormal(&vLook, &vLook, &matRot);
-
+	
 		m_vAt = m_vEye + vLook;
 
 	}

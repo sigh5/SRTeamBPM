@@ -47,7 +47,7 @@ _int CCoinKeyUI::Update_Object(const _float & fTimeDelta)
 
 void CCoinKeyUI::LateUpdate_Object(void)
 {
-	m_pTransCom->OrthoMatrix(75.f, 25.f, -328.f, -182.f, WINCX, WINCY);
+	m_pTransCom->OrthoMatrix(120.f, 70.f, -524.f, -312.f, WINCX, WINCY);
 
 	CGameObject::LateUpdate_Object();
 }

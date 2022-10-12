@@ -104,6 +104,9 @@
     <ClCompile Include="..\Code\SphereTex.cpp">
       <Filter>00. Component\00. VIBuffer\06. SphereTex</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\Base_Effect.cpp">
+      <Filter>01. GameObject\Effect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Animation.h">
@@ -218,6 +221,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Header\SphereTex.h">
       <Filter>00. Component\00. VIBuffer\06. SphereTex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\Base_Effect.h">
+      <Filter>01. GameObject\Effect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -340,6 +346,9 @@
     </Filter>
     <Filter Include="00. Component\00. VIBuffer\06. SphereTex">
       <UniqueIdentifier>{0d6c903f-400c-45b2-931a-000b88dcb6a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. GameObject\Effect">
+      <UniqueIdentifier>{cfa469d6-aacd-4a00-bc1f-df315c6340a6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
