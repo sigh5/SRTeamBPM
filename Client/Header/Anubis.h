@@ -56,7 +56,7 @@ private:
 
 	CRcTex*			m_pBufferCom = nullptr;
 
-	//list<CAnubisThunder*> m_AnubisThunderlist;
+	list<CAnubisThunder*> m_AnubisThunderlist;
 
 };
 
