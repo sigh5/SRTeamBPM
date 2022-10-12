@@ -34,7 +34,7 @@ private:
 	CThunderTex*	m_pBufferCom = nullptr;
 	//CRcTex*			m_pBufferCom = nullptr;
 	CTransform*		m_pTransformCom = nullptr;
-
+	CAnimation*		m_pAnimationCom = nullptr;
 
 };
 

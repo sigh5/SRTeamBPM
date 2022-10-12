@@ -27,7 +27,7 @@ HRESULT CAnubisThunder::Ready_Object(int Posx, int Posy)
 		m_pTransformCom->Set_Pos((_float)Posx, 1.f, (_float)Posy);
 	}
 
-
+	m_pAnimationCom->Ready_Animation(8, 0, 0.1f);
 
 	m_pTransformCom->Compulsion_Update();
 	return S_OK;
@@ -136,6 +136,7 @@ void				CAnubisThunder::Set_Direction(_vec3* _Dirvec)
 HRESULT			CAnubisThunder::Add_Component(void)
 {
 	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Anubis_Thunder_Texture", m_mapComponent, ID_STATIC);
+	
 	//m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
 	m_pBufferCom = CAbstractFactory<CThunderTex>::Clone_Proto_Component(L"Proto_ThunderTexCom", m_mapComponent, ID_STATIC);
 	m_pTransformCom = CAbstractFactory<CTransform>::Clone_Proto_Component(L"Proto_TransformCom", m_mapComponent, ID_STATIC);
