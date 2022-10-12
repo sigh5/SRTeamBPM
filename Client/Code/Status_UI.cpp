@@ -5,6 +5,8 @@
 
 #include "Player.h"
 #include "ShotGun.h"
+
+
 USING(Engine)
 
 
@@ -63,7 +65,7 @@ void CStatus_UI::LateUpdate_Object(void)
 }
 
 void CStatus_UI::Render_Obejct(void)
-{
+{	
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransCom->m_matWorld);
 
 	m_pGraphicDev->SetTransform(D3DTS_VIEW, &m_pTransCom->m_matView);

@@ -3,6 +3,8 @@
 #include "Export_Function.h"
 #include "AbstractFactory.h"
 
+#include "Player_Dead_UI.h"
+
 USING(Engine)
 
 CUI_Frame::CUI_Frame(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -52,41 +54,46 @@ void CUI_Frame::LateUpdate_Object(void)
 
 void CUI_Frame::Render_Obejct(void)
 {
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
+	CPlayer_Dead_UI* pDead_UI = static_cast<CPlayer_Dead_UI*>(Engine::Get_GameObject(L"Layer_UI", L"Dead_UI"));
 
-	_matrix		OldViewMatrix, OldProjMatrix;
+	if (pDead_UI->Get_Render() == false)
+	{
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
 
-	m_pGraphicDev->GetTransform(D3DTS_VIEW, &OldViewMatrix);
-	m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &OldProjMatrix);
+		_matrix		OldViewMatrix, OldProjMatrix;
 
-	_matrix		ViewMatrix;
+		m_pGraphicDev->GetTransform(D3DTS_VIEW, &OldViewMatrix);
+		m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &OldProjMatrix);
 
-	ViewMatrix = *D3DXMatrixIdentity(&ViewMatrix);
+		_matrix		ViewMatrix;
 
-	_matrix		matProj;
+		ViewMatrix = *D3DXMatrixIdentity(&ViewMatrix);
 
-	Get_ProjMatrix(&matProj);
+		_matrix		matProj;
 
-	m_pGraphicDev->SetTransform(D3DTS_VIEW, &ViewMatrix);
-	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
-	
-	/*m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0x10);
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);*/
-	
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+		Get_ProjMatrix(&matProj);
 
-	m_pTextureCom->Set_Texture(0);
+		m_pGraphicDev->SetTransform(D3DTS_VIEW, &ViewMatrix);
+		m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
 
-	m_pBufferCom->Render_Buffer();
-	
-	m_pGraphicDev->SetTransform(D3DTS_VIEW, &OldViewMatrix);
-	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &OldProjMatrix);
-	
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-	//m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+		/*m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0x10);
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);*/
+
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+		m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+		m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+		m_pTextureCom->Set_Texture(0);
+
+		m_pBufferCom->Render_Buffer();
+
+		m_pGraphicDev->SetTransform(D3DTS_VIEW, &OldViewMatrix);
+		m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &OldProjMatrix);
+
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+		//m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+	}
 }
 
 HRESULT CUI_Frame::Add_Component(void)

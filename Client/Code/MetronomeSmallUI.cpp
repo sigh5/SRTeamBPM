@@ -5,7 +5,7 @@
 #include "AbstractFactory.h"
 #include "ObjectMgr.h"
 
-
+#include "Player_Dead_UI.h"
 
 CMetronomeSmallUI::CMetronomeSmallUI(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CUI_Base(pGraphicDev)
@@ -74,30 +74,35 @@ void CMetronomeSmallUI::LateUpdate_Object(void)
 
 void CMetronomeSmallUI::Render_Obejct(void)
 {
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pOrthoTransCom->m_matWorld);
-	m_pGraphicDev->SetTransform(D3DTS_VIEW, &m_pOrthoTransCom->m_matView);
-	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &m_pOrthoTransCom->m_matOrtho);
+	CPlayer_Dead_UI* pDead_UI = static_cast<CPlayer_Dead_UI*>(Engine::Get_GameObject(L"Layer_UI", L"Dead_UI"));
 
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB((_int)m_fAlpha, 0, 0, 0));
-	m_pGraphicDev->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
-	m_pGraphicDev->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
-	m_pGraphicDev->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_TFACTOR);
-	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, (DWORD)0x00000001);
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+	if (pDead_UI->Get_Render() == false)
+	{
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pOrthoTransCom->m_matWorld);
+		m_pGraphicDev->SetTransform(D3DTS_VIEW, &m_pOrthoTransCom->m_matView);
+		m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &m_pOrthoTransCom->m_matOrtho);
 
-	m_pTextureCom->Set_Texture(m_iTexIndex);
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
-	m_pBufferCom->Render_Buffer();
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB((_int)m_fAlpha, 0, 0, 0));
+		m_pGraphicDev->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
+		m_pGraphicDev->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+		m_pGraphicDev->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_TFACTOR);
+		m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+		m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, (DWORD)0x00000001);
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-	m_pBufferCom->Render_Buffer();
-	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+		m_pTextureCom->Set_Texture(m_iTexIndex);
+		m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
+		m_pBufferCom->Render_Buffer();
+
+		m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+		m_pBufferCom->Render_Buffer();
+		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	}
 }
 
 HRESULT CMetronomeSmallUI::Add_Component(void)

@@ -252,12 +252,14 @@
     <ClCompile Include="..\Code\MetronomeSmallUI.cpp">
       <Filter>02. GameObject\01. For_Stage\10. UI\00. MetronomeUI\MetronomeSmallUI</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\MetronomeRect.cpp" />
     <ClCompile Include="..\Code\EarthShaker.cpp">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\06. EarthShaker</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Player_Dead_UI.cpp">
       <Filter>02. GameObject\01. For_Stage\10. UI\11. Player_Dead_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MetronomeRect.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\00. MetronomeUI\MetronomeRect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -533,9 +535,11 @@
     <ClInclude Include="..\Header\MetronomeSmallUI.h">
       <Filter>02. GameObject\01. For_Stage\10. UI\00. MetronomeUI\MetronomeSmallUI</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\MetronomeRect.h" />
     <ClInclude Include="..\Header\Player_Dead_UI.h">
       <Filter>02. GameObject\01. For_Stage\10. UI\11. Player_Dead_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\MetronomeRect.h">
+      <Filter>02. GameObject\01. For_Stage\10. UI\00. MetronomeUI\MetronomeRect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

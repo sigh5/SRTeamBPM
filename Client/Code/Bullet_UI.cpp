@@ -4,6 +4,7 @@
 
 #include "Player.h"
 #include "Gun_Screen.h"
+#include "Player_Dead_UI.h"
 
 // Work
 #include "TestPlayer.h"
@@ -62,65 +63,70 @@ void CBullet_UI::LateUpdate_Object(void)
 
 void CBullet_UI::Render_Obejct(void)
 {
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
+	CPlayer_Dead_UI* pDead_UI = static_cast<CPlayer_Dead_UI*>(Engine::Get_GameObject(L"Layer_UI", L"Dead_UI"));
 
-	_matrix		OldViewMatrix, OldProjMatrix;
-
-	m_pGraphicDev->GetTransform(D3DTS_VIEW, &OldViewMatrix);
-	m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &OldProjMatrix);
-
-	_matrix		ViewMatrix;
-
-	ViewMatrix = *D3DXMatrixIdentity(&ViewMatrix);
-
-	_matrix		matProj;
-
-	Get_ProjMatrix(&matProj);
-
-	m_pGraphicDev->SetTransform(D3DTS_VIEW, &ViewMatrix);
-	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
-
-	_uint iMagazineCount = dynamic_cast<CGun_Screen*>(::Get_GameObject(L"Layer_UI", L"Gun"))->Get_Magazine();
-	
-	// Player's Bullet Magazine left
-	
-	_tchar	tMagazine[MAX_PATH];
-	swprintf_s(tMagazine, L"%d / 8", iMagazineCount);
-	m_szMagazine = L"";
-	m_szMagazine += tMagazine;
-
-	Render_Font(L"HoengseongHanu", m_szMagazine.c_str(), &_vec2(1112.f, 810.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
-
-	_uint  iComboCount = dynamic_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"))->Get_ComboCount();
-	if (iComboCount != 0)
+	if (pDead_UI->Get_Render() == false)
 	{
-		_tchar	tCobmoCount[MAX_PATH];
-		swprintf_s(tCobmoCount, L"%d", iComboCount);
-		m_szComboCount = L"";
-		m_szComboCount += tCobmoCount;
-		Render_Font(L"BMYEONSUNG", L"COMBO", &_vec2(660.f, 50.f), D3DXCOLOR(1.f, 255.f, 1.f, 1.f));
-		Render_Font(L"BMYEONSUNG", m_szComboCount.c_str(), &_vec2(660.f, 100.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
+
+		_matrix		OldViewMatrix, OldProjMatrix;
+
+		m_pGraphicDev->GetTransform(D3DTS_VIEW, &OldViewMatrix);
+		m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &OldProjMatrix);
+
+		_matrix		ViewMatrix;
+
+		ViewMatrix = *D3DXMatrixIdentity(&ViewMatrix);
+
+		_matrix		matProj;
+
+		Get_ProjMatrix(&matProj);
+
+		m_pGraphicDev->SetTransform(D3DTS_VIEW, &ViewMatrix);
+		m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
+
+		_uint iMagazineCount = dynamic_cast<CGun_Screen*>(::Get_GameObject(L"Layer_UI", L"Gun"))->Get_Magazine();
+
+		// Player's Bullet Magazine left
+
+		_tchar	tMagazine[MAX_PATH];
+		swprintf_s(tMagazine, L"%d / 8", iMagazineCount);
+		m_szMagazine = L"";
+		m_szMagazine += tMagazine;
+
+		Render_Font(L"HoengseongHanu", m_szMagazine.c_str(), &_vec2(1112.f, 810.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+
+		_uint  iComboCount = dynamic_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"))->Get_ComboCount();
+		if (iComboCount != 0)
+		{
+			_tchar	tCobmoCount[MAX_PATH];
+			swprintf_s(tCobmoCount, L"%d", iComboCount);
+			m_szComboCount = L"";
+			m_szComboCount += tCobmoCount;
+			Render_Font(L"BMYEONSUNG", L"COMBO", &_vec2(660.f, 50.f), D3DXCOLOR(1.f, 255.f, 1.f, 1.f));
+			Render_Font(L"BMYEONSUNG", m_szComboCount.c_str(), &_vec2(660.f, 100.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 
 
+		}
+		// ~Player's Bullet Magazine left
+
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0x10);
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+		m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+		m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+		m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);
+		m_pBufferCom->Render_Buffer();
+
+		m_pGraphicDev->SetTransform(D3DTS_VIEW, &OldViewMatrix);
+		m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &OldProjMatrix);
+
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 	}
-	// ~Player's Bullet Magazine left
-
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0x10);
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-
-	m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);
-	m_pBufferCom->Render_Buffer();
-
-	m_pGraphicDev->SetTransform(D3DTS_VIEW, &OldViewMatrix);
-	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &OldProjMatrix);
-
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 }
 
 HRESULT CBullet_UI::Add_Component(void)
