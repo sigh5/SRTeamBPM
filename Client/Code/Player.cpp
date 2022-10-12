@@ -11,6 +11,8 @@
 #include "Key.h"
 #include "MyCamera.h"
 
+#include "Player_Dead_UI.h"
+
 //주석지우셈
 
 
@@ -33,7 +35,7 @@ HRESULT CPlayer::Ready_Object(void)
 	
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
+	m_pInfoCom->Ready_CharacterInfo(1, 10, 5.f);
 
 	_vec3 vPos = { 20.f, 6.f, 15.f };
 
@@ -54,31 +56,35 @@ HRESULT CPlayer::Ready_Object(void)
 
 _int CPlayer::Update_Object(const _float & fTimeDelta)
 {
+	cout << "체력 : " << m_pInfoCom->Get_InfoRef()._iHp << endl;
 	
 	pEquipItem = dynamic_cast<CGun_Screen*>(Get_GameObject(L"Layer_UI", L"Gun"));
 	NULL_CHECK_RETURN(pEquipItem, -1);
 	
 	m_iOriginHP = m_pInfoCom->Get_Hp();
 
-
+	// 사망 시점 ( 화면 암전됬다가 키 누르고 나면 재시작)
 	if (m_pInfoCom->Get_Hp() <= 0)
 	{
+		CScene* pScene1 = ::Get_Scene();
+		CLayer* pMyLayer = pScene1->GetLayer(L"Layer_UI");
+
+		CGameObject* pGameObject = nullptr;  // Reuse_PlayerBulltObj
+		pGameObject = CPlayer_Dead_UI::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		pMyLayer->Add_GameObject(L"Dead_UI",pGameObject);
+
+
 		Random_ResurrectionRoom();
 		m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
 		
 		CScene* pScene = Get_Scene();
 		CLayer* pLayer = pScene->GetLayer(L"Layer_GameLogic");
 
-		CMonsterBase* pMonster = dynamic_cast<CMonsterBase*>(pLayer->Get_GameObject(L"TestMonster10"));
-		//pMonster->Set_ResetCheck(true);
 	
-
-		pMonster = dynamic_cast<CMonsterBase*>(pLayer->Get_GameObject(L"TestMonster11"));
 		//pMonster->Set_ResetCheck(true);
 
 	}
-
-
 
 	m_fTimeDelta = fTimeDelta;
 	m_fFrame += 1.0f * fTimeDelta;
@@ -258,7 +264,10 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		cout << vcurrentPos.x << " " << vcurrentPos.y<<" " << vcurrentPos.z << endl;
 	}
 
-
+	if (Get_DIKeyState(DIK_C) & 0X80)
+	{
+		m_pInfoCom->Get_InfoRef()._iHp -= 1;
+	}
 }
 
 
@@ -283,7 +292,7 @@ void CPlayer::Ready_MonsterShotPicking()
 	{
 		static_cast<CGun_Screen*>(pEquipItem)->Add_Magazine(-1);
 		pEquipItem->Set_AnimationCheck(true);
-		pEquipItem->Set_Shoot(true);
+		pEquipItem->Set_Shoot(true); // 발사가 true이므로 여기서 총알 생성
 		return;
 	}
 

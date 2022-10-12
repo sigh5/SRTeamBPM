@@ -256,6 +256,9 @@
     <ClCompile Include="..\Code\EarthShaker.cpp">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\06. EarthShaker</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\Player_Dead_UI.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\11. Player_Dead_UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -531,6 +534,9 @@
       <Filter>02. GameObject\01. For_Stage\10. UI\00. MetronomeUI\MetronomeSmallUI</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\MetronomeRect.h" />
+    <ClInclude Include="..\Header\Player_Dead_UI.h">
+      <Filter>02. GameObject\01. For_Stage\10. UI\11. Player_Dead_UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -777,6 +783,9 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\10. UI\00. MetronomeUI\MetronomeRect">
       <UniqueIdentifier>{9082c8d5-8935-4e57-94b3-2e2b2fa9a98d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\11. Player_Dead_UI">
+      <UniqueIdentifier>{5e64319a-2d27-4c93-a1a3-d048aa6efb91}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

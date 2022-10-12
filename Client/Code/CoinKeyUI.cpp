@@ -10,12 +10,13 @@
 USING(Engine)
 
 CCoinKeyUI::CCoinKeyUI(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CGameObject(pGraphicDev)
+	: CUI_Base(pGraphicDev)
 {
+	D3DXVec3Normalize(&m_vecScale, &m_vecScale);
 }
 
-CCoinKeyUI::CCoinKeyUI(const CGameObject & rhs)
-	: CGameObject(rhs)
+CCoinKeyUI::CCoinKeyUI(const CUI_Base & rhs)
+	: CUI_Base(rhs)
 {
 }
 
@@ -26,6 +27,13 @@ CCoinKeyUI::~CCoinKeyUI()
 HRESULT CCoinKeyUI::Ready_Object(CGameObject * pPlayer)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+
+	Set_OrthoMatrix(300.f, 300.f, 0.f, 0.f);
+
+	m_vecScale = { m_fSizeX * 0.5f, m_fSizeY * 0.28f, 1.f };
+
+	m_pTransCom->Set_Scale(&m_vecScale);
+	m_pTransCom->Set_Pos(m_fX - 459.f, m_fY - WINCY * 0.126f, 0.1f);
 
 	m_pPlayer = pPlayer;
 
@@ -46,18 +54,29 @@ _int CCoinKeyUI::Update_Object(const _float & fTimeDelta)
 }
 
 void CCoinKeyUI::LateUpdate_Object(void)
-{
-	m_pTransCom->OrthoMatrix(120.f, 70.f, -524.f, -312.f, WINCX, WINCY);
-
+{	
 	CGameObject::LateUpdate_Object();
 }
 
 void CCoinKeyUI::Render_Obejct(void)
 {
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransCom->m_matWorld);
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
 
-	m_pGraphicDev->SetTransform(D3DTS_VIEW, &m_pTransCom->m_matView);
-	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &m_pTransCom->m_matOrtho);
+	_matrix		OldViewMatrix, OldProjMatrix;
+
+	m_pGraphicDev->GetTransform(D3DTS_VIEW, &OldViewMatrix);
+	m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &OldProjMatrix);
+
+	_matrix		ViewMatrix;
+
+	ViewMatrix = *D3DXMatrixIdentity(&ViewMatrix);
+
+	_matrix		matProj;
+
+	Get_ProjMatrix(&matProj);
+
+	m_pGraphicDev->SetTransform(D3DTS_VIEW, &ViewMatrix);
+	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
 
 	/* m_szCoin, m_szKey */
 
@@ -67,7 +86,7 @@ void CCoinKeyUI::Render_Obejct(void)
 	m_szCoin = L"";
 	m_szCoin += tBCoin;
 
-	Render_Font(L"HoengseongHanu", m_szCoin.c_str(), &_vec2(46.f, 506.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+	Render_Font(L"HoengseongHanu", m_szCoin.c_str(), &_vec2(133.f, 680.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 	// ~Coin
 
 	// Key
@@ -76,7 +95,7 @@ void CCoinKeyUI::Render_Obejct(void)
 	m_szKey = L"";
 	m_szKey += tBKey;
 
-	Render_Font(L"HoengseongHanu", m_szKey.c_str(), &_vec2(82.f, 506.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+	Render_Font(L"HoengseongHanu", m_szKey.c_str(), &_vec2(203.f, 680.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 	// ~Key
 
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
@@ -89,6 +108,12 @@ void CCoinKeyUI::Render_Obejct(void)
 
 	m_pTextureCom->Set_Texture(0);
 	m_pBufferCom->Render_Buffer();
+
+	m_pGraphicDev->SetTransform(D3DTS_VIEW, &OldViewMatrix);
+	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &OldProjMatrix);
+
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 }
 
 HRESULT CCoinKeyUI::Add_Component(void)

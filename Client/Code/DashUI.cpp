@@ -30,7 +30,7 @@ HRESULT CDashUI::Ready_Object()
 	m_vecScale = { m_fSizeX * 0.3f, m_fSizeY * 0.3f, 1.f };
 
 	m_pTransCom->Set_Scale(&m_vecScale);
-	m_pTransCom->Set_Pos(m_fX - 45.f, m_fY - WINCY * 0.38f, 0.1f);
+	m_pTransCom->Set_Pos(m_fX - 194.f, m_fY - WINCY * 0.416f, 0.1f);
 
 	m_fDelay = 15.f;
 	
@@ -103,9 +103,9 @@ void CDashUI::Render_Obejct(void)
 	m_pGraphicDev->SetTransform(D3DTS_VIEW, &ViewMatrix);
 	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
 
-	/*m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0xDF);
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);*/
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
@@ -119,7 +119,7 @@ void CDashUI::Render_Obejct(void)
 	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &OldProjMatrix);
 
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-	//m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 }
 
 HRESULT CDashUI::Add_Component(void)

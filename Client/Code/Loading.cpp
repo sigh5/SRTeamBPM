@@ -116,7 +116,8 @@ _uint CLoading::Loading_ForStage(void)
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_LoadingFontBackGround_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/LoadingFont_Background.png", TEX_NORMAL)), E_FAIL);
 
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ShotGun_ScreenTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Gun_Output/Shotgun/Shotgun%d.png", TEX_NORMAL, 16)), E_FAIL);
-
+																											// \Bin\Resource\Texture
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_FadeOut_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Fade_Out.png", TEX_NORMAL)), E_FAIL);
 	// ~UI
 
 	// Box

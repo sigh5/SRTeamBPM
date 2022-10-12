@@ -11,12 +11,13 @@
 USING(Engine)
 
 CBullet_UI::CBullet_UI(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CGameObject(pGraphicDev)
+	: CUI_Base(pGraphicDev)
 {
+	D3DXVec3Normalize(&m_vecScale, &m_vecScale);
 }
 
-CBullet_UI::CBullet_UI(const CGameObject & rhs)
-	: CGameObject(rhs)
+CBullet_UI::CBullet_UI(const CUI_Base & rhs)
+	: CUI_Base(rhs)
 {
 }
 
@@ -27,6 +28,13 @@ CBullet_UI::~CBullet_UI()
 HRESULT CBullet_UI::Ready_Object(CGameObject* pPlayer)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+
+	Set_OrthoMatrix(300.f, 300.f, 0.f, 0.f);
+
+	m_vecScale = { m_fSizeX * 0.5f, m_fSizeY * 0.7f, 1.f };
+
+	m_pTransCom->Set_Scale(&m_vecScale);
+	m_pTransCom->Set_Pos(m_fX + 514.f, m_fY - WINCY * 0.4f, 0.1f);
 		
 	return S_OK;
 }
@@ -47,18 +55,30 @@ _int CBullet_UI::Update_Object(const _float & fTimeDelta)
 
 void CBullet_UI::LateUpdate_Object(void)
 {
-	m_pTransCom->OrthoMatrix(80.f, 120.f, 337.f, -260.f, WINCX, WINCY);
+	//m_pTransCom->OrthoMatrix(150.f, 250.f, 520.f, -400.f, WINCX, WINCY);
 
 	CGameObject::LateUpdate_Object();
 }
 
 void CBullet_UI::Render_Obejct(void)
 {
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransCom->m_matWorld);
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
 
-	m_pGraphicDev->SetTransform(D3DTS_VIEW, &m_pTransCom->m_matView);
-	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &m_pTransCom->m_matOrtho);
+	_matrix		OldViewMatrix, OldProjMatrix;
 
+	m_pGraphicDev->GetTransform(D3DTS_VIEW, &OldViewMatrix);
+	m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &OldProjMatrix);
+
+	_matrix		ViewMatrix;
+
+	ViewMatrix = *D3DXMatrixIdentity(&ViewMatrix);
+
+	_matrix		matProj;
+
+	Get_ProjMatrix(&matProj);
+
+	m_pGraphicDev->SetTransform(D3DTS_VIEW, &ViewMatrix);
+	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
 
 	_uint iMagazineCount = dynamic_cast<CGun_Screen*>(::Get_GameObject(L"Layer_UI", L"Gun"))->Get_Magazine();
 	
@@ -69,7 +89,7 @@ void CBullet_UI::Render_Obejct(void)
 	m_szMagazine = L"";
 	m_szMagazine += tMagazine;
 
-	Render_Font(L"HoengseongHanu", m_szMagazine.c_str(), &_vec2(715.f, 530.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+	Render_Font(L"HoengseongHanu", m_szMagazine.c_str(), &_vec2(1112.f, 810.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 
 	_uint  iComboCount = dynamic_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"))->Get_ComboCount();
 	if (iComboCount != 0)
@@ -95,6 +115,12 @@ void CBullet_UI::Render_Obejct(void)
 
 	m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);
 	m_pBufferCom->Render_Buffer();
+
+	m_pGraphicDev->SetTransform(D3DTS_VIEW, &OldViewMatrix);
+	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &OldProjMatrix);
+
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 }
 
 HRESULT CBullet_UI::Add_Component(void)

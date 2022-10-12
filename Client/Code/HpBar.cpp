@@ -8,13 +8,13 @@
 USING(Engine)
 
 CHpBar::CHpBar(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CGameObject(pGraphicDev)
+	: CUI_Base(pGraphicDev)
 {
-
+	D3DXVec3Normalize(&m_vecScale, &m_vecScale);
 }
 
-CHpBar::CHpBar(const CGameObject & rhs)
-	: CGameObject(rhs)
+CHpBar::CHpBar(const CUI_Base & rhs)
+	: CUI_Base(rhs)
 {
 }
 
@@ -26,6 +26,13 @@ CHpBar::~CHpBar()
 HRESULT CHpBar::Ready_Object(CGameObject * pPlayer)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+
+	Set_OrthoMatrix(300.f, 300.f, 0.f, 0.f);
+
+	m_vecScale = { m_fSizeX * 1.1f, m_fSizeY * 1.f, 1.f };
+
+	m_pTransCom->Set_Scale(&m_vecScale);
+	m_pTransCom->Set_Pos(m_fX - 345.f, m_fY - 385.f, 0.1f);
 
 	m_pPlayer = pPlayer;
 
@@ -44,9 +51,7 @@ _int CHpBar::Update_Object(const _float & fTimeDelta)
 	}
 
 	m_pAnimationCom->Control_Animation(iA);
-
-
-
+	
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
 	Add_RenderGroup(RENDER_ICON, this);
@@ -56,18 +61,28 @@ _int CHpBar::Update_Object(const _float & fTimeDelta)
 
 void CHpBar::LateUpdate_Object(void)
 {
-	m_pTransCom->OrthoMatrix(300.f, 204.f, -492.f, -448.f, WINCX, WINCY);
-
 	CGameObject::LateUpdate_Object();
-
 }
 
 void CHpBar::Render_Obejct(void)
 {
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransCom->m_matWorld);
+	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
 
-	m_pGraphicDev->SetTransform(D3DTS_VIEW, &m_pTransCom->m_matView);
-	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &m_pTransCom->m_matOrtho);
+	_matrix		OldViewMatrix, OldProjMatrix;
+
+	m_pGraphicDev->GetTransform(D3DTS_VIEW, &OldViewMatrix);
+	m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &OldProjMatrix);
+
+	_matrix		ViewMatrix;
+
+	ViewMatrix = *D3DXMatrixIdentity(&ViewMatrix);
+
+	_matrix		matProj;
+
+	Get_ProjMatrix(&matProj);
+
+	m_pGraphicDev->SetTransform(D3DTS_VIEW, &ViewMatrix);
+	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
 
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0x10);
@@ -78,7 +93,14 @@ void CHpBar::Render_Obejct(void)
 	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
 	m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);
+
 	m_pBufferCom->Render_Buffer();
+
+	m_pGraphicDev->SetTransform(D3DTS_VIEW, &OldViewMatrix);
+	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &OldProjMatrix);
+
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 }
 
 HRESULT CHpBar::Add_Component(void)

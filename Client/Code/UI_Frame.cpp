@@ -3,9 +3,12 @@
 #include "Export_Function.h"
 #include "AbstractFactory.h"
 
+USING(Engine)
+
 CUI_Frame::CUI_Frame(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CUI_Base(pGraphicDev)
 {
+	D3DXVec3Normalize(&m_vecScale, &m_vecScale);
 }
 
 CUI_Frame::CUI_Frame(const CUI_Base & rhs)
@@ -44,7 +47,7 @@ _int CUI_Frame::Update_Object(const _float & fTimeDelta)
 
 void CUI_Frame::LateUpdate_Object(void)
 {
-	//m_pTransCom->OrthoMatrix(800.f, 600.f, 0.f, 0.f, WINCX, WINCY);
+	CGameObject::LateUpdate_Object();
 }
 
 void CUI_Frame::Render_Obejct(void)
@@ -66,31 +69,23 @@ void CUI_Frame::Render_Obejct(void)
 
 	m_pGraphicDev->SetTransform(D3DTS_VIEW, &ViewMatrix);
 	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
-	/*
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	
+	/*m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0x10);
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-	*/
-	/*m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);*/
+	
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);*/
-
-	/*m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ZERO);
-	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);*/
-
-	//m_pGraphicDev->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_ADD);
-	//m_pGraphicDev->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-	//m_pGraphicDev->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
+	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
 	m_pTextureCom->Set_Texture(0);
 
 	m_pBufferCom->Render_Buffer();
-
-
+	
 	m_pGraphicDev->SetTransform(D3DTS_VIEW, &OldViewMatrix);
 	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &OldProjMatrix);
 	
-	//m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	//m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 }
 
@@ -119,7 +114,7 @@ CUI_Frame * CUI_Frame::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 	return pInstance;
 }
 
-void CUI_Frame::Free()
+void CUI_Frame::Free(void)
 {
 	CGameObject::Free();
 }

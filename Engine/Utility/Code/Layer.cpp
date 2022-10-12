@@ -208,8 +208,12 @@ void		CLayer::Reset_Monster()
 			else
 			{
 				dynamic_cast<CMonsterBase*>(iter->second)->Get_BackOriginPos();
+				iter++;
 			}
 		}
+
+	else
+	iter++;
 	}
 }
 

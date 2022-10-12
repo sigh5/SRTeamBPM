@@ -25,19 +25,19 @@ HRESULT CMainApp::Ready_MainApp(void)
 	_CrtDumpMemoryLeaks();
 	FAILED_CHECK_RETURN(SetUp_DefaultSetting(&m_pGraphicDev), E_FAIL);	
 
-	// 디버그용
-	//#ifdef _DEBUG
-	//
-	//	if (::AllocConsole() == TRUE)
-	//	{
-	//		FILE* nfp[3];
-	//		freopen_s(nfp + 0, "CONOUT$", "rb", stdin);
-	//		freopen_s(nfp + 1, "CONOUT$", "wb", stdout);
-	//		freopen_s(nfp + 2, "CONOUT$", "wb", stderr);
-	//		std::ios::sync_with_stdio();
-	//	}
-	//
-	//#endif // _DEBUG
+	 //디버그용
+	#ifdef _DEBUG
+	
+		if (::AllocConsole() == TRUE)
+		{
+			FILE* nfp[3];
+			freopen_s(nfp + 0, "CONOUT$", "rb", stdin);
+			freopen_s(nfp + 1, "CONOUT$", "wb", stdout);
+			freopen_s(nfp + 2, "CONOUT$", "wb", stderr);
+			std::ios::sync_with_stdio();
+		}
+	
+	#endif // _DEBUG
 	
 	FAILED_CHECK_RETURN(Ready_Scene(m_pGraphicDev, &m_pManagementClass), E_FAIL);
 	::Initialize();
@@ -118,7 +118,7 @@ HRESULT CMainApp::SetUp_DefaultSetting(LPDIRECT3DDEVICE9 * ppGraphicDev)
 
 	// Font
 	FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"Font_Default", L"바탕", 10, 10, FW_HEAVY), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"Font_Jinji", L"궁서", 17, 19, FW_NORMAL), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"Font_Jinji", L"궁서", 29, 28, FW_NORMAL), E_FAIL);
 
 
 	// 이미지 필터링

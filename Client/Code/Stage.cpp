@@ -24,6 +24,7 @@
 #include "DashUI.h"
 #include "Inventory_UI.h"
 #include "Gun_Screen.h"
+#include "Player_Dead_UI.h"
 
 
 #include "UI_Frame.h"
@@ -176,8 +177,6 @@ HRESULT CStage::Ready_Layer_Environment(const _tchar * pLayerTag)
 	READY_LAYER(pGameObject, CSkyBox, pLayer, m_pGraphicDev, L"SkyBox");
 	//READY_LAYER(pGameObject, CTerrain, pLayer, m_pGraphicDev, L"Terrain");
 	READY_LAYER(pGameObject, CSnowfall, pLayer, m_pGraphicDev, L"Snowfall");
-	
-
 
 	/*pGameObject = CHitBlood::Create(m_pGraphicDev, _vec3{ 3.f, 1.f, 3.f });
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -270,6 +269,8 @@ HRESULT CStage::Ready_Layer_UI(const _tchar * pLayerTag)
 	READY_LAYER(pGameObject, CGun_Screen, pLayer, m_pGraphicDev, L"Gun");
 
 	READY_LAYER(pGameObject, CUI_Frame, pLayer, m_pGraphicDev, L"Frame");
+
+	//READY_LAYER(pGameObject, CPlayer_Dead_UI, pLayer, m_pGraphicDev, L"Dead_UI");
 
 	m_mapLayer.insert({ pLayerTag, pLayer });
 
