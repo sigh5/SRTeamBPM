@@ -50,7 +50,7 @@ HRESULT CAnubis::Ready_Object(float Posx, float Posy)
 	m_pInfoCom->Ready_CharacterInfo(5, 10, 5.f);
 	m_pAnimationCom->Ready_Animation(6, 1, 0.2f);
 	m_iPreHp = (m_pInfoCom->Get_InfoRef()._iHp);
-	m_pAttackAnimationCom->Ready_Animation(17, 0, 0.15f);
+	m_pAttackAnimationCom->Ready_Animation(17, 0, 0.3f);
 	m_pDeadAnimationCom->Ready_Animation(12, 0, 0.3f);
 	if (Posx == 0 && Posy == 0) {}
 	else
@@ -122,9 +122,19 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 	Excution_Event();
 
 
-	for (auto iter = m_AnubisThunderlist.begin(); iter != m_AnubisThunderlist.end(); ++iter)
+	for (auto iter = m_AnubisThunderlist.begin(); iter != m_AnubisThunderlist.end();)
 	{
-		(*iter)->Update_Object(fTimeDelta);
+		_int iResult = 0;
+		iResult = (*iter)->Update_Object(fTimeDelta);
+		if (iResult == 1)
+		{
+			Safe_Release((*iter));
+			iter = m_AnubisThunderlist.erase(iter);
+		}
+		else
+		{
+			++iter;
+		}
 	}
 
 	Engine::CMonsterBase::Update_Object(fTimeDelta);
@@ -150,7 +160,7 @@ void CAnubis::LateUpdate_Object(void)
 		D3DXMatrixInverse(&matBill, 0, &matBill);
 
 		_matrix      matScale, matTrans;
-		D3DXMatrixScaling(&matScale, 2.f, 2.f, 2.f);
+		D3DXMatrixScaling(&matScale,m_pDynamicTransCom->m_vScale.x, m_pDynamicTransCom->m_vScale.y, m_pDynamicTransCom->m_vScale.z);
 
 		_matrix      matRot;
 		D3DXMatrixIdentity(&matRot);
@@ -238,11 +248,7 @@ void CAnubis::Excution_Event()
 
 void CAnubis::NoHit_Loop(const _float& fTimeDelta)
 {
-	if (fMtoPDistance > 15.f)
-	{
-		m_pAnimationCom->Move_Animation(fTimeDelta);
-	}
-	else if ( fMtoPDistance > 7.f && m_bAttacking == false)
+	if ( fMtoPDistance > 7.f && m_bAttacking == false)
 	{
 		m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
 
@@ -330,19 +336,39 @@ void CAnubis::Attack(const _float& fTimeDelta)
 		pPlayerTransform->Get_Info(INFO_POS, &m_bOldPlayerPos);
 
 	}
+	if (5 == m_pAttackAnimationCom->m_iMotion)
+	{
+		if (false == m_bCreateOneThunder)
+		{
+			_vec3 vDir = m_vPlayerPos - AnubisInfo;
+			D3DXVec3Normalize(&vDir, &vDir);
+			D3DXVec3Cross(&vDir, &_vec3(0.f, 1.f, 0.f), &vDir);
+			
+			CAnubisThunder* pThunder;
+			pThunder = CAnubisThunder::Create(m_pGraphicDev, AnubisInfo.x + (vDir.x* 0.6f), 1.8f ,AnubisInfo.z + (vDir.z* 0.5f));
+
+			m_AnubisThunderlist.push_back(pThunder);
+			m_bCreateOneThunder = true;
+		}
+	}
 	if (11 == m_pAttackAnimationCom->m_iMotion)
 	{
-		CAnubisThunder* pThunder;
-		pThunder = CAnubisThunder::Create(m_pGraphicDev, AnubisInfo.x, AnubisInfo.z);
-		// 플레이어 방향으로 발사
-		//_vec3 DirForPlayer = m_bOldPlayerPos - AnubisInfo;
-		//pThunder->Set_Direction(&DirForPlayer);
-		m_AnubisThunderlist.push_back(pThunder);
+		if (false == m_bCreateTwoThunder)
+		{
+			_vec3 vDir = m_vPlayerPos - AnubisInfo;
+			D3DXVec3Normalize(&vDir, &vDir);
+			CAnubisThunder* pThunder;
+			pThunder = CAnubisThunder::Create(m_pGraphicDev, m_vPlayerPos.x - vDir.x, 1.0f, m_vPlayerPos.z - vDir.z);
 
+			m_AnubisThunderlist.push_back(pThunder);
+			m_bCreateTwoThunder = true;
+		}
 	}
 	if (m_pAttackAnimationCom->m_iMotion >= m_pAttackAnimationCom->m_iMaxMotion)
 	{
 		m_bAttack = false;
+		m_bCreateOneThunder = false;
+		m_bCreateTwoThunder = false;
 	}
 }
 
@@ -363,7 +389,7 @@ CAnubis * CAnubis::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)
 void CAnubis::Free(void)
 {
 	CMonsterBase::Free();
-	for (auto iter : m_AnubisThunderlist)
+	for (auto& iter : m_AnubisThunderlist)
 	{
 		Safe_Release(iter);
 	}

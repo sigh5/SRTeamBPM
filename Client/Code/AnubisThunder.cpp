@@ -13,37 +13,46 @@ CAnubisThunder::CAnubisThunder(LPDIRECT3DDEVICE9 pGraphicDev)
 
 CAnubisThunder::~CAnubisThunder()
 {
+
 }
 
-HRESULT CAnubisThunder::Ready_Object(_float Posx, _float Posy)
+HRESULT CAnubisThunder::Ready_Object(_float Posx, _float Posy, _float Posz)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	//m_pTransformCom->Rotation(ROT_Y, 90.f);
 
-	if (Posx == 0 && Posy == 0) {}
+	if (Posx == 0 && Posy == 0 && Posz == 0) {}
 	else
 	{
-		m_pTransformCom->Set_Pos((_float)Posx, 1.f, (_float)Posy);
+		m_pTransformCom->Set_Pos((_float)Posx, Posy, (_float)Posz);
 	}
 
+	m_pTransformCom->Set_Scale(&_vec3(3.f, 1.f, 3.f));
 	m_pAnimationCom->Ready_Animation(8, 0, 0.1f);
+	m_pAnimationCom->m_iMotion = rand() % 9;
+	m_fLifetime = 0.5f;
 
-	m_pTransformCom->Compulsion_Update();
+	m_pTransformCom->Update_Component(1.f);
 	return S_OK;
 }
 
 _int CAnubisThunder::Update_Object(const _float & fTimeDelta)
 {
+	m_fLifetimeCount += fTimeDelta;
+	if (m_fLifetime < m_fLifetimeCount)
+	{
+		m_bDead = true;
+		return 1;
+	}
 	m_pAnimationCom->Move_Animation(fTimeDelta);
 
-	LateUpdate_Object();
 	Render_Obejct();
 
 	m_pTransformCom->Update_Component(fTimeDelta);
 	Engine::CGameObject::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
-
+	LateUpdate_Object();
 	return 0;
 }
 
@@ -61,7 +70,7 @@ void CAnubisThunder::LateUpdate_Object(void)
 	D3DXMatrixInverse(&matBill, 0, &matBill);
 
 	_matrix      matScale, matTrans;
-	D3DXMatrixScaling(&matScale, 2.f, 2.f, 2.f);
+	D3DXMatrixScaling(&matScale, m_pTransformCom->m_vScale.x, m_pTransformCom->m_vScale.y, m_pTransformCom->m_vScale.z);
 
 	_matrix      matRot;
 	D3DXMatrixIdentity(&matRot);
@@ -177,12 +186,12 @@ HRESULT			CAnubisThunder::Add_Component(void)
 	return S_OK;
 }
 
-CAnubisThunder * CAnubisThunder::Create(LPDIRECT3DDEVICE9 pGraphicDev, _float Posx, _float Posy)
+CAnubisThunder * CAnubisThunder::Create(LPDIRECT3DDEVICE9 pGraphicDev, _float Posx, _float Posy, _float Posz)
 {
 	CAnubisThunder*	pInstance = new CAnubisThunder(pGraphicDev);
 
 
-	if (FAILED(pInstance->Ready_Object(Posx, Posy)))
+	if (FAILED(pInstance->Ready_Object(Posx, Posy, Posz)))
 	{
 		Safe_Release(pInstance);
 		return nullptr;

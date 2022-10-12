@@ -59,5 +59,7 @@ private:
 
 	list<CAnubisThunder*> m_AnubisThunderlist;
 
+	bool			m_bCreateOneThunder = false;
+	bool			m_bCreateTwoThunder = false;
 };
 
