@@ -42,11 +42,11 @@ HRESULT CPlayer::Ready_Object(void)
 	m_pDynamicTransCom->Set_Scale(&vScale);
 	
 	m_pColliderCom->Set_HitRadiuos(1.1f);
-	m_pColliderCom->Set_vCenter(&vPos);
+	m_pColliderCom->Set_vCenter(&vPos, &vScale);
 
 
 	m_pDynamicTransCom->Update_Component(1.0f);
-
+	m_pColliderCom->Set_HitBoxMatrix(&(m_pDynamicTransCom->m_matWorld));
 	m_iOriginHP = m_pInfoCom->Get_Hp();
 
 	return S_OK;
@@ -69,12 +69,7 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 		CScene* pScene = Get_Scene();
 		CLayer* pLayer = pScene->GetLayer(L"Layer_GameLogic");
 
-		//CMonsterBase* pMonster = dynamic_cast<CMonsterBase*>(pLayer->Get_GameObject(L"TestMonster10"));
-		////pMonster->Set_ResetCheck(true);
 	
-
-		//pMonster = dynamic_cast<CMonsterBase*>(pLayer->Get_GameObject(L"TestMonster11"));
-		////pMonster->Set_ResetCheck(true);
 
 	}
 

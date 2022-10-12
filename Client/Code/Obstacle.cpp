@@ -51,13 +51,15 @@ HRESULT CObstacle::Ready_Object(void)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	_vec3 vPos;
+	_vec3 vPos, vScale;
 	m_pTransCom->Get_Info(INFO_POS, &vPos);
+	vScale = m_pTransCom->Get_Scale();
+
 
 	// set_hit_distance 
 	m_pColliderCom->Set_HitRadiuos(1.f);
 	m_pColliderCom->Set_HitRadiuos(1.f);
-	m_pColliderCom->Set_vCenter(&vPos);
+	m_pColliderCom->Set_vCenter(&vPos, &vScale);
 
 	return S_OK; 
 }

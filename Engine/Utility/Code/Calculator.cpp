@@ -481,24 +481,24 @@ _bool CCalculator::PickingOnTransform_Monster(HWND hWnd, const CRcTex * pMonster
 	ZeroMemory(&ViewPort, sizeof(D3DVIEWPORT9));
 	m_pGraphicDev->GetViewport(&ViewPort);
 
-	// ����Ʈ -> ����
+	
 	vPoint.x = ptMouse.x / (ViewPort.Width * 0.5f) - 1.f;
 	vPoint.y = ptMouse.y / -(ViewPort.Height * 0.5f) + 1.f;
 	vPoint.z = 0.f;
 
-	// ���� -> �� �����̽�
+	
 	_matrix		matProj;
 
 	m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &matProj);
 	D3DXMatrixInverse(&matProj, nullptr, &matProj);
 	D3DXVec3TransformCoord(&vPoint, &vPoint, &matProj);
 
-	_vec3	vRayDir, vRayPos;		// �� �����̽� ������ �ִ� ����
+	_vec3	vRayDir, vRayPos;		
 
 	vRayPos = { 0.f, 0.f, 0.f };
 	vRayDir = vPoint - vRayPos;
 
-	// �� �����̽� -> ����
+	
 
 	_matrix		matView;
 	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
@@ -506,7 +506,7 @@ _bool CCalculator::PickingOnTransform_Monster(HWND hWnd, const CRcTex * pMonster
 	D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matView);
 	D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matView);
 
-	// ���� -> ����
+
 	_matrix		matWorld;
 
 	pMonsterTransCom->Get_WorldMatrix(&matWorld);
@@ -572,19 +572,18 @@ _bool CCalculator::PickingTerrainObject(HWND hWnd, const CTerrainTex * pTerrainB
 	ZeroMemory(&ViewPort, sizeof(D3DVIEWPORT9));
 	m_pGraphicDev->GetViewport(&ViewPort);
 
-	// ����Ʈ -> ����
+	
 	vPoint.x = ptMouse.x / (ViewPort.Width * 0.5f) - 1.f;
 	vPoint.y = ptMouse.y / -(ViewPort.Height * 0.5f) + 1.f;
 	vPoint.z = 0.f;
 
-	// ���� -> �� �����̽�
 	_matrix		matProj;
 
 	m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &matProj);
 	D3DXMatrixInverse(&matProj, nullptr, &matProj);
 	D3DXVec3TransformCoord(&vPoint, &vPoint, &matProj);
 
-	_vec3	vRayDir, vRayPos;		// �� �����̽� ������ �ִ� ����
+	_vec3	vRayDir, vRayPos;		
 
 	vRayPos = { 0.f, 0.f, 0.f };
 	vRayDir = vPoint - vRayPos;
@@ -595,7 +594,7 @@ _bool CCalculator::PickingTerrainObject(HWND hWnd, const CTerrainTex * pTerrainB
 	D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matView);
 	D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matView);
 
-	// ���� -> ����
+
 	_matrix		matWorld;
 
 	pTerrainTransformCom->Get_WorldMatrix(&matWorld);
@@ -619,7 +618,7 @@ _bool CCalculator::PickingTerrainObject(HWND hWnd, const CTerrainTex * pTerrainB
 		{
 			_ulong dwIndex = i * dwVtxCntX + j;
 
-			// ������ ��
+			
 			dwVtxIdx[0] = dwIndex + dwVtxCntX;
 			dwVtxIdx[1] = dwIndex + dwVtxCntX + 1;
 			dwVtxIdx[2] = dwIndex + 1;
@@ -633,7 +632,7 @@ _bool CCalculator::PickingTerrainObject(HWND hWnd, const CTerrainTex * pTerrainB
 				return true;
 			}
 
-			// ���� �Ʒ�
+			
 			dwVtxIdx[0] = dwIndex + dwVtxCntX;
 			dwVtxIdx[1] = dwIndex + 1;
 			dwVtxIdx[2] = dwIndex;
@@ -667,7 +666,7 @@ _bool CCalculator::PickingOnTransform_RcTex(HWND hWnd, const CRcTex* pRcTexCom, 
 	ZeroMemory(&ViewPort, sizeof(D3DVIEWPORT9));
 	m_pGraphicDev->GetViewport(&ViewPort);
 
-	// ����Ʈ -> ����
+
 	vPoint.x = ptMouse.x / (ViewPort.Width * 0.5f) - 1.f;
 	vPoint.y = ptMouse.y / -(ViewPort.Height * 0.5f) + 1.f;
 	vPoint.z = 0.f;

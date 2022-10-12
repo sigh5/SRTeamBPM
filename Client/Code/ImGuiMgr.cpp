@@ -27,8 +27,6 @@ bool CImGuiMgr::Show_Cube_Tool = false;
 bool CImGuiMgr::Show_Monster_Tool = false;
 bool CImGuiMgr::Show_Object_Tool = false;
 
-//지우셈
-
 _int CImGuiMgr::m_iInterval = 100;
 _int CImGuiMgr::m_iWidth = 100;
 _int CImGuiMgr::m_iDepth = 1;

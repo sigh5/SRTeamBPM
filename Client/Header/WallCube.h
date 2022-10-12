@@ -22,10 +22,12 @@ public:
 	virtual void		Render_Obejct(void) override;
 	virtual void		Collision_Event() override;
 
+public:
+	void				init_For_Collistion_vector();
+
 public:// For Tool
 	void				MousePostoScreen(); // 현재 마우스 더블클릭한 위치로 큐브를 만들어주는 함수
 	_bool				Set_SelectGizmo();
-	_bool*				Get_WireFrame() { return &m_bWireFrame; }
 	void				Set_WireFrame(_bool bWireFrame) { m_bWireFrame = bWireFrame; }
 	void				Set_Layer_Map_Name(const wstring& LayerName, wstring* RoomName)
 	{m_LayerName = LayerName;

@@ -283,7 +283,6 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 					pGameObject->Set_DrawTexIndex(iDrawIndex);
 					static_cast<CWallCube*>(pGameObject)->Set_Option(CUBE_TYPE(iCubeOption));
 					FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(test1, pGameObject), );
-
 				}
 			}
 
@@ -294,6 +293,11 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 			Transcom->Set_Info(INFO_POS, &vPos);
 			Transcom->Set_Angle(&vAngle);
 			Transcom->Set_Scale(&vScale);
+			if (iCubeOption == CUBE_COLLISION_WALL)
+			{
+				static_cast<CWallCube*>(pGameObject)->init_For_Collistion_vector();
+			}
+
 			Transcom->Update_Component(0.01f);
 			
 			
