@@ -107,7 +107,7 @@ void CTeleCube::Collision_Event()
 
 			pTransform->Set_Pos(vPos.x + 10.f, vPos.y, vPos.z + 10.f);
 			pTransform->Update_Component(1.f);
-			//구울 정리하는 코드 삽입
+
 
 		}
 
