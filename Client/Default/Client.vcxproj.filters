@@ -256,6 +256,7 @@
     <ClCompile Include="..\Code\EarthShaker.cpp">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\06. EarthShaker</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\AnubisStormBall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -531,6 +532,7 @@
       <Filter>02. GameObject\01. For_Stage\10. UI\00. MetronomeUI\MetronomeSmallUI</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\MetronomeRect.h" />
+    <ClInclude Include="..\Header\AnubisStormBall.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -777,6 +779,9 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\10. UI\00. MetronomeUI\MetronomeRect">
       <UniqueIdentifier>{9082c8d5-8935-4e57-94b3-2e2b2fa9a98d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\00. Anubis\00. AnubisBullet">
+      <UniqueIdentifier>{4e016dca-92a7-46ab-86d4-c104b70c3ebd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -9,20 +9,22 @@ class CRcTex;
 
 END
 
-class CMonsterBullet :public CBaseBullet
+class CAnubisStormBall :
+	public CBaseBullet
 {
 private:
-	explicit CMonsterBullet(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual ~CMonsterBullet();
+	explicit CAnubisStormBall(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual ~CAnubisStormBall();
 
 public:
-	HRESULT				Ready_Object(_vec3 vPos);
+	HRESULT				Ready_Object(_vec3 vPos, _vec3 vTarget);
 	virtual _int		Update_Object(const _float& fTimeDelta) override;
 	virtual void		LateUpdate_Object(void) override;
 	virtual void		Render_Obejct(void) override;
 
 private:
-	HRESULT				Add_Component(void);
+		HRESULT				Add_Component(void);
+
 
 private:
 	CTransform*			m_pTransCom = nullptr;
@@ -31,9 +33,11 @@ private:
 	CRcTex*				m_pBufferCom = nullptr;
 	CAnimation*			m_pAnimationCom = nullptr;
 
-
 public:
-	static CMonsterBullet*		Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos);
+	static CAnubisStormBall*		Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos, _vec3 vTarget);
 	virtual void		Free(void);
+
+	float			m_fLifetime = 0.f;
+	float			m_fLifetimeCount = 0.f;
 };
 

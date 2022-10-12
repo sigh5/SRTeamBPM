@@ -95,6 +95,7 @@ _uint CLoading::Loading_ForStage(void)
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_EarthShaker_Attack_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/EarthShaker/earthshaker_attack%d.png", TEX_NORMAL, 9)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_EarthShaker_Dead_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/EarthShaker/earthshaker_dead%d.png", TEX_NORMAL, 9)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Anubis_Thunder_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Anubis/anubis_thunder%d.png", TEX_NORMAL, 9)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Anubis_Stormball_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Anubis/stormball%d.png", TEX_NORMAL, 8)), E_FAIL);
 	// ~Monster
 
 	// _UI
