@@ -1057,7 +1057,6 @@ void CImGuiMgr::MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 	ImGui::End();
 }
 
-
 // Player Tool
 void CImGuiMgr::Player_Tool(LPDIRECT3DDEVICE9 pGraphicDev, CScene * pScene, wstring pDirectory, const _tchar* pLayerTag, const _tchar* pObjTag, const _tchar * pComponentTag, COMPONENTID eId)
 {
@@ -1169,7 +1168,7 @@ void CImGuiMgr::Object_Tool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 	if (ImGui::IsMouseClicked(0))
 	{
 		CLayer* pLayer = pScene->GetLayer(L"ObjectLayer");
-		CGameObject* temp = SelectObject<CObstacle>(pLayer, &m_CurrentTerrainObjectName);
+		CGameObject* temp = SelectObject<CObstacle>(pLayer, &m_CurrentObstaclName);
 	}
 
 	CObstacle *pTerrain = dynamic_cast<CObstacle*>(m_pSelectedObject);
@@ -1190,6 +1189,7 @@ void CImGuiMgr::Object_Tool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 
 		pTerrain->Set_WireFrame(true);
 		EditObjectTexture<CObstacle>(L"Proto_fetrues_Texture");
+		TransformEdit(pCam,m_pSelectedTransform, Show_Object_Tool);
 	}
 
 	ImGui::End();
