@@ -34,11 +34,9 @@ _int CCoin::Update_Object(const _float & fTimeDelta)
 	if (m_bDead == true)
 	{
 		CScene  *pScene = ::Get_Scene();
-		NULL_CHECK_RETURN(pScene, );
+		NULL_CHECK_RETURN(pScene, RETURN_ERR );
 		CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
-		NULL_CHECK_RETURN(pLayer, );
-
-
+		NULL_CHECK_RETURN(pLayer, RETURN_ERR);
 		return OBJ_DEAD;
 	}
 

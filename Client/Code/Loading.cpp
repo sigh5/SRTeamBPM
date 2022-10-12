@@ -107,7 +107,7 @@ _uint CLoading::Loading_ForStage(void)
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Coin_KeyUI_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Status/Key_Coin_UI.png", TEX_NORMAL)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ArrowTexCom", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Arrow/Arrow%d.png", TEX_NORMAL, 6)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Gun_ScreenTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Gun_Output/Magnum%d.png", TEX_NORMAL, 5)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Dash_UI_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Dash_Icon.png", TEX_NORMAL)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Dash_UI_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Dash_Icon1.png", TEX_NORMAL)), E_FAIL);
 	
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Inventory_UI_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Inventory_UI.png", TEX_NORMAL)), E_FAIL);
 	// \Bin\Resource\Texture\UI
@@ -158,6 +158,13 @@ _uint CLoading::Loading_ForStage(void)
 	// Obstacle Anim
 
 
+	// Effect
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_hitbloodTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Effect/hitblood_%d.png", TEX_NORMAL, 8)), E_FAIL);
+	//
+
+
+
+
 	m_bFinish = true;
 
 	lstrcpy(m_szLoading, L"Press Start Button");
@@ -205,7 +212,7 @@ _uint CLoading::Loading_ForColliderStage(void)
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_HpBar_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/HpBar/HpBar%d.png", TEX_NORMAL, 5)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MonsterTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Anubis/anubis%d.png", TEX_NORMAL, 8)), E_FAIL);
 	
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MapCubeTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/CubeMap/Cube%d.dds", TEX_CUBE, 19)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MapCubeTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/CubeMap/Cube%d.dds", TEX_CUBE, 41)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_CubeTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/SkyBox/burger%d.dds", TEX_CUBE, 4)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_hitbloodTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Effect/hitblood_%d.png", TEX_NORMAL, 8)), E_FAIL);
 	m_bFinish = true;

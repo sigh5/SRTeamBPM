@@ -163,6 +163,7 @@
     <ClInclude Include="..\Header\Anubis.h" />
     <ClInclude Include="..\Header\AnubisStormBall.h" />
     <ClInclude Include="..\Header\AnubisThunder.h" />
+    <ClInclude Include="..\Header\AttackEffect.h" />
     <ClInclude Include="..\Header\BackGround.h" />
     <ClInclude Include="..\Header\Box.h" />
     <ClInclude Include="..\Header\Bullet.h" />
@@ -182,6 +183,7 @@
     <ClInclude Include="..\Header\Gun_Screen.h" />
     <ClInclude Include="..\Header\HealthPotion.h" />
     <ClInclude Include="..\Header\HitBlood.h" />
+    <ClInclude Include="..\Header\HitEffect.h" />
     <ClInclude Include="..\Header\HpBar.h" />
     <ClInclude Include="..\Header\HWPlayer.h" />
     <ClInclude Include="..\Header\ImGuiMgr.h" />
@@ -204,6 +206,7 @@
     <ClInclude Include="..\Header\Obstacle.h" />
     <ClInclude Include="..\Header\Player.h" />
     <ClInclude Include="..\Header\ShotGun.h" />
+    <ClInclude Include="..\Header\SkillEffct.h" />
     <ClInclude Include="..\Header\SkyBox.h" />
     <ClInclude Include="..\Header\Snowfall.h" />
     <ClInclude Include="..\Header\Sphinx.h" />
@@ -252,6 +255,7 @@
     <ClCompile Include="..\Code\Anubis.cpp" />
     <ClCompile Include="..\Code\AnubisStormBall.cpp" />
     <ClCompile Include="..\Code\AnubisThunder.cpp" />
+    <ClCompile Include="..\Code\AttackEffect.cpp" />
     <ClCompile Include="..\Code\BackGround.cpp" />
     <ClCompile Include="..\Code\Box.cpp" />
     <ClCompile Include="..\Code\Bullet.cpp" />
@@ -271,6 +275,7 @@
     <ClCompile Include="..\Code\Gun_Screen.cpp" />
     <ClCompile Include="..\Code\HealthPotion.cpp" />
     <ClCompile Include="..\Code\HitBlood.cpp" />
+    <ClCompile Include="..\Code\HitEffect.cpp" />
     <ClCompile Include="..\Code\HpBar.cpp" />
     <ClCompile Include="..\Code\HWPlayer.cpp" />
     <ClCompile Include="..\Code\ImGuiMgr.cpp" />
@@ -293,6 +298,7 @@
     <ClCompile Include="..\Code\Obstacle.cpp" />
     <ClCompile Include="..\Code\Player.cpp" />
     <ClCompile Include="..\Code\ShotGun.cpp" />
+    <ClCompile Include="..\Code\SkillEffct.cpp" />
     <ClCompile Include="..\Code\SkyBox.cpp" />
     <ClCompile Include="..\Code\Snowfall.cpp" />
     <ClCompile Include="..\Code\Sphinx.cpp" />

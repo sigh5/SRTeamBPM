@@ -6,6 +6,11 @@
 #include "MyCamera.h"
 #include "Gun_Screen.h"
 
+
+#include "DynamicCamera.h"
+
+
+
 CObstacle::CObstacle(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
 {
@@ -25,12 +30,17 @@ HRESULT CObstacle::InitSetting(_vec2 * vMousPos, const wstring & LayerName, wstr
 	else
 		MousePostoScreen(); // 현재 마우스 더블클릭한 위치로 큐브를 만들어주는 함수
 
+	//임시 코드
 	_vec3 vCurretPos;
 	m_pTransCom->Get_Info(INFO_POS, &vCurretPos);
 	vCurretPos.y += 0.5f;
 	
 	m_pTransCom->Set_Y(vCurretPos.y);
 
+	
+	/*_vec3 vScale = { 3.f,3.f,3.f };
+	m_pTransCom->Set_Scale(&vScale);
+*/
 	//m_pTransCom->Get_Info(INFO_POS, &vCurretPos);
 
 
@@ -92,12 +102,16 @@ _int CObstacle::Update_Object(const _float & fTimeDelta)
 void CObstacle::LateUpdate_Object(void)
 {
 	CScene  *pScene = ::Get_Scene();
+
 	NULL_CHECK_RETURN(pScene, );
 	
 	if (pScene->Get_SceneType() == SCENE_TOOLTEST)
 		return;
+	/*CDynamicCamera* pCamera = static_cast<CDynamicCamera*>(Get_GameObject(L"TestLayer", L"DynamicCamera"));
+	NULL_CHECK(pCamera);*/
 
-	// 빌보드 에러 해결
+	// SCNENE
+	//// 빌보드 에러 해결
 	CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
 	NULL_CHECK(pCamera);
 

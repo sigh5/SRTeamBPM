@@ -12,13 +12,53 @@
 USING(Engine)
 
 CMonsterBase::CMonsterBase(LPDIRECT3DDEVICE9 pGraphicDev)
-	:CGameObject(pGraphicDev)
+	:CGameObject(pGraphicDev),
+	m_iMonsterIndex(MONSTER_END),
+	m_bHit(false),
+	m_fHitDelay(0.f),
+	m_iPreHp(0),
+	m_iOriginHp(0),
+	m_fTimeDelta(0.f),
+	m_bResetCheck(false),
+	m_bExcutionCheck(false),
+	m_bDead(false),
+	m_iPreIndex(0),
+	m_fAttackDelay(0),
+	m_fAttackDelayTime(0),
+	m_bAttack(true),
+	m_bAttacking(false),
+	fMtoPDistance(20.f)
 {
+	ZeroMemory(&m_vPlayerPos,sizeof(_vec3));
+	ZeroMemory(&m_vMonsterPos, sizeof(_vec3));
+	ZeroMemory(&m_vOriginPos, sizeof(_vec3));
+	ZeroMemory(&m_vMonsterPos, sizeof(_vec3));
+
 }
 
 CMonsterBase::CMonsterBase(const CMonsterBase & rhs)
-	: CGameObject(rhs)
+	: CGameObject(rhs), 
+	m_iMonsterIndex(rhs.m_iMonsterIndex),
+	m_bHit(rhs.m_bHit),
+	m_fHitDelay(rhs.m_fHitDelay),
+	m_iPreHp(rhs.m_iPreHp),
+	m_iOriginHp(rhs.m_iOriginHp),
+	m_fTimeDelta(rhs.m_fTimeDelta),
+	m_bResetCheck(rhs.m_bResetCheck),
+	m_bExcutionCheck(rhs.m_bExcutionCheck),
+	m_bDead(rhs.m_bDead),
+	m_iPreIndex(rhs.m_iPreIndex),
+	m_fAttackDelay(rhs.m_fAttackDelay),
+	m_fAttackDelayTime(rhs.m_fAttackDelayTime),
+	m_bAttack(rhs.m_bAttack),
+	m_bAttacking(rhs.m_bAttacking),
+	fMtoPDistance(rhs.fMtoPDistance)
 {
+	memcpy(&m_vPlayerPos,&rhs.m_vPlayerPos, sizeof(_vec3));
+	memcpy(&m_vMonsterPos, &rhs.m_vPlayerPos, sizeof(_vec3));
+	memcpy(&m_vOriginPos, &rhs.m_vPlayerPos, sizeof(_vec3));
+	memcpy(&m_vMonsterPos, &rhs.m_vPlayerPos, sizeof(_vec3));
+
 }
 
 

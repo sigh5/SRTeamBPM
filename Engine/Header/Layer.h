@@ -24,7 +24,7 @@ public:
 	HRESULT			Add_GameObjectList(CGameObject* pInstance);
 	void			Add_GhulList(CGameObject* pGhul);
 	void			Add_ObeliskList(CGameObject* pObelisk);
-	void			Delete_GhulList(void);
+
 	
 	
 	HRESULT			Ready_Layer(void);
@@ -49,12 +49,18 @@ public:
 
 	CGameObject*			Get_PreRoomTeleCube(); // 스택안의 top을 가져옴
 	void					Clear_Stack();	// 스택 안에있는 것들을 지워줌
-	void					Reset_Monster();
+	void					Reset_Monster();	//맵 오브젝트 내 몬스터 위치 체력 초기화
+	void			Delete_GhulList(void);		//구울 리스트 삭제
 	
 	//구울 리스트 가져오기
 	list<CGameObject*>&		Get_GhulList() { return m_GhulList; }
 	list<CGameObject*>&		Get_ObeliskList() { return m_ObeliskList; }
 
+
+
+	void					Add_EffectList(CGameObject* pEffectObject)	{m_EffectList.push_back(pEffectObject);}
+	
+	list<CGameObject*>&		Get_EffectList() { return m_EffectList; }
 private:
 	map<const _tchar*, CGameObject*>			m_mapObject;
 
@@ -69,6 +75,9 @@ private:
 	list<CGameObject*>	m_ObeliskList;
 
 	list<_tchar* > NameList;
+
+
+	list<CGameObject*>	m_EffectList;
 
 public:
 	static CLayer*		Create(void);
