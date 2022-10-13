@@ -128,11 +128,11 @@ void CStage::LateUpdate_Scene(void)
 
 	for (auto iter = pLayer->Get_GameObjectMap().begin(); iter != pLayer->Get_GameObjectMap().end(); ++iter)
 	{
-
-		if (false == static_cast<CMonsterBase*>(iter->second)->Get_Dead())
+		iter->second->Collision_Event();
+		/*if (false == static_cast<CMonsterBase*>(iter->second)->Get_Dead())
 		{
 			iter->second->Collision_Event();
-		}
+		}*/
 	}
 	
 	for (auto iter = pLayer->Get_GhulList().begin(); iter != pLayer->Get_GhulList().end(); ++iter)
@@ -214,23 +214,23 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 
 	READY_LAYER(pGameObject, CPlayer, pLayer, m_pGraphicDev, L"Player");
 
-	pGameObject = CBox::Create(m_pGraphicDev, 327, 309);
+	pGameObject = CBox::Create(m_pGraphicDev, 327, 315);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Box0", pGameObject), E_FAIL);
 	
-	pGameObject = CBox::Create(m_pGraphicDev, 323, 321);
+	pGameObject = CBox::Create(m_pGraphicDev, 327, 320);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Box1", pGameObject), E_FAIL);
 	
-	pGameObject = CBox::Create(m_pGraphicDev, 325, 327);
+	pGameObject = CBox::Create(m_pGraphicDev, 327, 325);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Box2", pGameObject), E_FAIL);
 	
-	pGameObject = CBox::Create(m_pGraphicDev, 328, 338);
+	pGameObject = CBox::Create(m_pGraphicDev, 327, 330);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Box3", pGameObject), E_FAIL);
 	
-	pGameObject = CBox::Create(m_pGraphicDev, 327, 352);
+	pGameObject = CBox::Create(m_pGraphicDev, 327, 335);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Box4", pGameObject), E_FAIL);
 	

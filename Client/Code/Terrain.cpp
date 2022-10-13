@@ -30,25 +30,31 @@ _int CTerrain::Update_Object(const _float & fTimeDelta)
 {
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
-	if (m_pCreateControlSphere == false)
+	CScene* pScene = Get_Scene();
+
+	if (pScene->Get_SceneType() != SCENE_TOOLTEST)
 	{
-		_matrix matWorld;
-		m_pTransCom->Get_WorldMatrix(&matWorld);
-		D3DXVec3TransformCoord(&m_vCenter, &m_vCenter, &matWorld);
+		if (m_pCreateControlSphere == false)
+		{
+			_matrix matWorld;
+			m_pTransCom->Get_WorldMatrix(&matWorld);
+			D3DXVec3TransformCoord(&m_vCenter, &m_vCenter, &matWorld);
 
-		CScene* pScene = Get_Scene();
-		CLayer* pLayer = pScene->GetLayer(L"Layer_Room");
+			CScene* pScene = Get_Scene();
+			CLayer* pLayer = pScene->GetLayer(L"Layer_Room");
 
-		CGameObject* pGameObject = nullptr;
+			CGameObject* pGameObject = nullptr;
 
 
-		pGameObject = CControlRoom::Create(m_pGraphicDev, m_vCenter);
-		NULL_CHECK_RETURN(pGameObject, E_FAIL);
+			pGameObject = CControlRoom::Create(m_pGraphicDev, m_vCenter);
+			NULL_CHECK_RETURN(pGameObject, E_FAIL);
 
-		pLayer->Add_ControlRoomList(pGameObject);
+			pLayer->Add_ControlRoomList(pGameObject);
 
-		m_pCreateControlSphere = true;
+			m_pCreateControlSphere = true;
+		}
 	}
+	
 
 
 	
