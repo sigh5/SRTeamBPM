@@ -56,6 +56,8 @@ public:					// ★ m_pInfoCom->Get_InfoRef()._iHp를 return 해주면 실전 OK
 	_uint				Get_HpChange(void) { return m_iOriginHP; }
 	_uint				Get_Skill(void) { return m_iSkillPower; }
 	
+	//탄피 생성하려고 방향이 필요해서 만들었음
+	_vec3				Get_Direction(void) { return m_vDirection; }
 
 	void				Set_bPreStat(_bool _AddStat) { m_bPreStat = _AddStat; }
 	void				Set_bCurStat(_bool _bStat) { m_bCurStat = _bStat; }
