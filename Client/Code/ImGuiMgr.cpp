@@ -1488,45 +1488,32 @@ void CImGuiMgr::Create_Sphere(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCa
 
 
 
-	if (ImGui::IsMouseDoubleClicked(0))
-	{
-		CLayer* MyLayer = pScene->GetLayer(L"ControlLayer");
+	//if (ImGui::IsMouseDoubleClicked(0))
+	//{
+	//	CLayer* MyLayer = pScene->GetLayer(L"ControlLayer");
 
-		
-		ImVec2 temp = ImGui::GetMousePos();
-	/*	_vec2 vec2MousePos = { temp.x,temp.y };
-		ObjectCreate<CWallCube>(pGrahicDev, MyLayer, &pGameObject, pObjectName);
-		static_cast<CWallCube*>(pGameObject)->InitSetting(&vec2MousePos, L"TerrainLayer", &m_CurrentTerrainObjectName);
+	//	
+	//	ImVec2 temp = ImGui::GetMousePos();
+	///*	_vec2 vec2MousePos = { temp.x,temp.y };
+	//	ObjectCreate<CWallCube>(pGrahicDev, MyLayer, &pGameObject, pObjectName);
+	//	static_cast<CWallCube*>(pGameObject)->InitSetting(&vec2MousePos, L"TerrainLayer", &m_CurrentTerrainObjectName);
 
-		static_cast<CWallCube*>(pGameObject)->Set_DrawTexIndex(m_iMapCubeIndex);*/
+	//	static_cast<CWallCube*>(pGameObject)->Set_DrawTexIndex(m_iMapCubeIndex);*/
 
-		/*	if (pGameObject != nullptr && pWallCube != nullptr)
-				Set_Create_Cube_Pos(&pGameObject, &pWallCube, &isUpcube);*/
-
-		static _int iObjectIndex2 = 0;
-
-		_tchar* szObjectName = new _tchar[20];
-		wstring t = L"Sphere%d";
-
-		wsprintfW(szObjectName, t.c_str(), iObjectIndex2);
-		MyLayer->AddNameList(szObjectName);
-		++iObjectIndex2;
+	//	/*	if (pGameObject != nullptr && pWallCube != nullptr)
+	//			Set_Create_Cube_Pos(&pGameObject, &pWallCube, &isUpcube);*/
 
 
-		pControlSphere = CControlRoom::Create(pGrahicDev);
-		NULL_CHECK_RETURN(pControlSphere, );
-		FAILED_CHECK_RETURN(MyLayer->Add_GameObject(szObjectName, pControlSphere), );
+
+	//}
 
 
-	}
+	//if (pControlSphere != nullptr)
+	//{
+	//	CTransform* pTransform = dynamic_cast<CTransform*>(pControlSphere->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
 
-
-	if (pControlSphere != nullptr)
-	{
-		CTransform* pTransform = dynamic_cast<CTransform*>(pControlSphere->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
-
-		TransformEdit(pCam, pTransform, g_Show_Sphere);
-	}
+	//	TransformEdit(pCam, pTransform, g_Show_Sphere);
+	//}
 
 
 

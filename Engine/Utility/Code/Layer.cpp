@@ -151,7 +151,11 @@ _int CLayer::Update_Layer(const _float & fTimeDelta)
 	}
 
 
+	for (auto iter = m_ControlRoomList.begin(); iter != m_ControlRoomList.end(); ++iter)
+	{
+		(*iter)->Update_Object(fTimeDelta);
 
+	}
 
 
 	return iResult;
@@ -166,6 +170,10 @@ void CLayer::LateUpdate_Layer(void)
 
 	for (auto& iter : m_EffectList)
 		iter->LateUpdate_Object();
+
+	for (auto& iter : m_ControlRoomList)
+		iter->LateUpdate_Object();
+
 
 }
 
@@ -269,10 +277,13 @@ void CLayer::Free(void)
 	m_ObeliskList.clear();
 
 	
-
 	for (auto& iter : m_EffectList)
 		Safe_Release(iter);
 	m_EffectList.clear();
 
+	for (auto& iter : m_ControlRoomList)
+		Safe_Release(iter);
+	m_ControlRoomList.clear();
 
+	
 }

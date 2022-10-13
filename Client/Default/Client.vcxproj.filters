@@ -271,11 +271,8 @@
     <ClCompile Include="..\Code\SkillEffct.cpp">
       <Filter>02. GameObject\01. For_Stage\07. Effect\Skill_Effect</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\ControlRoomMgr.cpp">
-      <Filter>97. Mgr\04. ControlRoomMgr\Mgr</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\ControlRoom.cpp">
-      <Filter>97. Mgr\04. ControlRoomMgr\ControlRoom</Filter>
+      <Filter>02. GameObject\02. For_public\06. ControlRoom</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -565,11 +562,8 @@
     <ClInclude Include="..\Header\SkillEffct.h">
       <Filter>02. GameObject\01. For_Stage\07. Effect\Skill_Effect</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\ControlRoomMgr.h">
-      <Filter>97. Mgr\04. ControlRoomMgr\Mgr</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\ControlRoom.h">
-      <Filter>97. Mgr\04. ControlRoomMgr\ControlRoom</Filter>
+      <Filter>02. GameObject\02. For_public\06. ControlRoom</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -833,13 +827,7 @@
     <Filter Include="02. GameObject\01. For_Stage\07. Effect\Skill_Effect">
       <UniqueIdentifier>{e97a4632-c69b-4525-be17-354179118667}</UniqueIdentifier>
     </Filter>
-    <Filter Include="97. Mgr\04. ControlRoomMgr">
-      <UniqueIdentifier>{29dd87bf-3072-4998-8053-9677fecd8373}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="97. Mgr\04. ControlRoomMgr\Mgr">
-      <UniqueIdentifier>{f7b45a2e-95d1-4473-84e5-0fd79fa3a06c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="97. Mgr\04. ControlRoomMgr\ControlRoom">
+    <Filter Include="02. GameObject\02. For_public\06. ControlRoom">
       <UniqueIdentifier>{08900aaa-48ff-42ce-88fb-99eb1939c09a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>

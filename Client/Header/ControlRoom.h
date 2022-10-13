@@ -19,8 +19,9 @@ private:
 	virtual	 ~CControlRoom();
 
 public:
-	HRESULT				Ready_Object();
+	HRESULT				Ready_Object(const _vec3& vCenter);
 	virtual _int		Update_Object(const _float& fTimeDelta) override;
+	virtual void		LateUpdate_Object()override;
 	virtual void		Render_Obejct(void) override;
 	virtual void		Collision_Event() override;
 
@@ -40,8 +41,15 @@ public:
 private:
 	_bool				m_bSetActive = false;
 
+	_bool				m_bPlayerInTerrain = false;
+	_int				m_iRestMonsterNum = 0;
+
+
+	_bool				m_bTest = false;
+
+
 public:
-	static CControlRoom* Create(LPDIRECT3DDEVICE9 pGraphicDev);
+	static CControlRoom* Create(LPDIRECT3DDEVICE9 pGraphicDev,const _vec3& vCenter);
 	virtual void		 Free()override;
 
 };

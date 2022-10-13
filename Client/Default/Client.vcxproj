@@ -172,7 +172,6 @@
     <ClInclude Include="..\Header\CoinKeyUI.h" />
     <ClInclude Include="..\Header\ColliderStage.h" />
     <ClInclude Include="..\Header\ControlRoom.h" />
-    <ClInclude Include="..\Header\ControlRoomMgr.h" />
     <ClInclude Include="..\Header\DashUI.h" />
     <ClInclude Include="..\Header\DynamicCamera.h" />
     <ClInclude Include="..\Header\EarthShaker.h" />
@@ -265,7 +264,6 @@
     <ClCompile Include="..\Code\CoinKeyUI.cpp" />
     <ClCompile Include="..\Code\ColliderStage.cpp" />
     <ClCompile Include="..\Code\ControlRoom.cpp" />
-    <ClCompile Include="..\Code\ControlRoomMgr.cpp" />
     <ClCompile Include="..\Code\DashUI.cpp" />
     <ClCompile Include="..\Code\DynamicCamera.cpp" />
     <ClCompile Include="..\Code\EarthShaker.cpp" />

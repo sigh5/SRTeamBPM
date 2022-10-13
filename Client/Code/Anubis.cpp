@@ -58,6 +58,8 @@ HRESULT CAnubis::Ready_Object(float Posx, float Posy)
 		m_pDynamicTransCom->Set_Pos((float)Posx, 2.f, (float)Posy);
 	}
 	Save_OriginPos();
+
+	
 	return S_OK;
 }
 

@@ -32,6 +32,10 @@ public:
 	const _bool&			Get_WireFrame() { return m_bWireFrame; }
 	void					Set_WireFrame(_bool bWireFrame) { m_bWireFrame = bWireFrame; }
 
+
+	const _bool&			Get_ObjDead() { return m_bDead; }
+	void					Set_ObjDead(_bool bDead) { m_bDead = bDead; }
+
 private:
 	CComponent*		Find_Component(const _tchar* pComponentTag, COMPONENTID eID);
 

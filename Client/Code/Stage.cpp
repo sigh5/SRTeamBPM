@@ -141,7 +141,6 @@ void CStage::LateUpdate_Scene(void)
 		}
 	}
 
-
 	pLayer = GetLayer(L"Layer_CubeCollsion");
 
 	for (auto iter = pLayer->Get_GameObjectMap().begin(); iter != pLayer->Get_GameObjectMap().end(); ++iter)
@@ -156,6 +155,16 @@ void CStage::LateUpdate_Scene(void)
 	}
 
 	Engine::CScene::LateUpdate_Scene();
+
+
+	pLayer = GetLayer(L"Layer_Room");
+
+	
+	for (auto iter : (pLayer->Get_ControlRoomList()))
+		iter->Collision_Event();
+	
+
+
 }
 
 void CStage::Render_Scene(void)
@@ -416,11 +425,12 @@ void CStage::Set_Player_StartCubePos()
 	CTransform* pFirstCubeTransform = dynamic_cast<CTransform*>(pFirstCubeObj->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
 	
 	//pLayer->Save_CurrentRoom(pLayer->m_iRoomIndex);
-	
+	_vec3 vAngle;
 	_vec3 vFirstCubePos;
 	pFirstCubeTransform->Get_Info(INFO_POS, &vFirstCubePos);
+	vAngle = pFirstCubeTransform->Get_Angle();
 
-	pTransform->Set_Pos(vFirstCubePos.x+5.f, vFirstCubePos.y, vFirstCubePos.z );
-	
+	pTransform->Set_Pos(vFirstCubePos.x, vFirstCubePos.y, vFirstCubePos.z );
+	pTransform->Rotation(ROT_Y, vAngle.y);
 	pTransform->Update_Component(1.f);
 }

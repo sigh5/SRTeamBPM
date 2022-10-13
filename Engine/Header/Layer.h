@@ -54,12 +54,14 @@ public:
 	//구울 리스트 가져오기
 	list<CGameObject*>&		Get_GhulList() { return m_GhulList; }
 	list<CGameObject*>&		Get_ObeliskList() { return m_ObeliskList; }
+	list<CGameObject*>&		Get_ControlRoomList() { return m_ControlRoomList; }
+	list<CGameObject*>&		Get_EffectList() { return m_EffectList; }
 
 
-
+	void					Add_ControlRoomList(CGameObject* pControlRoom) { m_ControlRoomList.push_back(pControlRoom); }
 	void					Add_EffectList(CGameObject* pEffectObject)	{m_EffectList.push_back(pEffectObject);}
 	
-	list<CGameObject*>&		Get_EffectList() { return m_EffectList; }
+
 private:
 	map<const _tchar*, CGameObject*>			m_mapObject;
 
@@ -72,6 +74,9 @@ private:
 	list<CGameObject*>  m_GhulList;
 	list<CGameObject*>  m_objPoolList;
 	list<CGameObject*>	m_ObeliskList;
+	list<CGameObject*>  m_ControlRoomList;
+
+
 
 	list<_tchar* > NameList;
 
