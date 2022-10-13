@@ -37,8 +37,8 @@ _int CChange_Stage::Update_Scene(const _float & fTimeDelta)
 	++m_iLoadingCount;
 
 	//cout << "How Count : " << m_iLoadingCount << endl;
-
-	if (m_iLoadingCount > 200)
+						// 150~200
+	if (m_iLoadingCount > 100)
 	{
 		CScene*		pScene = CStage::Create(m_pGraphicDev);
 		NULL_CHECK_RETURN(pScene, E_FAIL);

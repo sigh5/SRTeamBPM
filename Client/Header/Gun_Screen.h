@@ -1,10 +1,10 @@
 #pragma once
-#include "GameObject.h"
+//#include "GameObject.h"
+#include "UI_Base.h"
 #include "Engine_Include.h"
 
 BEGIN(Engine)
 
-class CDynamic_Transform;
 class CRcTex;
 class CTexture;
 class CCalculator;
@@ -13,11 +13,11 @@ class COrthoTransform;
 
 END
 
-class CGun_Screen : public CGameObject
+class CGun_Screen : public CUI_Base
 {
 public:
 	explicit CGun_Screen(LPDIRECT3DDEVICE9 pGraphicDev);
-	explicit CGun_Screen(const CGun_Screen& rhs);
+	explicit CGun_Screen(const CUI_Base& rhs);
 	virtual ~CGun_Screen();
 
 public:
@@ -64,13 +64,16 @@ private:
 
 	_bool				m_bControl = false;
 
+	_uint				m_iAlpha = 0;
+
+	_vec3				m_vecScale;
+
 private:
 	CRcTex*				m_pBufferCom = nullptr;
 	CTexture*			m_pTextureCom = nullptr;
 	CCalculator*		m_pCalculatorCom = nullptr;
-	CDynamic_Transform*	m_pDynamicTransCom = nullptr;
 	CAnimation*			m_pAnimationCom = nullptr;
-	COrthoTransform*	m_pOrthoTransCom = nullptr;
+	COrthoTransform*	m_pTransCom = nullptr;
 
 public:
 	static CGun_Screen*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

@@ -1,5 +1,5 @@
 #pragma once
-#include "GameObject.h"
+#include "UI_Base.h"
 
 #include "Engine_Include.h"
 
@@ -17,11 +17,11 @@ class CGun_Screen;
 
 
 class CBullet_UI :
-	public CGameObject
+	public CUI_Base
 {
 public:
 	explicit CBullet_UI(LPDIRECT3DDEVICE9 pGraphicDev);
-	explicit CBullet_UI(const CGameObject& rhs);
+	explicit CBullet_UI(const CUI_Base& rhs);
 	virtual ~CBullet_UI();
 
 public:
@@ -50,6 +50,7 @@ private:
 	wstring				m_szComboCount = L"";		// 실시간 콤보 카운트
 	wstring				m_szOriginMagazine = L"";  // 원래 탄창 수를 표시하기 위한 함수
 
+	_vec3				m_vecScale;
 
 public:
 	static CBullet_UI*		Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* pPlayer);

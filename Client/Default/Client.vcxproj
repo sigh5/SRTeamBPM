@@ -207,6 +207,7 @@
     <ClInclude Include="..\Header\ObjectMgr.h" />
     <ClInclude Include="..\Header\Obstacle.h" />
     <ClInclude Include="..\Header\Player.h" />
+    <ClInclude Include="..\Header\Player_Dead_UI.h" />
     <ClInclude Include="..\Header\ShotGun.h" />
     <ClInclude Include="..\Header\SkillEffct.h" />
     <ClInclude Include="..\Header\SkyBox.h" />
@@ -302,6 +303,7 @@
     <ClCompile Include="..\Code\ObjectMgr.cpp" />
     <ClCompile Include="..\Code\Obstacle.cpp" />
     <ClCompile Include="..\Code\Player.cpp" />
+    <ClCompile Include="..\Code\Player_Dead_UI.cpp" />
     <ClCompile Include="..\Code\ShotGun.cpp" />
     <ClCompile Include="..\Code\SkillEffct.cpp" />
     <ClCompile Include="..\Code\SkyBox.cpp" />

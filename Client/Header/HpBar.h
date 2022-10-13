@@ -1,5 +1,5 @@
 #pragma once
-#include "GameObject.h"
+#include "UI_Base.h"
 #include "Engine_Include.h"
 #include "TestPlayer.h"
 
@@ -15,11 +15,11 @@ END
 
 
 
-class CHpBar : public CGameObject
+class CHpBar : public CUI_Base
 {
 public:
 	explicit CHpBar(LPDIRECT3DDEVICE9 pGraphicDev);
-	explicit CHpBar(const CGameObject& rhs);
+	explicit CHpBar(const CUI_Base& rhs);
 	virtual ~CHpBar();
 
 public:
@@ -41,6 +41,8 @@ public:
 
 	CGameObject*		m_pPlayer;
 	
+	_vec3				m_vecScale;
+
 public:
 	static CHpBar*		Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* pPlayer);
 	virtual void Free();

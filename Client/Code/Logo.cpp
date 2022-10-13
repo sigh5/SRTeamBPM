@@ -93,7 +93,7 @@ void CLogo::Render_Scene(void)
 
 
 	if (m_bRender)	
-		Render_Font(L"Font_Jinji", m_pLoading->Get_String(), &_vec2(240.f, 420.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+		Render_Font(L"Font_Jinji", m_pLoading->Get_String(), &_vec2(350.f, 800.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 
 
 	if (m_iCount > 50)
@@ -122,7 +122,7 @@ HRESULT CLogo::Ready_Layer_Environment(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"StartButton", pGameObject), E_FAIL);
 
-	pGameObject = CExit_Button::Create(m_pGraphicDev, -0.6f, -0.45f);
+	pGameObject = CExit_Button::Create(m_pGraphicDev, -0.6f, -0.25f);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"ExitButton", pGameObject), E_FAIL);
 
@@ -170,11 +170,11 @@ HRESULT CLogo::Ready_Proto(void)
 	// Font
 	FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"BMYEONSUNG", L"Power", 14, 18, FW_HEAVY), E_FAIL);
 
-	FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"DalseoHealingBold", L"Healing", 8, 10, FW_NORMAL), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"DalseoHealingBold", L"Healing", 13, 18, FW_NORMAL), E_FAIL);
 	
-	FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"HoengseongHanu", L"BulletUIFont", 11, 13, FW_NORMAL), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"HoengseongHanu", L"BulletUIFont", 20, 25, FW_NORMAL), E_FAIL);
 	// LeeSoonSin
-	FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"LeeSoonSin", L"LoadingHUD_Font", 11, 15, FW_HEAVY), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"LeeSoonSin", L"LoadingHUD_Font", 18, 25, FW_HEAVY), E_FAIL);
 
 	return S_OK;
 }
