@@ -963,35 +963,22 @@ void CImGuiMgr::MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 			m_bMonsterCreateCheck = false;
 		}
 	}
-
+	CLayer* pLayer = pScene->GetLayer(L"TestLayer3");
 	CTransform * pTranscom = nullptr;
 	if (m_bMonsterCreateCheck)
 	{
 		ImGui::Text("if double click Create Cube");
 		if (ImGui::IsMouseDoubleClicked(0))
 		{
+			CMonsterToolObject* pMonsterObj = nullptr;
+			CGameObject*		pGameObject = nullptr;
+			_bool isUpcube = false;
+
 			ImVec2 temp = ImGui::GetMousePos();
+			_vec2 vec2MousePos = { temp.x,temp.y };
+			ObjectCreate<CMonsterToolObject>(pGrahicDev, pLayer, &pGameObject, L"TestLayer3");
+			static_cast<CMonsterToolObject*>(pGameObject)->InitSetting(&vec2MousePos, L"TerrainLayer", &m_CurrentTerrainObjectName);
 
-			//_vec3 vTemp = temp.x
-			CGameObject *pGameObject = nullptr;
-
-			_tchar* test1 = new _tchar[20];
-
-			wstring t = L"Test%d";
-			wsprintfW(test1, t.c_str(), m_iIndex);
-
-			NameList.push_back(test1);
-
-			pGameObject = CMonsterToolObject::Create(pGrahicDev, (_int)temp.x, (_int)temp.y);
-			NULL_CHECK_RETURN(pGameObject, );
-
-			CLayer* pMonsterlayer = pScene->GetLayer(L"TestLayer3");
-
-			FAILED_CHECK_RETURN(pMonsterlayer->Add_GameObject(test1, pGameObject), );
-
-			++m_iIndex;
-
-			pScene->Add_Layer(pMonsterlayer, L"TestLayer3");
 		}
 	}
 
