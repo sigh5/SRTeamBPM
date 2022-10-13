@@ -86,17 +86,17 @@ _int CMyCamera::Update_Object(const _float & fTimeDelta)
 	{
 		m_fDeadTimer = 0;
 		CTransform*	pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
-		NULL_CHECK(pPlayerTransform);
+		NULL_CHECK_RETURN(pPlayerTransform, RETURN_ERR);
 		pPlayerTransform->Rotation(ROT_X, D3DXToRadian(-90.f));
 		m_bPlayerDead = false;
 		CGun_Screen* pGun = dynamic_cast<CGun_Screen*>(Get_GameObject(L"Layer_UI", L"Gun"));
-		NULL_CHECK(pGun);
+		NULL_CHECK_RETURN(pGun,RETURN_ERR);
 		pGun->Set_GunNoRender(false);
 	}
 	else if( m_fDeadTimer <5.f && m_bPlayerDead)
 	{
 		CTransform*	pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
-		NULL_CHECK(pPlayerTransform);
+		NULL_CHECK_RETURN(pPlayerTransform, RETURN_ERR);
 		pPlayerTransform->Rotation(ROT_X, D3DXToRadian(20.f)*fTimeDelta);
 	}
 

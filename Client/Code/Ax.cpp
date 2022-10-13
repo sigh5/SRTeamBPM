@@ -54,7 +54,7 @@ _int CAx::Update_Object(const _float & fTimeDelta)
 		{
 			m_bActive = false;
 			m_fActiveTimer = 0.f;
-			m_pAnimationCom->m_iMotion = 0.f;
+			m_pAnimationCom->m_iMotion = 0;
 		}
 
 	}

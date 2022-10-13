@@ -83,7 +83,7 @@ CGhul * CObjectMgr::Reuse_GhulObj(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos)
 	CGhul*		pObject = nullptr;
 	if (m_GhulList.empty())
 	{
-		pObject = CGhul::Create(pGraphicDev, (int)vPos.x, (int)vPos.z);
+		pObject = CGhul::Create(pGraphicDev, (_float)vPos.x, (_float)vPos.z);
 	}
 	else
 	{
