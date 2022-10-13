@@ -48,7 +48,7 @@ HRESULT CSphinxFlyHead::Ready_Object(float Posx, float Posy, float Size)
 	m_pBodyAttackAnimation->Ready_Animation(8, 0, 0.4f);
 	m_pDeadAnimationCom->Ready_Animation(23, 0, 0.3f);
 
-	m_pInfoCom->Ready_CharacterInfo(3, 10, 2.f);
+	m_pInfoCom->Ready_CharacterInfo(2, 10, 2.f);
 
 	for (int i = 0; i < 4; ++i)
 	{

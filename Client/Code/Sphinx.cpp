@@ -40,7 +40,7 @@ HRESULT CSphinx::Ready_Object(int Posx, int Posy)
 	m_iMonsterIndex = MONSTER_SPHINX;
 	m_vOldPlayerPos = { 0.f, 0.f, 0.f };
 	m_pAnimationCom->Ready_Animation(13, 0, 0.2f);
-	m_pInfoCom->Ready_CharacterInfo(5, 10, 8.f);
+	m_pInfoCom->Ready_CharacterInfo(2, 10, 8.f);
 	m_pHeadOffAnimationCom->Ready_Animation(19, 0, 0.3f);
 	m_iPreHp = m_pInfoCom->Get_Hp();
 	m_iShootLeftRight = 0;

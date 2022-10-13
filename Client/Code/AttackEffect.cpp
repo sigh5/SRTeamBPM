@@ -97,10 +97,14 @@ HRESULT CAttackEffect::Set_Effect_INFO(_int iEffcet_Owner, _int iStartAnimNum, _
 	CBase_Effect::Set_Effect_INFO(iEffcet_Owner, iStartAnimNum, iAnimMax, fIntervel);
 
 	// ex) 나중에 지워도됌
-	// if(iEffcet_Owner == OWNER_ANUBIS)
-	// ADD_CLONE_PROTO(CTexture, m_pTextureCom, m_mapComponent, ID_STATIC, L"Proto_hitbloodTexture");
-
-
+	if (iEffcet_Owner == OWNER_ANUBIS)
+	{
+		ADD_CLONE_PROTO(CTexture, m_pTextureCom, m_mapComponent, ID_STATIC, L"Proto_hitbloodTexture");
+	}
+	else if (iEffcet_Owner == OWNER_PALYER)
+	{
+		ADD_CLONE_PROTO(CTexture, m_pTextureCom, m_mapComponent, ID_STATIC, L"Proto_AttackPlayerAXTexture");
+	}
 
 	m_pAnimationCom->Ready_Animation(iAnimMax, iStartAnimNum, fIntervel);
 
