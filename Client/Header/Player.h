@@ -130,6 +130,7 @@ private:		// Jw
 
 	// InventroyActive 
 	_bool				m_bInventroyActive = false;
+	_float				m_bDeadTimer = 0.f;
 	// ~InventroyActive 
 
 

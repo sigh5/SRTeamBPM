@@ -57,18 +57,15 @@ HRESULT CPlayer::Ready_Object(void)
 
 _int CPlayer::Update_Object(const _float & fTimeDelta)
 {
-	
-	m_fFrame += 8.f* fTimeDelta;
-
 	if (m_bDead)
 	{
-		Player_Dead_CaemraAction();
+		m_bDeadTimer += 2.f* fTimeDelta;
 	}
 	else
-		m_fFrame = 0.f;
+		m_bDeadTimer = 0.f;
 	
 
-	if (m_fFrame >= 8.f)
+	if (m_bDeadTimer >= 2.f)
 	{
 		Player_Dead(fTimeDelta);
 		m_bDead = false;
@@ -98,14 +95,8 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 
 	if (m_pInfoCom->Get_Hp() <= 0)
 	{
-
 		Player_Dead_CaemraAction();
-
 		m_bDead = true;
-	
-
-	
-
 	}
 
 	m_fTimeDelta = fTimeDelta;
@@ -435,13 +426,13 @@ void CPlayer::Random_ResurrectionRoom()
 
 void CPlayer::Player_Dead_CaemraAction()
 {
-
+	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
 }
 
 void CPlayer::Player_Dead(const _float& fTimeDelta)
 {
 	Random_ResurrectionRoom();
-	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
+
 
 	CScene* pScene = Get_Scene();
 	CLayer* pLayer = pScene->GetLayer(L"Layer_GameLogic");
