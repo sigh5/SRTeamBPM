@@ -34,11 +34,8 @@ HRESULT CPlayer_Dead_UI::Ready_Object(_uint _iAlpha)
 }
 
 _int CPlayer_Dead_UI::Update_Object(const _float & fTimeDelta)
-{	
-	cout << m_bEvent << "¶ç¾î" << m_iAlpha << endl;
-	
+{		
 	Engine::CGameObject::Update_Object(fTimeDelta);
-
 
 	Add_RenderGroup(RENDER_UI, this);
 

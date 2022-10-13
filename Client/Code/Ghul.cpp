@@ -43,7 +43,7 @@ HRESULT CGhul::Ready_Object(float Posx, float Posy)
 	m_pDigoutAnimationCom->Ready_Animation(17, 0, 0.3f);
 	m_pAttackAnimationCom->Ready_Animation(13, 0, 0.2f);
 	m_pDeadAnimationCom->Ready_Animation(11, 0, 0.2f);
-	m_pInfoCom->Ready_CharacterInfo(5, 10, 1.5f);
+	m_pInfoCom->Ready_CharacterInfo(1, 10, 1.f);
 
 	m_iMonsterIndex = MONSTER_GHUL;
 	m_fHitDelay = 0.f;
@@ -56,6 +56,16 @@ HRESULT CGhul::Ready_Object(float Posx, float Posy)
 	}
 	m_pDynamicTransCom->Update_Component(1.f);
 	Save_OriginPos();
+	
+	_vec3 vPos, vScale;
+
+	
+	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+	vScale =  m_pDynamicTransCom->Get_Scale();
+
+	m_pColliderCom->Set_vCenter(&vPos, &vScale);
+
+	
 	return S_OK;
 }
 
@@ -92,6 +102,13 @@ _int CGhul::Update_Object(const _float & fTimeDelta)
 	}
 
 	Excution_Event();
+
+	
+	_matrix matWorld;
+	_vec3 vScale;
+	vScale= m_pDynamicTransCom->Get_Scale();
+	m_pDynamicTransCom->Get_WorldMatrix(&matWorld);
+	m_pColliderCom->Set_HitBoxMatrix_With_Scale(&matWorld,vScale);
 
 
 	m_pDynamicTransCom->Update_Component(fTimeDelta);

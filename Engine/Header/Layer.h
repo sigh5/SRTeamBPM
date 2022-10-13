@@ -51,18 +51,21 @@ public:
 	CGameObject*			Get_PreRoomTeleCube(); // 스택안의 top을 가져옴
 	void					Clear_Stack();	// 스택 안에있는 것들을 지워줌
 	void					Reset_Monster();	//맵 오브젝트 내 몬스터 위치 체력 초기화
-	void			Delete_GhulList(void);		//구울 리스트 삭제
-	void			ActivevecColliderMonster(void);
-	void			Clear_ColliderMonster(void);
+	void					Delete_GhulList(void);		//구울 리스트 삭제
+	void					ActivevecColliderMonster(void);
+	void					Clear_ColliderMonster(void);
 	//구울 리스트 가져오기
 	list<CGameObject*>&		Get_GhulList() { return m_GhulList; }
 	list<CGameObject*>&		Get_ObeliskList() { return m_ObeliskList; }
+	list<CGameObject*>&		Get_ControlRoomList() { return m_ControlRoomList; }
+	list<CGameObject*>&		Get_EffectList() { return m_EffectList; }
 
 
-
+	void					Add_ControlRoomList(CGameObject* pControlRoom) { m_ControlRoomList.push_back(pControlRoom); }
 	void					Add_EffectList(CGameObject* pEffectObject) { m_EffectList.push_back(pEffectObject); }
 
-	list<CGameObject*>&		Get_EffectList() { return m_EffectList; }
+public:
+	vector<CMonsterBase*> m_vecColliderMonster;
 private:
 	map<const _tchar*, CGameObject*>			m_mapObject;
 
@@ -75,7 +78,11 @@ private:
 	list<CGameObject*>  m_GhulList;
 	list<CGameObject*>  m_objPoolList;
 	list<CGameObject*>	m_ObeliskList;
-	vector<CMonsterBase*> m_vecColliderMonster;
+	//vector<CMonsterBase*> m_vecColliderMonster;
+	list<CGameObject*>  m_ControlRoomList;
+
+
+
 	list<_tchar* > NameList;
 
 

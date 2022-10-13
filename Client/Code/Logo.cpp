@@ -44,7 +44,7 @@ HRESULT CLogo::Ready_Scene(void)
 	
 	return S_OK;
 }
- //주석지우셈
+
 Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 {
 	++m_iCount;
@@ -64,7 +64,7 @@ Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 			CScene*		pScene = CChange_Stage::Create(m_pGraphicDev);
 			NULL_CHECK_RETURN(pScene, E_FAIL);
 
-			m_SceneType = SCENE_TOOLTEST;
+			//m_SceneType = SCENE_TOOLTEST;
 
 			FAILED_CHECK_RETURN(Engine::Set_Scene(pScene), E_FAIL);
 

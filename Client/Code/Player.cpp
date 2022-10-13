@@ -10,9 +10,11 @@
 #include "Coin.h"
 #include "Key.h"
 #include "MyCamera.h"
+#include "TeleCube.h"
 
 #include "Player_Dead_UI.h"
-
+#include  "Ax.h"
+#include "AttackEffect.h"
 //주석지우셈
 
 
@@ -35,7 +37,7 @@ HRESULT CPlayer::Ready_Object(void)
 	
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
+	m_pInfoCom->Ready_CharacterInfo(10000, 10, 5.f);
 
 	_vec3 vPos = { 20.f, 6.f, 15.f };
 
@@ -44,68 +46,59 @@ HRESULT CPlayer::Ready_Object(void)
 	m_pDynamicTransCom->Set_Scale(&vScale);
 	
 	m_pColliderCom->Set_HitRadiuos(1.1f);
-	m_pColliderCom->Set_vCenter(&vPos);
+	m_pColliderCom->Set_vCenter(&vPos, &vScale);
 
 
 	m_pDynamicTransCom->Update_Component(1.0f);
-
+	m_pColliderCom->Set_HitBoxMatrix(&(m_pDynamicTransCom->m_matWorld));
 	m_iOriginHP = m_pInfoCom->Get_Hp();
 
 	return S_OK;
 }
 
 _int CPlayer::Update_Object(const _float & fTimeDelta)
-{	
-	cout << "체력 : " << m_pInfoCom->Get_InfoRef()._iHp << endl;
+{
+	if (m_bDead)
+		m_bDeadTimer += 1.0f* fTimeDelta;
+	
+	if (m_bDeadTimer >= 5.f)
+	{
+		Random_ResurrectionRoom();
+		m_bDeadTimer = 0.f;
+		m_bDead = false;
+	}
+
+	m_fTimeDelta = fTimeDelta;
+	m_fFrame += 1.0f * fTimeDelta;
+	if (m_fFrame >= 1.0f)
+	{
+		pEquipItem->Set_ReadyShot(false);
+		m_fFrame = 0.f;
+	}
 
 	pEquipItem = dynamic_cast<CGun_Screen*>(Get_GameObject(L"Layer_UI", L"Gun"));
 	NULL_CHECK_RETURN(pEquipItem, -1);
 	
 	m_iOriginHP = m_pInfoCom->Get_Hp();
 
-	// 사망 시점 ( 화면 암전됬다가 키 누르고 나면 재시작)
+	// Test
+	if (Get_DIKeyState(DIK_O) & 0X80)
+		Random_ResurrectionRoom();
+	if (Get_DIKeyState(DIK_K) & 0X80)
+	{
+		CScene* pScene = Get_Scene();
+		CLayer* pLayer = pScene-> GetLayer(L"Layer_CubeCollsion");
+		for (int i = 0; i < TELEPORT_CUBE_LIST_END; ++i)
+		{
+			for (auto iter : *(pLayer->Get_TeleCubeList(i)))
+				dynamic_cast<CTeleCube*>(iter)->Set_Active(false);
+		}
+	}
+	// ~Test
+
 	if (m_pInfoCom->Get_Hp() <= 0)
 	{
-		CScene* pScene1 = ::Get_Scene();
-		CLayer* pMyLayer = pScene1->GetLayer(L"Layer_UI");
-
-		//CGameObject* pGameObject = nullptr;  // Reuse_PlayerBulltObj
-		//pGameObject = CPlayer_Dead_UI::Create(m_pGraphicDev, 255);
-		//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-		//pMyLayer->Add_GameObject(L"Dead_UI",pGameObject);
-
-		CPlayer_Dead_UI* pDead_UI = static_cast<CPlayer_Dead_UI*>(Engine::Get_GameObject(L"Layer_UI", L"Dead_UI"));
-
-		pDead_UI->Set_Render(true);
-
-		Random_ResurrectionRoom();
-		m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);	
-
-		/*if (pDead_UI->Get_Render() == false)
-		{
-			pDead_UI->Set_bEvent(false);
-			pDead_UI->Set_iAlpha(255);
-		}*/
-
-		CScene* pScene = Get_Scene();
-		CLayer* pLayer = pScene->GetLayer(L"Layer_GameLogic");
-
-		//CMonsterBase* pMonster = dynamic_cast<CMonsterBase*>(pLayer->Get_GameObject(L"TestMonster10"));
-		////pMonster->Set_ResetCheck(true);
-	
-
-		//pMonster = dynamic_cast<CMonsterBase*>(pLayer->Get_GameObject(L"TestMonster11"));
-		////pMonster->Set_ResetCheck(true);
-
-	}
-
-	m_fTimeDelta = fTimeDelta;
-	m_fFrame += 1.0f * fTimeDelta;
-
-	if (m_fFrame >= 1.0f)
-	{
-		pEquipItem->Set_ReadyShot(false);
-		m_fFrame = 0.f;
+		Player_Dead(fTimeDelta);
 	}
 
 	Key_Input(fTimeDelta);
@@ -132,7 +125,6 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 	m_pDynamicTransCom->Set_Y(2.f);
 	m_pColliderCom->Set_HitBoxMatrix(&(m_pDynamicTransCom->m_matWorld));
 	Engine::CGameObject::Update_Object(fTimeDelta);
-
 
 	Add_RenderGroup(RENDER_ALPHA, this);
 
@@ -172,17 +164,6 @@ void CPlayer::Render_Obejct(void)
 	
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-
-
-
-
-
-
-
-	//// hitBOx
-	
-	// hitBOx
-	
 	
 }
 
@@ -246,6 +227,31 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		m_pDynamicTransCom->Set_CountMovePos(&(vRight * -5.f * fTimeDelta));
 		
 	}
+
+	if (Key_Down(DIK_T))
+	{
+		Excution_Motion();
+
+		CScene* pScene = Get_Scene();
+		CLayer* PLayer = pScene->GetLayer(L"Layer_GameLogic");
+		PLayer->m_vecColliderMonster.clear();
+		PLayer->Delete_GhulList();
+		
+		
+		NULL_CHECK_RETURN(pScene, );
+		CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+		NULL_CHECK_RETURN(pLayer, );
+		CGameObject *pGameObject = nullptr;
+		_vec3	vPos;
+		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+		
+	
+
+		READY_CREATE_EFFECT_VECTOR(pGameObject, CAttackEffect, pLayer, m_pGraphicDev, vPos);
+		static_cast<CAttackEffect*>(pGameObject)->Set_Effect_INFO(OWNER_PALYER, 0, 12, 0.2f);
+
+	}
+
 	if (Get_DIKeyState(DIK_SPACE) & 0X80)
 		m_bJump = TRUE;
 	if (Get_DIKeyState(DIK_LSHIFT) & 0X80)
@@ -260,6 +266,9 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 
 	if (::Mouse_Down(DIM_LB)) // Picking
 	{
+		if (m_bInventroyActive)
+			return;
+
 		Ready_MonsterShotPicking();
 	}
 
@@ -272,9 +281,6 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 	{
 		_vec3	vcurrentPos;
 		m_pDynamicTransCom->Get_Info(INFO_POS, &vcurrentPos);
-
-
-		cout << vcurrentPos.x << " " << vcurrentPos.y<<" " << vcurrentPos.z << endl;
 	}
 
 	if (Engine::Key_Down(DIK_C))
@@ -319,10 +325,7 @@ void CPlayer::ComboCheck()
 	if (m_bMissCheck)
 		m_bMissCheck = false;
 	else
-	{
 		m_iComboCount = 0;
-	}
-	
 }
 
 void CPlayer::EquipItem_Add_Stat(void)  // 현재 각 아이템들 충돌처리 부분이 애매해서 F 누르면 스탯이 다 증가할 거임. 충돌처리를 고치던지 날 잡고 한 번 뜯어봐야 함.
@@ -355,43 +358,6 @@ void CPlayer::EquipItem_Add_Stat(void)  // 현재 각 아이템들 충돌처리 부분이 애매
 		m_bCurStat = false;
 
 	}
-
-	/*if (m_bGainItem[0])
-	{
-		
-		m_bGainItem[0] = false;
-	}
-
-	else if (m_bGainItem[1])
-	{
-		m_pInfoCom->Add_Key();
-		m_bGainItem[1] = false;
-		m_bCurStat = false;
-	}
-	else if (m_bGainItem[2])
-	{
-		m_pInfoCom->Add_Coin();
-		m_bGainItem[2] = false;
-		m_bCurStat = false;
-	}*/
-
-	
-
-
-	//if (m_bPreStat)
-	//{
-	//	_uint iAtk = 0;
-	//	iAtk = m_pInfoCom->Get_InfoRef()._iAttackPower + pShotGun->Get_EquipInfoRef()._iAddAttack;
-
-	//	m_pInfoCom->Get_InfoRef()._iAttackPower = iAtk;
-
-	//	m_pInfoCom->Add_Coin();
-	//	m_pInfoCom->Add_Key();
-
-	//	m_bPreStat = false;
-	//	m_bCurStat = false;
-	//}
-
 }
 
 void CPlayer::Loss_Damage()
@@ -400,6 +366,14 @@ void CPlayer::Loss_Damage()
 	// Test
 	m_iHpBarChange -= 1;
 
+}
+
+void CPlayer::Excution_Motion()
+{
+	static_cast<CMyCamera*>(::Get_GameObject(L"Layer_Environment", L"CMyCamera"))->Set_Excution(true);
+	static_cast<CGun_Screen*>(pEquipItem)->Set_Active(true);
+	
+	static_cast<CAx*>(::Get_GameObject(L"Layer_UI", L"AX"))->Set_Active(true);
 }
 
 void CPlayer::Random_ResurrectionRoom()
@@ -428,30 +402,32 @@ void CPlayer::Random_ResurrectionRoom()
 
 	pLayer->Reset_Monster();
 	m_pDynamicTransCom->Update_Component(1.f);
-
-	
 }
 
+void CPlayer::Player_Dead_CaemraAction()
+{
+	CMyCamera* pCam = dynamic_cast<CMyCamera*>(::Get_GameObject(L"Layer_Environment", L"CMyCamera"));
 
+	pCam->Set_PlayerDeadCam(true);
+	pCam->m_fOriginAngle = m_pDynamicTransCom->Get_Angle().x;
+}
+
+void CPlayer::Player_Dead(const _float& fTimeDelta)
+{
+	CScene* pScene1 = ::Get_Scene();
+	CLayer* pMyLayer = pScene1->GetLayer(L"Layer_UI");
+
+	CPlayer_Dead_UI* pDead_UI = static_cast<CPlayer_Dead_UI*>(Engine::Get_GameObject(L"Layer_UI", L"Dead_UI"));
+	pDead_UI->Set_Render(true);
+
+	Player_Dead_CaemraAction();
+	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
+
+	m_bDead = true;
+}
 
 void CPlayer::Collision_Event()
 {
-	// 기존에 존재하는 것들은 Player에 
-	//	씬에서 생성되는 것들은 그 객체에 
-	//CScene  *pScene = ::Get_Scene();
-	//NULL_CHECK_RETURN(pScene, );
-	//CLayer * pLayer = pScene->GetLayer(L"Layer_CubeCollsion");
-	//NULL_CHECK_RETURN(pLayer, );
-	//CGameObject *pGameObject = nullptr;
-
-	//for (auto iter = pLayer->Get_GameObjectMap().begin(); iter != pLayer->Get_GameObjectMap().end(); ++iter)
-	//{
-	//	m_pColliderCom->Check_Collision_Wall(iter->second, this);
-	//}
-
-	//pLayer = pScene->GetLayer(L"Layer_GameLogic");
-	//NULL_CHECK_RETURN(pLayer, );
-
 }
 
 CPlayer * CPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -465,7 +441,6 @@ CPlayer * CPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 	}
 
 	return pInstance;
-
 }
 
 void CPlayer::Free(void)

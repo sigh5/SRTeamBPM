@@ -46,6 +46,20 @@ HRESULT CGun_Screen::Ready_Object()
 
 _int CGun_Screen::Update_Object(const _float & fTimeDelta)
 {
+	if (m_bActive)
+	{
+		m_fActiveTimer += 1.f*fTimeDelta;
+	}
+	
+	if (m_fActiveTimer >= 1.f)
+	{
+		m_bActive = false;
+		m_fActiveTimer = 0.f;
+	}
+
+
+
+
 	Add_UpdateComponent();
 
 	CShotGun* pShotGun = static_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"));
@@ -69,18 +83,17 @@ void CGun_Screen::LateUpdate_Object(void)
 	CPlayer* pPlayer = static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic",L"Player"));
 
 	if (m_bShootCheck)
-	{
 		pPlayer->Reset_ComboCount();
-	}
-
-	m_bShootCheck = false;
-
-	CGameObject::LateUpdate_Object();
 	
+	m_bShootCheck = false;
+	CGameObject::LateUpdate_Object();
 }
 
 void CGun_Screen::Render_Obejct(void)
 {
+	if (m_bActive || m_bNoRender)
+		return;
+
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
 
 	_matrix		OldViewMatrix, OldProjMatrix;

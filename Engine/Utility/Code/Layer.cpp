@@ -152,7 +152,11 @@ _int CLayer::Update_Layer(const _float & fTimeDelta)
 	ActivevecColliderMonster();
 
 
+	for (auto iter = m_ControlRoomList.begin(); iter != m_ControlRoomList.end(); ++iter)
+	{
+		(*iter)->Update_Object(fTimeDelta);
 
+	}
 
 	return iResult;
 }
@@ -166,6 +170,10 @@ void CLayer::LateUpdate_Layer(void)
 
 	for (auto& iter : m_EffectList)
 		iter->LateUpdate_Object();
+
+	for (auto& iter : m_ControlRoomList)
+		iter->LateUpdate_Object();
+
 
 }
 
@@ -313,4 +321,10 @@ void CLayer::Free(void)
 	m_EffectList.clear();
 	m_vecColliderMonster.clear();
 
+
+	for (auto& iter : m_ControlRoomList)
+		Safe_Release(iter);
+	m_ControlRoomList.clear();
+
+	
 }

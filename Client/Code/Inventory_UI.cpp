@@ -11,6 +11,7 @@
 #include "Player.h"
 #include "Player_Dead_UI.h"
 
+
 USING(Engine)
 
 CInventory_UI::CInventory_UI(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -104,17 +105,22 @@ void CInventory_UI::Render_Obejct(void)
 		m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
 		// 텍스처 정보 세팅을 우선적으로 한다.
 
-		if (Key_Down(DIK_I))
-		{
-			m_bInvenSwitch = !m_bInvenSwitch;
-
-			if (dynamic_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"))->Get_RenderFalse() == true)
-			{
-				dynamic_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"))->Set_RenderControl(true);
-			}
-		}
+	if (Key_Down(DIK_I) )
+	{
+		m_bInvenSwitch = !m_bInvenSwitch;
 		
-		::Key_InputReset();
+		dynamic_cast<CMyCamera*>(Engine::Get_GameObject(L"Layer_Environment", L"CMyCamera"))->Set_inventroyActive(m_bInvenSwitch);
+		dynamic_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"))->Set_inventroyActive(m_bInvenSwitch);
+
+		if (dynamic_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"))->Get_RenderFalse() == true)
+		{
+			dynamic_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"))->Set_RenderControl(true);
+
+			_uint iA = 0;
+		}	
+	}
+
+	::Key_InputReset();
 
 
 		if (m_bInvenSwitch)

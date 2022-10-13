@@ -40,6 +40,8 @@
 #include "Obelisk.h"
 #include "EarthShaker.h"
 
+#include "ControlRoom.h"
+#include "Ax.h"
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
 {
@@ -72,6 +74,7 @@ HRESULT CStage::Ready_Scene(void)
 	Set_Player_StartCubePos();
 
 	//::PlaySoundW(L"SamTow.wav", SOUND_BGM, 0.05f); // BGM
+	
 
 	return S_OK;
 }
@@ -141,7 +144,6 @@ void CStage::LateUpdate_Scene(void)
 		}
 	}
 
-
 	pLayer = GetLayer(L"Layer_CubeCollsion");
 
 	for (auto iter = pLayer->Get_GameObjectMap().begin(); iter != pLayer->Get_GameObjectMap().end(); ++iter)
@@ -156,6 +158,16 @@ void CStage::LateUpdate_Scene(void)
 	}
 
 	Engine::CScene::LateUpdate_Scene();
+
+
+	pLayer = GetLayer(L"Layer_Room");
+
+	
+	for (auto iter : (pLayer->Get_ControlRoomList()))
+		iter->Collision_Event();
+	
+
+
 }
 
 void CStage::Render_Scene(void)
@@ -177,16 +189,17 @@ HRESULT CStage::Ready_Layer_Environment(const _tchar * pLayerTag)
 	
 	
 	READY_LAYER(pGameObject, CSkyBox, pLayer, m_pGraphicDev, L"SkyBox");
-	//READY_LAYER(pGameObject, CTerrain, pLayer, m_pGraphicDev, L"Terrain");
 	READY_LAYER(pGameObject, CSnowfall, pLayer, m_pGraphicDev, L"Snowfall");
+
+	m_mapLayer.insert({ pLayerTag, pLayer });
 
 	/*pGameObject = CHitBlood::Create(m_pGraphicDev, _vec3{ 3.f, 1.f, 3.f });
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"hitblood", pGameObject), E_FAIL);*/
 
 
+	//READY_LAYER(pGameObject, CControlRoom, pLayer, m_pGraphicDev, L"321412");
 
-	m_mapLayer.insert({ pLayerTag, pLayer });
 
 	return S_OK;
 }
@@ -201,9 +214,29 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 
 	READY_LAYER(pGameObject, CPlayer, pLayer, m_pGraphicDev, L"Player");
 
-	pGameObject = CBox::Create(m_pGraphicDev, 100, 110);
+	pGameObject = CBox::Create(m_pGraphicDev, 327, 309);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Box", pGameObject), E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Box0", pGameObject), E_FAIL);
+	
+	pGameObject = CBox::Create(m_pGraphicDev, 323, 321);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Box1", pGameObject), E_FAIL);
+	
+	pGameObject = CBox::Create(m_pGraphicDev, 325, 327);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Box2", pGameObject), E_FAIL);
+	
+	pGameObject = CBox::Create(m_pGraphicDev, 328, 338);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Box3", pGameObject), E_FAIL);
+	
+	pGameObject = CBox::Create(m_pGraphicDev, 327, 352);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Box4", pGameObject), E_FAIL);
+	
+	
+
+
 
 	/*pGameObject = CSphinx::Create(m_pGraphicDev, 30, 39);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -267,6 +300,8 @@ HRESULT CStage::Ready_Layer_UI(const _tchar * pLayerTag)
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"InventoryUI", pGameObject), E_FAIL);
 
 	READY_LAYER(pGameObject, CGun_Screen, pLayer, m_pGraphicDev, L"Gun");
+	READY_LAYER(pGameObject, CAx, pLayer, m_pGraphicDev, L"AX");
+
 
 	READY_LAYER(pGameObject, CUI_Frame, pLayer, m_pGraphicDev, L"Frame");
 
@@ -423,11 +458,12 @@ void CStage::Set_Player_StartCubePos()
 	CTransform* pFirstCubeTransform = dynamic_cast<CTransform*>(pFirstCubeObj->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
 	
 	//pLayer->Save_CurrentRoom(pLayer->m_iRoomIndex);
-	
+	_vec3 vAngle;
 	_vec3 vFirstCubePos;
 	pFirstCubeTransform->Get_Info(INFO_POS, &vFirstCubePos);
+	vAngle = pFirstCubeTransform->Get_Angle();
 
-	pTransform->Set_Pos(vFirstCubePos.x, vFirstCubePos.y, vFirstCubePos.z + 5.f);
-	
+	pTransform->Set_Pos(vFirstCubePos.x, vFirstCubePos.y, vFirstCubePos.z );
+	pTransform->Rotation(ROT_Y, vAngle.y);
 	pTransform->Update_Component(1.f);
 }

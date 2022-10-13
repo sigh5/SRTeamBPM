@@ -41,10 +41,10 @@ public:
 	CTexture*			m_pTextureCom = nullptr;
 	CCalculator*	   m_pCalculatorCom = nullptr;
 
-
+	_bool				m_pCreateControlSphere = false;
 	_bool				m_bWireFrame = false;
 	_vec3				m_vDirection;
-	
+	_vec3				m_vCenter;
 
 public:
 	static CTerrain*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

@@ -42,6 +42,12 @@ public:
 	void			Set_PlayerHit(_bool bHitCameraCam) { m_bPlayerHit = bHitCameraCam; }
 
 
+public: 
+	const _bool&	Get_InventroyActive() { return m_bInventroyActive; }
+	void			Set_inventroyActive(_bool  bInventroyActive) { m_bInventroyActive = bInventroyActive; }
+
+	void			Set_PlayerDeadCam(_bool bEvent) { m_bPlayerDead = bEvent; }
+	_float			m_fOriginAngle = 0.f;
 
 private:
 	_bool			m_bExecution = false;
@@ -62,11 +68,11 @@ private:
 	_int			m_iBillBoardDir = 0;	// 0 ¿ÞÂÊ 1 ¿À¸¥ÂÊ
 
 	_float			m_fFrame = 0.f;
+	_bool			m_bInventroyActive = false;
 
-
-
-
-
+	_bool			m_bPlayerDead = false;
+	_float			m_fDeadTimer=0.f;
+	
 public:
 	static CMyCamera*		Create(LPDIRECT3DDEVICE9 pGraphicDev,
 		const _vec3* pEye,

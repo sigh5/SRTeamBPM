@@ -173,7 +173,7 @@
       <Filter>02. GameObject\01. For_Stage\11. Item\02. Box</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Stage_BIH.cpp">
-      <Filter>01. Scene\96.Stage_BIH</Filter>
+      <Filter>01. Scene\96. Stage_BIH</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Player.cpp">
       <Filter>02. GameObject\01. For_Stage\00. Player</Filter>
@@ -287,6 +287,11 @@
     <ClCompile Include="..\Code\MetronomeRect.cpp">
       <Filter>02. GameObject\01. For_Stage\10. UI\00. MetronomeUI\MetronomeRect</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\ControlRoom.cpp">
+      <Filter>02. GameObject\02. For_public\06. ControlRoom</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\AnubisStormBall.cpp" />
+    <ClCompile Include="..\Code\Ax.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -479,7 +484,7 @@
       <Filter>02. GameObject\01. For_Stage\11. Item\02. Box</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Stage_BIH.h">
-      <Filter>01. Scene\96.Stage_BIH</Filter>
+      <Filter>01. Scene\96. Stage_BIH</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Player.h">
       <Filter>02. GameObject\01. For_Stage\00. Player</Filter>
@@ -591,6 +596,11 @@
     <ClInclude Include="..\Header\MetronomeRect.h">
       <Filter>02. GameObject\01. For_Stage\10. UI\00. MetronomeUI\MetronomeRect</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\ControlRoom.h">
+      <Filter>02. GameObject\02. For_public\06. ControlRoom</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\AnubisStormBall.h" />
+    <ClInclude Include="..\Header\Ax.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -754,9 +764,6 @@
     <Filter Include="02. GameObject\01. For_Stage\10. UI\05. CoinUI">
       <UniqueIdentifier>{92542f0f-363b-40f8-841a-cee2898d67f2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Scene\96.Stage_BIH">
-      <UniqueIdentifier>{95da0eaf-6815-47e4-ac7b-77679616c28f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\01. For_Stage\00. Player">
       <UniqueIdentifier>{17ed71c8-b3b0-47c9-aa3a-ebd75232e61f}</UniqueIdentifier>
     </Filter>
@@ -858,6 +865,15 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\10. UI\11. Player_Dead_UI">
       <UniqueIdentifier>{5e64319a-2d27-4c93-a1a3-d048aa6efb91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\02. For_public\06. ControlRoom">
+      <UniqueIdentifier>{08900aaa-48ff-42ce-88fb-99eb1939c09a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\96. Stage_BIH">
+      <UniqueIdentifier>{95da0eaf-6815-47e4-ac7b-77679616c28f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\13. Gun_Screen\ax">
+      <UniqueIdentifier>{62352cd4-6a15-42ac-9b3e-51468ea9b123}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -21,11 +21,11 @@ CMainApp::~CMainApp()
 
 HRESULT CMainApp::Ready_MainApp(void)
 {
-	srand(time(NULL));
+	srand((unsigned int)time(NULL));
 	_CrtDumpMemoryLeaks();
 	FAILED_CHECK_RETURN(SetUp_DefaultSetting(&m_pGraphicDev), E_FAIL);	
 
-	 //디버그용
+	// 디버그용
 	#ifdef _DEBUG
 	
 		if (::AllocConsole() == TRUE)

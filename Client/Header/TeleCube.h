@@ -29,6 +29,10 @@ public:
 
 	void				Random_ResurrectionRoom();		// 나중에 플레이어한테 붙일거임
 
+	void				Set_Active(_bool bActive) { m_bSetActive = bActive; }
+	const _bool&		Get_Active() { return m_bSetActive; }
+
+
 
 private:
 	HRESULT				Add_Component(void);
@@ -42,6 +46,8 @@ public:
 
 	_int				m_iOption = 0;					// 0: Wall 1: Obstacle 2: TeleportStart 3: TelePortEnd
 
+private:
+	_bool				m_bSetActive = false;
 
 public:
 	static CTeleCube*	Create(LPDIRECT3DDEVICE9 pGraphicDev);

@@ -13,19 +13,16 @@ CCollider::CCollider(LPDIRECT3DDEVICE9 pGraphicDev)
 
 	ZeroMemory(m_vMin, sizeof(_vec3));
 	ZeroMemory(m_vMax, sizeof(_vec3));
-	ZeroMemory(m_vCenter, sizeof(_vec3));
-	
-	
-	 
+	ZeroMemory(m_vCenter, sizeof(_vec3)); 
 }
 
 CCollider::CCollider(const CCollider & rhs)
 	: CVIBuffer(rhs), m_bClone(true) ,m_pPos(rhs.m_pPos),m_fRadius(rhs.m_fRadius)
 {
+	memcpy(&m_HitBoxWolrdmat,&rhs.m_HitBoxWolrdmat,sizeof(_matrix));
 	memcpy(&m_vMin, &rhs.m_vMin, sizeof(_vec3));
 	memcpy(&m_vMax, &rhs.m_vMax, sizeof(_vec3));
 	memcpy(&m_vCenter, &rhs.m_vCenter, sizeof(_vec3));
-
 }
 
 HRESULT CCollider::Ready_Buffer(void)
@@ -235,7 +232,6 @@ _bool CCollider::Check_Lay_InterSect(CRcTex * rcTex, CTransform* pMonsterCom, HW
 	ZeroMemory(&ViewPort, sizeof(D3DVIEWPORT9));
 	m_pGraphicDev->GetViewport(&ViewPort);
 
-
 	vPoint.x = ptMouse.x / (ViewPort.Width * 0.5f) - 1.f;
 	vPoint.y = ptMouse.y / -(ViewPort.Height * 0.5f) + 1.f;
 	vPoint.z = 0.f;
@@ -250,7 +246,6 @@ _bool CCollider::Check_Lay_InterSect(CRcTex * rcTex, CTransform* pMonsterCom, HW
 
 	vRayPos = { 0.f, 0.f, 0.f };
 	vRayDir = vPoint - vRayPos;
-
 
 	_matrix		matView;
 	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
@@ -280,8 +275,6 @@ _bool CCollider::Check_Lay_InterSect(CRcTex * rcTex, CTransform* pMonsterCom, HW
 		&vRayPos, &vRayDir,
 		&fU, &fV, &fDist))
 	{
-
-
 		return true;
 	}
 	// ¿ÞÂÊ ¾Æ·¡
@@ -294,13 +287,8 @@ _bool CCollider::Check_Lay_InterSect(CRcTex * rcTex, CTransform* pMonsterCom, HW
 		&vRayPos, &vRayDir,
 		&fU, &fV, &fDist))
 	{
-
-
 		return true;
 	}
-
-
-
 	return false;
 }
 
@@ -453,14 +441,68 @@ _bool CCollider::Check_CollisonUseCollider(CCollider * pSour, CCollider * pDest)
 	return false;
 }
 
+_bool CCollider::Check_Collsion_CubeAABB(CCollider * CWallCollider, CGameObject * pPlayer)
+{
+	CCollider* pPlayerColider = dynamic_cast<CCollider*>(pPlayer->Get_Component(L"Proto_ColliderCom", ID_STATIC));
+	CDynamic_Transform* pTrasform = dynamic_cast<CDynamic_Transform*>(pPlayer->Get_Component(L"Proto_DynamicTransformCom", ID_DYNAMIC));
+	if (pPlayerColider == nullptr)
+		return false;
+
+	if (Check_Collsion_AABB(CWallCollider, pPlayerColider))
+	{
+		_vec3 vDirection, vUp, vPos, vRight;
+
+		pTrasform->Get_Info(INFO_LOOK, &vDirection);
+		pTrasform->Get_Info(INFO_UP, &vUp);
+		pTrasform->Get_Info(INFO_POS, &vPos);
+
+		pTrasform->Move_Pos(&pTrasform->Get_CounterMovePos());
+
+		pTrasform->Update_Component(1.f);
+
+
+		return true;
+
+	}
+	return false;
+}
+
+_bool CCollider::Check_Collsion_AABB(CCollider * CWallCollider, CCollider * pDest)
+{
+	_vec3 vWallPos,pDestPos;
+	memcpy(&vWallPos , &CWallCollider->m_HitBoxWolrdmat._41,sizeof(_vec3));
+	memcpy(&pDestPos, &pDest->m_HitBoxWolrdmat._41, sizeof(_vec3));
+	
+
+
+	/*_vec3 vMinWall = CWallCollider->m_vMin;
+	_vec3 vMinDest = pDest->m_vMin;
+	_vec3 vMaxWall = CWallCollider->m_vMax;
+	_vec3 vMaxDest = pDest->m_vMax;
+*/
+	_vec3 vMinWall = { vWallPos.x - (1 * CWallCollider->m_HitBoxWolrdmat._11), vWallPos.y - (1 * CWallCollider->m_HitBoxWolrdmat._22) ,vWallPos.z - (1 * CWallCollider->m_HitBoxWolrdmat._33) };
+	_vec3 vMinDest = { pDestPos.x - (1 * pDest->m_HitBoxWolrdmat._11), pDestPos.y - (1 * pDest->m_HitBoxWolrdmat._22) ,pDestPos.z - (1 * pDest->m_HitBoxWolrdmat._33) };
+	_vec3 vMaxWall = { vWallPos.x + (1 * CWallCollider->m_HitBoxWolrdmat._11), vWallPos.y + (1 * CWallCollider->m_HitBoxWolrdmat._22) ,vWallPos.z + (1 * CWallCollider->m_HitBoxWolrdmat._33) };
+	_vec3 vMaxDest = { pDestPos.x + (1 * pDest->m_HitBoxWolrdmat._11), pDestPos.y + (1 * pDest->m_HitBoxWolrdmat._22) ,pDestPos.z + (1 * pDest->m_HitBoxWolrdmat._33) };
+
+
+
+	if (vMinWall.x <= vMaxDest.x  && vMaxWall.x >= vMinDest.x &&
+		vMinWall.y <= vMaxDest.y && vMaxWall.y >= vMinDest.y &&
+		vMinWall.z <= vMaxDest.z && vMaxWall.z >= vMinDest.z)
+			return true;
+	
+
+
+	return false;
+}
+
 void CCollider::Set_HitBoxMatrix(_matrix* matWorld)
 {
 	_matrix		matScale, matRotX, matRotY, matRotZ, matTrans;
-
 	_vec3	vPos;
-	
 	memcpy(&vPos, &(matWorld->_41), sizeof(_vec3));
-
+	
 	D3DXMatrixScaling(&matScale, m_fRadius, m_fRadius, m_fRadius);
 	D3DXMatrixRotationX(&matRotX, 0.f);
 	D3DXMatrixRotationY(&matRotY, 0.f);
@@ -468,15 +510,40 @@ void CCollider::Set_HitBoxMatrix(_matrix* matWorld)
 	D3DXMatrixTranslation(&matTrans, vPos.x, vPos.y, vPos.z);
 
 	m_HitBoxWolrdmat = matScale * matRotX * matRotY * matRotZ * matTrans;
-
-
-	
 	memcpy(&m_vCenter, &m_HitBoxWolrdmat._41, sizeof(_vec3));
-	
-	
+}
 
+void CCollider::Set_HitBoxMatrix_With_Scale(_matrix * matWorld, const _vec3& vScale)
+{
+	_matrix		matScale, matRotX, matRotY, matRotZ, matTrans;
+	_vec3	vPos;
+	memcpy(&vPos, &(matWorld->_41), sizeof(_vec3));
+
+	D3DXMatrixScaling(&matScale, vScale.x+1.f, vScale.y+1.f, vScale.z+1.f);
+	D3DXMatrixRotationX(&matRotX, 0.f);
+	D3DXMatrixRotationY(&matRotY, 0.f);
+	D3DXMatrixRotationZ(&matRotZ, 0.f);
+	D3DXMatrixTranslation(&matTrans, vPos.x, vPos.y, vPos.z);
+
+	m_HitBoxWolrdmat = matScale* matRotX * matRotY * matRotZ * matTrans;
+	memcpy(&m_vCenter, &m_HitBoxWolrdmat._41, sizeof(_vec3));
+
+	m_vMin = { m_vCenter.x - vScale.x ,m_vCenter.y - vScale.y , m_vCenter.z - vScale.z  };
+	m_vMax = { m_vCenter.x + vScale.x  ,m_vCenter.y + vScale.y  , m_vCenter.z + vScale.z  };
+}
+
+
+void	CCollider::Set_vCenter(_vec3* vCenter,_vec3* vScale)
+{
+	 m_vCenter = *vCenter; 
+	
+	 m_vMin = { m_vCenter.x - (vScale->x) + 1  ,m_vCenter.y - (vScale->y) + 1 , m_vCenter.z };
+	 m_vMax = { m_vCenter.x + (vScale->x) + 1  ,m_vCenter.y + (vScale->y) + 1 , m_vCenter.z };
 
 }
+
+
+
 
 CComponent * CCollider::Clone(void)
 {
@@ -502,7 +569,5 @@ void CCollider::Free(void)
 
 	if (false == m_bClone)
 		Safe_Delete(m_pPos);
-
-
 	CVIBuffer::Free();
 }

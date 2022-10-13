@@ -273,11 +273,11 @@ void CAnubis::Collision_Event()
 
 void CAnubis::Excution_Event()
 {
-	if (!m_bExcutionCheck && m_pInfoCom->Get_Hp() <= 1 )
-	{
-		static_cast<CMyCamera*>(::Get_GameObject(L"Layer_Environment", L"CMyCamera"))->Set_Excution(true);
-		m_bExcutionCheck = true;
-	}
+	//if (!m_bExcutionCheck && m_pInfoCom->Get_Hp() <= 1 )
+	//{
+	//	static_cast<CMyCamera*>(::Get_GameObject(L"Layer_Environment", L"CMyCamera"))->Set_Excution(true);
+	//	m_bExcutionCheck = true;
+	//}
 }
 
 void CAnubis::NoHit_Loop(const _float& fTimeDelta)

@@ -49,6 +49,7 @@ private:
 	
 	_bool				m_bRenderFalse = false;
 
+
 public:
 	static CShotGun*	Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint iX, _uint iZ);
 	virtual void		Free(void);
