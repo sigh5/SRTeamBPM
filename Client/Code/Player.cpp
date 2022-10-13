@@ -59,13 +59,13 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 {
 	if (m_bDead)
 	{
-		m_bDeadTimer += 2.f* fTimeDelta;
+		m_bDeadTimer += 1.0f* fTimeDelta;
 	}
 	else
 		m_bDeadTimer = 0.f;
 	
 
-	if (m_bDeadTimer >= 2.f)
+	if (m_bDeadTimer >= 5.f)
 	{
 		Player_Dead(fTimeDelta);
 		m_bDead = false;
@@ -95,7 +95,17 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 
 	if (m_pInfoCom->Get_Hp() <= 0)
 	{
+		
+		CScene* pScene1 = ::Get_Scene();
+		CLayer* pMyLayer = pScene1->GetLayer(L"Layer_UI");
+
+		CPlayer_Dead_UI* pDead_UI = static_cast<CPlayer_Dead_UI*>(Engine::Get_GameObject(L"Layer_UI", L"Dead_UI"));
+		pDead_UI->Set_Render(true);
+
 		Player_Dead_CaemraAction();
+		m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
+		
+		
 		m_bDead = true;
 	}
 
@@ -264,9 +274,6 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 	{
 		_vec3	vcurrentPos;
 		m_pDynamicTransCom->Get_Info(INFO_POS, &vcurrentPos);
-
-
-		cout << vcurrentPos.x << " " << vcurrentPos.y<<" " << vcurrentPos.z << endl;
 	}
 
 	if (Engine::Key_Down(DIK_C))
