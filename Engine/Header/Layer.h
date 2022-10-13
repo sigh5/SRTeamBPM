@@ -53,7 +53,7 @@ public:
 	void					Reset_Monster();	//맵 오브젝트 내 몬스터 위치 체력 초기화
 	void			Delete_GhulList(void);		//구울 리스트 삭제
 	void			ActivevecColliderMonster(void);
-
+	void			Clear_ColliderMonster(void);
 	//구울 리스트 가져오기
 	list<CGameObject*>&		Get_GhulList() { return m_GhulList; }
 	list<CGameObject*>&		Get_ObeliskList() { return m_ObeliskList; }
