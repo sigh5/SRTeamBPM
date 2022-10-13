@@ -23,8 +23,7 @@ HRESULT CTeleCube::Ready_Object()
 	m_pTransCom->Get_Info(INFO_POS, &vPos);
 
 	// set_hit_distance 
-	m_pColliderCom->Set_HitRadiuos(1.f);
-	m_pColliderCom->Set_HitRadiuos(1.f);
+	m_pColliderCom->Set_HitRadiuos(2.f);
 	m_pColliderCom->Set_vCenter(&vPos);
 
 	return S_OK;
@@ -48,14 +47,25 @@ void CTeleCube::Render_Obejct(void)
 {
 	if (m_iOption == (_int)CUBE_START_TELE)
 	{
+		//m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
+		//m_pTextureCom->Set_Texture(m_iTexIndex);
+		//m_pBufferCom->Render_Buffer();
+		//// Hit Box 
+		//m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pColliderCom->HitBoxWolrdmat());
+		//m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+		//m_pColliderCom->Render_Buffer();
+		//m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 		m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
+		m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 		m_pTextureCom->Set_Texture(m_iTexIndex);
 		m_pBufferCom->Render_Buffer();
-		// Hit Box 
 		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pColliderCom->HitBoxWolrdmat());
 		m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 		m_pColliderCom->Render_Buffer();
+		m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 		m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+
+
 		// ~Hit Box 
 		return;
 	}
@@ -107,7 +117,7 @@ void CTeleCube::Collision_Event()
 
 			pTransform->Set_Pos(vPos.x + 10.f, vPos.y, vPos.z + 10.f);
 			pTransform->Update_Component(1.f);
-			//구울 정리하는 코드 삽입
+
 
 		}
 

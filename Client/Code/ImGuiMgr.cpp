@@ -636,31 +636,7 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 
 	}
 
-	/*if (ImGui::Button("Load_All"))
-	{
 
-		CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev,
-			pScene,
-			L"MapCubeLayer",
-			L"../../Data/",
-			L"Stage1Map_bih.dat",
-			L"TestCube3",
-			OBJ_CUBE);
-
-
-		CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev,
-			pScene,
-			L"MapCubeLayer",
-			L"../../Data/",
-			L"Stage1MapBJW.dat",
-			L"TestCube3",
-			OBJ_CUBE);
-
-
-
-
-	}*/
-	
 
 	if (ImGui::CollapsingHeader("Cube Create & Chose Button", ImGuiTreeNodeFlags_DefaultOpen))
 	{
@@ -846,29 +822,6 @@ void CImGuiMgr::TerrainTool(LPDIRECT3DDEVICE9 pGrahicDev, CCamera* pCam, CScene*
 			L"StageRoom",
 			OBJ_ROOM);
 	}
-
-	//if (ImGui::Button("LoadAll"))
-	//{
-	//	CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev,
-	//		pScene,
-	//		L"TerrainLayer",
-	//		L"../../Data/",
-	//		L"Stage1PJW.dat",
-	//		L"StageRoom",
-	//		OBJ_ROOM);
-
-	//	CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev,
-	//		pScene,
-	//		L"TerrainLayer",
-	//		L"../../Data/",
-	//		L"Stage1BIH.dat",
-	//		L"StageRoom",
-	//		OBJ_ROOM);
-
-	//}
-
-
-
 
 	if (ImGui::CollapsingHeader("Tile Count", ImGuiTreeNodeFlags_DefaultOpen))
 	{
@@ -1104,7 +1057,6 @@ void CImGuiMgr::MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 	ImGui::End();
 }
 
-
 // Player Tool
 void CImGuiMgr::Player_Tool(LPDIRECT3DDEVICE9 pGraphicDev, CScene * pScene, wstring pDirectory, const _tchar* pLayerTag, const _tchar* pObjTag, const _tchar * pComponentTag, COMPONENTID eId)
 {
@@ -1174,6 +1126,8 @@ void CImGuiMgr::Object_Tool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 	if (ImGui::Button("Load"))
 		CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev, pScene, L"ObjectLayer", L"../../Data/", L"Stage1Obstacle.dat", L"Obstacle", OBJ_OBSTRACLE);
 
+
+
 	if (ImGui::Button("Delete"))
 	{
 		CLayer* MyLayer = pScene->GetLayer(L"ObjectLayer");
@@ -1214,7 +1168,7 @@ void CImGuiMgr::Object_Tool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 	if (ImGui::IsMouseClicked(0))
 	{
 		CLayer* pLayer = pScene->GetLayer(L"ObjectLayer");
-		CGameObject* temp = SelectObject<CObstacle>(pLayer, &m_CurrentTerrainObjectName);
+		CGameObject* temp = SelectObject<CObstacle>(pLayer, &m_CurrentObstaclName);
 	}
 
 	CObstacle *pTerrain = dynamic_cast<CObstacle*>(m_pSelectedObject);
@@ -1235,6 +1189,7 @@ void CImGuiMgr::Object_Tool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 
 		pTerrain->Set_WireFrame(true);
 		EditObjectTexture<CObstacle>(L"Proto_fetrues_Texture");
+		TransformEdit(pCam,m_pSelectedTransform, Show_Object_Tool);
 	}
 
 	ImGui::End();
@@ -1359,12 +1314,21 @@ void CImGuiMgr::Load_CubeMap(LPDIRECT3DDEVICE9 pGrahicDev, CScene *pScene)
 	switch (m_CurrentUser)
 	{
 	case USER_HHW:
-		CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev,
+		/*CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev,
 			pScene,
 			L"MapCubeLayer",
 			L"../../Data/",
 			L"PjwCube.dat",
 			L"PjwCube",
+			OBJ_CUBE);*/
+
+
+		CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev,
+			pScene,
+			L"MapCubeLayer",
+			L"../../Data/",
+			L"Stage1Map.dat",
+			L"TestCube",
 			OBJ_CUBE);
 
 		m_iIndex = CFileIOMgr::GetInstance()->Get_Index();
@@ -1400,7 +1364,9 @@ void CImGuiMgr::Save_CubeMap(CScene *pScene)
 	switch (m_CurrentUser)
 	{
 	case USER_HHW:
-		CFileIOMgr::GetInstance()->Save_FileData(pScene, L"MapCubeLayer", L"../../Data/", L"PjwCube.dat", OBJ_CUBE);
+		CFileIOMgr::GetInstance()->Save_FileData(pScene, L"MapCubeLayer",
+			L"../../Data/",
+			L"Stage1Map.dat", OBJ_CUBE);
 		break;
 
 	case USER_BIH:

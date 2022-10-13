@@ -2,9 +2,9 @@
 #include "..\Header\Effect.h"
 
 #include "Export_Function.h"
-
+#include "MyCamera.h"
 CEffect::CEffect(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CGameObject(pGraphicDev)
+	: CBase_Effect(pGraphicDev)
 {
 }
 
@@ -13,41 +13,28 @@ CEffect::~CEffect()
 {
 }
 
-HRESULT CEffect::Ready_Object(void)
+HRESULT CEffect::Ready_Object(const _vec3& vPos)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pTransCom->Set_Pos(_float(rand() % 20), 0.f, _float(rand() % 20));
+	//m_pTransCom->Set_Pos(_float(30.f), 2.f, _float(30.f));
+
+	m_pTransCom->Set_Pos(vPos.x,vPos.y, vPos.z);
+
 
 	return S_OK;
 }
 
 _int CEffect::Update_Object(const _float & fTimeDelta)
 {
-	m_fFrame += 90.f * fTimeDelta;
+	m_fFrame += 8.f * fTimeDelta;
 
-	if (m_fFrame >= 90.f)
+	if (m_fFrame >= 8.f)
+	{
 		m_fFrame = 0.f;
-
-	Engine::CGameObject::Update_Object(fTimeDelta);
-
-	_matrix		matWorld, matView, matBill;
-	D3DXMatrixIdentity(&matBill);
-
-	m_pTransCom->Get_WorldMatrix(&matWorld);
-	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
-
-	matBill._11 = matView._11;
-	matBill._13 = matView._13;
-	matBill._31 = matView._31;
-	matBill._33 = matView._33;
-
-	D3DXMatrixInverse(&matBill, 0, &matBill);
-
-	// 현재 지금 이 코드는 문제가 없지만 나중에 문제가 될 수 있음
-	m_pTransCom->Set_WorldMatrix(&(matBill * matWorld));
-
-
+		return OBJ_DEAD;
+	}
+	Engine::CBase_Effect::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
 
 	return 0;
@@ -55,7 +42,37 @@ _int CEffect::Update_Object(const _float & fTimeDelta)
 
 void CEffect::LateUpdate_Object(void)
 {
-	Engine::CGameObject::LateUpdate_Object();
+	CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
+	NULL_CHECK(pCamera);
+
+	_matrix		matWorld, matView, matBill;
+
+	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
+	D3DXMatrixIdentity(&matBill);
+	memcpy(&matBill, &matView, sizeof(_matrix));
+	memset(&matBill._41, 0, sizeof(_vec3));
+	D3DXMatrixInverse(&matBill, 0, &matBill);
+
+	_matrix      matScale, matTrans;
+	D3DXMatrixScaling(&matScale, 2.f, 2.f, 2.f);
+
+	_matrix      matRot;
+	D3DXMatrixIdentity(&matRot);
+	D3DXMatrixRotationY(&matRot, (_float)pCamera->Get_BillBoardDir());
+
+	_vec3 vPos;
+	m_pTransCom->Get_Info(INFO_POS, &vPos);
+
+	D3DXMatrixTranslation(&matTrans,
+		vPos.x,
+		vPos.y,
+		vPos.z);
+
+	D3DXMatrixIdentity(&matWorld);
+	matWorld = matScale* matRot * matBill * matTrans;
+	m_pTransCom->Set_WorldMatrix(&(matWorld));
+
+	Engine::CBase_Effect::LateUpdate_Object();
 }
 
 void CEffect::Render_Obejct(void)
@@ -79,28 +96,22 @@ HRESULT CEffect::Add_Component(void)
 {
 	CComponent* pComponent = nullptr;
 
-	pComponent = m_pBufferCom = dynamic_cast<CRcTex*>(Clone_Proto(L"Proto_RcTexCom"));
-	NULL_CHECK_RETURN(m_pBufferCom, E_FAIL);
-	m_mapComponent[ID_STATIC].insert({ L"Proto_RcTexCom", pComponent });
+	ADD_CLONE_PROTO(CRcTex, m_pBufferCom, m_mapComponent, ID_STATIC, L"Proto_RcTexCom");
+	ADD_CLONE_PROTO(CTexture, m_pTextureCom, m_mapComponent, ID_STATIC, L"Proto_hitbloodTexture");
 
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_EffectTexture"));
-	NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
-	m_mapComponent[ID_STATIC].insert({ L"Proto_EffectTexture", pComponent });
-
-	pComponent = m_pTransCom = dynamic_cast<CTransform*>(Clone_Proto(L"Proto_TransformCom"));
-	NULL_CHECK_RETURN(m_pTransCom, E_FAIL);
-	m_mapComponent[ID_DYNAMIC].insert({ L"Proto_TransformCom", pComponent });
-
+	ADD_CLONE_PROTO(CTransform, m_pTransCom, m_mapComponent, ID_DYNAMIC, L"Proto_TransformCom");
 
 	return S_OK;
 }
 
 
-CEffect * CEffect::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+
+
+CEffect * CEffect::Create(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3&  vPos)
 {
 	CEffect *	pInstance = new CEffect(pGraphicDev);
 
-	if (FAILED(pInstance->Ready_Object()))
+	if (FAILED(pInstance->Ready_Object(vPos)))
 	{
 		Safe_Release(pInstance);
 		return nullptr;

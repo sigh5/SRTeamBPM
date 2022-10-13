@@ -8,6 +8,11 @@
 #include "MyCamera.h"
 #include "Gun_Screen.h"
 
+
+#include "HitEffect.h"
+
+
+
 CGhul::CGhul(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
 {
@@ -184,6 +189,8 @@ void CGhul::Collision_Event()
 	NULL_CHECK_RETURN(pLayer, );
 	CGameObject *pGameObject = nullptr;
 	pGameObject = static_cast<CGun_Screen*>(::Get_GameObject(L"Layer_UI", L"Gun"));
+	_vec3	vPos;
+	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
 
 
 	if (static_cast<CGun_Screen*>(pGameObject)->Get_Shoot() &&
@@ -193,8 +200,12 @@ void CGhul::Collision_Event()
 		m_bHit = true;
 		static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"))->Set_ComboCount(1);
 		m_pInfoCom->Receive_Damage(1);
-		cout << "Spider " << m_pInfoCom->Get_InfoRef()._iHp << endl;
+		cout << "Ghul" << m_pInfoCom->Get_InfoRef()._iHp << endl;
 		static_cast<CGun_Screen*>(pGameObject)->Set_Shoot(false);
+
+		READY_CREATE_EFFECT_VECTOR(pGameObject, CHitEffect, pLayer, m_pGraphicDev, vPos);
+		static_cast<CHitEffect*>(pGameObject)->Set_Effect_INFO(OWNER_GHUL, 0, 8, 0.2f);
+
 	}
 }
 

@@ -62,6 +62,9 @@ _int CWallCube::Update_Object(const _float & fTimeDelta)
 
 void CWallCube::Render_Obejct(void)
 {
+
+
+
 	/*if (m_bWireFrame)
 		m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);*/
 
@@ -93,8 +96,6 @@ void CWallCube::Render_Obejct(void)
 
 	}
 	m_pBufferCom->Render_Buffer();
-
-
 
 
 	//// HitBox

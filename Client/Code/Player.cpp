@@ -47,7 +47,7 @@ HRESULT CPlayer::Ready_Object(void)
 	m_pColliderCom->Set_vCenter(&vPos);
 
 
-	m_pDynamicTransCom->Update_Component(2.0f);
+	m_pDynamicTransCom->Update_Component(1.0f);
 
 	m_iOriginHP = m_pInfoCom->Get_Hp();
 
@@ -90,8 +90,12 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 		CScene* pScene = Get_Scene();
 		CLayer* pLayer = pScene->GetLayer(L"Layer_GameLogic");
 
+		//CMonsterBase* pMonster = dynamic_cast<CMonsterBase*>(pLayer->Get_GameObject(L"TestMonster10"));
+		////pMonster->Set_ResetCheck(true);
 	
-		//pMonster->Set_ResetCheck(true);
+
+		//pMonster = dynamic_cast<CMonsterBase*>(pLayer->Get_GameObject(L"TestMonster11"));
+		////pMonster->Set_ResetCheck(true);
 
 	}
 
@@ -415,8 +419,6 @@ void CPlayer::Random_ResurrectionRoom()
 
 	pLayer = pScene->GetLayer(L"Layer_GameLogic");
 
-
-	
 	CTransform* pFirstCubeTransform = dynamic_cast<CTransform*>(pFirstCubeObj->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
 
 	_vec3 vFirstCubePos;
@@ -424,9 +426,10 @@ void CPlayer::Random_ResurrectionRoom()
 
 	m_pDynamicTransCom->Set_Pos(vFirstCubePos.x + 5.f, vFirstCubePos.y, vFirstCubePos.z + 5.f);
 
+	pLayer->Reset_Monster();
 	m_pDynamicTransCom->Update_Component(1.f);
 
-	pLayer->Reset_Monster();
+	
 }
 
 

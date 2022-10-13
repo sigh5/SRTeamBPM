@@ -25,6 +25,8 @@ private:
 	void		Mouse_Move(void);
 	void		Mouse_Fix(void);
 
+	
+
 public:
 	static CDynamicCamera*		Create(LPDIRECT3DDEVICE9 pGraphicDev,
 										const _vec3* pEye, 
@@ -39,6 +41,8 @@ private:
 	_bool			m_bFix = false;
 	_bool			m_bCheck = true;
 
+	
+	_float			m_fTimeDelta = 0.f;
 private:
 	virtual void Free(void) override;
 

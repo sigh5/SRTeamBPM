@@ -161,6 +161,34 @@ void CFileIOMgr::Save_FileData(CScene * pScene,
 	}
 
 
+	else if (eObjType == OBJ_OBSTRACLE)
+	{
+		for (auto iter = MyLayerMap.begin(); iter != MyLayerMap.end(); ++iter)
+		{
+			CTransform* Transcom = dynamic_cast<CTransform*>(iter->second->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+			_vec3   vRight, vUp, vLook, vPos, vScale, vAngle;
+			_int	iDrawNum, iOption = 0;
+			Transcom->Get_Info(INFO_RIGHT, &vRight);
+			Transcom->Get_Info(INFO_UP, &vUp);
+			Transcom->Get_Info(INFO_LOOK, &vLook);
+			Transcom->Get_Info(INFO_POS, &vPos);
+			memcpy(vScale, Transcom->m_vScale, sizeof(_vec3));
+			memcpy(vAngle, Transcom->m_vAngle, sizeof(_vec3));
+			iDrawNum = iter->second->Get_DrawTexIndex();
+			iOption = static_cast<CWallCube*>(iter->second)->Get_Option();
+
+			WriteFile(hFile, &vRight, sizeof(_vec3), &dwByte, nullptr);
+			WriteFile(hFile, &vUp, sizeof(_vec3), &dwByte, nullptr);
+			WriteFile(hFile, &vLook, sizeof(_vec3), &dwByte, nullptr);
+			WriteFile(hFile, &vPos, sizeof(_vec3), &dwByte, nullptr);
+			WriteFile(hFile, &vScale, sizeof(_vec3), &dwByte, nullptr);
+			WriteFile(hFile, &vAngle, sizeof(_vec3), &dwByte, nullptr);
+			WriteFile(hFile, &iDrawNum, sizeof(_int), &dwByte, nullptr);
+			WriteFile(hFile, &iOption, sizeof(_int), &dwByte, nullptr);
+		}
+	}
+
+
 	CloseHandle(hFile);
 	MSG_BOX("Save_Complete");
 
@@ -258,6 +286,7 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 
 				}
 			}
+
 			CTransform* Transcom = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
 			Transcom->Set_Info(INFO_RIGHT, &vRight);
 			Transcom->Set_Info(INFO_UP, &vUp);
