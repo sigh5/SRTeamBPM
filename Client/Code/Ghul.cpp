@@ -140,7 +140,7 @@ void CGhul::LateUpdate_Object(void)
 	}
 	CScene* pScene = ::Get_Scene();
 	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
-	//pMyLayer->Add_vecColliderMonster(static_cast<CMonsterBase*>(this));
+	pMyLayer->Add_vecColliderMonster(static_cast<CMonsterBase*>(this));
 	Engine::CMonsterBase::LateUpdate_Object();
 }
 
