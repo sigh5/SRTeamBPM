@@ -473,9 +473,6 @@ void CCollider::Set_HitBoxMatrix(_matrix* matWorld)
 	
 	memcpy(&m_vCenter, &m_HitBoxWolrdmat._41, sizeof(_vec3));
 	
-	
-
-
 }
 
 CComponent * CCollider::Clone(void)

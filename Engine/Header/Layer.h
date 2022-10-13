@@ -4,6 +4,7 @@
 #include "Engine_Include.h"
 #include <stack>
 BEGIN(Engine)
+class CMonsterBase;
 
 class ENGINE_DLL CLayer : public CBase
 {
@@ -24,7 +25,7 @@ public:
 	HRESULT			Add_GameObjectList(CGameObject* pInstance);
 	void			Add_GhulList(CGameObject* pGhul);
 	void			Add_ObeliskList(CGameObject* pObelisk);
-
+	void			Add_vecColliderMonster(CMonsterBase* pMonster);
 	
 	
 	HRESULT			Ready_Layer(void);
@@ -51,11 +52,12 @@ public:
 	void					Clear_Stack();	// 스택 안에있는 것들을 지워줌
 	void					Reset_Monster();	//맵 오브젝트 내 몬스터 위치 체력 초기화
 	void			Delete_GhulList(void);		//구울 리스트 삭제
-	
+	void			ActivevecColliderMonster(void);
+
 	//구울 리스트 가져오기
 	list<CGameObject*>&		Get_GhulList() { return m_GhulList; }
 	list<CGameObject*>&		Get_ObeliskList() { return m_ObeliskList; }
-
+	
 
 
 	void					Add_EffectList(CGameObject* pEffectObject)	{m_EffectList.push_back(pEffectObject);}
@@ -73,7 +75,7 @@ private:
 	list<CGameObject*>  m_GhulList;
 	list<CGameObject*>  m_objPoolList;
 	list<CGameObject*>	m_ObeliskList;
-
+	vector<CMonsterBase*> m_vecColliderMonster;
 	list<_tchar* > NameList;
 
 

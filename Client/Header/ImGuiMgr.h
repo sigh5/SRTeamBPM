@@ -143,7 +143,7 @@ private:
 	// Monster_Tool 변수
 	_bool	m_bMonsterCreateCheck = false;
 	_bool	m_bMonsterSelectCheck = false;
-
+	CTransform*	m_pSelectedMonsterTransform = nullptr;
 
 	std::list<pair<const wstring,CGameObject*>>	m_SelecteObjectlist;
 	// 중복 클릭 방지를 위한 자료구조 set

@@ -40,7 +40,9 @@ public:
 	virtual bool		Distance_Over(void);
 	virtual void		Save_OriginPos(void);
 	virtual void		Get_BackOriginPos(void);
-
+	virtual float		Get_Radius(void);
+	virtual _vec3		Get_Pos(void);
+	virtual void		Move_Pos(_vec3 _move);
 public:
 	const _bool&		 Get_Hit()const { return m_bHit; }
 	const _bool&		Get_Dead()const { return m_bDead; }

@@ -6,6 +6,7 @@ namespace Engine
 	class CTexture;
 	class CTransform;
 	class CCalculator;
+	class CAnimation;
 }
 class CMonsterToolObject :
 	public CGameObject
@@ -25,13 +26,21 @@ public:
 	CCalculator*		Get_Calculator(void) { return m_pCalculatorCom; }
 	CRcTex*				Get_Buffer(void) { return m_pBufferCom; }
 	bool Set_TransformPositon(HWND g_hWnd, CCalculator* _pCalcul);
+
+	void				MousePostoScreen();
+	HRESULT				InitSetting(_vec2* vMousPos, const wstring& LayerName, wstring* RoomName);
+	void				Set_Layer_Map_Name(const wstring& LayerName, wstring* RoomName) { m_LayerName = LayerName; m_RoomName = *RoomName; }
 private:
 	CTexture*	m_pTextureCom = nullptr;
 	CRcTex*		m_pBufferCom = nullptr;
 	CTransform* m_pTransCom = nullptr;
 	CCalculator* m_pCalculatorCom = nullptr;
+	CAnimation*	m_pAnimationCom = nullptr;
 	int m_iMonsterIndex = 0;
 	int m_iPreIndex = 0;
+
+	wstring				m_LayerName = L"";
+	wstring				m_RoomName = L"";
 public:
 	static CMonsterToolObject*		Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx = 0, int Posy = 0);
 	virtual void		Free(void);

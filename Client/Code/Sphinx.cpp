@@ -52,9 +52,11 @@ HRESULT CSphinx::Ready_Object(int Posx, int Posy)
 	if (Posx == 0 && Posy == 0) {}
 	else
 	{
-		m_pDynamicTransCom->Set_Pos((float)Posx, m_vScale.y * 0.5f, (float)Posy);
+		
 	}
-	m_pDynamicTransCom->Compulsion_Update();
+
+	//m_pDynamicTransCom->Rotation(ROT_Y, 90.f);
+	m_pDynamicTransCom->Update_Component(1.f);
 	return S_OK;
 }
 
@@ -94,21 +96,25 @@ _int CSphinx::Update_Object(const _float & fTimeDelta)
 
 void CSphinx::LateUpdate_Object(void)
 {
-		_matrix      matScale, matTrans;
+		_matrix      matScale, matTrans, matRot;
 		D3DXMatrixScaling(&matScale, m_vScale.x, m_vScale.y, m_vScale.z);
 
+		
 		_vec3 vPos;
 		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
 
 		D3DXMatrixTranslation(&matTrans,
 			vPos.x,
-			vPos.y,
+			m_vScale.y * 0.5f,
 			vPos.z);
+
+		D3DXMatrixIdentity(&matRot);
+		D3DXMatrixRotationY(&matRot, (90.f*3.14f/180.f));
 
 		_matrix		matWorld;
 		D3DXMatrixIdentity(&matWorld);
 
-		matWorld = matScale * matTrans;
+		matWorld = matScale * matRot * matTrans;
 		m_pDynamicTransCom->Set_WorldMatrix(&(matWorld));
 }
 

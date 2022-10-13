@@ -64,6 +64,7 @@ HRESULT CSphinxFlyHead::Ready_Object(float Posx, float Posy, float Size)
 	m_fTackleAttenuationTimeCount = 0;
 	m_fTackleStopper = 0.05f;
 	m_fOriginTackleStopper = m_fTackleStopper;
+	
 
 	m_iMonsterIndex = MONSTER_FLY_HEAD;
 	m_fRearrangementDelay = 1.f;
@@ -74,6 +75,7 @@ HRESULT CSphinxFlyHead::Ready_Object(float Posx, float Posy, float Size)
 		m_pDynamicTransCom->Set_Pos(Posx, Size*0.5f, Posy);
 	}
 	m_pDynamicTransCom->Set_Scale(&_vec3{ Size, Size, 1.f });
+	m_fLimitY = m_pDynamicTransCom->m_vScale.y * 0.2f;
 	m_pDynamicTransCom->Update_Component(1.f);
 	return S_OK;
 }
@@ -101,10 +103,16 @@ _int CSphinxFlyHead::Update_Object(const _float & fTimeDelta)
 
 	if(m_bBattle)
 	BattleLoop(fTimeDelta);
-
+	
+	if (m_fLimitY > m_pDynamicTransCom->m_vInfo[INFO_POS].y)
+	{
+		m_pDynamicTransCom->m_vInfo[INFO_POS].y = m_fLimitY;
+	}
 	Engine::CMonsterBase::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
-
+	CScene* pScene = ::Get_Scene();
+	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+	pMyLayer->Add_vecColliderMonster(static_cast<CMonsterBase*>(this));
 	return 0;
 }
 
@@ -585,9 +593,16 @@ void	CSphinxFlyHead::Tackle_HeadSpin(const _float& fTimeDelta)
 void	CSphinxFlyHead::Rearrangement(const _float& fTimeDelta)
 {
 	m_fRearrangementDealyCount += fTimeDelta;
+	if (m_pDynamicTransCom->m_vScale.y > m_pDynamicTransCom->m_vInfo[INFO_POS].y)
+	{
+		m_pDynamicTransCom->Move_Pos(&(_vec3(0.f, 1.f, 0.f) * 0.03f));
+		m_pDynamicTransCom->Update_Component(fTimeDelta);
+	}
+	
 	if (m_fRearrangementDelay < m_fRearrangementDealyCount)
 	{
 		m_fRearrangementDealyCount = 0.f;
+		
 		switch (m_pAnimationCom->m_iMotion)
 		{
 		case 0:

@@ -56,7 +56,6 @@ HRESULT CEarthShaker::Ready_Object(float Posx, float Posy)
 	}
 	Save_OriginPos();
 	m_pDynamicTransCom->Update_Component(1.f);
-
 	return S_OK;
 }
 
@@ -110,7 +109,9 @@ _int CEarthShaker::Update_Object(const _float & fTimeDelta)
 	m_pDynamicTransCom->Update_Component(fTimeDelta);
 	Engine::CMonsterBase::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
-
+	CScene* pScene = ::Get_Scene();
+	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+	pMyLayer->Add_vecColliderMonster(static_cast<CMonsterBase*>(this));
 	return 0;
 }
 

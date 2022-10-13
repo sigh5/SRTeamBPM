@@ -193,6 +193,18 @@ void		CMonsterBase::Get_BackOriginPos(void)
 	m_pInfoCom->Add_Hp(m_iOriginHp - m_pInfoCom->Get_Hp());
 	m_bDead = false;
 }
+float CMonsterBase::Get_Radius(void)
+{
+	return m_pDynamicTransCom->m_vScale.x * 0.5f;
+}
+_vec3 CMonsterBase::Get_Pos(void)
+{
+	return m_pDynamicTransCom->m_vInfo[INFO_POS];
+}
+void	CMonsterBase::Move_Pos(_vec3 _move)
+{
+	m_pDynamicTransCom->Move_Pos(&_move);
+}
 void Engine::CMonsterBase::Free(void)
 {
 	CGameObject::Free();
