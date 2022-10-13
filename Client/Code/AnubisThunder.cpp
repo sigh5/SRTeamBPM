@@ -3,7 +3,7 @@
 #include "AbstractFactory.h"
 
 #include "Export_Function.h"
-
+#include "MyCamera.h"
 
 CAnubisThunder::CAnubisThunder(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -13,54 +13,96 @@ CAnubisThunder::CAnubisThunder(LPDIRECT3DDEVICE9 pGraphicDev)
 
 CAnubisThunder::~CAnubisThunder()
 {
+
 }
 
-HRESULT CAnubisThunder::Ready_Object(int Posx, int Posy)
+HRESULT CAnubisThunder::Ready_Object(_float Posx, _float Posy, _float Posz)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	//m_pTransformCom->Rotation(ROT_Y, 90.f);
 
-	if (Posx == 0 && Posy == 0) {}
+	if (Posx == 0 && Posy == 0 && Posz == 0) {}
 	else
 	{
-		m_pTransformCom->Set_Pos((_float)Posx, 1.f, (_float)Posy);
+		m_pTransformCom->Set_Pos((_float)Posx, Posy, (_float)Posz);
 	}
 
+	m_pTransformCom->Set_Scale(&_vec3(3.f, 1.f, 3.f));
+	m_pAnimationCom->Ready_Animation(8, 0, 0.1f);
+	m_pAnimationCom->m_iMotion = rand() % 9;
+	m_fLifetime = 0.5f;
 
-
-	m_pTransformCom->Compulsion_Update();
+	m_pTransformCom->Update_Component(1.f);
 	return S_OK;
 }
 
 _int CAnubisThunder::Update_Object(const _float & fTimeDelta)
 {
-
-	Engine::CGameObject::Update_Object(fTimeDelta);
+	m_fLifetimeCount += fTimeDelta;
+	if (m_fLifetime < m_fLifetimeCount)
+	{
+		m_bDead = true;
+		return 1;
+	}
+	m_pAnimationCom->Move_Animation(fTimeDelta);
 
 	Render_Obejct();
 
-	Add_RenderGroup(RENDER_ALPHA, this);
 	m_pTransformCom->Update_Component(fTimeDelta);
+	Engine::CGameObject::Update_Object(fTimeDelta);
+	Add_RenderGroup(RENDER_ALPHA, this);
+	LateUpdate_Object();
 	return 0;
 }
 
 void CAnubisThunder::LateUpdate_Object(void)
 {
+	CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
+	NULL_CHECK(pCamera);
+
+	_matrix		matWorld, matView, matBill;
+
+	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
+	D3DXMatrixIdentity(&matBill);
+	memcpy(&matBill, &matView, sizeof(_matrix));
+	memset(&matBill._41, 0, sizeof(_vec3));
+	D3DXMatrixInverse(&matBill, 0, &matBill);
+
+	_matrix      matScale, matTrans;
+	D3DXMatrixScaling(&matScale, m_pTransformCom->m_vScale.x, m_pTransformCom->m_vScale.y, m_pTransformCom->m_vScale.z);
+
+	_matrix      matRot;
+	D3DXMatrixIdentity(&matRot);
+	D3DXMatrixRotationY(&matRot, (_float)pCamera->Get_BillBoardDir());
+
+	_vec3 vPos;
+	m_pTransformCom->Get_Info(INFO_POS, &vPos);
+
+	D3DXMatrixTranslation(&matTrans,
+		vPos.x,
+		vPos.y,
+		vPos.z);
+
+	D3DXMatrixIdentity(&matWorld);
+	matWorld = matScale* matRot * matBill * matTrans;
+	m_pTransformCom->Set_WorldMatrix(&(matWorld));
+
+	Engine::CGameObject::LateUpdate_Object();
 }
 
 void CAnubisThunder::Render_Obejct(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrixPointer());
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0x40);
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0x10);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-	m_pTextureCom->Set_Texture(0);
+	m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);
 
 	m_pBufferCom->Render_Buffer();
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
@@ -136,6 +178,7 @@ void				CAnubisThunder::Set_Direction(_vec3* _Dirvec)
 HRESULT			CAnubisThunder::Add_Component(void)
 {
 	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Anubis_Thunder_Texture", m_mapComponent, ID_STATIC);
+	m_pAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_STATIC);
 	//m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
 	m_pBufferCom = CAbstractFactory<CThunderTex>::Clone_Proto_Component(L"Proto_ThunderTexCom", m_mapComponent, ID_STATIC);
 	m_pTransformCom = CAbstractFactory<CTransform>::Clone_Proto_Component(L"Proto_TransformCom", m_mapComponent, ID_STATIC);
@@ -143,12 +186,12 @@ HRESULT			CAnubisThunder::Add_Component(void)
 	return S_OK;
 }
 
-CAnubisThunder * CAnubisThunder::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)
+CAnubisThunder * CAnubisThunder::Create(LPDIRECT3DDEVICE9 pGraphicDev, _float Posx, _float Posy, _float Posz)
 {
 	CAnubisThunder*	pInstance = new CAnubisThunder(pGraphicDev);
 
 
-	if (FAILED(pInstance->Ready_Object(Posx, Posy)))
+	if (FAILED(pInstance->Ready_Object(Posx, Posy, Posz)))
 	{
 		Safe_Release(pInstance);
 		return nullptr;

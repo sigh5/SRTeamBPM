@@ -24,6 +24,7 @@
 #include "DashUI.h"
 #include "Inventory_UI.h"
 #include "Gun_Screen.h"
+#include "Player_Dead_UI.h"
 
 
 #include "UI_Frame.h"
@@ -190,6 +191,11 @@ HRESULT CStage::Ready_Layer_Environment(const _tchar * pLayerTag)
 
 	m_mapLayer.insert({ pLayerTag, pLayer });
 
+	/*pGameObject = CHitBlood::Create(m_pGraphicDev, _vec3{ 3.f, 1.f, 3.f });
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"hitblood", pGameObject), E_FAIL);*/
+
+
 	//READY_LAYER(pGameObject, CControlRoom, pLayer, m_pGraphicDev, L"321412");
 
 
@@ -275,6 +281,10 @@ HRESULT CStage::Ready_Layer_UI(const _tchar * pLayerTag)
 	READY_LAYER(pGameObject, CGun_Screen, pLayer, m_pGraphicDev, L"Gun");
 
 	READY_LAYER(pGameObject, CUI_Frame, pLayer, m_pGraphicDev, L"Frame");
+
+	pGameObject = CPlayer_Dead_UI::Create(m_pGraphicDev, 255);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Dead_UI", pGameObject), E_FAIL);
 
 	m_mapLayer.insert({ pLayerTag, pLayer });
 

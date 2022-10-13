@@ -6,17 +6,19 @@
 
 #include "ShotGun.h"
 #include "Magnum.h"
+#include "Player_Dead_UI.h"
 
 USING(Engine)
 
 
 CWeapon_UI::CWeapon_UI(LPDIRECT3DDEVICE9 pGraphicDev)
-	:CGameObject(pGraphicDev)
+	:CUI_Base(pGraphicDev)
 {
+	D3DXVec3Normalize(&m_vecScale, &m_vecScale);
 }
 
-CWeapon_UI::CWeapon_UI(const CGameObject & rhs)
-	: CGameObject(rhs)
+CWeapon_UI::CWeapon_UI(const CUI_Base & rhs)
+	: CUI_Base(rhs)
 {
 }
 
@@ -27,6 +29,13 @@ CWeapon_UI::~CWeapon_UI()
 HRESULT CWeapon_UI::Ready_Object(CGameObject * pPlayer)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+
+	Set_OrthoMatrix(300.f, 300.f, 0.f, 0.f);
+
+	m_vecScale = { m_fSizeX * 0.6f, m_fSizeY * 0.6f, 1.f };
+
+	m_pTransCom->Set_Scale(&m_vecScale);
+	m_pTransCom->Set_Pos(m_fX + 514.f, m_fY - WINCY * 0.22f, 0.1f);
 
 	m_pPlayer = pPlayer;
 
@@ -46,35 +55,57 @@ _int CWeapon_UI::Update_Object(const _float & fTimeDelta)
 
 void CWeapon_UI::LateUpdate_Object(void)
 {
-	m_pTransCom->OrthoMatrix(110.f, 40.f, 336.f, -190.f, WINCX, WINCY);
-
 	CGameObject::LateUpdate_Object();
 }
 
 void CWeapon_UI::Render_Obejct(void)
 {
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransCom->m_matWorld);
+	CPlayer_Dead_UI* pDead_UI = static_cast<CPlayer_Dead_UI*>(Engine::Get_GameObject(L"Layer_UI", L"Dead_UI"));
 
-	m_pGraphicDev->SetTransform(D3DTS_VIEW, &m_pTransCom->m_matView);
-	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &m_pTransCom->m_matOrtho);
-
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0x01);
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-	
-	if (dynamic_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"))->Get_RenderFalse() == true)
+	if (pDead_UI->Get_Render() == false)
 	{
-		m_pTextureCom->Set_Texture(1);
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
+
+		_matrix		OldViewMatrix, OldProjMatrix;
+
+		m_pGraphicDev->GetTransform(D3DTS_VIEW, &OldViewMatrix);
+		m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &OldProjMatrix);
+
+		_matrix		ViewMatrix;
+
+		ViewMatrix = *D3DXMatrixIdentity(&ViewMatrix);
+
+		_matrix		matProj;
+
+		Get_ProjMatrix(&matProj);
+
+		m_pGraphicDev->SetTransform(D3DTS_VIEW, &ViewMatrix);
+		m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
+
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0x01);
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+		m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+		m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+		if (dynamic_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"))->Get_RenderFalse() == true)
+		{
+			m_pTextureCom->Set_Texture(1);
+		}
+
+		else
+			m_pTextureCom->Set_Texture(0);
+
+		m_pBufferCom->Render_Buffer();
+
+		m_pGraphicDev->SetTransform(D3DTS_VIEW, &OldViewMatrix);
+		m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &OldProjMatrix);
+
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 	}
-
-	else
-	m_pTextureCom->Set_Texture(0);
-
-	m_pBufferCom->Render_Buffer();
 }
 
 HRESULT CWeapon_UI::Add_Component(void)

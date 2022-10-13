@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "HitBlood.h"
 #include "AnubisThunder.h"
+#include "AnubisStormBall.h"
 
 #include "Gun_Screen.h"
 
@@ -50,16 +51,17 @@ HRESULT CAnubis::Ready_Object(float Posx, float Posy)
 	m_pInfoCom->Ready_CharacterInfo(5, 10, 5.f);
 	m_pAnimationCom->Ready_Animation(6, 1, 0.2f);
 	m_iPreHp = (m_pInfoCom->Get_InfoRef()._iHp);
-	m_pAttackAnimationCom->Ready_Animation(17, 0, 0.15f);
+	m_pAttackAnimationCom->Ready_Animation(17, 0, 0.3f);
 	m_pDeadAnimationCom->Ready_Animation(12, 0, 0.3f);
+	m_iRepeatCharge = 4;
+	m_iRepeatShoot = 8;
 	if (Posx == 0 && Posy == 0) {}
 	else
 	{
 		m_pDynamicTransCom->Set_Pos((float)Posx, 2.f, (float)Posy);
 	}
 	Save_OriginPos();
-
-	
+	m_pDynamicTransCom->Update_Component(1.f);
 	return S_OK;
 }
 
@@ -87,6 +89,7 @@ bool	CAnubis::Dead_Judge(const _float& fTimeDelta)
 _int CAnubis::Update_Object(const _float & fTimeDelta)
 {
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
+	
 	if (Distance_Over())
 	{
 		Engine::CMonsterBase::Update_Object(fTimeDelta);
@@ -121,11 +124,35 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 
 	Excution_Event();
 
-/*
-	for (auto iter = m_AnubisThunderlist.begin(); iter != m_AnubisThunderlist.end(); ++iter)
+
+	for (auto iter = m_AnubisThunderlist.begin(); iter != m_AnubisThunderlist.end();)
 	{
-		(*iter)->Update_Object(fTimeDelta);
-	}*/
+		_int iResult = 0;
+		iResult = (*iter)->Update_Object(fTimeDelta);
+		if (iResult == 1)
+		{
+			Safe_Release((*iter));
+			iter = m_AnubisThunderlist.erase(iter);
+		}
+		else
+		{
+			++iter;
+		}
+	}
+	for (auto iter = m_AnubisStormballList.begin(); iter != m_AnubisStormballList.end();)
+	{
+		_int iResult = 0;
+		iResult = (*iter)->Update_Object(fTimeDelta);
+		if (iResult == 1)
+		{
+			Safe_Release((*iter));
+			iter = m_AnubisStormballList.erase(iter);
+		}
+		else
+		{
+			++iter;
+		}
+	}
 
 	Engine::CMonsterBase::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
@@ -150,7 +177,7 @@ void CAnubis::LateUpdate_Object(void)
 		D3DXMatrixInverse(&matBill, 0, &matBill);
 
 		_matrix      matScale, matTrans;
-		D3DXMatrixScaling(&matScale, 2.f, 2.f, 2.f);
+		D3DXMatrixScaling(&matScale,m_pDynamicTransCom->m_vScale.x, m_pDynamicTransCom->m_vScale.y, m_pDynamicTransCom->m_vScale.z);
 
 		_matrix      matRot;
 		D3DXMatrixIdentity(&matRot);
@@ -238,11 +265,7 @@ void CAnubis::Excution_Event()
 
 void CAnubis::NoHit_Loop(const _float& fTimeDelta)
 {
-	if (fMtoPDistance > 15.f)
-	{
-		m_pAnimationCom->Move_Animation(fTimeDelta);
-	}
-	else if ( fMtoPDistance > 7.f && m_bAttacking == false)
+	if ( fMtoPDistance > 7.f && m_bAttacking == false)
 	{
 		m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
 
@@ -275,6 +298,126 @@ void CAnubis::Hit_Loop(const _float& fTimeDelta)
 	}
 }
 
+void CAnubis::Attack_Thunder(const _float& fTimeDelta)
+{
+	m_pAttackAnimationCom->Move_Animation(fTimeDelta);
+	CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
+	CTransform* pPlayerTransform = static_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
+	_vec3 AnubisInfo;
+	m_pDynamicTransCom->Get_Info(INFO_POS, &AnubisInfo);
+	/*if (1 == m_pAttackAnimationCom->m_iMotion)
+	{
+		pPlayerTransform->Get_Info(INFO_POS, &m_bOldPlayerPos);
+
+	}*/
+	if (5 == m_pAttackAnimationCom->m_iMotion)
+	{
+		if (false == m_bCreateOneThunder)
+		{
+			_vec3 vDir = m_vPlayerPos - AnubisInfo;
+			D3DXVec3Normalize(&vDir, &vDir);
+			D3DXVec3Cross(&vDir, &_vec3(0.f, 1.f, 0.f), &vDir);
+
+			CAnubisThunder* pThunder;
+			pThunder = CAnubisThunder::Create(m_pGraphicDev, AnubisInfo.x + (vDir.x* 0.57f), 1.8f, AnubisInfo.z + (vDir.z* 0.5f));
+
+			m_AnubisThunderlist.push_back(pThunder);
+			m_bCreateOneThunder = true;
+		}
+	}
+	if (11 == m_pAttackAnimationCom->m_iMotion)
+	{
+		if (false == m_bCreateTwoThunder)
+		{
+			_vec3 vDir = m_vPlayerPos - AnubisInfo;
+			D3DXVec3Normalize(&vDir, &vDir);
+			CAnubisThunder* pThunder;
+			pThunder = CAnubisThunder::Create(m_pGraphicDev, m_vPlayerPos.x - vDir.x * 0.5f, 1.0f, m_vPlayerPos.z - vDir.z * 0.5f);
+
+			m_AnubisThunderlist.push_back(pThunder);
+			m_bCreateTwoThunder = true;
+		}
+	}
+	if (m_pAttackAnimationCom->m_iMotion >= m_pAttackAnimationCom->m_iMaxMotion)
+	{
+		m_bAttack = false;
+		m_bCreateOneThunder = false;
+		m_bCreateTwoThunder = false;
+	}
+}
+
+void CAnubis::Attack_Stormball(const _float& fTimeDelta)
+{
+	m_pAttackAnimationCom->Move_Animation(fTimeDelta);
+	_vec3 AnubisInfo;
+	m_pDynamicTransCom->Get_Info(INFO_POS, &AnubisInfo);
+	if (5 == m_pAttackAnimationCom->m_iMotion)
+	{
+		if (false == m_bCreateChargThunder)
+		{
+			_vec3 vDir = m_vPlayerPos - AnubisInfo;
+			D3DXVec3Normalize(&vDir, &vDir);
+			D3DXVec3Cross(&vDir, &_vec3(0.f, 1.f, 0.f), &vDir);
+
+			CAnubisThunder* pThunder;
+			pThunder = CAnubisThunder::Create(m_pGraphicDev, AnubisInfo.x + (vDir.x* 0.55f), 2.f, AnubisInfo.z + (vDir.z* 0.55f));
+
+			m_AnubisThunderlist.push_back(pThunder);
+			m_bCreateChargThunder = true;
+		}
+	}
+	if (8 == m_pAttackAnimationCom->m_iMotion)
+	{
+		if (m_iRepeatChargeNum < m_iRepeatCharge)
+		{
+			m_pAttackAnimationCom->m_iMotion = 5;
+			++m_iRepeatChargeNum;
+			m_bCreateChargThunder = false;
+		}
+	}
+	if (10 == m_pAttackAnimationCom->m_iMotion)
+	{
+		//스톰볼 생성
+		if (false == m_bCreateOneStormball)
+		{
+			_vec3 vDir = m_vPlayerPos - AnubisInfo;
+			D3DXVec3Normalize(&vDir, &vDir);
+			D3DXVec3Cross(&vDir, &_vec3(0.f, 1.f, 0.f), &vDir);
+			if (m_bStormballLeftRight)
+			{
+				CAnubisStormBall* pStormball;
+				pStormball = CAnubisStormBall::Create(m_pGraphicDev, AnubisInfo, (m_vPlayerPos - vDir * 2.f));
+				m_bStormballLeftRight = false;
+				m_AnubisStormballList.push_back(pStormball);
+			}
+			else
+			{
+				CAnubisStormBall* pStormball;
+				pStormball = CAnubisStormBall::Create(m_pGraphicDev, AnubisInfo, (m_vPlayerPos + vDir * 2.f));
+				m_bStormballLeftRight = true;
+				m_AnubisStormballList.push_back(pStormball);
+			}
+			m_bCreateOneStormball = true;
+		}
+	}
+	if (12 == m_pAttackAnimationCom->m_iMotion)
+	{
+		if (m_iRepeatShootNum < m_iRepeatShoot)
+		{
+			m_pAttackAnimationCom->m_iMotion = 9;
+			++m_iRepeatShootNum;
+			m_bCreateOneStormball = false;
+		}
+	}
+	if (m_pAttackAnimationCom->m_iMotion >= m_pAttackAnimationCom->m_iMaxMotion)
+	{
+		m_bAttack = false;
+		m_iRepeatChargeNum = 0;
+		m_iRepeatShootNum = 0;
+		m_bCreateChargThunder = false;
+	}
+}
+
 void				CAnubis::Clear_Blood(const _float& fTimeDelta)
 {
 	//for (auto iter = m_vecBlood.front(); iter != m_vecBlood.back();)
@@ -298,6 +441,7 @@ void		CAnubis::AttackJudge(const _float& fTimeDelta)
 		if (m_fAttackDelay <= m_fAttackDelayTime)
 		{
 			m_bAttack = true;
+			m_iAttackPattern = rand() % 2; //rand
 			m_fAttackDelayTime = 0.f;
 		}
 	}
@@ -319,31 +463,21 @@ void		CAnubis::AttackJudge(const _float& fTimeDelta)
 
 void CAnubis::Attack(const _float& fTimeDelta)
 {
-	m_pAttackAnimationCom->Move_Animation(fTimeDelta);
 
-	CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
-	CTransform* pPlayerTransform = static_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
-	_vec3 AnubisInfo;
-	m_pDynamicTransCom->Get_Info(INFO_POS, &AnubisInfo);
-	if (1 == m_pAttackAnimationCom->m_iMotion)
-	{
-		pPlayerTransform->Get_Info(INFO_POS, &m_bOldPlayerPos);
 
-	}
-	if (11 == m_pAttackAnimationCom->m_iMotion)
+	switch (m_iAttackPattern)
 	{
-		//CAnubisThunder* pThunder;
-		//pThunder = CAnubisThunder::Create(m_pGraphicDev, AnubisInfo.x, AnubisInfo.z);
-		//// 플레이어 방향으로 발사
-		//_vec3 DirForPlayer = m_bOldPlayerPos - AnubisInfo;
-		//pThunder->Set_Direction(&DirForPlayer);
-		//m_AnubisThunderlist.push_back(pThunder);
+	case 0:
+		Attack_Thunder(fTimeDelta);
+		break;
+
+	case 1:
+		Attack_Stormball(fTimeDelta);
+		break;
 
 	}
-	if (m_pAttackAnimationCom->m_iMotion >= m_pAttackAnimationCom->m_iMaxMotion)
-	{
-		m_bAttack = false;
-	}
+
+	
 }
 
 CAnubis * CAnubis::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)
@@ -363,9 +497,14 @@ CAnubis * CAnubis::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)
 void CAnubis::Free(void)
 {
 	CMonsterBase::Free();
-	//for (auto iter : m_AnubisThunderlist)
-	//{
-	//	Safe_Release(iter);
-	//}
-	//m_AnubisThunderlist.clear();
+	for (auto& iter : m_AnubisThunderlist)
+	{
+		Safe_Release(iter);
+	}
+	m_AnubisThunderlist.clear();
+	for (auto& iter : m_AnubisStormballList)
+	{
+		Safe_Release(iter);
+	}
+	m_AnubisStormballList.clear();
 }

@@ -37,7 +37,7 @@ public:
 
 private:
 	HRESULT				Add_Component(void);
-
+	
 public:
 	CRcTex*				m_pBufferCom = nullptr;
 	CTexture*			m_pTextureCom = nullptr;
@@ -53,7 +53,7 @@ private:
 	_bool				m_bInvenSwitch = false;
 
 	vector<CEquipmentBase*>		m_vecWeaponType;
-
+	
 public:
 	vector<CEquipmentBase*>*	Get_WeaponType(void) { return &m_vecWeaponType; }
 

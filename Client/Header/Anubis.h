@@ -3,8 +3,10 @@
 
 BEGIN(Engine)
 class CCollider;
-END
 
+END
+class CAnubisThunder;
+class CAnubisStormBall;
 
 class CAnubis :public CMonsterBase
 {
@@ -24,7 +26,8 @@ public:
 	virtual void NoHit_Loop(const _float& fTimeDelta);
 	virtual void Hit_Loop(const _float& fTimeDelta);
 
-
+	void				Attack_Thunder(const _float& fTimeDelta);
+	void				Attack_Stormball(const _float& fTimeDelta);
 
 	void				Clear_Blood(const _float& fTimeDelta);
 public:
@@ -56,7 +59,24 @@ private:
 
 	CRcTex*			m_pBufferCom = nullptr;
 
-	//list<CAnubisThunder*> m_AnubisThunderlist;
+	list<CAnubisThunder*> m_AnubisThunderlist;
+	list<CAnubisStormBall*> m_AnubisStormballList;
+	//Thunder
+	bool			m_bCreateOneThunder = false;
+	bool			m_bCreateTwoThunder = false;
+
+	int				m_iAttackPattern = 0;
+	//~
+
+	//Stormball
+	int				m_iRepeatCharge = 0;
+	int				m_iRepeatChargeNum = 0;
+	int				m_iRepeatShoot = 0;
+	int				m_iRepeatShootNum = 0;
+	bool			m_bStormballLeftRight = false;
+	bool			m_bCreateChargThunder = false;
+	bool			m_bCreateOneStormball = false;
+	//~
 
 };
 

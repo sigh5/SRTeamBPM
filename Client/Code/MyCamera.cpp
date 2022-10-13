@@ -136,26 +136,26 @@ void CMyCamera::Mouse_Fix(void)
 
 	int Mouse_speed = 3;
 
-	SystemParametersInfo(SPI_SETMOUSESPEED,
-		0,
-		(LPVOID)Mouse_speed,
-		SPIF_UPDATEINIFILE ||
-		SPIF_SENDCHANGE ||
-		SPIF_SENDWININICHANGE);
+	//SystemParametersInfo(SPI_SETMOUSESPEED,
+	//	0,
+	//	(LPVOID)Mouse_speed,
+	//	SPIF_UPDATEINIFILE ||
+	//	SPIF_SENDCHANGE ||
+	//	SPIF_SENDWININICHANGE);
 
 
-	POINT	pt{};
-	GetCursorPos(&pt);
-	ScreenToClient(g_hWnd, &pt);
+	//POINT	pt{};
+	//GetCursorPos(&pt);
+	//ScreenToClient(g_hWnd, &pt);
 
-	//  마우스 고정
-	if (pt.x > (WINCX >> 1) + 200 || pt.x < (WINCX >> 1) - 200)
-	{
-		POINT	pt2{ WINCX >> 1 , WINCY >> 1 };
+	////  마우스 고정
+	//if (pt.x > (WINCX >> 1) + 200 || pt.x < (WINCX >> 1) - 200)
+	//{
+	//	POINT	pt2{ WINCX >> 1 , WINCY >> 1 };
 
-		ClientToScreen(g_hWnd, &pt2);
-		SetCursorPos(pt2.x, pt2.y);
-	}
+	//	ClientToScreen(g_hWnd, &pt2);
+	//	SetCursorPos(pt2.x, pt2.y);
+	//}
 
 	
 

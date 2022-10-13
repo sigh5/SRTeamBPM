@@ -23,7 +23,7 @@ public:
 	HRESULT				Ready_Object();
 	virtual _int		Update_Object(const _float& fTimeDelta) override;
 
-	virtual	void		LateUpdate_Object(void);
+	virtual	void		LateUpdate_Object(void) override;
 	virtual void		Render_Obejct(void) override;
 
 private:
@@ -40,6 +40,6 @@ private:
 
 public:
 	static CUI_Frame*			Create(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual void				Free();
+	virtual void				Free(void);
 };
 

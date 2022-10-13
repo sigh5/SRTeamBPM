@@ -4,17 +4,18 @@
 #include "Export_Function.h"
 #include "AbstractFactory.h"
 #include "Player.h"
+#include "Player_Dead_UI.h"
 
 USING(Engine)
 
 CHpBar::CHpBar(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CGameObject(pGraphicDev)
+	: CUI_Base(pGraphicDev)
 {
-
+	D3DXVec3Normalize(&m_vecScale, &m_vecScale);
 }
 
-CHpBar::CHpBar(const CGameObject & rhs)
-	: CGameObject(rhs)
+CHpBar::CHpBar(const CUI_Base & rhs)
+	: CUI_Base(rhs)
 {
 }
 
@@ -27,26 +28,39 @@ HRESULT CHpBar::Ready_Object(CGameObject * pPlayer)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
+	Set_OrthoMatrix(300.f, 300.f, 0.f, 0.f);
+
+	m_vecScale = { m_fSizeX * 0.85f, m_fSizeY * 1.f, 1.f };
+
+	m_pTransCom->Set_Scale(&m_vecScale);
+	m_pTransCom->Set_Pos(m_fX - 365.f, m_fY - 385.f, 0.1f);
+
 	m_pPlayer = pPlayer;
+
+	m_pAnimationCom->Ready_Animation(5, 0, 0.2f, 4);
 
 	return S_OK;
 }
 
 _int CHpBar::Update_Object(const _float & fTimeDelta)
 {
+	cout << m_pAnimationCom->m_iMotion << endl;
+
 	CPlayer* pPlayer = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
 
 	_uint iA = (pPlayer->Get_HpChange()) / 25;
-
-	if (iA <= 1)
+				// 24/25 = 0.96 // 0/25 = 0
+	if (m_pAnimationCom->m_iMotion == 4)
 	{
-		iA = 1;
+		if (Engine::Key_Down(DIK_M)) 
+		{
+			m_pAnimationCom->m_iMotion = 0;
+		}
+		Engine::Key_InputReset();
 	}
 
 	m_pAnimationCom->Control_Animation(iA);
-
-
-
+	
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
 	Add_RenderGroup(RENDER_ICON, this);
@@ -56,29 +70,51 @@ _int CHpBar::Update_Object(const _float & fTimeDelta)
 
 void CHpBar::LateUpdate_Object(void)
 {
-	m_pTransCom->OrthoMatrix(300.f, 204.f, -492.f, -448.f, WINCX, WINCY);
-
 	CGameObject::LateUpdate_Object();
-
 }
 
 void CHpBar::Render_Obejct(void)
 {
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransCom->m_matWorld);
+	CPlayer_Dead_UI* pDead_UI = static_cast<CPlayer_Dead_UI*>(Engine::Get_GameObject(L"Layer_UI", L"Dead_UI"));
 
-	m_pGraphicDev->SetTransform(D3DTS_VIEW, &m_pTransCom->m_matView);
-	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &m_pTransCom->m_matOrtho);
+	if (pDead_UI->Get_Render() == false)
+	{
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
 
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0x10);
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+		_matrix		OldViewMatrix, OldProjMatrix;
 
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+		m_pGraphicDev->GetTransform(D3DTS_VIEW, &OldViewMatrix);
+		m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &OldProjMatrix);
 
-	m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);
-	m_pBufferCom->Render_Buffer();
+		_matrix		ViewMatrix;
+
+		ViewMatrix = *D3DXMatrixIdentity(&ViewMatrix);
+
+		_matrix		matProj;
+
+		Get_ProjMatrix(&matProj);
+
+		m_pGraphicDev->SetTransform(D3DTS_VIEW, &ViewMatrix);
+		m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
+
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0x10);
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+		m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+		m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+		m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);
+
+		m_pBufferCom->Render_Buffer();
+
+		m_pGraphicDev->SetTransform(D3DTS_VIEW, &OldViewMatrix);
+		m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &OldProjMatrix);
+
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+	}
 }
 
 HRESULT CHpBar::Add_Component(void)
@@ -103,7 +139,7 @@ HRESULT CHpBar::Add_Component(void)
 
 	pComponent = m_pAnimationCom = dynamic_cast<CAnimation*>(Clone_Proto(L"Proto_AnimationCom"));
 	NULL_CHECK_RETURN(m_pAnimationCom, E_FAIL);
-	m_pAnimationCom->Ready_Animation(5, 0, 0.2f, 4); // 8
+	//m_pAnimationCom->Ready_Animation(5, 0, 0.2f, 4); // 8
 	m_mapComponent[ID_DYNAMIC].insert({ L"Proto_AnimationCom", pComponent });
 
 	return S_OK;

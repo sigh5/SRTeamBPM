@@ -1,5 +1,5 @@
 #pragma once
-#include "GameObject.h"
+#include "UI_Base.h"
 
 #include "Engine_Include.h"
 #include "TestPlayer.h"
@@ -13,11 +13,11 @@ class CRcTex;
 class CAnimation;
 END
 
-class CWeapon_UI : public CGameObject
+class CWeapon_UI : public CUI_Base
 {
 public:
 	explicit CWeapon_UI(LPDIRECT3DDEVICE9 pGraphicDev);
-	explicit CWeapon_UI(const CGameObject& rhs);
+	explicit CWeapon_UI(const CUI_Base& rhs);
 	virtual ~CWeapon_UI();
 
 public:
@@ -42,7 +42,7 @@ public:
 	CGameObject*		m_pPlayer;
 
 
-
+	_vec3				m_vecScale;
 
 public:
 	static CWeapon_UI*		Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* pPlayer);

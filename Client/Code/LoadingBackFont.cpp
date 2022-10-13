@@ -100,7 +100,7 @@ void CLoadingBackFont::Render_Obejct(void)
 
 	}
 
-	Render_Font(L"LeeSoonSin", pString, &_vec2(523.f, 524.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+	Render_Font(L"LeeSoonSin", pString, &_vec2(828.f, 895.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 
 	m_pTextureCom->Set_Texture(0);	// 텍스처 정보 세팅을 우선적으로 한다.
 

@@ -7,8 +7,9 @@
 #include "ShotGun.h"
 #include "Magnum.h"
 
-#include "Player.h"
 #include "MyCamera.h"
+#include "Player.h"
+#include "Player_Dead_UI.h"
 
 
 USING(Engine)
@@ -81,23 +82,27 @@ void CInventory_UI::LateUpdate_Object(void)
 
 void CInventory_UI::Render_Obejct(void)
 {
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
+	CPlayer_Dead_UI* pDead_UI = static_cast<CPlayer_Dead_UI*>(Engine::Get_GameObject(L"Layer_UI", L"Dead_UI"));
 
-	_matrix		OldViewMatrix, OldProjMatrix;
+	if (pDead_UI->Get_Render() == false)
+	{
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
 
-	m_pGraphicDev->GetTransform(D3DTS_VIEW, &OldViewMatrix);
-	m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &OldProjMatrix);
+		_matrix		OldViewMatrix, OldProjMatrix;
 
-	_matrix		ViewMatrix;
+		m_pGraphicDev->GetTransform(D3DTS_VIEW, &OldViewMatrix);
+		m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &OldProjMatrix);
 
-	ViewMatrix = *D3DXMatrixIdentity(&ViewMatrix);
+		_matrix		ViewMatrix;
 
-	_matrix		matProj;
+		ViewMatrix = *D3DXMatrixIdentity(&ViewMatrix);
 
-	Get_ProjMatrix(&matProj);
+		_matrix		matProj;
 
-	m_pGraphicDev->SetTransform(D3DTS_VIEW, &ViewMatrix);
-	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
+		Get_ProjMatrix(&matProj);
+
+		m_pGraphicDev->SetTransform(D3DTS_VIEW, &ViewMatrix);
+		m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
 		// 텍스처 정보 세팅을 우선적으로 한다.
 
 	if (Key_Down(DIK_I) )
@@ -118,22 +123,22 @@ void CInventory_UI::Render_Obejct(void)
 	::Key_InputReset();
 
 
-	if (m_bInvenSwitch)
-	{
-		m_pTextureCom->Set_Texture(0);
-		m_pBufferCom->Render_Buffer();	
-	//	Find_Equip_Item();
-	}	
+		if (m_bInvenSwitch)
+		{
+			m_pTextureCom->Set_Texture(0);
+			m_pBufferCom->Render_Buffer();
+			//	Find_Equip_Item();
+		}
 
-	m_pGraphicDev->SetTransform(D3DTS_VIEW, &OldViewMatrix);
-	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &OldProjMatrix);
+		m_pGraphicDev->SetTransform(D3DTS_VIEW, &OldViewMatrix);
+		m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &OldProjMatrix);
+	}
 }
 
 void CInventory_UI::Find_Equip_Item(void)
 {
 		
 }
-
 
 HRESULT CInventory_UI::Add_Component(void)
 {

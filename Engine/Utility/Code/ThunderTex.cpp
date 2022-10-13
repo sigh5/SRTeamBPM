@@ -1,6 +1,7 @@
 #include "ThunderTex.h"
+#include "Export_Function.h"
 
-
+USING(Engine)
 
 CThunderTex::CThunderTex(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CVIBuffer(pGraphicDev), m_vPos(nullptr), m_bClone(false)
@@ -19,9 +20,9 @@ CThunderTex::~CThunderTex()
 
 HRESULT CThunderTex::Ready_Buffer(void)
 {
-	m_dwVtxCnt = 4;
+	m_dwVtxCnt = 80;
 	m_vPos = new _vec3[m_dwVtxCnt];
-	m_dwTriCnt = 2;
+	m_dwTriCnt = 40;
 	m_dwVtxSize = sizeof(VTXTEX);
 	m_dwFVF = FVF_TEX;
 
@@ -36,18 +37,40 @@ HRESULT CThunderTex::Ready_Buffer(void)
 	// 3인자 : 배열에 저장된 첫 번째 버텍스의 주소를 얻어옴
 
 	// 오른쪽 위 삼각형
-	pVertex[0].vPos = { -0.5f, 0.5f, 0.f };
-	pVertex[0].vTexUV = { 0.f, 0.f };
+	//pVertex[0].vPos = { -1.f, 1.f, 0.f };
+	//pVertex[0].vTexUV = { 0.f, 0.f };
 
 
-	pVertex[1].vPos = { 0.5f, 0.5f, 0.f };
-	pVertex[1].vTexUV = { 1.f, 0.f };
+	//pVertex[1].vPos = { 1.f, 1.f, 0.f };
+	//pVertex[1].vTexUV = { 1.f, 0.f };
 
-	pVertex[2].vPos = { 0.5f, -0.5f, 0.f };
-	pVertex[2].vTexUV = { 1.f, 1.f };
+	//pVertex[2].vPos = { 1.f, -1.f, 0.f };
+	//pVertex[2].vTexUV = { 1.f, 1.f };
 
-	pVertex[3].vPos = { -0.5f, -0.5f, 0.f };
-	pVertex[3].vTexUV = { 0.f, 1.f };
+	//pVertex[3].vPos = { -1.f, -1.f, 0.f };
+	//pVertex[3].vTexUV = { 0.f, 1.f };
+
+	int Vertexnum = 0;
+	int Uvnum = 0;
+
+	for (int i = 0; i < 20; i++)
+	{
+
+		pVertex[Vertexnum].vPos = { -0.5f, (float)Uvnum - 0.5f, 0.f };
+		pVertex[Vertexnum].vTexUV = { 0.f, 0.f };
+
+		pVertex[Vertexnum + 1].vPos = { -0.5f, (float)Uvnum + 0.5f, 0.f };
+		pVertex[Vertexnum + 1].vTexUV = { 1.f, 0.f };
+
+		pVertex[Vertexnum + 2].vPos = { 0.5f, (float)Uvnum + 0.5f, 0.f };
+		pVertex[Vertexnum + 2].vTexUV = { 1.f, 1.f };
+
+		pVertex[Vertexnum + 3].vPos = { 0.5f, (float)Uvnum - 0.5f, 0.f };
+		pVertex[Vertexnum + 3].vTexUV = { 0.f, 1.f };
+
+		Vertexnum += 4;
+		Uvnum += 1;
+	}
 
 	m_pVB->Unlock();
 	for (_ulong i = 0; i < m_dwVtxCnt; ++i)
@@ -59,14 +82,31 @@ HRESULT CThunderTex::Ready_Buffer(void)
 	m_pIB->Lock(0, 0, (void**)&pIndex, 0);
 
 	// 오른쪽 위
-	pIndex[0]._0 = 0;
-	pIndex[0]._1 = 1;
-	pIndex[0]._2 = 2;
+	//pIndex[0]._0 = 0;
+	//pIndex[0]._1 = 1;
+	//pIndex[0]._2 = 2;
 
-	// 왼쪽 아래
-	pIndex[1]._0 = 0;
-	pIndex[1]._1 = 2;
-	pIndex[1]._2 = 3;
+	//// 왼쪽 아래
+	//pIndex[1]._0 = 0;
+	//pIndex[1]._1 = 2;
+	//pIndex[1]._2 = 3;
+
+	int indexnum = 0;
+	int Trinum = 0;
+
+	for (int i = 0; i < 10; ++i)
+	{
+		pIndex[indexnum]._0 = Trinum;
+		pIndex[indexnum]._1 = Trinum + 1;
+		pIndex[indexnum]._2 = Trinum + 2;
+
+		pIndex[indexnum + 1]._0 = Trinum;
+		pIndex[indexnum + 1]._1 = Trinum + 2;
+		pIndex[indexnum + 1]._2 = Trinum + 3;
+
+		indexnum += 2;
+		Trinum += 4;
+	}
 
 	m_pIB->Unlock();
 
@@ -75,16 +115,26 @@ HRESULT CThunderTex::Ready_Buffer(void)
 
 void CThunderTex::Render_Buffer(void)
 {
+
+	CVIBuffer::Render_Buffer();
 }
 
 CThunderTex * CThunderTex::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {
-	return nullptr;
+	CThunderTex*	pInstance = new CThunderTex(pGraphicDev);
+
+	if (FAILED(pInstance->Ready_Buffer()))
+	{
+		Safe_Release(pInstance);
+		return nullptr;
+	}
+
+	return pInstance;
 }
 
 CComponent * CThunderTex::Clone(void)
 {
-	return nullptr;
+	return new CThunderTex(*this);
 }
 
 void CThunderTex::Free(void)

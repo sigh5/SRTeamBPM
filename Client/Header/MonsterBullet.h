@@ -4,7 +4,6 @@
 BEGIN(Engine)
 class CTransform;
 class CTexture;
-class CCubeTex;
 class CAnimation;
 class CRcTex;
 

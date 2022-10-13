@@ -4,18 +4,20 @@
 #include "AbstractFactory.h"
 
 #include "Player.h"
+#include "Player_Dead_UI.h"
 #include "TestPlayer.h"
 #include "Coin.h" 
 
 USING(Engine)
 
 CCoinKeyUI::CCoinKeyUI(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CGameObject(pGraphicDev)
+	: CUI_Base(pGraphicDev)
 {
+	D3DXVec3Normalize(&m_vecScale, &m_vecScale);
 }
 
-CCoinKeyUI::CCoinKeyUI(const CGameObject & rhs)
-	: CGameObject(rhs)
+CCoinKeyUI::CCoinKeyUI(const CUI_Base & rhs)
+	: CUI_Base(rhs)
 {
 }
 
@@ -26,6 +28,13 @@ CCoinKeyUI::~CCoinKeyUI()
 HRESULT CCoinKeyUI::Ready_Object(CGameObject * pPlayer)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+
+	Set_OrthoMatrix(300.f, 300.f, 0.f, 0.f);
+
+	m_vecScale = { m_fSizeX * 0.5f, m_fSizeY * 0.28f, 1.f };
+
+	m_pTransCom->Set_Scale(&m_vecScale);
+	m_pTransCom->Set_Pos(m_fX - 459.f, m_fY - WINCY * 0.126f, 0.1f);
 
 	m_pPlayer = pPlayer;
 
@@ -46,49 +55,71 @@ _int CCoinKeyUI::Update_Object(const _float & fTimeDelta)
 }
 
 void CCoinKeyUI::LateUpdate_Object(void)
-{
-	m_pTransCom->OrthoMatrix(120.f, 70.f, -524.f, -312.f, WINCX, WINCY);
-
+{	
 	CGameObject::LateUpdate_Object();
 }
 
 void CCoinKeyUI::Render_Obejct(void)
 {
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pTransCom->m_matWorld);
+	CPlayer_Dead_UI* pDead_UI = static_cast<CPlayer_Dead_UI*>(Engine::Get_GameObject(L"Layer_UI", L"Dead_UI"));
 
-	m_pGraphicDev->SetTransform(D3DTS_VIEW, &m_pTransCom->m_matView);
-	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &m_pTransCom->m_matOrtho);
+	if (pDead_UI->Get_Render() == false)
+	{
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
 
-	/* m_szCoin, m_szKey */
+		_matrix		OldViewMatrix, OldProjMatrix;
 
-	// Coin
-	_tchar	tBCoin[MAX_PATH];
-	swprintf_s(tBCoin, L"%d", m_iPlayerCoin);
-	m_szCoin = L"";
-	m_szCoin += tBCoin;
+		m_pGraphicDev->GetTransform(D3DTS_VIEW, &OldViewMatrix);
+		m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &OldProjMatrix);
 
-	Render_Font(L"HoengseongHanu", m_szCoin.c_str(), &_vec2(46.f, 506.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
-	// ~Coin
+		_matrix		ViewMatrix;
 
-	// Key
-	_tchar	tBKey[MAX_PATH];
-	swprintf_s(tBKey, L"%d", m_iPlayerKey);
-	m_szKey = L"";
-	m_szKey += tBKey;
+		ViewMatrix = *D3DXMatrixIdentity(&ViewMatrix);
 
-	Render_Font(L"HoengseongHanu", m_szKey.c_str(), &_vec2(82.f, 506.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
-	// ~Key
+		_matrix		matProj;
 
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0x10);
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+		Get_ProjMatrix(&matProj);
 
-	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+		m_pGraphicDev->SetTransform(D3DTS_VIEW, &ViewMatrix);
+		m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
 
-	m_pTextureCom->Set_Texture(0);
-	m_pBufferCom->Render_Buffer();
+		/* m_szCoin, m_szKey */
+
+		// Coin
+		_tchar	tBCoin[MAX_PATH];
+		swprintf_s(tBCoin, L"%d", m_iPlayerCoin);
+		m_szCoin = L"";
+		m_szCoin += tBCoin;
+
+		Render_Font(L"HoengseongHanu", m_szCoin.c_str(), &_vec2(133.f, 680.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+		// ~Coin
+
+		// Key
+		_tchar	tBKey[MAX_PATH];
+		swprintf_s(tBKey, L"%d", m_iPlayerKey);
+		m_szKey = L"";
+		m_szKey += tBKey;
+
+		Render_Font(L"HoengseongHanu", m_szKey.c_str(), &_vec2(203.f, 680.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+		// ~Key
+
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0x10);
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+		m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+		m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+		m_pTextureCom->Set_Texture(0);
+		m_pBufferCom->Render_Buffer();
+
+		m_pGraphicDev->SetTransform(D3DTS_VIEW, &OldViewMatrix);
+		m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &OldProjMatrix);
+
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+	}
 }
 
 HRESULT CCoinKeyUI::Add_Component(void)

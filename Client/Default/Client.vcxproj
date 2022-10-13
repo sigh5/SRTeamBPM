@@ -161,6 +161,7 @@
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h" />
     <ClInclude Include="..\Header\Anubis.h" />
+    <ClInclude Include="..\Header\AnubisStormBall.h" />
     <ClInclude Include="..\Header\AnubisThunder.h" />
     <ClInclude Include="..\Header\AttackEffect.h" />
     <ClInclude Include="..\Header\BackGround.h" />
@@ -205,6 +206,7 @@
     <ClInclude Include="..\Header\ObjectMgr.h" />
     <ClInclude Include="..\Header\Obstacle.h" />
     <ClInclude Include="..\Header\Player.h" />
+    <ClInclude Include="..\Header\Player_Dead_UI.h" />
     <ClInclude Include="..\Header\ShotGun.h" />
     <ClInclude Include="..\Header\SkillEffct.h" />
     <ClInclude Include="..\Header\SkyBox.h" />
@@ -253,6 +255,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Code\Anubis.cpp" />
+    <ClCompile Include="..\Code\AnubisStormBall.cpp" />
     <ClCompile Include="..\Code\AnubisThunder.cpp" />
     <ClCompile Include="..\Code\AttackEffect.cpp" />
     <ClCompile Include="..\Code\BackGround.cpp" />
@@ -297,6 +300,7 @@
     <ClCompile Include="..\Code\ObjectMgr.cpp" />
     <ClCompile Include="..\Code\Obstacle.cpp" />
     <ClCompile Include="..\Code\Player.cpp" />
+    <ClCompile Include="..\Code\Player_Dead_UI.cpp" />
     <ClCompile Include="..\Code\ShotGun.cpp" />
     <ClCompile Include="..\Code\SkillEffct.cpp" />
     <ClCompile Include="..\Code\SkyBox.cpp" />

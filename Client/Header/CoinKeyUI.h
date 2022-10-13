@@ -1,5 +1,5 @@
 #pragma once
-#include "GameObject.h"
+#include "UI_Base.h"
 #include "Engine_Include.h"
 
 BEGIN(Engine)
@@ -12,11 +12,11 @@ class CAnimation;
 
 END
 
-class CCoinKeyUI : public CGameObject
+class CCoinKeyUI : public CUI_Base
 {
 public:
 	CCoinKeyUI(LPDIRECT3DDEVICE9 pGraphicDev);
-	CCoinKeyUI(const CGameObject& rhs);
+	CCoinKeyUI(const CUI_Base& rhs);
 	virtual ~CCoinKeyUI();
 
 public:
@@ -45,6 +45,7 @@ private: // Status 각 요소에 쓰는 폰트
 	_uint				m_iPlayerCoin = 0;
 	_uint				m_iPlayerKey = 0;
 	
+	_vec3				m_vecScale;
 public:
 	static CCoinKeyUI*		Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* pPlayer);
 	virtual void			Free();

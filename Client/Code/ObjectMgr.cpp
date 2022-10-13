@@ -11,6 +11,7 @@
 #include "Ghul.h"
 #include "MetronomeSmallUI.h"
 #include "MetronomeRect.h"
+#include "Player_Dead_UI.h"
 
 
 IMPLEMENT_SINGLETON(CObjectMgr)
@@ -143,6 +144,7 @@ void CObjectMgr::Collect_UIObj(CGameObject * pObj)
 CGameObject * CObjectMgr::Reuse_MetronomeUI(LPDIRECT3DDEVICE9 pGraphicDev, _float fPosX, _float fPosY, _float fSpeed, int iTexIndex)
 {
 	CGameObject*		pObject = nullptr;
+
 	if(m_UIMetroList.empty())
 	{
 		pObject = CMetronomeUI::Create(pGraphicDev, fPosX, fPosY, fSpeed, iTexIndex);

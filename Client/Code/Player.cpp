@@ -12,6 +12,11 @@
 #include "MyCamera.h"
 #include "TeleCube.h"
 
+#include "Player_Dead_UI.h"
+
+//주석지우셈
+
+
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
 	, m_vDirection(0.f, 0.f, 0.f)
@@ -102,8 +107,6 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 	
 
 	}
-
-
 
 	m_fTimeDelta = fTimeDelta;
 	m_fFrame += 1.0f * fTimeDelta;
@@ -275,7 +278,11 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		cout << vcurrentPos.x << " " << vcurrentPos.y<<" " << vcurrentPos.z << endl;
 	}
 
-
+	if (Engine::Key_Down(DIK_C))
+	{
+		m_pInfoCom->Get_InfoRef()._iHp -= 25;
+	}
+	Engine::Key_InputReset();
 }
 
 
@@ -300,7 +307,7 @@ void CPlayer::Ready_MonsterShotPicking()
 	{
 		static_cast<CGun_Screen*>(pEquipItem)->Add_Magazine(-1);
 		pEquipItem->Set_AnimationCheck(true);
-		pEquipItem->Set_Shoot(true);
+		pEquipItem->Set_Shoot(true); // 발사가 true이므로 여기서 총알 생성
 		return;
 	}
 
