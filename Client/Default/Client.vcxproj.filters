@@ -281,6 +281,7 @@
       <Filter>02. GameObject\02. For_public\06. ControlRoom</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\AnubisStormBall.cpp" />
+    <ClCompile Include="..\Code\Ax.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -579,6 +580,7 @@
       <Filter>02. GameObject\02. For_public\06. ControlRoom</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\AnubisStormBall.h" />
+    <ClInclude Include="..\Header\Ax.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -846,6 +848,9 @@
     </Filter>
     <Filter Include="01. Scene\96. Stage_BIH">
       <UniqueIdentifier>{95da0eaf-6815-47e4-ac7b-77679616c28f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\13. Gun_Screen\ax">
+      <UniqueIdentifier>{62352cd4-6a15-42ac-9b3e-51468ea9b123}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

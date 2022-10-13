@@ -54,6 +54,7 @@ public:
 	void				GunFailSound();
 	void				Set_Active(_bool bEvent) { m_bActive = bEvent; }
 
+	void				Set_GunNoRender(_bool bEvent) { m_bNoRender = bEvent; }
 
 private:
 	_bool				m_bShootCheck = false;
@@ -69,6 +70,10 @@ private:
 
 	_bool				m_bActive = false;
 	_float				m_fActiveTimer = 0.f;
+	
+	
+	_bool				m_bNoRender = false;
+
 
 private:
 	CRcTex*				m_pBufferCom = nullptr;

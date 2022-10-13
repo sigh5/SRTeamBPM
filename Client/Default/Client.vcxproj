@@ -164,6 +164,7 @@
     <ClInclude Include="..\Header\AnubisStormBall.h" />
     <ClInclude Include="..\Header\AnubisThunder.h" />
     <ClInclude Include="..\Header\AttackEffect.h" />
+    <ClInclude Include="..\Header\Ax.h" />
     <ClInclude Include="..\Header\BackGround.h" />
     <ClInclude Include="..\Header\Box.h" />
     <ClInclude Include="..\Header\Bullet.h" />
@@ -258,6 +259,7 @@
     <ClCompile Include="..\Code\AnubisStormBall.cpp" />
     <ClCompile Include="..\Code\AnubisThunder.cpp" />
     <ClCompile Include="..\Code\AttackEffect.cpp" />
+    <ClCompile Include="..\Code\Ax.cpp" />
     <ClCompile Include="..\Code\BackGround.cpp" />
     <ClCompile Include="..\Code\Box.cpp" />
     <ClCompile Include="..\Code\Bullet.cpp" />

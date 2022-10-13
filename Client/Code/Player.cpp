@@ -13,7 +13,7 @@
 #include "TeleCube.h"
 
 #include "Player_Dead_UI.h"
-
+#include  "Ax.h"
 //주석지우셈
 
 
@@ -229,9 +229,8 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 
 	if (Key_Down(DIK_T))
 	{
-		static_cast<CMyCamera*>(::Get_GameObject(L"Layer_Environment", L"CMyCamera"))->Set_Excution(true);
-		static_cast<CGun_Screen*>(pEquipItem)->Set_Active(true);
-
+		
+		Excution_Motion();
 	}
 
 	if (Get_DIKeyState(DIK_SPACE) & 0X80)
@@ -307,10 +306,7 @@ void CPlayer::ComboCheck()
 	if (m_bMissCheck)
 		m_bMissCheck = false;
 	else
-	{
 		m_iComboCount = 0;
-	}
-	
 }
 
 void CPlayer::EquipItem_Add_Stat(void)  // 현재 각 아이템들 충돌처리 부분이 애매해서 F 누르면 스탯이 다 증가할 거임. 충돌처리를 고치던지 날 잡고 한 번 뜯어봐야 함.
@@ -350,6 +346,18 @@ void CPlayer::Loss_Damage()
 	m_pInfoCom->Get_InfoRef()._iHp -= 1;
 	// Test
 	m_iHpBarChange -= 1;
+
+}
+
+void CPlayer::Excution_Motion()
+{
+	static_cast<CMyCamera*>(::Get_GameObject(L"Layer_Environment", L"CMyCamera"))->Set_Excution(true);
+	static_cast<CGun_Screen*>(pEquipItem)->Set_Active(true);
+	
+	static_cast<CAx*>(::Get_GameObject(L"Layer_UI", L"AX"))->Set_Active(true);
+
+
+
 
 }
 

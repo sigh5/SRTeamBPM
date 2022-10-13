@@ -41,7 +41,7 @@
 #include "EarthShaker.h"
 
 #include "ControlRoom.h"
-
+#include "Ax.h"
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
 {
@@ -279,6 +279,8 @@ HRESULT CStage::Ready_Layer_UI(const _tchar * pLayerTag)
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"InventoryUI", pGameObject), E_FAIL);
 
 	READY_LAYER(pGameObject, CGun_Screen, pLayer, m_pGraphicDev, L"Gun");
+	READY_LAYER(pGameObject, CAx, pLayer, m_pGraphicDev, L"AX");
+
 
 	READY_LAYER(pGameObject, CUI_Frame, pLayer, m_pGraphicDev, L"Frame");
 

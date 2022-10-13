@@ -83,19 +83,15 @@ void CGun_Screen::LateUpdate_Object(void)
 	CPlayer* pPlayer = static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic",L"Player"));
 
 	if (m_bShootCheck)
-	{
 		pPlayer->Reset_ComboCount();
-	}
-
-	m_bShootCheck = false;
-
-	CGameObject::LateUpdate_Object();
 	
+	m_bShootCheck = false;
+	CGameObject::LateUpdate_Object();
 }
 
 void CGun_Screen::Render_Obejct(void)
 {
-	if (m_bActive)
+	if (m_bActive || m_bNoRender)
 		return;
 
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());

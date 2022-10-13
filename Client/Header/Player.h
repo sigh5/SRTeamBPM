@@ -61,7 +61,8 @@ public:					// ★ m_pInfoCom->Get_InfoRef()._iHp를 return 해주면 실전 OK
 	void				Set_bCurStat(_bool _bStat) { m_bCurStat = _bStat; }
 
 	void				Loss_Damage();
-	
+
+	void				Excution_Motion();
 
 	void				Set_inventroyActive(_bool bInventoryActive) { m_bInventroyActive = bInventoryActive; }
 	const _bool&		Get_inventroyActive() { return m_bInventroyActive; }

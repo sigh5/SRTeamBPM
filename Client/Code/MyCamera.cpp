@@ -2,7 +2,7 @@
 #include "..\Header\MyCamera.h"
 
 #include "Export_Function.h"
-
+#include "Gun_Screen.h"
 
 CMyCamera::CMyCamera(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CCamera(pGraphicDev)
@@ -77,8 +77,10 @@ _int CMyCamera::Update_Object(const _float & fTimeDelta)
 	if (m_bPlayerDead)
 	{
 		m_fDeadTimer += 1 * fTimeDelta;
+		CGun_Screen* pGun =dynamic_cast<CGun_Screen*>(Get_GameObject(L"Layer_UI", L"Gun"));
+	
+		pGun->Set_GunNoRender(true);
 	}
-
 
 	if (m_fDeadTimer >= 5.f)
 	{
@@ -87,6 +89,9 @@ _int CMyCamera::Update_Object(const _float & fTimeDelta)
 		NULL_CHECK(pPlayerTransform);
 		pPlayerTransform->Rotation(ROT_X, D3DXToRadian(-90.f));
 		m_bPlayerDead = false;
+		CGun_Screen* pGun = dynamic_cast<CGun_Screen*>(Get_GameObject(L"Layer_UI", L"Gun"));
+		NULL_CHECK(pGun);
+		pGun->Set_GunNoRender(false);
 	}
 	else if( m_fDeadTimer <5.f && m_bPlayerDead)
 	{

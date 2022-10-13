@@ -34,10 +34,8 @@ HRESULT CPlayer_Dead_UI::Ready_Object(_uint _iAlpha)
 }
 
 _int CPlayer_Dead_UI::Update_Object(const _float & fTimeDelta)
-{	
-	
+{		
 	Engine::CGameObject::Update_Object(fTimeDelta);
-
 
 	Add_RenderGroup(RENDER_UI, this);
 
