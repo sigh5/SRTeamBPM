@@ -273,10 +273,11 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		cout << vcurrentPos.x << " " << vcurrentPos.y<<" " << vcurrentPos.z << endl;
 	}
 
-	if (Get_DIKeyState(DIK_C) & 0X80)
+	if (Engine::Key_Down(DIK_C))
 	{
-		m_pInfoCom->Get_InfoRef()._iHp -= 1;
+		m_pInfoCom->Get_InfoRef()._iHp -= 25;
 	}
+	Engine::Key_InputReset();
 }
 
 

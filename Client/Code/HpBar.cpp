@@ -37,18 +37,26 @@ HRESULT CHpBar::Ready_Object(CGameObject * pPlayer)
 
 	m_pPlayer = pPlayer;
 
+	m_pAnimationCom->Ready_Animation(5, 0, 0.2f, 4);
+
 	return S_OK;
 }
 
 _int CHpBar::Update_Object(const _float & fTimeDelta)
 {
+	cout << m_pAnimationCom->m_iMotion << endl;
+
 	CPlayer* pPlayer = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
 
 	_uint iA = (pPlayer->Get_HpChange()) / 25;
-
-	if (iA <= 1)
+				// 24/25 = 0.96 // 0/25 = 0
+	if (m_pAnimationCom->m_iMotion == 4)
 	{
-		iA = 1;
+		if (Engine::Key_Down(DIK_M)) 
+		{
+			m_pAnimationCom->m_iMotion = 0;
+		}
+		Engine::Key_InputReset();
 	}
 
 	m_pAnimationCom->Control_Animation(iA);
@@ -131,7 +139,7 @@ HRESULT CHpBar::Add_Component(void)
 
 	pComponent = m_pAnimationCom = dynamic_cast<CAnimation*>(Clone_Proto(L"Proto_AnimationCom"));
 	NULL_CHECK_RETURN(m_pAnimationCom, E_FAIL);
-	m_pAnimationCom->Ready_Animation(5, 0, 0.2f, 4); // 8
+	//m_pAnimationCom->Ready_Animation(5, 0, 0.2f, 4); // 8
 	m_mapComponent[ID_DYNAMIC].insert({ L"Proto_AnimationCom", pComponent });
 
 	return S_OK;
