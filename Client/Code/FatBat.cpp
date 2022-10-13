@@ -8,6 +8,7 @@
 #include "ObjectMgr.h"
 #include "MyCamera.h"
 #include "Player.h"
+#include "HitEffect.h"
 
 #include "Gun_Screen.h"
 
@@ -37,14 +38,14 @@ HRESULT CFatBat::Ready_Object(int Posx, int Posy)
 	{
 		m_bArrFalldown[i] = false;
 	}
-	_vec3	vScale = { 0.5f,0.5f,0.5f };
+	_vec3	vScale = { 3.f,3.f,3.f };
 
 	m_pDynamicTransCom->Set_Scale(&vScale);
 
 	if (Posx == 0 && Posy == 0) {}
 	else
 	{
-		Set_TransformPositon(g_hWnd, m_pCalculatorCom);
+		m_pDynamicTransCom->Set_Pos((float)Posx, 2.f, (float)Posy);
 	}
 
 	m_iDodgeDir = 0;
@@ -59,6 +60,7 @@ HRESULT CFatBat::Ready_Object(int Posx, int Posy)
 	m_fStopperDelayCount = 0.f;
 	m_fHitDelay = 0.f;
 	m_fDeadY = 0.f;
+	m_fFrame = rand() % 200 * 0.01f;
 	Save_OriginPos();
 	return S_OK;
 }
@@ -95,6 +97,7 @@ _int CFatBat::Update_Object(const _float & fTimeDelta)
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 	if (Distance_Over())
 	{
+		m_pAnimationCom->m_iMotion = 0;
 		Engine::CMonsterBase::Update_Object(fTimeDelta);
 		Add_RenderGroup(RENDER_ALPHA, this);
 
@@ -129,6 +132,9 @@ _int CFatBat::Update_Object(const _float & fTimeDelta)
 
 void CFatBat::LateUpdate_Object(void)
 {
+	
+
+
 	CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
 	NULL_CHECK(pCamera);
 
@@ -141,7 +147,7 @@ void CFatBat::LateUpdate_Object(void)
 	D3DXMatrixInverse(&matBill, 0, &matBill);
 
 	_matrix      matScale, matTrans;
-	D3DXMatrixScaling(&matScale, 1.f, 1.f, 1.f);
+	D3DXMatrixScaling(&matScale, m_pDynamicTransCom->m_vScale.x, m_pDynamicTransCom->m_vScale.y, m_pDynamicTransCom->m_vScale.z);
 
 	_matrix      matRot;
 	D3DXMatrixIdentity(&matRot);
@@ -160,6 +166,9 @@ void CFatBat::LateUpdate_Object(void)
 	m_pDynamicTransCom->Set_WorldMatrix(&(matWorld));
 
 	// 빌보드 에러 해결
+	CScene* pScene = ::Get_Scene();
+	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+	pMyLayer->Add_vecColliderMonster(static_cast<CMonsterBase*>(this));
 	Engine::CGameObject::LateUpdate_Object();
 
 }
@@ -174,8 +183,8 @@ void CFatBat::NoHit_Loop(const _float& fTimeDelta)
 	FatBat_Fly(fTimeDelta);
 	FatBat_Dodge(fTimeDelta, &m_vPlayerPos, &m_vMonsterPos);
 
-	//지형에 올림
-	if (fMtoPDistance > 13.f && 14.f > fMtoPDistance)
+
+	if (fMtoPDistance > 13.f)
 	{
 		m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
 
@@ -230,6 +239,8 @@ void CFatBat::Collision_Event()
 	NULL_CHECK_RETURN(pLayer, );
 	CGameObject *pGameObject = nullptr;
 	pGameObject = static_cast<CGun_Screen*>(::Get_GameObject(L"Layer_UI", L"Gun"));
+	_vec3	vPos;
+	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
 
 	_vec3 PickPos;
 
@@ -241,6 +252,8 @@ void CFatBat::Collision_Event()
 		static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"))->Set_ComboCount(1);
 		m_pInfoCom->Receive_Damage(1);
 		cout << "FatBat" << m_pInfoCom->Get_InfoRef()._iHp << endl;
+		READY_CREATE_EFFECT_VECTOR(pGameObject, CHitEffect, pLayer, m_pGraphicDev, vPos);
+		static_cast<CHitEffect*>(pGameObject)->Set_Effect_INFO(OWNER_FATBAT, 0, 8, 0.2f);
 	}
 
 

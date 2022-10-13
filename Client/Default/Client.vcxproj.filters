@@ -271,6 +271,16 @@
     <ClCompile Include="..\Code\SkillEffct.cpp">
       <Filter>02. GameObject\01. For_Stage\07. Effect\Skill_Effect</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\SphinxHole.cpp" />
+    <ClCompile Include="..\Code\ObeliskSpawnEffect.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\04. Obelisk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\AnubisStormBall.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EarthSpike.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\06. EarthShaker</Filter>
+    </ClCompile>
     <ClCompile Include="..\Code\Player_Dead_UI.cpp">
       <Filter>02. GameObject\01. For_Stage\10. UI\11. Player_Dead_UI</Filter>
     </ClCompile>
@@ -570,6 +580,16 @@
     <ClInclude Include="..\Header\SkillEffct.h">
       <Filter>02. GameObject\01. For_Stage\07. Effect\Skill_Effect</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\SphinxHole.h" />
+    <ClInclude Include="..\Header\ObeliskSpawnEffect.h">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\04. Obelisk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\AnubisStormBall.h">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EarthSpike.h">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\06. EarthShaker</Filter>
+    </ClInclude>
     <ClInclude Include="..\Header\Player_Dead_UI.h">
       <Filter>02. GameObject\01. For_Stage\10. UI\11. Player_Dead_UI</Filter>
     </ClInclude>
@@ -839,6 +859,9 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\07. Effect\Skill_Effect">
       <UniqueIdentifier>{e97a4632-c69b-4525-be17-354179118667}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx\03. HitEffect">
+      <UniqueIdentifier>{ffb685ba-12a5-4b36-9cdf-b341a75516af}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\10. UI\11. Player_Dead_UI">
       <UniqueIdentifier>{5e64319a-2d27-4c93-a1a3-d048aa6efb91}</UniqueIdentifier>

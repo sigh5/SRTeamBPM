@@ -9,6 +9,7 @@
 #include "HitBlood.h"
 #include "AnubisThunder.h"
 #include "AnubisStormBall.h"
+#include "HitEffect.h"
 
 #include "Gun_Screen.h"
 
@@ -43,7 +44,7 @@ HRESULT CAnubis::Ready_Object(float Posx, float Posy)
 	m_iMonsterIndex = MONSTER_ANUBIS;
 	m_fAttackDelay = 0.5f;
 
-	_vec3	vScale = { 2.f,2.f,2.f };
+	_vec3	vScale = { 5.f,6.f,5.f };
 
 	m_pDynamicTransCom->Set_Scale(&vScale);
 
@@ -67,6 +68,7 @@ HRESULT CAnubis::Ready_Object(float Posx, float Posy)
 
 bool	CAnubis::Dead_Judge(const _float& fTimeDelta)
 {
+	m_pDynamicTransCom->Set_Y(m_pDynamicTransCom->m_vScale.y * 0.5f);
 	if (0 >= m_pInfoCom->Get_Hp())
 	{
 		m_bDead = true;
@@ -88,10 +90,13 @@ bool	CAnubis::Dead_Judge(const _float& fTimeDelta)
 
 _int CAnubis::Update_Object(const _float & fTimeDelta)
 {
+
+	m_pDynamicTransCom->Set_Y(m_pDynamicTransCom->m_vScale.y * 0.5f);
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 	
 	if (Distance_Over())
 	{
+		m_pAnimationCom->m_iMotion = 0;
 		Engine::CMonsterBase::Update_Object(fTimeDelta);
 		Add_RenderGroup(RENDER_ALPHA, this);
 
@@ -153,7 +158,7 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 			++iter;
 		}
 	}
-
+	m_pDynamicTransCom->Update_Component(fTimeDelta);
 	Engine::CMonsterBase::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
 
@@ -163,6 +168,9 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 void CAnubis::LateUpdate_Object(void)
 {
 	// 빌보드 에러 해결
+
+
+
 	if (SCENE_TOOLTEST != Get_Scene()->Get_SceneType())
 	{
 		CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
@@ -197,6 +205,11 @@ void CAnubis::LateUpdate_Object(void)
 
 		// 빌보드 에러 해결
 	}
+	CScene* pScene = ::Get_Scene();
+	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+	pMyLayer->Add_vecColliderMonster(static_cast<CMonsterBase*>(this));
+
+
 	Engine::CMonsterBase::LateUpdate_Object();
 }
 
@@ -240,7 +253,8 @@ void CAnubis::Collision_Event()
 	NULL_CHECK_RETURN(pLayer, );
 	CGameObject *pGameObject = nullptr;
 	pGameObject = static_cast<CGun_Screen*>(::Get_GameObject(L"Layer_UI", L"Gun"));
-
+	_vec3	vPos;
+	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
 
 	if (static_cast<CGun_Screen*>(pGameObject)->Get_Shoot() &&
 		fMtoPDistance < MAX_CROSSROAD  &&
@@ -251,6 +265,9 @@ void CAnubis::Collision_Event()
 		m_pInfoCom->Receive_Damage(1);
 		cout << "Anubis " << m_pInfoCom->Get_InfoRef()._iHp << endl;
 		static_cast<CGun_Screen*>(pGameObject)->Set_Shoot(false);
+		READY_CREATE_EFFECT_VECTOR(pGameObject, CHitEffect, pLayer, m_pGraphicDev, vPos);
+		static_cast<CHitEffect*>(pGameObject)->Set_Effect_INFO(OWNER_ANUBIS, 0, 8, 0.2f);
+
 	}
 }
 
@@ -265,7 +282,7 @@ void CAnubis::Excution_Event()
 
 void CAnubis::NoHit_Loop(const _float& fTimeDelta)
 {
-	if ( fMtoPDistance > 7.f && m_bAttacking == false)
+	if ( fMtoPDistance > 15.f && m_bAttacking == false)
 	{
 		m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
 
@@ -319,7 +336,7 @@ void CAnubis::Attack_Thunder(const _float& fTimeDelta)
 			D3DXVec3Cross(&vDir, &_vec3(0.f, 1.f, 0.f), &vDir);
 
 			CAnubisThunder* pThunder;
-			pThunder = CAnubisThunder::Create(m_pGraphicDev, AnubisInfo.x + (vDir.x* 0.57f), 1.8f, AnubisInfo.z + (vDir.z* 0.5f));
+			pThunder = CAnubisThunder::Create(m_pGraphicDev, AnubisInfo.x + (vDir.x* 1.2f), m_pDynamicTransCom->m_vScale.y * 0.85f, AnubisInfo.z + (vDir.z* 1.2f));
 
 			m_AnubisThunderlist.push_back(pThunder);
 			m_bCreateOneThunder = true;
@@ -360,7 +377,7 @@ void CAnubis::Attack_Stormball(const _float& fTimeDelta)
 			D3DXVec3Cross(&vDir, &_vec3(0.f, 1.f, 0.f), &vDir);
 
 			CAnubisThunder* pThunder;
-			pThunder = CAnubisThunder::Create(m_pGraphicDev, AnubisInfo.x + (vDir.x* 0.55f), 2.f, AnubisInfo.z + (vDir.z* 0.55f));
+			pThunder = CAnubisThunder::Create(m_pGraphicDev, AnubisInfo.x + (vDir.x* 1.2f), m_pDynamicTransCom->m_vScale.y * 0.85f, AnubisInfo.z + (vDir.z* 1.2f));
 
 			m_AnubisThunderlist.push_back(pThunder);
 			m_bCreateChargThunder = true;

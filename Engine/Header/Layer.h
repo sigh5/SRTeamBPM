@@ -4,6 +4,7 @@
 #include "Engine_Include.h"
 #include <stack>
 BEGIN(Engine)
+class CMonsterBase;
 
 class ENGINE_DLL CLayer : public CBase
 {
@@ -17,22 +18,22 @@ public:
 
 	// PJW insert code : 작업하면서 쓸거 같아서 만들었어요.
 	map<const _tchar*, CGameObject*>			Get_MapObject() { return m_mapObject; } // map 접근용
-	// ~PJW insert code
+																						// ~PJW insert code
 
 public:
 	HRESULT			Add_GameObject(const _tchar* pObjTag, CGameObject* pInstance);
 	HRESULT			Add_GameObjectList(CGameObject* pInstance);
 	void			Add_GhulList(CGameObject* pGhul);
 	void			Add_ObeliskList(CGameObject* pObelisk);
+	void			Add_vecColliderMonster(CMonsterBase* pMonster);
 
-	
-	
+
 	HRESULT			Ready_Layer(void);
 	_int			Update_Layer(const _float& fTimeDelta);
 	void			LateUpdate_Layer(void);
 
 	HRESULT Delete_GameObject(const _tchar * pObjTag);
-	map<const _tchar*, CGameObject*>& Get_GameObjectMap()  { return m_mapObject; }
+	map<const _tchar*, CGameObject*>& Get_GameObjectMap() { return m_mapObject; }
 
 	// 맵오류때문에 키값으로 찾게 하는코드
 	list<_tchar* > Get_NameList() { return NameList; }
@@ -44,14 +45,15 @@ public:
 	vector<CGameObject*>*	GetRestCube() { return &m_RestCubevec; }
 
 	void					initStartCube();
-	void					Delete_Current_Room(_int iIndex){m_RestCubevec.erase(m_RestCubevec.begin() + iIndex);} //방문할 큐브목록 삭제
-	void					Save_CurrentRoom(CGameObject* pGameObject){m_vecVistedCube.push(pGameObject);} // 스택에 현재 방에서 나머지 갈방들을 삭제
+	void					Delete_Current_Room(_int iIndex) { m_RestCubevec.erase(m_RestCubevec.begin() + iIndex); } //방문할 큐브목록 삭제
+	void					Save_CurrentRoom(CGameObject* pGameObject) { m_vecVistedCube.push(pGameObject); } // 스택에 현재 방에서 나머지 갈방들을 삭제
 
 	CGameObject*			Get_PreRoomTeleCube(); // 스택안의 top을 가져옴
 	void					Clear_Stack();	// 스택 안에있는 것들을 지워줌
 	void					Reset_Monster();	//맵 오브젝트 내 몬스터 위치 체력 초기화
 	void			Delete_GhulList(void);		//구울 리스트 삭제
-	
+	void			ActivevecColliderMonster(void);
+	void			Clear_ColliderMonster(void);
 	//구울 리스트 가져오기
 	list<CGameObject*>&		Get_GhulList() { return m_GhulList; }
 	list<CGameObject*>&		Get_ObeliskList() { return m_ObeliskList; }
@@ -60,9 +62,11 @@ public:
 
 
 	void					Add_ControlRoomList(CGameObject* pControlRoom) { m_ControlRoomList.push_back(pControlRoom); }
-	void					Add_EffectList(CGameObject* pEffectObject)	{m_EffectList.push_back(pEffectObject);}
-	
 
+
+	void					Add_EffectList(CGameObject* pEffectObject) { m_EffectList.push_back(pEffectObject); }
+
+	list<CGameObject*>&		Get_EffectList() { return m_EffectList; }
 private:
 	map<const _tchar*, CGameObject*>			m_mapObject;
 
@@ -75,6 +79,7 @@ private:
 	list<CGameObject*>  m_GhulList;
 	list<CGameObject*>  m_objPoolList;
 	list<CGameObject*>	m_ObeliskList;
+	vector<CMonsterBase*> m_vecColliderMonster;
 	list<CGameObject*>  m_ControlRoomList;
 
 

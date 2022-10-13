@@ -177,6 +177,7 @@
     <ClInclude Include="..\Header\DashUI.h" />
     <ClInclude Include="..\Header\DynamicCamera.h" />
     <ClInclude Include="..\Header\EarthShaker.h" />
+    <ClInclude Include="..\Header\EarthSpike.h" />
     <ClInclude Include="..\Header\Effect.h" />
     <ClInclude Include="..\Header\Exit_Button.h" />
     <ClInclude Include="..\Header\FatBat.h" />
@@ -204,6 +205,7 @@
     <ClInclude Include="..\Header\MonsterToolObject.h" />
     <ClInclude Include="..\Header\MyCamera.h" />
     <ClInclude Include="..\Header\Obelisk.h" />
+    <ClInclude Include="..\Header\ObeliskSpawnEffect.h" />
     <ClInclude Include="..\Header\ObjectMgr.h" />
     <ClInclude Include="..\Header\Obstacle.h" />
     <ClInclude Include="..\Header\Player.h" />
@@ -215,6 +217,7 @@
     <ClInclude Include="..\Header\Sphinx.h" />
     <ClInclude Include="..\Header\SphinxBullet.h" />
     <ClInclude Include="..\Header\SphinxFlyHead.h" />
+    <ClInclude Include="..\Header\SphinxHole.h" />
     <ClInclude Include="..\Header\Spider.h" />
     <ClInclude Include="..\Header\Stage.h" />
     <ClInclude Include="..\Header\Stage_BIH.h" />
@@ -272,6 +275,7 @@
     <ClCompile Include="..\Code\DashUI.cpp" />
     <ClCompile Include="..\Code\DynamicCamera.cpp" />
     <ClCompile Include="..\Code\EarthShaker.cpp" />
+    <ClCompile Include="..\Code\EarthSpike.cpp" />
     <ClCompile Include="..\Code\Effect.cpp" />
     <ClCompile Include="..\Code\Exit_Button.cpp" />
     <ClCompile Include="..\Code\FatBat.cpp" />
@@ -299,6 +303,7 @@
     <ClCompile Include="..\Code\MonsterToolObject.cpp" />
     <ClCompile Include="..\Code\MyCamera.cpp" />
     <ClCompile Include="..\Code\Obelisk.cpp" />
+    <ClCompile Include="..\Code\ObeliskSpawnEffect.cpp" />
     <ClCompile Include="..\Code\ObjectMgr.cpp" />
     <ClCompile Include="..\Code\Obstacle.cpp" />
     <ClCompile Include="..\Code\Player.cpp" />
@@ -310,6 +315,7 @@
     <ClCompile Include="..\Code\Sphinx.cpp" />
     <ClCompile Include="..\Code\SphinxBullet.cpp" />
     <ClCompile Include="..\Code\SphinxFlyHead.cpp" />
+    <ClCompile Include="..\Code\SphinxHole.cpp" />
     <ClCompile Include="..\Code\Spider.cpp" />
     <ClCompile Include="..\Code\Stage.cpp" />
     <ClCompile Include="..\Code\Stage_BIH.cpp" />

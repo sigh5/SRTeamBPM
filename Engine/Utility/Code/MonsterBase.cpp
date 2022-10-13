@@ -29,7 +29,7 @@ CMonsterBase::CMonsterBase(LPDIRECT3DDEVICE9 pGraphicDev)
 	m_bAttacking(false),
 	fMtoPDistance(20.f)
 {
-	ZeroMemory(&m_vPlayerPos,sizeof(_vec3));
+	ZeroMemory(&m_vPlayerPos, sizeof(_vec3));
 	ZeroMemory(&m_vMonsterPos, sizeof(_vec3));
 	ZeroMemory(&m_vOriginPos, sizeof(_vec3));
 	ZeroMemory(&m_vMonsterPos, sizeof(_vec3));
@@ -37,7 +37,7 @@ CMonsterBase::CMonsterBase(LPDIRECT3DDEVICE9 pGraphicDev)
 }
 
 CMonsterBase::CMonsterBase(const CMonsterBase & rhs)
-	: CGameObject(rhs), 
+	: CGameObject(rhs),
 	m_iMonsterIndex(rhs.m_iMonsterIndex),
 	m_bHit(rhs.m_bHit),
 	m_fHitDelay(rhs.m_fHitDelay),
@@ -54,7 +54,7 @@ CMonsterBase::CMonsterBase(const CMonsterBase & rhs)
 	m_bAttacking(rhs.m_bAttacking),
 	fMtoPDistance(rhs.fMtoPDistance)
 {
-	memcpy(&m_vPlayerPos,&rhs.m_vPlayerPos, sizeof(_vec3));
+	memcpy(&m_vPlayerPos, &rhs.m_vPlayerPos, sizeof(_vec3));
 	memcpy(&m_vMonsterPos, &rhs.m_vPlayerPos, sizeof(_vec3));
 	memcpy(&m_vOriginPos, &rhs.m_vPlayerPos, sizeof(_vec3));
 	memcpy(&m_vMonsterPos, &rhs.m_vPlayerPos, sizeof(_vec3));
@@ -140,7 +140,7 @@ void		CMonsterBase::Hit_Delay_toZero(void)
 bool CMonsterBase::Set_TransformPositon(HWND g_hWnd, CCalculator* _pCalcul)
 {
 	CTerrainTex*	pTerrainBufferCom = dynamic_cast<CTerrainTex*>(Engine::Get_Component(L"TestLayer", L"TestMap", L"Proto_TerrainTexCom", ID_STATIC));
-	NULL_CHECK_RETURN(pTerrainBufferCom, false );
+	NULL_CHECK_RETURN(pTerrainBufferCom, false);
 
 	CTransform*		pTerrainTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"TestLayer", L"TestMap", L"Proto_TransformCom", ID_DYNAMIC));
 	NULL_CHECK_RETURN(pTerrainTransformCom, false);
@@ -192,6 +192,18 @@ void		CMonsterBase::Get_BackOriginPos(void)
 	m_pDynamicTransCom->Set_Pos(m_vOriginPos.x, m_vOriginPos.y, m_vOriginPos.z);
 	m_pInfoCom->Add_Hp(m_iOriginHp - m_pInfoCom->Get_Hp());
 	m_bDead = false;
+}
+float CMonsterBase::Get_Radius(void)
+{
+	return m_pDynamicTransCom->m_vScale.x * 0.5f;
+}
+_vec3 CMonsterBase::Get_Pos(void)
+{
+	return m_pDynamicTransCom->m_vInfo[INFO_POS];
+}
+void	CMonsterBase::Move_Pos(_vec3 _move)
+{
+	m_pDynamicTransCom->Move_Pos(&_move);
 }
 void Engine::CMonsterBase::Free(void)
 {

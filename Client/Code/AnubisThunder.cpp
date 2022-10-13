@@ -28,7 +28,7 @@ HRESULT CAnubisThunder::Ready_Object(_float Posx, _float Posy, _float Posz)
 		m_pTransformCom->Set_Pos((_float)Posx, Posy, (_float)Posz);
 	}
 
-	m_pTransformCom->Set_Scale(&_vec3(3.f, 1.f, 3.f));
+	m_pTransformCom->Set_Scale(&_vec3(6.f, 1.f, 6.f));
 	m_pAnimationCom->Ready_Animation(8, 0, 0.1f);
 	m_pAnimationCom->m_iMotion = rand() % 9;
 	m_fLifetime = 0.5f;
