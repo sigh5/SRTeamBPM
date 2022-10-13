@@ -169,6 +169,7 @@ _uint CLoading::Loading_ForStage(void)
 
 	
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_AttackPlayerAXTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Effect/AX/boom_air%d.png", TEX_NORMAL, 13)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_explosion_sphinx", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Effect/explosion_midair%d.png", TEX_NORMAL, 10)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_HitHoleTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Sphinx/bighole_01.png", TEX_NORMAL)), E_FAIL);
 	//
 

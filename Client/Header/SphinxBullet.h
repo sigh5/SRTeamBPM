@@ -31,8 +31,9 @@ private:
 	//CCubeTex*			m_pCubeTexCom = nullptr;
 	CRcTex*				m_pBufferCom = nullptr;
 	CAnimation*			m_pAnimationCom = nullptr;
-
+	CTexture*			m_pDeadTextureCom = nullptr;
 	bool				m_bHitPlayer = false;
+	CAnimation*			m_pDeadAnimationCom = nullptr;
 
 public:
 	static CSphinxBullet*		Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos);
