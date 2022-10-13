@@ -425,6 +425,19 @@ void		CSphinxFlyHead::Save_PlayerPos_forBody(const _float& fTimeDelta)
 }
 void		CSphinxFlyHead::Tackle(const _float& fTimeDelta)
 {
+	_vec3 vThunderPos = m_pDynamicTransCom->m_vInfo[INFO_POS];
+	CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
+	CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
+	_vec3 vPlayerPos = pPlayerTransformCom->m_vInfo[INFO_POS];
+
+	float fDistance = sqrtf((powf(vThunderPos.x - vPlayerPos.x, 2) + powf(vThunderPos.y - vPlayerPos.y, 2) + powf(vThunderPos.z - vPlayerPos.z, 2)));
+
+	if (fDistance < 1.5f && false == m_bHitPlayer)
+	{
+		pPlayerInfo->Receive_Damage(10.f);
+		m_bHitPlayer = true;
+	}
+
 	m_fTackleAttenuationTimeCount += fTimeDelta;
 	Tackle_HeadSpin(fTimeDelta);
 	if (m_bAttenuationStart)
@@ -453,6 +466,7 @@ void		CSphinxFlyHead::Tackle(const _float& fTimeDelta)
 		m_bBodyAttackChargeFinish = false;
 		m_bAttack = false;
 		m_bAttenuationStart = false;
+		m_bHitPlayer = false;
 	}
 	m_pDynamicTransCom->Update_Component(fTimeDelta);
 }

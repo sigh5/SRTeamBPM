@@ -32,8 +32,9 @@ private:
 	CRcTex*		m_pBufferCom = nullptr;
 	CAnimation*	m_pAnimationCom = nullptr;
 
-	bool		m_bSpikeType = false;;
+	bool		m_bSpikeType = false;
 	float		m_fWaitTime = 0,f;
 	float		m_fWaitTimeCounter = 0.f;
+	bool		m_bHitPlayer = false;
 };
 
