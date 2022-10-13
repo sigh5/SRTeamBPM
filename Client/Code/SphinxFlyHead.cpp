@@ -6,7 +6,6 @@
 #include "MyCamera.h"
 #include "Player.h"
 #include "Gun_Screen.h"
-#include "HitEffect.h"
 
 CSphinxFlyHead::CSphinxFlyHead(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -31,7 +30,7 @@ HRESULT CSphinxFlyHead::Ready_Object(float Posx, float Posy, float Size)
 	m_pHeadActivatedAnimationCom = dynamic_cast<CAnimation*>(Clone_Proto(L"Proto_AnimationCom"));
 	NULL_CHECK_RETURN(m_pHeadActivatedAnimationCom, E_FAIL);
 	m_mapComponent[ID_STATIC].insert({ L"Proto_Head_Active_AnimationCom", m_pHeadActivatedAnimationCom });
-	
+
 	m_pLRAttackAnimationCom = dynamic_cast<CAnimation*>(Clone_Proto(L"Proto_AnimationCom"));
 	NULL_CHECK_RETURN(m_pLRAttackAnimationCom, E_FAIL);
 	m_mapComponent[ID_STATIC].insert({ L"Proto_LRAttack_AnimationCom", m_pLRAttackAnimationCom });
@@ -43,7 +42,7 @@ HRESULT CSphinxFlyHead::Ready_Object(float Posx, float Posy, float Size)
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
 
 	m_pAnimationCom->Ready_Animation(7, 0, 100);
-	
+
 	m_pHeadActivatedAnimationCom->Ready_Animation(5, 0, 0.5f);
 	m_pLRAttackAnimationCom->Ready_Animation(4, 0, 0.5f);
 	m_pBodyAttackAnimation->Ready_Animation(8, 0, 0.4f);
@@ -65,6 +64,7 @@ HRESULT CSphinxFlyHead::Ready_Object(float Posx, float Posy, float Size)
 	m_fTackleStopper = 0.05f;
 	m_fOriginTackleStopper = m_fTackleStopper;
 
+
 	m_iMonsterIndex = MONSTER_FLY_HEAD;
 	m_fRearrangementDelay = 1.f;
 
@@ -74,6 +74,7 @@ HRESULT CSphinxFlyHead::Ready_Object(float Posx, float Posy, float Size)
 		m_pDynamicTransCom->Set_Pos(Posx, Size*0.5f, Posy);
 	}
 	m_pDynamicTransCom->Set_Scale(&_vec3{ Size, Size, 1.f });
+	m_fLimitY = m_pDynamicTransCom->m_vScale.y * 0.2f;
 	m_pDynamicTransCom->Update_Component(1.f);
 	return S_OK;
 }
@@ -88,8 +89,8 @@ _int CSphinxFlyHead::Update_Object(const _float & fTimeDelta)
 
 		return 0;
 	}
-	if(false == m_bBattle)
-	HeadActive(fTimeDelta);
+	if (false == m_bBattle)
+		HeadActive(fTimeDelta);
 	if (Dead_Judge(fTimeDelta))
 	{
 		return 0;
@@ -99,12 +100,18 @@ _int CSphinxFlyHead::Update_Object(const _float & fTimeDelta)
 
 	AttackJudge(fTimeDelta);
 
-	if(m_bBattle)
-	BattleLoop(fTimeDelta);
+	if (m_bBattle)
+		BattleLoop(fTimeDelta);
 
+	if (m_fLimitY > m_pDynamicTransCom->m_vInfo[INFO_POS].y)
+	{
+		m_pDynamicTransCom->m_vInfo[INFO_POS].y = m_fLimitY;
+	}
 	Engine::CMonsterBase::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
-
+	CScene* pScene = ::Get_Scene();
+	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+	//pMyLayer->Add_vecColliderMonster(static_cast<CMonsterBase*>(this));
 	return 0;
 }
 
@@ -202,38 +209,11 @@ void CSphinxFlyHead::Collision_Event()
 		fMtoPDistance < MAX_CROSSROAD  &&
 		m_pColliderCom->Check_Lay_InterSect(m_pBufferCom, m_pDynamicTransCom, g_hWnd))
 	{
-		_vec3	vPos, vDir, vResult, vUp;
-		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
-		vDir = m_vPlayerPos - vPos;
-		vUp = _vec3(0.f, 1.f, 0.f);
-		D3DXVec3Cross(&vDir, &vUp, &vDir);
-		D3DXVec3Normalize(&vDir, &vDir);
-
-		switch (rand() % 4)
-		{
-		case 0:
-			vResult = vPos + (vDir * (rand() % 200 * 0.01f)) + (vUp * (rand() % 200 * 0.01f));
-			break;
-		case 1:
-			vResult = vPos + (-vDir * (rand() % 200 * 0.01f)) + (-vUp * (rand() % 200 * 0.01f));
-			break;
-		case 2:
-			vResult = vPos + (vDir * (rand() % 200 * 0.01f)) + (-vUp * (rand() % 200 * 0.01f));
-			break;
-		case 3:
-			vResult = vPos + (-vDir * (rand() % 200 * 0.01f)) + (vUp * (rand() % 200 * 0.01f));
-			break;
-		}
-
 		m_bHit = true;
 		static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"))->Set_ComboCount(1);
 		m_pInfoCom->Receive_Damage(1);
 		cout << "Obelisk " << m_pInfoCom->Get_InfoRef()._iHp << endl;
 		static_cast<CGun_Screen*>(pGameObject)->Set_Shoot(false);
-
-		READY_CREATE_EFFECT_VECTOR(pGameObject, CHitEffect, pLayer, m_pGraphicDev, vResult);
-		static_cast<CHitEffect*>(pGameObject)->Set_Effect_INFO(OWNER_FLYHEAD, 0, 7, 0.3f);
-	
 	}
 }
 
@@ -321,8 +301,8 @@ void		CSphinxFlyHead::AttackLeftRight(const _float& fTimeDelta)
 		LeftRightJudge(fTimeDelta);
 	}
 
-	
-	
+
+
 }
 
 void CSphinxFlyHead::LeftRightJudge(const _float & fTimeDelta)
@@ -416,7 +396,7 @@ void	CSphinxFlyHead::BodyAttack(const _float& fTimeDelta)
 			m_iBodyAttackLevel = 1;
 			m_bRenderBodyAttack = false;
 		}
-			break;
+		break;
 
 	case 1:
 		//Set direction
@@ -433,7 +413,7 @@ void	CSphinxFlyHead::BodyAttack(const _float& fTimeDelta)
 		break;
 
 
-	}	
+	}
 }
 void		CSphinxFlyHead::Save_PlayerPos_forBody(const _float& fTimeDelta)
 {
@@ -463,19 +443,19 @@ void		CSphinxFlyHead::Tackle(const _float& fTimeDelta)
 			m_fTackleAttenuationTimeCount = 0.f;
 		}
 	}
-	if(0<m_fTackleSpeed - m_fTackleStopper)
-		m_pDynamicTransCom->Move_Pos(&(m_vTackleDir * (m_fTackleSpeed-m_fTackleStopper) * 0.1f));
+	if (0<m_fTackleSpeed - m_fTackleStopper)
+		m_pDynamicTransCom->Move_Pos(&(m_vTackleDir * (m_fTackleSpeed - m_fTackleStopper) * 0.1f));
 	else
-		{
-			m_fTackleStopper = m_fOriginTackleStopper;
-			m_bTackleStart = false;
-			m_bGet_PlayerPos_Body = false;
-			m_bBodyAttackChargeFinish = false;
-			m_bAttack = false;
-			m_bAttenuationStart = false;
-		}
-		m_pDynamicTransCom->Update_Component(fTimeDelta);
+	{
+		m_fTackleStopper = m_fOriginTackleStopper;
+		m_bTackleStart = false;
+		m_bGet_PlayerPos_Body = false;
+		m_bBodyAttackChargeFinish = false;
+		m_bAttack = false;
+		m_bAttenuationStart = false;
 	}
+	m_pDynamicTransCom->Update_Component(fTimeDelta);
+}
 
 void	CSphinxFlyHead::Tackle_HeadSpin(const _float& fTimeDelta)
 {
@@ -508,7 +488,7 @@ void	CSphinxFlyHead::Tackle_HeadSpin(const _float& fTimeDelta)
 	}
 
 	float fDegree = acosf(fFrontBack);
-	
+
 	if (m_bFrontback)
 	{
 		if (m_bLeftRight)
@@ -546,7 +526,7 @@ void	CSphinxFlyHead::Tackle_HeadSpin(const _float& fTimeDelta)
 	else
 	{
 		float minusdgree = acosf(D3DXVec3Dot(&m_vTackleDir, &-vNowdir));
-		
+
 		if (m_bLeftRight)
 		{//34ºÐ¸é
 			if (0.8 < minusdgree)
@@ -585,9 +565,16 @@ void	CSphinxFlyHead::Tackle_HeadSpin(const _float& fTimeDelta)
 void	CSphinxFlyHead::Rearrangement(const _float& fTimeDelta)
 {
 	m_fRearrangementDealyCount += fTimeDelta;
+	if (m_pDynamicTransCom->m_vScale.y > m_pDynamicTransCom->m_vInfo[INFO_POS].y)
+	{
+		m_pDynamicTransCom->Move_Pos(&(_vec3(0.f, 1.f, 0.f) * 0.03f));
+		m_pDynamicTransCom->Update_Component(fTimeDelta);
+	}
+
 	if (m_fRearrangementDelay < m_fRearrangementDealyCount)
 	{
 		m_fRearrangementDealyCount = 0.f;
+
 		switch (m_pAnimationCom->m_iMotion)
 		{
 		case 0:

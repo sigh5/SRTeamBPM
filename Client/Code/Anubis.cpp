@@ -90,6 +90,7 @@ bool	CAnubis::Dead_Judge(const _float& fTimeDelta)
 
 _int CAnubis::Update_Object(const _float & fTimeDelta)
 {
+
 	m_pDynamicTransCom->Set_Y(m_pDynamicTransCom->m_vScale.y * 0.5f);
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 	
@@ -167,6 +168,9 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 void CAnubis::LateUpdate_Object(void)
 {
 	// 빌보드 에러 해결
+
+
+
 	if (SCENE_TOOLTEST != Get_Scene()->Get_SceneType())
 	{
 		CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
@@ -201,6 +205,11 @@ void CAnubis::LateUpdate_Object(void)
 
 		// 빌보드 에러 해결
 	}
+	CScene* pScene = ::Get_Scene();
+	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+	pMyLayer->Add_vecColliderMonster(static_cast<CMonsterBase*>(this));
+
+
 	Engine::CMonsterBase::LateUpdate_Object();
 }
 

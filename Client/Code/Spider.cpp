@@ -110,6 +110,8 @@ _int CSpider::Update_Object(const _float & fTimeDelta)
 
 void CSpider::LateUpdate_Object(void)
 {
+
+
 	// 빌보드 에러 해결
 	/*CTransform*	pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC));
 	NULL_CHECK(pPlayerTransform);*/
@@ -145,6 +147,9 @@ void CSpider::LateUpdate_Object(void)
 	m_pDynamicTransCom->Set_WorldMatrix(&(matWorld));
 
 	// 빌보드 에러 해결
+	CScene* pScene = ::Get_Scene();
+	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+	pMyLayer->Add_vecColliderMonster(static_cast<CMonsterBase*>(this));
 	Engine::CMonsterBase::LateUpdate_Object();
 }
 

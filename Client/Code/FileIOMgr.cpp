@@ -342,6 +342,7 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 
 				case MONSTER_OBELISK:
 					pGameObject = CObelisk::Create(pGrahicDev);
+					pMyLayer->Add_ObeliskList(pGameObject);
 					break;
 
 				case MONSTER_SPHINX:
@@ -372,7 +373,7 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 			CTransform* Transcom = nullptr;
 			if (SCENE_TOOLTEST != Get_Scene()->Get_SceneType())
 			{
-			static_cast<CMonsterBase*>(pGameObject)->Get_MonsterType() = iMonsterType;
+				static_cast<CMonsterBase*>(pGameObject)->Get_MonsterType() = iMonsterType;
 				Transcom = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_DynamicTransformCom", ID_DYNAMIC));
 			}
 			else
@@ -384,8 +385,11 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 
 
 			Transcom->Set_Info(INFO_POS, &vPos);
-			Transcom->Set_Scale(&vScale);
-
+			//Transcom->Set_Scale(&vScale);
+			if (SCENE_TOOLTEST != Get_Scene()->Get_SceneType())
+			{
+				static_cast<CMonsterBase*>(pGameObject)->Save_OriginPos();
+			}
 			Transcom->Update_Component(0.01f);
 
 			if (0 == dwByte)

@@ -45,8 +45,9 @@ private:
 	int		m_iAttackPattern;
 	CRcTex*			m_pBufferCom = nullptr;
 	bool	m_bBattle = false;
-	float m_fDeadY = 0;
+	float m_fDeadY = 0.f;
 	bool  m_bArrFalldown[4];
+	float m_fLimitY = 0.f;
 
 	//dead
 	CTexture*		m_pDeadTexture = nullptr;
@@ -89,6 +90,6 @@ private:
 	float m_fRearrangementDelay = 0.f;
 	float m_fRearrangementDealyCount = 0.f;
 
-	
+
 };
 
