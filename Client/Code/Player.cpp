@@ -10,9 +10,7 @@
 #include "Coin.h"
 #include "Key.h"
 #include "MyCamera.h"
-
-//ÁÖ¼®Áö¿ì¼À
-
+#include "TeleCube.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -63,6 +61,16 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 	if (Get_DIKeyState(DIK_O) & 0X80)
 		Random_ResurrectionRoom();
 
+	if (Get_DIKeyState(DIK_K) & 0X80)
+	{
+		CScene* pScene = Get_Scene();
+		CLayer* pLayer = pScene-> GetLayer(L"Layer_CubeCollsion");
+		for (int i = 0; i < TELEPORT_CUBE_LIST_END; ++i)
+		{
+			for (auto iter : *(pLayer->Get_TeleCubeList(i)))
+				dynamic_cast<CTeleCube*>(iter)->Set_Active(false);
+		}
+	}
 
 	if (m_pInfoCom->Get_Hp() <= 0)
 	{

@@ -14,8 +14,6 @@ CTeleCube::~CTeleCube()
 {
 }
 
-//주석지우셈
-
 HRESULT CTeleCube::Ready_Object()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
@@ -32,8 +30,6 @@ HRESULT CTeleCube::Ready_Object()
 _int CTeleCube::Update_Object(const _float & fTimeDelta)
 {
 	m_pColliderCom->Set_HitBoxMatrix(&(m_pTransCom->m_matWorld));
-
-
 
 
 	CGameObject::Update_Object(fTimeDelta);
@@ -87,6 +83,9 @@ void CTeleCube::Render_Obejct(void)
 
 void CTeleCube::Collision_Event()
 {
+	if (m_bSetActive == true)
+		return;
+	
 	CScene  *pScene = ::Get_Scene();
 	NULL_CHECK_RETURN(pScene, );
 	CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
@@ -126,18 +125,18 @@ void CTeleCube::Collision_Event()
 			_matrix matWorld;
 
 			m_pTransCom->Get_WorldMatrix(&matWorld);
-
-			cout << "Start -> End " << vAngle.x << " " << vAngle.y << " " << vAngle.z << " " << endl;
-
 			
-			if (1.0f<vAngle.y && 1.5 > vAngle.y)
-				pTransform->Set_Pos(vPos.x - 5.f, vPos.y, vPos.z + 5.f);
-			else if(0.1f > vAngle.y && -0.1 < vAngle.y)
-				pTransform->Set_Pos(vPos.x + 5.f, vPos.y, vPos.z);
-			else 
-				pTransform->Set_Pos(vPos.x + 5.f, vPos.y, vPos.z);
+			pTransform->Set_Pos(vPos.x , vPos.y, vPos.z);
+			pTransform->Rotation(ROT_Y, vAngle.y);
 			pTransform->Update_Component(1.f);
-			//구울 정리하는 코드 삽입
+			
+			CScene* pScene = Get_Scene();
+			CLayer* pLayer = pScene->GetLayer(L"Layer_CubeCollsion");
+			for (int i = 0; i < TELEPORT_CUBE_LIST_END; ++i)
+			{
+				for (auto iter : *(pLayer->Get_TeleCubeList(i)))
+					dynamic_cast<CTeleCube*>(iter)->Set_Active(true);
+			}
 
 		}
 
@@ -145,8 +144,6 @@ void CTeleCube::Collision_Event()
 
 	else if (m_iOption == (_int)CUBE_END_TELE)
 	{
-
-
 		CCollider *pCollider = dynamic_cast<CCollider*>(pGameObject->Get_Component(L"Proto_ColliderCom", ID_STATIC));
 
 		if (m_pColliderCom->Check_CollisonUseCollider(m_pColliderCom, pCollider))
@@ -170,37 +167,23 @@ void CTeleCube::Collision_Event()
 			_vec3 vPos;
 			sour->Get_Info(INFO_POS, &vPos);
 
-
 			_vec3 vAngle;
 			vAngle =sour->Get_Angle();
-
-			_matrix matWorld;
-
+		/*	_matrix matWorld;
 			m_pTransCom->Get_WorldMatrix(&matWorld);
+			vAngle = m_pTransCom->Get_Angle();*/
 
-			cout << "End -> Start " << vAngle.x << " " << vAngle.y << " " << vAngle.z << " " << endl;
 			
-
-			_vec3 vRight, vLook;
-			m_pTransCom->Get_Info(INFO_RIGHT, &vRight);
-			m_pTransCom->Get_Info(INFO_LOOK, &vLook);
-			vAngle = m_pTransCom->Get_Angle();
-			D3DXVec3Normalize(&vRight, &vRight);
-			D3DXVec3Normalize(&vLook, &vLook);
-			
-		
-			//vPos += (vRight)*5.f;
-			
-			if( 1.0f<vAngle.y && 1.5 > vAngle.y)
-				pTransform->Set_Pos(vPos.x-5.f , vPos.y, vPos.z+5.f);
-			else if (0.1f > vAngle.y && -0.1 < vAngle.y)
-				pTransform->Set_Pos(vPos.x + 5.f, vPos.y, vPos.z - 5.f);
-			else
-				pTransform->Set_Pos(vPos.x + 5.f, vPos.y, vPos.z);
+			pTransform->Set_Pos(vPos.x, vPos.y, vPos.z);
+			pTransform->Rotation(ROT_Y, vAngle.y);
 			pTransform->Update_Component(1.f);
-			
-			return;
-
+			CScene* pScene = Get_Scene();
+			CLayer* pLayer = pScene->GetLayer(L"Layer_CubeCollsion");
+			for (int i = 0; i < TELEPORT_CUBE_LIST_END; ++i)
+			{
+				for (auto iter : *(pLayer->Get_TeleCubeList(i)))
+					dynamic_cast<CTeleCube*>(iter)->Set_Active(true);
+			}
 		}
 	}
 

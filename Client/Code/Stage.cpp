@@ -39,6 +39,8 @@
 #include "Obelisk.h"
 #include "EarthShaker.h"
 
+#include "ControlRoom.h"
+
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
 {
@@ -71,6 +73,7 @@ HRESULT CStage::Ready_Scene(void)
 	Set_Player_StartCubePos();
 
 	//::PlaySoundW(L"SamTow.wav", SOUND_BGM, 0.05f); // BGM
+	
 
 	return S_OK;
 }
@@ -174,18 +177,12 @@ HRESULT CStage::Ready_Layer_Environment(const _tchar * pLayerTag)
 	
 	
 	READY_LAYER(pGameObject, CSkyBox, pLayer, m_pGraphicDev, L"SkyBox");
-	//READY_LAYER(pGameObject, CTerrain, pLayer, m_pGraphicDev, L"Terrain");
 	READY_LAYER(pGameObject, CSnowfall, pLayer, m_pGraphicDev, L"Snowfall");
-	
-
-
-	/*pGameObject = CHitBlood::Create(m_pGraphicDev, _vec3{ 3.f, 1.f, 3.f });
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"hitblood", pGameObject), E_FAIL);*/
-
-
 
 	m_mapLayer.insert({ pLayerTag, pLayer });
+
+	//READY_LAYER(pGameObject, CControlRoom, pLayer, m_pGraphicDev, L"321412");
+
 
 	return S_OK;
 }
