@@ -62,10 +62,14 @@ public:					// ★ m_pInfoCom->Get_InfoRef()._iHp를 return 해주면 실전 OK
 
 	void				Loss_Damage();
 	
+
+	void				Set_inventroyActive(_bool bInventoryActive) { m_bInventroyActive = bInventoryActive; }
+	const _bool&		Get_inventroyActive() { return m_bInventroyActive; }
+
 private:
 	void				Random_ResurrectionRoom();
-
-
+	void				Player_Dead_CaemraAction();
+	void				Player_Dead(const _float& fTimeDelta);
 
 private:
 	CRcTex*				m_pBufferCom = nullptr;
@@ -123,6 +127,11 @@ private:		// Jw
 	_bool				m_bGainItem[3] = { false, }; //나중에 숫자만큼 넣으세요
 
 	// ~Player's Status(Private)
+
+	// InventroyActive 
+	_bool				m_bInventroyActive = false;
+	// ~InventroyActive 
+
 
 public:
 	static CPlayer*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

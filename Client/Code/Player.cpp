@@ -53,11 +53,29 @@ HRESULT CPlayer::Ready_Object(void)
 _int CPlayer::Update_Object(const _float & fTimeDelta)
 {
 	
+	m_fFrame += 8.f* fTimeDelta;
+
+	if (m_bDead)
+	{
+		Player_Dead_CaemraAction();
+	}
+	else
+		m_fFrame = 0.f;
+	
+
+	if (m_fFrame >= 8.f)
+	{
+		Player_Dead(fTimeDelta);
+		m_bDead = false;
+	}
+
+
 	pEquipItem = dynamic_cast<CGun_Screen*>(Get_GameObject(L"Layer_UI", L"Gun"));
 	NULL_CHECK_RETURN(pEquipItem, -1);
 	
 	m_iOriginHP = m_pInfoCom->Get_Hp();
 
+	// Test
 	if (Get_DIKeyState(DIK_O) & 0X80)
 		Random_ResurrectionRoom();
 
@@ -71,14 +89,15 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 				dynamic_cast<CTeleCube*>(iter)->Set_Active(false);
 		}
 	}
+	// ~Test
 
 	if (m_pInfoCom->Get_Hp() <= 0)
 	{
-		//Random_ResurrectionRoom();
-		m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
-		
-		CScene* pScene = Get_Scene();
-		CLayer* pLayer = pScene->GetLayer(L"Layer_GameLogic");
+
+		Player_Dead_CaemraAction();
+
+		m_bDead = true;
+	
 
 	
 
@@ -159,17 +178,6 @@ void CPlayer::Render_Obejct(void)
 	
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-
-
-
-
-
-
-
-	//// hitBOx
-	
-	// hitBOx
-	
 	
 }
 
@@ -247,6 +255,9 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 
 	if (::Mouse_Down(DIM_LB)) // Picking
 	{
+		if (m_bInventroyActive)
+			return;
+
 		Ready_MonsterShotPicking();
 	}
 
@@ -415,7 +426,19 @@ void CPlayer::Random_ResurrectionRoom()
 	
 }
 
+void CPlayer::Player_Dead_CaemraAction()
+{
 
+}
+
+void CPlayer::Player_Dead(const _float& fTimeDelta)
+{
+	Random_ResurrectionRoom();
+	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
+
+	CScene* pScene = Get_Scene();
+	CLayer* pLayer = pScene->GetLayer(L"Layer_GameLogic");
+}
 
 void CPlayer::Collision_Event()
 {

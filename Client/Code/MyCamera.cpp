@@ -100,6 +100,11 @@ void CMyCamera::Mouse_Move(const _float& fTimeDelta)
 
 
 	_long		dwMouseMove = 0;
+	
+	if (m_bInventroyActive)
+		return;
+	
+
 	if (dwMouseMove = Engine::Get_DIMouseMove(DIMS_X))
 	{
 		pPlayerTransform->Rotation(ROT_Y, D3DXToRadian(dwMouseMove / 10.f));
@@ -125,6 +130,9 @@ void CMyCamera::Mouse_Fix(void)
 	//int Mouse_speed = 0;
 
 	//SystemParametersInfo(SPI_GETMOUSESPEED, 0, (PVOID)&Mouse_speed, 0);
+
+	if (m_bInventroyActive)
+		return;
 
 	int Mouse_speed = 3;
 

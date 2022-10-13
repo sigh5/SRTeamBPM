@@ -8,6 +8,8 @@
 #include "Magnum.h"
 
 #include "Player.h"
+#include "MyCamera.h"
+
 
 USING(Engine)
 
@@ -101,6 +103,9 @@ void CInventory_UI::Render_Obejct(void)
 	if (Key_Down(DIK_I) )
 	{
 		m_bInvenSwitch = !m_bInvenSwitch;
+		
+		dynamic_cast<CMyCamera*>(Engine::Get_GameObject(L"Layer_Environment", L"CMyCamera"))->Set_inventroyActive(m_bInvenSwitch);
+		dynamic_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"))->Set_inventroyActive(m_bInvenSwitch);
 
 		if (dynamic_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"))->Get_RenderFalse() == true)
 		{

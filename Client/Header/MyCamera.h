@@ -42,6 +42,9 @@ public:
 	void			Set_PlayerHit(_bool bHitCameraCam) { m_bPlayerHit = bHitCameraCam; }
 
 
+public: 
+	const _bool&	Get_InventroyActive() { return m_bInventroyActive; }
+	void			Set_inventroyActive(_bool  bInventroyActive) { m_bInventroyActive = bInventroyActive; }
 
 private:
 	_bool			m_bExecution = false;
@@ -64,7 +67,7 @@ private:
 	_float			m_fFrame = 0.f;
 
 
-
+	_bool			m_bInventroyActive = false;
 
 
 public:

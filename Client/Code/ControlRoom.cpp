@@ -46,14 +46,16 @@ _int CControlRoom::Update_Object(const _float & fTimeDelta)
 
 void CControlRoom::LateUpdate_Object()
 {
+	// Test 
 	if (Get_DIKeyState(DIK_Z) & 0X80)
 	{
 		m_bTest = true;
 	}
 
+	// Test
 	if (m_bPlayerInTerrain)
 	{
-		if (m_iRestMonsterNum == 0 && m_bTest)
+		if (m_iRestMonsterNum == 0 && m_bTest) 
 		{
 			CScene* pScene = Get_Scene();
 			CLayer* pLayer = pScene->GetLayer(L"Layer_CubeCollsion");
