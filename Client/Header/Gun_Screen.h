@@ -32,7 +32,7 @@ private:
 	HRESULT				Add_UpdateComponent(void);
 
 public:
-	HRESULT				Shoot_Motion(void);
+	HRESULT				Shoot_Motion(const _float& fTimeDelta);
 
 public:	// Get/Set
 	const _bool&		Get_ReadyShot(void)const		 { return m_bReadyShot; }
@@ -70,7 +70,6 @@ private:
 
 	_bool				m_bActive = false;
 	_float				m_fActiveTimer = 0.f;
-	
 	
 	_bool				m_bNoRender = false;
 

@@ -37,7 +37,7 @@ HRESULT CGun_Screen::Ready_Object()
 	m_pTransCom->Set_Scale(&m_vecScale);
 	m_pTransCom->Set_Pos(m_fX + 274.f, m_fY - 300.f, 0.1f);
 
-	m_pAnimationCom->Ready_Animation(4, 0, 0.2f);
+	m_pAnimationCom->Ready_Animation(4, 0, 0.11f);
 
 	m_bShootCheck = false;
 
@@ -58,7 +58,7 @@ _int CGun_Screen::Update_Object(const _float & fTimeDelta)
 	}
 
 
-
+	Shoot_Motion(fTimeDelta);
 
 	Add_UpdateComponent();
 
@@ -78,7 +78,7 @@ _int CGun_Screen::Update_Object(const _float & fTimeDelta)
 
 void CGun_Screen::LateUpdate_Object(void)
 {
-	Shoot_Motion();
+
 
 	CPlayer* pPlayer = static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic",L"Player"));
 
@@ -153,13 +153,13 @@ HRESULT CGun_Screen::Add_UpdateComponent(void)
 	return S_OK;
 }
 
-HRESULT CGun_Screen::Shoot_Motion(void)
+HRESULT CGun_Screen::Shoot_Motion(const _float& fTimeDelta)
 {
 	//CPlayer* pPlayer = dynamic_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
 
 	if (m_bAnimation == true)
 	{
-		m_pAnimationCom->Gun_Animation(&m_bAnimation);		
+		m_bAnimation = m_pAnimationCom->Gun_Animation(fTimeDelta);		
 	}		
 
 	return S_OK;

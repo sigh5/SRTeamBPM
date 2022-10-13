@@ -23,7 +23,7 @@ public:
 	void	Open_Box_Animation(_bool bOpen);
 
 	// Gun_Screen
-	void	Gun_Animation(_bool* bShoot);
+	bool	Gun_Animation(const _float& fTimeDelta);
 	// ~Gun_Screen
 
 public:
@@ -40,6 +40,8 @@ public:
 
 
 	_bool   m_bClone;
+
+
 
 public:
 	virtual CComponent* Clone(void) override;
