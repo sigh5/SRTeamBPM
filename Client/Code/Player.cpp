@@ -58,19 +58,22 @@ HRESULT CPlayer::Ready_Object(void)
 _int CPlayer::Update_Object(const _float & fTimeDelta)
 {
 	if (m_bDead)
-	{
 		m_bDeadTimer += 1.0f* fTimeDelta;
-	}
-	else
-		m_bDeadTimer = 0.f;
 	
-
 	if (m_bDeadTimer >= 5.f)
 	{
-		Player_Dead(fTimeDelta);
+		Random_ResurrectionRoom();
+		m_bDeadTimer = 0.f;
 		m_bDead = false;
 	}
 
+	m_fTimeDelta = fTimeDelta;
+	m_fFrame += 1.0f * fTimeDelta;
+	if (m_fFrame >= 1.0f)
+	{
+		pEquipItem->Set_ReadyShot(false);
+		m_fFrame = 0.f;
+	}
 
 	pEquipItem = dynamic_cast<CGun_Screen*>(Get_GameObject(L"Layer_UI", L"Gun"));
 	NULL_CHECK_RETURN(pEquipItem, -1);
@@ -80,7 +83,6 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 	// Test
 	if (Get_DIKeyState(DIK_O) & 0X80)
 		Random_ResurrectionRoom();
-
 	if (Get_DIKeyState(DIK_K) & 0X80)
 	{
 		CScene* pScene = Get_Scene();
@@ -95,27 +97,7 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 
 	if (m_pInfoCom->Get_Hp() <= 0)
 	{
-		
-		CScene* pScene1 = ::Get_Scene();
-		CLayer* pMyLayer = pScene1->GetLayer(L"Layer_UI");
-
-		CPlayer_Dead_UI* pDead_UI = static_cast<CPlayer_Dead_UI*>(Engine::Get_GameObject(L"Layer_UI", L"Dead_UI"));
-		pDead_UI->Set_Render(true);
-
-		Player_Dead_CaemraAction();
-		m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
-		
-		
-		m_bDead = true;
-	}
-
-	m_fTimeDelta = fTimeDelta;
-	m_fFrame += 1.0f * fTimeDelta;
-
-	if (m_fFrame >= 1.0f)
-	{
-		pEquipItem->Set_ReadyShot(false);
-		m_fFrame = 0.f;
+		Player_Dead(fTimeDelta);
 	}
 
 	Key_Input(fTimeDelta);
@@ -142,7 +124,6 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 	m_pDynamicTransCom->Set_Y(2.f);
 	m_pColliderCom->Set_HitBoxMatrix(&(m_pDynamicTransCom->m_matWorld));
 	Engine::CGameObject::Update_Object(fTimeDelta);
-
 
 	Add_RenderGroup(RENDER_ALPHA, this);
 
@@ -245,6 +226,14 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		m_pDynamicTransCom->Set_CountMovePos(&(vRight * -5.f * fTimeDelta));
 		
 	}
+
+	if (Key_Down(DIK_T))
+	{
+		static_cast<CMyCamera*>(::Get_GameObject(L"Layer_Environment", L"CMyCamera"))->Set_Excution(true);
+		static_cast<CGun_Screen*>(pEquipItem)->Set_Active(true);
+
+	}
+
 	if (Get_DIKeyState(DIK_SPACE) & 0X80)
 		m_bJump = TRUE;
 	if (Get_DIKeyState(DIK_LSHIFT) & 0X80)
@@ -354,43 +343,6 @@ void CPlayer::EquipItem_Add_Stat(void)  // 현재 각 아이템들 충돌처리 부분이 애매
 		m_bCurStat = false;
 
 	}
-
-	/*if (m_bGainItem[0])
-	{
-		
-		m_bGainItem[0] = false;
-	}
-
-	else if (m_bGainItem[1])
-	{
-		m_pInfoCom->Add_Key();
-		m_bGainItem[1] = false;
-		m_bCurStat = false;
-	}
-	else if (m_bGainItem[2])
-	{
-		m_pInfoCom->Add_Coin();
-		m_bGainItem[2] = false;
-		m_bCurStat = false;
-	}*/
-
-	
-
-
-	//if (m_bPreStat)
-	//{
-	//	_uint iAtk = 0;
-	//	iAtk = m_pInfoCom->Get_InfoRef()._iAttackPower + pShotGun->Get_EquipInfoRef()._iAddAttack;
-
-	//	m_pInfoCom->Get_InfoRef()._iAttackPower = iAtk;
-
-	//	m_pInfoCom->Add_Coin();
-	//	m_pInfoCom->Add_Key();
-
-	//	m_bPreStat = false;
-	//	m_bCurStat = false;
-	//}
-
 }
 
 void CPlayer::Loss_Damage()
@@ -427,42 +379,32 @@ void CPlayer::Random_ResurrectionRoom()
 
 	pLayer->Reset_Monster();
 	m_pDynamicTransCom->Update_Component(1.f);
-
-	
 }
 
 void CPlayer::Player_Dead_CaemraAction()
 {
-	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
+	CMyCamera* pCam = dynamic_cast<CMyCamera*>(::Get_GameObject(L"Layer_Environment", L"CMyCamera"));
+
+	pCam->Set_PlayerDeadCam(true);
+	pCam->m_fOriginAngle = m_pDynamicTransCom->Get_Angle().x;
 }
 
 void CPlayer::Player_Dead(const _float& fTimeDelta)
 {
-	Random_ResurrectionRoom();
+	CScene* pScene1 = ::Get_Scene();
+	CLayer* pMyLayer = pScene1->GetLayer(L"Layer_UI");
 
+	CPlayer_Dead_UI* pDead_UI = static_cast<CPlayer_Dead_UI*>(Engine::Get_GameObject(L"Layer_UI", L"Dead_UI"));
+	pDead_UI->Set_Render(true);
 
-	CScene* pScene = Get_Scene();
-	CLayer* pLayer = pScene->GetLayer(L"Layer_GameLogic");
+	Player_Dead_CaemraAction();
+	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
+
+	m_bDead = true;
 }
 
 void CPlayer::Collision_Event()
 {
-	// 기존에 존재하는 것들은 Player에 
-	//	씬에서 생성되는 것들은 그 객체에 
-	//CScene  *pScene = ::Get_Scene();
-	//NULL_CHECK_RETURN(pScene, );
-	//CLayer * pLayer = pScene->GetLayer(L"Layer_CubeCollsion");
-	//NULL_CHECK_RETURN(pLayer, );
-	//CGameObject *pGameObject = nullptr;
-
-	//for (auto iter = pLayer->Get_GameObjectMap().begin(); iter != pLayer->Get_GameObjectMap().end(); ++iter)
-	//{
-	//	m_pColliderCom->Check_Collision_Wall(iter->second, this);
-	//}
-
-	//pLayer = pScene->GetLayer(L"Layer_GameLogic");
-	//NULL_CHECK_RETURN(pLayer, );
-
 }
 
 CPlayer * CPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -476,7 +418,6 @@ CPlayer * CPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 	}
 
 	return pInstance;
-
 }
 
 void CPlayer::Free(void)

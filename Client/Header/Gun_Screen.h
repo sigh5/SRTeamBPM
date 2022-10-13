@@ -52,6 +52,8 @@ public:	// Get/Set
 
 public:
 	void				GunFailSound();
+	void				Set_Active(_bool bEvent) { m_bActive = bEvent; }
+
 
 private:
 	_bool				m_bShootCheck = false;
@@ -61,12 +63,12 @@ private:
 
 
 	_bool				m_bChangeWeaponUI = false;
-
 	_bool				m_bControl = false;
-
 	_uint				m_iAlpha = 0;
-
 	_vec3				m_vecScale;
+
+	_bool				m_bActive = false;
+	_float				m_fActiveTimer = 0.f;
 
 private:
 	CRcTex*				m_pBufferCom = nullptr;

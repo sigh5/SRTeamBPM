@@ -173,7 +173,7 @@
       <Filter>02. GameObject\01. For_Stage\11. Item\02. Box</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Stage_BIH.cpp">
-      <Filter>01. Scene\96.Stage_BIH</Filter>
+      <Filter>01. Scene\96. Stage_BIH</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Player.cpp">
       <Filter>02. GameObject\01. For_Stage\00. Player</Filter>
@@ -280,6 +280,7 @@
     <ClCompile Include="..\Code\ControlRoom.cpp">
       <Filter>02. GameObject\02. For_public\06. ControlRoom</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\AnubisStormBall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -472,7 +473,7 @@
       <Filter>02. GameObject\01. For_Stage\11. Item\02. Box</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Stage_BIH.h">
-      <Filter>01. Scene\96.Stage_BIH</Filter>
+      <Filter>01. Scene\96. Stage_BIH</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Player.h">
       <Filter>02. GameObject\01. For_Stage\00. Player</Filter>
@@ -577,6 +578,7 @@
     <ClInclude Include="..\Header\ControlRoom.h">
       <Filter>02. GameObject\02. For_public\06. ControlRoom</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\AnubisStormBall.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -740,9 +742,6 @@
     <Filter Include="02. GameObject\01. For_Stage\10. UI\05. CoinUI">
       <UniqueIdentifier>{92542f0f-363b-40f8-841a-cee2898d67f2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Scene\96.Stage_BIH">
-      <UniqueIdentifier>{95da0eaf-6815-47e4-ac7b-77679616c28f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\01. For_Stage\00. Player">
       <UniqueIdentifier>{17ed71c8-b3b0-47c9-aa3a-ebd75232e61f}</UniqueIdentifier>
     </Filter>
@@ -844,6 +843,9 @@
     </Filter>
     <Filter Include="02. GameObject\02. For_public\06. ControlRoom">
       <UniqueIdentifier>{08900aaa-48ff-42ce-88fb-99eb1939c09a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\96. Stage_BIH">
+      <UniqueIdentifier>{95da0eaf-6815-47e4-ac7b-77679616c28f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

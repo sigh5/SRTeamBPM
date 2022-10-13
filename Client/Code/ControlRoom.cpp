@@ -65,7 +65,7 @@ void CControlRoom::LateUpdate_Object()
 					dynamic_cast<CTeleCube*>(iter)->Set_Active(false);
 			}
 		}
-		cout << m_iRestMonsterNum << endl;
+		//cout << m_iRestMonsterNum << endl;
 		m_iRestMonsterNum = 0;
 	}
 }
