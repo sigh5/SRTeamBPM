@@ -6,6 +6,7 @@
 #include "MyCamera.h"
 #include "Player.h"
 #include "Gun_Screen.h"
+#include "HitEffect.h"
 
 CSphinxFlyHead::CSphinxFlyHead(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -201,11 +202,38 @@ void CSphinxFlyHead::Collision_Event()
 		fMtoPDistance < MAX_CROSSROAD  &&
 		m_pColliderCom->Check_Lay_InterSect(m_pBufferCom, m_pDynamicTransCom, g_hWnd))
 	{
+		_vec3	vPos, vDir, vResult, vUp;
+		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+		vDir = m_vPlayerPos - vPos;
+		vUp = _vec3(0.f, 1.f, 0.f);
+		D3DXVec3Cross(&vDir, &vUp, &vDir);
+		D3DXVec3Normalize(&vDir, &vDir);
+
+		switch (rand() % 4)
+		{
+		case 0:
+			vResult = vPos + (vDir * (rand() % 200 * 0.01f)) + (vUp * (rand() % 200 * 0.01f));
+			break;
+		case 1:
+			vResult = vPos + (-vDir * (rand() % 200 * 0.01f)) + (-vUp * (rand() % 200 * 0.01f));
+			break;
+		case 2:
+			vResult = vPos + (vDir * (rand() % 200 * 0.01f)) + (-vUp * (rand() % 200 * 0.01f));
+			break;
+		case 3:
+			vResult = vPos + (-vDir * (rand() % 200 * 0.01f)) + (vUp * (rand() % 200 * 0.01f));
+			break;
+		}
+
 		m_bHit = true;
 		static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"))->Set_ComboCount(1);
 		m_pInfoCom->Receive_Damage(1);
 		cout << "Obelisk " << m_pInfoCom->Get_InfoRef()._iHp << endl;
 		static_cast<CGun_Screen*>(pGameObject)->Set_Shoot(false);
+
+		READY_CREATE_EFFECT_VECTOR(pGameObject, CHitEffect, pLayer, m_pGraphicDev, vResult);
+		static_cast<CHitEffect*>(pGameObject)->Set_Effect_INFO(OWNER_FLYHEAD, 0, 7, 0.3f);
+	
 	}
 }
 

@@ -15,8 +15,8 @@ public:
 	virtual void		Render_Obejct(void) override;
 	virtual void		Collision_Event();
 
-
-
+	virtual bool		Dead_Judge(const _float& fTimeDelta);
+	virtual void		Get_BackOriginPos(void);
 private:
 	void			BattleLoop(const _float& fTimeDelta);
 	void			IdleLoop(const _float& fTimeDelta);
@@ -37,8 +37,8 @@ private:
 	bool m_bBattle = false;
 	bool m_bHeadOff = false;
 	bool m_bHeadOff_Finish = false;
-	int		m_iShootLeftRight;
-	int		m_iShootCycle;
+	int		m_iShootLeftRight = 0;
+	int		m_iShootCycle = 0;
 
 
 
@@ -60,6 +60,5 @@ private:
 	CAnimation*		m_pAttackAnimationCom = nullptr;
 	CRcTex*			m_pBufferCom = nullptr;
 	CAnimation*		m_pHeadOffAnimationCom = nullptr;
-
 
 };

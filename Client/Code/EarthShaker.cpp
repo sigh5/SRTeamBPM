@@ -261,8 +261,12 @@ void		CEarthShaker::Attack(const _float& fTimeDelta)
 		{
 			m_pAttackAnimationCom->m_iMotion = 0;
 			--m_iReadyAttackNumber;
-			++m_iAttacknumber;
+			if (false == m_bReadyAttackNumber)
+			{
+				++m_iAttacknumber;
+			}
 		}
+		
 		if (m_iReadyAttackNumber == 0)
 		{
 			if (m_bAttackWaiting == false)
@@ -271,9 +275,11 @@ void		CEarthShaker::Attack(const _float& fTimeDelta)
 				m_bAttackWaiting = true;
 			}
 		}
+		
 	}
 	if (m_pAttackAnimationCom->m_iMotion == 4)
 	{
+		m_bReadyAttackNumber = true;
 		if (false == m_bSpikeCreate)
 		{
 			_vec3 ShakerPos, vDir;
@@ -298,7 +304,7 @@ void		CEarthShaker::Attack(const _float& fTimeDelta)
 			m_bSpikeCreate = true;
 			--m_iAttacknumber;
 		}
-		//땅을 찍는 순간 플레이어의 점프 상태를 검사
+		
 
 		if (0 < m_iAttacknumber)
 		{
@@ -321,6 +327,8 @@ void		CEarthShaker::Attack(const _float& fTimeDelta)
 		m_bAttackWaiting = false;
 		m_iAttacknumber = 0;
 		m_iReadyAttackNumber = 0;
+		m_bSpikeCreate = false;
+		m_bReadyAttackNumber = false;
 	}
 
 	//팔을 치켜 올린 만큼 공격

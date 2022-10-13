@@ -38,6 +38,7 @@ private:
 	int			m_iDefenseless = 0;
 	bool		m_bReady_Attack = false;
 	bool		m_bAttackWaiting = false;
+	bool		m_bReadyAttackNumber = false;
 
 	bool		m_bSpikeCreate = false;
 

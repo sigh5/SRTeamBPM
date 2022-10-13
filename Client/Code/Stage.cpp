@@ -125,8 +125,10 @@ void CStage::LateUpdate_Scene(void)
 	for (auto iter = pLayer->Get_GameObjectMap().begin(); iter != pLayer->Get_GameObjectMap().end(); ++iter)
 	{
 
-		if(false == static_cast<CMonsterBase*>(iter->second)->Get_Dead())
-		iter->second->Collision_Event();
+		if (false == static_cast<CMonsterBase*>(iter->second)->Get_Dead())
+		{
+			iter->second->Collision_Event();
+		}
 	}
 	
 	for (auto iter = pLayer->Get_GhulList().begin(); iter != pLayer->Get_GhulList().end(); ++iter)
@@ -215,8 +217,7 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	/*pGameObject = CObelisk::Create(m_pGraphicDev, 20, 15);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Obelisk", pGameObject), E_FAIL);*/
-
-	pLayer->Add_ObeliskList(pGameObject); //오벨리스크 생성 시 리스트에도 추가해야 함
+	//pLayer->Add_ObeliskList(pGameObject); //오벨리스크 생성 시 리스트에도 추가해야 함
 
 	/*pGameObject = CGhul::Create(m_pGraphicDev, 20, 15);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
