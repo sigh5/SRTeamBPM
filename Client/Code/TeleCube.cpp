@@ -131,6 +131,7 @@ void CTeleCube::Collision_Event()
 
 		if (m_pColliderCom->Check_CollisonUseCollider(m_pColliderCom, pCollider))
 		{
+			Get_Scene()->GetLayer(L"Layer_GameLogic")->Clear_ColliderMonster();
 			Get_Scene()->GetLayer(L"Layer_GameLogic")->Delete_GhulList();
 
 			CDynamic_Transform *pTransform = dynamic_cast<CDynamic_Transform*>(pGameObject->Get_Component(L"Proto_DynamicTransformCom", ID_DYNAMIC));
