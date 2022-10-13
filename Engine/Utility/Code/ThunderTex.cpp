@@ -9,9 +9,9 @@ CThunderTex::CThunderTex(LPDIRECT3DDEVICE9 pGraphicDev)
 }
 
 Engine::CThunderTex::CThunderTex(const CThunderTex& rhs)
-	: CVIBuffer(rhs), m_vPos(rhs.m_vPos), m_bClone(true)
+	: CVIBuffer(rhs), m_bClone(true)
 {
-
+	memcpy(&m_vPos, &rhs.m_vPos, sizeof(rhs.m_vPos));
 }
 
 CThunderTex::~CThunderTex()

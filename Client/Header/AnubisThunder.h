@@ -15,7 +15,7 @@ private:
 	virtual ~CAnubisThunder();
 
 public:
-	virtual HRESULT		Ready_Object(_float Posx, _float Posy, _float Posz);
+	HRESULT		Ready_Object(_float Posx, _float Posy, _float Posz);
 	virtual _int		Update_Object(const _float& fTimeDelta) override;
 	virtual void		LateUpdate_Object(void) override;
 	virtual void		Render_Obejct(void) override;

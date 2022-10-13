@@ -53,6 +53,10 @@ public:
 	void					Reset_Monster();	//맵 오브젝트 내 몬스터 위치 체력 초기화
 	void			Delete_GhulList(void);		//구울 리스트 삭제
 	void			ActivevecColliderMonster(void);
+	void			ActiveAnubisAttack(const _float & fTimeDelta);
+	void			ActiveSpike(const _float & fTimeDelta);
+	void			Add_AnubisAttack(CGameObject* pThunder);
+	void			Add_Spike(CGameObject* pSpike);
 
 	//구울 리스트 가져오기
 	list<CGameObject*>&		Get_GhulList() { return m_GhulList; }
@@ -78,7 +82,8 @@ private:
 	vector<CMonsterBase*> m_vecColliderMonster;
 	list<_tchar* > NameList;
 
-
+	list<CGameObject*>  m_AnubisAttack;
+	list<CGameObject*>  m_EarthSpike;
 	list<CGameObject*>	m_EffectList;
 
 public:

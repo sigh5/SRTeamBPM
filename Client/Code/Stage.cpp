@@ -109,6 +109,8 @@ _int CStage::Update_Scene(const _float & fTimeDelta)
 		{
 			(*iter)->Update_Object(fTimeDelta);
 		}
+		pMyLayer->ActiveAnubisAttack(fTimeDelta);
+		pMyLayer->ActiveSpike(fTimeDelta);
 		m_fFrame = 0.f;
 	}
 

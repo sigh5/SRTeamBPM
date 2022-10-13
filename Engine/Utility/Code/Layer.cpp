@@ -270,9 +270,52 @@ void		CLayer::ActivevecColliderMonster(void)
 	m_vecColliderMonster.clear();
 }
 
+void CLayer::ActiveAnubisAttack(const _float & fTimeDelta)
+{
+	for (auto iter = m_AnubisAttack.begin(); iter != m_AnubisAttack.end();)
+	{
+		_int iResult = 0;
+		iResult = (*iter)->Update_Object(fTimeDelta);
+		if (iResult == 1)
+		{
+			Safe_Release((*iter));
+			iter = m_AnubisAttack.erase(iter);
+		}
+		else
+		{
+			++iter;
+		}
+	}
+}
+
+void CLayer::ActiveSpike(const _float & fTimeDelta)
+{
+	for (auto iter = m_EarthSpike.begin(); iter != m_EarthSpike.end();)
+	{
+		_int iResult = 0;
+		iResult = (*iter)->Update_Object(fTimeDelta);
+		if (iResult == 1)
+		{
+			Safe_Release((*iter));
+			iter = m_EarthSpike.erase(iter);
+		}
+		else
+		{
+			++iter;
+		}
+	}
+}
+
+void CLayer::Add_AnubisAttack(CGameObject * pThunder)
+{
+	m_AnubisAttack.push_back(pThunder);
+}
+void		CLayer::Add_Spike(CGameObject* pSpike)
+{
+	m_EarthSpike.push_back(pSpike);
+}
 void CLayer::Free(void)
 {
-
 	for (auto iter : NameList)
 	{
 		Safe_Delete_Array(iter);
@@ -308,5 +351,14 @@ void CLayer::Free(void)
 		Safe_Release(iter);
 	m_EffectList.clear();
 	m_vecColliderMonster.clear();
-
+	for (auto iter : m_AnubisAttack)
+	{
+		Safe_Release(iter);
+	}
+	m_AnubisAttack.clear();
+		for (auto iter : m_EarthSpike)
+		{
+			Safe_Release(iter);
+		}
+	m_EarthSpike.clear();
 }

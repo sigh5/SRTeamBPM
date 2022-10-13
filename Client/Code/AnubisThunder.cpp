@@ -93,6 +93,7 @@ void CAnubisThunder::LateUpdate_Object(void)
 
 void CAnubisThunder::Render_Obejct(void)
 {
+
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransformCom->Get_WorldMatrixPointer());
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0x10);

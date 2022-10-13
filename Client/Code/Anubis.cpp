@@ -72,7 +72,7 @@ bool	CAnubis::Dead_Judge(const _float& fTimeDelta)
 	if (0 >= m_pInfoCom->Get_Hp())
 	{
 		m_bDead = true;
-		//Safe_Release(m_pAttackAnimationCom);
+
 	}
 	if (m_bDead)
 	{
@@ -90,6 +90,7 @@ bool	CAnubis::Dead_Judge(const _float& fTimeDelta)
 
 _int CAnubis::Update_Object(const _float & fTimeDelta)
 {
+
 	m_pDynamicTransCom->Set_Y(m_pDynamicTransCom->m_vScale.y * 0.5f);
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 	
@@ -129,34 +130,7 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 	Excution_Event();
 
 
-	for (auto iter = m_AnubisThunderlist.begin(); iter != m_AnubisThunderlist.end();)
-	{
-		_int iResult = 0;
-		iResult = (*iter)->Update_Object(fTimeDelta);
-		if (iResult == 1)
-		{
-			Safe_Release((*iter));
-			iter = m_AnubisThunderlist.erase(iter);
-		}
-		else
-		{
-			++iter;
-		}
-	}
-	for (auto iter = m_AnubisStormballList.begin(); iter != m_AnubisStormballList.end();)
-	{
-		_int iResult = 0;
-		iResult = (*iter)->Update_Object(fTimeDelta);
-		if (iResult == 1)
-		{
-			Safe_Release((*iter));
-			iter = m_AnubisStormballList.erase(iter);
-		}
-		else
-		{
-			++iter;
-		}
-	}
+
 	m_pDynamicTransCom->Update_Component(fTimeDelta);
 	Engine::CMonsterBase::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
@@ -169,8 +143,7 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 void CAnubis::LateUpdate_Object(void)
 {
 	// 빌보드 에러 해결
-	if (SCENE_TOOLTEST != Get_Scene()->Get_SceneType())
-	{
+
 		CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
 		NULL_CHECK(pCamera);
 
@@ -202,7 +175,6 @@ void CAnubis::LateUpdate_Object(void)
 		m_pDynamicTransCom->Set_WorldMatrix(&(matWorld));
 
 		// 빌보드 에러 해결
-	}
 	Engine::CMonsterBase::LateUpdate_Object();
 }
 
@@ -310,6 +282,8 @@ void CAnubis::Hit_Loop(const _float& fTimeDelta)
 
 void CAnubis::Attack_Thunder(const _float& fTimeDelta)
 {
+	CScene* pScene = ::Get_Scene();
+	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
 	m_pAttackAnimationCom->Move_Animation(fTimeDelta);
 	CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
 	CTransform* pPlayerTransform = static_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
@@ -331,7 +305,8 @@ void CAnubis::Attack_Thunder(const _float& fTimeDelta)
 			CAnubisThunder* pThunder;
 			pThunder = CAnubisThunder::Create(m_pGraphicDev, AnubisInfo.x + (vDir.x* 1.1f), m_pDynamicTransCom->m_vScale.y * 0.85f, AnubisInfo.z + (vDir.z* 1.1f));
 
-			m_AnubisThunderlist.push_back(pThunder);
+
+			pMyLayer->Add_AnubisAttack(pThunder);
 			m_bCreateOneThunder = true;
 		}
 	}
@@ -344,7 +319,7 @@ void CAnubis::Attack_Thunder(const _float& fTimeDelta)
 			CAnubisThunder* pThunder;
 			pThunder = CAnubisThunder::Create(m_pGraphicDev, m_vPlayerPos.x - vDir.x * 0.5f, 1.0f, m_vPlayerPos.z - vDir.z * 0.5f);
 
-			m_AnubisThunderlist.push_back(pThunder);
+			pMyLayer->Add_AnubisAttack(pThunder);
 			m_bCreateTwoThunder = true;
 		}
 	}
@@ -358,6 +333,8 @@ void CAnubis::Attack_Thunder(const _float& fTimeDelta)
 
 void CAnubis::Attack_Stormball(const _float& fTimeDelta)
 {
+	CScene* pScene = ::Get_Scene();
+	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
 	m_pAttackAnimationCom->Move_Animation(fTimeDelta);
 	_vec3 AnubisInfo;
 	m_pDynamicTransCom->Get_Info(INFO_POS, &AnubisInfo);
@@ -372,7 +349,7 @@ void CAnubis::Attack_Stormball(const _float& fTimeDelta)
 			CAnubisThunder* pThunder;
 			pThunder = CAnubisThunder::Create(m_pGraphicDev, AnubisInfo.x + (vDir.x* 1.1f), m_pDynamicTransCom->m_vScale.y * 0.85f, AnubisInfo.z + (vDir.z* 1.1f));
 
-			m_AnubisThunderlist.push_back(pThunder);
+			pMyLayer->Add_AnubisAttack(pThunder);
 			m_bCreateChargThunder = true;
 		}
 	}
@@ -398,14 +375,14 @@ void CAnubis::Attack_Stormball(const _float& fTimeDelta)
 				CAnubisStormBall* pStormball;
 				pStormball = CAnubisStormBall::Create(m_pGraphicDev, AnubisInfo, (m_vPlayerPos - vDir * 2.f));
 				m_bStormballLeftRight = false;
-				m_AnubisStormballList.push_back(pStormball);
+				pMyLayer->Add_AnubisAttack(pStormball);
 			}
 			else
 			{
 				CAnubisStormBall* pStormball;
 				pStormball = CAnubisStormBall::Create(m_pGraphicDev, AnubisInfo, (m_vPlayerPos + vDir * 2.f));
 				m_bStormballLeftRight = true;
-				m_AnubisStormballList.push_back(pStormball);
+				pMyLayer->Add_AnubisAttack(pStormball);
 			}
 			m_bCreateOneStormball = true;
 		}

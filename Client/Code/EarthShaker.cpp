@@ -62,20 +62,7 @@ HRESULT CEarthShaker::Ready_Object(float Posx, float Posy)
 _int CEarthShaker::Update_Object(const _float & fTimeDelta)
 {
 
-	for (auto iter = m_Spikelist.begin(); iter != m_Spikelist.end();)
-	{
-		_int iResult = 0;
-		iResult = (*iter)->Update_Object(fTimeDelta);
-		if (iResult == 1)
-		{
-			Safe_Release((*iter));
-			iter = m_Spikelist.erase(iter);
-		}
-		else
-		{
-			++iter;
-		}
-	}
+
 	m_pDynamicTransCom->Set_Y(m_pDynamicTransCom->m_vScale.y * 0.5f);
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 	if (Distance_Over())
