@@ -22,7 +22,7 @@ HRESULT CObeliskSpawnEffect::Ready_Object(const _vec3 & vPos)
 	m_pAnimationCom->Ready_Animation(8, 0, 0.15f);
 
 	m_pTransCom->Set_Pos(vPos.x, vPos.y*0.5f, vPos.z);
-	m_pTransCom->Set_Scale(&_vec3(2.f, 2.f, 2.f));
+	m_pTransCom->Set_Scale(&_vec3(4.f, 4.f, 4.f));
 	m_pTransCom->Update_Component(1.f);
 	return S_OK;
 }
