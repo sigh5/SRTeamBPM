@@ -229,7 +229,6 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 
 	if (Key_Down(DIK_T))
 	{
-		
 		Excution_Motion();
 	}
 
@@ -355,10 +354,6 @@ void CPlayer::Excution_Motion()
 	static_cast<CGun_Screen*>(pEquipItem)->Set_Active(true);
 	
 	static_cast<CAx*>(::Get_GameObject(L"Layer_UI", L"AX"))->Set_Active(true);
-
-
-
-
 }
 
 void CPlayer::Random_ResurrectionRoom()

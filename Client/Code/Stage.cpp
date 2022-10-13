@@ -212,9 +212,29 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 
 	READY_LAYER(pGameObject, CPlayer, pLayer, m_pGraphicDev, L"Player");
 
-	pGameObject = CBox::Create(m_pGraphicDev, 100, 110);
+	pGameObject = CBox::Create(m_pGraphicDev, 327, 309);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Box", pGameObject), E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Box0", pGameObject), E_FAIL);
+	
+	pGameObject = CBox::Create(m_pGraphicDev, 323, 321);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Box1", pGameObject), E_FAIL);
+	
+	pGameObject = CBox::Create(m_pGraphicDev, 325, 327);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Box2", pGameObject), E_FAIL);
+	
+	pGameObject = CBox::Create(m_pGraphicDev, 328, 338);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Box3", pGameObject), E_FAIL);
+	
+	pGameObject = CBox::Create(m_pGraphicDev, 327, 352);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Box4", pGameObject), E_FAIL);
+	
+	
+
+
 
 	pGameObject = CSphinx::Create(m_pGraphicDev, 30, 39);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
