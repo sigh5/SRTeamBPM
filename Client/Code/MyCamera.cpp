@@ -63,12 +63,26 @@ _int CMyCamera::Update_Object(const _float & fTimeDelta)
 	{
 		m_fFrame += 0.2f *fTimeDelta;
 		m_itemp *= -1;
+		Target_Renewal(fTimeDelta);
 		m_vEye.y = m_vEye.y + (_float(m_itemp)*0.1f* fTimeDelta);
 
 		if (m_fFrame >= 0.2f)
 		{
 			m_fFrame = 0.f;
 			m_bPlayerHit = false;
+		}
+	}
+	else if (m_bEarthShake)
+	{
+		m_fShakeTimer += 0.2f *fTimeDelta;
+		m_itemp *= -1;
+		Target_Renewal(fTimeDelta);
+		m_vEye.y = m_vEye.y + (_float(m_itemp)*0.05f* fTimeDelta);
+
+		if (m_fShakeTimer >= 0.2f)
+		{
+			m_fShakeTimer = 0.f;
+			m_bEarthShake = false;
 		}
 	}
 	else

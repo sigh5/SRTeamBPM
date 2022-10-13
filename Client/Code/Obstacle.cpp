@@ -297,6 +297,10 @@ void CObstacle::Set_TextureCom()
 		m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_TreeAnimTexCom", m_mapComponent, ID_STATIC);
 		m_pAnimationCom->Ready_Animation(1, 0, 1.f);
 	}
+	else
+	{
+		m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_fetrues_Texture", m_mapComponent, ID_STATIC);
+	}
 
 	// ... Ãß°¡
 

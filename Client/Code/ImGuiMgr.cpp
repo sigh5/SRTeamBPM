@@ -1233,11 +1233,13 @@ void CImGuiMgr::Object_Tool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 
 	ImGui::Text("this is Transform_ButtonMenu");
 	if (ImGui::Button("Save"))
-		CFileIOMgr::GetInstance()->Save_FileData(pScene, L"ObjectLayer", L"../../Data/", L"Stage1Obstacle.dat", OBJ_OBSTRACLE);
+		CFileIOMgr::GetInstance()->Save_FileData(pScene, L"ObjectLayer",
+			L"../../Data/", L"Stage1Obstacle.dat", OBJ_OBSTRACLE);
 	ImGui::SameLine();
 
 	if (ImGui::Button("Load"))
-		CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev, pScene, L"ObjectLayer", L"../../Data/", L"Stage1Obstacle.dat", L"Obstacle", OBJ_OBSTRACLE);
+		CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev, pScene, 
+			L"ObjectLayer", L"../../Data/", L"Stage1Obstacle.dat", L"Obstacle", OBJ_OBSTRACLE);
 
 
 

@@ -158,34 +158,34 @@ HRESULT CBox::Open_Event(CGameObject * pGameObject)
 		m_pTransCom->Get_Info(INFO_POS, &vPos);
 
 		CGameObject* pGameObj = nullptr;
-		
+		/*
 		pGameObj = READY_LAYER_POS(pGameObj, CHealthPotion, pMyLayer, m_pGraphicDev, L"HealthPotion", (_uint)vPos.x + 2, (_uint)vPos.z + 2);
 
 		pGameObj = READY_LAYER_POS(pGameObj, CCoin, pMyLayer, m_pGraphicDev, L"Coin", (_uint)vPos.x+2 , (_uint)vPos.z + 4);
+*/
+		if (m_bBoxOpen && rand() % 3 == 0)
+		{
+			// HealthPotion
+			/*pGameObj = CHealthPotion::Create(m_pGraphicDev, (_uint)vPos.x + 1, (_uint)vPos.z + 3);
+			NULL_CHECK_RETURN(pGameObj, E_FAIL);
+			FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(L"HealthPotion", pGameObj), E_FAIL);*/
+		pGameObj = READY_LAYER_POS(pGameObj, CHealthPotion, pMyLayer, m_pGraphicDev, L"HealthPotion", 100, 100);
 
-		//if (m_bBoxOpen && rand() % 3 == 0)
-		//{
-		//	// HealthPotion
-		//	/*pGameObj = CHealthPotion::Create(m_pGraphicDev, (_uint)vPos.x + 1, (_uint)vPos.z + 3);
-		//	NULL_CHECK_RETURN(pGameObj, E_FAIL);
-		//	FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(L"HealthPotion", pGameObj), E_FAIL);*/
-		//pGameObj = READY_LAYER_POS(pGameObj, CHealthPotion, pMyLayer, m_pGraphicDev, L"HealthPotion", 100, 100);
-
-		//	
-		//
-		//}
-		//else if (m_bBoxOpen && rand() % 3 == 1)
-		//{
-		//	// Coin
-		//	pGameObj = CCoin::Create(m_pGraphicDev, (_uint)vPos.x + 1, (_uint)vPos.z + 3);
-		//	NULL_CHECK_RETURN(pGameObj, E_FAIL);
-		//	FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(L"Coin", pGameObj), E_FAIL);
-		//}
-		//
-		//else if (m_bBoxOpen && rand() % 3 == 2)
-		//{
-		//	return S_OK;
-		//}
+			
+		
+		}
+		else if (m_bBoxOpen && rand() % 3 == 1)
+		{
+			// Coin
+			pGameObj = CCoin::Create(m_pGraphicDev, (_uint)vPos.x + 1, (_uint)vPos.z + 3);
+			NULL_CHECK_RETURN(pGameObj, E_FAIL);
+			FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(L"Coin", pGameObj), E_FAIL);
+		}
+		
+		else if (m_bBoxOpen && rand() % 3 == 2)
+		{
+			return S_OK;
+		}
 
 	
 	}

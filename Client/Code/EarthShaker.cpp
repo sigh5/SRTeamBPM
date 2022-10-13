@@ -289,12 +289,13 @@ void		CEarthShaker::Attack(const _float& fTimeDelta)
 			m_pDynamicTransCom->Get_Info(INFO_POS, &ShakerPos);
 			vDir = m_vPlayerPos - ShakerPos;
 			D3DXVec3Normalize(&vDir, &vDir);
-
+			dynamic_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"))->Set_ShakeCheck(true);
 			CEarthSpike* pSpike;
 			for (int i = 1; i < 12; ++i)
 			{
 				pSpike = CEarthSpike::Create(m_pGraphicDev, m_fWaitingTime * i, ShakerPos.x + vDir.x * m_fInterval * i, ShakerPos.z + vDir.z * m_fInterval * i, m_bSpikeType);
 				m_Spikelist.push_back(pSpike);
+			
 				if (m_bSpikeType)
 				{
 					m_bSpikeType = false;
