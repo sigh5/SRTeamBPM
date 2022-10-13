@@ -39,5 +39,7 @@ public:
 
 	float			m_fLifetime = 0.f;
 	float			m_fLifetimeCount = 0.f;
+
+	bool			m_bHitPlayer = false;
 };
 

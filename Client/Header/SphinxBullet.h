@@ -32,6 +32,7 @@ private:
 	CRcTex*				m_pBufferCom = nullptr;
 	CAnimation*			m_pAnimationCom = nullptr;
 
+	bool				m_bHitPlayer = false;
 
 public:
 	static CSphinxBullet*		Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos);

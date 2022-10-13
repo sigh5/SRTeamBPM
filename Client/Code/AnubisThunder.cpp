@@ -54,9 +54,10 @@ _int CAnubisThunder::Update_Object(const _float & fTimeDelta)
 
 	float fDistance = sqrtf((powf(vThunderPos.x - vPlayerPos.x, 2) + powf(vThunderPos.y - vPlayerPos.y, 2) + powf(vThunderPos.z - vPlayerPos.z, 2)));
 
-	if (fDistance < 1.5f)
+	if (fDistance < 1.5f && false==m_bHitPlayer)
 	{
 		pPlayerInfo->Receive_Damage(10.f);
+		m_bHitPlayer = true;
 	}
 
 	Render_Obejct();

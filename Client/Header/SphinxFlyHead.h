@@ -86,6 +86,7 @@ private:
 	bool		m_bLeftRight = false;
 	_vec3  m_vTargetPos;
 	_vec3  m_vTackleDir;
+	bool	m_bHitPlayer = false;
 	//~
 	float m_fRearrangementDelay = 0.f;
 	float m_fRearrangementDealyCount = 0.f;

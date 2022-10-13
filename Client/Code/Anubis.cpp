@@ -400,17 +400,18 @@ void CAnubis::Attack_Stormball(const _float& fTimeDelta)
 			_vec3 vDir = m_vPlayerPos - AnubisInfo;
 			D3DXVec3Normalize(&vDir, &vDir);
 			D3DXVec3Cross(&vDir, &_vec3(0.f, 1.f, 0.f), &vDir);
+			_vec3 vSpawnPos = _vec3((AnubisInfo.x + (vDir.x* 1.2f)), (m_pDynamicTransCom->m_vScale.y * 0.8f), (AnubisInfo.z + (vDir.z * 1.2f)));
 			if (m_bStormballLeftRight)
 			{
 				CAnubisStormBall* pStormball;
-				pStormball = CAnubisStormBall::Create(m_pGraphicDev, AnubisInfo, (m_vPlayerPos - vDir * 2.f));
+				pStormball = CAnubisStormBall::Create(m_pGraphicDev, vSpawnPos, (m_vPlayerPos - vDir * 1.4f));
 				m_bStormballLeftRight = false;
 				m_AnubisStormballList.push_back(pStormball);
 			}
 			else
 			{
 				CAnubisStormBall* pStormball;
-				pStormball = CAnubisStormBall::Create(m_pGraphicDev, AnubisInfo, (m_vPlayerPos + vDir * 2.f));
+				pStormball = CAnubisStormBall::Create(m_pGraphicDev, vSpawnPos, (m_vPlayerPos + vDir * 1.4f));
 				m_bStormballLeftRight = true;
 				m_AnubisStormballList.push_back(pStormball);
 			}
