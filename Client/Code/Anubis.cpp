@@ -336,7 +336,7 @@ void CAnubis::Attack_Thunder(const _float& fTimeDelta)
 			D3DXVec3Cross(&vDir, &_vec3(0.f, 1.f, 0.f), &vDir);
 
 			CAnubisThunder* pThunder;
-			pThunder = CAnubisThunder::Create(m_pGraphicDev, AnubisInfo.x + (vDir.x* 1.1f), m_pDynamicTransCom->m_vScale.y * 0.85f, AnubisInfo.z + (vDir.z* 1.1f));
+			pThunder = CAnubisThunder::Create(m_pGraphicDev, AnubisInfo.x + (vDir.x* 1.2f), m_pDynamicTransCom->m_vScale.y * 0.85f, AnubisInfo.z + (vDir.z* 1.2f));
 
 			m_AnubisThunderlist.push_back(pThunder);
 			m_bCreateOneThunder = true;
@@ -377,7 +377,7 @@ void CAnubis::Attack_Stormball(const _float& fTimeDelta)
 			D3DXVec3Cross(&vDir, &_vec3(0.f, 1.f, 0.f), &vDir);
 
 			CAnubisThunder* pThunder;
-			pThunder = CAnubisThunder::Create(m_pGraphicDev, AnubisInfo.x + (vDir.x* 1.1f), m_pDynamicTransCom->m_vScale.y * 0.85f, AnubisInfo.z + (vDir.z* 1.1f));
+			pThunder = CAnubisThunder::Create(m_pGraphicDev, AnubisInfo.x + (vDir.x* 1.2f), m_pDynamicTransCom->m_vScale.y * 0.85f, AnubisInfo.z + (vDir.z* 1.2f));
 
 			m_AnubisThunderlist.push_back(pThunder);
 			m_bCreateChargThunder = true;
