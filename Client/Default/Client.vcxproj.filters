@@ -271,7 +271,6 @@
     <ClCompile Include="..\Code\SkillEffct.cpp">
       <Filter>02. GameObject\01. For_Stage\07. Effect\Skill_Effect</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\SphinxHole.cpp" />
     <ClCompile Include="..\Code\ObeliskSpawnEffect.cpp">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\04. Obelisk</Filter>
     </ClCompile>
@@ -292,6 +291,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\AnubisStormBall.cpp" />
     <ClCompile Include="..\Code\Ax.cpp" />
+    <ClCompile Include="..\Code\BulletShell.cpp">
+      <Filter>02. GameObject\01. For_Stage\09. Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SphinxHole.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -580,7 +585,6 @@
     <ClInclude Include="..\Header\SkillEffct.h">
       <Filter>02. GameObject\01. For_Stage\07. Effect\Skill_Effect</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\SphinxHole.h" />
     <ClInclude Include="..\Header\ObeliskSpawnEffect.h">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\04. Obelisk</Filter>
     </ClInclude>
@@ -601,6 +605,12 @@
     </ClInclude>
     <ClInclude Include="..\Header\AnubisStormBall.h" />
     <ClInclude Include="..\Header\Ax.h" />
+    <ClInclude Include="..\Header\BulletShell.h">
+      <Filter>02. GameObject\01. For_Stage\09. Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\SphinxHole.h">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">

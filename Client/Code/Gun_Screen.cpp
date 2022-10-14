@@ -6,6 +6,8 @@
 #include "TestPlayer.h"
 
 #include "ShotGun.h"
+#include "BulletShell.h"
+
 
 
 USING(Engine)
@@ -37,7 +39,7 @@ HRESULT CGun_Screen::Ready_Object()
 	m_pTransCom->Set_Scale(&m_vecScale);
 	m_pTransCom->Set_Pos(m_fX + 274.f, m_fY - 300.f, 0.1f);
 
-	m_pAnimationCom->Ready_Animation(4, 0, 0.2f);
+	m_pAnimationCom->Ready_Animation(4, 0, 0.11f);
 
 	m_bShootCheck = false;
 
@@ -58,7 +60,7 @@ _int CGun_Screen::Update_Object(const _float & fTimeDelta)
 	}
 
 
-
+	Shoot_Motion(fTimeDelta);
 
 	Add_UpdateComponent();
 
@@ -78,7 +80,7 @@ _int CGun_Screen::Update_Object(const _float & fTimeDelta)
 
 void CGun_Screen::LateUpdate_Object(void)
 {
-	Shoot_Motion();
+
 
 	CPlayer* pPlayer = static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic",L"Player"));
 
@@ -153,13 +155,28 @@ HRESULT CGun_Screen::Add_UpdateComponent(void)
 	return S_OK;
 }
 
-HRESULT CGun_Screen::Shoot_Motion(void)
+HRESULT CGun_Screen::Shoot_Motion(const _float& fTimeDelta)
 {
 	//CPlayer* pPlayer = dynamic_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
 
 	if (m_bAnimation == true)
 	{
-		m_pAnimationCom->Gun_Animation(&m_bAnimation);		
+		m_bAnimation = m_pAnimationCom->Gun_Animation(fTimeDelta);
+		if (false == m_bCreatedShell)
+		{
+			_vec3 vPos, vDir;
+			Get_shellPosition(vPos, vDir);
+			CGameObject* pShell = CBulletShell::Create(m_pGraphicDev, vPos, vDir);
+			CScene  *pScene = ::Get_Scene();
+			NULL_CHECK_RETURN(pScene, );
+			CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+			pLayer->Add_GameObjectList(pShell);
+			m_bCreatedShell = true;
+		}
+		if (false == m_bAnimation)
+		{
+			m_bCreatedShell = false;
+		}
 	}		
 
 	return S_OK;
@@ -168,6 +185,20 @@ HRESULT CGun_Screen::Shoot_Motion(void)
 void CGun_Screen::GunFailSound()
 {
 	::PlaySoundW(L"Rythm_Check_Fail.wav", SOUND_EFFECT, 0.1f);
+}
+
+void CGun_Screen::Get_shellPosition(_vec3& vPos, _vec3& vdir)
+{//ÅºÇÇ
+	_vec3  vPlayerPos,vPlayerDirection;
+	CPlayer* pPlayer = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
+	CTransform* pPlayerTransform = static_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
+	vPlayerDirection = pPlayer->Get_Direction();
+	D3DXVec3Normalize(&vPlayerDirection, &vPlayerDirection);
+	vPlayerPos = pPlayerTransform->m_vInfo[INFO_POS];
+	
+	D3DXVec3Cross(&vdir, &_vec3(0.f, 1.f, 0.f), &vPlayerDirection);
+	D3DXVec3Normalize(&vdir, &vdir);
+	vPos = vPlayerPos + vPlayerDirection + vdir * 0.3f;
 }
 
 CGun_Screen * CGun_Screen::Create(LPDIRECT3DDEVICE9 pGraphicDev)
