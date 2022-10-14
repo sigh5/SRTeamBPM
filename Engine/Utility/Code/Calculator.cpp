@@ -736,9 +736,105 @@ _bool CCalculator::PickingOnTransform_RcTex(HWND hWnd, const CRcTex* pRcTexCom, 
 	return false;
 }
 
+_bool CCalculator::Picking_OrthoUI(HWND hWnd, const CRcTex * pRcTexCom, const CTransform* pUITransform)
+{
+	POINT		ptMouse{};
+
+	//m_pTransCom->Set_Scale(m_fSizeX, m_fSizeY, 1.f);
+	//m_pTransCom->Set_Pos(m_fX - WINCX * 0.5f, -m_fY + WINCY * 0.5f, 0.f);
+
+	GetCursorPos(&ptMouse);
+	ScreenToClient(hWnd, &ptMouse);
+
+	_vec3		vPoint;
+
+	D3DVIEWPORT9		ViewPort;
+	ZeroMemory(&ViewPort, sizeof(D3DVIEWPORT9));
+	m_pGraphicDev->GetViewport(&ViewPort);
 
 
+	vPoint.x = ptMouse.x / (ViewPort.Width * 0.5f) - 1.f;
+	vPoint.y = ptMouse.y / -(ViewPort.Height * 0.5f) + 1.f;
+	vPoint.z = 0.1f;
 
+	// 직교투영으로
+	_matrix		matProj;
+
+	m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &matProj);
+	D3DXMatrixInverse(&matProj, nullptr, &matProj);
+	D3DXVec3TransformCoord(&vPoint, &vPoint, &matProj);
+
+	_vec3	vRayDir, vRayPos;
+
+	vRayPos = { 0.f, 0.0f, 0.f };
+	vRayDir = vPoint - vRayPos;
+	
+
+	
+	
+
+	const _vec3* vecUI = pRcTexCom->Get_VtxPos();
+
+	_ulong	dwVtxIdx[3]{};
+	_float	fU, fV, fDist;
+
+	dwVtxIdx[0] = 0;
+	dwVtxIdx[1] = 1;
+	dwVtxIdx[2] = 2;
+		
+		if (D3DXIntersectTri(&vecUI[dwVtxIdx[0]],
+			&vecUI[dwVtxIdx[1]],
+			&vecUI[dwVtxIdx[2]],
+			&vRayPos, &vRayDir,
+			&fU, &fV, &fDist))
+		{
+			MSG_BOX("충돌");
+			return true;
+		}
+
+
+		dwVtxIdx[0] = 0;
+		dwVtxIdx[1] = 2;
+		dwVtxIdx[2] = 3;
+
+		if (D3DXIntersectTri(&vecUI[dwVtxIdx[0]],
+			&vecUI[dwVtxIdx[1]],
+			&vecUI[dwVtxIdx[2]],
+			&vRayPos, &vRayDir,
+			&fU, &fV, &fDist))
+		{
+			MSG_BOX("충돌");
+			return true;
+		}
+
+		return false;
+	
+}
+
+_vec3 * CCalculator::Get_MouseProjAxis(HWND hWnd)
+{
+	GetCursorPos(&m_ptMouse);
+	ScreenToClient(hWnd, &m_ptMouse);
+
+	_vec3		vPoint;
+
+	//D3DVIEWPORT9		ViewPort;
+	//ZeroMemory(&ViewPort, sizeof(D3DVIEWPORT9));
+	//m_pGraphicDev->GetViewport(&ViewPort);
+	
+	vPoint.x = (_float)m_ptMouse.x; // / (ViewPort.Width * 0.5f) - 1.f;
+	vPoint.y = (_float)m_ptMouse.y; // / -(ViewPort.Height * 0.5f) + 1.f;
+	vPoint.z = 0.1f;
+	
+	_matrix		matProj;
+
+	m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &matProj);
+	D3DXVec3TransformCoord(&vPoint, &vPoint, &matProj);
+
+	m_vecProjMouse = { vPoint.x, vPoint.y, vPoint.z };
+
+	return &m_vecProjMouse;
+}
 
 
 CComponent* CCalculator::Clone(void)

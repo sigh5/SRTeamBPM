@@ -8,6 +8,8 @@ class CTransform;
 class CCubeTex;
 class CRcTex;
 
+class CEquipmentBase;
+
 class ENGINE_DLL CCalculator :	public CComponent
 {
 private:
@@ -39,10 +41,20 @@ public:
 	_bool	PickingOnTransform_RcTex(HWND hWnd, const CRcTex* pRcTexCom, const CTransform* pTransform);
 
 
+	_bool	Picking_OrthoUI(HWND hWnd, const CRcTex* pRcTexCom, const CTransform* pUITransform);
+
+	POINT*	Get_MouseAxis(void) { return &m_ptMouse; }
+
+	_vec3*	Get_MouseProjAxis(HWND hWnd);
+
+private:
+	POINT		m_ptMouse{};
+	_vec3		m_vecProjMouse;
 
 public:
 	virtual CComponent* Clone(void) override;
 	static CCalculator*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
+
 private:
 	virtual void Free(void) override;
 

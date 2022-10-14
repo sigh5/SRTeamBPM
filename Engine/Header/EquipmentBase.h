@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "Engine_Include.h"
 
 BEGIN(Engine)
 
@@ -42,6 +43,7 @@ protected:
 	CAnimation*			m_pAnimationCom = nullptr;
 	CDynamic_Transform* m_pDynamicTransCom = nullptr;
 	COrthoTransform*	m_pOrthoTransCom = nullptr;
+
 protected:
 	virtual HRESULT				Add_Component(void);
 

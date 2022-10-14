@@ -10,6 +10,8 @@
 #include "Gun_Screen.h"
 #include "Player.h"
 
+USING(Engine)
+
 CShotGun::CShotGun(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CEquipmentBase(pGraphicDev) 
 {
@@ -30,53 +32,85 @@ HRESULT CShotGun::Ready_Object(_uint iX, _uint iZ)
 	m_pTransCom->Set_Pos((_float)iX, 1.f, (_float)iZ);
 	m_pTransCom->Compulsion_Update();
 
+	m_fX = 100.f;
+	m_fY = 100.f;
+
+	m_fSizeX = 200.f;
+	m_fSizeY = 200.f;
+
 	return S_OK;
 }
  
 _int CShotGun::Update_Object(const _float & fTimeDelta)
 {
-	_uint iResult = Engine::CGameObject::Update_Object(fTimeDelta);
+	CInventory_UI* pInven = static_cast<CInventory_UI*>(Get_GameObject(L"Layer_UI", L"InventoryUI"));
 
-	//Set_OnTerrain();
+	POINT		ptMouse{};
+
+	GetCursorPos(&ptMouse);
+	ScreenToClient(g_hWnd, &ptMouse);
+
+	m_fX = ptMouse.x;
+	m_fY = ptMouse.y;
+
+	//cout << m_fX << ": 마우스 :" << m_fY << endl;
+	//cout << " X : " << m_pTransCom->m_vInfo[INFO_POS].x << " Y : " << m_pTransCom->m_vInfo[INFO_POS].y << " Z : " << m_pTransCom->m_vInfo[INFO_POS].z << endl;
+
+	//if (pInven->Get_InvenSwitch() == true && m_bRenderFalse == true)
+	//{
+	//	if (Engine::Get_DIMouseState(DIM_LB)) // Picking
+	//	{
+	//		_uint ia = 0;
+
+	//		Picking();
+	//	}
+	//}
 
 	Add_RenderGroup(m_RenderID, this);
+
+	Engine::CGameObject::Update_Object(fTimeDelta);
 	
-	return iResult;
+	return 0;
 }
 
 void CShotGun::LateUpdate_Object(void)
 {
 	// MyCamera를 통한 빌보드
-	/*CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
-	NULL_CHECK(pCamera);
-	
-	_matrix		matWorld, matView, matBill;
 
-	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
-	D3DXMatrixIdentity(&matBill);
-	memcpy(&matBill, &matView, sizeof(_matrix));
-	memset(&matBill._41, 0, sizeof(_vec3));
-	D3DXMatrixInverse(&matBill, 0, &matBill);
+	if (!m_bRenderControl && !m_bRenderFalse)
+	{
+		CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
+		NULL_CHECK(pCamera);
 
-	_matrix      matScale, matTrans;
-	D3DXMatrixScaling(&matScale, 2.f, 2.f, 2.f);
+		_matrix		matWorld, matView, matBill;
 
-	_matrix      matRot;
-	D3DXMatrixIdentity(&matRot);
-	D3DXMatrixRotationY(&matRot, (_float)pCamera->Get_BillBoardDir());
+		m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
+		D3DXMatrixIdentity(&matBill);
+		memcpy(&matBill, &matView, sizeof(_matrix));
+		memset(&matBill._41, 0, sizeof(_vec3));
+		D3DXMatrixInverse(&matBill, 0, &matBill);
 
-	_vec3 vPos;
-	m_pTransCom->Get_Info(INFO_POS, &vPos);
+		_matrix      matScale;
+		D3DXMatrixScaling(&matScale, 2.f, 2.f, 2.f);
 
-	D3DXMatrixTranslation(&matTrans,
-		vPos.x,
-		vPos.y,
-		vPos.z);
+		_matrix		 matTrans;
 
-	D3DXMatrixIdentity(&matWorld);
-	matWorld = matScale* matRot * matBill * matTrans;
-	m_pTransCom->Set_WorldMatrix(&(matWorld));*/
+		_matrix      matRot;
+		D3DXMatrixIdentity(&matRot);
+		D3DXMatrixRotationY(&matRot, (_float)pCamera->Get_BillBoardDir());
 
+		_vec3 vPos;
+		m_pTransCom->Get_Info(INFO_POS, &vPos);
+
+		D3DXMatrixTranslation(&matTrans,
+			vPos.x,
+			vPos.y,
+			vPos.z);
+
+		D3DXMatrixIdentity(&matWorld);
+		matWorld = matScale* matRot * matBill * matTrans;
+		m_pTransCom->Set_WorldMatrix(&(matWorld));
+	}
 }
 
 void CShotGun::Render_Obejct(void)
@@ -96,8 +130,7 @@ void CShotGun::Render_Obejct(void)
 		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 		m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 		m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-
-
+		
 		m_pTextureCom->Set_Texture(0);	
 		m_pBufferCom->Render_Buffer();
 		
@@ -126,24 +159,37 @@ void CShotGun::Render_Obejct(void)
 
 			D3DXMatrixOrthoLH(&matProj, WINCX, WINCY, 0.f, 1.f);
 
-			_vec3 vecInvenPos;
+			// ★ 아이템 획득하면 인벤토리 칸에 들어가도록 해줘야 함 인벤토리 UI에서
+		/*	_vec3 vecInvenPos;
 
 			dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_UI", L"InventoryUI", L"Proto_OrthoTransformCom", ID_DYNAMIC))->Get_Info(INFO_POS, &vecInvenPos);
 
-			m_pTransCom->Set_Pos(vecInvenPos.x - 50.f, vecInvenPos.y - 50.f, 0.1f);
+			m_pTransCom->Set_Pos(vecInvenPos.x + 50.f, vecInvenPos.y + 50.f, 0.1f);*/
 
-			_vec3		vecIconScale = { 30.f, 30.f, 0.f };
+			_vec3		vecIconScale = { 70.f, 70.f, 0.f };
 
 			m_pTransCom->Set_Scale(&vecIconScale);
 
 			m_pGraphicDev->SetTransform(D3DTS_VIEW, &ViewMatrix);
 			m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
 
+			m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+			m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0xDF);
+			m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+
+			m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+			m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+			m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+
 			m_pTextureCom->Set_Texture(0);
 			m_pBufferCom->Render_Buffer();
 
 			m_pGraphicDev->SetTransform(D3DTS_VIEW, &OldViewMatrix);
 			m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &OldProjMatrix);
+
+			m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+			m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 		}
 
 		// 직교투영이 되는 부분
@@ -165,29 +211,36 @@ void CShotGun::Render_Obejct(void)
 
 			D3DXMatrixOrthoLH(&matProj, WINCX, WINCY, 0.f, 1.f);
 
-			_vec3 vecInvenPos;
+			/*_vec3 vecInvenPos;
 
 			dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_UI", L"InventoryUI", L"Proto_OrthoTransformCom", ID_DYNAMIC))->Get_Info(INFO_POS, &vecInvenPos);
 
-			m_pTransCom->Set_Pos(vecInvenPos.x - 50.f, vecInvenPos.y - 50.f, 0.1f);
+			m_pTransCom->Set_Pos(vecInvenPos.x + 50.f, vecInvenPos.y + 50.f, 0.1f);*/
 
-			_vec3		vecIconScale = { 30.f, 30.f, 0.f };
+			_vec3		vecIconScale = { 70.f, 70.f, 0.f };
 
 			m_pTransCom->Set_Scale(&vecIconScale);
-
-			/*if (Get_DIMouseState(DIM_LB) & 0X80)
-			{
-				m_pCalculatorCom->PickingOnTransform_Monster(g_hWnd, this->m_pBufferCom, this->m_pTransCom);
-			}*/
-
+						
 			m_pGraphicDev->SetTransform(D3DTS_VIEW, &ViewMatrix);
 			m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
+
+			m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+			m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0xDF);
+			m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+
+			m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+			m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+			m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
 
 			m_pTextureCom->Set_Texture(0);
 			m_pBufferCom->Render_Buffer();
 
 			m_pGraphicDev->SetTransform(D3DTS_VIEW, &OldViewMatrix);
 			m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &OldProjMatrix);
+
+			m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+			m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 		}
 
 	}
@@ -203,25 +256,13 @@ void CShotGun::Collision_Event()
 
 	pGameObject = pLayer->Get_GameObject(L"Player");
 	NULL_CHECK_RETURN(pGameObject, );
-			
-	if (!m_pColliderCom->Check_Collision(this, pGameObject, 1, 1))
+
+	if (m_pColliderCom->Check_Collision(this, pGameObject, 1, 1))
 	{
-		if (Get_DIKeyState(DIK_F) & 0x80)//Engine::Key_Down(DIK_F))
+		if (Engine::Key_Down(DIK_F))
 		{
-			m_bRenderFalse = true;
-			
-			// 인벤토리에 들어감
-			CInventory_UI* pInven = static_cast<CInventory_UI*>(Get_GameObject(L"Layer_UI", L"InventoryUI"));
-			pInven->Get_WeaponType()->push_back(this);
-
-			// 플레이어의 스탯에 관여하기 위함
-			CPlayer* pTestPlayer = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
-			pTestPlayer->Set_bCurStat(true);
-
-			CGun_Screen* pGun_Screen = static_cast<CGun_Screen*>(Engine::Get_GameObject(L"Layer_UI", L"Gun"));
-			pGun_Screen->Set_ChangeWeaponUI(true);
-		}
-
+			Open_Event(pGameObject);
+		}		
 	}
 }
 
@@ -235,13 +276,82 @@ void CShotGun::Set_OnTerrain(void)
 
 	_float fHeight = m_pCalculatorCom->HeightOnTerrain(&vPos, pTerrainTexCom->Get_VtxPos(), VTXCNTX, VTXCNTZ);
 
-	m_pTransCom->Set_Pos(vPos.x, fHeight + 0.8f, vPos.z);
+	m_pTransCom->Set_Pos(vPos.x, fHeight + 0.9f, vPos.z);
+		
+}
 
-	
+void CShotGun::Picking(void)
+{
+	_vec3		vecScale = { m_fSizeX, m_fSizeY, 1.f };
+
+	m_pTransCom->Set_Scale(&vecScale);
+	m_pTransCom->Set_Pos(m_fX - WINCX * 0.5f, -m_fY + WINCY * 0.5f, 0.f);  // RECT 있는 곳으로?
+
+	POINT		ptMouse{};
+
+	GetCursorPos(&ptMouse);
+	ScreenToClient(g_hWnd, &ptMouse);
+
+	D3DVIEWPORT9		ViewPort;
+	ZeroMemory(&ViewPort, sizeof(D3DVIEWPORT9));
+	m_pGraphicDev->GetViewport(&ViewPort);
+
+	RECT		rcUI = { m_fX - m_fSizeX * 1.5f, m_fY - m_fSizeY  *1.5f, m_fX + m_fSizeX * 1.5f, m_fY + m_fSizeY * 1.5f };
+
+	if (PtInRect(&rcUI, ptMouse))
+	{
+		_vec3		vPoint;
+
+		vPoint.x = ptMouse.x / (ViewPort.Width * 0.5f) - 1.f;
+		vPoint.y = ptMouse.y / -(ViewPort.Height * 0.5f) + 1.f;
+		vPoint.z = 0.1f;
+
+		_matrix matOrtho;
+
+		D3DXMatrixOrthoLH(&matOrtho, WINCX, WINCY, 0.f, 1.f);  // 직교 투영
+
+		D3DXMatrixInverse(&matOrtho, nullptr, &matOrtho); // 뷰 스페이스(뷰가 항등이라 월드와 같다)
+		D3DXVec3TransformCoord(&vPoint, &vPoint, &matOrtho);
+
+		m_pTransCom->Set_Pos(vPoint.x, vPoint.y, 0.f);
+
+	}
+
+}
+
+HRESULT CShotGun::Open_Event(CGameObject * pGameObject)
+{
+	CScene* pScene = ::Get_Scene();
+	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+
+	CDynamic_Transform *pTransform = dynamic_cast<CDynamic_Transform*>(pGameObject->Get_Component(L"Proto_DynamicTransformCom", ID_DYNAMIC));
+
+	_vec3 vObjPos;
+	_vec3 vPlayerPos;
+
+	pTransform->Get_Info(INFO_POS, &vObjPos);
+	m_pTransCom->Get_Info(INFO_POS, &vPlayerPos);
+	// ★
+	if (m_pColliderCom->Check_Sphere_InterSect(vObjPos, vPlayerPos, 1.f, 1.f) == true)
+	{
+		m_bRenderFalse = true;
+
+		// 인벤토리에 들어감
+		CInventory_UI* pInven = static_cast<CInventory_UI*>(Get_GameObject(L"Layer_UI", L"InventoryUI"));
+		pInven->Get_WeaponType()->push_back(this);
+
+		// 플레이어의 스탯에 관여하기 위함
+		CPlayer* pTestPlayer = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
+		pTestPlayer->Set_bCurStat(true);
+
+		CGun_Screen* pGun_Screen = static_cast<CGun_Screen*>(Engine::Get_GameObject(L"Layer_UI", L"Gun"));
+		pGun_Screen->Set_ChangeWeaponUI(true);
+	}
+	return S_OK;
 }
 
 HRESULT CShotGun::Add_Component(void)
-{ // CDynamic_Transform
+{						// CDynamic_Transform
 	m_pTransCom = CAbstractFactory<CTransform>::Clone_Proto_Component(L"Proto_TransformCom", m_mapComponent, ID_DYNAMIC);
 	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_ShotGunTexture", m_mapComponent, ID_STATIC);
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
@@ -249,7 +359,6 @@ HRESULT CShotGun::Add_Component(void)
 	m_pCalculatorCom = CAbstractFactory<CCalculator>::Clone_Proto_Component(L"Proto_CalculatorCom", m_mapComponent, ID_STATIC);
 	m_pColliderCom = CAbstractFactory<CCollider>::Clone_Proto_Component(L"Proto_ColliderCom", m_mapComponent, ID_STATIC);
 	
-
 	return S_OK;
 }
 

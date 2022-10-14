@@ -56,7 +56,7 @@ HRESULT CPlayer::Ready_Object(void)
 
 _int CPlayer::Update_Object(const _float & fTimeDelta)
 {	
-	cout << "체력 : " << m_pInfoCom->Get_InfoRef()._iHp << endl;
+	//cout << "체력 : " << m_pInfoCom->Get_InfoRef()._iHp << endl;
 
 	pEquipItem = dynamic_cast<CGun_Screen*>(Get_GameObject(L"Layer_UI", L"Gun"));
 	NULL_CHECK_RETURN(pEquipItem, -1);
@@ -68,25 +68,14 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 	{
 		CScene* pScene1 = ::Get_Scene();
 		CLayer* pMyLayer = pScene1->GetLayer(L"Layer_UI");
-
-		//CGameObject* pGameObject = nullptr;  // Reuse_PlayerBulltObj
-		//pGameObject = CPlayer_Dead_UI::Create(m_pGraphicDev, 255);
-		//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-		//pMyLayer->Add_GameObject(L"Dead_UI",pGameObject);
-
+		
 		CPlayer_Dead_UI* pDead_UI = static_cast<CPlayer_Dead_UI*>(Engine::Get_GameObject(L"Layer_UI", L"Dead_UI"));
 
 		pDead_UI->Set_Render(true);
 
 		Random_ResurrectionRoom();
 		m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);	
-
-		/*if (pDead_UI->Get_Render() == false)
-		{
-			pDead_UI->Set_bEvent(false);
-			pDead_UI->Set_iAlpha(255);
-		}*/
-
+			
 		CScene* pScene = Get_Scene();
 		CLayer* pLayer = pScene->GetLayer(L"Layer_GameLogic");
 
@@ -274,7 +263,7 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		m_pDynamicTransCom->Get_Info(INFO_POS, &vcurrentPos);
 
 
-		cout << vcurrentPos.x << " " << vcurrentPos.y<<" " << vcurrentPos.z << endl;
+		//cout << vcurrentPos.x << " " << vcurrentPos.y<<" " << vcurrentPos.z << endl;
 	}
 
 	if (Engine::Key_Down(DIK_C))

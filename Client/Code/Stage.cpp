@@ -15,6 +15,7 @@
 #include "Box.h"
 #include "HealthPotion.h"
 #include "ShotGun.h"
+#include "Magnum.h"
 #include "HpBar.h"
 
 #include "CoinKeyUI.h"
@@ -39,6 +40,9 @@
 #include "Ghul.h"
 #include "Obelisk.h"
 #include "EarthShaker.h"
+
+
+#include "TestWeapon.h"
 
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -139,6 +143,10 @@ void CStage::LateUpdate_Scene(void)
 		}
 	}
 
+	for (auto iter = pLayer->Get_GameObjectMap().begin(); iter != pLayer->Get_GameObjectMap().end(); ++iter)
+	{
+		static_cast<CEquipmentBase*>(iter->second)->Collision_Event();
+	}
 
 	pLayer = GetLayer(L"Layer_CubeCollsion");
 
@@ -199,7 +207,7 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 
 	READY_LAYER(pGameObject, CPlayer, pLayer, m_pGraphicDev, L"Player");
 
-	pGameObject = CBox::Create(m_pGraphicDev, 100, 110);
+	pGameObject = CBox::Create(m_pGraphicDev, 90, 100);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Box", pGameObject), E_FAIL);
 
@@ -226,6 +234,10 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	pGameObject = CShotGun::Create(m_pGraphicDev, 10, 10);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"ShotGun", pGameObject), E_FAIL);
+	
+	pGameObject = CMagnum::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Magnum", pGameObject), E_FAIL);
 
 	READY_LAYER_POS(pGameObject, CAnubis, pLayer, m_pGraphicDev, L"TestMonster1", 100, 100);
 	READY_LAYER_POS(pGameObject, CSpider, pLayer, m_pGraphicDev, L"TestMonster10", 130, 100);
@@ -273,6 +285,10 @@ HRESULT CStage::Ready_Layer_UI(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Dead_UI", pGameObject), E_FAIL);
 
+	/*pGameObject = CTestWeapon::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"TestWeapon", pGameObject), E_FAIL);*/
+
 	m_mapLayer.insert({ pLayerTag, pLayer });
 
 
@@ -285,7 +301,7 @@ HRESULT CStage::Ready_Layer_Icon(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 
 	CGameObject*		pGameObject = nullptr;
-	CTestPlayer*		pPlayer = dynamic_cast<CTestPlayer*>(Get_GameObject(L"Layer_GameLogic", L"TestPlayer"));
+	CPlayer*		pPlayer = dynamic_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"));
 
 	pGameObject = CBullet_UI::Create(m_pGraphicDev, pPlayer);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);

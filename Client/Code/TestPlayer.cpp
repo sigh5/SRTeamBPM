@@ -49,7 +49,7 @@ _int CTestPlayer::Update_Object(const _float & fTimeDelta)
 	++m_iCountDash;
 	Key_Input(fTimeDelta);
 
-	cout << "체력 : " << m_pInfoCom->Get_InfoRef()._iHp << "m_iHpBarChange " << m_iHpBarChange << endl;
+	//cout << "체력 : " << m_pInfoCom->Get_InfoRef()._iHp << "m_iHpBarChange " << m_iHpBarChange << endl;
 	//if (m_preItem = m_pInfoCom->Get_InfoRef()._iCoin) // Coin 획득했는가를 체크하는 코드
 	//{
 	//	//system("cls");
@@ -427,7 +427,7 @@ void CTestPlayer::EquipItem_Add_Stat(void)
 	if (m_bPreStat)
 	{
 		_uint iAtk = 0;
-		iAtk = m_pInfoCom->Get_InfoRef()._iAttackPower + pShotGun->Get_EquipInfoRef()._iAddAttack;
+		//iAtk = m_pInfoCom->Get_InfoRef()._iAttackPower + pShotGun->Get_EquipInfoRef()._iAddAttack;
 
 		m_pInfoCom->Get_InfoRef()._iAttackPower = iAtk;
 

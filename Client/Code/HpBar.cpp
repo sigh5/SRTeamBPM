@@ -44,7 +44,7 @@ HRESULT CHpBar::Ready_Object(CGameObject * pPlayer)
 
 _int CHpBar::Update_Object(const _float & fTimeDelta)
 {
-	cout << m_pAnimationCom->m_iMotion << endl;
+	//cout << m_pAnimationCom->m_iMotion << endl;
 
 	CPlayer* pPlayer = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
 
