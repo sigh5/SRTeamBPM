@@ -167,7 +167,7 @@ void		CSphinx::Collision_Event()
 		static_cast<CGun_Screen*>(pGameObject)->Set_Shoot(false);
 
 		READY_CREATE_EFFECT_VECTOR(pGameObject, CHitEffect, pLayer, m_pGraphicDev, vPos);
-		static_cast<CHitEffect*>(pGameObject)->Set_Effect_INFO(OWNER_SPHINX, 0, 1, 50000);
+		static_cast<CHitEffect*>(pGameObject)->Set_Effect_INFO(OWNER_SPHINX, 0, 7, 0.2f);
 	}
 
 }
@@ -222,9 +222,11 @@ void CSphinx::AttackJudge(const _float & fTimeDelta)
 void CSphinx::Attack(const _float & fTimeDelta)
 {
 	m_pAnimationCom->Move_Animation(fTimeDelta);
-	CTransform* pPlayerTransform =
-		static_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
-
+	CTransform* pPlayerTransform =static_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
+	_vec3 vSphinxPos = m_pDynamicTransCom->m_vInfo[INFO_POS];
+	_vec3 vDir = m_vPlayerPos - vSphinxPos;
+	D3DXVec3Normalize(&vDir, &vDir);
+	D3DXVec3Cross(&vDir, &_vec3(0.f, 1.f, 0.f), &vDir);
 	if (m_pAnimationCom->m_iMotion == 5)
 	{
 		if (0 == m_iShootLeftRight)
@@ -234,7 +236,7 @@ void CSphinx::Attack(const _float & fTimeDelta)
 
 			vPos = vPosOrigin;
 			vPos.y += 2.5f;
-			vPos.x += 1.f;
+			vPos += vDir * 1.f;
 
 			CScene* pScene = ::Get_Scene();
 			CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
@@ -249,10 +251,10 @@ void CSphinx::Attack(const _float & fTimeDelta)
 		{
 			_vec3 vPosOrigin, vPos;
 			m_pDynamicTransCom->Get_Info(INFO_POS, &vPosOrigin);
-
+			
 			vPos = vPosOrigin;
 			vPos.y += 2.5f;
-			vPos.x -= 1.f;
+			vPos -= vDir * 1.f;
 
 			CScene* pScene = ::Get_Scene();
 			CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");

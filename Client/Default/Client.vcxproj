@@ -168,6 +168,7 @@
     <ClInclude Include="..\Header\BackGround.h" />
     <ClInclude Include="..\Header\Box.h" />
     <ClInclude Include="..\Header\Bullet.h" />
+    <ClInclude Include="..\Header\BulletShell.h" />
     <ClInclude Include="..\Header\Bullet_UI.h" />
     <ClInclude Include="..\Header\Change_Stage.h" />
     <ClInclude Include="..\Header\Coin.h" />
@@ -266,6 +267,7 @@
     <ClCompile Include="..\Code\BackGround.cpp" />
     <ClCompile Include="..\Code\Box.cpp" />
     <ClCompile Include="..\Code\Bullet.cpp" />
+    <ClCompile Include="..\Code\BulletShell.cpp" />
     <ClCompile Include="..\Code\Bullet_UI.cpp" />
     <ClCompile Include="..\Code\Change_Stage.cpp" />
     <ClCompile Include="..\Code\Coin.cpp" />

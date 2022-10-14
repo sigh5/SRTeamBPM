@@ -167,8 +167,9 @@ _uint CLoading::Loading_ForStage(void)
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_hitbloodTexture2", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Effect/hitblood2_%d.png", TEX_NORMAL, 8)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_hitbloodTexture3", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Effect/hitblood3_%d.png", TEX_NORMAL, 8)), E_FAIL);
 
-	
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_bullet_shell", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Gun_Output/bullet_shell.png", TEX_NORMAL)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_AttackPlayerAXTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Effect/AX/boom_air%d.png", TEX_NORMAL, 13)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_explosion_sphinx", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Effect/explosion_midair%d.png", TEX_NORMAL, 10)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_HitHoleTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Sphinx/bighole_01.png", TEX_NORMAL)), E_FAIL);
 	//
 
