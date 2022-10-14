@@ -73,7 +73,7 @@ HRESULT CStage::Ready_Scene(void)
 
 	Set_Player_StartCubePos();
 
-	//::PlaySoundW(L"SamTow.wav", SOUND_BGM, 0.05f); // BGM
+	::PlaySoundW(L"SamTow.wav", SOUND_BGM, 0.05f); // BGM
 	
 
 	return S_OK;
