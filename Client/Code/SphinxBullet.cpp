@@ -77,6 +77,7 @@ _int CSphinxBullet::Update_Object(const _float & fTimeDelta)
 		m_pDeadAnimationCom->Move_Animation(fTimeDelta);
 		if (m_pDeadAnimationCom->m_iMotion == m_pDeadAnimationCom->m_iMaxMotion)
 		{
+			m_bHitPlayer = false;
 			CObjectMgr::GetInstance()->Collect_SphinxBulletObj(this);
 			m_fFrame = 0.f;
 			return 5;

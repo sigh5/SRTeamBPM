@@ -207,7 +207,7 @@ void CEarthShaker::Collision_Event()
 		static_cast<CGun_Screen*>(pGameObject)->Set_Shoot(false);
 
 		READY_CREATE_EFFECT_VECTOR(pGameObject, CHitEffect, pLayer, m_pGraphicDev, vPos);
-		static_cast<CHitEffect*>(pGameObject)->Set_Effect_INFO(OWNER_EARTHSHAKER, 0, 8, 0.2f);
+		static_cast<CHitEffect*>(pGameObject)->Set_Effect_INFO(OWNER_EARTHSHAKER, 0, 7, 0.2f);
 	}
 
 }
