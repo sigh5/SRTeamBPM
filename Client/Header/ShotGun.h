@@ -2,7 +2,6 @@
 #include "EquipmentBase.h"
 #include "Engine_Include.h"
 
-
 BEGIN(Engine)
 
 class CTransform;
@@ -41,7 +40,6 @@ private:
 	CCalculator*			m_pCalculatorCom = nullptr;
 	CCollider*				m_pColliderCom = nullptr;
 	
-
 private:
 	HRESULT				Add_Component(void);
 
@@ -57,6 +55,11 @@ public:
 
 	_float				m_fX, m_fY, m_fSizeX, m_fSizeY;
 
+	_uint iIndexRow = 0;
+	_uint iIndexColumn = 0;
+
+	_uint iPreRow = 0;
+	_uint iPreColumn = 0;
 
 public:
 	static CShotGun*	Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint iX, _uint iZ);

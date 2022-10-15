@@ -44,6 +44,8 @@ public:
 
 	_bool				Get_InvenSwitch(void) { return m_bInvenSwitch; }
 
+	void				Set_ItemInfoAdd(_bool _bItemInfoAdd) { m_bItemInfoAdd = _bItemInfoAdd; }
+
 	ItemSlot*			Get_ItemSlot(void) { return &m_SlotType; }
 
 
@@ -80,6 +82,11 @@ private:
 
 	ItemSlot	m_SlotType;
 	stack<CGameObject*>		m_stackWeapon;
+
+	_uint iIndexRow = 0;
+	_uint iIndexColumn = 0;
+
+	_bool		m_bItemInfoAdd = false;
 
 public:
 	vector<CGameObject*>*	Get_WeaponType(void) { return &m_vecWeaponType; }

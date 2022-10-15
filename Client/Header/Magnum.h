@@ -26,7 +26,7 @@ public:
 	virtual void			Render_Obejct(void);
 	virtual void			Collision_Event()override {}
 
-	void					Set_MagnumRender(_bool _bRender) { m_bRenderFalse = _bRender; }
+	//void					Set_MagnumRender(_bool _bRender) { m_bRenderFalse = _bRender; }
 
 	void	Picking(void);
 	

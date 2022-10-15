@@ -6,6 +6,7 @@
 #include "TestPlayer.h"
 #include "ShotGun.h"
 #include "Magnum.h"
+#include "TestWeapon.h"
 
 #include "MyCamera.h"
 #include "Player.h"
@@ -63,23 +64,34 @@ HRESULT CInventory_UI::Ready_Object()
 _int CInventory_UI::Update_Object(const _float & fTimeDelta)
 {	
 	// 무기를 획득시 
-	if (!m_vecWeaponType.empty())
-	{
-		for (_uint i = 0; i < m_iMaxColumn; ++i)
-		{
-			for (_uint j = 0; j < m_iMaxRow; ++j)
-			{
-				m_SlotType.pItem[i][j] = m_stackWeapon.top();
 
-		//cout << "벡터에 들어오는가 : " << m_vecWeaponType.size() << "포인터 배열 : " << m_SlotType.pItem[i][j] << "스택 top :" << m_stackWeapon.size() << endl;
-				if (m_SlotType.pItem[i][j] == nullptr)
-				{
-					//cout << "실패" << endl;
-					return 0;
-				}
-			}
+	if (m_bItemInfoAdd)
+	{
+		if (!m_vecWeaponType.empty())
+		{
+			/*for (_uint i = iIndexColumn; i < m_iMaxColumn; ++i)
+			{
+				for (_uint j = iIndexRow; j < m_iMaxRow; ++j)
+				{*/
+					m_SlotType.pItem[iIndexColumn][iIndexRow] = m_stackWeapon.top();
+
+					if (m_SlotType.pItem[iIndexColumn][iIndexRow] != nullptr)
+					{
+						iIndexRow += 1;
+
+						if (iIndexRow >= 9)
+						{
+							iIndexColumn += 1;
+							iIndexRow = 0;
+						}
+						m_bItemInfoAdd = false;
+						m_vecWeaponType.clear();
+					}
+		//		}
+		//	}
 		}
 	}
+		//cout << "벡터에 들어오는가 : " << m_vecWeaponType.size() << "스택 top :" << m_stackWeapon.size() << endl;
 	
 	
 	// i가 세로(4) , j가 가로(9) , 슬롯의 가로 세로 중점 위치를 알기 위한 이중 for문
@@ -163,13 +175,22 @@ void CInventory_UI::Render_Obejct(void)
 
 			dynamic_cast<CMyCamera*>(Engine::Get_GameObject(L"Layer_Environment", L"CMyCamera"))->Set_inventroyActive(m_bInvenSwitch);
 
+			// 샷건
 			if (dynamic_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"))->Get_RenderFalse() == true)
 			{
 				dynamic_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"))->Set_RenderControl(true);
 			}
-			// Magnum
-			dynamic_cast<CMagnum*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Magnum"))->Set_MagnumRender(true);
-			dynamic_cast<CMagnum*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Magnum"))->Set_RenderControl(true);
+
+			// 테스트용 총
+			if (dynamic_cast<CTestWeapon*>(Engine::Get_GameObject(L"Layer_GameLogic", L"TestWeapon"))->Get_RenderFalse() == true)
+			{
+				dynamic_cast<CTestWeapon*>(Engine::Get_GameObject(L"Layer_GameLogic", L"TestWeapon"))->Set_RenderControl(true);
+			}
+
+
+			// Magnum : 기본 장착 총
+		//	dynamic_cast<CMagnum*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Magnum"))->Set_MagnumRender(true);
+		//	dynamic_cast<CMagnum*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Magnum"))->Set_RenderControl(true);
 
 		}
 		
