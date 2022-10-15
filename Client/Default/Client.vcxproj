@@ -183,6 +183,8 @@
     <ClInclude Include="..\Header\Exit_Button.h" />
     <ClInclude Include="..\Header\FatBat.h" />
     <ClInclude Include="..\Header\FileIOMgr.h" />
+    <ClInclude Include="..\Header\FirePillar.h" />
+    <ClInclude Include="..\Header\FireTrap.h" />
     <ClInclude Include="..\Header\Ghul.h" />
     <ClInclude Include="..\Header\Gun_Screen.h" />
     <ClInclude Include="..\Header\HealthPotion.h" />
@@ -282,6 +284,8 @@
     <ClCompile Include="..\Code\Exit_Button.cpp" />
     <ClCompile Include="..\Code\FatBat.cpp" />
     <ClCompile Include="..\Code\FileIOMgr.cpp" />
+    <ClCompile Include="..\Code\FirePillar.cpp" />
+    <ClCompile Include="..\Code\FireTrap.cpp" />
     <ClCompile Include="..\Code\Ghul.cpp" />
     <ClCompile Include="..\Code\Gun_Screen.cpp" />
     <ClCompile Include="..\Code\HealthPotion.cpp" />

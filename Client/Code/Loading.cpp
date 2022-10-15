@@ -97,6 +97,9 @@ _uint CLoading::Loading_ForStage(void)
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Anubis_Stormball_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Anubis/stormball%d.png", TEX_NORMAL, 8)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_EarthShaker_Spikeone_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/EarthShaker/spikeone%d.png", TEX_NORMAL, 11)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_EarthShaker_Spiketwo_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/EarthShaker/spiketwo%d.png", TEX_NORMAL, 11)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_FireTrap_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Trap/FireTrap%d.png", TEX_NORMAL, 3)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_FirePillar_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Trap/FirePillar%d.png", TEX_NORMAL, 9)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_FireReady_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Trap/FireReady%d.png", TEX_NORMAL, 2)), E_FAIL);
 	// ~Monster
 
 	// _UI

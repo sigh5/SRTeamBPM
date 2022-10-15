@@ -297,6 +297,12 @@
     <ClCompile Include="..\Code\SphinxHole.cpp">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\FireTrap.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\07. FireTrap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FirePillar.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\07. FireTrap</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -611,6 +617,12 @@
     <ClInclude Include="..\Header\SphinxHole.h">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\FireTrap.h">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\07. FireTrap</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\FirePillar.h">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\07. FireTrap</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -884,6 +896,9 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\13. Gun_Screen\ax">
       <UniqueIdentifier>{62352cd4-6a15-42ac-9b3e-51468ea9b123}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\07. FireTrap">
+      <UniqueIdentifier>{308bb341-4ff8-4e44-94aa-76cfc0e552f1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

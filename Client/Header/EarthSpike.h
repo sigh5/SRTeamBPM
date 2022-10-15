@@ -11,7 +11,7 @@ namespace Engine
 class CEarthSpike :
 	public CGameObject
 {
-public:
+private:
 	explicit CEarthSpike(LPDIRECT3DDEVICE9 pGraphicDev);
 	virtual ~CEarthSpike();
 
