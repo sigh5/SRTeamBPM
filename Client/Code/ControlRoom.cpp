@@ -82,10 +82,7 @@ void CControlRoom::LateUpdate_Object()
 			m_bPlayerInTerrain = false;
 			pSkyBox->Set_ControlCubeCheck(true);
 		}
-		cout << m_iRestMonsterNum << endl;
-		cout << Temt << endl;
 		m_iRestMonsterNum = 0;
-		Temt = 0;
 	}
 	
 }
@@ -160,11 +157,10 @@ void CControlRoom::Collision_Event()
 			if (m_pColliderCom->Check_CollisonUseCollider(m_pColliderCom, pCollider))
 			{
 				++m_iRestMonsterNum;
-				++Temt;
+			
 				if (static_cast<CMonsterBase*>(iter)->Get_InfoRef()._iHp <= 0)
 				{
 					--m_iRestMonsterNum;
-					--Temt;
 				}
 			}
 		}

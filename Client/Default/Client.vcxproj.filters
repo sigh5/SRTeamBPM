@@ -10,9 +10,6 @@
     <ClCompile Include="..\Code\Bullet.cpp">
       <Filter>02. GameObject\01. For_Stage\06. Bullet</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\ColliderStage.cpp">
-      <Filter>01. Scene\97. ColliderScene</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\DynamicCamera.cpp">
       <Filter>02. GameObject\02. For_public\00. DynamicCamera</Filter>
     </ClCompile>
@@ -27,9 +24,6 @@
     </ClCompile>
     <ClCompile Include="..\Code\HpBar.cpp">
       <Filter>02. GameObject\01. For_Stage\10. UI\03. HpBar</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\HWPlayer.cpp">
-      <Filter>02. GameObject\01. For_Stage\01. TestPlayer\HwPlayer</Filter>
     </ClCompile>
     <ClCompile Include="Imgui\ImCurveEdit.cpp">
       <Filter>98. ImGui</Filter>
@@ -203,7 +197,7 @@
       <Filter>02. GameObject\01. For_Stage\14. Equipment\00. Weapon\1. Magnum</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Sphinx.cpp">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx</Filter>
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\02. Spider\03. Sphinx</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\AnubisThunder.cpp">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
@@ -218,10 +212,10 @@
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\05. Ghul</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\SphinxBullet.cpp">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx\01. bullet</Filter>
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\02. Spider\03. Sphinx\01. bullet</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\SphinxFlyHead.cpp">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx\02. FlyHead</Filter>
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\02. Spider\03. Sphinx\02. FlyHead</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Inventory_UI.cpp">
       <Filter>02. GameObject\01. For_Stage\10. UI\07.Inventory_UI</Filter>
@@ -290,12 +284,27 @@
       <Filter>02. GameObject\02. For_public\06. ControlRoom</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\AnubisStormBall.cpp" />
-    <ClCompile Include="..\Code\Ax.cpp" />
     <ClCompile Include="..\Code\BulletShell.cpp">
       <Filter>02. GameObject\01. For_Stage\09. Particle</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\SphinxHole.cpp">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx</Filter>
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\02. Spider\03. Sphinx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Ax.cpp">
+      <Filter>02. GameObject\01. For_Stage\13. Gun_Screen\ax</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MouseMgr.cpp">
+      <Filter>97. Mgr\04. MouseMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Special_Effect.cpp">
+      <Filter>02. GameObject\01. For_Stage\07. Effect\Special_Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Npc.cpp">
+      <Filter>02. GameObject\01. For_Stage\16. NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ShopUI.cpp" />
+    <ClCompile Include="..\Code\UI_Effect.cpp">
+      <Filter>02. GameObject\01. For_Stage\07. Effect\UI_Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -311,9 +320,6 @@
     <ClInclude Include="..\Header\Bullet.h">
       <Filter>02. GameObject\01. For_Stage\06. Bullet</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\ColliderStage.h">
-      <Filter>01. Scene\97. ColliderScene</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\DynamicCamera.h">
       <Filter>02. GameObject\02. For_public\00. DynamicCamera</Filter>
     </ClInclude>
@@ -328,9 +334,6 @@
     </ClInclude>
     <ClInclude Include="..\Header\HpBar.h">
       <Filter>02. GameObject\01. For_Stage\10. UI\03. HpBar</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\HWPlayer.h">
-      <Filter>02. GameObject\01. For_Stage\01. TestPlayer\HwPlayer</Filter>
     </ClInclude>
     <ClInclude Include="Imgui\imconfig.h">
       <Filter>98. ImGui</Filter>
@@ -519,7 +522,7 @@
       <Filter>02. GameObject\01. For_Stage\14. Equipment\00. Weapon\1. Magnum</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Sphinx.h">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx</Filter>
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\02. Spider\03. Sphinx</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\AnubisThunder.h">
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\00. Anubis</Filter>
@@ -534,10 +537,10 @@
       <Filter>02. GameObject\01. For_Stage\02. TestMonster\05. Ghul</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\SphinxBullet.h">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx\01. bullet</Filter>
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\02. Spider\03. Sphinx\01. bullet</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\SphinxFlyHead.h">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx\02. FlyHead</Filter>
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\02. Spider\03. Sphinx\02. FlyHead</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Inventory_UI.h">
       <Filter>02. GameObject\01. For_Stage\10. UI\07.Inventory_UI</Filter>
@@ -604,12 +607,27 @@
       <Filter>02. GameObject\02. For_public\06. ControlRoom</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\AnubisStormBall.h" />
-    <ClInclude Include="..\Header\Ax.h" />
     <ClInclude Include="..\Header\BulletShell.h">
       <Filter>02. GameObject\01. For_Stage\09. Particle</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\SphinxHole.h">
-      <Filter>02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx</Filter>
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\02. Spider\03. Sphinx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Ax.h">
+      <Filter>02. GameObject\01. For_Stage\13. Gun_Screen\ax</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\MouseMgr.h">
+      <Filter>97. Mgr\04. MouseMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Special_Effect.h">
+      <Filter>02. GameObject\01. For_Stage\07. Effect\Special_Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Npc.h">
+      <Filter>02. GameObject\01. For_Stage\16. NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\ShopUI.h" />
+    <ClInclude Include="..\Header\UI_Effect.h">
+      <Filter>02. GameObject\01. For_Stage\07. Effect\UI_Effect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -653,9 +671,6 @@
     </Filter>
     <Filter Include="01. Scene\01. Stage">
       <UniqueIdentifier>{e2197069-b6c8-4a77-8dc6-826e5c24972d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Scene\97. ColliderScene">
-      <UniqueIdentifier>{ee664cc7-3ffb-4966-83d5-318b8c054207}</UniqueIdentifier>
     </Filter>
     <Filter Include="01. Scene\98. TestScene">
       <UniqueIdentifier>{15fed849-4898-47e2-a918-e8794394186e}</UniqueIdentifier>
@@ -719,9 +734,6 @@
     </Filter>
     <Filter Include="98. ImGui">
       <UniqueIdentifier>{674dbdc9-e455-425c-a891-26a28a997c09}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\01. For_Stage\01. TestPlayer\HwPlayer">
-      <UniqueIdentifier>{5d4ba872-14c8-443c-ad5f-bd4ef93a03e0}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\10. UI\01. BulletUI">
       <UniqueIdentifier>{c8c62d88-ec9f-498b-b402-1a347345adec}</UniqueIdentifier>
@@ -810,9 +822,6 @@
     <Filter Include="02. GameObject\01. For_Stage\11. Item\03. Key">
       <UniqueIdentifier>{7d6dcb47-a4e8-4524-bd9a-8e1214f132ce}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx">
-      <UniqueIdentifier>{4036cf1d-272d-44e4-ae60-f0a2105afda5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="97. Mgr\02. ImGuiMgr\00. MonsterToolObj">
       <UniqueIdentifier>{94074cfb-2041-4ff1-982e-ef03ca650ed6}</UniqueIdentifier>
     </Filter>
@@ -821,12 +830,6 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\05. Ghul">
       <UniqueIdentifier>{6f0ad008-e216-4bfa-8af1-675a50495ed8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx\01. bullet">
-      <UniqueIdentifier>{00dfc730-1b01-457a-8a4c-ce40a51fe809}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx\02. FlyHead">
-      <UniqueIdentifier>{f6afe790-46c1-4b4b-ae92-51e1de7f2e4b}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\06. EarthShaker">
       <UniqueIdentifier>{b50d45e7-f572-4432-bc4c-06ca92748024}</UniqueIdentifier>
@@ -870,9 +873,6 @@
     <Filter Include="02. GameObject\01. For_Stage\07. Effect\Skill_Effect">
       <UniqueIdentifier>{e97a4632-c69b-4525-be17-354179118667}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\03. Sphinx\03. HitEffect">
-      <UniqueIdentifier>{ffb685ba-12a5-4b36-9cdf-b341a75516af}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\01. For_Stage\10. UI\11. Player_Dead_UI">
       <UniqueIdentifier>{5e64319a-2d27-4c93-a1a3-d048aa6efb91}</UniqueIdentifier>
     </Filter>
@@ -884,6 +884,30 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\13. Gun_Screen\ax">
       <UniqueIdentifier>{62352cd4-6a15-42ac-9b3e-51468ea9b123}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97. Mgr\04. MouseMgr">
+      <UniqueIdentifier>{f550c436-df26-4176-8520-97598fca7da0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\02. Spider\03. Sphinx">
+      <UniqueIdentifier>{4036cf1d-272d-44e4-ae60-f0a2105afda5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\02. Spider\03. Sphinx\01. bullet">
+      <UniqueIdentifier>{00dfc730-1b01-457a-8a4c-ce40a51fe809}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\02. Spider\03. Sphinx\02. FlyHead">
+      <UniqueIdentifier>{f6afe790-46c1-4b4b-ae92-51e1de7f2e4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\02. Spider\03. Sphinx\03. HitEffect">
+      <UniqueIdentifier>{ffb685ba-12a5-4b36-9cdf-b341a75516af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\16. NPC">
+      <UniqueIdentifier>{fa29e488-f8f2-422d-a2b6-e8beec8ee713}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\95. ShopUI">
+      <UniqueIdentifier>{94af1454-ec4c-460d-a294-689d9e4dfec9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\07. Effect\UI_Effect">
+      <UniqueIdentifier>{42e870e3-f59d-409e-bab6-dbfb859d7528}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

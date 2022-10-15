@@ -7,6 +7,8 @@
 #include "HealthPotion.h"
 #include "Player.h"
 #include "MyCamera.h"
+#include "UI_Frame.h"
+#include "ShotGun.h"
 
 USING(Engine)
 
@@ -113,7 +115,6 @@ void CBox::Collision_Event()
 		if (Engine::Key_Down(DIK_F))
 		{
 			CAnimation* pBoxAnimation = dynamic_cast<CAnimation*>(pGameObject->Get_Component(L"Proto_AnimationCom", ID_STATIC));
-
 			Open_Event(pGameObject);
 		}
 	}
@@ -148,43 +149,47 @@ HRESULT CBox::Open_Event(CGameObject * pGameObject)
 
 	pTransform->Get_Info(INFO_POS, &vObjPos);
 	m_pTransCom->Get_Info(INFO_POS, &vPlayerPos);
-	// ★
+
 	if (m_bBoxOpen == true && m_pColliderCom->Check_Sphere_InterSect(vObjPos, vPlayerPos, 1.f, 1.f) == true )
 	{
 		m_pAnimationCom->Open_Box_Animation(m_bBoxOpen);
 		m_bBoxOpen = false;
 		_vec3 vPos;
-		
 		m_pTransCom->Get_Info(INFO_POS, &vPos);
+		CUI_Frame* pUIFrame = nullptr;
+
+		CLayer*	 pUILayer = pScene->GetLayer(L"Layer_UI");
+		pUIFrame = dynamic_cast<CUI_Frame*>(pUILayer->Get_GameObject(L"Frame"));
+
+		if (pUIFrame == nullptr)
+			return E_FAIL;
+
+		_tchar* ItemName = new _tchar[100];
+		wstring szName = L"Item%d";
+		wsprintfW(ItemName, szName.c_str(), pUIFrame->Get_ItemIndex());
+		pMyLayer->AddNameList(ItemName);
+
 
 		CGameObject* pGameObj = nullptr;
-		/*
-		pGameObj = READY_LAYER_POS(pGameObj, CHealthPotion, pMyLayer, m_pGraphicDev, L"HealthPotion", (_uint)vPos.x + 2, (_uint)vPos.z + 2);
-
-		pGameObj = READY_LAYER_POS(pGameObj, CCoin, pMyLayer, m_pGraphicDev, L"Coin", (_uint)vPos.x+2 , (_uint)vPos.z + 4);
-*/
-		if (m_bBoxOpen && rand() % 3 == 0)
-		{
-			// HealthPotion
-			/*pGameObj = CHealthPotion::Create(m_pGraphicDev, (_uint)vPos.x + 1, (_uint)vPos.z + 3);
-			NULL_CHECK_RETURN(pGameObj, E_FAIL);
-			FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(L"HealthPotion", pGameObj), E_FAIL);*/
-		pGameObj = READY_LAYER_POS(pGameObj, CHealthPotion, pMyLayer, m_pGraphicDev, L"HealthPotion", 100, 100);
-
-			
+	
+	
 		
-		}
-		else if (m_bBoxOpen && rand() % 3 == 1)
+		// 박스가 돈 힐포션 무기 
+		// 몬스터 열쇠 , 코인 
+		if (rand() % 3 == 0)
 		{
-			// Coin
-			pGameObj = CCoin::Create(m_pGraphicDev, (_uint)vPos.x + 1, (_uint)vPos.z + 3);
-			NULL_CHECK_RETURN(pGameObj, E_FAIL);
-			FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(L"Coin", pGameObj), E_FAIL);
+			pGameObj = READY_LAYER_POS(pGameObj, CHealthPotion, pMyLayer, m_pGraphicDev, ItemName, (_uint)vPos.x + 2, (_uint)vPos.z + 2);
+		}
+		else if (rand() % 3 == 1)
+		{
+			pGameObj = READY_LAYER_POS(pGameObj, CCoin, pMyLayer, m_pGraphicDev, ItemName, (_uint)vPos.x + 2, (_uint)vPos.z + 4);
 		}
 		
-		else if (m_bBoxOpen && rand() % 3 == 2)
+		else if (rand() % 3 == 2)
 		{
-			return S_OK;
+			//  무기가 들어가면되고
+			// 종욱이형 머지하면 하면됌
+			pGameObj = READY_LAYER_POS(pGameObj, CShotGun, pMyLayer, m_pGraphicDev, ItemName, (_uint)vPos.x + 2, (_uint)vPos.z + 4);
 		}
 
 	

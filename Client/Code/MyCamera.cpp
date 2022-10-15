@@ -171,14 +171,12 @@ void CMyCamera::Mouse_Fix(void)
 	GetCursorPos(&pt);
 	ScreenToClient(g_hWnd, &pt);
 
-	//  마우스 고정
-	/*if (pt.x > (WINCX >> 1) + 200 || pt.x < (WINCX >> 1) - 200)*/
-	{
-		POINT	pt2{ WINCX >> 1 , WINCY >> 1 };
+	
+	POINT	pt2{ (WINCX >> 1) - 16 , (WINCY >> 1) - 14 };
 
-		ClientToScreen(g_hWnd, &pt2);
-		SetCursorPos(pt2.x, pt2.y);
-	}
+	ClientToScreen(g_hWnd, &pt2);
+	SetCursorPos(pt2.x, pt2.y);
+
 
 	
 

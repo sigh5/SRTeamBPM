@@ -203,7 +203,7 @@ CGameObject* CImGuiMgr::SelectObject(CLayer* pLayer,wstring* currentObjectName)
 	{
 		if (dynamic_cast<T*>(iter->second)->Set_SelectGizmo())
 		{
-			//if (dynamic_cast<CWallCube*>(iter->second)->Get_Option() == 2 || dynamic_cast<CWallCube*>(iter->second)->Get_Option() == 3) // Only Collsion
+			//if (dynamic_cast<CWallCube*>(iter->second)->Get_Option() == 4 ) // Only Collsion
 			{
 				m_pSelectedTransform = nullptr;
 				m_pSelectedObject = nullptr;

@@ -17,6 +17,7 @@ public:
 	virtual bool		 Dead_Judge(const _float& fTimeDelta);
 	void			Ready_Attack(const _float& fTimeDelta);
 	virtual void NoHit_Loop(const _float& fTimeDelta);
+	virtual void		Excution_Event();
 private:
 	void		AttackJudge(const _float& fTimeDelta);
 	void		Attack(const _float& fTimeDelta);

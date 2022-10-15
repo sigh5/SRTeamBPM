@@ -8,6 +8,7 @@
 
 #include "Gun_Screen.h"
 #include "HitEffect.h"
+#include "Special_Effect.h"
 
 CSpider::CSpider(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -34,7 +35,7 @@ HRESULT CSpider::Ready_Object(int Posx, int Posy)
 
 	m_iMonsterIndex = MONSTER_SPIDER;
 	m_fAttackDelay = 0.3f;
-	m_pInfoCom->Ready_CharacterInfo(1, 10, 7.f);
+	m_pInfoCom->Ready_CharacterInfo(2, 10, 7.f);
 	m_pAnimationCom->Ready_Animation(4, 1, 0.07f);
 	m_pDeadAnimationCom->Ready_Animation(13, 0, 0.2f);
 	m_pAttackAnimationCom->Ready_Animation(13, 0, 0.2f);
@@ -99,8 +100,7 @@ _int CSpider::Update_Object(const _float & fTimeDelta)
 		Hit_Loop(fTimeDelta);
 	}
 
-	// 처형이벤트
-	Excution_Event();
+
 	m_pDynamicTransCom->Update_Component(fTimeDelta);
 	Engine::CMonsterBase::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
@@ -213,14 +213,29 @@ void CSpider::Collision_Event()
 		cout << "Spider "<<m_pInfoCom->Get_InfoRef()._iHp << endl;
 		static_cast<CGun_Screen*>(pGameObject)->Set_Shoot(false);
 	
-		READY_CREATE_EFFECT_VECTOR(pGameObject, CHitEffect, pLayer, m_pGraphicDev, vPos);
-		static_cast<CHitEffect*>(pGameObject)->Set_Effect_INFO(OWNER_SPIDER, 0, 8, 0.2f);
+		READY_CREATE_EFFECT_VECTOR(pGameObject, CSpecial_Effect, pLayer, m_pGraphicDev, vPos);
+		static_cast<CSpecial_Effect*>(pGameObject)->Set_Effect_INFO(OWNER_PALYER, 0, 17, 0.2f);
+
+		::PlaySoundW(L"explosion_1.wav", SOUND_EFFECT, 0.05f); // BGM
 	}
 }
 
 void CSpider::Excution_Event()
 {
-	// 나중에 로직추가
+	if (!m_bDead &&  1 >= m_pInfoCom->Get_Hp())
+	{
+		m_pInfoCom->Receive_Damage(1);
+		_vec3	vPos;
+		CGameObject *pGameObject = nullptr;
+		CScene* pScene = Get_Scene();
+		CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+		READY_CREATE_EFFECT_VECTOR(pGameObject, CSpecial_Effect, pLayer, m_pGraphicDev, vPos);
+		static_cast<CSpecial_Effect*>(pGameObject)->Set_Effect_INFO(OWNER_PALYER, 0, 17, 0.2f);
+
+		::PlaySoundW(L"explosion_1.wav", SOUND_EFFECT, 0.05f); // BGM
+
+	}
 }
 
 void		CSpider::Attack(const _float& fTimeDelta)

@@ -10,8 +10,8 @@
 
 
 #include "HitEffect.h"
-
-
+#include "Special_Effect.h"
+#include "SoundMgr.h"
 
 CGhul::CGhul(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -43,7 +43,7 @@ HRESULT CGhul::Ready_Object(float Posx, float Posy)
 	m_pDigoutAnimationCom->Ready_Animation(17, 0, 0.3f);
 	m_pAttackAnimationCom->Ready_Animation(13, 0, 0.2f);
 	m_pDeadAnimationCom->Ready_Animation(11, 0, 0.2f);
-	m_pInfoCom->Ready_CharacterInfo(1, 10, 1.f);
+	m_pInfoCom->Ready_CharacterInfo(2, 10, 1.f);
 
 	m_iMonsterIndex = MONSTER_GHUL;
 	m_fHitDelay = 0.f;
@@ -99,7 +99,6 @@ _int CGhul::Update_Object(const _float & fTimeDelta)
 		Hit_Loop(fTimeDelta);
 	}
 
-	Excution_Event();
 
 	// Cotrol Room
 	_matrix matWorld;
@@ -224,6 +223,23 @@ void CGhul::Collision_Event()
 		READY_CREATE_EFFECT_VECTOR(pGameObject, CHitEffect, pLayer, m_pGraphicDev, vPos);
 		static_cast<CHitEffect*>(pGameObject)->Set_Effect_INFO(OWNER_GHUL, 0, 8, 0.2f);
 
+	}
+}
+
+void CGhul::Excution_Event()
+{
+	if (!m_bDead && 1 >= m_pInfoCom->Get_Hp())
+	{
+		m_pInfoCom->Receive_Damage(1);
+		_vec3	vPos;
+		CGameObject *pGameObject = nullptr;
+		CScene* pScene = Get_Scene();
+		CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+		READY_CREATE_EFFECT_VECTOR(pGameObject, CSpecial_Effect, pLayer, m_pGraphicDev, vPos);
+		static_cast<CSpecial_Effect*>(pGameObject)->Set_Effect_INFO(OWNER_PALYER, 0, 17, 0.2f);
+		
+		::PlaySoundW(L"explosion_1.wav", SOUND_EFFECT, 0.05f); // BGM
 	}
 }
 

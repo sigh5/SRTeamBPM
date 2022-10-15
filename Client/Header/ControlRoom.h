@@ -46,7 +46,6 @@ private:
 	_bool				m_bPlayerInTerrain = false;
 	_int				m_iRestMonsterNum = 0;
 
-	_int				Temt =0 ;
 	_bool				m_bCheckCollison = false;	// 몬스터 없을때 활성화되게 테스트코드
 											// 몬스터 배치 빼면 이제 초기화해야됌
 

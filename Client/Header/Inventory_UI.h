@@ -27,10 +27,8 @@ private:
 public:
 	HRESULT				Ready_Object();
 	virtual _int		Update_Object(const _float& fTimeDelta) override;
-
 	virtual	void		LateUpdate_Object(void);
 	virtual void		Render_Obejct(void) override;
-
 	void				Find_Equip_Item(void);
 
 	_bool				Get_InvenSwitch(void) { return m_bInvenSwitch; }

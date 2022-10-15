@@ -3,11 +3,10 @@
 
 #include "AbstractFactory.h"
 #include "Export_Function.h"
-#include "Box.h"
 #include "Gun_Screen.h"
 
 #include "ShotGun.h"
-#include "Coin.h"
+
 #include "Key.h"
 #include "MyCamera.h"
 #include "TeleCube.h"
@@ -15,7 +14,7 @@
 #include "Player_Dead_UI.h"
 #include  "Ax.h"
 #include "AttackEffect.h"
-//주석지우셈
+#include "UI_Effect.h"
 
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -78,23 +77,7 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 
 	pEquipItem = dynamic_cast<CGun_Screen*>(Get_GameObject(L"Layer_UI", L"Gun"));
 	NULL_CHECK_RETURN(pEquipItem, -1);
-	
 	m_iOriginHP = m_pInfoCom->Get_Hp();
-
-	// Test
-	if (Get_DIKeyState(DIK_O) & 0X80)
-		Random_ResurrectionRoom();
-	if (Get_DIKeyState(DIK_K) & 0X80)
-	{
-		CScene* pScene = Get_Scene();
-		CLayer* pLayer = pScene-> GetLayer(L"Layer_CubeCollsion");
-		for (int i = 0; i < TELEPORT_CUBE_LIST_END; ++i)
-		{
-			for (auto iter : *(pLayer->Get_TeleCubeList(i)))
-				dynamic_cast<CTeleCube*>(iter)->Set_Active(false);
-		}
-	}
-	// ~Test
 
 	if (m_pInfoCom->Get_Hp() <= 0)
 	{
@@ -121,6 +104,31 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 	{
 
 	}
+
+
+	if (m_bDash) // 대쉬 시간 제한
+	{
+		m_fDashTimer += 1.f*fTimeDelta;
+		m_pDynamicTransCom->Dashing(fTimeDelta, m_pDynamicTransCom, m_vUp, m_vDirection, m_tpType);
+	}
+
+	if (m_fDashTimer >= 0.2f)
+	{
+		m_bDash = false;
+		m_fDashTimer = 0.f;
+		CScene* pScene = ::Get_Scene();
+		NULL_CHECK_RETURN(pScene, );
+		CLayer* pLayer = pScene->GetLayer(L"Layer_UI");
+		NULL_CHECK_RETURN(pLayer, );
+		CUI_Effect* pGameObject = nullptr;
+
+		pGameObject = dynamic_cast<CUI_Effect*>(pLayer->Get_GameObject(L"Dash_Effect"));
+		pGameObject->Set_Active(false);
+	}
+
+
+
+
 
 	m_pDynamicTransCom->Set_Y(2.f);
 	m_pColliderCom->Set_HitBoxMatrix(&(m_pDynamicTransCom->m_matWorld));
@@ -188,6 +196,11 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 	m_pDynamicTransCom->Get_Info(INFO_UP, &m_vUp);
 	m_pDynamicTransCom->Get_Info(INFO_POS, &m_vPos);
 
+	if (Get_DIKeyState(DIK_L) & 0X80)
+	{
+		cout << m_pInfoCom->Get_Hp() << endl;
+	}
+
 	if (Get_DIKeyState(DIK_W) & 0X80)
 	{
 		m_tpType = TYPING_W;
@@ -234,34 +247,43 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 
 		CScene* pScene = Get_Scene();
 		CLayer* PLayer = pScene->GetLayer(L"Layer_GameLogic");
-		//PLayer->m_vecColliderMonster.clear();
-		//PLayer->Delete_GhulList();
 		
-		
+		for (auto iter : PLayer->Get_GameObjectMap())
+		{
+			CMonsterBase* pMonster = dynamic_cast<CMonsterBase*>(iter.second);
+
+			if(pMonster!= nullptr)
+				static_cast<CMonsterBase*>(iter.second)->Excution_Event();
+		}
+
+
+/*
 		NULL_CHECK_RETURN(pScene, );
 		CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
 		NULL_CHECK_RETURN(pLayer, );
 		CGameObject *pGameObject = nullptr;
 		_vec3	vPos;
 		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
-		
-	
-
 		READY_CREATE_EFFECT_VECTOR(pGameObject, CAttackEffect, pLayer, m_pGraphicDev, vPos);
 		static_cast<CAttackEffect*>(pGameObject)->Set_Effect_INFO(OWNER_PALYER, 0, 12, 0.2f);
-
+*/
 	}
 
 	if (Get_DIKeyState(DIK_SPACE) & 0X80)
 		m_bJump = TRUE;
-	if (Get_DIKeyState(DIK_LSHIFT) & 0X80)
+	if (::Key_Down(DIK_LSHIFT))
 	{
-		m_bDash = TRUE;
-		if (m_bDash)
-		{
-			m_pDynamicTransCom->Dashing(fTimeDelta, m_pDynamicTransCom, m_vUp, m_vDirection, m_tpType);
-			m_bDash = FALSE;
-		}
+		m_bDash = true;
+		
+		CScene* pScene = ::Get_Scene();
+		NULL_CHECK_RETURN(pScene, );
+		CLayer* pLayer = pScene->GetLayer(L"Layer_UI");
+		NULL_CHECK_RETURN(pLayer, );
+		CUI_Effect* pGameObject = nullptr;
+
+		pGameObject =dynamic_cast<CUI_Effect*>(pLayer->Get_GameObject(L"Dash_Effect"));
+		pGameObject->Set_Active(true);
+
 	}
 
 	if (::Mouse_Down(DIM_LB)) // Picking
@@ -331,8 +353,8 @@ void CPlayer::ComboCheck()
 void CPlayer::EquipItem_Add_Stat(void)  // 현재 각 아이템들 충돌처리 부분이 애매해서 F 누르면 스탯이 다 증가할 거임. 충돌처리를 고치던지 날 잡고 한 번 뜯어봐야 함.
 {
 	CShotGun* pShotGun = static_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"));
-	CCoin* pCoin = static_cast<CCoin*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Coin"));
-	CKey* pKey = static_cast<CKey*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Key"));
+	/*CCoin* pCoin = static_cast<CCoin*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Coin"));
+	CKey* pKey = static_cast<CKey*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Key"));*/
 
 	// ShotGun을 먹은 경우
 	if (pShotGun!=nullptr  &&pShotGun->Get_RenderFalse() == true && m_bCurStat && !m_bGainItem[0])
@@ -344,20 +366,20 @@ void CPlayer::EquipItem_Add_Stat(void)  // 현재 각 아이템들 충돌처리 부분이 애매
 		m_bGainItem[0] = true;
 	}
 
-	if (pCoin != nullptr && pCoin->Get_bAddCoin() == true && m_bCurStat && !m_bGainItem[1])
-	{
-		m_pInfoCom->Add_Coin();
-		m_bGainItem[1] = true;
-		m_bCurStat = false;
-	}
+	//if (pCoin != nullptr && pCoin->Get_bAddCoin() == true && m_bCurStat && !m_bGainItem[1])
+	//{
+	//	m_pInfoCom->Add_Coin();
+	//	m_bGainItem[1] = true;
+	//	m_bCurStat = false;
+	//}
 
-	if (pKey != nullptr  &&  pKey->Get_bAddKey() == true && m_bCurStat && !m_bGainItem[2])
-	{
-		m_pInfoCom->Add_Key();
-		m_bGainItem[2] = true;
-		m_bCurStat = false;
+	//if (pKey != nullptr  &&  pKey->Get_bAddKey() == true && m_bCurStat && !m_bGainItem[2])
+	//{
+	//	m_pInfoCom->Add_Key();
+	//	m_bGainItem[2] = true;
+	//	m_bCurStat = false;
 
-	}
+	//}
 }
 
 void CPlayer::Loss_Damage()

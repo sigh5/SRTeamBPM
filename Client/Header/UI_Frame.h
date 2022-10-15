@@ -26,6 +26,12 @@ public:
 	virtual	void		LateUpdate_Object(void) override;
 	virtual void		Render_Obejct(void) override;
 
+public:
+	_int				Get_ItemIndex() { return m_iItemIndex; }
+	void				Set_ItemIndex(_int iNum) { m_iItemIndex += iNum; }
+
+
+
 private:
 	HRESULT				Add_Component(void);
 
@@ -37,6 +43,10 @@ public:
 
 private:
 	_vec3				m_vecScale;
+
+	// 아이템 키값을 위한 변수
+	_int				m_iItemIndex = 0;
+
 
 public:
 	static CUI_Frame*			Create(LPDIRECT3DDEVICE9 pGraphicDev);

@@ -121,10 +121,9 @@ void CCoin::Collision_Event()
 
 	if (!m_bAddCoin && m_pColliderCom->Check_Collision(this, pGameObject , 1, 1))
 	{
-		m_bAddCoin = true;
-		dynamic_cast<CPlayer*>(pGameObject)->Set_bCurStat(true);
-		//pLayer->Delete_GameObject(L"Coin");
-
+		m_bAddCoin = true;	
+		CCharacterInfo *pCharInfo = dynamic_cast<CCharacterInfo*>(pGameObject->Get_Component(L"Proto_CharacterInfoCom", ID_STATIC));
+		pCharInfo->Add_Coin();
 		m_bDead = true;
 	}
 	

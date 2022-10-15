@@ -12,7 +12,7 @@
 #include "HitEffect.h"
 
 #include "Gun_Screen.h"
-
+#include "AttackEffect.h"
 
 CAnubis::CAnubis(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -175,9 +175,6 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 void CAnubis::LateUpdate_Object(void)
 {
 	// 빌보드 에러 해결
-
-
-
 	if (SCENE_TOOLTEST != Get_Scene()->Get_SceneType())
 	{
 		CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
@@ -276,11 +273,18 @@ void CAnubis::Collision_Event()
 
 void CAnubis::Excution_Event()
 {
-	//if (!m_bExcutionCheck && m_pInfoCom->Get_Hp() <= 1 )
-	//{
-	//	static_cast<CMyCamera*>(::Get_GameObject(L"Layer_Environment", L"CMyCamera"))->Set_Excution(true);
-	//	m_bExcutionCheck = true;
-	//}
+	if (!m_bDead &&1 >= m_pInfoCom->Get_Hp())
+	{
+		m_pInfoCom->Receive_Damage(1);
+		_vec3	vPos;
+		CGameObject *pGameObject = nullptr;
+		CScene* pScene = Get_Scene();
+		CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+		READY_CREATE_EFFECT_VECTOR(pGameObject, CAttackEffect, pLayer, m_pGraphicDev, vPos);
+		static_cast<CAttackEffect*>(pGameObject)->Set_Effect_INFO(OWNER_PALYER, 0, 12, 0.2f);
+
+	}
 }
 
 void CAnubis::NoHit_Loop(const _float& fTimeDelta)

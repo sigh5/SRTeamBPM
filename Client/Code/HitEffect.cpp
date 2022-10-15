@@ -109,6 +109,8 @@ HRESULT CHitEffect::Set_Effect_INFO(_int iEffcet_Owner, _int iStartAnimNum, _int
 	case OWNER_FLYHEAD:
 		ADD_CLONE_PROTO(CTexture, m_pTextureCom, m_mapComponent, ID_STATIC, L"Proto_hitbloodTexture3");
 		break;
+
+	
 	default:
 		ADD_CLONE_PROTO(CTexture, m_pTextureCom, m_mapComponent, ID_STATIC, L"Proto_hitbloodTexture");
 		break;

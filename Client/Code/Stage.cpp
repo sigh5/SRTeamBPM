@@ -25,7 +25,7 @@
 #include "Inventory_UI.h"
 #include "Gun_Screen.h"
 #include "Player_Dead_UI.h"
-
+#include "UI_Effect.h"
 
 #include "UI_Frame.h"
 
@@ -42,6 +42,10 @@
 
 #include "ControlRoom.h"
 #include "Ax.h"
+#include "MouseMgr.h"
+#include "Npc.h"
+#include "MouseMgr.h"
+
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
 {
@@ -74,14 +78,15 @@ HRESULT CStage::Ready_Scene(void)
 	Set_Player_StartCubePos();
 
 	::PlaySoundW(L"SamTow.wav", SOUND_BGM, 0.05f); // BGM
-	
 
+	CMouseMgr::GetInstance()->Mouse_Change(m_pGraphicDev, CUSOR_SHOT);
+	
 	return S_OK;
 }
 
 _int CStage::Update_Scene(const _float & fTimeDelta)
 {
-	
+
 	m_fFrame += 1.f * fTimeDelta;
 
 	if (m_fFrame >= 1.f)
@@ -234,9 +239,9 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Box3", pGameObject), E_FAIL);
 	
-	pGameObject = CBox::Create(m_pGraphicDev, 327, 335);
+	pGameObject = CNpc::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Box4", pGameObject), E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"NPC", pGameObject), E_FAIL);
 	
 	
 
@@ -305,6 +310,7 @@ HRESULT CStage::Ready_Layer_UI(const _tchar * pLayerTag)
 
 	READY_LAYER(pGameObject, CGun_Screen, pLayer, m_pGraphicDev, L"Gun");
 	READY_LAYER(pGameObject, CAx, pLayer, m_pGraphicDev, L"AX");
+	READY_LAYER(pGameObject, CUI_Effect, pLayer, m_pGraphicDev, L"Dash_Effect");
 
 
 	READY_LAYER(pGameObject, CUI_Frame, pLayer, m_pGraphicDev, L"Frame");

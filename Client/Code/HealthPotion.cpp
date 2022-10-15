@@ -134,10 +134,7 @@ void CHealthPotion::Collision_Event()
 	{
 		CCharacterInfo* pInfo   = dynamic_cast<CCharacterInfo*>(pGameObject->Get_Component(L"Proto_CharacterInfoCom", ID_STATIC));
 		pInfo->Add_Hp(25);
-		//m_iHpBarChange += 1;
 		m_bDead = true;
-
-		//pLayer->Delete_GameObject(L"HealthPotion"); // 이벤트 처리
 	}
 
 

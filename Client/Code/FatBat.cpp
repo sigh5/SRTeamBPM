@@ -11,6 +11,7 @@
 #include "HitEffect.h"
 
 #include "Gun_Screen.h"
+#include "Special_Effect.h"
 
 CFatBat::CFatBat(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -31,7 +32,7 @@ HRESULT CFatBat::Ready_Object(int Posx, int Posy)
 	m_pDeadTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Fatbat_Dead_Texture", m_mapComponent, ID_STATIC);
 
 	m_iMonsterIndex = MONSTER_FATBAT;
-	m_pInfoCom->Ready_CharacterInfo(1, 10, 5.f);
+	m_pInfoCom->Ready_CharacterInfo(2, 10, 5.f);
 	m_pAnimationCom->Ready_Animation(6, 0, 0.2f);
 	m_pDeadAnimationCom->Ready_Animation(14, 0, 0.2f);
 	for (int i = 0; i < 4; ++i)
@@ -265,8 +266,10 @@ void CFatBat::Collision_Event()
 		static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"))->Set_ComboCount(1);
 		m_pInfoCom->Receive_Damage(1);
 		cout << "FatBat" << m_pInfoCom->Get_InfoRef()._iHp << endl;
-		READY_CREATE_EFFECT_VECTOR(pGameObject, CHitEffect, pLayer, m_pGraphicDev, vPos);
-		static_cast<CHitEffect*>(pGameObject)->Set_Effect_INFO(OWNER_FATBAT, 0, 8, 0.2f);
+		READY_CREATE_EFFECT_VECTOR(pGameObject, CSpecial_Effect, pLayer, m_pGraphicDev, vPos);
+		static_cast<CSpecial_Effect*>(pGameObject)->Set_Effect_INFO(OWNER_PALYER, 0, 17, 0.2f);
+
+		::PlaySoundW(L"explosion_1.wav", SOUND_EFFECT, 0.05f); // BGM
 	}
 
 
@@ -275,7 +278,20 @@ void CFatBat::Collision_Event()
 
 void CFatBat::Excution_Event()
 {
-	// 추후 로직추가
+	if (!m_bDead && 1 >= m_pInfoCom->Get_Hp())
+	{
+		m_pInfoCom->Receive_Damage(1);
+		_vec3	vPos;
+		CGameObject *pGameObject = nullptr;
+		CScene* pScene = Get_Scene();
+		CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+		READY_CREATE_EFFECT_VECTOR(pGameObject, CSpecial_Effect, pLayer, m_pGraphicDev, vPos);
+		static_cast<CSpecial_Effect*>(pGameObject)->Set_Effect_INFO(OWNER_PALYER, 0, 17, 0.2f);
+
+		::PlaySoundW(L"explosion_1.wav", SOUND_EFFECT, 0.05f); // BGM
+
+	}
 }
 
 void	CFatBat::FatBat_Fly(const _float& fTimeDelta)
