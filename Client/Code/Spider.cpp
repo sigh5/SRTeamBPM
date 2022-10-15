@@ -150,6 +150,14 @@ void CSpider::LateUpdate_Object(void)
 	CScene* pScene = ::Get_Scene();
 	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
 	pMyLayer->Add_vecColliderMonster(static_cast<CMonsterBase*>(this));
+	
+	// Control Room
+	_vec3 vScale;
+	vScale = m_pDynamicTransCom->Get_Scale();
+	m_pDynamicTransCom->Get_WorldMatrix(&matWorld);
+	m_pColliderCom->Set_HitBoxMatrix_With_Scale(&matWorld, vScale);
+	
+	
 	Engine::CMonsterBase::LateUpdate_Object();
 }
 

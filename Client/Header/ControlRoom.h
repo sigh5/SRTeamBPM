@@ -29,6 +29,8 @@ public:
 	void				Set_Active(_bool bActive) { m_bSetActive = bActive; }
 	const _bool&		Get_Active() { return m_bSetActive; }
 
+	void				Set_CheckCollision(_bool bEvent) { m_bCheckCollison = bEvent; }
+
 private:
 	HRESULT				Add_Component(void);
 
@@ -44,9 +46,12 @@ private:
 	_bool				m_bPlayerInTerrain = false;
 	_int				m_iRestMonsterNum = 0;
 
-
-	_bool				m_bTest = false;	// 몬스터 없을때 활성화되게 테스트코드
+	_int				Temt =0 ;
+	_bool				m_bCheckCollison = false;	// 몬스터 없을때 활성화되게 테스트코드
 											// 몬스터 배치 빼면 이제 초기화해야됌
+
+	_float				m_fCollisionTimer = 0.f;
+
 
 public:
 	static CControlRoom* Create(LPDIRECT3DDEVICE9 pGraphicDev,const _vec3& vCenter);

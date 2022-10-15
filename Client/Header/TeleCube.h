@@ -48,7 +48,8 @@ public:
 
 private:
 	_bool				m_bSetActive = false;
-
+	_float				m_fActiveTimer = 0;
+	_bool				m_bCollisionCheck = false;
 public:
 	static CTeleCube*	Create(LPDIRECT3DDEVICE9 pGraphicDev);
 	virtual void		Free()override;

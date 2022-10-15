@@ -4,6 +4,7 @@
 #include "Export_Function.h"
 #include "Terrain.h"
 #include "AbstractFactory.h"
+#include "ControlRoom.h"
 
 CTeleCube::CTeleCube(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -30,6 +31,26 @@ HRESULT CTeleCube::Ready_Object()
 _int CTeleCube::Update_Object(const _float & fTimeDelta)
 {
 	m_pColliderCom->Set_HitBoxMatrix(&(m_pTransCom->m_matWorld));
+
+	if (m_bCollisionCheck)
+	{
+		m_bSetActive = true;
+		m_fActiveTimer += 1.f*fTimeDelta;
+	}
+
+	if (m_fActiveTimer >= 5.f)
+	{
+		m_bSetActive = false;
+		m_bCollisionCheck = false;
+		m_fActiveTimer = 0.f;
+		CScene* pScene = Get_Scene();
+		CLayer* pLayer = pScene->GetLayer(L"Layer_Room");
+
+		for (auto iter : pLayer->Get_ControlRoomList())
+		{
+			dynamic_cast<CControlRoom*>(iter)->Set_CheckCollision(false);
+		}
+	}
 
 
 	CGameObject::Update_Object(fTimeDelta);
@@ -137,6 +158,7 @@ void CTeleCube::Collision_Event()
 				for (auto iter : *(pLayer->Get_TeleCubeList(i)))
 					dynamic_cast<CTeleCube*>(iter)->Set_Active(true);
 			}
+			m_bCollisionCheck = true;
 
 		}
 
@@ -170,9 +192,7 @@ void CTeleCube::Collision_Event()
 
 			_vec3 vAngle;
 			vAngle =sour->Get_Angle();
-		/*	_matrix matWorld;
-			m_pTransCom->Get_WorldMatrix(&matWorld);
-			vAngle = m_pTransCom->Get_Angle();*/
+		
 
 			
 			pTransform->Set_Pos(vPos.x, vPos.y, vPos.z);
@@ -185,6 +205,7 @@ void CTeleCube::Collision_Event()
 				for (auto iter : *(pLayer->Get_TeleCubeList(i)))
 					dynamic_cast<CTeleCube*>(iter)->Set_Active(true);
 			}
+			m_bCollisionCheck = true;
 		}
 	}
 

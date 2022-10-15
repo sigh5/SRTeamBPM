@@ -37,7 +37,7 @@ HRESULT CPlayer::Ready_Object(void)
 	
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
+	m_pInfoCom->Ready_CharacterInfo(10000, 10, 5.f);
 
 	_vec3 vPos = { 20.f, 6.f, 15.f };
 
@@ -234,8 +234,8 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 
 		CScene* pScene = Get_Scene();
 		CLayer* PLayer = pScene->GetLayer(L"Layer_GameLogic");
-		PLayer->m_vecColliderMonster.clear();
-		PLayer->Delete_GhulList();
+		//PLayer->m_vecColliderMonster.clear();
+		//PLayer->Delete_GhulList();
 		
 		
 		NULL_CHECK_RETURN(pScene, );

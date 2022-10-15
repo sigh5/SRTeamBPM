@@ -62,6 +62,12 @@ HRESULT CFatBat::Ready_Object(int Posx, int Posy)
 	m_fDeadY = 0.f;
 	m_fFrame = rand() % 200 * 0.01f;
 	Save_OriginPos();
+
+	_vec3 vPos;
+	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+	vScale = m_pDynamicTransCom->Get_Scale();
+	m_pColliderCom->Set_vCenter(&vPos, &vScale);
+
 	return S_OK;
 }
 
@@ -124,6 +130,15 @@ _int CFatBat::Update_Object(const _float & fTimeDelta)
 	}
 
 	m_pDynamicTransCom->Update_Component(fTimeDelta);
+	
+	// Control Room
+	_matrix matWorld;
+	_vec3 vScale;
+	vScale = m_pDynamicTransCom->Get_Scale();
+	m_pDynamicTransCom->Get_WorldMatrix(&matWorld);
+	m_pColliderCom->Set_HitBoxMatrix_With_Scale(&matWorld, vScale);
+
+	
 	CMonsterBase::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
 

@@ -65,7 +65,7 @@ public:
 	void					Add_EffectList(CGameObject* pEffectObject) { m_EffectList.push_back(pEffectObject); }
 
 public:
-	vector<CMonsterBase*> m_vecColliderMonster;
+	
 private:
 	map<const _tchar*, CGameObject*>			m_mapObject;
 
@@ -78,7 +78,7 @@ private:
 	list<CGameObject*>  m_GhulList;
 	list<CGameObject*>  m_objPoolList;
 	list<CGameObject*>	m_ObeliskList;
-	//vector<CMonsterBase*> m_vecColliderMonster;
+	vector<CMonsterBase*> m_vecColliderMonster;
 	list<CGameObject*>  m_ControlRoomList;
 
 

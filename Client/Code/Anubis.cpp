@@ -47,7 +47,7 @@ HRESULT CAnubis::Ready_Object(float Posx, float Posy)
 	_vec3	vScale = { 5.f,6.f,5.f };
 
 	m_pDynamicTransCom->Set_Scale(&vScale);
-
+	
 
 	m_pInfoCom->Ready_CharacterInfo(5, 10, 5.f);
 	m_pAnimationCom->Ready_Animation(6, 1, 0.2f);
@@ -63,6 +63,13 @@ HRESULT CAnubis::Ready_Object(float Posx, float Posy)
 	}
 	Save_OriginPos();
 	m_pDynamicTransCom->Update_Component(1.f);
+	
+	// Control Room
+	_vec3 vPos;
+	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+	vScale = m_pDynamicTransCom->Get_Scale();
+	m_pColliderCom->Set_vCenter(&vPos, &vScale);
+	
 	return S_OK;
 }
 
@@ -90,7 +97,7 @@ bool	CAnubis::Dead_Judge(const _float& fTimeDelta)
 
 _int CAnubis::Update_Object(const _float & fTimeDelta)
 {
-
+	
 	m_pDynamicTransCom->Set_Y(m_pDynamicTransCom->m_vScale.y * 0.5f);
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 	
@@ -114,8 +121,6 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 
 	AttackJudge(fTimeDelta);
 
-
-
 	if (m_bHit == false)
 	{
 		NoHit_Loop(fTimeDelta);
@@ -124,11 +129,6 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 	{
 		Hit_Loop(fTimeDelta);
 	}
-
-
-
-	Excution_Event();
-
 
 	for (auto iter = m_AnubisThunderlist.begin(); iter != m_AnubisThunderlist.end();)
 	{
@@ -158,6 +158,13 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 			++iter;
 		}
 	}
+	// Control Room
+	_matrix matWorld;
+	_vec3 vScale;
+	vScale = m_pDynamicTransCom->Get_Scale();
+	m_pDynamicTransCom->Get_WorldMatrix(&matWorld);
+	m_pColliderCom->Set_HitBoxMatrix_With_Scale(&matWorld, vScale);
+	
 	m_pDynamicTransCom->Update_Component(fTimeDelta);
 	Engine::CMonsterBase::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
