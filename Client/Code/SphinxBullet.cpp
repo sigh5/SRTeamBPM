@@ -52,6 +52,7 @@ _int CSphinxBullet::Update_Object(const _float & fTimeDelta)
 
 	if (m_fFrame > 3.f)
 	{
+		m_bHitPlayer = false;
 		CObjectMgr::GetInstance()->Collect_SphinxBulletObj(this);
 		m_fFrame = 0.f;
 		return 5;

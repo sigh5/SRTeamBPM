@@ -128,11 +128,15 @@ void CStage::LateUpdate_Scene(void)
 
 	for (auto iter = pLayer->Get_GameObjectMap().begin(); iter != pLayer->Get_GameObjectMap().end(); ++iter)
 	{
-		iter->second->Collision_Event();
-		/*if (false == static_cast<CMonsterBase*>(iter->second)->Get_Dead())
+		if (nullptr != dynamic_cast<CMonsterBase*>(iter->second))
+		{
+			if(false == dynamic_cast<CMonsterBase*>(iter->second)->Get_Dead())
+			iter->second->Collision_Event();
+		}
+		else
 		{
 			iter->second->Collision_Event();
-		}*/
+		}
 	}
 	
 	for (auto iter = pLayer->Get_GhulList().begin(); iter != pLayer->Get_GhulList().end(); ++iter)

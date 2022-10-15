@@ -164,9 +164,7 @@ void CEarthShaker::LateUpdate_Object(void)
 	m_pDynamicTransCom->Set_WorldMatrix(&(matWorld));
 
 	// 빌보드 에러 해결
-	CScene* pScene = ::Get_Scene();
-	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
-	pMyLayer->Add_vecColliderMonster(static_cast<CMonsterBase*>(this));
+	Add_ColliderMonsterlist();
 	Engine::CMonsterBase::LateUpdate_Object();
 }
 
@@ -221,7 +219,9 @@ void CEarthShaker::Collision_Event()
 		m_bHit = true;
 		static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"))->Set_ComboCount(1);
 		m_pInfoCom->Receive_Damage(1);
-		cout << "FatBat" << m_pInfoCom->Get_InfoRef()._iHp << endl;
+		cout << "EarthShaker" << m_pInfoCom->Get_InfoRef()._iHp << endl;
+		static_cast<CGun_Screen*>(pGameObject)->Set_Shoot(false);
+
 		READY_CREATE_EFFECT_VECTOR(pGameObject, CHitEffect, pLayer, m_pGraphicDev, vPos);
 		static_cast<CHitEffect*>(pGameObject)->Set_Effect_INFO(OWNER_EARTHSHAKER, 0, 8, 0.2f);
 	}
@@ -301,17 +301,72 @@ void		CEarthShaker::Attack(const _float& fTimeDelta)
 		m_bReadyAttackNumber = true;
 		if (false == m_bSpikeCreate)
 		{
-			_vec3 ShakerPos, vDir;
+			_vec3 ShakerPos, vDir, vPlayerRight;
 			m_pDynamicTransCom->Get_Info(INFO_POS, &ShakerPos);
 			vDir = m_vPlayerPos - ShakerPos;
 			D3DXVec3Normalize(&vDir, &vDir);
+			D3DXVec3Cross(&vPlayerRight, &_vec3(0.f, 1.f, 0.f), &vDir);
+
 			dynamic_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"))->Set_ShakeCheck(true);
 			CEarthSpike* pSpike;
-			for (int i = 1; i < 12; ++i)
+			for (int i = 1; i < 16; ++i)
 			{
 				pSpike = CEarthSpike::Create(m_pGraphicDev, m_fWaitingTime * i, ShakerPos.x + vDir.x * m_fInterval * i, ShakerPos.z + vDir.z * m_fInterval * i, m_bSpikeType);
 				m_Spikelist.push_back(pSpike);
 			
+				if (m_bSpikeType)
+				{
+					m_bSpikeType = false;
+				}
+				else
+				{
+					m_bSpikeType = true;
+				}
+			}//중앙 스파이크
+
+			for (int i = 1; i < 16; ++i)
+			{
+				pSpike = CEarthSpike::Create(m_pGraphicDev, m_fWaitingTime * i, ShakerPos.x + vDir.x * m_fInterval * i + vPlayerRight.x * i * 0.25f, ShakerPos.z + vDir.z * m_fInterval * i + vPlayerRight.z * i * 0.25f, m_bSpikeType);
+				m_Spikelist.push_back(pSpike);
+				if (m_bSpikeType)
+				{
+					m_bSpikeType = false;
+				}
+				else
+				{
+					m_bSpikeType = true;
+				}
+			}
+			for (int i = 1; i < 16; ++i)
+			{
+				pSpike = CEarthSpike::Create(m_pGraphicDev, m_fWaitingTime * i, ShakerPos.x + vDir.x * m_fInterval * i - vPlayerRight.x * i * 0.25f, ShakerPos.z + vDir.z * m_fInterval * i - vPlayerRight.z * i * 0.25f, m_bSpikeType);
+				m_Spikelist.push_back(pSpike);
+				if (m_bSpikeType)
+				{
+					m_bSpikeType = false;
+				}
+				else
+				{
+					m_bSpikeType = true;
+				}
+			}
+			for (int i = 1; i < 16; ++i)
+			{
+				pSpike = CEarthSpike::Create(m_pGraphicDev, m_fWaitingTime * i, ShakerPos.x + vDir.x * m_fInterval * i + vPlayerRight.x * i * 0.5f, ShakerPos.z + vDir.z * m_fInterval * i + vPlayerRight.z * i * 0.5f, m_bSpikeType);
+				m_Spikelist.push_back(pSpike);
+				if (m_bSpikeType)
+				{
+					m_bSpikeType = false;
+				}
+				else
+				{
+					m_bSpikeType = true;
+				}
+			}
+			for (int i = 1; i < 16; ++i)
+			{
+				pSpike = CEarthSpike::Create(m_pGraphicDev, m_fWaitingTime * i, ShakerPos.x + vDir.x * m_fInterval * i - vPlayerRight.x * i * 0.5f, ShakerPos.z + vDir.z * m_fInterval * i - vPlayerRight.z * i * 0.5f, m_bSpikeType);
+				m_Spikelist.push_back(pSpike);
 				if (m_bSpikeType)
 				{
 					m_bSpikeType = false;

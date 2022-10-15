@@ -50,6 +50,7 @@ _int CMonsterBullet::Update_Object(const _float & fTimeDelta)
 
 	if (m_fFrame > 2.f)
 	{
+		m_bHitPlayer = false;
 		CObjectMgr::GetInstance()->Collect_MonsterBulletObj(this);
 		m_fFrame = 0.f;
 		return 5;
