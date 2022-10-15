@@ -217,6 +217,7 @@ void CObelisk::Attack(const _float & fTimeDelta)
 
 	pMyLayer->Add_GhulList(pGameObject);
 
+
 	CObeliskSpawnEffect*	pEffect = nullptr;
 	pEffect = CObeliskSpawnEffect::Create(m_pGraphicDev, vPos);
 

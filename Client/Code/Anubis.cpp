@@ -71,7 +71,23 @@ bool	CAnubis::Dead_Judge(const _float& fTimeDelta)
 	m_pDynamicTransCom->Set_Y(m_pDynamicTransCom->m_vScale.y * 0.5f);
 	if (0 >= m_pInfoCom->Get_Hp())
 	{
+		if (false == m_bDead)
+		{
+			_int Hitsound = rand() % 2;
+			switch (Hitsound)
+			{
+			case 0:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Anubis_Death_01.wav", SOUND_MONSTER, 0.4f);
+				break;
+			case 1:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Anubis_Death_02.wav", SOUND_MONSTER, 0.4f);
+				break;
+			}
+		
 		m_bDead = true;
+		}
 		//Safe_Release(m_pAttackAnimationCom);
 	}
 	if (m_bDead)
@@ -264,6 +280,27 @@ void CAnubis::Collision_Event()
 		READY_CREATE_EFFECT_VECTOR(pGameObject, CHitEffect, pLayer, m_pGraphicDev, vPos);
 		static_cast<CHitEffect*>(pGameObject)->Set_Effect_INFO(OWNER_ANUBIS, 0, 7, 0.2f);
 
+		if(false==m_bDead)
+		{
+		_int Hitsound = rand() % 3;
+		switch (Hitsound)
+		{
+		case 0:
+			::StopSound(SOUND_MONSTER);
+			::PlaySoundW(L"Anubis_pain_01.wav", SOUND_MONSTER, 0.4f);
+			break;
+
+		case 1:
+			::StopSound(SOUND_MONSTER);
+			::PlaySoundW(L"Anubis_pain_02.wav", SOUND_MONSTER, 0.4f);
+			break;
+
+		case 2:
+			::StopSound(SOUND_MONSTER);
+			::PlaySoundW(L"Anubis_pain_03.wav", SOUND_MONSTER, 0.4f);
+			break;
+		}
+		}
 	}
 }
 
@@ -289,6 +326,7 @@ void CAnubis::NoHit_Loop(const _float& fTimeDelta)
 	{
 		if (m_bAttack)
 		{
+
 			Attack(fTimeDelta);
 		}
 		else
@@ -333,6 +371,8 @@ void CAnubis::Attack_Thunder(const _float& fTimeDelta)
 
 			CAnubisThunder* pThunder;
 			pThunder = CAnubisThunder::Create(m_pGraphicDev, AnubisInfo.x + (vDir.x* 1.2f), m_pDynamicTransCom->m_vScale.y * 0.85f, AnubisInfo.z + (vDir.z* 1.2f));
+			::StopSound(SOUND_EFFECT);
+			::PlaySoundW(L"thunder_spell_loop.wav", SOUND_EFFECT, 0.2f);
 
 			m_AnubisThunderlist.push_back(pThunder);
 			m_bCreateOneThunder = true;
@@ -346,6 +386,8 @@ void CAnubis::Attack_Thunder(const _float& fTimeDelta)
 			D3DXVec3Normalize(&vDir, &vDir);
 			CAnubisThunder* pThunder;
 			pThunder = CAnubisThunder::Create(m_pGraphicDev, m_vPlayerPos.x - vDir.x * 0.5f, 1.0f, m_vPlayerPos.z - vDir.z * 0.5f);
+			::StopSound(SOUND_EFFECT);
+			::PlaySoundW(L"thunder_spell_cast.wav", SOUND_EFFECT, 0.2f);
 
 			m_AnubisThunderlist.push_back(pThunder);
 			m_bCreateTwoThunder = true;
@@ -374,6 +416,8 @@ void CAnubis::Attack_Stormball(const _float& fTimeDelta)
 
 			CAnubisThunder* pThunder;
 			pThunder = CAnubisThunder::Create(m_pGraphicDev, AnubisInfo.x + (vDir.x* 1.2f), m_pDynamicTransCom->m_vScale.y * 0.85f, AnubisInfo.z + (vDir.z* 1.2f));
+			//::StopSound(SOUND_EFFECT);
+			::PlaySoundW(L"thunder_spell_loop.wav", SOUND_EFFECT, 0.2f);
 
 			m_AnubisThunderlist.push_back(pThunder);
 			m_bCreateChargThunder = true;
@@ -397,6 +441,25 @@ void CAnubis::Attack_Stormball(const _float& fTimeDelta)
 			D3DXVec3Normalize(&vDir, &vDir);
 			D3DXVec3Cross(&vDir, &_vec3(0.f, 1.f, 0.f), &vDir);
 			_vec3 vSpawnPos = _vec3((AnubisInfo.x + (vDir.x* 1.2f)), (m_pDynamicTransCom->m_vScale.y * 0.8f), (AnubisInfo.z + (vDir.z * 1.2f)));
+			_int Stormballsound = rand() % 3;
+			switch (Stormballsound)
+			{
+			case 0:
+				::StopSound(SOUND_EFFECT);
+				::PlaySoundW(L"lightning_strike_1.wav", SOUND_EFFECT, 0.2f);
+				break;
+
+			case 1:
+				::StopSound(SOUND_EFFECT);
+				::PlaySoundW(L"lightning_strike_2.wav", SOUND_EFFECT, 0.2f);
+				break;
+
+			case 2:
+				::StopSound(SOUND_EFFECT);
+				::PlaySoundW(L"lightning_strike_3.wav", SOUND_EFFECT, 0.2f);
+				break;
+			}
+
 			if (m_bStormballLeftRight)
 			{
 				CAnubisStormBall* pStormball;

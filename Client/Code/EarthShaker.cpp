@@ -208,6 +208,28 @@ void CEarthShaker::Collision_Event()
 
 		READY_CREATE_EFFECT_VECTOR(pGameObject, CHitEffect, pLayer, m_pGraphicDev, vPos);
 		static_cast<CHitEffect*>(pGameObject)->Set_Effect_INFO(OWNER_EARTHSHAKER, 0, 7, 0.2f);
+	
+		if (false == m_bDead)
+		{
+			_int Hitsound = rand() % 3;
+			switch (Hitsound)
+			{
+			case 0:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Croccman_pain_01.wav", SOUND_MONSTER, 0.4f);
+				break;
+
+			case 1:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Croccman_pain_02.wav", SOUND_MONSTER, 0.4f);
+				break;
+
+			case 2:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Croccman_pain_03.wav", SOUND_MONSTER, 0.4f);
+				break;
+			}
+		}
 	}
 
 }
@@ -216,7 +238,28 @@ bool CEarthShaker::Dead_Judge(const _float & fTimeDelta)
 {
 	if (0 >= m_pInfoCom->Get_Hp())
 	{
-		m_bDead = true;
+		if (false == m_bDead)
+		{
+			_int Hitsound = rand() % 3;
+			switch (Hitsound)
+			{
+			case 0:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Croccman_death_01.wav", SOUND_MONSTER, 0.4f);
+				break;
+			case 1:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Croccman_death_02.wav", SOUND_MONSTER, 0.4f);
+				break;
+
+			case 2:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Croccman_death_03.wav", SOUND_MONSTER, 0.4f);
+				break;
+			}
+
+			m_bDead = true;
+		}
 		//Safe_Release(m_pAttackAnimationCom);
 	}
 	if (m_bDead)
@@ -258,8 +301,34 @@ void		CEarthShaker::Attack(const _float& fTimeDelta)
 {
 	Ready_Attack(fTimeDelta);
 	m_pAttackAnimationCom->Move_Animation(fTimeDelta);
+	if (1 == m_pAttackAnimationCom->m_iMotion)
+	{
+		if (false == m_bDead && false == m_bAttackSound)
+		{
+			_int Hitsound = rand() % 3;
+			switch (Hitsound)
+			{
+			case 0:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Croccman_attack_01.wav", SOUND_MONSTER, 0.5f);
+				break;
+
+			case 1:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Croccman_attack_02.wav", SOUND_MONSTER, 0.5f);
+				break;
+
+			case 2:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Croccman_attack_02.wav", SOUND_MONSTER, 0.5f);
+				break;
+			}
+			m_bAttackSound = true;
+		}
+	}
 	if (m_pAttackAnimationCom->m_iMotion == 2)
 	{
+		
 		if (0 < m_iReadyAttackNumber)
 		{
 			m_pAttackAnimationCom->m_iMotion = 0;
@@ -267,6 +336,7 @@ void		CEarthShaker::Attack(const _float& fTimeDelta)
 			if (false == m_bReadyAttackNumber)
 			{
 				++m_iAttacknumber;
+				m_bAttackSound = false;
 			}
 		}
 		
@@ -279,6 +349,15 @@ void		CEarthShaker::Attack(const _float& fTimeDelta)
 			}
 		}
 		
+	}
+	if (m_pAttackAnimationCom->m_iMotion == 3)
+	{
+		if (false == m_bQoongSound)
+		{
+			::StopSound(SOUND_MONSTER);
+			::PlaySoundW(L"Qoong.wav", SOUND_MONSTER, 0.4f);
+			m_bQoongSound = true;
+		}
 	}
 	if (m_pAttackAnimationCom->m_iMotion == 4)
 	{
@@ -367,6 +446,7 @@ void		CEarthShaker::Attack(const _float& fTimeDelta)
 		{
 			m_pAttackAnimationCom->m_iMotion = 2;
 			m_bSpikeCreate = false;
+			m_bQoongSound = false;
 		}
 	}
 	if (m_pAttackAnimationCom->m_iMotion == 7)
@@ -386,6 +466,7 @@ void		CEarthShaker::Attack(const _float& fTimeDelta)
 		m_iReadyAttackNumber = 0;
 		m_bSpikeCreate = false;
 		m_bReadyAttackNumber = false;
+		m_bQoongSound = false;
 	}
 
 	//팔을 치켜 올린 만큼 공격
@@ -400,6 +481,7 @@ void	CEarthShaker::Ready_Attack(const _float& fTimeDelta)
 		m_iReadyAttackNumber = 1 + rand() % 3;
 
 		m_iDefenseless = m_iReadyAttackNumber;
+		
 	}
 }
 void CEarthShaker::NoHit_Loop(const _float& fTimeDelta)

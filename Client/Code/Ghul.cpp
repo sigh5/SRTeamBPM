@@ -226,6 +226,28 @@ void CGhul::Collision_Event()
 		READY_CREATE_EFFECT_VECTOR(pGameObject, CHitEffect, pLayer, m_pGraphicDev, vPos);
 		static_cast<CHitEffect*>(pGameObject)->Set_Effect_INFO(OWNER_GHUL, 0, 7, 0.2f);
 
+
+		if (false == m_bDead)
+		{
+			_int Hitsound = rand() % 3;
+			switch (Hitsound)
+			{
+			case 0:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"zombie_pain_01.wav", SOUND_MONSTER, 0.4f);
+				break;
+
+			case 1:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"zombie_pain_02.wav", SOUND_MONSTER, 0.4f);
+				break;
+
+			case 2:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"zombie_pain_03.wav", SOUND_MONSTER, 0.4f);
+				break;
+			}
+		}
 	}
 }
 
@@ -233,7 +255,26 @@ bool CGhul::Dead_Judge(const _float & fTimeDelta)
 {
 	if (0 >= m_pInfoCom->Get_Hp())
 	{
-		m_bDead = true;
+		if (false == m_bDead)
+		{
+			_int Hitsound = rand() % 3;
+			switch (Hitsound)
+			{
+			case 0:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"zombie_death_01.wav", SOUND_MONSTER, 0.4f);
+				break;
+			case 1:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"zombie_death_02.wav", SOUND_MONSTER, 0.4f);
+				break;
+			case 2:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"zombie_death_03.wav", SOUND_MONSTER, 0.4f);
+				break;
+			}
+			m_bDead = true;
+		}
 		//Safe_Release(m_pAttackAnimationCom);
 	}
 	if (m_bDead)
@@ -318,7 +359,28 @@ void CGhul::Attack(const _float & fTimeDelta)
 	CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
 	float Distance;
 	Get_MonsterToPlayer_Distance(&Distance);
-
+	if (5 == m_pAttackAnimationCom->m_iMotion)
+	{
+		if (false == m_bAttackSound)
+		{
+			_int Hitsound = rand() % 3;
+			switch (Hitsound)
+			{
+			case 0:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"zombie_attack_01.wav", SOUND_MONSTER, 0.4f);
+				break;
+			case 1:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"zombie_attack_02.wav", SOUND_MONSTER, 0.4f);
+				break;
+			case 2:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"zombie_attack_03.wav", SOUND_MONSTER, 0.4f);
+				break;
+			}
+		}
+	}
 	if (6 == m_pAttackAnimationCom->m_iMotion)
 	{
 		if (7.f > Distance)
@@ -343,6 +405,27 @@ void CGhul::Attack(const _float & fTimeDelta)
 void CGhul::DigOut(const _float& fTimeDelta)
 {
 	m_pDigoutAnimationCom->Move_Animation(fTimeDelta);
+	if (false == m_bDigOutSound)
+	{
+		_int Hitsound = rand() % 3;
+		switch (Hitsound)
+		{
+		case 0:
+			::StopSound(SOUND_MONSTER);
+			::PlaySoundW(L"zombie_detect_01.wav", SOUND_MONSTER, 0.4f);
+			break;
+		case 1:
+			::StopSound(SOUND_MONSTER);
+			::PlaySoundW(L"zombie_detect_02.wav", SOUND_MONSTER, 0.4f);
+			break;
+		case 2:
+			::StopSound(SOUND_MONSTER);
+			::PlaySoundW(L"zombie_detect_03.wav", SOUND_MONSTER, 0.4f);
+			break;
+		}
+		m_bDigOutSound = true;
+	}
+	//FMOD_Channel_GetCurrentSound
 	if (11 == m_pDigoutAnimationCom->m_iMotion)
 	{
 		m_bCanDie = true;

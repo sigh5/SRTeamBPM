@@ -69,10 +69,31 @@ bool	CFatBat::Dead_Judge(const _float& fTimeDelta)
 {
 	if (0 >= m_pInfoCom->Get_Hp() && false == m_bDead)
 	{
-		m_bDead = true;
+		if (false == m_bDead)
+		{
+			_int Hitsound = rand() % 3;
+			switch (Hitsound)
+			{
+			case 0:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Bat_death_01.wav", SOUND_MONSTER, 0.4f);
+				break;
+			case 1:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Bat_death_02.wav", SOUND_MONSTER, 0.4f);
+				break;
+			case 2:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Bat_death_03.wav", SOUND_MONSTER, 0.4f);
+				break;
+			}
+			m_bDead = true;
+		}
 		_vec3 vPos;
 		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
 		m_fDeadY = vPos.y;
+
+
 	}
 	if (m_bDead)
 	{
@@ -252,6 +273,28 @@ void CFatBat::Collision_Event()
 		cout << "FatBat" << m_pInfoCom->Get_InfoRef()._iHp << endl;
 		READY_CREATE_EFFECT_VECTOR(pGameObject, CHitEffect, pLayer, m_pGraphicDev, vPos);
 		static_cast<CHitEffect*>(pGameObject)->Set_Effect_INFO(OWNER_FATBAT, 0, 7, 0.2f);
+	
+		if (false == m_bDead)
+		{
+			_int Hitsound = rand() % 3;
+			switch (Hitsound)
+			{
+			case 0:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Bat_pain_01.wav", SOUND_MONSTER, 0.4f);
+				break;
+
+			case 1:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Bat_pain_02.wav", SOUND_MONSTER, 0.4f);
+				break;
+
+			case 2:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Bat_pain_03.wav", SOUND_MONSTER, 0.4f);
+				break;
+			}
+		}
 	}
 
 
@@ -314,6 +357,23 @@ void CFatBat::FatBat_Shoot(void)
 
 	CScene* pScene = ::Get_Scene();
 	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+
+	_int Hitsound = rand() % 3;
+	switch (Hitsound)
+	{
+	case 0:
+		::StopSound(SOUND_MONSTER);
+		::PlaySoundW(L"Bat_attack_01.wav", SOUND_MONSTER, 0.4f);
+		break;
+	case 1:
+		::StopSound(SOUND_MONSTER);
+		::PlaySoundW(L"Bat_attack_02.wav", SOUND_MONSTER, 0.4f);
+		break;
+	case 2:
+		::StopSound(SOUND_MONSTER);
+		::PlaySoundW(L"Bat_attack_03.wav", SOUND_MONSTER, 0.4f);
+		break;
+	}
 
 	CGameObject* pGameObject = nullptr;
 	pGameObject = CObjectMgr::GetInstance()->Reuse_MonsterBulltObj(m_pGraphicDev, vPos);

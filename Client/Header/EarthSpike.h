@@ -36,5 +36,8 @@ private:
 	float		m_fWaitTime = 0,f;
 	float		m_fWaitTimeCounter = 0.f;
 	bool		m_bHitPlayer = false;
+	float		m_fSoundWait = 0.f;
+	float		m_fSoundWait2 = 0.f;
+	float		m_fSoundWait3 = 0.f;
 };
 

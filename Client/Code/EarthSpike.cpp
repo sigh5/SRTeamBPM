@@ -31,6 +31,9 @@ HRESULT CEarthSpike::Ready_Object(float Posx, float Posy, bool spiketype, float 
 	m_bSpikeType = spiketype;
 
 	m_fWaitTime = Wait;
+	m_fSoundWait = rand() % 300 * 0.01f;
+	m_fSoundWait2 = rand() % 300 * 0.01f;
+	m_fSoundWait3 = rand() % 300 * 0.01f;
 
 	m_pTransform->Update_Component(1.f);
 	return S_OK;
@@ -63,7 +66,24 @@ _int CEarthSpike::Update_Object(const _float & fTimeDelta)
 		pPlayerInfo->Receive_Damage(10.f);
 		m_bHitPlayer = true;
 	}
-
+	m_fSoundWait -= fTimeDelta;
+	float fVolume = 0.f;
+	if (5 < m_pAnimationCom->m_iMotion &&m_fSoundWait < 0.f && fDistance < 19)
+	{
+		fVolume = fDistance * 0.05f;
+		::PlaySoundW(L"CrashRock.wav", SOUND_CRUSHROCK, 1.f - fVolume);
+	}
+	if (6 < m_pAnimationCom->m_iMotion &&m_fSoundWait2 < 0.f && fDistance < 19)
+	{
+		fVolume = fDistance * 0.05f;
+		::PlaySoundW(L"CrashRock2.wav", SOUND_CRUSHROCK2, 1.f - fVolume);
+	}
+	if (7 < m_pAnimationCom->m_iMotion && m_fSoundWait3 < 0.f && fDistance < 19)
+	{
+		fVolume = fDistance * 0.05f;
+		::PlaySoundW(L"CrashRock3.wav", SOUND_CRUSHROCK3, 1.f - fVolume);
+	}
+	//수정필요
 	Render_Obejct();
 
 	m_pTransform->Update_Component(1.f);

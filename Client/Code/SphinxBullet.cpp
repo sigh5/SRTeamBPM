@@ -33,9 +33,9 @@ HRESULT CSphinxBullet::Ready_Object(_vec3 vPos)
 	pPlayerTransformCom->Get_Info(INFO_POS, &vPlayerPos);
 	m_MoveDir = vPlayerPos - vPos;*/
 
-	_vec3 vScale = { 0.5f,0.5f,0.5f };
 
-	Set_MoveDir(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC, &vPos, MONSTER_BULLET, &vScale);
+
+	Set_MoveDir(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC, &vPos, MONSTER_BULLET, &_vec3(1.f, 1.f, 1.f));
 
 	m_pTransCom->Set_Scale(&_vec3(1.f, 1.f, 1.f));
 	m_pTransCom->Update_Component(1.f);
@@ -45,7 +45,7 @@ HRESULT CSphinxBullet::Ready_Object(_vec3 vPos)
 _int CSphinxBullet::Update_Object(const _float & fTimeDelta)
 {
 	_vec3 vPos = m_pTransCom->m_vInfo[INFO_POS];
-	m_fFrame += 2.f * fTimeDelta;
+	m_fFrame += fTimeDelta;
 
 
 	
@@ -74,10 +74,20 @@ _int CSphinxBullet::Update_Object(const _float & fTimeDelta)
 	}
 	if (vPos.y <= 0.f)
 	{
+		m_pTransCom->Set_Scale(&_vec3(3.f, 3.f, 3.f));
 		m_pDeadAnimationCom->Move_Animation(fTimeDelta);
+		if (false == m_bExplosionSound)
+		{
+			::StopSound(SOUND_EXPLOSION);
+			::PlaySoundW(L"explosion_2.wav", SOUND_EXPLOSION, 0.3f);
+			m_bExplosionSound = true;
+		}
 		if (m_pDeadAnimationCom->m_iMotion == m_pDeadAnimationCom->m_iMaxMotion)
 		{
+			m_pDeadAnimationCom->m_iMotion = m_pDeadAnimationCom->m_iMinMotion;
+			m_pTransCom->Set_Scale(&_vec3(1.f, 1.f, 1.f));
 			m_bHitPlayer = false;
+			m_bExplosionSound = false;
 			CObjectMgr::GetInstance()->Collect_SphinxBulletObj(this);
 			m_fFrame = 0.f;
 			return 5;
