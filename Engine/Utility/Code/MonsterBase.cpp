@@ -201,6 +201,16 @@ _vec3 CMonsterBase::Get_Pos(void)
 {
 	return m_pDynamicTransCom->m_vInfo[INFO_POS];
 }
+void	CMonsterBase::Add_ColliderMonsterlist(void)
+{
+	if (false == m_bDead)
+	{
+		CScene* pScene = ::Get_Scene();
+		CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+		pMyLayer->Add_vecColliderMonster(static_cast<CMonsterBase*>(this));
+	}
+}
+
 void	CMonsterBase::Move_Pos(_vec3 _move)
 {
 	m_pDynamicTransCom->Move_Pos(&_move);

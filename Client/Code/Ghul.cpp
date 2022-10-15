@@ -155,9 +155,8 @@ void CGhul::LateUpdate_Object(void)
 
 		// 빌보드 에러 해결
 	}
-	CScene* pScene = ::Get_Scene();
-	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
-	pMyLayer->Add_vecColliderMonster(static_cast<CMonsterBase*>(this));
+
+	Add_ColliderMonsterlist();
 	Engine::CMonsterBase::LateUpdate_Object();
 }
 
