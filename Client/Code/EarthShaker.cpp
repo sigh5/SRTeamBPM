@@ -40,7 +40,7 @@ HRESULT CEarthShaker::Ready_Object(float Posx, float Posy)
 	
 	m_pInfoCom->Ready_CharacterInfo(4, 10, 3.f);
 
-	m_fAttackDelay = 0.3f;
+	m_fAttackDelay = 0.1f;
 	m_bDead = false;
 	m_fHitDelay = 0.f;
 	m_fInterval = 1.9f;
