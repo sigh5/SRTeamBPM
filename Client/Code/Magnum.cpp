@@ -73,7 +73,7 @@ void CMagnum::LateUpdate_Object(void)
 {			
 	CInventory_UI* pInven = static_cast<CInventory_UI*>(Get_GameObject(L"Layer_UI", L"InventoryUI"));
 	
-	m_pTransCom->Set_Pos(pInven->Get_ItemSlot()->ItemSlotSize[0][1].x, pInven->Get_ItemSlot()->ItemSlotSize[0][0].y, 0.f);
+	m_pTransCom->Set_Pos(pInven->Get_ItemSlot()->ItemSlotSize[0][0].x, pInven->Get_ItemSlot()->ItemSlotSize[0][0].y, 0.f);
 
 	Engine::CGameObject::LateUpdate_Object();
 }

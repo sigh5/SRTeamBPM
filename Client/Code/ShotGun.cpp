@@ -56,15 +56,15 @@ _int CShotGun::Update_Object(const _float & fTimeDelta)
 	//cout << m_fX << ": 마우스 :" << m_fY << endl;
 	//cout << " X : " << m_pTransCom->m_vInfo[INFO_POS].x << " Y : " << m_pTransCom->m_vInfo[INFO_POS].y << " Z : " << m_pTransCom->m_vInfo[INFO_POS].z << endl;
 
-	//if (pInven->Get_InvenSwitch() == true && m_bRenderFalse == true)
-	//{
-	//	if (Engine::Get_DIMouseState(DIM_LB)) // Picking
-	//	{
-	//		_uint ia = 0;
+	if (pInven->Get_InvenSwitch() == true && m_bRenderFalse == true)
+	{
+		if (Engine::Get_DIMouseState(DIM_LB)) // Picking
+		{
+			_uint ia = 0;
 
-	//		Picking();
-	//	}
-	//}
+			Picking();
+		}
+	}
 
 	Add_RenderGroup(m_RenderID, this);
 
@@ -160,11 +160,22 @@ void CShotGun::Render_Obejct(void)
 			D3DXMatrixOrthoLH(&matProj, WINCX, WINCY, 0.f, 1.f);
 
 			// ★ 아이템 획득하면 인벤토리 칸에 들어가도록 해줘야 함 인벤토리 UI에서
-		/*	_vec3 vecInvenPos;
 
-			dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_UI", L"InventoryUI", L"Proto_OrthoTransformCom", ID_DYNAMIC))->Get_Info(INFO_POS, &vecInvenPos);
+			for (_uint i = 0; i < pInven->Get_MaxColumn(); ++i)
+			{
+				for (_uint j = 0; j < pInven->Get_MaxRow(); ++j)
+				{
+					CTransform* pTransform = nullptr;
+					
+					_vec3 vecInvenPos;
 
-			m_pTransCom->Set_Pos(vecInvenPos.x + 50.f, vecInvenPos.y + 50.f, 0.1f);*/
+					pTransform = dynamic_cast<CTransform*>((pInven->Get_ItemSlot()->pItem[i][j]->Get_Component(L"Proto_TransformCom", ID_DYNAMIC)));
+								
+					pTransform->Get_Info(INFO_POS, &vecInvenPos);
+
+					m_pTransCom->Set_Pos(vecInvenPos.x, vecInvenPos.y, 0.1f);
+				}
+			}
 
 			_vec3		vecIconScale = { 70.f, 70.f, 0.f };
 
@@ -210,12 +221,24 @@ void CShotGun::Render_Obejct(void)
 			_matrix		matProj;
 
 			D3DXMatrixOrthoLH(&matProj, WINCX, WINCY, 0.f, 1.f);
+			
+			// ★ 아이템 획득하면 인벤토리 칸에 들어가도록 해줘야 함 인벤토리 UI에서
+			
+			for (_uint i = 0; i < pInven->Get_MaxColumn(); ++i)
+			{
+				for (_uint j = 0; j < pInven->Get_MaxRow(); ++j)
+				{
+					CTransform* pTransform = nullptr;
 
-			/*_vec3 vecInvenPos;
+					_vec3 vecInvenPos;
 
-			dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_UI", L"InventoryUI", L"Proto_OrthoTransformCom", ID_DYNAMIC))->Get_Info(INFO_POS, &vecInvenPos);
+					pTransform = dynamic_cast<CTransform*>((pInven->Get_ItemSlot()->pItem[i][j]->Get_Component(L"Proto_TransformCom", ID_DYNAMIC)));
 
-			m_pTransCom->Set_Pos(vecInvenPos.x + 50.f, vecInvenPos.y + 50.f, 0.1f);*/
+					pTransform->Get_Info(INFO_POS, &vecInvenPos);
+
+					m_pTransCom->Set_Pos(vecInvenPos.x, vecInvenPos.y, 0.1f);
+				}
+			} 
 
 			_vec3		vecIconScale = { 70.f, 70.f, 0.f };
 
@@ -339,6 +362,7 @@ HRESULT CShotGun::Open_Event(CGameObject * pGameObject)
 		// 인벤토리에 들어감
 		CInventory_UI* pInven = static_cast<CInventory_UI*>(Get_GameObject(L"Layer_UI", L"InventoryUI"));
 		pInven->Get_WeaponType()->push_back(this);
+		pInven->Get_Weapon()->push(this);
 
 		// 플레이어의 스탯에 관여하기 위함
 		CPlayer* pTestPlayer = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));

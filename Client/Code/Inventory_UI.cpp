@@ -16,6 +16,9 @@ USING(Engine)
 CInventory_UI::CInventory_UI(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CUI_Base(pGraphicDev)
 {
+	
+	ZeroMemory(&m_SlotType, sizeof(ItemSlot));
+	
 	for (_uint i = 0; i < m_iMaxColumn; ++i)
 	{
 		for (_uint j = 0; j < m_iMaxRow; ++j)
@@ -23,6 +26,7 @@ CInventory_UI::CInventory_UI(LPDIRECT3DDEVICE9 pGraphicDev)
 			m_SlotType.pItem[i][j]= nullptr;
 		}
 	}
+
 }
 
 CInventory_UI::CInventory_UI(const CUI_Base & rhs)
@@ -58,29 +62,34 @@ HRESULT CInventory_UI::Ready_Object()
 
 _int CInventory_UI::Update_Object(const _float & fTimeDelta)
 {	
+	// 무기를 획득시 
 	if (!m_vecWeaponType.empty())
 	{
 		for (_uint i = 0; i < m_iMaxColumn; ++i)
 		{
 			for (_uint j = 0; j < m_iMaxRow; ++j)
 			{
-				m_SlotType.pItem[i][j] = m_vecWeaponType.front();
+				m_SlotType.pItem[i][j] = m_stackWeapon.top();
 
+		//cout << "벡터에 들어오는가 : " << m_vecWeaponType.size() << "포인터 배열 : " << m_SlotType.pItem[i][j] << "스택 top :" << m_stackWeapon.size() << endl;
 				if (m_SlotType.pItem[i][j] == nullptr)
-					cout << "실패" << endl;
+				{
+					//cout << "실패" << endl;
+					return 0;
+				}
 			}
 		}
 	}
-
-	//cout << m_vecWeaponType.size() << "포인터 배열" << m_SlotType.pItem << endl;
 	
-	// i가 세로(4) , j가 가로(9)
+	
+	// i가 세로(4) , j가 가로(9) , 슬롯의 가로 세로 중점 위치를 알기 위한 이중 for문
 	for (_uint i = 0; i < m_iMaxColumn; ++i)
 	{
 		for (_uint j = 0; j < m_iMaxRow; ++j)
 		{
 			m_SlotType.ItemSlotSize[i][j].x = m_SlotType.ItemSlotSize[0][0].x;
 			m_SlotType.ItemSlotSize[i][j].y = m_SlotType.ItemSlotSize[0][0].y;
+				
 
 			if (i != 0 && j == 0)
 			{
@@ -95,11 +104,22 @@ _int CInventory_UI::Update_Object(const _float & fTimeDelta)
 
 				m_SlotType.ItemSlotSize[i][j].x += (_float)(47 * j);
 			}
+
+			if (m_SlotType.pItem[i][j] != nullptr)
+			{
+				CTransform* pTransform = nullptr;
+
+				pTransform = dynamic_cast<CTransform*>((m_SlotType.pItem[i][j]->Get_Component(L"Proto_TransformCom", ID_DYNAMIC)));
+				
+				pTransform->Set_Pos(m_SlotType.ItemSlotSize[i][j].x, m_SlotType.ItemSlotSize[i][j].y, 0.f);
+			
+				//_vec3	vecSlot = { m_SlotType.ItemSlotSize[i][j].x, m_SlotType.ItemSlotSize[i][j].y, 0.f };
+				//m_SlotType.pItem[i][j]->Set_Pos(vecSlot);			
+			}
+
 		}
 	}
-
-
-
+	
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
 	Add_RenderGroup(RENDER_UI, this);

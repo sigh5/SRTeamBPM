@@ -46,6 +46,10 @@ public:
 
 	ItemSlot*			Get_ItemSlot(void) { return &m_SlotType; }
 
+
+	_uint				Get_MaxRow(void) { return m_iMaxRow; }
+	_uint				Get_MaxColumn(void) { return m_iMaxColumn; }
+
 private:
 	HRESULT				Add_Component(void);
 	
@@ -75,10 +79,11 @@ private:
 	_float		m_fSlotY = 0.f;
 
 	ItemSlot	m_SlotType;
+	stack<CGameObject*>		m_stackWeapon;
 
 public:
-
 	vector<CGameObject*>*	Get_WeaponType(void) { return &m_vecWeaponType; }
+	stack<CGameObject*>*	Get_Weapon(void) { return &m_stackWeapon; }
 public:
 	static CInventory_UI*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
 	virtual void				Free();
