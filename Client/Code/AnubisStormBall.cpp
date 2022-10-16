@@ -66,7 +66,7 @@ _int CAnubisStormBall::Update_Object(const _float & fTimeDelta)
 
 	if (fDistance < 1.5f && false == m_bHitPlayer)
 	{
-		pPlayerInfo->Receive_Damage(10.f);
+		pPlayerInfo->Receive_Damage(10);
 		m_bHitPlayer = true;
 	}
 

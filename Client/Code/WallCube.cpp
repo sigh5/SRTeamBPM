@@ -183,6 +183,13 @@ void CWallCube::Collision_Event()
 		if (m_pColliderCom->Check_Collsion_CubeAABB(m_pColliderCom, pGameObject))
 			_bool b = false;
 		
+		for (auto iter = pLayer->m_vecColliderMonster.begin(); iter != pLayer->m_vecColliderMonster.end(); ++iter)
+		{
+			if (m_pColliderCom->Check_Collsion_CubeAABB(m_pColliderCom, (*iter)))
+				_bool b = false;
+		}
+		pLayer->m_vecColliderMonster.clear();
+		
 	}
 
 

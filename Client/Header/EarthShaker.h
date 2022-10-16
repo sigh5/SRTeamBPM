@@ -20,6 +20,7 @@ public:
 private:
 	void		AttackJudge(const _float& fTimeDelta);
 	void		Attack(const _float& fTimeDelta);
+	void		SpikeUpdateLoop(const _float& fTimeDelta);
 
 public:
 	static CEarthShaker*		Create(LPDIRECT3DDEVICE9 pGraphicDev, float Posx = 0, float Posy = 0);
@@ -51,5 +52,8 @@ private:
 	float		m_fWaitingTime = 0.f;
 	//float		m_fOriginwaiting = 0.f;
 	bool		m_bSpikeType = false;
+	float		m_fSoundInterval = 0.f;
+	float		m_fSoundCount = 0.f;
+	int			m_iSoundNumber = 0;
 };
 

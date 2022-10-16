@@ -275,7 +275,7 @@ void		CLayer::ActivevecColliderMonster(void)
 			}
 		}
 	}
-	m_vecColliderMonster.clear();
+
 }
 void		CLayer::Clear_ColliderMonster(void)
 {

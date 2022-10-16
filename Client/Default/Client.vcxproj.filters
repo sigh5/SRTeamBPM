@@ -172,9 +172,6 @@
     <ClCompile Include="..\Code\Box.cpp">
       <Filter>02. GameObject\01. For_Stage\11. Item\02. Box</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Stage_BIH.cpp">
-      <Filter>01. Scene\96. Stage_BIH</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\Player.cpp">
       <Filter>02. GameObject\01. For_Stage\00. Player</Filter>
     </ClCompile>
@@ -493,9 +490,6 @@
     </ClInclude>
     <ClInclude Include="..\Header\Box.h">
       <Filter>02. GameObject\01. For_Stage\11. Item\02. Box</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\Stage_BIH.h">
-      <Filter>01. Scene\96. Stage_BIH</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Player.h">
       <Filter>02. GameObject\01. For_Stage\00. Player</Filter>

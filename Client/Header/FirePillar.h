@@ -41,5 +41,7 @@ private:
 
 
 	int				m_iState = 0;
+	bool			m_bReadySound = false;
+	bool			m_bFlameSound = false;
 };
 

@@ -82,6 +82,7 @@ HRESULT CSphinxFlyHead::Ready_Object(float Posx, float Posy, float Size)
 _int CSphinxFlyHead::Update_Object(const _float & fTimeDelta)
 {
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
+	m_fVolume = (100 - fMtoPDistance) * 0.01f;
 	if (Distance_Over())
 	{
 		Engine::CMonsterBase::Update_Object(fTimeDelta);
@@ -117,6 +118,8 @@ _int CSphinxFlyHead::Update_Object(const _float & fTimeDelta)
 
 void CSphinxFlyHead::LateUpdate_Object(void)
 {
+	::SetChannelVolume(SOUND_EFFECT, m_fVolume);
+
 	CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
 	NULL_CHECK(pCamera);
 
@@ -282,7 +285,7 @@ void		CSphinxFlyHead::AttackLeftRight(const _float& fTimeDelta)
 		if (false == m_bLRAttackSound)
 		{
 			::StopSound(SOUND_EFFECT);
-			::PlaySoundW(L"executor_spell_sound.wav", SOUND_EFFECT, 0.4f);
+			::PlaySoundW(L"executor_spell_sound.wav", SOUND_EFFECT, m_fVolume);
 			m_bLRAttackSound = true;
 		}
 	}
@@ -292,7 +295,7 @@ void		CSphinxFlyHead::AttackLeftRight(const _float& fTimeDelta)
 		if (false == m_bLRAttackSound)
 		{
 			::StopSound(SOUND_EFFECT);
-			::PlaySoundW(L"executor_spell_sound.wav", SOUND_EFFECT, 0.4f);
+			::PlaySoundW(L"executor_spell_sound.wav", SOUND_EFFECT, m_fVolume);
 			m_bLRAttackSound = true;
 		}
 	}
@@ -314,7 +317,7 @@ void		CSphinxFlyHead::AttackLeftRight(const _float& fTimeDelta)
 		if (false == m_bLRChargeSound)
 		{
 			::StopSound(SOUND_EFFECT);
-			::PlaySoundW(L"curse_spell_loop_sound.wav", SOUND_EFFECT, 0.4f);
+			::PlaySoundW(L"curse_spell_loop_sound.wav", SOUND_EFFECT, m_fVolume);
 			m_bLRChargeSound = true;
 		}
 	}
@@ -391,6 +394,8 @@ void CSphinxFlyHead::RightAttack(const _float & fTimeDelta)
 		m_bGet_PlayerPos_LR = false;
 		m_bSelectedLeftRight = false;
 		m_iLRJudge = 0;
+		m_bLRChargeSound = false;
+		m_bLRAttackSound = false;
 	}
 }
 
@@ -411,7 +416,7 @@ void	CSphinxFlyHead::BodyAttack(const _float& fTimeDelta)
 		if (false == m_bChargeSound)
 		{
 			::StopSound(SOUND_EFFECT);
-			::PlaySoundW(L"Energy_Shield_Looping_1.wav", SOUND_EFFECT, 0.4f);
+			::PlaySoundW(L"Energy_Shield_Looping_1.wav", SOUND_EFFECT, m_fVolume);
 			m_bChargeSound = true;
 		}
 		m_bRenderBodyAttack = true;
@@ -439,14 +444,15 @@ void	CSphinxFlyHead::BodyAttack(const _float& fTimeDelta)
 			{
 			case 0:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"satan_transform_2to3.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"satan_transform_2to3.wav", SOUND_MONSTER, m_fVolume);
 				break;
 
 			case 1:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"satan_transform_3to4.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"satan_transform_3to4.wav", SOUND_MONSTER, m_fVolume);
 				break;
 			}
+			
 			m_bBodyAttackSound = true;
 		}
 		if (m_bAttack == false)
@@ -479,7 +485,7 @@ void		CSphinxFlyHead::Tackle(const _float& fTimeDelta)
 
 	if (fDistance < 1.5f && false == m_bHitPlayer)
 	{
-		pPlayerInfo->Receive_Damage(10.f);
+		pPlayerInfo->Receive_Damage(10);
 		m_bHitPlayer = true;
 	}
 

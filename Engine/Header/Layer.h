@@ -59,7 +59,7 @@ public:
 	list<CGameObject*>&		Get_ObeliskList() { return m_ObeliskList; }
 	list<CGameObject*>&		Get_ControlRoomList() { return m_ControlRoomList; }
 	list<CGameObject*>&		Get_EffectList() { return m_EffectList; }
-
+	
 
 	void					Add_ControlRoomList(CGameObject* pControlRoom) { m_ControlRoomList.push_back(pControlRoom); }
 	void					Add_EffectList(CGameObject* pEffectObject) { m_EffectList.push_back(pEffectObject); }

@@ -21,6 +21,8 @@ public:
 	virtual void		LateUpdate_Object(void) override;
 	virtual void		Render_Obejct(void) override;
 
+	float				Get_Distance(void) { return m_fToPlayerDistance; }
+
 public:
 	static CEarthSpike*		Create(LPDIRECT3DDEVICE9 pGraphicDev,float wait, float Posx = 0, float Posy = 0, bool spiketype = false);
 	virtual void		Free(void);
@@ -39,5 +41,6 @@ private:
 	float		m_fSoundWait = 0.f;
 	float		m_fSoundWait2 = 0.f;
 	float		m_fSoundWait3 = 0.f;
+	float		m_fToPlayerDistance = 0.f;
 };
 

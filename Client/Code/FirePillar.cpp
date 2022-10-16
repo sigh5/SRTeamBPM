@@ -24,11 +24,11 @@ HRESULT CFirePillar::Ready_Object(float Posx, float Posy, float Posz)
 	{
 		m_pTransform->Set_Pos((_float)Posx, Posy, (_float)Posz);
 	}
-	m_pTransform->Set_Scale(&_vec3(6.f, 1.f, 6.f));
+	m_pTransform->Set_Scale(&_vec3(3.f, 1.f, 3.f));
 	m_pAnimationCom->Ready_Animation(8, 0, 0.1f);
-	m_pReadyAnimationCom->Ready_Animation(2, 0, 0.3f);
+	m_pReadyAnimationCom->Ready_Animation(2, 0, 1.f);
 	m_pAnimationCom->m_iMotion = rand() % 9;
-	m_fLifetime = 0.7f;
+	m_fLifetime = 3.f;
 
 	m_pTransform->Update_Component(1.f);
 
@@ -41,6 +41,7 @@ _int CFirePillar::Update_Object(const _float & fTimeDelta)
 	if (m_fLifetime < m_fLifetimeCount)
 	{
 		m_bDead = true;
+		::StopSound(SOUND_EFFECT);
 		return 1;
 	}
 	switch (m_iState)
@@ -52,11 +53,29 @@ _int CFirePillar::Update_Object(const _float & fTimeDelta)
 		m_pAnimationCom->Move_Animation(fTimeDelta);
 		break;
 	}
+	if (0 == m_iState)
+	{
+		if (false == m_bReadySound)
+		{
+			::StopSound(SOUND_EFFECT);
+			::PlaySoundW(L"Flamethrower_shoot.wav", SOUND_EFFECT, 0.4f);
+			m_bReadySound = true;
+		}
+	}
 	if (2 == m_pReadyAnimationCom->m_iMotion)
 	{
 		m_iState = 1;
 	}
-
+	
+	if (1 == m_iState)
+	{
+		if (false == m_bFlameSound)
+		{
+			::StopSound(SOUND_EFFECT);
+			::PlaySoundW(L"Flamethrowerloop.wav", SOUND_EFFECT, 0.4f);
+			m_bFlameSound = true;
+		}
+	}
 	_vec3 vThunderPos = m_pTransform->m_vInfo[INFO_POS];
 	CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
 	CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
@@ -66,7 +85,7 @@ _int CFirePillar::Update_Object(const _float & fTimeDelta)
 
 	if (1 == m_iState &&fDistance < 1.5f && false == m_bHitPlayer)
 	{
-		pPlayerInfo->Receive_Damage(10.f);
+		pPlayerInfo->Receive_Damage(10);
 		m_bHitPlayer = true;
 	}
 
@@ -81,6 +100,7 @@ _int CFirePillar::Update_Object(const _float & fTimeDelta)
 
 void CFirePillar::LateUpdate_Object(void)
 {
+
 	CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
 	NULL_CHECK(pCamera);
 

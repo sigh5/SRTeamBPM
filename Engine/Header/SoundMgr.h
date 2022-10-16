@@ -27,6 +27,10 @@ public:
 
 	void SetChannelVolume(CHANNELID eID, float fVolume);
 
+	//채널이 사용 가능한 상태인지 체크
+	//true == 사용 가능
+	bool MyChannelPlayCheck(CHANNELID eID);
+
 public:
 	void LoadSoundFile();
 
