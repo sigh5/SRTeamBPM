@@ -4,8 +4,11 @@
 #include "Export_Function.h"
 #include "Terrain.h"
 
-#include "Box.h"
 #include "TeleCube.h"
+#include "ControlRoom.h"
+#include "SkyBox.h"
+#include "FireTrap.h"
+#include "FirePillar.h"
 
 CControlRoom::CControlRoom(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -23,7 +26,7 @@ HRESULT CControlRoom::Ready_Object(const _vec3& vCenter)
 	_vec3 vPos, vScale;
 
 	m_pTransCom->Set_Pos(vCenter.x, vCenter.y +4.f,vCenter.z);
-	vScale = { 90.f,90.f,90.f };
+	vScale = { 85.f,85.f,85.f };
 
 	m_pTransCom->Set_Scale(&vScale);
 	
@@ -38,6 +41,21 @@ _int CControlRoom::Update_Object(const _float & fTimeDelta)
 	m_pColliderCom->Set_HitBoxMatrix(&(m_pTransCom->m_matWorld));
 
 
+	CScene *pScene = Get_Scene();
+	CLayer* pLayer = pScene->GetLayer(L"Layer_Environment");
+	CSkyBox* pSkyBox = static_cast<CSkyBox*>(pLayer->Get_GameObject(L"SkyBox"));
+
+	if (pSkyBox->Get_controlCubeCheck())
+	{
+		m_fCollisionTimer += 1.f*fTimeDelta;
+	}
+
+	if (m_fCollisionTimer >= 7.f)
+	{
+		pSkyBox->Set_ControlCubeCheck(false);
+		m_fCollisionTimer = 0;
+	}
+
 	CGameObject::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_PRIORITY, this);
 	
@@ -46,16 +64,15 @@ _int CControlRoom::Update_Object(const _float & fTimeDelta)
 
 void CControlRoom::LateUpdate_Object()
 {
-	// Test 
-	if (Get_DIKeyState(DIK_Z) & 0X80)
-	{
-		m_bTest = true;
-	}
 
-	// Test
+	CScene *pScene = Get_Scene();
+	CLayer* pLayer = pScene->GetLayer(L"Layer_Environment");
+	CSkyBox* pSkyBox = static_cast<CSkyBox*>(pLayer->Get_GameObject(L"SkyBox"));
+
+
 	if (m_bPlayerInTerrain)
 	{
-		if (m_iRestMonsterNum == 0 && m_bTest) 
+		if (m_iRestMonsterNum == 0 && !pSkyBox->Get_controlCubeCheck())
 		{
 			CScene* pScene = Get_Scene();
 			CLayer* pLayer = pScene->GetLayer(L"Layer_CubeCollsion");
@@ -64,10 +81,12 @@ void CControlRoom::LateUpdate_Object()
 				for (auto iter : *(pLayer->Get_TeleCubeList(i)))
 					dynamic_cast<CTeleCube*>(iter)->Set_Active(false);
 			}
+			m_bPlayerInTerrain = false;
+			pSkyBox->Set_ControlCubeCheck(true);
 		}
-		//cout << m_iRestMonsterNum << endl;
-		m_iRestMonsterNum = 0;
+		
 	}
+	m_iRestMonsterNum = 0;
 }
 
 void CControlRoom::Render_Obejct(void)
@@ -95,15 +114,9 @@ void CControlRoom::Collision_Event()
 	CCollider* pCollider = dynamic_cast<CCollider*>(pPlayer->Get_Component(L"Proto_ColliderCom", ID_STATIC));
 
 	if (m_pColliderCom->Check_CollisonUseCollider(pCollider, m_pColliderCom))
-	{
 		m_bPlayerInTerrain = true;
-
-	}
 	else
-	{
 		m_bPlayerInTerrain = false;
-	}
-	
 	
 	if (m_bPlayerInTerrain)
 	{
@@ -117,12 +130,48 @@ void CControlRoom::Collision_Event()
 
 				if (static_cast<CMonsterBase*>(iter)->Get_InfoRef()._iHp <= 0)
 					--m_iRestMonsterNum;
-
 			}
-		
 		}
 		
+		CGameObject* pGameobj = nullptr;
+		for (auto iter : pLayer->Get_GameObjectMap())	// 함정일때 뺴야됌
+		{
+			CMonsterBase* pMonster = dynamic_cast<CMonsterBase*>(iter.second);
+
+			if (pMonster == nullptr)
+				continue;
+			
+			CCollider* pCollider = dynamic_cast<CCollider*>((pMonster)->Get_Component(L"Proto_ColliderCom", ID_STATIC));
+
+			if (m_pColliderCom->Check_CollisonUseCollider(m_pColliderCom, pCollider))
+			{
+				CFireTrap* pTrap = dynamic_cast<CFireTrap*>(iter.second);
+				if (pTrap != nullptr)
+					continue;
+
+				++m_iRestMonsterNum;
+
+				if (static_cast<CMonsterBase*>(iter.second)->Get_InfoRef()._iHp <= 0)
+					--m_iRestMonsterNum;
+			}
+
+		}
 		
+		for (auto iter : pLayer->Get_ObeliskList())
+		{
+			CCollider* pCollider = dynamic_cast<CCollider*>((iter)->Get_Component(L"Proto_ColliderCom", ID_STATIC));
+
+			if (m_pColliderCom->Check_CollisonUseCollider(m_pColliderCom, pCollider))
+			{
+				++m_iRestMonsterNum;
+			
+				if (static_cast<CMonsterBase*>(iter)->Get_InfoRef()._iHp <= 0)
+				{
+					--m_iRestMonsterNum;
+				}
+			}
+		}
+
 		
 	}
 

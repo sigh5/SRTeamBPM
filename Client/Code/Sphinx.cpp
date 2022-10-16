@@ -53,6 +53,8 @@ HRESULT CSphinx::Ready_Object(int Posx, int Posy)
 	{
 
 	}
+	
+
 
 	//m_pDynamicTransCom->Rotation(ROT_Y, 90.f);
 	m_pDynamicTransCom->Update_Component(1.f);
@@ -61,6 +63,15 @@ HRESULT CSphinx::Ready_Object(int Posx, int Posy)
 
 _int CSphinx::Update_Object(const _float & fTimeDelta)
 {
+	// 맨위에있어야됌 리턴되면 안됌
+	_matrix matWorld;
+	_vec3 vScale;
+	vScale = m_pDynamicTransCom->Get_Scale();
+	m_pDynamicTransCom->Get_WorldMatrix(&matWorld);
+	m_pColliderCom->Set_HitBoxMatrix_With_Scale(&matWorld, vScale);
+	Engine::CMonsterBase::Update_Object(fTimeDelta);
+	// 맨위에있어야됌 리턴되면 안됌
+
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 	
 	if (Distance_Over())

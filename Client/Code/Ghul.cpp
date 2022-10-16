@@ -10,8 +10,8 @@
 
 
 #include "HitEffect.h"
-
-
+#include "Special_Effect.h"
+#include "SoundMgr.h"
 
 CGhul::CGhul(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -57,20 +57,26 @@ HRESULT CGhul::Ready_Object(float Posx, float Posy)
 	m_pDynamicTransCom->Update_Component(1.f);
 	Save_OriginPos();
 	
+	// ControlRoom
 	_vec3 vPos, vScale;
-
-	
 	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
 	vScale =  m_pDynamicTransCom->Get_Scale();
-
 	m_pColliderCom->Set_vCenter(&vPos, &vScale);
-
+	// ~ControlRoom
 	
 	return S_OK;
 }
 
 _int CGhul::Update_Object(const _float & fTimeDelta)
 {
+	// Cotrol Room
+	_matrix matWorld;
+	_vec3 vScale;
+	vScale = m_pDynamicTransCom->Get_Scale();
+	m_pDynamicTransCom->Get_WorldMatrix(&matWorld);
+	m_pColliderCom->Set_HitBoxMatrix_With_Scale(&matWorld, vScale);
+	// ~Cotrol Room
+
 	m_pDynamicTransCom->Set_Y(m_pDynamicTransCom->m_vScale.y * 0.5f);
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 	if (Distance_Over())
@@ -101,15 +107,8 @@ _int CGhul::Update_Object(const _float & fTimeDelta)
 		Hit_Loop(fTimeDelta);
 	}
 
-	Excution_Event();
 
 	
-	_matrix matWorld;
-	_vec3 vScale;
-	vScale= m_pDynamicTransCom->Get_Scale();
-	m_pDynamicTransCom->Get_WorldMatrix(&matWorld);
-	m_pColliderCom->Set_HitBoxMatrix_With_Scale(&matWorld,vScale);
-
 
 	m_pDynamicTransCom->Update_Component(fTimeDelta);
 	Engine::CMonsterBase::Update_Object(fTimeDelta);
@@ -248,6 +247,23 @@ void CGhul::Collision_Event()
 				break;
 			}
 		}
+	}
+}
+
+void CGhul::Excution_Event()
+{
+	if (!m_bDead && 1 >= m_pInfoCom->Get_Hp())
+	{
+		m_pInfoCom->Receive_Damage(1);
+		_vec3	vPos;
+		CGameObject *pGameObject = nullptr;
+		CScene* pScene = Get_Scene();
+		CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+		READY_CREATE_EFFECT_VECTOR(pGameObject, CSpecial_Effect, pLayer, m_pGraphicDev, vPos);
+		static_cast<CSpecial_Effect*>(pGameObject)->Set_Effect_INFO(OWNER_PALYER, 0, 17, 0.2f);
+		
+		::PlaySoundW(L"explosion_1.wav", SOUND_EFFECT, 0.05f); // BGM
 	}
 }
 

@@ -12,7 +12,7 @@
 #include "HitEffect.h"
 
 #include "Gun_Screen.h"
-
+#include "AttackEffect.h"
 
 CAnubis::CAnubis(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -47,8 +47,8 @@ HRESULT CAnubis::Ready_Object(float Posx, float Posy)
 	_vec3	vScale = { 5.f,6.f,5.f };
 
 	m_pDynamicTransCom->Set_Scale(&vScale);
-
-
+	
+	m_bOldPlayerPos = { 1.0f,1.0f,1.0f };
 	m_pInfoCom->Ready_CharacterInfo(5, 10, 5.f);
 	m_pAnimationCom->Ready_Animation(6, 1, 0.2f);
 	m_iPreHp = (m_pInfoCom->Get_InfoRef()._iHp);
@@ -63,6 +63,13 @@ HRESULT CAnubis::Ready_Object(float Posx, float Posy)
 	}
 	Save_OriginPos();
 	m_pDynamicTransCom->Update_Component(1.f);
+	
+	// Control Room
+	_vec3 vPos;
+	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+	vScale = m_pDynamicTransCom->Get_Scale();
+	m_pColliderCom->Set_vCenter(&vPos, &vScale);
+	
 	return S_OK;
 }
 
@@ -106,7 +113,14 @@ bool	CAnubis::Dead_Judge(const _float& fTimeDelta)
 
 _int CAnubis::Update_Object(const _float & fTimeDelta)
 {
-
+	// 맨위에있어야됌 리턴되면 안됌
+	_matrix matWorld;
+	_vec3 vScale;
+	vScale = m_pDynamicTransCom->Get_Scale();
+	m_pDynamicTransCom->Get_WorldMatrix(&matWorld);
+	m_pColliderCom->Set_HitBoxMatrix_With_Scale(&matWorld, vScale);
+	Engine::CMonsterBase::Update_Object(fTimeDelta);
+	// 맨위에있어야됌 리턴되면 안됌
 	m_pDynamicTransCom->Set_Y(m_pDynamicTransCom->m_vScale.y * 0.5f);
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 	
@@ -130,8 +144,6 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 
 	AttackJudge(fTimeDelta);
 
-
-
 	if (m_bHit == false)
 	{
 		NoHit_Loop(fTimeDelta);
@@ -140,11 +152,6 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 	{
 		Hit_Loop(fTimeDelta);
 	}
-
-
-
-	Excution_Event();
-
 
 	for (auto iter = m_AnubisThunderlist.begin(); iter != m_AnubisThunderlist.end();)
 	{
@@ -174,8 +181,11 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 			++iter;
 		}
 	}
+	// Control Room
+
+	
 	m_pDynamicTransCom->Update_Component(fTimeDelta);
-	Engine::CMonsterBase::Update_Object(fTimeDelta);
+	
 	Add_RenderGroup(RENDER_ALPHA, this);
 
 	return 0;
@@ -184,9 +194,6 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 void CAnubis::LateUpdate_Object(void)
 {
 	// 빌보드 에러 해결
-
-
-
 	if (SCENE_TOOLTEST != Get_Scene()->Get_SceneType())
 	{
 		CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
@@ -222,6 +229,9 @@ void CAnubis::LateUpdate_Object(void)
 		// 빌보드 에러 해결
 	}
 	Add_ColliderMonsterlist();
+
+	
+
 	Engine::CMonsterBase::LateUpdate_Object();
 }
 
@@ -306,11 +316,18 @@ void CAnubis::Collision_Event()
 
 void CAnubis::Excution_Event()
 {
-	//if (!m_bExcutionCheck && m_pInfoCom->Get_Hp() <= 1 )
-	//{
-	//	static_cast<CMyCamera*>(::Get_GameObject(L"Layer_Environment", L"CMyCamera"))->Set_Excution(true);
-	//	m_bExcutionCheck = true;
-	//}
+	if (!m_bDead &&1 >= m_pInfoCom->Get_Hp())
+	{
+		m_pInfoCom->Receive_Damage(1);
+		_vec3	vPos;
+		CGameObject *pGameObject = nullptr;
+		CScene* pScene = Get_Scene();
+		CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+		READY_CREATE_EFFECT_VECTOR(pGameObject, CAttackEffect, pLayer, m_pGraphicDev, vPos);
+		static_cast<CAttackEffect*>(pGameObject)->Set_Effect_INFO(OWNER_PALYER, 0, 12, 0.2f);
+
+	}
 }
 
 void CAnubis::NoHit_Loop(const _float& fTimeDelta)

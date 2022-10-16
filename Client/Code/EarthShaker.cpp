@@ -8,6 +8,7 @@
 #include "HitEffect.h"
 #include "Player.h"
 #include "Gun_Screen.h"
+#include "Special_Effect.h"
 
 CEarthShaker::CEarthShaker(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -58,11 +59,27 @@ HRESULT CEarthShaker::Ready_Object(float Posx, float Posy)
 	Save_OriginPos();
 	m_pDynamicTransCom->Update_Component(1.f);
 
+	// ControlRoom
+	_vec3 vPos, vScale;
+	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+	vScale = m_pDynamicTransCom->Get_Scale();
+	m_pColliderCom->Set_vCenter(&vPos, &vScale);
+	// ~ControlRoom
+
 	return S_OK;
 }
 
 _int CEarthShaker::Update_Object(const _float & fTimeDelta)
 {
+	//Control Room
+	_matrix matWorld;
+	_vec3 vScale;
+	vScale = m_pDynamicTransCom->Get_Scale();
+	m_pDynamicTransCom->Get_WorldMatrix(&matWorld);
+	m_pColliderCom->Set_HitBoxMatrix_With_Scale(&matWorld, vScale);
+	//~Control Room
+
+	
 	SpikeUpdateLoop(fTimeDelta);
 	m_pDynamicTransCom->Set_Y(m_pDynamicTransCom->m_vScale.y * 0.5f);
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
@@ -93,10 +110,13 @@ _int CEarthShaker::Update_Object(const _float & fTimeDelta)
 	}
 
 
-	Excution_Event();
+	
+
 	m_pDynamicTransCom->Update_Component(fTimeDelta);
 	Engine::CMonsterBase::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
+
+	
 
 	return 0;
 }
@@ -357,11 +377,13 @@ void		CEarthShaker::Attack(const _float& fTimeDelta)
 			D3DXVec3Normalize(&vDir, &vDir);
 			D3DXVec3Cross(&vPlayerRight, &_vec3(0.f, 1.f, 0.f), &vDir);
 
+			dynamic_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"))->Set_ShakeCheck(true);
 			CEarthSpike* pSpike;
 			for (int i = 1; i < 16; ++i)
 			{
 				pSpike = CEarthSpike::Create(m_pGraphicDev, m_fWaitingTime * i, ShakerPos.x + vDir.x * m_fInterval * i, ShakerPos.z + vDir.z * m_fInterval * i, m_bSpikeType);
 				m_Spikelist.push_back(pSpike);
+			
 				if (m_bSpikeType)
 				{
 					m_bSpikeType = false;
@@ -492,6 +514,23 @@ void CEarthShaker::NoHit_Loop(const _float& fTimeDelta)
 		}
 	}
 }
+
+void CEarthShaker::Excution_Event()
+{
+	if (!m_bDead && 1 >= m_pInfoCom->Get_Hp())
+	{
+		m_pInfoCom->Receive_Damage(1);
+		_vec3	vPos;
+		CGameObject *pGameObject = nullptr;
+		CScene* pScene = Get_Scene();
+		CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+		READY_CREATE_EFFECT_VECTOR(pGameObject, CSpecial_Effect, pLayer, m_pGraphicDev, vPos);
+		static_cast<CSpecial_Effect*>(pGameObject)->Set_Effect_INFO(OWNER_PALYER, 0, 17, 0.2f);
+
+		::PlaySoundW(L"explosion_1.wav", SOUND_EFFECT, 0.05f); // BGM
+	}
+}
 void	CEarthShaker::SpikeUpdateLoop(const _float& fTimeDelta)
 {
 	float fDistance, fVolume;
@@ -514,7 +553,7 @@ void	CEarthShaker::SpikeUpdateLoop(const _float& fTimeDelta)
 			if (fDistance > (*iter)->Get_Distance())
 			{
 				fDistance = (*iter)->Get_Distance();
-			}
+	}
 			++iter;
 		}
 

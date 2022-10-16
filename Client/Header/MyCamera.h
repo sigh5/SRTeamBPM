@@ -34,11 +34,8 @@ private:
 	_bool			m_bCheck = true;
 public:
 	_int			Get_BillBoardDir() { return m_iBillBoardDir; }
-
 	void			Set_CamDistance(_float fDistance) {m_fDistance = fDistance;}
-
 	void			Set_Excution(_bool bExcution) { m_bExecution = bExcution; }
-	
 	void			Set_PlayerHit(_bool bHitCameraCam) { m_bPlayerHit = bHitCameraCam; }
 
 
@@ -48,6 +45,8 @@ public:
 
 	void			Set_PlayerDeadCam(_bool bEvent) { m_bPlayerDead = bEvent; }
 	_float			m_fOriginAngle = 0.f;
+
+	void			Set_ShakeCheck(_bool bShake) { m_bEarthShake = bShake; }
 
 private:
 	_bool			m_bExecution = false;
@@ -73,6 +72,9 @@ private:
 	_bool			m_bPlayerDead = false;
 	_float			m_fDeadTimer=0.f;
 	
+	_bool			m_bEarthShake = false;
+	_float			m_fShakeTimer = 0.f;
+
 public:
 	static CMyCamera*		Create(LPDIRECT3DDEVICE9 pGraphicDev,
 		const _vec3* pEye,

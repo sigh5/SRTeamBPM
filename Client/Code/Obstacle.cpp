@@ -58,7 +58,6 @@ HRESULT CObstacle::Ready_Object(void)
 
 	// set_hit_distance 
 	m_pColliderCom->Set_HitRadiuos(1.f);
-	m_pColliderCom->Set_HitRadiuos(1.f);
 	m_pColliderCom->Set_vCenter(&vPos, &vScale);
 
 	return S_OK; 
@@ -131,8 +130,11 @@ void CObstacle::LateUpdate_Object(void)
 	memset(&matBill._41, 0, sizeof(_vec3));
 	D3DXMatrixInverse(&matBill, 0, &matBill);
 
+	_vec3	vScale;
+	vScale= m_pTransCom->Get_Scale();
+
 	_matrix      matScale, matTrans;
-	D3DXMatrixScaling(&matScale, 2.f, 2.f, 2.f);
+	D3DXMatrixScaling(&matScale, vScale.x, vScale.y, vScale.z);
 
 	_matrix      matRot;
 	D3DXMatrixIdentity(&matRot);
@@ -192,8 +194,11 @@ void CObstacle::Render_Obejct(void)
 		m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 		m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-		m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);
 
+		if (m_iTexIndex == 0 || m_iTexIndex == 1 || m_iTexIndex == 2)
+			m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);
+		else
+			m_pTextureCom->Set_Texture(m_iTexIndex);
 	}
 
 	if (m_bWireFrame)
@@ -296,6 +301,10 @@ void CObstacle::Set_TextureCom()
 	{
 		m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_TreeAnimTexCom", m_mapComponent, ID_STATIC);
 		m_pAnimationCom->Ready_Animation(1, 0, 1.f);
+	}
+	else
+	{
+		m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_fetrues_Texture", m_mapComponent, ID_STATIC);
 	}
 
 	// ... Ãß°¡

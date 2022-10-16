@@ -47,9 +47,6 @@ _int CSphinxBullet::Update_Object(const _float & fTimeDelta)
 	_vec3 vPos = m_pTransCom->m_vInfo[INFO_POS];
 	m_fFrame += fTimeDelta;
 
-
-	
-
 	if (m_fFrame > 3.f)
 	{
 		m_bHitPlayer = false;

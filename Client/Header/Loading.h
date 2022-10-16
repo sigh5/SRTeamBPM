@@ -18,8 +18,6 @@ public:
 	//주석지우셈
 	_uint		Loading_ForStage(void);
 	
-	_uint		Loading_ForColliderStage(void);
-
 	_uint		Loading_ForBoss(void);
 
 	_uint		Loading_ForPlayer_UI(void);

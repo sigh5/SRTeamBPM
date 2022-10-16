@@ -6,8 +6,6 @@
 #include "TestMonster.h"
 #include "Stage.h"
 #include "ToolTest.h"
-#include "ColliderStage.h"
-
 #include "Stage_Pjw.h"
 #include "Change_Stage.h"
 

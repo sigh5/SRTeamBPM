@@ -8,6 +8,7 @@
 
 #include "Gun_Screen.h"
 #include "HitEffect.h"
+#include "Special_Effect.h"
 
 CSpider::CSpider(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -89,6 +90,15 @@ bool	CSpider::Dead_Judge(const _float& fTimeDelta)
 }
 _int CSpider::Update_Object(const _float & fTimeDelta)
 {
+	// 맨위에있어야됌 리턴되면 안됌
+	_matrix matWorld;
+	_vec3 vScale;
+	vScale = m_pDynamicTransCom->Get_Scale();
+	m_pDynamicTransCom->Get_WorldMatrix(&matWorld);
+	m_pColliderCom->Set_HitBoxMatrix_With_Scale(&matWorld, vScale);
+	Engine::CMonsterBase::Update_Object(fTimeDelta);
+	// 맨위에있어야됌 리턴되면 안됌
+
 	//쿨타임 루프
 	m_pDynamicTransCom->Set_Y(m_pDynamicTransCom->m_vScale.y * 0.5f);
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
@@ -119,8 +129,7 @@ _int CSpider::Update_Object(const _float & fTimeDelta)
 		Hit_Loop(fTimeDelta);
 	}
 
-	// 처형이벤트
-	Excution_Event();
+
 	m_pDynamicTransCom->Update_Component(fTimeDelta);
 	Engine::CMonsterBase::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
@@ -167,7 +176,13 @@ void CSpider::LateUpdate_Object(void)
 	m_pDynamicTransCom->Set_WorldMatrix(&(matWorld));
 
 	// 빌보드 에러 해결
-	Add_ColliderMonsterlist();
+	CScene* pScene = ::Get_Scene();
+	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+	pMyLayer->Add_vecColliderMonster(static_cast<CMonsterBase*>(this));
+	
+	
+	
+	
 	Engine::CMonsterBase::LateUpdate_Object();
 }
 
@@ -252,7 +267,20 @@ void CSpider::Collision_Event()
 
 void CSpider::Excution_Event()
 {
-	// 나중에 로직추가
+	if (!m_bDead &&  1 >= m_pInfoCom->Get_Hp())
+	{
+		m_pInfoCom->Receive_Damage(1);
+		_vec3	vPos;
+		CGameObject *pGameObject = nullptr;
+		CScene* pScene = Get_Scene();
+		CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+		READY_CREATE_EFFECT_VECTOR(pGameObject, CSpecial_Effect, pLayer, m_pGraphicDev, vPos);
+		static_cast<CSpecial_Effect*>(pGameObject)->Set_Effect_INFO(OWNER_PALYER, 0, 17, 0.2f);
+
+		::PlaySoundW(L"explosion_1.wav", SOUND_EFFECT, 0.05f); // BGM
+
+	}
 }
 
 void		CSpider::Attack(const _float& fTimeDelta)

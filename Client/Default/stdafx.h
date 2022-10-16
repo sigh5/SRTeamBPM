@@ -54,4 +54,8 @@
 extern HINSTANCE	g_hInst;
 extern HWND			g_hWnd;
 
+
+extern LPDIRECT3DDEVICE9	g_pDevice;
+
+
 using namespace std;

@@ -104,7 +104,9 @@ private:		// Jw
 	TYPING_TYPE			m_tpType;					// 어느 방향으로 가는 중인가에 따라 대쉬 방향을 정하기 위한 구조체 변수
 	_float				m_fDashPower = 0.f;		//대쉬 시 가속력
 	_float				m_fBuffDashPower = 0.f; //가중된 가속력
-	// ~Dash
+	_float				m_fDashTimer = 0.f;
+	_bool				m_bIsDash = false;
+// ~Dash
 
 	// Player_Combo
 	_int				m_iComboCount = 0;

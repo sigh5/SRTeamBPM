@@ -47,12 +47,30 @@ HRESULT CObelisk::Ready_Object(float Posx, float Posy)
 	}
 	m_pDynamicTransCom->Update_Component(1.f);
 	Save_OriginPos();
+	
+
+	// ControlRoom
+	_vec3 vPos, vScale;
+	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+	vScale = m_pDynamicTransCom->Get_Scale();
+	m_pColliderCom->Set_vCenter(&vPos, &vScale);
+	// ~ControlRoom
+	
 	return S_OK;
 }
 
 _int CObelisk::Update_Object(const _float & fTimeDelta)
 {
 	m_pDynamicTransCom->Set_Y(m_pDynamicTransCom->m_vScale.y * 0.5f);
+
+	// Cotrol Room
+	_matrix matWorld;
+	_vec3 vScale;
+	vScale = m_pDynamicTransCom->Get_Scale();
+	m_pDynamicTransCom->Get_WorldMatrix(&matWorld);
+	m_pColliderCom->Set_HitBoxMatrix_With_Scale(&matWorld, vScale);
+	// ~Cotrol Room
+	
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 	if (Distance_Over())
 	{
@@ -76,7 +94,11 @@ _int CObelisk::Update_Object(const _float & fTimeDelta)
 		Hit_Loop(fTimeDelta);
 		m_iPreHp = m_pInfoCom->Get_Hp();
 	}
+	
 	m_pDynamicTransCom->Update_Component(fTimeDelta);
+	
+	
+	
 	Engine::CMonsterBase::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
 
@@ -85,36 +107,35 @@ _int CObelisk::Update_Object(const _float & fTimeDelta)
 
 void CObelisk::LateUpdate_Object(void)
 {
+	CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
+	NULL_CHECK(pCamera);
 
-		CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
-		NULL_CHECK(pCamera);
+	_matrix		matWorld, matView, matBill;
 
-		_matrix		matWorld, matView, matBill;
+	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
+	D3DXMatrixIdentity(&matBill);
+	memcpy(&matBill, &matView, sizeof(_matrix));
+	memset(&matBill._41, 0, sizeof(_vec3));
+	D3DXMatrixInverse(&matBill, 0, &matBill);
 
-		m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
-		D3DXMatrixIdentity(&matBill);
-		memcpy(&matBill, &matView, sizeof(_matrix));
-		memset(&matBill._41, 0, sizeof(_vec3));
-		D3DXMatrixInverse(&matBill, 0, &matBill);
+	_matrix      matScale, matTrans;
+	D3DXMatrixScaling(&matScale, m_pDynamicTransCom->m_vScale.x, m_pDynamicTransCom->m_vScale.y, m_pDynamicTransCom->m_vScale.z);
 
-		_matrix      matScale, matTrans;
-		D3DXMatrixScaling(&matScale, m_pDynamicTransCom->m_vScale.x, m_pDynamicTransCom->m_vScale.y, m_pDynamicTransCom->m_vScale.z);
+	_matrix      matRot;
+	D3DXMatrixIdentity(&matRot);
+	D3DXMatrixRotationY(&matRot, (_float)pCamera->Get_BillBoardDir());
 
-		_matrix      matRot;
-		D3DXMatrixIdentity(&matRot);
-		D3DXMatrixRotationY(&matRot, (_float)pCamera->Get_BillBoardDir());
+	_vec3 vPos;
+	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
 
-		_vec3 vPos;
-		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+	D3DXMatrixTranslation(&matTrans,
+		vPos.x,
+		vPos.y,
+		vPos.z);
 
-		D3DXMatrixTranslation(&matTrans,
-			vPos.x,
-			vPos.y,
-			vPos.z);
-
-		D3DXMatrixIdentity(&matWorld);
-		matWorld = matScale* matRot * matBill * matTrans;
-		m_pDynamicTransCom->Set_WorldMatrix(&(matWorld));
+	D3DXMatrixIdentity(&matWorld);
+	matWorld = matScale* matRot * matBill * matTrans;
+	m_pDynamicTransCom->Set_WorldMatrix(&(matWorld));
 
 		// 빌보드 에러 해결
 	Engine::CMonsterBase::LateUpdate_Object();

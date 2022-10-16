@@ -11,6 +11,7 @@
 #include "HitEffect.h"
 
 #include "Gun_Screen.h"
+#include "Special_Effect.h"
 
 CFatBat::CFatBat(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -62,6 +63,12 @@ HRESULT CFatBat::Ready_Object(int Posx, int Posy)
 	m_fDeadY = 0.f;
 	m_fFrame = rand() % 200 * 0.01f;
 	Save_OriginPos();
+
+	_vec3 vPos;
+	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+	vScale = m_pDynamicTransCom->Get_Scale();
+	m_pColliderCom->Set_vCenter(&vPos, &vScale);
+
 	return S_OK;
 }
 
@@ -114,6 +121,15 @@ bool	CFatBat::Dead_Judge(const _float& fTimeDelta)
 
 _int CFatBat::Update_Object(const _float & fTimeDelta)
 {
+
+	// 맨위에있어야됌 리턴되면 안됌
+	_matrix matWorld;
+	_vec3 vScale;
+	vScale = m_pDynamicTransCom->Get_Scale();
+	m_pDynamicTransCom->Get_WorldMatrix(&matWorld);
+	m_pColliderCom->Set_HitBoxMatrix_With_Scale(&matWorld, vScale);
+	// 맨위에있어야됌 리턴되면 안됌
+
 	// 수정 쿨타임 대신 타임
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 	if (Distance_Over())
@@ -145,6 +161,9 @@ _int CFatBat::Update_Object(const _float & fTimeDelta)
 	}
 
 	m_pDynamicTransCom->Update_Component(fTimeDelta);
+	
+	
+	
 	CMonsterBase::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
 
@@ -295,6 +314,7 @@ void CFatBat::Collision_Event()
 				break;
 			}
 		}
+		::PlaySoundW(L"explosion_1.wav", SOUND_EFFECT, 0.05f); // BGM
 	}
 
 
@@ -303,7 +323,20 @@ void CFatBat::Collision_Event()
 
 void CFatBat::Excution_Event()
 {
-	// 추후 로직추가
+	if (!m_bDead && 1 >= m_pInfoCom->Get_Hp())
+	{
+		m_pInfoCom->Receive_Damage(1);
+		_vec3	vPos;
+		CGameObject *pGameObject = nullptr;
+		CScene* pScene = Get_Scene();
+		CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+		READY_CREATE_EFFECT_VECTOR(pGameObject, CSpecial_Effect, pLayer, m_pGraphicDev, vPos);
+		static_cast<CSpecial_Effect*>(pGameObject)->Set_Effect_INFO(OWNER_PALYER, 0, 17, 0.2f);
+
+		::PlaySoundW(L"explosion_1.wav", SOUND_EFFECT, 0.05f); // BGM
+
+	}
 }
 
 void	CFatBat::FatBat_Fly(const _float& fTimeDelta)
