@@ -407,21 +407,17 @@ void CTestPlayer::EquipItem_Add_Stat(void)
 	CCoin* pCoin = static_cast<CCoin*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Coin"));
 	CKey* pKey = static_cast<CKey*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Key"));
 
-	// ShotGunÀ» ¸ÔÀº °æ¿ì
-	if (pShotGun->Get_RenderFalse() == true && m_bCurStat)
-	{
-		m_bPreStat = true;
-	}
+	
 
-	if (pCoin->Get_bAddCoin() == true && m_bCurStat)
-	{
-		m_bPreStat = true;
-	}
+	//if (pCoin->Get_bAddCoin() == true && m_bCurStat)
+	//{
+	//	m_bPreStat = true;
+	//}
 
-	if (pKey->Get_bAddKey() == true && m_bCurStat)
-	{
-		m_bPreStat = true;
-	}
+	//if (pKey->Get_bAddKey() == true && m_bCurStat)
+	//{
+	//	m_bPreStat = true;
+	//}
 	
 
 	if (m_bPreStat)

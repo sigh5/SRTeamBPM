@@ -13,13 +13,15 @@
 USING(Engine)
 
 CEquipmentBase::CEquipmentBase(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CGameObject(pGraphicDev)
+	: CGameObject(pGraphicDev) 
 {
+	ZeroMemory(&rcUI, sizeof(RECT));
 }
 
 CEquipmentBase::CEquipmentBase(const CEquipmentBase & rhs)
 	: CGameObject(rhs)
 {
+	memcpy(&rcUI,&rhs.rcUI, sizeof(RECT));
 }
 
 CEquipmentBase::~CEquipmentBase()

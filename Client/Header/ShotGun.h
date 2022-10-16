@@ -10,10 +10,7 @@ class CRcTex;
 class CAnimation;
 class CCalculator;
 class CCollider;
-
-
 END
-
 
 class CShotGun : public CEquipmentBase
 {
@@ -29,7 +26,12 @@ public:
 	virtual void		Collision_Event()override;
 	
 
-	_bool				Get_RenderFalse(void) { return m_bRenderFalse; }
+public:
+	void				Set_MouseToInventory();
+
+public:
+	_bool				EquipIconPicking();
+	_matrix				m_ProjMatrix;
 
 private:
 	CTransform*				m_pTransCom = nullptr;
@@ -46,8 +48,12 @@ private:
 	// 샷건이 가지는 기본 탄창량
 	_uint				m_iShotgunMagazine = 6;
 	
-	_bool				m_bRenderFalse = false;
-
+	float			m_fX = 0.f;
+	float			m_fY = 0.f;
+	float			m_fSizeX = 0.f;
+	float			m_fSizeY = 0.f;
+	
+	_bool			m_bOnce = false;
 
 public:
 	static CShotGun*	Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint iX, _uint iZ);

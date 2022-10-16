@@ -64,7 +64,7 @@ _int CGun_Screen::Update_Object(const _float & fTimeDelta)
 
 	Add_UpdateComponent();
 
-	CShotGun* pShotGun = dynamic_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"));
+	/*CShotGun* pShotGun = dynamic_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"));
 
 	if (pShotGun != nullptr)
 	{
@@ -72,7 +72,7 @@ _int CGun_Screen::Update_Object(const _float & fTimeDelta)
 		{
 			m_pAnimationCom->Ready_Animation(15, 0, 0.2f);
 		}
-	}
+	}*/
 	
 	Engine::CGameObject::Update_Object(fTimeDelta);
 		

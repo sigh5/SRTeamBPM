@@ -32,28 +32,18 @@ HRESULT CInventory_UI::Ready_Object()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	Set_OrthoMatrix(250.f, 320.f, 100.f, 100.f);
+	Set_OrthoMatrix(512.f, 512.f, 0.f, 0.f);
 
 	m_vecScale = { m_fSizeX, m_fSizeY, 1.f };
 
 	m_pTransCom->Set_Scale(&m_vecScale);
 	m_pTransCom->Set_Pos(m_fX , m_fY , 0.3f);
-	//m_pTransCom->Set_Pos(m_fX - WINCX * 0.5f, -m_fY + WINCY * 0.5f, 0.2f);
-											// 120.f
+	
 	return S_OK;
 }
 
 _int CInventory_UI::Update_Object(const _float & fTimeDelta)
 {
-	/*if (0 != m_vecWeaponType.size())
-	{
-		for (_uint i = 0; i < 5; ++i)
-		{
-			
-		}
-	}*/
-	//cout << m_vecWeaponType.size() << endl;
-
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
 	Add_RenderGroup(RENDER_UI, this);
@@ -63,20 +53,7 @@ _int CInventory_UI::Update_Object(const _float & fTimeDelta)
 
 void CInventory_UI::LateUpdate_Object(void)
 {
-	//RECT		rcUI = { m_fX - m_fSizeX * 0.5f, m_fY - m_fSizeY  *0.5f, m_fX + m_fSizeX * 3.5f, m_fY + m_fSizeY * 2.5f };//rcUI = { m_fX - m_fSizeX, m_fY - m_fSizeY, m_fX + m_fSizeX * 1.5f, m_fY + m_fSizeY * 1.5f };
-	////RECT		rcUI = { m_fX - m_fSizeX * 1.5f, m_fY - m_fSizeY  *1.5f, m_fX + m_fSizeX * 1.5f, m_fY + m_fSizeY * 1.5f };
-	//
-	//POINT		ptMouse;
-	//GetCursorPos(&ptMouse);
-	//ScreenToClient(g_hWnd, &ptMouse);
-	//
-	//if (PtInRect(&rcUI, ptMouse) && (Get_DIMouseState(DIM_LB) & 0x80))
-	//{
-	//	//MSG_BOX("충돌");		
-	//	m_pTransCom->Set_Pos((_float)ptMouse.x -(WINCX * 0.5f), (_float)ptMouse.y - (WINCY * 0.5f), 0.2f);
-	//
-	//	cout << "마우스 위치 : " << ptMouse.x << "//" << ptMouse.y << endl;
-	//}
+	
 	
 }
 
@@ -112,12 +89,16 @@ void CInventory_UI::Render_Obejct(void)
 		dynamic_cast<CMyCamera*>(Engine::Get_GameObject(L"Layer_Environment", L"CMyCamera"))->Set_inventroyActive(m_bInvenSwitch);
 		dynamic_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"))->Set_inventroyActive(m_bInvenSwitch);
 
-		if (dynamic_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"))->Get_RenderFalse() == true)
-		{
-			dynamic_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"))->Set_RenderControl(true);
+		CShotGun* pShotGun = dynamic_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"));
 
-			_uint iA = 0;
-		}	
+		if (pShotGun != nullptr)
+		{
+			{
+				_uint iA = 0;
+			}
+		}
+
+	
 	}
 
 	::Key_InputReset();

@@ -357,14 +357,14 @@ void CPlayer::EquipItem_Add_Stat(void)  // 현재 각 아이템들 충돌처리 부분이 애매
 	CKey* pKey = static_cast<CKey*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Key"));*/
 
 	// ShotGun을 먹은 경우
-	if (pShotGun!=nullptr  &&pShotGun->Get_RenderFalse() == true && m_bCurStat && !m_bGainItem[0])
+	/*if (pShotGun!=nullptr  &&pShotGun->Get_RenderFalse() == true && m_bCurStat && !m_bGainItem[0])
 	{
 		_uint iAtk = 0;
 		iAtk = m_pInfoCom->Get_InfoRef()._iAttackPower + pShotGun->Get_EquipInfoRef()._iAddAttack;
 		m_pInfoCom->Get_InfoRef()._iAttackPower = iAtk;
 		m_bCurStat = false;	
 		m_bGainItem[0] = true;
-	}
+	}*/
 
 	//if (pCoin != nullptr && pCoin->Get_bAddCoin() == true && m_bCurStat && !m_bGainItem[1])
 	//{

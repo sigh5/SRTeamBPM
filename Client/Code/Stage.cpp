@@ -196,14 +196,18 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	READY_LAYER(pGameObject, CShopUI, pLayer, m_pGraphicDev, L"ShopUI");
 
 
+	pGameObject = CShotGun::Create(m_pGraphicDev, 20, 20);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"ShotGun", pGameObject), E_FAIL);
 
-	CFileIOMgr::GetInstance()->Load_FileData(m_pGraphicDev,
+
+	/*CFileIOMgr::GetInstance()->Load_FileData(m_pGraphicDev,
 		this,
 		const_cast<_tchar*>(pLayerTag),
 		L"../../Data/",
 		L"Monster1.dat",
 		L"Monster",
-		OBJ_MONSTER);
+		OBJ_MONSTER);*/
 
 	return S_OK;
 }

@@ -47,7 +47,6 @@ public:
 
 private:
 	_vec3				m_vecScale;
-
 	_bool				m_bInvenSwitch = false;
 
 	vector<CEquipmentBase*>		m_vecWeaponType;
