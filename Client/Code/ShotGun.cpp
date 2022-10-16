@@ -37,8 +37,6 @@ _int CShotGun::Update_Object(const _float & fTimeDelta)
 {
 	_uint iResult = Engine::CGameObject::Update_Object(fTimeDelta);
 
-	//Set_OnTerrain();
-
 	Add_RenderGroup(m_RenderID, this);
 	
 	return iResult;
@@ -204,7 +202,7 @@ void CShotGun::Collision_Event()
 	pGameObject = pLayer->Get_GameObject(L"Player");
 	NULL_CHECK_RETURN(pGameObject, );
 			
-	if (!m_pColliderCom->Check_Collision(this, pGameObject, 1, 1))
+	if (m_pColliderCom->Check_Collision(this, pGameObject, 1, 1))
 	{
 		if (Get_DIKeyState(DIK_F) & 0x80)//Engine::Key_Down(DIK_F))
 		{
@@ -225,20 +223,7 @@ void CShotGun::Collision_Event()
 	}
 }
 
-void CShotGun::Set_OnTerrain(void)
-{
-	_vec3		vPos;
-	m_pTransCom->Get_Info(INFO_POS, &vPos);
 
-	Engine::CTerrainTex*	pTerrainTexCom = dynamic_cast<Engine::CTerrainTex*>(Engine::Get_Component(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC));
-	NULL_CHECK(pTerrainTexCom);
-
-	_float fHeight = m_pCalculatorCom->HeightOnTerrain(&vPos, pTerrainTexCom->Get_VtxPos(), VTXCNTX, VTXCNTZ);
-
-	m_pTransCom->Set_Pos(vPos.x, fHeight + 0.8f, vPos.z);
-
-	
-}
 
 HRESULT CShotGun::Add_Component(void)
 { // CDynamic_Transform

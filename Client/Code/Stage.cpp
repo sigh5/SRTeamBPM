@@ -2,50 +2,8 @@
 #include "..\Header\Stage.h"
 
 #include "Export_Function.h"
-#include "SkyBox.h"
-#include "Effect.h"
 
-#include "FileIOMgr.h"
-#include "ObjectMgr.h"
-
-#include "Player.h"
-
-#include "MyCamera.h"
-
-#include "Box.h"
-#include "HealthPotion.h"
-#include "ShotGun.h"
-#include "HpBar.h"
-
-#include "CoinKeyUI.h"
-#include "Status_UI.h"
-#include "MetronomeUI.h"
-#include "MetronomeSmallUI.h"
-#include "DashUI.h"
-#include "Inventory_UI.h"
-#include "Gun_Screen.h"
-#include "Player_Dead_UI.h"
-#include "UI_Effect.h"
-
-#include "UI_Frame.h"
-
-#include "Snowfall.h"
-#include "HitBlood.h"
-
-#include "Anubis.h"
-#include "Spider.h"
-#include "FatBat.h"
-#include "Sphinx.h"
-#include "Ghul.h"
-#include "Obelisk.h"
-#include "EarthShaker.h"
-
-#include "ControlRoom.h"
-#include "Ax.h"
-#include "FireTrap.h"
-#include "MouseMgr.h"
-#include "Npc.h"
-#include "MouseMgr.h"
+#include "Stage1PreHeader.h"
 
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -164,8 +122,6 @@ void CStage::LateUpdate_Scene(void)
 	}
 
 	Engine::CScene::LateUpdate_Scene();
-
-
 	pLayer = GetLayer(L"Layer_Room");
 
 	
@@ -237,10 +193,9 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Trap1", pGameObject), E_FAIL);
 
-	// Gun_Screen 테스트 용으로 넣어놨음 참고
-	pGameObject = CShotGun::Create(m_pGraphicDev, 10, 10);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"ShotGun", pGameObject), E_FAIL);
+	READY_LAYER(pGameObject, CShopUI, pLayer, m_pGraphicDev, L"ShopUI");
+
+
 
 	CFileIOMgr::GetInstance()->Load_FileData(m_pGraphicDev,
 		this,

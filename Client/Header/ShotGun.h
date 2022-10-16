@@ -28,7 +28,6 @@ public:
 	virtual void		Render_Obejct(void);
 	virtual void		Collision_Event()override;
 	
-	void				 Set_OnTerrain(void);
 
 	_bool				Get_RenderFalse(void) { return m_bRenderFalse; }
 

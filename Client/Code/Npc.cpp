@@ -95,7 +95,7 @@ void CNpc::Render_Obejct(void)
 
 void CNpc::Collision_Event()
 {
-	if (Key_Down(DIK_F) )
+	if (Key_Down(DIK_F))
 	{
 		CScene  *pScene = ::Get_Scene();
 		NULL_CHECK_RETURN(pScene, );
@@ -107,7 +107,8 @@ void CNpc::Collision_Event()
 		NULL_CHECK_RETURN(pGameObject, );
 		CTransform *pTransform = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_DynamicTransformCom", ID_DYNAMIC));
 
-		if (m_pColliderCom->Check_Collision(this, pGameObject, 1, 1))
+		// Test¿ë
+		if (!m_pColliderCom->Check_Collision(this, pGameObject, 1, 1))
 		{
 			cout << "Shop OPEN" << endl;
 		}

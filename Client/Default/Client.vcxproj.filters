@@ -302,12 +302,16 @@
     <ClCompile Include="..\Code\Npc.cpp">
       <Filter>02. GameObject\01. For_Stage\16. NPC</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\ShopUI.cpp" />
     <ClCompile Include="..\Code\UI_Effect.cpp">
       <Filter>02. GameObject\01. For_Stage\07. Effect\UI_Effect</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\FirePillar.cpp" />
-    <ClCompile Include="..\Code\FireTrap.cpp" />
+    <ClCompile Include="..\Code\ShopUI.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\95. ShopUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FireTrap.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. Monster\07. FireTrap</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -627,12 +631,19 @@
     <ClInclude Include="..\Header\Npc.h">
       <Filter>02. GameObject\01. For_Stage\16. NPC</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\ShopUI.h" />
     <ClInclude Include="..\Header\UI_Effect.h">
       <Filter>02. GameObject\01. For_Stage\07. Effect\UI_Effect</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\FirePillar.h" />
-    <ClInclude Include="..\Header\FireTrap.h" />
+    <ClInclude Include="..\Header\ShopUI.h">
+      <Filter>02. GameObject\01. For_Stage\10. UI\95. ShopUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\FireTrap.h">
+      <Filter>02. GameObject\01. For_Stage\02. Monster\07. FireTrap</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Stage1PreHeader.h">
+      <Filter>99. Default\PreSceneHeader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -912,6 +923,12 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\02. Monster\03. Sphinx\03. HitEffect">
       <UniqueIdentifier>{ffb685ba-12a5-4b36-9cdf-b341a75516af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\02. Monster\07. FireTrap">
+      <UniqueIdentifier>{dcd88898-686a-4041-94f2-18b1f08de531}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99. Default\PreSceneHeader">
+      <UniqueIdentifier>{7bbba3a4-82ee-45b1-b6fe-01f6151023ed}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

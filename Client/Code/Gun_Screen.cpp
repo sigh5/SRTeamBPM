@@ -64,13 +64,16 @@ _int CGun_Screen::Update_Object(const _float & fTimeDelta)
 
 	Add_UpdateComponent();
 
-	CShotGun* pShotGun = static_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"));
+	CShotGun* pShotGun = dynamic_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"));
 
-	if (pShotGun->Get_RenderFalse() == true)
+	if (pShotGun != nullptr)
 	{
-		m_pAnimationCom->Ready_Animation(15, 0, 0.2f);
+		if (pShotGun->Get_RenderFalse() == true)
+		{
+			m_pAnimationCom->Ready_Animation(15, 0, 0.2f);
+		}
 	}
-
+	
 	Engine::CGameObject::Update_Object(fTimeDelta);
 		
 	Add_RenderGroup(RENDER_UI, this);
