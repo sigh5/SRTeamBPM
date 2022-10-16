@@ -38,7 +38,7 @@ _int CTeleCube::Update_Object(const _float & fTimeDelta)
 		m_fActiveTimer += 1.f*fTimeDelta;
 	}
 
-	if (m_fActiveTimer >= 3.f)
+	if (m_fActiveTimer >= 5.f)
 	{
 		m_bSetActive = false;
 		m_bCollisionCheck = false;
@@ -51,6 +51,7 @@ _int CTeleCube::Update_Object(const _float & fTimeDelta)
 			dynamic_cast<CControlRoom*>(iter)->Set_CheckCollision(false);
 		}
 	}
+
 
 
 	CGameObject::Update_Object(fTimeDelta);
