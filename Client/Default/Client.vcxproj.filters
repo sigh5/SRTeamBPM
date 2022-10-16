@@ -305,6 +305,7 @@
     </ClCompile>
     <ClCompile Include="..\Code\FirePillar.cpp" />
     <ClCompile Include="..\Code\FireTrap.cpp" />
+    <ClCompile Include="..\Code\ObeliskWreck.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -627,6 +628,7 @@
     </ClInclude>
     <ClInclude Include="..\Header\FirePillar.h" />
     <ClInclude Include="..\Header\FireTrap.h" />
+    <ClInclude Include="..\Header\ObeliskWreck.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">

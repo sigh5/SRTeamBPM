@@ -64,10 +64,11 @@ HRESULT CFatBat::Ready_Object(int Posx, int Posy)
 	m_fFrame = rand() % 200 * 0.01f;
 	Save_OriginPos();
 
-	_vec3 vPos;
-	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
-	vScale = m_pDynamicTransCom->Get_Scale();
-	m_pColliderCom->Set_vCenter(&vPos, &vScale);
+	m_pDynamicTransCom->Set_Info(INFO_POS, &_vec3((float)Posx, 2.f, (float)Posy));
+	
+
+	m_pDynamicTransCom->Update_Component(1.f);
+
 
 	return S_OK;
 }
@@ -122,6 +123,8 @@ bool	CFatBat::Dead_Judge(const _float& fTimeDelta)
 _int CFatBat::Update_Object(const _float & fTimeDelta)
 {
 
+	m_pDynamicTransCom->Update_Component(fTimeDelta);
+
 	// 맨위에있어야됌 리턴되면 안됌
 	_matrix matWorld;
 	_vec3 vScale;
@@ -160,9 +163,7 @@ _int CFatBat::Update_Object(const _float & fTimeDelta)
 		Hit_Loop(fTimeDelta);
 	}
 
-	m_pDynamicTransCom->Update_Component(fTimeDelta);
-	
-	
+
 	
 	CMonsterBase::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);

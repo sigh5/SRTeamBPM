@@ -209,6 +209,7 @@
     <ClInclude Include="..\Header\Npc.h" />
     <ClInclude Include="..\Header\Obelisk.h" />
     <ClInclude Include="..\Header\ObeliskSpawnEffect.h" />
+    <ClInclude Include="..\Header\ObeliskWreck.h" />
     <ClInclude Include="..\Header\ObjectMgr.h" />
     <ClInclude Include="..\Header\Obstacle.h" />
     <ClInclude Include="..\Header\Player.h" />
@@ -312,6 +313,7 @@
     <ClCompile Include="..\Code\Npc.cpp" />
     <ClCompile Include="..\Code\Obelisk.cpp" />
     <ClCompile Include="..\Code\ObeliskSpawnEffect.cpp" />
+    <ClCompile Include="..\Code\ObeliskWreck.cpp" />
     <ClCompile Include="..\Code\ObjectMgr.cpp" />
     <ClCompile Include="..\Code\Obstacle.cpp" />
     <ClCompile Include="..\Code\Player.cpp" />

@@ -47,6 +47,13 @@ HRESULT CSpider::Ready_Object(int Posx, int Posy)
 		m_pDynamicTransCom->Set_Pos((_float)Posx, m_pDynamicTransCom->m_vScale.y * 0.5f, (_float)Posy);
 	}
 	Save_OriginPos();
+
+	// ControlRoom
+	_vec3 vPos, vScale;
+	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+	vScale = m_pDynamicTransCom->Get_Scale();
+	m_pColliderCom->Set_vCenter(&vPos, &vScale);
+	// ~ControlRoom
 	return S_OK;
 }
 bool	CSpider::Dead_Judge(const _float& fTimeDelta)

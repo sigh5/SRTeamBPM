@@ -186,6 +186,17 @@ void		CMonsterBase::Save_OriginPos(void)
 {
 	m_vOriginPos = m_pDynamicTransCom->m_vInfo[INFO_POS];
 	m_iOriginHp = m_pInfoCom->Get_Hp();
+
+
+	_vec3 vScale = m_pDynamicTransCom->m_vScale;
+	vScale = m_pDynamicTransCom->Get_Scale();
+	m_pColliderCom->Set_HitRadiuos(0.5f);
+	m_pColliderCom->Set_vCenter(&m_vOriginPos, &vScale);
+	m_pDynamicTransCom->Set_CountMovePos(&_vec3(0.f, 0.f, 0.f));
+
+	m_pColliderCom->Set_HitBoxMatrix(&(m_pDynamicTransCom->m_matWorld));
+	m_pColliderCom->Update_Component(1.f);
+	m_pDynamicTransCom->Update_Component(1.f);
 }
 void		CMonsterBase::Get_BackOriginPos(void)
 {

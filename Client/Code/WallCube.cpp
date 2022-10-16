@@ -5,6 +5,7 @@
 #include "Export_Function.h"
 #include "Terrain.h"
 #include "AbstractFactory.h"
+#include "SphinxFlyHead.h"
 
 
 CWallCube::CWallCube(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -180,15 +181,25 @@ void CWallCube::Collision_Event()
 
 		//CCollider* pColider = static_cast<CCollider*>(pGameObject->Get_Component(L"Proto_ColliderCom", ID_STATIC));
 
-		if (m_pColliderCom->Check_Collsion_CubeAABB(m_pColliderCom, pGameObject))
-			_bool b = false;
+		/*if (m_pColliderCom->Check_Collsion_CubeAABB(m_pColliderCom, pGameObject))
+			_bool b = false;*/
 		
-		for (auto iter = pLayer->m_vecColliderMonster.begin(); iter != pLayer->m_vecColliderMonster.end(); ++iter)
+		for (auto iter : pLayer->Get_MapObject())
 		{
-			if (m_pColliderCom->Check_Collsion_CubeAABB(m_pColliderCom, (*iter)))
-				_bool b = false;
+			if (nullptr == dynamic_cast<CMonsterBase*>(iter.second))
+			{
+				continue;
+			}
+			else
+			{
+				if (nullptr != dynamic_cast<CSphinxFlyHead*>(iter.second))
+					continue;
+				if (m_pColliderCom->Check_Collsion_CubeAABB(m_pColliderCom, iter.second))
+					_bool b = false;
+			}
 		}
-		pLayer->m_vecColliderMonster.clear();
+		pLayer->Clear_ColliderMonster();
+
 		
 	}
 

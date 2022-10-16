@@ -393,6 +393,7 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 			if (SCENE_TOOLTEST != Get_Scene()->Get_SceneType())
 			{
 				static_cast<CMonsterBase*>(pGameObject)->Save_OriginPos();
+
 			}
 			Transcom->Update_Component(0.01f);
 
