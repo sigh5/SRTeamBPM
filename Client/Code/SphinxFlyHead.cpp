@@ -279,10 +279,22 @@ void		CSphinxFlyHead::AttackLeftRight(const _float& fTimeDelta)
 	if (4 == m_pLRAttackAnimationCom->m_iMotion)
 	{
 		LeftAttack(fTimeDelta);
+		if (false == m_bLRAttackSound)
+		{
+			::StopSound(SOUND_EFFECT);
+			::PlaySoundW(L"executor_spell_sound.wav", SOUND_EFFECT, 0.4f);
+			m_bLRAttackSound = true;
+		}
 	}
 	if (2 == m_pLRAttackAnimationCom->m_iMotion)
 	{
 		RightAttack(fTimeDelta);
+		if (false == m_bLRAttackSound)
+		{
+			::StopSound(SOUND_EFFECT);
+			::PlaySoundW(L"executor_spell_sound.wav", SOUND_EFFECT, 0.4f);
+			m_bLRAttackSound = true;
+		}
 	}
 	if (3 == m_pLRAttackAnimationCom->m_iMotion || 1 == m_pLRAttackAnimationCom->m_iMotion)
 	{
@@ -299,6 +311,12 @@ void		CSphinxFlyHead::AttackLeftRight(const _float& fTimeDelta)
 	if (0 == m_pLRAttackAnimationCom->m_iMotion)
 	{
 		LeftRightJudge(fTimeDelta);
+		if (false == m_bLRChargeSound)
+		{
+			::StopSound(SOUND_EFFECT);
+			::PlaySoundW(L"curse_spell_loop_sound.wav", SOUND_EFFECT, 0.4f);
+			m_bLRChargeSound = true;
+		}
 	}
 
 
@@ -349,6 +367,8 @@ void CSphinxFlyHead::LeftAttack(const _float & fTimeDelta)
 		m_bGet_PlayerPos_LR = false;
 		m_bSelectedLeftRight = false;
 		m_iLRJudge = 0;
+		m_bLRChargeSound = false;
+		m_bLRAttackSound = false;
 	}
 }
 
@@ -388,6 +408,12 @@ void	CSphinxFlyHead::BodyAttack(const _float& fTimeDelta)
 	{
 	case 0:
 		//Ready level
+		if (false == m_bChargeSound)
+		{
+			::StopSound(SOUND_EFFECT);
+			::PlaySoundW(L"Energy_Shield_Looping_1.wav", SOUND_EFFECT, 0.4f);
+			m_bChargeSound = true;
+		}
 		m_bRenderBodyAttack = true;
 		m_pBodyAttackAnimation->Move_Animation(fTimeDelta);
 		if (m_pBodyAttackAnimation->m_iMaxMotion <= m_pBodyAttackAnimation->m_iMotion)
@@ -406,9 +432,28 @@ void	CSphinxFlyHead::BodyAttack(const _float& fTimeDelta)
 
 	case 2:
 		Tackle(fTimeDelta);
+		if (false == m_bBodyAttackSound)
+		{
+			_int BodyAttacksound = rand() % 2;
+			switch (BodyAttacksound)
+			{
+			case 0:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"satan_transform_2to3.wav", SOUND_MONSTER, 0.4f);
+				break;
+
+			case 1:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"satan_transform_3to4.wav", SOUND_MONSTER, 0.4f);
+				break;
+			}
+			m_bBodyAttackSound = true;
+		}
 		if (m_bAttack == false)
 		{
 			m_iBodyAttackLevel = 0;
+			m_bBodyAttackSound = false;
+			m_bChargeSound = false;
 		}
 		break;
 

@@ -40,8 +40,11 @@ private:
 	bool		m_bReady_Attack = false;
 	bool		m_bAttackWaiting = false;
 	bool		m_bReadyAttackNumber = false;
+	bool		m_bQoongSound = false;
+	bool		m_bAttackSound = false;
 
 	bool		m_bSpikeCreate = false;
+
 
 	list<CEarthSpike*>	m_Spikelist;
 	float		m_fInterval = 0.f;

@@ -34,6 +34,7 @@ private:
 	CTexture*			m_pDeadTextureCom = nullptr;
 	bool				m_bHitPlayer = false;
 	CAnimation*			m_pDeadAnimationCom = nullptr;
+	bool				m_bExplosionSound = false;
 
 public:
 	static CSphinxBullet*		Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos);

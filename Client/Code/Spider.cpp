@@ -53,7 +53,27 @@ bool	CSpider::Dead_Judge(const _float& fTimeDelta)
 {
 	if (0 >= m_pInfoCom->Get_Hp())
 	{
-		m_bDead = true;
+		if (false == m_bDead)
+		{
+			_int Hitsound = rand() % 3;
+			switch (Hitsound)
+			{
+			case 0:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Spider_death_01.wav", SOUND_MONSTER, 0.4f);
+				break;
+			case 1:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Spider_death_02.wav", SOUND_MONSTER, 0.4f);
+				break;
+			case 2:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Spider_death_03.wav", SOUND_MONSTER, 0.4f);
+				break;
+			}
+
+			m_bDead = true;
+		}
 	}
 	if (m_bDead)
 	{
@@ -213,10 +233,30 @@ void CSpider::Collision_Event()
 		cout << "Spider "<<m_pInfoCom->Get_InfoRef()._iHp << endl;
 		static_cast<CGun_Screen*>(pGameObject)->Set_Shoot(false);
 	
-		READY_CREATE_EFFECT_VECTOR(pGameObject, CSpecial_Effect, pLayer, m_pGraphicDev, vPos);
-		static_cast<CSpecial_Effect*>(pGameObject)->Set_Effect_INFO(OWNER_PALYER, 0, 17, 0.2f);
+		READY_CREATE_EFFECT_VECTOR(pGameObject, CHitEffect, pLayer, m_pGraphicDev, vPos);
+		static_cast<CHitEffect*>(pGameObject)->Set_Effect_INFO(OWNER_SPIDER, 0, 7, 0.2f);
+	
+		if (false == m_bDead)
+		{
+			_int Hitsound = rand() % 3;
+			switch (Hitsound)
+			{
+			case 0:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Spider_pain_01.wav", SOUND_MONSTER, 0.4f);
+				break;
 
-		::PlaySoundW(L"explosion_1.wav", SOUND_EFFECT, 0.05f); // BGM
+			case 1:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Spider_pain_02.wav", SOUND_MONSTER, 0.4f);
+				break;
+
+			case 2:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Spider_pain_03.wav", SOUND_MONSTER, 0.4f);
+				break;
+			}
+		}
 	}
 }
 
@@ -242,6 +282,27 @@ void		CSpider::Attack(const _float& fTimeDelta)
 {
 	m_pAttackAnimationCom->Move_Animation(fTimeDelta);
 
+	if (false == m_bReadyAttackSound)
+	{
+		_int Hitsound = rand() % 3;
+		switch (Hitsound)
+		{
+		case 0:
+			::StopSound(SOUND_MONSTER);
+			::PlaySoundW(L"Spider_detect_01.wav", SOUND_MONSTER, 0.4f);
+			break;
+		case 1:
+			::StopSound(SOUND_MONSTER);
+			::PlaySoundW(L"Spider_detect_02.wav", SOUND_MONSTER, 0.4f);
+			break;
+		case 2:
+			::StopSound(SOUND_MONSTER);
+			::PlaySoundW(L"Spider_detect_03.wav", SOUND_MONSTER, 0.4f);
+			break;
+		}
+		m_bReadyAttackSound = true;
+	}
+
 	CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
 	float Distance;
 	Get_MonsterToPlayer_Distance(&Distance);
@@ -252,6 +313,26 @@ void		CSpider::Attack(const _float& fTimeDelta)
 			pPlayerInfo->Receive_Damage(m_pInfoCom->Get_AttackPower());
 			m_bHitDamage = false;
 		}
+		if (false == m_bAttackSound)
+		{
+			_int Hitsound = rand() % 3;
+			switch (Hitsound)
+			{
+			case 0:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Spider_attack_01.wav", SOUND_MONSTER, 0.4f);
+				break;
+			case 1:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Spider_attack_02.wav", SOUND_MONSTER, 0.4f);
+				break;
+			case 2:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Spider_attack_03.wav", SOUND_MONSTER, 0.4f);
+				break;
+			}
+			m_bAttackSound = true;
+		}
 	}
 	
 	if (9 == m_pAttackAnimationCom->m_iMotion)
@@ -261,12 +342,34 @@ void		CSpider::Attack(const _float& fTimeDelta)
 			pPlayerInfo->Receive_Damage(m_pInfoCom->Get_AttackPower());
 			m_bHitDamage = false;
 		}
+		if (false == m_bAttackSound2)
+		{
+			_int Hitsound = rand() % 3;
+			switch (Hitsound)
+			{
+			case 0:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Spider_attack_01.wav", SOUND_MONSTER, 0.4f);
+				break;
+			case 1:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Spider_attack_02.wav", SOUND_MONSTER, 0.4f);
+				break;
+			case 2:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Spider_attack_03.wav", SOUND_MONSTER, 0.4f);
+				break;
+			}
+			m_bAttackSound2 = true;
+		}
 	}
 
 	if (m_pAttackAnimationCom->m_iMotion >= m_pAttackAnimationCom->m_iMaxMotion)
 	{
 		m_bAttack = false;
 		m_bHitDamage = true;
+		m_bAttackSound = false;
+		m_bAttackSound2 = false;
 	}
 }
 

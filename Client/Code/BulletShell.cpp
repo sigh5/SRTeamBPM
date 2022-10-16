@@ -34,13 +34,29 @@ _int CBulletShell::Update_Object(const _float & fTimeDelta)
 	vRight = m_vDir * 0.4f;
 	vUp = m_vUpDown * 0.5f;
 	vResult = vRight + vUp;
-
-	if (m_pTransCom->m_vScale.y * 0.5f < m_pTransCom->m_vInfo[INFO_POS].y)
+	if (m_iDropGround < 3)
+	m_pTransCom->Move_Pos(&vResult);
+	if (m_pTransCom->m_vScale.y * 0.5f > m_pTransCom->m_vInfo[INFO_POS].y && m_iDropGround < 3)
 	{
-		m_pTransCom->Move_Pos(&vResult);
-
-		m_vUpDown += _vec3(0.f, -0.1f, 0.f);
+		m_vUpDown = -m_vUpDown * 0.5f;
+		switch (m_iDropGround)
+		{
+		case 0:
+			::StopSound(SOUND_OBJECT);
+			::PlaySoundW(L"case_pistol_1.wav", SOUND_OBJECT, 0.5f);
+			break;
+		case 1:
+			::StopSound(SOUND_OBJECT);
+			::PlaySoundW(L"case_pistol_2.wav", SOUND_OBJECT, 0.5f);
+			break;
+		case 2:
+			::StopSound(SOUND_OBJECT);
+			::PlaySoundW(L"case_pistol_3.wav", SOUND_OBJECT, 0.5f);
+			break;
+		}
+		++m_iDropGround;
 	}
+	m_vUpDown += _vec3(0.f, -0.1f, 0.f);
 	Engine::CGameObject::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
 	return 0;

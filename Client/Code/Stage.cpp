@@ -42,6 +42,7 @@
 
 #include "ControlRoom.h"
 #include "Ax.h"
+#include "FireTrap.h"
 #include "MouseMgr.h"
 #include "Npc.h"
 #include "MouseMgr.h"
@@ -49,7 +50,7 @@
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
 {
-	//ÁÖ¼®Áö¿ì¼À
+	
 }
 
 CStage::~CStage()
@@ -243,7 +244,9 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"NPC", pGameObject), E_FAIL);
 	
-	
+	pGameObject = CFireTrap::Create(m_pGraphicDev, 320, 320);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Trap1", pGameObject), E_FAIL);
 
 
 

@@ -168,9 +168,15 @@ void		CSphinx::Collision_Event()
 
 		READY_CREATE_EFFECT_VECTOR(pGameObject, CHitEffect, pLayer, m_pGraphicDev, vPos);
 		static_cast<CHitEffect*>(pGameObject)->Set_Effect_INFO(OWNER_SPHINX, 0, 7, 0.2f);
-	}
 
+		if (false == m_bTransform)
+		{
+			::StopSound(SOUND_MONSTER);
+			::PlaySoundW(L"Satan_pain_01.wav", SOUND_MONSTER, 0.4f);
+		}
+	}
 }
+
 
 void CSphinx::BattleLoop(const _float & fTimeDelta)
 {
@@ -221,6 +227,13 @@ void CSphinx::AttackJudge(const _float & fTimeDelta)
 
 void CSphinx::Attack(const _float & fTimeDelta)
 {
+	if (false == m_bAttackSound)
+	{
+		::StopSound(SOUND_MONSTER);
+		::PlaySoundW(L"Sphynx_attack_01.wav", SOUND_MONSTER, 0.5f);
+		m_bAttackSound = true;
+	}
+
 	m_pAnimationCom->Move_Animation(fTimeDelta);
 	CTransform* pPlayerTransform =static_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
 	_vec3 vSphinxPos = m_pDynamicTransCom->m_vInfo[INFO_POS];
@@ -229,6 +242,7 @@ void CSphinx::Attack(const _float & fTimeDelta)
 	D3DXVec3Cross(&vDir, &_vec3(0.f, 1.f, 0.f), &vDir);
 	if (m_pAnimationCom->m_iMotion == 5)
 	{
+		
 		if (0 == m_iShootLeftRight)
 		{
 			_vec3 vPosOrigin, vPos;
@@ -246,6 +260,9 @@ void CSphinx::Attack(const _float & fTimeDelta)
 			NULL_CHECK_RETURN(pGameObject, );
 			pMyLayer->Add_GameObjectList(pGameObject);
 			++m_iShootLeftRight;
+
+			::StopSound(SOUND_EFFECT);
+			::PlaySoundW(L"staff_basic_shot.wav", SOUND_EFFECT, 0.25f);
 		}
 		else if (1 == m_iShootLeftRight)
 		{
@@ -270,6 +287,7 @@ void CSphinx::Attack(const _float & fTimeDelta)
 	if (m_pAnimationCom->m_iMotion == 6)
 	{
 		m_iShootLeftRight = 0;
+		
 	}
 	if (m_pAnimationCom->m_iMotion == 8)
 	{
@@ -282,6 +300,7 @@ void CSphinx::Attack(const _float & fTimeDelta)
 	if (m_pAnimationCom->m_iMotion == m_pAnimationCom->m_iMaxMotion)
 	{
 		m_iShootCycle = 0;
+		m_bAttackSound = false;
 	}
 }
 void	CSphinx::HeadOff_Judge(const _float& fTimeDelta)
@@ -297,6 +316,12 @@ void	CSphinx::HeadOff_Judge(const _float& fTimeDelta)
 void CSphinx::HeadOff_Animation(const _float& fTimeDelta)
 {
 	m_pHeadOffAnimationCom->Move_Animation(fTimeDelta);
+	if (false == m_bTransform)
+	{
+		::StopSound(SOUND_MONSTER);
+		::PlaySoundW(L"satan_transform_1to2.wav", SOUND_MONSTER, 0.4f);
+		m_bTransform = true;
+	}
 	if (m_pHeadOffAnimationCom->m_iMotion >= m_pHeadOffAnimationCom->m_iMaxMotion)
 	{
 		_vec3 vPos;

@@ -38,8 +38,9 @@ public:
 private:
 	// µ¥¹ÌÁö HW
 	_bool			m_bHitDamage = true;
-
-
+	bool	m_bReadyAttackSound = false;
+	bool	m_bAttackSound = false;
+	bool	m_bAttackSound2 = false;
 
 private:
 	CTexture*		m_pTextureCom = nullptr;
@@ -48,6 +49,6 @@ private:
 	CAnimation*		m_pAttackAnimationCom = nullptr;
 	CRcTex*			m_pBufferCom = nullptr;
 	
-	
+
 };
 

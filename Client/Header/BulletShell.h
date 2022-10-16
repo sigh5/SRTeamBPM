@@ -28,6 +28,7 @@ private:
 
 	_vec3			m_vDir; //Player Right
 	_vec3			m_vUpDown;
+	int				m_iDropGround = 0;
 public:
 	static CBulletShell*		Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos, _vec3 vRight);
 	virtual void		Free(void);

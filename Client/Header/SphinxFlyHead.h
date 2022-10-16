@@ -65,6 +65,8 @@ private:
 	bool	m_bGet_PlayerPos_LR = false;
 	bool	m_bSelectedLeftRight = false;
 	_vec3  m_vPrePlayerPosdir;
+	bool	m_bLRChargeSound = false;
+	bool	m_bLRAttackSound = false;
 	//~
 
 	//BodyAttack
@@ -87,6 +89,8 @@ private:
 	_vec3  m_vTargetPos;
 	_vec3  m_vTackleDir;
 	bool	m_bHitPlayer = false;
+	bool	m_bBodyAttackSound = false;
+	bool	m_bChargeSound = false;
 	//~
 	float m_fRearrangementDelay = 0.f;
 	float m_fRearrangementDealyCount = 0.f;

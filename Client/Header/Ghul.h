@@ -45,5 +45,8 @@ private:
 
 	bool m_bCanDie = false;
 	bool m_bCanWalk = false;
+
+	bool	m_bDigOutSound = false;
+	bool	m_bAttackSound = false;
 };
 

@@ -306,6 +306,12 @@
     <ClCompile Include="..\Code\UI_Effect.cpp">
       <Filter>02. GameObject\01. For_Stage\07. Effect\UI_Effect</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\FireTrap.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\07. FireTrap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FirePillar.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\07. FireTrap</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -629,6 +635,12 @@
     <ClInclude Include="..\Header\UI_Effect.h">
       <Filter>02. GameObject\01. For_Stage\07. Effect\UI_Effect</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\FireTrap.h">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\07. FireTrap</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\FirePillar.h">
+      <Filter>02. GameObject\01. For_Stage\02. TestMonster\07. FireTrap</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -908,6 +920,9 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\07. Effect\UI_Effect">
       <UniqueIdentifier>{42e870e3-f59d-409e-bab6-dbfb859d7528}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\02. TestMonster\07. FireTrap">
+      <UniqueIdentifier>{308bb341-4ff8-4e44-94aa-76cfc0e552f1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

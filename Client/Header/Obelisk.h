@@ -31,6 +31,8 @@ public:
 private:
 	CTexture* m_pTextureCom = nullptr;
 	CRcTex* m_pBufferCom = nullptr;
+	bool	m_bSpawnSound = nullptr;
+
 
 };
 
