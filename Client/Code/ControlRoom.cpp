@@ -7,7 +7,8 @@
 #include "TeleCube.h"
 #include "ControlRoom.h"
 #include "SkyBox.h"
-
+#include "FireTrap.h"
+#include "FirePillar.h"
 
 CControlRoom::CControlRoom(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -25,7 +26,7 @@ HRESULT CControlRoom::Ready_Object(const _vec3& vCenter)
 	_vec3 vPos, vScale;
 
 	m_pTransCom->Set_Pos(vCenter.x, vCenter.y +4.f,vCenter.z);
-	vScale = { 90.f,90.f,90.f };
+	vScale = { 85.f,85.f,85.f };
 
 	m_pTransCom->Set_Scale(&vScale);
 	
@@ -49,7 +50,7 @@ _int CControlRoom::Update_Object(const _float & fTimeDelta)
 		m_fCollisionTimer += 1.f*fTimeDelta;
 	}
 
-	if (m_fCollisionTimer >= 3.f)
+	if (m_fCollisionTimer >= 7.f)
 	{
 		pSkyBox->Set_ControlCubeCheck(false);
 		m_fCollisionTimer = 0;
@@ -83,9 +84,9 @@ void CControlRoom::LateUpdate_Object()
 			m_bPlayerInTerrain = false;
 			pSkyBox->Set_ControlCubeCheck(true);
 		}
-		m_iRestMonsterNum = 0;
+		
 	}
-	
+	m_iRestMonsterNum = 0;
 }
 
 void CControlRoom::Render_Obejct(void)
@@ -132,7 +133,8 @@ void CControlRoom::Collision_Event()
 			}
 		}
 		
-		for (auto iter : pLayer->Get_GameObjectMap())
+		CGameObject* pGameobj = nullptr;
+		for (auto iter : pLayer->Get_GameObjectMap())	// 함정일때 뺴야됌
 		{
 			CMonsterBase* pMonster = dynamic_cast<CMonsterBase*>(iter.second);
 
@@ -143,6 +145,10 @@ void CControlRoom::Collision_Event()
 
 			if (m_pColliderCom->Check_CollisonUseCollider(m_pColliderCom, pCollider))
 			{
+				CFireTrap* pTrap = dynamic_cast<CFireTrap*>(iter.second);
+				if (pTrap != nullptr)
+					continue;
+
 				++m_iRestMonsterNum;
 
 				if (static_cast<CMonsterBase*>(iter.second)->Get_InfoRef()._iHp <= 0)

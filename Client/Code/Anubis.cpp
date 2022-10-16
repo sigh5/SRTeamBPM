@@ -48,7 +48,7 @@ HRESULT CAnubis::Ready_Object(float Posx, float Posy)
 
 	m_pDynamicTransCom->Set_Scale(&vScale);
 	
-
+	m_bOldPlayerPos = { 1.0f,1.0f,1.0f };
 	m_pInfoCom->Ready_CharacterInfo(5, 10, 5.f);
 	m_pAnimationCom->Ready_Animation(6, 1, 0.2f);
 	m_iPreHp = (m_pInfoCom->Get_InfoRef()._iHp);
@@ -113,7 +113,14 @@ bool	CAnubis::Dead_Judge(const _float& fTimeDelta)
 
 _int CAnubis::Update_Object(const _float & fTimeDelta)
 {
-	
+	// 맨위에있어야됌 리턴되면 안됌
+	_matrix matWorld;
+	_vec3 vScale;
+	vScale = m_pDynamicTransCom->Get_Scale();
+	m_pDynamicTransCom->Get_WorldMatrix(&matWorld);
+	m_pColliderCom->Set_HitBoxMatrix_With_Scale(&matWorld, vScale);
+	Engine::CMonsterBase::Update_Object(fTimeDelta);
+	// 맨위에있어야됌 리턴되면 안됌
 	m_pDynamicTransCom->Set_Y(m_pDynamicTransCom->m_vScale.y * 0.5f);
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 	
@@ -175,14 +182,10 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 		}
 	}
 	// Control Room
-	_matrix matWorld;
-	_vec3 vScale;
-	vScale = m_pDynamicTransCom->Get_Scale();
-	m_pDynamicTransCom->Get_WorldMatrix(&matWorld);
-	m_pColliderCom->Set_HitBoxMatrix_With_Scale(&matWorld, vScale);
+
 	
 	m_pDynamicTransCom->Update_Component(fTimeDelta);
-	Engine::CMonsterBase::Update_Object(fTimeDelta);
+	
 	Add_RenderGroup(RENDER_ALPHA, this);
 
 	return 0;
@@ -226,6 +229,9 @@ void CAnubis::LateUpdate_Object(void)
 		// 빌보드 에러 해결
 	}
 	Add_ColliderMonsterlist();
+
+	
+
 	Engine::CMonsterBase::LateUpdate_Object();
 }
 

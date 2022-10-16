@@ -90,6 +90,15 @@ bool	CSpider::Dead_Judge(const _float& fTimeDelta)
 }
 _int CSpider::Update_Object(const _float & fTimeDelta)
 {
+	// 맨위에있어야됌 리턴되면 안됌
+	_matrix matWorld;
+	_vec3 vScale;
+	vScale = m_pDynamicTransCom->Get_Scale();
+	m_pDynamicTransCom->Get_WorldMatrix(&matWorld);
+	m_pColliderCom->Set_HitBoxMatrix_With_Scale(&matWorld, vScale);
+	Engine::CMonsterBase::Update_Object(fTimeDelta);
+	// 맨위에있어야됌 리턴되면 안됌
+
 	//쿨타임 루프
 	m_pDynamicTransCom->Set_Y(m_pDynamicTransCom->m_vScale.y * 0.5f);
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
@@ -171,11 +180,7 @@ void CSpider::LateUpdate_Object(void)
 	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
 	pMyLayer->Add_vecColliderMonster(static_cast<CMonsterBase*>(this));
 	
-	// Control Room
-	_vec3 vScale;
-	vScale = m_pDynamicTransCom->Get_Scale();
-	m_pDynamicTransCom->Get_WorldMatrix(&matWorld);
-	m_pColliderCom->Set_HitBoxMatrix_With_Scale(&matWorld, vScale);
+	
 	
 	
 	Engine::CMonsterBase::LateUpdate_Object();

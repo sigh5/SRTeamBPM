@@ -121,6 +121,15 @@ bool	CFatBat::Dead_Judge(const _float& fTimeDelta)
 
 _int CFatBat::Update_Object(const _float & fTimeDelta)
 {
+
+	// 맨위에있어야됌 리턴되면 안됌
+	_matrix matWorld;
+	_vec3 vScale;
+	vScale = m_pDynamicTransCom->Get_Scale();
+	m_pDynamicTransCom->Get_WorldMatrix(&matWorld);
+	m_pColliderCom->Set_HitBoxMatrix_With_Scale(&matWorld, vScale);
+	// 맨위에있어야됌 리턴되면 안됌
+
 	// 수정 쿨타임 대신 타임
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 	if (Distance_Over())
@@ -153,13 +162,7 @@ _int CFatBat::Update_Object(const _float & fTimeDelta)
 
 	m_pDynamicTransCom->Update_Component(fTimeDelta);
 	
-	// Control Room
-	_matrix matWorld;
-	_vec3 vScale;
-	vScale = m_pDynamicTransCom->Get_Scale();
-	m_pDynamicTransCom->Get_WorldMatrix(&matWorld);
-	m_pColliderCom->Set_HitBoxMatrix_With_Scale(&matWorld, vScale);
-
+	
 	
 	CMonsterBase::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);

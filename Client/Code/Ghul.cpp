@@ -69,6 +69,14 @@ HRESULT CGhul::Ready_Object(float Posx, float Posy)
 
 _int CGhul::Update_Object(const _float & fTimeDelta)
 {
+	// Cotrol Room
+	_matrix matWorld;
+	_vec3 vScale;
+	vScale = m_pDynamicTransCom->Get_Scale();
+	m_pDynamicTransCom->Get_WorldMatrix(&matWorld);
+	m_pColliderCom->Set_HitBoxMatrix_With_Scale(&matWorld, vScale);
+	// ~Cotrol Room
+
 	m_pDynamicTransCom->Set_Y(m_pDynamicTransCom->m_vScale.y * 0.5f);
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 	if (Distance_Over())
@@ -100,13 +108,7 @@ _int CGhul::Update_Object(const _float & fTimeDelta)
 	}
 
 
-	// Cotrol Room
-	_matrix matWorld;
-	_vec3 vScale;
-	vScale= m_pDynamicTransCom->Get_Scale();
-	m_pDynamicTransCom->Get_WorldMatrix(&matWorld);
-	m_pColliderCom->Set_HitBoxMatrix_With_Scale(&matWorld,vScale);
-	// ~Cotrol Room
+	
 
 	m_pDynamicTransCom->Update_Component(fTimeDelta);
 	Engine::CMonsterBase::Update_Object(fTimeDelta);

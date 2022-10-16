@@ -43,16 +43,7 @@ _int CTeleCube::Update_Object(const _float & fTimeDelta)
 		m_bSetActive = false;
 		m_bCollisionCheck = false;
 		m_fActiveTimer = 0.f;
-		CScene* pScene = Get_Scene();
-		CLayer* pLayer = pScene->GetLayer(L"Layer_Room");
-
-		for (auto iter : pLayer->Get_ControlRoomList())
-		{
-			dynamic_cast<CControlRoom*>(iter)->Set_CheckCollision(false);
-		}
 	}
-
-
 
 	CGameObject::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_PRIORITY, this);

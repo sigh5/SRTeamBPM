@@ -70,6 +70,13 @@ HRESULT CEarthShaker::Ready_Object(float Posx, float Posy)
 
 _int CEarthShaker::Update_Object(const _float & fTimeDelta)
 {
+	//Control Room
+	_matrix matWorld;
+	_vec3 vScale;
+	vScale = m_pDynamicTransCom->Get_Scale();
+	m_pDynamicTransCom->Get_WorldMatrix(&matWorld);
+	m_pColliderCom->Set_HitBoxMatrix_With_Scale(&matWorld, vScale);
+	//~Control Room
 
 	for (auto iter = m_Spikelist.begin(); iter != m_Spikelist.end();)
 	{
@@ -114,13 +121,7 @@ _int CEarthShaker::Update_Object(const _float & fTimeDelta)
 	}
 
 
-	//Control Room
-	_matrix matWorld;
-	_vec3 vScale;
-	vScale = m_pDynamicTransCom->Get_Scale();
-	m_pDynamicTransCom->Get_WorldMatrix(&matWorld);
-	m_pColliderCom->Set_HitBoxMatrix_With_Scale(&matWorld, vScale);
-	//~Control Room
+	
 
 	m_pDynamicTransCom->Update_Component(fTimeDelta);
 	Engine::CMonsterBase::Update_Object(fTimeDelta);
