@@ -193,8 +193,6 @@ void CTeleCube::Collision_Event()
 			_vec3 vAngle;
 			vAngle =sour->Get_Angle();
 		
-
-			
 			pTransform->Set_Pos(vPos.x, vPos.y, vPos.z);
 			pTransform->Rotation(ROT_Y, vAngle.y);
 			pTransform->Update_Component(1.f);
