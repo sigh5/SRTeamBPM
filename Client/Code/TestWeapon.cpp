@@ -56,12 +56,49 @@ _int CTestWeapon::Update_Object(const _float & fTimeDelta)
 
 	if (pInven->Get_InvenSwitch() == true && m_bRenderFalse == true)
 	{
-		if (Engine::Get_DIMouseState(DIM_LB)) // Picking
-		{
-			_uint ia = 0;
+		//if (Engine::Get_DIMouseState(DIM_LB)) // Picking
+		//{
+		//	_uint ia = 0;
+		//	Picking();
+			//for (_uint i = iIndexColumn; i < pInven->Get_MaxColumn(); ++i)
+			//{
+			//	for (_uint j = iIndexRow; j < pInven->Get_MaxRow(); ++j)
+			//	{
+			//		if (pInven->Get_ItemSlot()->pItem[i][j] != nullptr)
+			//		{
+			//			CTransform* pTransform = static_cast<CTransform*>(Engine::Get_Component(L"Layer_UI", L"InventoryUI", L"Proto_TransformCom", ID_DYNAMIC));
 
-			Picking();
-		}
+			//			pTransform = dynamic_cast<CTransform*>(pInven->Get_ItemSlot()->pItem[i][j]->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+
+			//			_vec3	vecSlotPos;
+
+			//			pTransform->Get_Info(INFO_POS, &vecSlotPos);
+
+			//			_vec3	vecShotPos;
+
+			//			m_pTransCom->Get_Info(INFO_POS, &vecShotPos);  // 매그넘이 담기는 위치
+
+			//			CEquipmentBase* pEquip = dynamic_cast<CEquipmentBase*>(pInven->Get_ItemSlot()->pItem[i][j]);
+
+			//			if (pEquip->Get_WeaponType() == WEAPON_MAGNUM && vecSlotPos == vecShotPos)
+			//			{
+			//				Picking();							
+			//			}
+
+			//			else
+			//				break;
+
+			//		}
+			//			iIndexRow += 1;
+
+			//		if (iIndexRow >= 9)
+			//		{
+			//			iIndexColumn += 1;
+			//			iIndexRow = 0;
+			//		}
+			//	}
+			//}
+		//}
 	}
 
 	Add_RenderGroup(m_RenderID, this);
@@ -326,7 +363,7 @@ void CTestWeapon::Picking(void)
 	ZeroMemory(&ViewPort, sizeof(D3DVIEWPORT9));
 	m_pGraphicDev->GetViewport(&ViewPort);
 
-	RECT		rcUI = { (_long)(m_fX - m_fSizeX * 1.5f), (_long)(m_fY - m_fSizeY  *1.5f), (_long)(m_fX + m_fSizeX * 1.5f), (_long)(m_fY + m_fSizeY * 1.5f) };
+	RECT		rcUI = { (_long)(m_fX - 22.5f), (_long)(m_fY - 32.5f), (_long)(m_fX + 22.5f), (_long)(m_fY + 32.5f) };
 	
 	if (PtInRect(&rcUI, ptMouse))
 	{
@@ -343,8 +380,11 @@ void CTestWeapon::Picking(void)
 		D3DXMatrixInverse(&matOrtho, nullptr, &matOrtho); // 뷰 스페이스(뷰가 항등이라 월드와 같다)
 		D3DXVec3TransformCoord(&vPoint, &vPoint, &matOrtho);
 
-		m_pTransCom->Set_Pos(vPoint.x, vPoint.y, 0.f);
-				
+		if (m_EquipInfo.m_WeaponType == WEAPON_MAGNUM)
+			m_pTransCom->Set_Pos(vPoint.x, vPoint.y, 0.f);
+
+		else
+			return;
 	}
 }
 

@@ -30,7 +30,9 @@ public:
 
 	_bool				Get_RenderFalse(void) { return m_bRenderFalse; }
 
-	void	Picking(void);
+	_bool	Picking(void);
+
+	_bool				Get_bPicking(void) { return m_bPick; }
 	
 private:
 	CTransform*				m_pTransCom = nullptr;
@@ -55,11 +57,17 @@ public:
 
 	_float				m_fX, m_fY, m_fSizeX, m_fSizeY;
 
+	// for Inventory
 	_uint iIndexRow = 0;
 	_uint iIndexColumn = 0;
 
-	_uint iPreRow = 0;
-	_uint iPreColumn = 0;
+	_uint iPickRow = 0;
+	_uint iPickColumn = 0;
+
+	_bool	m_bPick = false;
+
+	RECT		rcUI;
+	// ~for Inventory
 
 public:
 	static CShotGun*	Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint iX, _uint iZ);

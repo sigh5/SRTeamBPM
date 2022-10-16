@@ -54,13 +54,13 @@ _int CMagnum::Update_Object(const _float & fTimeDelta)
 	m_fX = ptMouse.x;
 	m_fY = ptMouse.y;
 
-	if (pInven->Get_InvenSwitch() == true && m_bRenderFalse == true)
-	{
-		if (Engine::Get_DIMouseState(DIM_LB) & 0X80)  // Picking
-		{				
-			Picking();			
-		}
-	}		
+	//if (pInven->Get_InvenSwitch() == true && m_bRenderFalse == true)
+	//{
+	//	if (Engine::Get_DIMouseState(DIM_LB) & 0X80)  // Picking
+	//	{				
+	//		Picking();			
+	//	}
+	//}		
 
 	Add_RenderGroup(RENDER_ICON, this);
 

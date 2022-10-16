@@ -43,13 +43,24 @@ HRESULT CShotGun::Ready_Object(_uint iX, _uint iZ)
  
 _int CShotGun::Update_Object(const _float & fTimeDelta)
 {
+
+	// Rect 사이즈 
+	_vec3 vecObject;
+
+	m_pTransCom->Get_Info(INFO_POS, &vecObject);
+	
+	rcUI = { (_long)((vecObject.x + WINCX * 0.5f) - 22.5f), (_long)((vecObject.y + WINCY * 0.5f) - 75.5f), (_long)((vecObject.x + WINCX * 0.5f) + 22.5f), (_long)((vecObject.y + WINCY * 0.5f) - 12.5f) };
+
+	cout << "레 : " << rcUI.left << "탑 : " << rcUI.top << "라 : " << rcUI.right << "바 : " << rcUI.bottom << endl;
+	// ~Rect 사이즈
+
 	CInventory_UI* pInven = static_cast<CInventory_UI*>(Get_GameObject(L"Layer_UI", L"InventoryUI"));
 
 	POINT		ptMouse{};
 
 	GetCursorPos(&ptMouse);
 	ScreenToClient(g_hWnd, &ptMouse);
-
+	
 	m_fX = (_float)ptMouse.x;
 	m_fY = (_float)ptMouse.y;
 
@@ -59,12 +70,51 @@ _int CShotGun::Update_Object(const _float & fTimeDelta)
 	if (pInven->Get_InvenSwitch() == true && m_bRenderFalse == true)
 	{
 		if (Engine::Get_DIMouseState(DIM_LB)) // Picking
-		{
+		{			
 			_uint ia = 0;
-
 			Picking();
+			//for (_uint i = iPickColumn; i < pInven->Get_MaxColumn(); ++i)
+			//{
+			//	for (_uint j = iPickRow; j < pInven->Get_MaxRow(); ++j)
+			//	{
+			//		if (pInven->Get_ItemSlot()->pItem[i][j] != nullptr)
+			//		{
+			//			CTransform* pTransform = static_cast<CTransform*>(Engine::Get_Component(L"Layer_UI", L"InventoryUI", L"Proto_TransformCom", ID_DYNAMIC));
+
+			//			pTransform = dynamic_cast<CTransform*>(pInven->Get_ItemSlot()->pItem[i][j]->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+			//			
+			//			_vec3	vecSlotPos;
+
+			//			pTransform->Get_Info(INFO_POS, &vecSlotPos);
+
+			//			_vec3	vecShotPos;
+
+			//			m_pTransCom->Get_Info(INFO_POS, &vecShotPos);  // 샷건이 담기는 위치
+
+			//			CEquipmentBase* pEquip = dynamic_cast<CEquipmentBase*>(pInven->Get_ItemSlot()->pItem[i][j]);
+
+			//			if (pEquip->Get_WeaponType() == WEAPON_SHOTGUN && vecSlotPos == vecShotPos)
+			//			{
+			//				Picking();
+			//			}
+
+			//			else
+			//				break;
+			//			
+			//		}
+			//		iPickRow += 1;
+
+			//		if (iPickRow >= 9)
+			//		{
+			//			iPickColumn += 1;
+			//			iPickRow = 0;
+			//		}
+			//		
+			//	}
+			//}
+
 		}
-	}	
+	}
 
 	Add_RenderGroup(m_RenderID, this);
 
@@ -175,7 +225,10 @@ void CShotGun::Render_Obejct(void)
 
 						pTransform->Get_Info(INFO_POS, &vecInvenPos);
 
-						m_pTransCom->Set_Pos(vecInvenPos.x, vecInvenPos.y, 0.1f);
+						if (!m_bPick)
+							m_pTransCom->Set_Pos(vecInvenPos.x, vecInvenPos.y, 0.f);
+						
+					//	cout << vecInvenPos.x << vecInvenPos.y << endl;
 
 						iIndexRow += 1;
 					}
@@ -239,17 +292,19 @@ void CShotGun::Render_Obejct(void)
 			{
 				for (_uint j = iIndexRow; j < pInven->Get_MaxRow(); ++j)
 				{
-					if (pInven->Get_ItemSlot()->pItem[i][j] != nullptr)
+					if (pInven->Get_ItemSlot()->pItem[0][0] != nullptr)
 					{
 						CTransform* pTransform = static_cast<CTransform*>(Engine::Get_Component(L"Layer_UI", L"InventoryUI", L"Proto_TransformCom", ID_DYNAMIC));
 
 						_vec3 vecInvenPos;
 
-						pTransform = dynamic_cast<CTransform*>((pInven->Get_ItemSlot()->pItem[i][j]->Get_Component(L"Proto_TransformCom", ID_DYNAMIC)));
+						pTransform = dynamic_cast<CTransform*>((pInven->Get_ItemSlot()->pItem[0][0]->Get_Component(L"Proto_TransformCom", ID_DYNAMIC)));
 
 						pTransform->Get_Info(INFO_POS, &vecInvenPos);
 
-						m_pTransCom->Set_Pos(vecInvenPos.x, vecInvenPos.y, 0.1f);
+						if(!m_bPick)
+						m_pTransCom->Set_Pos(vecInvenPos.x, vecInvenPos.y, 0.f);
+
 
 						iIndexRow += 1;
 					}
@@ -276,8 +331,7 @@ void CShotGun::Render_Obejct(void)
 			m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 			m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 			m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-
-
+			
 			m_pTextureCom->Set_Texture(0);
 			m_pBufferCom->Render_Buffer();
 
@@ -324,12 +378,12 @@ void CShotGun::Set_OnTerrain(void)
 
 	_float fHeight = m_pCalculatorCom->HeightOnTerrain(&vPos, pTerrainTexCom->Get_VtxPos(), VTXCNTX, VTXCNTZ);
 
-	m_pTransCom->Set_Pos(vPos.x, fHeight + 0.9f, vPos.z);
+	//m_pTransCom->Set_Pos(vPos.x, fHeight + 0.9f, vPos.z);
 		
 }
 
-void CShotGun::Picking(void)
-{
+_bool CShotGun::Picking(void)
+{	
 	_vec3		vecScale = { m_fSizeX, m_fSizeY, 1.f };
 
 	m_pTransCom->Set_Scale(&vecScale);
@@ -343,11 +397,10 @@ void CShotGun::Picking(void)
 	D3DVIEWPORT9		ViewPort;
 	ZeroMemory(&ViewPort, sizeof(D3DVIEWPORT9));
 	m_pGraphicDev->GetViewport(&ViewPort);
-
-	RECT		rcUI = { (_long)(m_fX - m_fSizeX * 1.5f), (_long)(m_fY - m_fSizeY  *1.5f), (_long)(m_fX + m_fSizeX * 1.5f), (_long)(m_fY + m_fSizeY * 1.5f) };
-
+	
 	if (PtInRect(&rcUI, ptMouse))
 	{
+		
 		_vec3		vPoint;
 
 		vPoint.x = ptMouse.x / (ViewPort.Width * 0.5f) - 1.f;
@@ -361,8 +414,26 @@ void CShotGun::Picking(void)
 		D3DXMatrixInverse(&matOrtho, nullptr, &matOrtho); // 뷰 스페이스(뷰가 항등이라 월드와 같다)
 		D3DXVec3TransformCoord(&vPoint, &vPoint, &matOrtho);
 
-		m_pTransCom->Set_Pos(vPoint.x, vPoint.y, 0.f);
+		CTransform* pTransform = static_cast<CTransform*>(Engine::Get_Component(L"Layer_UI", L"InventoryUI", L"Proto_TransformCom", ID_DYNAMIC));
 
+		_vec3 vecInvenPos;
+
+		CInventory_UI* pInven = static_cast<CInventory_UI*>(Get_GameObject(L"Layer_UI", L"InventoryUI"));
+		
+		pTransform = dynamic_cast<CTransform*>((pInven->Get_ItemSlot()->pItem[0][0]->Get_Component(L"Proto_TransformCom", ID_DYNAMIC)));
+
+		pTransform->Get_Info(INFO_POS, &vecInvenPos);
+
+		m_pTransCom->Set_Pos(vecInvenPos.x, vecInvenPos.y + 180.f, 0.f);
+			//m_pTransCom->Set_Pos(vPoint.x, vPoint.y, 0.f);
+			//cout << " X : " << vPoint.x << " Y : " << vPoint.y << endl;
+		return true;
+	}
+
+	else
+	{
+		m_bPick = false;
+		return false;
 	}
 
 }

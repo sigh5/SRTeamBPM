@@ -69,51 +69,39 @@ _int CInventory_UI::Update_Object(const _float & fTimeDelta)
 	{
 		if (!m_vecWeaponType.empty())
 		{
-			/*for (_uint i = iIndexColumn; i < m_iMaxColumn; ++i)
+			m_SlotType.pItem[iIndexColumn][iIndexRow] = m_stackWeapon.top();
+
+			if (m_SlotType.pItem[iIndexColumn][iIndexRow] != nullptr)
 			{
-				for (_uint j = iIndexRow; j < m_iMaxRow; ++j)
-				{*/
-					m_SlotType.pItem[iIndexColumn][iIndexRow] = m_stackWeapon.top();
+				iIndexRow += 1;
 
-					if (m_SlotType.pItem[iIndexColumn][iIndexRow] != nullptr)
-					{
-						iIndexRow += 1;
+				if (iIndexRow >= 9)
+				{
+					iIndexColumn += 1;
+					iIndexRow = 0;
+				}
+				m_bItemInfoAdd = false;
+				m_vecWeaponType.clear();
+			}
 
-						if (iIndexRow >= 9)
-						{
-							iIndexColumn += 1;
-							iIndexRow = 0;
-						}
-						m_bItemInfoAdd = false;
-						m_vecWeaponType.clear();
-					}
-		//		}
-		//	}
 		}
 	}
 		//cout << "벡터에 들어오는가 : " << m_vecWeaponType.size() << "스택 top :" << m_stackWeapon.size() << endl;
 	
 	
 	// i가 세로(4) , j가 가로(9) , 슬롯의 가로 세로 중점 위치를 알기 위한 이중 for문
+	
 	for (_uint i = 0; i < m_iMaxColumn; ++i)
 	{
 		for (_uint j = 0; j < m_iMaxRow; ++j)
-		{
-			m_SlotType.ItemSlotSize[i][j].x = m_SlotType.ItemSlotSize[0][0].x;
-			m_SlotType.ItemSlotSize[i][j].y = m_SlotType.ItemSlotSize[0][0].y;
-				
-
+		{		
 			if (i != 0 && j == 0)
-			{
-				m_SlotType.ItemSlotSize[i][j].x = m_SlotType.ItemSlotSize[0][0].x;
-
+			{			
 				m_SlotType.ItemSlotSize[i][j].y += (_float)(67 * i);
 			}
 
 			if (i == 0 && j != 0)
-			{
-				m_SlotType.ItemSlotSize[i][j].y = m_SlotType.ItemSlotSize[0][0].y;
-
+			{				
 				m_SlotType.ItemSlotSize[i][j].x += (_float)(47 * j);
 			}
 
@@ -124,14 +112,48 @@ _int CInventory_UI::Update_Object(const _float & fTimeDelta)
 				pTransform = dynamic_cast<CTransform*>((m_SlotType.pItem[i][j]->Get_Component(L"Proto_TransformCom", ID_DYNAMIC)));
 				
 				pTransform->Set_Pos(m_SlotType.ItemSlotSize[i][j].x, m_SlotType.ItemSlotSize[i][j].y, 0.f);
-			
-				//_vec3	vecSlot = { m_SlotType.ItemSlotSize[i][j].x, m_SlotType.ItemSlotSize[i][j].y, 0.f };
-				//m_SlotType.pItem[i][j]->Set_Pos(vecSlot);			
+
+				CShotGun* pShotgun = static_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"));
+											
+				if (pShotgun->Get_bPicking() == true)
+				{
+					_vec3 vecShotPos;
+
+					CTransform* pShotTransform = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"ShotGun", L"Proto_TransformCom", ID_DYNAMIC));
+					pShotTransform->Get_Info(INFO_POS, &vecShotPos);
+
+					pTransform->Set_Pos(vecShotPos.x, vecShotPos.y, 0.f);
+				}
+				
 			}
 
 		}
 	}
 	
+
+	/*if (m_SlotType.pItem[0][0] != nullptr)
+	{
+		CTransform* pTransform = nullptr;
+
+		pTransform = dynamic_cast<CTransform*>((m_SlotType.pItem[0][0]->Get_Component(L"Proto_TransformCom", ID_DYNAMIC)));
+
+		CShotGun* pShotgun = static_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"));
+
+		if(!pShotgun->Get_bPicking())
+		pTransform->Set_Pos(m_SlotType.ItemSlotSize[0][0].x, m_SlotType.ItemSlotSize[0][0].y, 0.f);
+
+		else
+		{
+			_vec3 vecShotPos;
+
+			CTransform* pShotTransform = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"ShotGun", L"Proto_TransformCom", ID_DYNAMIC));
+			pShotTransform->Get_Info(INFO_POS, &vecShotPos);
+
+			pTransform->Set_Pos(vecShotPos.x, vecShotPos.y, 0.f);
+		}
+			
+	}*/
+
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
 	Add_RenderGroup(RENDER_UI, this);
