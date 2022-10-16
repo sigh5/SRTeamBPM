@@ -38,7 +38,7 @@ _int CTeleCube::Update_Object(const _float & fTimeDelta)
 		m_fActiveTimer += 1.f*fTimeDelta;
 	}
 
-	if (m_fActiveTimer >= 5.f)
+	if (m_fActiveTimer >= 3.f)
 	{
 		m_bSetActive = false;
 		m_bCollisionCheck = false;

@@ -404,10 +404,6 @@ unsigned int CLoading::Thread_Main(void * pArg)
 		iFlag = pLoading->Loading_ForStage();
 		break;
 
-	case LOADING_COLLIDER:
-		iFlag = pLoading->Loading_ForColliderStage();
-		break;
-
 	case LOADING_BOSS:
 		// iFlag = pLoading->Loading_ForBoss();
 		break;

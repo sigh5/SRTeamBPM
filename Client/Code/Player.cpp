@@ -117,9 +117,9 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 		m_bDash = false;
 		m_fDashTimer = 0.f;
 		CScene* pScene = ::Get_Scene();
-		NULL_CHECK_RETURN(pScene, );
+		NULL_CHECK_RETURN(pScene, RETURN_ERR);
 		CLayer* pLayer = pScene->GetLayer(L"Layer_UI");
-		NULL_CHECK_RETURN(pLayer, );
+		NULL_CHECK_RETURN(pLayer, RETURN_ERR);
 		CUI_Effect* pGameObject = nullptr;
 
 		pGameObject = dynamic_cast<CUI_Effect*>(pLayer->Get_GameObject(L"Dash_Effect"));

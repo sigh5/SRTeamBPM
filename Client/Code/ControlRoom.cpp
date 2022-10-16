@@ -39,6 +39,7 @@ _int CControlRoom::Update_Object(const _float & fTimeDelta)
 {
 	m_pColliderCom->Set_HitBoxMatrix(&(m_pTransCom->m_matWorld));
 
+
 	CScene *pScene = Get_Scene();
 	CLayer* pLayer = pScene->GetLayer(L"Layer_Environment");
 	CSkyBox* pSkyBox = static_cast<CSkyBox*>(pLayer->Get_GameObject(L"SkyBox"));
@@ -48,7 +49,7 @@ _int CControlRoom::Update_Object(const _float & fTimeDelta)
 		m_fCollisionTimer += 1.f*fTimeDelta;
 	}
 
-	if (m_fCollisionTimer > 5.f)
+	if (m_fCollisionTimer >= 3.f)
 	{
 		pSkyBox->Set_ControlCubeCheck(false);
 		m_fCollisionTimer = 0;

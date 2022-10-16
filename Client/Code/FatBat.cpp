@@ -32,7 +32,7 @@ HRESULT CFatBat::Ready_Object(int Posx, int Posy)
 	m_pDeadTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Fatbat_Dead_Texture", m_mapComponent, ID_STATIC);
 
 	m_iMonsterIndex = MONSTER_FATBAT;
-	m_pInfoCom->Ready_CharacterInfo(2, 10, 5.f);
+	m_pInfoCom->Ready_CharacterInfo(1, 10, 5.f);
 	m_pAnimationCom->Ready_Animation(6, 0, 0.2f);
 	m_pDeadAnimationCom->Ready_Animation(14, 0, 0.2f);
 	for (int i = 0; i < 4; ++i)
@@ -311,9 +311,6 @@ void CFatBat::Collision_Event()
 				break;
 			}
 		}
-		READY_CREATE_EFFECT_VECTOR(pGameObject, CSpecial_Effect, pLayer, m_pGraphicDev, vPos);
-		static_cast<CSpecial_Effect*>(pGameObject)->Set_Effect_INFO(OWNER_PALYER, 0, 17, 0.2f);
-
 		::PlaySoundW(L"explosion_1.wav", SOUND_EFFECT, 0.05f); // BGM
 	}
 

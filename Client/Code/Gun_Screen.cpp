@@ -168,7 +168,7 @@ HRESULT CGun_Screen::Shoot_Motion(const _float& fTimeDelta)
 			Get_shellPosition(vPos, vDir);
 			CGameObject* pShell = CBulletShell::Create(m_pGraphicDev, vPos, vDir);
 			CScene  *pScene = ::Get_Scene();
-			NULL_CHECK_RETURN(pScene, );
+			NULL_CHECK_RETURN(pScene, E_FAIL);
 			CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
 			pLayer->Add_GameObjectList(pShell);
 			m_bCreatedShell = true;

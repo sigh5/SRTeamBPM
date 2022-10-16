@@ -66,7 +66,7 @@ _int CFirePillar::Update_Object(const _float & fTimeDelta)
 
 	if (1 == m_iState &&fDistance < 1.5f && false == m_bHitPlayer)
 	{
-		pPlayerInfo->Receive_Damage(10.f);
+		pPlayerInfo->Receive_Damage(10);
 		m_bHitPlayer = true;
 	}
 

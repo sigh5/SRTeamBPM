@@ -43,7 +43,7 @@ HRESULT CGhul::Ready_Object(float Posx, float Posy)
 	m_pDigoutAnimationCom->Ready_Animation(17, 0, 0.3f);
 	m_pAttackAnimationCom->Ready_Animation(13, 0, 0.2f);
 	m_pDeadAnimationCom->Ready_Animation(11, 0, 0.2f);
-	m_pInfoCom->Ready_CharacterInfo(2, 10, 1.f);
+	m_pInfoCom->Ready_CharacterInfo(1, 10, 1.f);
 
 	m_iMonsterIndex = MONSTER_GHUL;
 	m_fHitDelay = 0.f;
