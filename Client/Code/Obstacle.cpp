@@ -102,6 +102,11 @@ _int CObstacle::Update_Object(const _float & fTimeDelta)
 
 void CObstacle::LateUpdate_Object(void)
 {
+	if (2 == m_iOption)
+	{
+		Engine::CGameObject::LateUpdate_Object();
+		return;
+	}
 	CScene  *pScene = ::Get_Scene();
 
 	NULL_CHECK_RETURN(pScene, );
@@ -124,17 +129,8 @@ void CObstacle::LateUpdate_Object(void)
 	memset(&matBill._41, 0, sizeof(_vec3));
 	D3DXMatrixInverse(&matBill, 0, &matBill);
 
-	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
-	D3DXMatrixIdentity(&matBill);
-	memcpy(&matBill, &matView, sizeof(_matrix));
-	memset(&matBill._41, 0, sizeof(_vec3));
-	D3DXMatrixInverse(&matBill, 0, &matBill);
-
-	_vec3	vScale;
-	vScale= m_pTransCom->Get_Scale();
-
 	_matrix      matScale, matTrans;
-	D3DXMatrixScaling(&matScale, vScale.x, vScale.y, vScale.z);
+	D3DXMatrixScaling(&matScale, m_pTransCom->m_vScale.x, m_pTransCom->m_vScale.y, m_pTransCom->m_vScale.z);
 
 	_matrix      matRot;
 	D3DXMatrixIdentity(&matRot);
@@ -152,8 +148,6 @@ void CObstacle::LateUpdate_Object(void)
 	matWorld = matScale* matRot * matBill * matTrans;
 	m_pTransCom->Set_WorldMatrix(&(matWorld));
 
-
-	
 
 	// 빌보드 에러 해결
 	Engine::CGameObject::LateUpdate_Object();
@@ -177,7 +171,7 @@ void CObstacle::Render_Obejct(void)
 		m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 		m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 	}
-
+	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	
 	CScene *pScene = Get_Scene();
 	if (pScene->Get_SceneType() == SCENE_TOOLTEST)
@@ -195,7 +189,7 @@ void CObstacle::Render_Obejct(void)
 		m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
 
-		if (m_iTexIndex == 0 || m_iTexIndex == 1 || m_iTexIndex == 2)
+		if (m_iTexIndex == 0 || m_iTexIndex == 1 || m_iTexIndex == 2 || m_iTexIndex == 3)
 			m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);
 		else
 			m_pTextureCom->Set_Texture(m_iTexIndex);
@@ -203,7 +197,7 @@ void CObstacle::Render_Obejct(void)
 
 	if (m_bWireFrame)
 	{
-		m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
+		
 
 	}
 	m_pBufferCom->Render_Buffer();
@@ -211,7 +205,7 @@ void CObstacle::Render_Obejct(void)
 
 	if (m_bWireFrame)
 	{
-		m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+		
 		m_pBufferCom->Render_Buffer();
 		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
 		m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
@@ -302,20 +296,17 @@ void CObstacle::Set_TextureCom()
 		m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_TreeAnimTexCom", m_mapComponent, ID_STATIC);
 		m_pAnimationCom->Ready_Animation(1, 0, 1.f);
 	}
+	else if (m_iTexIndex == OBSTACLE_WALL_LAMP)
+	{
+		m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_WallLampTexCom", m_mapComponent, ID_STATIC);
+		m_pAnimationCom->Ready_Animation(1, 0, 2.5f);
+	}
 	else
 	{
 		m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_fetrues_Texture", m_mapComponent, ID_STATIC);
 	}
 
 	// ... 추가
-
-
-
-
-
-
-
-
 
 }
 

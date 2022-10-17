@@ -101,7 +101,7 @@ _uint CLoading::Loading_ForStage(void)
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_FireTrap_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Trap/FireTrap%d.png", TEX_NORMAL, 3)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_FirePillar_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Trap/FirePillar%d.png", TEX_NORMAL, 9)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_FireReady_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Trap/FireReady%d.png", TEX_NORMAL, 2)), E_FAIL);
-	
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Curse_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Sphinx/Spell_Curse.png", TEX_NORMAL)), E_FAIL);
 	// ~Monster
 
 	// _UI
@@ -164,6 +164,7 @@ _uint CLoading::Loading_ForStage(void)
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_CrystralAnimTexCom", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/features/CrystralAnim_0/featureAnim_%d.png", TEX_NORMAL, 4)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_StreetTexCom", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/features/StreetLamp_1/featureAnim_%d.png", TEX_NORMAL, 3)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_TreeAnimTexCom", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/features/TreeAnim_2/features_%d.png", TEX_NORMAL, 2)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_WallLampTexCom", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/features/WallLamp_3/features_%d.png", TEX_NORMAL, 2)), E_FAIL);
 	// Obstacle Anim
 
 
@@ -181,7 +182,7 @@ _uint CLoading::Loading_ForStage(void)
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_DashingEffectTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Dashing/Dashing_%d.png", TEX_NORMAL,4)), E_FAIL);
 	// 
 
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_fetrues_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/features/features_%d.png", TEX_NORMAL, 17)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_fetrues_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/features/features_%d.png", TEX_NORMAL, 23)), E_FAIL);
 
 	// NPC
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_NPCTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/NPC/ShopNPC/NPC_%d.png", TEX_NORMAL, 17)), E_FAIL);
@@ -189,6 +190,7 @@ _uint CLoading::Loading_ForStage(void)
 	// ~ NPC
 
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_KeyTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Item/Key.png", TEX_NORMAL)), E_FAIL);
+	
 	m_bFinish = true;
 
 	lstrcpy(m_szLoading, L"Press Start Button");
@@ -320,7 +322,7 @@ _uint CLoading::Loading_For_ToolScene()
 
 	//~
 
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_fetrues_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/features/features_%d.png", TEX_NORMAL, 17)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_fetrues_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/features/features_%d.png", TEX_NORMAL, 23)), E_FAIL);
 
 	// しいけかい
 

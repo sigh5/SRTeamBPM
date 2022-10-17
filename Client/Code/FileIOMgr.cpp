@@ -175,7 +175,7 @@ void CFileIOMgr::Save_FileData(CScene * pScene,
 			memcpy(vScale, Transcom->m_vScale, sizeof(_vec3));
 			memcpy(vAngle, Transcom->m_vAngle, sizeof(_vec3));
 			iDrawNum = iter->second->Get_DrawTexIndex();
-			iOption = static_cast<CWallCube*>(iter->second)->Get_Option();
+			iOption = static_cast<CObstacle*>(iter->second)->Get_Option();
 
 			WriteFile(hFile, &vRight, sizeof(_vec3), &dwByte, nullptr);
 			WriteFile(hFile, &vUp, sizeof(_vec3), &dwByte, nullptr);
@@ -513,6 +513,7 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 			Transcom->Set_Info(INFO_POS, &vPos);
 			Transcom->Set_Angle(&vAngle);
 			Transcom->Set_Scale(&vScale);
+			static_cast<CObstacle*>(pGameObject)->Set_Option(iOption);
 			
 			if(pScene->Get_SceneType() != SCENE_TOOLTEST)
 				static_cast<CObstacle*>(pGameObject)->Set_TextureCom();
