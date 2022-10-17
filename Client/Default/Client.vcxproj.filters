@@ -281,6 +281,24 @@
     <ClCompile Include="..\Code\TestWeapon.cpp">
       <Filter>02. GameObject\01. For_Stage\14. Equipment\00. Weapon\02. TestWeapon</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\SettingButton.cpp">
+      <Filter>02. GameObject\00. For_Logo\01. Button\02. SettingButton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Setting_Stage.cpp">
+      <Filter>01. Scene\52. Setting_Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Setting_BackGround.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\12. Setting_BackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\BackButton.cpp">
+      <Filter>02. GameObject\00. For_Logo\01. Button\03. BackButton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\BGMDownBtn.cpp">
+      <Filter>02. GameObject\00. For_Logo\01. Button\04. BGMCtrlBtn\04-1. BGMDownBtn</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\BGMUpBtn.cpp">
+      <Filter>02. GameObject\00. For_Logo\01. Button\04. BGMCtrlBtn\04-2. BGMUpBtn</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -579,6 +597,24 @@
     <ClInclude Include="..\Header\TestWeapon.h">
       <Filter>02. GameObject\01. For_Stage\14. Equipment\00. Weapon\02. TestWeapon</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\SettingButton.h">
+      <Filter>02. GameObject\00. For_Logo\01. Button\02. SettingButton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Setting_Stage.h">
+      <Filter>01. Scene\52. Setting_Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Setting_BackGround.h">
+      <Filter>02. GameObject\01. For_Stage\10. UI\12. Setting_BackGround</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\BackButton.h">
+      <Filter>02. GameObject\00. For_Logo\01. Button\03. BackButton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\BGMDownBtn.h">
+      <Filter>02. GameObject\00. For_Logo\01. Button\04. BGMCtrlBtn\04-1. BGMDownBtn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\BGMUpBtn.h">
+      <Filter>02. GameObject\00. For_Logo\01. Button\04. BGMCtrlBtn\04-2. BGMUpBtn</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -846,6 +882,27 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\14. Equipment\00. Weapon\02. TestWeapon">
       <UniqueIdentifier>{5d412c50-7e69-45c0-b2ff-23ca408a2b0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\00. For_Logo\01. Button\02. SettingButton">
+      <UniqueIdentifier>{91efdf2b-6b96-484d-8965-82b04b23f2ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\52. Setting_Stage">
+      <UniqueIdentifier>{97c082e9-3117-404b-bd21-0e0efdfccbf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\12. Setting_BackGround">
+      <UniqueIdentifier>{498a667d-7653-44d4-9672-b4370e7940a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\00. For_Logo\01. Button\03. BackButton">
+      <UniqueIdentifier>{7edb063a-f436-4906-abb4-7843de6b8ec7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\00. For_Logo\01. Button\04. BGMCtrlBtn">
+      <UniqueIdentifier>{a0d12ba6-0a77-493d-9217-779562040638}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\00. For_Logo\01. Button\04. BGMCtrlBtn\04-1. BGMDownBtn">
+      <UniqueIdentifier>{26f7865c-26d3-44bc-b610-c86dba3e9057}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\00. For_Logo\01. Button\04. BGMCtrlBtn\04-2. BGMUpBtn">
+      <UniqueIdentifier>{58350f4e-1024-4b56-8d40-340dcb591fe2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

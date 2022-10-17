@@ -164,7 +164,10 @@
     <ClInclude Include="..\Header\AnubisStormBall.h" />
     <ClInclude Include="..\Header\AnubisThunder.h" />
     <ClInclude Include="..\Header\AttackEffect.h" />
+    <ClInclude Include="..\Header\BackButton.h" />
     <ClInclude Include="..\Header\BackGround.h" />
+    <ClInclude Include="..\Header\BGMDownBtn.h" />
+    <ClInclude Include="..\Header\BGMUpBtn.h" />
     <ClInclude Include="..\Header\Box.h" />
     <ClInclude Include="..\Header\Bullet.h" />
     <ClInclude Include="..\Header\Bullet_UI.h" />
@@ -206,6 +209,9 @@
     <ClInclude Include="..\Header\Obstacle.h" />
     <ClInclude Include="..\Header\Player.h" />
     <ClInclude Include="..\Header\Player_Dead_UI.h" />
+    <ClInclude Include="..\Header\SettingButton.h" />
+    <ClInclude Include="..\Header\Setting_BackGround.h" />
+    <ClInclude Include="..\Header\Setting_Stage.h" />
     <ClInclude Include="..\Header\ShotGun.h" />
     <ClInclude Include="..\Header\SkillEffct.h" />
     <ClInclude Include="..\Header\SkyBox.h" />
@@ -258,7 +264,10 @@
     <ClCompile Include="..\Code\AnubisStormBall.cpp" />
     <ClCompile Include="..\Code\AnubisThunder.cpp" />
     <ClCompile Include="..\Code\AttackEffect.cpp" />
+    <ClCompile Include="..\Code\BackButton.cpp" />
     <ClCompile Include="..\Code\BackGround.cpp" />
+    <ClCompile Include="..\Code\BGMDownBtn.cpp" />
+    <ClCompile Include="..\Code\BGMUpBtn.cpp" />
     <ClCompile Include="..\Code\Box.cpp" />
     <ClCompile Include="..\Code\Bullet.cpp" />
     <ClCompile Include="..\Code\Bullet_UI.cpp" />
@@ -300,6 +309,9 @@
     <ClCompile Include="..\Code\Obstacle.cpp" />
     <ClCompile Include="..\Code\Player.cpp" />
     <ClCompile Include="..\Code\Player_Dead_UI.cpp" />
+    <ClCompile Include="..\Code\SettingButton.cpp" />
+    <ClCompile Include="..\Code\Setting_BackGround.cpp" />
+    <ClCompile Include="..\Code\Setting_Stage.cpp" />
     <ClCompile Include="..\Code\ShotGun.cpp" />
     <ClCompile Include="..\Code\SkillEffct.cpp" />
     <ClCompile Include="..\Code\SkyBox.cpp" />

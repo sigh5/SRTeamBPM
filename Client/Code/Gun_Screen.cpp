@@ -154,7 +154,7 @@ HRESULT CGun_Screen::Shoot_Motion(void)
 
 void CGun_Screen::GunFailSound()
 {
-	::PlaySoundW(L"Rythm_Check_Fail.wav", SOUND_EFFECT, 0.1f);
+	Engine::PlaySoundW(L"Rythm_Check_Fail.wav", SOUND_EFFECT, 0.1f);
 }
 
 CGun_Screen * CGun_Screen::Create(LPDIRECT3DDEVICE9 pGraphicDev)

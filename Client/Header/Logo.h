@@ -5,9 +5,10 @@
 
 #include "BackGround.h"
 #include "Loading.h"
-
+// Button
 #include "Start_Button.h"
 #include "Exit_Button.h"
+#include "SettingButton.h"
 
 class CLogo : public Engine::CScene
 {
@@ -21,7 +22,7 @@ public:
 	virtual void LateUpdate_Scene(void) override;
 	virtual void Render_Scene(void) override;
 
-
+	_bool			Get_Finish(void) { return m_bFinish; }
 
 private:
 	HRESULT			Ready_Layer_Environment(const _tchar* pLayerTag);
@@ -36,11 +37,14 @@ private:
 	
 	CStart_Button*		m_pStartButton = nullptr;
 	CExit_Button*		m_pExitButton = nullptr;
+	CSettingButton*		m_pSettingButton = nullptr;
 
-private:
+private: // Press Start Button ±ôºýÀÌ°Ô ÇÏ±â À§ÇÔ
 	_uint				m_iCount = 0;
 	_bool				m_bRender = false;
 
+	// Test
+	_bool				m_bFinish;
 public:
 	static CLogo*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
 

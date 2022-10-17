@@ -10,6 +10,7 @@
 
 #include "Stage_Pjw.h"
 #include "Change_Stage.h"
+#include "Setting_Stage.h"
 
 #include "STAGE_BIH.h"
 
@@ -17,7 +18,7 @@
 #include "TestUI.h"
 
 CLogo::CLogo(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CScene(pGraphicDev)
+	: Engine::CScene(pGraphicDev), m_bFinish(false)
 {
 }
 
@@ -31,17 +32,16 @@ HRESULT CLogo::Ready_Scene(void)
 
 	if (FAILED(Engine::CScene::Ready_Scene()))
 		return E_FAIL;
-
+	
 	FAILED_CHECK_RETURN(Ready_Proto(), E_FAIL);
-
+	
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(L"Ready_Layer_Environment"), E_FAIL);
 											// LOADING_STAGE  LOADING_TOOL
 	m_pLoading = CLoading::Create(m_pGraphicDev, LOADING_STAGE);
 	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
 		
 	Engine::LoadSoundFile();
-
-	
+		
 	return S_OK;
 }
  //ÁÖ¼®Áö¿ì¼À
@@ -53,7 +53,7 @@ Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 
 	m_pStartButton = dynamic_cast<CStart_Button*>(Engine::Get_GameObject(L"Ready_Layer_Environment", L"StartButton"));
 	m_pExitButton = dynamic_cast<CExit_Button*>(Engine::Get_GameObject(L"Ready_Layer_Environment", L"ExitButton"));
-
+	m_pSettingButton = dynamic_cast<CSettingButton*>(Engine::Get_GameObject(L"Ready_Layer_Environment", L"SettingButton"));
 
 	_int iResult = Engine::CScene::Update_Scene(fTimeDelta);
 
@@ -70,12 +70,25 @@ Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 
 			return 0;
 		}
+
+		if (m_pSettingButton->Get_Click())
+		{
+			m_pSettingButton->Set_Click(false);
+			CScene*		pScene = CSetting_Stage::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pScene, E_FAIL);
+
+			m_SceneType = SCENE_TOOLTEST;
+												// Logo    Setting_Stage
+			FAILED_CHECK_RETURN(Engine::Change_Scene(static_cast<CScene*>(this), pScene), E_FAIL);
+
+			return 0;
+		}
 		
-		//if (m_pExitButton->Get_Click())
-		//{
-		//	//DestroyWindow(g_hWnd);
-		//	return SCENE_END;
-		//}
+		/*if (m_pExitButton->Get_Click())
+		{
+			DestroyWindow
+			return 0;
+		}*/
 	}	
 	return iResult;
 }
@@ -122,7 +135,11 @@ HRESULT CLogo::Ready_Layer_Environment(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"StartButton", pGameObject), E_FAIL);
 
-	pGameObject = CExit_Button::Create(m_pGraphicDev, -0.6f, -0.25f);
+	pGameObject = CSettingButton::Create(m_pGraphicDev, -0.6f, 0.f);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"SettingButton", pGameObject), E_FAIL);
+
+	pGameObject = CExit_Button::Create(m_pGraphicDev, -0.6f, -0.45f);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"ExitButton", pGameObject), E_FAIL);
 
@@ -153,28 +170,35 @@ void CLogo::Free(void)
 
 HRESULT CLogo::Ready_Proto(void)
 {
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_TransformCom", CTransform::Create()), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_CalculatorCom", CCalculator::Create(m_pGraphicDev)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_OrthoTransformCom", COrthoTransform::Create()), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_RcTexCom", CRcTex::Create(m_pGraphicDev)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_LogoTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Logo/Title_Menu.png", TEX_NORMAL)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_TransformCom", CTransform::Create()), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_CalculatorCom", CCalculator::Create(m_pGraphicDev)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_OrthoTransformCom", COrthoTransform::Create()), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_RcTexCom", CRcTex::Create(m_pGraphicDev)), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_LogoTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Logo/Title_Menu.png", TEX_NORMAL)), E_FAIL);
 
-	// Button											
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ButtonTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Button/Start_Button.png", TEX_NORMAL)), E_FAIL);
-	
-	
-	//FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ButtonTexture", CTexture::Create(m_pGraphicDev, L"../QBin/Resource/Texture/Button/Credits_Button.png", TEX_NORMAL)), E_FAIL);
-	
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ButtonTexture2", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Button/Exit_Button.png", TEX_NORMAL)), E_FAIL);
-				
-	// Font
-	FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"BMYEONSUNG", L"Power", 14, 18, FW_HEAVY), E_FAIL);
+		// Button											
+		FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ButtonTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Button/Start_Button.png", TEX_NORMAL)), E_FAIL);
 
-	FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"DalseoHealingBold", L"Healing", 13, 18, FW_NORMAL), E_FAIL);
+		FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_CreditButtonTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Button/Credits_Button.png", TEX_NORMAL)), E_FAIL);
+
+		FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ButtonTexture2", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Button/Exit_Button.png", TEX_NORMAL)), E_FAIL);
+
+		FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_BackButtonTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Button/Back_Button.png", TEX_NORMAL)), E_FAIL);
+
+		FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_BGM_Dn_BtnTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Button/BGM_Dn_Btn.png", TEX_NORMAL)), E_FAIL);
+		
+		FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_BGM_Up_BtnTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Button/BGM_Up_Btn.png", TEX_NORMAL)), E_FAIL);
+		// Font
+		FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"BMYEONSUNG", L"Power", 14, 18, FW_HEAVY), E_FAIL);
+
+		FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"DalseoHealingBold", L"Healing", 13, 18, FW_NORMAL), E_FAIL);
+
+		FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"HoengseongHanu", L"BulletUIFont", 20, 25, FW_NORMAL), E_FAIL);
+		// LeeSoonSin
+		FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"LeeSoonSin", L"LoadingHUD_Font", 18, 25, FW_HEAVY), E_FAIL);
 	
-	FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"HoengseongHanu", L"BulletUIFont", 20, 25, FW_NORMAL), E_FAIL);
-	// LeeSoonSin
-	FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"LeeSoonSin", L"LoadingHUD_Font", 18, 25, FW_HEAVY), E_FAIL);
+		m_bFinish = true;
+	
 
 	return S_OK;
 }

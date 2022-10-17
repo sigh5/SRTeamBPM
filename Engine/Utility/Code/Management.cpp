@@ -4,7 +4,7 @@ USING(Engine)
 IMPLEMENT_SINGLETON(CManagement)
 
 CManagement::CManagement()
-	: m_pScene(nullptr)
+	: m_pScene(nullptr), m_pSaveScene(nullptr)
 {
 }
 
@@ -47,6 +47,39 @@ CGameObject * CManagement::Get_GameObject(const _tchar * pLayerTag, const _tchar
 		return nullptr;
 
 	return m_pScene->Get_GameObject(pLayerTag, pObjTag);
+}
+										// Logo            Setting_Stage
+HRESULT CManagement::Change_Scene(CScene * pScene, CScene* pChangeScene)
+{
+	if (m_pScene == pScene)
+	{
+		m_pSaveScene = m_pScene;  // 기존 씬에 대한 정보를 저장
+
+		//Engine::Clear_RenderGroup();
+		// 기존 scene에 그려지고 있던 모든 렌더 요소들을 삭제하고 
+		// scene은 삭제하지 않은 채로 위에 덮는다.
+		m_pScene = pChangeScene;
+	}
+	return S_OK;
+}
+
+HRESULT CManagement::Load_SaveScene(CScene* pScene)
+{
+	if (m_pScene == pScene)
+	{
+		Safe_Release(m_pScene);	 // 기존 scene을 삭제
+		Engine::Clear_RenderGroup(); // 기존 scene에 그려지고 있던 모든 렌더 요소들을 삭제
+
+		m_pScene = m_pSaveScene;
+	}
+		return S_OK;
+}
+
+HRESULT CManagement::Current_Scene(CScene * pScene)
+{
+	m_pScene = pScene;
+
+	return S_OK;
 }
 
 

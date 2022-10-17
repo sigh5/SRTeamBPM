@@ -5,8 +5,8 @@ namespace Engine
 {
 #define		WINCMAX		480000
 
-#define		WINCX		1280
-#define		WINCY		1024
+#define		WINCX		800
+#define		WINCY		600
 
 
 #define		VTXCNTX		129
