@@ -303,9 +303,15 @@
     <ClCompile Include="..\Code\UI_Effect.cpp">
       <Filter>02. GameObject\01. For_Stage\07. Effect\UI_Effect</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\FirePillar.cpp" />
-    <ClCompile Include="..\Code\FireTrap.cpp" />
-    <ClCompile Include="..\Code\ObeliskWreck.cpp" />
+    <ClCompile Include="..\Code\FireTrap.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. Monster\07. FireTrap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FirePillar.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. Monster\07. FireTrap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ObeliskWreck.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. Monster\04. Obelisk</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -626,9 +632,15 @@
     <ClInclude Include="..\Header\UI_Effect.h">
       <Filter>02. GameObject\01. For_Stage\07. Effect\UI_Effect</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\FirePillar.h" />
-    <ClInclude Include="..\Header\FireTrap.h" />
-    <ClInclude Include="..\Header\ObeliskWreck.h" />
+    <ClInclude Include="..\Header\FireTrap.h">
+      <Filter>02. GameObject\01. For_Stage\02. Monster\07. FireTrap</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\FirePillar.h">
+      <Filter>02. GameObject\01. For_Stage\02. Monster\07. FireTrap</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\ObeliskWreck.h">
+      <Filter>02. GameObject\01. For_Stage\02. Monster\04. Obelisk</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -858,9 +870,6 @@
     <Filter Include="02. GameObject\02. For_public\06. ControlRoom">
       <UniqueIdentifier>{08900aaa-48ff-42ce-88fb-99eb1939c09a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Scene\96. Stage_BIH">
-      <UniqueIdentifier>{95da0eaf-6815-47e4-ac7b-77679616c28f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\01. For_Stage\13. Gun_Screen\ax">
       <UniqueIdentifier>{62352cd4-6a15-42ac-9b3e-51468ea9b123}</UniqueIdentifier>
     </Filter>
@@ -908,6 +917,9 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\02. Monster\03. Sphinx\03. HitEffect">
       <UniqueIdentifier>{ffb685ba-12a5-4b36-9cdf-b341a75516af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\02. Monster\07. FireTrap">
+      <UniqueIdentifier>{775d2fbc-6d26-484f-838a-73e493a7cd47}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

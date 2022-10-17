@@ -22,7 +22,7 @@ private:
 	void		AttackJudge(const _float& fTimeDelta);
 	void		Attack(const _float& fTimeDelta);
 	void		SpikeUpdateLoop(const _float& fTimeDelta);
-
+	void	Drop_Item(int ItemType);
 public:
 	static CEarthShaker*		Create(LPDIRECT3DDEVICE9 pGraphicDev, float Posx = 0, float Posy = 0);
 	virtual void	Free(void);

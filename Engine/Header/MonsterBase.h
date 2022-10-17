@@ -45,6 +45,7 @@ public:
 	virtual void		Move_Pos(_vec3 _move);
 	virtual void		Add_ColliderMonsterlist(void);
 
+
 public:
 	const _bool&		 Get_Hit()const { return m_bHit; }
 	const _bool&		Get_Dead()const { return m_bDead; }

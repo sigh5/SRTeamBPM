@@ -150,6 +150,9 @@ void CStage::LateUpdate_Scene(void)
 		}
 	}
 
+	for (auto iter : (pLayer->Get_DropItemList()))
+		iter->Collision_Event();
+
 	pLayer = GetLayer(L"Layer_CubeCollsion");
 
 	for (auto iter = pLayer->Get_GameObjectMap().begin(); iter != pLayer->Get_GameObjectMap().end(); ++iter)

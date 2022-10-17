@@ -9,6 +9,8 @@
 #include "Gun_Screen.h"
 #include "HitEffect.h"
 #include "Special_Effect.h"
+#include "Key.h"
+#include "Coin.h"
 
 CSpider::CSpider(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -78,7 +80,7 @@ bool	CSpider::Dead_Judge(const _float& fTimeDelta)
 				::PlaySoundW(L"Spider_death_03.wav", SOUND_MONSTER, 0.4f);
 				break;
 			}
-
+			Drop_Item(rand() % 3);
 			m_bDead = true;
 		}
 	}
@@ -442,6 +444,28 @@ void CSpider::Hit_Loop(const _float& fTimeDelta)
 	{
 		m_bHit = false;
 		m_fHitDelay = 0.f;
+	}
+}
+
+void	CSpider::Drop_Item(int ItemType)
+{
+	CScene  *pScene = ::Get_Scene();
+	CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+	CGameObject* pItem = nullptr;
+	switch (ItemType)
+	{
+	case 0:
+		pItem = CCoin::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS].x, m_pDynamicTransCom->m_vInfo[INFO_POS].z);
+		pLayer->Add_DropItemList(pItem);
+		break;
+
+	case 1:
+		pItem = CKey::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS].x, m_pDynamicTransCom->m_vInfo[INFO_POS].z);
+		pLayer->Add_DropItemList(pItem);
+		break;
+
+	default:
+		break;
 	}
 }
 CSpider * CSpider::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)

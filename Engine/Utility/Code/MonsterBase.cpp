@@ -9,6 +9,7 @@
 
 #include "Export_Utility.h"
 
+
 USING(Engine)
 
 CMonsterBase::CMonsterBase(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -221,6 +222,7 @@ void	CMonsterBase::Add_ColliderMonsterlist(void)
 		pMyLayer->Add_vecColliderMonster(static_cast<CMonsterBase*>(this));
 	}
 }
+
 
 void	CMonsterBase::Move_Pos(_vec3 _move)
 {

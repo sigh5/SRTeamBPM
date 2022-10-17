@@ -28,6 +28,7 @@ public:
 private:
 	void		AttackJudge(const _float& fTimeDelta);
 	void		Attack(const _float& fTimeDelta);
+	void			Drop_Item(int ItemType);
 	//~
 
 	//»ý¼º ¼Ò¸ê

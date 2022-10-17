@@ -44,11 +44,11 @@ HRESULT CWreckBase::Add_Component(void)
 
 	m_pTransCom = dynamic_cast<CTransform*>(Clone_Proto(L"Proto_TransformCom"));
 	NULL_CHECK_RETURN(m_pTransCom, E_FAIL);
-	m_mapComponent[ID_DYNAMIC].insert({ L"Proto_TransformCom" , pComponent });
+	m_mapComponent[ID_DYNAMIC].insert({ L"Proto_TransformCom" , m_pTransCom });
 
 	m_pBufferCom = dynamic_cast<CRcTex*>(Clone_Proto(L"Proto_RcTexCom"));
 	NULL_CHECK_RETURN(m_pBufferCom, E_FAIL);
-	m_mapComponent[ID_DYNAMIC].insert({ L"Proto_RcTexCom" , pComponent });
+	m_mapComponent[ID_STATIC].insert({ L"Proto_RcTexCom" , m_pBufferCom });
 	return S_OK;
 }
 

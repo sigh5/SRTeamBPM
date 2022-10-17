@@ -188,7 +188,7 @@ _uint CLoading::Loading_ForStage(void)
 
 	// ~ NPC
 
-
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_KeyTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Item/Key.png", TEX_NORMAL)), E_FAIL);
 	m_bFinish = true;
 
 	lstrcpy(m_szLoading, L"Press Start Button");

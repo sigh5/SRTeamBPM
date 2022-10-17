@@ -15,5 +15,8 @@ public:
 public:
 	static CObeliskWreck*		Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos, _vec3 vRight);
 	virtual void		Free(void);
+
+private:
+	int	 m_iTextureNum = 0;
 };
 

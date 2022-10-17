@@ -22,6 +22,7 @@ HRESULT CCoin::Ready_Object(_uint iX, _uint iY)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	m_pTransCom->Set_Pos((_float)iX, 1.f, (_float)iY);
+	
 	m_pTransCom->Compulsion_Update();
 	m_pAnimationCom->Ready_Animation(5, 0, 0.2f);
 
@@ -55,7 +56,6 @@ void CCoin::LateUpdate_Object(void)
 	CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
 	NULL_CHECK(pCamera);
 
-	// 
 	_matrix		matWorld, matView, matBill;
 
 	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
@@ -65,7 +65,7 @@ void CCoin::LateUpdate_Object(void)
 	D3DXMatrixInverse(&matBill, 0, &matBill);
 
 	_matrix      matScale, matTrans;
-	D3DXMatrixScaling(&matScale, 2.f, 2.f, 2.f);
+	D3DXMatrixScaling(&matScale, m_pTransCom->m_vScale.x, m_pTransCom->m_vScale.y, m_pTransCom->m_vScale.z);
 
 	_matrix      matRot;
 	D3DXMatrixIdentity(&matRot);
@@ -83,8 +83,8 @@ void CCoin::LateUpdate_Object(void)
 	matWorld = matScale* matRot * matBill * matTrans;
 	m_pTransCom->Set_WorldMatrix(&(matWorld));
 
-
-	CItemBase::LateUpdate_Object();
+	// 빌보드 에러 해결
+	Engine::CGameObject::LateUpdate_Object();
 }
 
 void CCoin::Render_Obejct(void)

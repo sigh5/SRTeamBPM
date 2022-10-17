@@ -181,8 +181,8 @@ void CWallCube::Collision_Event()
 
 		//CCollider* pColider = static_cast<CCollider*>(pGameObject->Get_Component(L"Proto_ColliderCom", ID_STATIC));
 
-		/*if (m_pColliderCom->Check_Collsion_CubeAABB(m_pColliderCom, pGameObject))
-			_bool b = false;*/
+		if (m_pColliderCom->Check_Collsion_CubeAABB(m_pColliderCom, pGameObject))
+			_bool b = false;
 		
 		for (auto iter : pLayer->Get_MapObject())
 		{

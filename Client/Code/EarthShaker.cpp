@@ -9,6 +9,8 @@
 #include "Player.h"
 #include "Gun_Screen.h"
 #include "Special_Effect.h"
+#include "Coin.h"
+#include "Key.h"
 
 CEarthShaker::CEarthShaker(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -264,7 +266,7 @@ bool CEarthShaker::Dead_Judge(const _float & fTimeDelta)
 				::PlaySoundW(L"Croccman_death_03.wav", SOUND_MONSTER, 0.4f);
 				break;
 			}
-
+			Drop_Item(rand() % 3);
 			m_bDead = true;
 		}
 		//Safe_Release(m_pAttackAnimationCom);
@@ -595,7 +597,27 @@ void	CEarthShaker::SpikeUpdateLoop(const _float& fTimeDelta)
 	//::SetChannelVolume(SOUND_CRUSHROCK2, fVolume);
 	//::SetChannelVolume(SOUND_CRUSHROCK3, fVolume);
 }
+void	CEarthShaker::Drop_Item(int ItemType)
+{
+	CScene  *pScene = ::Get_Scene();
+	CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+	CGameObject* pItem = nullptr;
+	switch (ItemType)
+	{
+	case 0:
+		pItem = CCoin::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS].x, m_pDynamicTransCom->m_vInfo[INFO_POS].z);
+		pLayer->Add_DropItemList(pItem);
+		break;
 
+	case 1:
+		pItem = CKey::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS].x, m_pDynamicTransCom->m_vInfo[INFO_POS].z);
+		pLayer->Add_DropItemList(pItem);
+		break;
+
+	default:
+		break;
+	}
+}
 CEarthShaker * CEarthShaker::Create(LPDIRECT3DDEVICE9 pGraphicDev, float Posx, float Posy)
 {
 	CEarthShaker*	pInstance = new CEarthShaker(pGraphicDev);
