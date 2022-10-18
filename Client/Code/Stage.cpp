@@ -198,25 +198,18 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 
 	READY_LAYER(pGameObject, CShopUI, pLayer, m_pGraphicDev, L"ShopUI");
 
-
-	pGameObject = CShotGun::Create(m_pGraphicDev, 20, 20);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"ShotGun", pGameObject), E_FAIL);
-
 	pGameObject = CMagnum::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Magnum", pGameObject), E_FAIL);
 
 
-
-	
-	/*CFileIOMgr::GetInstance()->Load_FileData(m_pGraphicDev,
+	CFileIOMgr::GetInstance()->Load_FileData(m_pGraphicDev,
 		this,
 		const_cast<_tchar*>(pLayerTag),
 		L"../../Data/",
 		L"Monster1.dat",
 		L"Monster",
-		OBJ_MONSTER);*/
+		OBJ_MONSTER);
 
 	return S_OK;
 }
@@ -390,6 +383,15 @@ void CStage::Set_Player_StartCubePos()
 {
 	CLayer* pLayer =GetLayer(L"Layer_CubeCollsion");
 	pLayer->m_iRoomIndex = pLayer->m_iRestRoom--;  // rand() %
+	
+	_int iRandomShuffleNum = rand()%4;
+
+	
+	for(int i=0; i<iRandomShuffleNum; ++i)
+		random_shuffle((*pLayer->GetRestCube()).begin(), (*pLayer->GetRestCube()).end());
+	
+	
+	
 	vector<CGameObject*> m_vecCube = *pLayer->GetRestCube();
 	CGameObject* pFirstCubeObj = m_vecCube[pLayer->m_iRoomIndex];
 
