@@ -1,6 +1,5 @@
 #pragma once
 #include "EquipmentBase.h"
-#include "Engine_Include.h"
 
 
 BEGIN(Engine)
@@ -23,9 +22,9 @@ private:
 
 public:
 	HRESULT				Ready_Object(_uint iX, _uint iZ);
-	virtual _int		Update_Object(const _float& fTimeDelta) override;
-	virtual void		LateUpdate_Object(void) override;
-	virtual void		Render_Obejct(void) override;
+	virtual _int		Update_Object(const _float& fTimeDelta);
+	virtual void		LateUpdate_Object(void);
+	virtual void		Render_Obejct(void);
 	virtual void		Collision_Event()override;
 	virtual void		Change_Equip()override;
 
@@ -36,9 +35,8 @@ public:
 	void				PickingMouseUp();
 	void				SearchInventorySlot(CInventory_UI** pInven);
 	_bool				EquipIconPicking();
-	
-	
-	
+
+
 
 
 private:
@@ -48,23 +46,22 @@ private:
 	CAnimation*				m_pAnimationCom = nullptr;
 	CCalculator*			m_pCalculatorCom = nullptr;
 	CCollider*				m_pColliderCom = nullptr;
-	
+
+
 private:
 	HRESULT				Add_Component(void);
 
-public:
-	
-
+private:
 	// 샷건이 가지는 기본 탄창량
 	_uint				m_iShotgunMagazine = 6;
-	
+
 	_matrix				m_ProjMatrix;
 
-	
+
 	_bool			m_bOnce = false;
 
 	_float			m_fTimedelta = 0.f;
-	
+
 
 	/*_bool			m_bPickingEnd = false;
 	_bool			m_iMouseUpEnd = false;
@@ -75,6 +72,6 @@ public:
 public:
 	static CShotGun*	Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint iX, _uint iZ);
 	virtual void		Free(void);
-	
+
 };
 

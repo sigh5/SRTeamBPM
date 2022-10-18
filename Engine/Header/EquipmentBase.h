@@ -47,7 +47,7 @@ public:
 
 	void				Set_EquipState(EquipState eState) { m_EquipState = eState; }
 
-	const _vec3&			Get_OriginPos() { return _vec3(m_fOriginPosX, m_fOriginPosY, 0.f); }
+	_vec3		Get_OriginPos() { return _vec3(m_fOriginPosX, m_fOriginPosY, 0.f); }
 	void					Set_FX_FY(const _float& _fx, const _float& fy)
 	{
 		m_fX = _fx;

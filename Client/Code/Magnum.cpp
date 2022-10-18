@@ -12,7 +12,7 @@
 CMagnum::CMagnum(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CEquipmentBase(pGraphicDev)
 {
-	D3DXVec3Normalize(&m_vecOrtho, &m_vecOrtho);
+	
 }
 
 CMagnum::~CMagnum()
@@ -23,7 +23,7 @@ HRESULT CMagnum::Ready_Object()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	Engine::CEquipmentBase::Ready_EquipInfo(5, 0, 0, 7, WEAPON_MAGNUM);
-	
+
 	m_RenderID = RENDER_ICON;
 	D3DXMatrixOrthoLH(&m_ProjMatrix, WINCX, WINCY, 0.f, 1.f);
 
@@ -38,7 +38,7 @@ HRESULT CMagnum::Ready_Object()
 
 	m_pTransCom->Set_Pos(m_fX - WINCX * 0.5f,
 		(-m_fY + WINCY * 0.5f), 0.0f);
-	
+
 	m_fOriginPosX = m_fX - WINCX * 0.5f;
 	m_fOriginPosY = (-m_fY + WINCY * 0.5f);
 
@@ -197,8 +197,8 @@ void CMagnum::Set_MouseToInventory() // 누르면 걍 따라오는 함수
 	ScreenToClient(g_hWnd, &ptMouse);
 
 	_vec3		vPoint;
-	m_fX = ptMouse.x;
-	m_fY = ptMouse.y;
+	m_fX = (_float)ptMouse.x;
+	m_fY = (_float)ptMouse.y;
 
 	m_pTransCom->Set_Pos(m_fX - WINCX * 0.5f,
 		(-m_fY + WINCY * 0.5f), 0.f);
@@ -209,7 +209,7 @@ void CMagnum::PickingMouseUp()
 
 	if (m_bisPicking && !m_bPickingEnd) // 마우스 들었을때
 	{
-		if(::Mouse_Up(DIM_LB))
+		if (::Mouse_Up(DIM_LB))
 			m_bPickingEnd = true;
 	}
 
@@ -218,7 +218,7 @@ void CMagnum::PickingMouseUp()
 		CInventory_UI* pInven = static_cast<CInventory_UI*>(Get_GameObject(L"Layer_UI", L"InventoryUI"));
 		SearchInventorySlot(&pInven);
 
-		 if (!m_iMouseUpEnd )
+		if (!m_iMouseUpEnd)
 		{
 			RECT Rc{};
 			if (m_EquipState == EquipState_Equip_Weapon)
@@ -253,12 +253,16 @@ void CMagnum::SearchInventorySlot(CInventory_UI ** pInven)
 	ScreenToClient(g_hWnd, &ptMouse);
 
 	_vec3		vPoint;
-	m_fX = ptMouse.x;
-	m_fY = ptMouse.y;
+	m_fX = (_float)ptMouse.x;
+	m_fY = (_float)ptMouse.y;
 
-	RECT rcMouse = { ptMouse.x - 30.f ,ptMouse.y - 35.f ,ptMouse.x + 30.f ,ptMouse.y + 30.f };
+	RECT rcMouse = { 
+		LONG(ptMouse.x - 30.f) ,
+		LONG(ptMouse.y - 35.f) ,
+		LONG(ptMouse.x + 30.f) ,
+		LONG(ptMouse.y + 30.f) };
 	RECT Rc{};
-	
+
 	if (m_EquipState != EquipState_Equip_Weapon)
 	{
 		memcpy(&Rc, &(*pInven)->Get_EquipSlot()[0].rcInvenSlot, sizeof(RECT));
@@ -318,10 +322,10 @@ _bool CMagnum::EquipIconPicking()
 	ScreenToClient(g_hWnd, &ptMouse);
 
 	RECT		rcUI2 = {
-		m_fX - m_fSizeX * 0.5f ,
-		m_fY - m_fSizeY * 0.5f ,
-		m_fX + m_fSizeX * 0.5f ,
-		m_fY + m_fSizeY * 0.5f };
+		LONG(m_fX - m_fSizeX * 0.5f) ,
+		LONG(m_fY - m_fSizeY * 0.5f) ,
+		LONG(m_fX + m_fSizeX * 0.5f) ,
+		LONG(m_fY + m_fSizeY * 0.5f) };
 
 	if (Get_DIMouseState(DIM_LB) & 0x80)
 	{

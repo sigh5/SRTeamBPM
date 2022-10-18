@@ -11,7 +11,7 @@
 #include "Player.h"
 
 CShotGun::CShotGun(LPDIRECT3DDEVICE9 pGraphicDev)
-	:CEquipmentBase(pGraphicDev) 
+	:CEquipmentBase(pGraphicDev)
 {
 }
 
@@ -24,9 +24,9 @@ HRESULT CShotGun::Ready_Object(_uint iX, _uint iZ)
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	Engine::CEquipmentBase::Ready_EquipInfo(10, 0, 0, 10, WEAPON_SHOTGUN);
-	
+
 	m_RenderID = RENDER_ALPHA;
-	
+
 	D3DXMatrixOrthoLH(&m_ProjMatrix, WINCX, WINCY, 0.f, 1.f);
 	m_EquipState = EquipState_Equip_End;
 
@@ -35,10 +35,10 @@ HRESULT CShotGun::Ready_Object(_uint iX, _uint iZ)
 
 	return S_OK;
 }
- 
+
 _int CShotGun::Update_Object(const _float & fTimeDelta)
 {
-	
+
 	m_fTimedelta = fTimeDelta;
 
 	if (m_bIsWorld)
@@ -59,9 +59,7 @@ _int CShotGun::Update_Object(const _float & fTimeDelta)
 
 	Add_RenderGroup(m_RenderID, this);
 
-	Engine::CGameObject::Update_Object(fTimeDelta);
-	
-	return 0;
+	return iResult;
 }
 
 void CShotGun::LateUpdate_Object(void)
@@ -70,7 +68,7 @@ void CShotGun::LateUpdate_Object(void)
 	{
 		CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
 		NULL_CHECK(pCamera);
-	
+
 		_matrix		matWorld, matView, matBill;
 		m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
 		D3DXMatrixIdentity(&matBill);
@@ -125,7 +123,7 @@ void CShotGun::Render_Obejct(void)
 			return;
 
 		m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
-		
+
 		_matrix		OldViewMatrix, OldProjMatrix;
 
 		m_pGraphicDev->GetTransform(D3DTS_VIEW, &OldViewMatrix);
@@ -162,7 +160,7 @@ void CShotGun::Collision_Event()
 
 	pGameObject = pLayer->Get_GameObject(L"Player");
 	NULL_CHECK_RETURN(pGameObject, );
-			
+
 	if (m_pColliderCom->Check_Collision(this, pGameObject, 1, 1) && !m_bOnce)
 	{
 		if (Key_Down(DIK_F))//Engine::Key_Down(DIK_F))
@@ -173,12 +171,12 @@ void CShotGun::Collision_Event()
 			m_EquipState = EquipState_Slot;
 			m_fX = WINCX * 0.5f;
 			m_fY = WINCY * 0.5f;
-			m_fSizeX = 100.f ;
-			m_fSizeY = 100.f ;
-	
+			m_fSizeX = 100.f;
+			m_fSizeY = 100.f;
+
 			_vec3 vScale = { m_fSizeX, m_fSizeY, 1.f };
 			m_pTransCom->Set_Scale(&vScale);
-			
+
 			RECT Rc{};
 			for (int i = 0; i < 4; ++i)
 			{
@@ -206,11 +204,11 @@ void CShotGun::Collision_Event()
 					}
 				}
 			}
-			
-			
-			
-		
-		
+
+
+
+
+
 		}
 
 	}
@@ -221,8 +219,8 @@ void CShotGun::Change_Equip()
 	if (m_EquipState == EquipState_Equip_Weapon)
 		return;
 
-	
-	
+
+
 	CGun_Screen* pGun_Screen = static_cast<CGun_Screen*>(Engine::Get_GameObject(L"Layer_UI", L"Gun"));
 	pGun_Screen->Set_ChaneWeaponUI_ID(true, ID_SHOT_GUN);
 
@@ -231,7 +229,7 @@ void CShotGun::Change_Equip()
 
 	CPlayer* pPlayer = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
 	pPlayer->EquipItem_Add_Stat(m_EquipInfo._iAddAttack);
-	
+
 
 
 }
@@ -244,11 +242,11 @@ void CShotGun::Set_MouseToInventory() // 누르면 걍 따라오는 함수
 	ScreenToClient(g_hWnd, &ptMouse);
 
 	_vec3		vPoint;
-	m_fX = ptMouse.x;
-	m_fY = ptMouse.y;
+	m_fX = (_float)ptMouse.x;
+	m_fY = (_float)ptMouse.y;
 
 	m_pTransCom->Set_Pos(m_fX - WINCX * 0.5f,
-		(-m_fY + WINCY * 0.5f), 0.f);	
+		(-m_fY + WINCY * 0.5f), 0.f);
 }
 
 void CShotGun::PickingMouseUp()
@@ -299,14 +297,14 @@ void CShotGun::SearchInventorySlot(CInventory_UI** pInven)
 	ScreenToClient(g_hWnd, &ptMouse);
 
 	_vec3		vPoint;
-	m_fX = ptMouse.x;
-	m_fY = ptMouse.y;
+	m_fX = (_float)ptMouse.x;
+	m_fY = (_float)ptMouse.y;
 
-	RECT rcMouse = { ptMouse.x - 30.f ,ptMouse.y - 35.f ,ptMouse.x + 30.f ,ptMouse.y + 30.f };
+	RECT rcMouse = { (LONG)(ptMouse.x - 30.f) ,(LONG)(ptMouse.y - 35.f) ,(LONG)(ptMouse.x + 30.f) ,(LONG)(ptMouse.y + 30.f) };
 	RECT Rc{};
 
 
-	
+
 	if (m_EquipState != EquipState_Equip_Weapon)
 	{
 		memcpy(&Rc, &(*pInven)->Get_EquipSlot()[0].rcInvenSlot, sizeof(RECT));
@@ -351,16 +349,16 @@ void CShotGun::SearchInventorySlot(CInventory_UI** pInven)
 			}
 		}
 	}
-	
+
 	m_bIsPick = false;
 	m_bPickingEnd = false;
 
 }
-	
+
 _bool CShotGun::EquipIconPicking()
-{	
+{
 	CInventory_UI* pInven = static_cast<CInventory_UI*>(Get_GameObject(L"Layer_UI", L"InventoryUI"));
-	
+
 	const _uint iCurrentPickingID = pInven->Get_Current_Picking_ItemID();
 
 	if (!(iCurrentPickingID == ID_SHOT_GUN || iCurrentPickingID == 0))
@@ -369,17 +367,17 @@ _bool CShotGun::EquipIconPicking()
 	POINT		ptMouse{};
 	GetCursorPos(&ptMouse);
 	ScreenToClient(g_hWnd, &ptMouse);
-	
-	RECT		rcUI2 = { 
-		m_fX - m_fSizeX * 0.5f ,
-		m_fY - m_fSizeY * 0.5f ,
-		m_fX + m_fSizeX * 0.5f ,
-		m_fY + m_fSizeY * 0.5f };
+
+	RECT		rcUI2 = {
+		(LONG)(m_fX - m_fSizeX * 0.5f) ,
+		(LONG)(m_fY - m_fSizeY * 0.5f) ,
+		(LONG)(m_fX + m_fSizeX * 0.5f) ,
+		(LONG)(m_fY + m_fSizeY * 0.5f) };
 
 	if (Get_DIMouseState(DIM_LB) & 0x80)
 	{
 		//cout << ptMouse.x << " " << ptMouse.y << endl;
-		if(PtInRect(&rcUI2, ptMouse))
+		if (PtInRect(&rcUI2, ptMouse))
 		{
 			pInven->Set__Current_Picking_ItemID(ID_SHOT_GUN);
 			m_bPickingEnd = false;
@@ -390,20 +388,22 @@ _bool CShotGun::EquipIconPicking()
 		return false;
 
 	}
-	
+
 
 	return false;
 }
 
 HRESULT CShotGun::Add_Component(void)
-{						// CDynamic_Transform
+{ // CDynamic_Transform
 	m_pTransCom = CAbstractFactory<CTransform>::Clone_Proto_Component(L"Proto_TransformCom", m_mapComponent, ID_DYNAMIC);
 	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_ShotGunTexture", m_mapComponent, ID_STATIC);
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
 	m_pAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_STATIC);
 	m_pCalculatorCom = CAbstractFactory<CCalculator>::Clone_Proto_Component(L"Proto_CalculatorCom", m_mapComponent, ID_STATIC);
 	m_pColliderCom = CAbstractFactory<CCollider>::Clone_Proto_Component(L"Proto_ColliderCom", m_mapComponent, ID_STATIC);
-	
+
+	m_pOrthoTransCom = CAbstractFactory<COrthoTransform>::Clone_Proto_Component(L"Proto_OrthoTransformCom", m_mapComponent, ID_DYNAMIC);
+
 
 	return S_OK;
 }

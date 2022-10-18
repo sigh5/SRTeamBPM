@@ -49,7 +49,7 @@ public:
 
 private:
 	HRESULT						Add_Component(void);
-	
+
 private:
 	CRcTex*						m_pBufferCom = nullptr;
 	CTexture*					m_pTextureCom = nullptr;
@@ -68,7 +68,7 @@ private:
 
 	_bool						m_bInvenSwitch = false;
 	vector<CEquipmentBase*>		m_vecWeaponType; // 현재 인벤토리에 있는 장비
-	
+
 	SlotInfo					m_rcEquipSlot[4];
 	SlotInfo					m_rcInvenSlot[36];
 
