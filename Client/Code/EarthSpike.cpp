@@ -41,6 +41,18 @@ HRESULT CEarthSpike::Ready_Object(float Posx, float Posy, bool spiketype, float 
 
 _int CEarthSpike::Update_Object(const _float & fTimeDelta)
 {
+	_vec3 vThunderPos = m_pTransform->m_vInfo[INFO_POS];
+	CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
+	CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
+	_vec3 vPlayerPos = pPlayerTransformCom->m_vInfo[INFO_POS];
+	if (m_pAnimationCom->m_iMotion < 4 || m_pAnimationCom->m_iMotion > 7)
+	{
+		m_fToPlayerDistance = 100;
+	}
+	else
+	{
+		m_fToPlayerDistance = sqrtf((powf(vThunderPos.x - vPlayerPos.x, 2) + powf(vThunderPos.y - vPlayerPos.y, 2) + powf(vThunderPos.z - vPlayerPos.z, 2)));
+	}
 	m_pTransform->Set_Y(m_pTransform->m_vScale.y * 0.5f);
 	m_fWaitTimeCounter += fTimeDelta;
 	if (m_fWaitTime > m_fWaitTimeCounter)
@@ -54,21 +66,19 @@ _int CEarthSpike::Update_Object(const _float & fTimeDelta)
 	}
 	m_pAnimationCom->Move_Animation(fTimeDelta);
 
-	_vec3 vThunderPos = m_pTransform->m_vInfo[INFO_POS];
-	CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
-	CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
-	_vec3 vPlayerPos = pPlayerTransformCom->m_vInfo[INFO_POS];
 
-	float fDistance = sqrtf((powf(vThunderPos.x - vPlayerPos.x, 2) + powf(vThunderPos.y - vPlayerPos.y, 2) + powf(vThunderPos.z - vPlayerPos.z, 2)));
 
-	if (fDistance < 1.5f && false == m_bHitPlayer)
+	if (4 < m_pAnimationCom->m_iMotion)
+	{
+		if (m_fToPlayerDistance < 1.5f && false == m_bHitPlayer)
 	{
 		pPlayerInfo->Receive_Damage(10);
 		m_bHitPlayer = true;
 	}
+	}
 	m_fSoundWait -= fTimeDelta;
-	float fVolume = 0.f;
-	if (5 < m_pAnimationCom->m_iMotion &&m_fSoundWait < 0.f && fDistance < 19)
+
+	/*if (5 < m_pAnimationCom->m_iMotion &&m_fSoundWait < 0.f && fDistance < 19)
 	{
 		fVolume = fDistance * 0.05f;
 		::PlaySoundW(L"CrashRock.wav", SOUND_CRUSHROCK, 1.f - fVolume);
@@ -82,7 +92,7 @@ _int CEarthSpike::Update_Object(const _float & fTimeDelta)
 	{
 		fVolume = fDistance * 0.05f;
 		::PlaySoundW(L"CrashRock3.wav", SOUND_CRUSHROCK3, 1.f - fVolume);
-	}
+	}*/
 	//수정필요
 	Render_Obejct();
 

@@ -13,6 +13,8 @@
 
 #include "Gun_Screen.h"
 #include "AttackEffect.h"
+#include "Coin.h"
+#include "Key.h"
 
 CAnubis::CAnubis(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -92,7 +94,7 @@ bool	CAnubis::Dead_Judge(const _float& fTimeDelta)
 				::PlaySoundW(L"Anubis_Death_02.wav", SOUND_MONSTER, 0.4f);
 				break;
 			}
-		
+			Drop_Item(rand() % 3);
 		m_bDead = true;
 		}
 		//Safe_Release(m_pAttackAnimationCom);
@@ -572,6 +574,27 @@ void CAnubis::Attack(const _float& fTimeDelta)
 	}
 
 	
+}
+void	CAnubis::Drop_Item(int ItemType)
+{
+	CScene  *pScene = ::Get_Scene();
+	CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+	CGameObject* pItem = nullptr;
+	switch (ItemType)
+	{
+	case 0:
+		pItem = CCoin::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS].x, m_pDynamicTransCom->m_vInfo[INFO_POS].z);
+		pLayer->Add_DropItemList(pItem);
+		break;
+
+	case 1:
+		pItem = CKey::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS].x, m_pDynamicTransCom->m_vInfo[INFO_POS].z);
+		pLayer->Add_DropItemList(pItem);
+		break;
+
+	default:
+		break;
+	}
 }
 
 CAnubis * CAnubis::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)

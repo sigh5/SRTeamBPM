@@ -6,6 +6,7 @@
 #include "TestPlayer.h"
 #include "ShotGun.h"
 #include "Magnum.h"
+#include "TestWeapon.h"
 
 #include "MyCamera.h"
 #include "Player.h"

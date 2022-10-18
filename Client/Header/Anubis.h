@@ -30,6 +30,7 @@ public:
 	void				Attack_Stormball(const _float& fTimeDelta);
 
 	void				Clear_Blood(const _float& fTimeDelta);
+	void				Drop_Item(int ItemType);
 public:
 	// 처형 판독
 	virtual void		Excution_Event();

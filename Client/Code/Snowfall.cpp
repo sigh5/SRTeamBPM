@@ -22,6 +22,7 @@ CSnowfall::CSnowfall(LPDIRECT3DDEVICE9 pGraphicDev, BDBOX * boundingBox, int num
 	m_pTransform = CAbstractFactory<CTransform>::Clone_Proto_Component(L"Proto_TransformCom", m_mapComponent, ID_DYNAMIC);
 	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_RainTexture", m_mapComponent, ID_STATIC);
 
+	m_pTransform->Set_Pos(500.f, 0.f, 0.f);
 }
 
 

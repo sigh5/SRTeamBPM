@@ -1,4 +1,5 @@
 #pragma once
+#include "Engine_Include.h"
 #include "EquipmentBase.h"
 
 
@@ -39,7 +40,7 @@ public:
 
 
 private:
-	CTransform*				m_pTransCom = nullptr;
+	COrthoTransform*		m_pTransCom = nullptr;
 	CTexture*				m_pTextureCom = nullptr;
 	CRcTex*					m_pBufferCom = nullptr;
 	CAnimation*				m_pAnimationCom = nullptr;
@@ -56,6 +57,15 @@ private:
 private:
 	// 매그넘이 가지는 기본 탄창량
 	_uint					m_iMagnumMagazine = 8;
+	_bool					m_bRenderFalse = false;
+	
+	_bool					m_bOrthoPos = false;
+
+	_vec3					m_vecOrtho;
+
+	_matrix					m_matProj;
+
+	_float					m_fX, m_fY, m_fSizeX, m_fSizeY;
 
 	_bool			m_bOnce = true;		// 처음에 기본무기 세팅하기위해서
 	_float			m_fTimedelta = 0.f;

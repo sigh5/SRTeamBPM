@@ -26,8 +26,7 @@ public:
 
 	void				Dashing(const _float& fTimeDelta, CTransform* pTransform, _vec3 vecUp, _vec3 vecDir, TYPING_TYPE tType);
 
-	void				Set_CountMovePos(_vec3* vMovedir) {m_vCounterMovepos =  -1.f*(*vMovedir);}
-	const _vec3			&Get_CounterMovePos()const { return m_vCounterMovepos; }
+	
 
 
 public:

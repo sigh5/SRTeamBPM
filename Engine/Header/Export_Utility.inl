@@ -19,6 +19,25 @@ CScene*		Get_Scene()
 	return CManagement::GetInstance()->Get_Scene();
 }
 
+HRESULT		Change_Scene(CScene* pScene, CScene* pChangeScene)
+{
+	return CManagement::GetInstance()->Change_Scene(pScene, pChangeScene);
+}
+
+HRESULT		Load_SaveScene(CScene* pScene)
+{
+	return CManagement::GetInstance()->Load_SaveScene(pScene);
+}
+
+CScene*		Get_SaveScene()
+{
+	return CManagement::GetInstance()->Get_SaveScene();
+}
+
+HRESULT		Current_Scene(CScene* pScene)
+{
+	return CManagement::GetInstance()->Current_Scene(pScene);
+}
 
 _int		Update_Scene(const _float& fTimeDelta)
 {
@@ -118,6 +137,10 @@ void PlaySlow(TCHAR * pSoundKey, CHANNELID eID, float fVolume, float fRate)
 void SetChannelVolume(CHANNELID eID, float fVolume)
 {
 	CSoundMgr::GetInstance()->SetChannelVolume(eID, fVolume);
+}
+bool MyChannelPlayCheck(CHANNELID eID)
+{
+	CSoundMgr::GetInstance()->MyChannelPlayCheck(eID);
 }
 void LoadSoundFile()
 {

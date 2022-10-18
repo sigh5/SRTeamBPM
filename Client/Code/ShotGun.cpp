@@ -58,8 +58,10 @@ _int CShotGun::Update_Object(const _float & fTimeDelta)
 	_uint iResult = Engine::CGameObject::Update_Object(fTimeDelta);
 
 	Add_RenderGroup(m_RenderID, this);
+
+	Engine::CGameObject::Update_Object(fTimeDelta);
 	
-	return iResult;
+	return 0;
 }
 
 void CShotGun::LateUpdate_Object(void)
@@ -394,15 +396,13 @@ _bool CShotGun::EquipIconPicking()
 }
 
 HRESULT CShotGun::Add_Component(void)
-{ // CDynamic_Transform
+{						// CDynamic_Transform
 	m_pTransCom = CAbstractFactory<CTransform>::Clone_Proto_Component(L"Proto_TransformCom", m_mapComponent, ID_DYNAMIC);
 	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_ShotGunTexture", m_mapComponent, ID_STATIC);
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
 	m_pAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_STATIC);
 	m_pCalculatorCom = CAbstractFactory<CCalculator>::Clone_Proto_Component(L"Proto_CalculatorCom", m_mapComponent, ID_STATIC);
 	m_pColliderCom = CAbstractFactory<CCollider>::Clone_Proto_Component(L"Proto_ColliderCom", m_mapComponent, ID_STATIC);
-	
-	m_pOrthoTransCom = CAbstractFactory<COrthoTransform>::Clone_Proto_Component(L"Proto_OrthoTransformCom", m_mapComponent, ID_DYNAMIC);
 	
 
 	return S_OK;

@@ -15,12 +15,15 @@ public:
 
 	bool			Get_Dead() { return m_bDead; }
 	bool			Get_Hit() { return m_bHit; }
+
+
 private:
 	virtual bool		Dead_Judge(const _float& fTimeDelta);
 
 	void AttackJudge(const _float& fTimeDelta);
 
 	void Attack(const _float& fTimeDelta);
+	void	Drop_Item(int ItemType);
 
 	virtual void NoHit_Loop(const _float& fTimeDelta);
 	virtual void Hit_Loop(const _float& fTimeDelta);

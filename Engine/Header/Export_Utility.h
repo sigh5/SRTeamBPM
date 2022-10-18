@@ -25,7 +25,7 @@
 #include "UI_Base.h"
 #include "EquipmentBase.h"
 #include "Base_Effect.h"
-
+#include "WreckBase.h"
 
 
 
@@ -70,6 +70,10 @@ inline HRESULT			Add_GameObject(const _tchar* pLayerTag, const _tchar* pObjTag, 
 // Test
 inline CScene*			Get_Scene();
 
+inline HRESULT		Change_Scene(CScene* pScene, CScene* pChangeScene);
+inline HRESULT		Load_SaveScene(CScene* pScene);
+inline CScene*		Get_SaveScene(); 
+inline HRESULT		Current_Scene(CScene* pScene);
 
 // ProtoMgr
 inline HRESULT			Ready_Proto(const _tchar* pProtoTag, CComponent* pComponent);
@@ -97,6 +101,7 @@ inline void StopSound(CHANNELID eID);
 inline void	StopAll();
 inline void PlaySlow(TCHAR * pSoundKey, CHANNELID eID, float fVolume, float fRate);
 inline void SetChannelVolume(CHANNELID eID, float fVolume);
+inline bool MyChannelPlayCheck(CHANNELID eID);
 inline void LoadSoundFile();
 inline void Initialize();
 

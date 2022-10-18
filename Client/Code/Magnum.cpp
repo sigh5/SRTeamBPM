@@ -12,6 +12,7 @@
 CMagnum::CMagnum(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CEquipmentBase(pGraphicDev)
 {
+	D3DXVec3Normalize(&m_vecOrtho, &m_vecOrtho);
 }
 
 CMagnum::~CMagnum()
@@ -344,7 +345,7 @@ _bool CMagnum::EquipIconPicking()
 
 HRESULT CMagnum::Add_Component(void)
 {
-	m_pTransCom = CAbstractFactory<CTransform>::Clone_Proto_Component(L"Proto_TransformCom", m_mapComponent, ID_DYNAMIC);
+	m_pTransCom = CAbstractFactory<COrthoTransform>::Clone_Proto_Component(L"Proto_OrthoTransformCom", m_mapComponent, ID_DYNAMIC);
 	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_MagnumTexture", m_mapComponent, ID_STATIC);
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
 	m_pAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_STATIC);

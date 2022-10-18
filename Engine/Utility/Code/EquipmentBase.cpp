@@ -41,6 +41,7 @@ _int CEquipmentBase::Update_Object(const _float & fTimeDelta)
 
 void CEquipmentBase::LateUpdate_Object(void)
 {
+	CGameObject::LateUpdate_Object();
 }
 
 HRESULT CEquipmentBase::Ready_EquipInfo(_uint iPlusAtk, _uint iPlusDefense, _float fPlusSpeed, _float fPlusRange, WEAPON_TYPE eID)

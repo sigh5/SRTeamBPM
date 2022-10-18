@@ -206,7 +206,7 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		m_tpType = TYPING_W;
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
 		m_pDynamicTransCom->Move_Pos(&(m_vDirection * 5.f * fTimeDelta));
-		m_pDynamicTransCom->Set_CountMovePos(&(m_vDirection * 5.f * fTimeDelta));
+
 	}
 
 	if (Get_DIKeyState(DIK_S) & 0X80)
@@ -214,7 +214,7 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		m_tpType = TYPING_S;
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
 		m_pDynamicTransCom->Move_Pos(&(m_vDirection * -5.f * fTimeDelta));
-		m_pDynamicTransCom->Set_CountMovePos(&(m_vDirection * -5.f * fTimeDelta));
+
 		
 	}
 
@@ -226,7 +226,7 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		D3DXVec3Normalize(&m_vUp, &m_vUp);
 		D3DXVec3Cross(&vRight, &m_vDirection, &m_vUp);
 		m_pDynamicTransCom->Move_Pos(&(vRight * 5.f * fTimeDelta));
-		m_pDynamicTransCom->Set_CountMovePos(&(vRight * 5.f * fTimeDelta));		
+
 	}
 
 	if (Get_DIKeyState(DIK_D) & 0X80)
@@ -237,7 +237,7 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		D3DXVec3Normalize(&m_vUp, &m_vUp);
 		D3DXVec3Cross(&vRight, &m_vDirection, &m_vUp);
 		m_pDynamicTransCom->Move_Pos(&(vRight * -5.f * fTimeDelta));
-		m_pDynamicTransCom->Set_CountMovePos(&(vRight * -5.f * fTimeDelta));
+
 		
 	}
 

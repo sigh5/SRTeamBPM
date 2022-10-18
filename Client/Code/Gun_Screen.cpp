@@ -197,7 +197,7 @@ HRESULT CGun_Screen::Shoot_Motion(const _float& fTimeDelta)
 
 void CGun_Screen::GunFailSound()
 {
-	::PlaySoundW(L"Rythm_Check_Fail.wav", SOUND_EFFECT, 0.1f);
+	Engine::PlaySoundW(L"Rythm_Check_Fail.wav", SOUND_EFFECT, 0.1f);
 }
 
 void CGun_Screen::Get_shellPosition(_vec3& vPos, _vec3& vdir)
