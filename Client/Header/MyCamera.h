@@ -45,9 +45,9 @@ public:
 
 	void			Set_PlayerDeadCam(_bool bEvent) { m_bPlayerDead = bEvent; }
 	_float			m_fOriginAngle = 0.f;
-public:
-	const _bool&   Get_InventroyActive() { return m_bInventroyActive; }
-	void         Set_inventroyActive(_bool  bInventroyActive) { m_bInventroyActive = bInventroyActive; }
+//public:
+//	const _bool&   Get_InventroyActive() { return m_bInventroyActive; }
+//	void         Set_inventroyActive(_bool  bInventroyActive) { m_bInventroyActive = bInventroyActive; }
 
 	void			Set_ShakeCheck(_bool bShake) { m_bEarthShake = bShake; }
 
@@ -78,7 +78,7 @@ private:
 	_bool			m_bEarthShake = false;
 	_float			m_fShakeTimer = 0.f;
 	// Ãß°¡
-	_bool         m_bInventroyActive = false;
+	//_bool         m_bInventroyActive = false;
 
 
 public:
