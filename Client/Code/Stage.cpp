@@ -48,7 +48,7 @@ _int CStage::Update_Scene(const _float & fTimeDelta)
 
 	m_fFrame += 1.f * fTimeDelta;
 
-	if (m_fFrame >= 1.f)
+	if (m_fFrame >= 1.f )
 	{
 		CGameObject*		pGameObject = nullptr;
 		CLayer *pMyLayer = GetLayer(L"Layer_UI");
@@ -75,6 +75,7 @@ _int CStage::Update_Scene(const _float & fTimeDelta)
 		}
 		m_fFrame = 0.f;
 	}
+	
 
 	TeleportCubeUpdate(fTimeDelta);
 
@@ -201,6 +202,11 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	pGameObject = CMagnum::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Magnum", pGameObject), E_FAIL);
+
+	pGameObject = CHelmet::Create(m_pGraphicDev, 310.f, 325.f);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Helmet1", pGameObject), E_FAIL);
+
 
 
 	CFileIOMgr::GetInstance()->Load_FileData(m_pGraphicDev,

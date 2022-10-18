@@ -321,6 +321,10 @@
     <ClCompile Include="..\Code\ObeliskWreck.cpp">
       <Filter>02. GameObject\01. For_Stage\02. Monster\04. Obelisk</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\Helmet.cpp">
+      <Filter>02. GameObject\01. For_Stage\14. Equipment\01. Helmet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MiniStage1.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -665,6 +669,10 @@
     <ClInclude Include="..\Header\ObeliskWreck.h">
       <Filter>02. GameObject\01. For_Stage\02. Monster\04. Obelisk</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Helmet.h">
+      <Filter>02. GameObject\01. For_Stage\14. Equipment\01. Helmet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\MiniStage1.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -953,6 +961,12 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\02. Monster\07. FireTrap\FirePillar">
       <UniqueIdentifier>{c20d6dae-77e7-4842-af6c-a2e565a5b515}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\14. Equipment\01. Helmet">
+      <UniqueIdentifier>{fb30dcd1-4825-4bb9-a29d-3cbc6c30c9ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\02. MiniStage2">
+      <UniqueIdentifier>{d11e5a53-bfb1-4b8a-ba35-b86825356c60}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

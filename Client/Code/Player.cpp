@@ -203,6 +203,8 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 
 	if (Get_DIKeyState(DIK_W) & 0X80)
 	{
+		if (m_bShopUIActive)
+			return;
 		m_tpType = TYPING_W;
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
 		m_pDynamicTransCom->Move_Pos(&(m_vDirection * 5.f * fTimeDelta));
@@ -211,6 +213,8 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 
 	if (Get_DIKeyState(DIK_S) & 0X80)
 	{
+		if (m_bShopUIActive)
+			return;
 		m_tpType = TYPING_S;
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
 		m_pDynamicTransCom->Move_Pos(&(m_vDirection * -5.f * fTimeDelta));
@@ -220,6 +224,8 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 
 	if (Get_DIKeyState(DIK_A) & 0X80)
 	{
+		if (m_bShopUIActive)
+			return;
 		m_tpType = TYPING_A;
 		_vec3	vRight;
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
@@ -231,6 +237,8 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 
 	if (Get_DIKeyState(DIK_D) & 0X80)
 	{
+		if (m_bShopUIActive)
+			return;
 		m_tpType = TYPING_D;
 		_vec3	vRight;
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
@@ -243,6 +251,9 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 
 	if (Key_Down(DIK_T))
 	{
+		// Test -> Shop 추후수정
+		m_pDynamicTransCom->Set_Pos(340.f, 2.f, 325.f);
+		//
 		Excution_Motion();
 
 		CScene* pScene = Get_Scene();
@@ -288,7 +299,7 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 
 	if (::Mouse_Down(DIM_LB)) // Picking
 	{
-		if (m_bInventroyActive)
+		if (m_bInventroyActive || m_bShopUIActive)
 			return;
 
 		Ready_MonsterShotPicking();
@@ -353,7 +364,7 @@ void CPlayer::ComboCheck()
 void CPlayer::EquipItem_Add_Stat(_int _iAttack , _int _iHp , _int iCoin, _int _iKey, float _fSpeed)  // 현재 각 아이템들 충돌처리 부분이 애매해서 F 누르면 스탯이 다 증가할 거임. 충돌처리를 고치던지 날 잡고 한 번 뜯어봐야 함.
 {
 	m_pInfoCom->Get_InfoRef()._iAttackPower = _iAttack + 10;		// iOrginAttack =10
-
+	m_pInfoCom->Get_InfoRef()._iHp += _iHp ;		// iOrginAttack =10
 	//_int iHp = _iArmor + m_pInfoCom->Get_InfoRef()._iAttackPower;
 	//m_pInfoCom->Get_InfoRef()._iHp = iHp;
 
@@ -362,7 +373,7 @@ void CPlayer::EquipItem_Add_Stat(_int _iAttack , _int _iHp , _int iCoin, _int _i
 
 void CPlayer::Loss_Damage()
 {
-	m_pInfoCom->Get_InfoRef()._iHp -= 1;
+	m_pInfoCom->Get_InfoRef()._iHp -= 25;
 	// Test
 	m_iHpBarChange -= 1;
 

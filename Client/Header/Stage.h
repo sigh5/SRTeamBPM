@@ -40,10 +40,8 @@ private:
 	HRESULT			Ready_Proto(void);
 	HRESULT			Ready_Light(void);
 
-
 	void			TeleportCubeUpdate(const _float& fTimeDelta);
 	void			Set_Player_StartCubePos();
-
 
 
 	// Effect : multimap -> map issue
@@ -53,6 +51,7 @@ private:
 	
 
 	_float				m_fFrame = 0.f; // WinZero  µµÂø½Ã°£
+
 public:
 	static CStage*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
 

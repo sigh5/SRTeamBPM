@@ -47,6 +47,10 @@ public:
 	}
 
 public:
+	void			Set_RenderOut(_bool bRenderOut) { m_bRenderOut = bRenderOut; }
+
+
+public:
 	CRcTex*				m_pBufferCom = nullptr;
 	CTexture*			m_pTextureCom = nullptr;
 	COrthoTransform*	m_pTransCom = nullptr;
@@ -62,6 +66,7 @@ private:
 
 	_float				m_fAlpha = 0.f;
 
+	_bool				m_bRenderOut = false;
 
 public:
 	static CMetronomeUI*	Create(LPDIRECT3DDEVICE9 pGraphicDev,_float fPosX,_float fPosY,_float fSpeed, int iTexIndex);

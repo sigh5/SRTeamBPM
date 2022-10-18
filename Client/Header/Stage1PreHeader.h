@@ -43,3 +43,4 @@
 #include "MouseMgr.h"
 #include "Npc.h"
 #include "MouseMgr.h"
+#include "Helmet.h"

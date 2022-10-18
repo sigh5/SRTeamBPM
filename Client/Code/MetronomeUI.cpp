@@ -8,7 +8,7 @@
 #include "Gun_Screen.h"
 #include "MetronomeRect.h"
 #include "Player_Dead_UI.h"
-
+#include "Npc.h"
 
 CMetronomeUI::CMetronomeUI(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev) 
@@ -89,13 +89,21 @@ _int CMetronomeUI::Update_Object(const _float & fTimeDelta)
 
 void CMetronomeUI::LateUpdate_Object(void)
 {
+	CScene*	pScene = Get_Scene();
+	CLayer* pLayer = pScene->GetLayer(L"Layer_GameLogic");
+	CNpc* pNpc = static_cast<CNpc*>(pLayer->Get_GameObject(L"NPC"));
 
+	m_bRenderOut = pNpc->Get_ShopUICheck();
+	
 
 	CGameObject::LateUpdate_Object();
 }
 
 void CMetronomeUI::Render_Obejct(void)
 {
+	if (m_bRenderOut)
+		return;
+
 	CPlayer_Dead_UI* pDead_UI = static_cast<CPlayer_Dead_UI*>(Engine::Get_GameObject(L"Layer_UI", L"Dead_UI"));
 
 	if (pDead_UI->Get_Render() == false)

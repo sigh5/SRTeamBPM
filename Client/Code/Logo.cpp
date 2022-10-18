@@ -12,8 +12,7 @@
 
 #include "STAGE_BIH.h"
 
-// UI Test
-#include "TestUI.h"
+
 
 CLogo::CLogo(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev), m_bFinish(false)

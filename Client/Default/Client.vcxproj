@@ -190,6 +190,7 @@
     <ClInclude Include="..\Header\Ghul.h" />
     <ClInclude Include="..\Header\Gun_Screen.h" />
     <ClInclude Include="..\Header\HealthPotion.h" />
+    <ClInclude Include="..\Header\Helmet.h" />
     <ClInclude Include="..\Header\HitBlood.h" />
     <ClInclude Include="..\Header\HitEffect.h" />
     <ClInclude Include="..\Header\HpBar.h" />
@@ -205,6 +206,7 @@
     <ClInclude Include="..\Header\MetronomeRect.h" />
     <ClInclude Include="..\Header\MetronomeSmallUI.h" />
     <ClInclude Include="..\Header\MetronomeUI.h" />
+    <ClInclude Include="..\Header\MiniStage1.h" />
     <ClInclude Include="..\Header\MonsterBullet.h" />
     <ClInclude Include="..\Header\MonsterToolObject.h" />
     <ClInclude Include="..\Header\MouseMgr.h" />
@@ -303,6 +305,7 @@
     <ClCompile Include="..\Code\Ghul.cpp" />
     <ClCompile Include="..\Code\Gun_Screen.cpp" />
     <ClCompile Include="..\Code\HealthPotion.cpp" />
+    <ClCompile Include="..\Code\Helmet.cpp" />
     <ClCompile Include="..\Code\HitBlood.cpp" />
     <ClCompile Include="..\Code\HitEffect.cpp" />
     <ClCompile Include="..\Code\HpBar.cpp" />
@@ -317,6 +320,7 @@
     <ClCompile Include="..\Code\MainApp.cpp" />
     <ClCompile Include="..\Code\MetronomeRect.cpp" />
     <ClCompile Include="..\Code\MetronomeSmallUI.cpp" />
+    <ClCompile Include="..\Code\MiniStage1.cpp" />
     <ClCompile Include="..\Code\MonsterBullet.cpp" />
     <ClCompile Include="..\Code\MetronomeUI.cpp" />
     <ClCompile Include="..\Code\MonsterToolObject.cpp" />

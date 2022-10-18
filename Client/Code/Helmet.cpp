@@ -1,67 +1,41 @@
 #include "stdafx.h"
-#include "..\Header\Magnum.h"
+#include "..\Header\Helmet.h"
 #include "Export_Function.h"
 
 #include "AbstractFactory.h"
 #include "MyCamera.h"
 #include "Inventory_UI.h"
 #include "Status_UI.h"
-#include "Gun_Screen.h"
 #include "Player.h"
 
-CMagnum::CMagnum(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CEquipmentBase(pGraphicDev)
-{
-	
-}
-
-CMagnum::~CMagnum()
+CHelmet::CHelmet(LPDIRECT3DDEVICE9 pGraphicDev)
+	:CEquipmentBase(pGraphicDev)
 {
 }
 
-HRESULT CMagnum::Ready_Object()
+CHelmet::~CHelmet()
+{
+}
+
+HRESULT CHelmet::Ready_Object(_uint iX, _uint iZ)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-	Engine::CEquipmentBase::Ready_EquipInfo(5, 0, 0, 7, WEAPON_MAGNUM);
 
-	m_RenderID = RENDER_ICON;
+	Engine::CEquipmentBase::Ready_EquipInfo(10, 0, 0, 10, WEAPON_SHOTGUN);
+
+	m_RenderID = RENDER_ALPHA;
+
 	D3DXMatrixOrthoLH(&m_ProjMatrix, WINCX, WINCY, 0.f, 1.f);
+	m_EquipState = EquipState_Equip_End;
 
-	m_fSizeX = 100.f;
-	m_fSizeY = 100.f;
-
-	m_fX = (350 - 30 + 350 + 30) / 2.f;
-	m_fY = (275 - 30 + 275 + 30) / 2.f;
-
-	_vec3 vScale = { m_fSizeX, m_fSizeY, 1.f };
-	m_pTransCom->Set_Scale(&vScale);
-
-	m_pTransCom->Set_Pos(m_fX - WINCX * 0.5f,
-		(-m_fY + WINCY * 0.5f), 0.0f);
-
-	m_fOriginPosX = m_fX - WINCX * 0.5f;
-	m_fOriginPosY = (-m_fY + WINCY * 0.5f);
-
-	m_bIsInventory = true;
-	m_bIsWorld = false;
-	m_EquipState = EquipState_Equip_Weapon;
-	m_pTransCom->Update_Component(1.f);
+	m_pTransCom->Set_Pos((_float)iX, 1.f, (_float)iZ);
+	m_pTransCom->Compulsion_Update();
 
 	return S_OK;
 }
 
-_int CMagnum::Update_Object(const _float & fTimeDelta)
+_int CHelmet::Update_Object(const _float & fTimeDelta)
 {
-	
-	if (m_bOnce)
-	{
-		// 딱한번만 
-		CInventory_UI* pInven = static_cast<CInventory_UI*>(Get_GameObject(L"Layer_UI", L"InventoryUI"));
-		pInven->Set_CurrentEquipWeapon(this);
-		CPlayer* pPlayer = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
-		pPlayer->EquipItem_Add_Stat(m_EquipInfo._iAddAttack);
-		m_bOnce = false;
-	}
 
 	m_fTimedelta = fTimeDelta;
 
@@ -72,21 +46,21 @@ _int CMagnum::Update_Object(const _float & fTimeDelta)
 		m_RenderID = RENDER_ICON;
 		m_bIsPick = EquipIconPicking();
 	}
+
 	if (m_bIsPick)
 	{
 		Set_MouseToInventory();
 	}
 
 	PickingMouseUp();
-
-	
 	_uint iResult = Engine::CGameObject::Update_Object(fTimeDelta);
+
 	Add_RenderGroup(m_RenderID, this);
 
 	return iResult;
 }
 
-void CMagnum::LateUpdate_Object(void)
+void CHelmet::LateUpdate_Object(void)
 {
 	if (m_bIsWorld)
 	{
@@ -116,11 +90,12 @@ void CMagnum::LateUpdate_Object(void)
 		matWorld = matScale* matRot * matBill * matTrans;
 		m_pTransCom->Set_WorldMatrix(&(matWorld));
 	}
-	
+
+
 	m_iMouseUpEnd = false;
 }
 
-void CMagnum::Render_Obejct(void)
+void CHelmet::Render_Obejct(void)
 {
 	if (m_bIsWorld)
 	{
@@ -140,11 +115,14 @@ void CMagnum::Render_Obejct(void)
 	else if (m_bIsInventory)
 	{
 		CInventory_UI* pInven = static_cast<CInventory_UI*>(Get_GameObject(L"Layer_UI", L"InventoryUI"));
+
 		if (!pInven->Get_InvenSwitch())
 			return;
 
 		m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
+
 		_matrix		OldViewMatrix, OldProjMatrix;
+
 		m_pGraphicDev->GetTransform(D3DTS_VIEW, &OldViewMatrix);
 		m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &OldProjMatrix);
 
@@ -169,29 +147,80 @@ void CMagnum::Render_Obejct(void)
 	}
 }
 
-void CMagnum::Collision_Event()
+void CHelmet::Collision_Event()
 {
-	
+	CScene  *pScene = ::Get_Scene();
+	NULL_CHECK_RETURN(pScene, );
+	CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+	CGameObject *pGameObject = nullptr;
+
+	pGameObject = pLayer->Get_GameObject(L"Player");
+	NULL_CHECK_RETURN(pGameObject, );
+
+	if (m_pColliderCom->Check_Collision(this, pGameObject, 1, 1) && !m_bOnce)
+	{
+		if (Key_Down(DIK_F))
+		{
+			// 인벤토리에 들어감
+			CInventory_UI* pInven = static_cast<CInventory_UI*>(Get_GameObject(L"Layer_UI", L"InventoryUI"));
+			pInven->Get_WeaponType()->push_back(this);
+			m_EquipState = EquipState_Slot;
+			m_fX = WINCX * 0.5f;
+			m_fY = WINCY * 0.5f;
+			m_fSizeX = 100.f;
+			m_fSizeY = 100.f;
+
+			_vec3 vScale = { m_fSizeX, m_fSizeY, 1.f };
+			m_pTransCom->Set_Scale(&vScale);
+
+			RECT Rc{};
+			for (int i = 0; i < 4; ++i)
+			{
+				for (int j = 0; j < 9; ++j)
+				{
+					int iIndex = (i * 9) + j;
+					memcpy(&Rc, &pInven->Get_InvenSlot()[iIndex].rcInvenSlot, sizeof(RECT));
+
+					m_fX = (Rc.left + Rc.right) / 2.f;
+					m_fY = (Rc.top + Rc.bottom) / 2.f;
+
+					if (pInven->Get_InvenSlot()[iIndex].bSlotEmpty == false)
+					{
+						m_pTransCom->Set_Pos(m_fX - WINCX * 0.5f,
+							(-m_fY + WINCY * 0.5f), 0.0f);
+
+						pInven->Get_InvenSlot()[iIndex].bSlotEmpty = true;
+						m_pTransCom->Update_Component(1.f);
+						m_bOnce = true;
+						m_bIsWorld = false;
+						m_bIsInventory = true;
+						m_fOriginPosX = m_fX - WINCX * 0.5f;
+						m_fOriginPosY = (-m_fY + WINCY * 0.5f);
+						return;
+					}
+				}
+			}
+		}
+
+	}
 }
 
-void CMagnum::Change_Equip()
+void CHelmet::Change_Equip()
 {
-	if (m_EquipState == EquipState_Equip_Weapon)
+	if (m_EquipState == EquipState_Equip_HELMET)
 		return;
-	
-	CPlayer* pPlayer = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
-	pPlayer->EquipItem_Add_Stat(m_EquipInfo._iAddAttack);
-
-	CGun_Screen* pGun_Screen = static_cast<CGun_Screen*>(Engine::Get_GameObject(L"Layer_UI", L"Gun"));
-	pGun_Screen->Set_ChaneWeaponUI_ID(true,ID_MAGNUM);
 
 	CInventory_UI* pInven = static_cast<CInventory_UI*>(Get_GameObject(L"Layer_UI", L"InventoryUI"));
-	pInven->Set_CurrentEquipWeapon(this);
+	pInven->Set_CurrentEquipHelmet(this);
+
+	CPlayer* pPlayer = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
+	pPlayer->EquipItem_Add_Stat(0,10);	//체력올림
+
 
 
 }
 
-void CMagnum::Set_MouseToInventory() // 누르면 걍 따라오는 함수
+void CHelmet::Set_MouseToInventory()
 {
 	POINT		ptMouse{};
 
@@ -206,13 +235,11 @@ void CMagnum::Set_MouseToInventory() // 누르면 걍 따라오는 함수
 		(-m_fY + WINCY * 0.5f), 0.f);
 }
 
-void CMagnum::PickingMouseUp()
+void CHelmet::PickingMouseUp()
 {
-
-	if (m_bisPicking && !m_bPickingEnd) // 마우스 들었을때
+	if (m_bisPicking &&::Mouse_Up(DIM_LB) && !m_bPickingEnd) // 마우스 들었을때
 	{
-		if (::Mouse_Up(DIM_LB))
-			m_bPickingEnd = true;
+		m_bPickingEnd = true;
 	}
 
 	if (m_bPickingEnd == true) // 나중에 장비창에 있는지 슬롯창에있는지 확인하는 조건 필요
@@ -223,9 +250,9 @@ void CMagnum::PickingMouseUp()
 		if (!m_iMouseUpEnd)
 		{
 			RECT Rc{};
-			if (m_EquipState == EquipState_Equip_Weapon)
+			if (m_EquipState == EquipState_Equip_HELMET)
 			{
-				memcpy(&Rc, &pInven->Get_EquipSlot()[0].rcInvenSlot, sizeof(RECT));
+				memcpy(&Rc, &pInven->Get_EquipSlot()[1].rcInvenSlot, sizeof(RECT));
 				m_fX = (Rc.left + Rc.right) / 2.f;
 				m_fY = (Rc.top + Rc.bottom) / 2.f;
 				m_pTransCom->Set_Pos(m_fX - WINCX * 0.5f,
@@ -244,10 +271,9 @@ void CMagnum::PickingMouseUp()
 		}
 		pInven->Set__Current_Picking_ItemID(0);
 	}
-	
 }
 
-void CMagnum::SearchInventorySlot(CInventory_UI ** pInven)
+void CHelmet::SearchInventorySlot(CInventory_UI ** pInven)
 {
 	POINT		ptMouse{};
 
@@ -258,22 +284,34 @@ void CMagnum::SearchInventorySlot(CInventory_UI ** pInven)
 	m_fX = (_float)ptMouse.x;
 	m_fY = (_float)ptMouse.y;
 
-	RECT rcMouse = { 
-		LONG(ptMouse.x - 30.f) ,
-		LONG(ptMouse.y - 35.f) ,
-		LONG(ptMouse.x + 30.f) ,
-		LONG(ptMouse.y + 30.f) };
+	RECT rcMouse = { (LONG)(ptMouse.x - 30.f) ,(LONG)(ptMouse.y - 35.f) ,(LONG)(ptMouse.x + 30.f) ,(LONG)(ptMouse.y + 30.f) };
 	RECT Rc{};
 
-	if (m_EquipState != EquipState_Equip_Weapon)
+	if (m_EquipState != EquipState_Equip_HELMET)
 	{
-		memcpy(&Rc, &(*pInven)->Get_EquipSlot()[0].rcInvenSlot, sizeof(RECT));
+		memcpy(&Rc, &(*pInven)->Get_EquipSlot()[1].rcInvenSlot, sizeof(RECT));
 		if (PtInRect(&Rc, ptMouse))
 		{
 			Change_Equip();
-
 			m_iMouseUpEnd = true;
+
+			if ((*pInven)->Get_CurrentEquipHelmet() == nullptr)
+			{
+				Change_Equip();
+				m_EquipState = EquipState_Equip_HELMET;
+
+				RECT Rc{};
+				memcpy(&Rc, &(*pInven)->Get_EquipSlot()[1].rcInvenSlot, sizeof(RECT));
+				m_fX = (Rc.left + Rc.right) / 2.f;
+				m_fY = (Rc.top + Rc.bottom) / 2.f;
+
+				m_pTransCom->Set_Pos(m_fX - WINCX * 0.5f, (-m_fY + WINCY * 0.5f), 0.f);
+
+				m_fOriginPosX = m_fX;
+				m_fOriginPosX = m_fY;
+			}
 		}
+
 
 		for (int i = 0; i < 4; ++i)
 		{
@@ -298,25 +336,26 @@ void CMagnum::SearchInventorySlot(CInventory_UI ** pInven)
 
 					m_pTransCom->Update_Component(1.f);
 					m_iMouseUpEnd = true;
-
 					(*pInven)->Get_InvenSlot()[iIndex].bSlotEmpty = true;
 					m_iInvenSlotIndex = iIndex;
 					break;
 				}
+
 			}
 		}
 	}
+
 	m_bIsPick = false;
 	m_bPickingEnd = false;
 }
 
-_bool CMagnum::EquipIconPicking()
+_bool CHelmet::EquipIconPicking()
 {
 	CInventory_UI* pInven = static_cast<CInventory_UI*>(Get_GameObject(L"Layer_UI", L"InventoryUI"));
 
 	const _uint iCurrentPickingID = pInven->Get_Current_Picking_ItemID();
 
-	if (!(iCurrentPickingID == ID_MAGNUM || iCurrentPickingID == 0))
+	if (!(iCurrentPickingID == ID_HELMET1 || iCurrentPickingID == 0))
 		return false;
 
 	POINT		ptMouse{};
@@ -324,35 +363,32 @@ _bool CMagnum::EquipIconPicking()
 	ScreenToClient(g_hWnd, &ptMouse);
 
 	RECT		rcUI2 = {
-		LONG(m_fX - m_fSizeX * 0.5f) ,
-		LONG(m_fY - m_fSizeY * 0.5f) ,
-		LONG(m_fX + m_fSizeX * 0.5f) ,
-		LONG(m_fY + m_fSizeY * 0.5f) };
+		(LONG)(m_fX - m_fSizeX * 0.5f) ,
+		(LONG)(m_fY - m_fSizeY * 0.5f) ,
+		(LONG)(m_fX + m_fSizeX * 0.5f) ,
+		(LONG)(m_fY + m_fSizeY * 0.5f) };
 
 	if (Get_DIMouseState(DIM_LB) & 0x80)
 	{
-		cout << ptMouse.x << " " << ptMouse.y << endl;
+		//cout << ptMouse.x << " " << ptMouse.y << endl;
 		if (PtInRect(&rcUI2, ptMouse))
 		{
-			pInven->Set__Current_Picking_ItemID(ID_MAGNUM);
+			pInven->Set__Current_Picking_ItemID(ID_HELMET1);
 			m_bPickingEnd = false;
 			m_bisPicking = true;
 			return true;
 		}
 		m_bisPicking = false;
 		return false;
-
 	}
-
 
 	return false;
 }
 
-
-HRESULT CMagnum::Add_Component(void)
+HRESULT CHelmet::Add_Component(void)
 {
 	m_pTransCom = CAbstractFactory<CTransform>::Clone_Proto_Component(L"Proto_TransformCom", m_mapComponent, ID_DYNAMIC);
-	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_MagnumTexture", m_mapComponent, ID_STATIC);
+	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Helmet1Texture", m_mapComponent, ID_STATIC);
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
 	m_pAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_STATIC);
 	m_pCalculatorCom = CAbstractFactory<CCalculator>::Clone_Proto_Component(L"Proto_CalculatorCom", m_mapComponent, ID_STATIC);
@@ -361,11 +397,11 @@ HRESULT CMagnum::Add_Component(void)
 	return S_OK;
 }
 
-CMagnum * CMagnum::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+CHelmet * CHelmet::Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint iX, _uint iZ)
 {
-	CMagnum* pInstance = new CMagnum(pGraphicDev);
+	CHelmet* pInstance = new CHelmet(pGraphicDev);
 
-	if (FAILED(pInstance->Ready_Object()))
+	if (FAILED(pInstance->Ready_Object(iX, iZ)))
 	{
 		Safe_Release(pInstance);
 		return nullptr;
@@ -373,7 +409,7 @@ CMagnum * CMagnum::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 	return pInstance;
 }
 
-void CMagnum::Free(void)
+void CHelmet::Free(void)
 {
 	CGameObject::Free();
 }

@@ -204,11 +204,6 @@ void CShotGun::Collision_Event()
 					}
 				}
 			}
-
-
-
-
-
 		}
 
 	}
@@ -218,8 +213,6 @@ void CShotGun::Change_Equip()
 {
 	if (m_EquipState == EquipState_Equip_Weapon)
 		return;
-
-
 
 	CGun_Screen* pGun_Screen = static_cast<CGun_Screen*>(Engine::Get_GameObject(L"Layer_UI", L"Gun"));
 	pGun_Screen->Set_ChaneWeaponUI_ID(true, ID_SHOT_GUN);

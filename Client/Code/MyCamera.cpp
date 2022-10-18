@@ -128,7 +128,7 @@ void CMyCamera::LateUpdate_Object(void)
 
 void CMyCamera::Mouse_Move(const _float& fTimeDelta)
 {
-	if (m_bInventroyActive)
+	if (m_bInventroyActive || m_bShopActive)
 		return;
 
 	CTransform*	pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
@@ -137,9 +137,7 @@ void CMyCamera::Mouse_Move(const _float& fTimeDelta)
 
 	_long		dwMouseMove = 0;
 	
-	if (m_bInventroyActive)
-		return;
-	
+
 
 	if (dwMouseMove = Engine::Get_DIMouseMove(DIMS_X))
 	{
@@ -157,7 +155,7 @@ void CMyCamera::Mouse_Move(const _float& fTimeDelta)
 
 void CMyCamera::Mouse_Fix(void)
 {
-	if (m_bInventroyActive)
+	if (m_bInventroyActive || m_bShopActive)
 		return;
 
 	//int Mouse_speed = 3;
@@ -181,8 +179,7 @@ void CMyCamera::Mouse_Fix(void)
 	SetCursorPos(pt2.x, pt2.y);
 
 
-	if (m_bInventroyActive)
-		return;
+
 
 }
 

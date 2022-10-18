@@ -32,7 +32,8 @@ public:
 		m_iAlpha = iAlpha;
 	}
 
-
+public:
+	void			Set_RenderOut(_bool bRenderOut) { m_bRenderOut = bRenderOut; }
 
 private:
 	HRESULT			Add_Component(void);
@@ -52,6 +53,9 @@ private:
 	CTexture*			m_pTextureCom = nullptr;
 	COrthoTransform*	m_pTransCom = nullptr;
 	CCalculator*		m_pCalculatorCom = nullptr;
+
+
+	_bool				m_bRenderOut = false;
 
 private:
 	_vec3 m_vScale = { 2.f,2.f,2.f };

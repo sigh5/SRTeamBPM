@@ -41,6 +41,9 @@ HRESULT CScene::Ready_Scene(void)
 
 _int CScene::Update_Scene(const _float & fTimeDelta)
 {
+	if (m_bSceneChane == true)
+		return 0;
+
 	_int iResult = 0;
 
 	for (auto& iter : m_mapLayer)
@@ -49,6 +52,9 @@ _int CScene::Update_Scene(const _float & fTimeDelta)
 
 		if (iResult & 0x80000000)
 			return iResult;
+
+		if (iResult == 33)
+			return 33;
 	}
 	
 	return iResult;
@@ -56,6 +62,9 @@ _int CScene::Update_Scene(const _float & fTimeDelta)
 
 void CScene::LateUpdate_Scene(void)
 {
+	if (m_bSceneChane == true)
+		return;
+
 	for (auto& iter : m_mapLayer)
 		iter.second->LateUpdate_Layer();
 }
