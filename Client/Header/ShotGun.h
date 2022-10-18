@@ -40,10 +40,7 @@ public:
 	
 	
 
-	_bool	Picking(void);
 
-	_bool				Get_bPicking(void) { return m_bPick; }
-	
 private:
 	CTransform*				m_pTransCom = nullptr;
 	CTexture*				m_pTextureCom = nullptr;
@@ -55,9 +52,8 @@ private:
 private:
 	HRESULT				Add_Component(void);
 
-private:
 public:
-	HRESULT				Open_Event(CGameObject* pGameObject);
+	
 
 	// 샷건이 가지는 기본 탄창량
 	_uint				m_iShotgunMagazine = 6;
