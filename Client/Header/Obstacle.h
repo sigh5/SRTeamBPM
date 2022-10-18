@@ -13,7 +13,7 @@ namespace Engine
 
 enum OBSTACLE
 {
-	OBSTACLE_CRYSTAL, OBSTACLE_STREET_LAMP , OBJSTACLE_TREE ,OBSTACLE_WALL_LAMP, OBJSTACLE_END
+	OBSTACLE_CRYSTAL, OBSTACLE_STREET_LAMP , OBJSTACLE_TREE ,OBSTACLE_WALL_LAMP, OBSTACLE_FIRE , OBJSTACLE_END
 };
 //ÁÖ¼®Áö¿ì¼À
 
@@ -63,7 +63,8 @@ private:
 
 	_float				m_fFrame = 0.f;
 	_bool				m_bControlAnim = false;
-	
+	_bool				m_bRythmeObstacle = false;
+
 public:
 	static	CObstacle*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
 	virtual void			Free(void);
