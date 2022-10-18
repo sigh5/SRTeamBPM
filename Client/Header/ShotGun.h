@@ -12,6 +12,8 @@ class CCalculator;
 class CCollider;
 END
 
+class CInventory_UI;
+
 class CShotGun : public CEquipmentBase
 {
 private:
@@ -28,6 +30,10 @@ public:
 
 public:
 	void				Set_MouseToInventory();
+
+public:
+	void				PickingMouseUp();
+	void				SearchInventorySlot(CInventory_UI** pInven);
 
 public:
 	_bool				EquipIconPicking();
@@ -48,12 +54,22 @@ private:
 	// 샷건이 가지는 기본 탄창량
 	_uint				m_iShotgunMagazine = 6;
 	
-	float			m_fX = 0.f;
-	float			m_fY = 0.f;
-	float			m_fSizeX = 0.f;
-	float			m_fSizeY = 0.f;
+	_float			m_fX = 0.f;
+	_float			m_fY = 0.f;
+	_float			m_fSizeX = 0.f;
+	_float			m_fSizeY = 0.f;
 	
 	_bool			m_bOnce = false;
+
+	_float			m_fTimedelta = 0.f;
+	_float			m_fOriginPosX = 0.f;
+	_float			m_fOriginPosY = 0.f;
+
+	_bool			m_bPickingEnd = false;
+	_bool			m_iMouseUpEnd = false;
+	_bool			m_bisPicking = false;
+
+	_int			m_iInvenSlotIndex = 0;
 
 public:
 	static CShotGun*	Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint iX, _uint iZ);

@@ -11,6 +11,7 @@
 #include "Box.h"
 #include "HealthPotion.h"
 #include "ShotGun.h"
+#include "Magnum.h"
 #include "HpBar.h"
 
 #include "CoinKeyUI.h"

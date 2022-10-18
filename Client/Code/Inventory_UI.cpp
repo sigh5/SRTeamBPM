@@ -17,6 +17,36 @@ USING(Engine)
 CInventory_UI::CInventory_UI(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CUI_Base(pGraphicDev)
 {
+	ZeroMemory(&m_rcEquipSlot, sizeof(SlotInfo)*4);
+	ZeroMemory(&m_rcInvenSlot, sizeof(SlotInfo)*36);
+
+	m_rcEquipSlot[0].rcInvenSlot = { 350 - 30, 275 - 30 ,350 + 30, 275 + 30 };
+	m_rcEquipSlot[0].bSlotEmpty = true;
+
+	m_rcEquipSlot[1].rcInvenSlot = { 550 - 30, 275 - 30 ,550 + 30, 275 + 30 };
+	m_rcEquipSlot[1].bSlotEmpty = false;
+	
+	m_rcEquipSlot[2].rcInvenSlot = { 350 - 30, 395 - 30 ,350 + 30, 395 + 30 };
+	m_rcEquipSlot[2].bSlotEmpty = false;
+	
+	m_rcEquipSlot[3].rcInvenSlot = { 550 - 30, 395 - 30 ,550 + 30, 395 + 30 };
+	m_rcEquipSlot[3].bSlotEmpty = false;
+
+	float	fx = 350.f;
+	float	fy = 485.f;
+	// 뺴는값 x = 30 y=35
+	for (int i = 0; i < 4; ++i)
+	{
+		if(i!=0)
+			fy += 80.f;
+		for (int j = 0; j < 9; ++j)
+		{
+			int iIndex = (i * 9) + j;
+			m_rcInvenSlot[iIndex].rcInvenSlot = { LONG((fx + (j*65.f)) - 30), LONG(fy - 35.f), LONG((fx + (j*65.f) + 30)), LONG(fy + 35.f) };
+			m_rcInvenSlot[iIndex].bSlotEmpty = false;
+		}
+	}
+
 }
 
 CInventory_UI::CInventory_UI(const CUI_Base & rhs)
@@ -32,60 +62,30 @@ HRESULT CInventory_UI::Ready_Object()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	Set_OrthoMatrix(512.f, 512.f, 0.f, 0.f);
+	D3DXMatrixOrthoLH(&m_ProjMatrix, WINCX, WINCY, 0.f, 1.f);
 
-	m_vecScale = { m_fSizeX, m_fSizeY, 1.f };
-
-	m_pTransCom->Set_Scale(&m_vecScale);
-	m_pTransCom->Set_Pos(m_fX , m_fY , 0.3f);
+	m_fX = WINCX * 0.5f;
+	m_fY = WINCY * 0.5f;
+	m_fSizeX =	700.f;
+	m_fSizeY =	600.f;
 	
+	_vec3 vScale = { m_fSizeX, m_fSizeY, 1.f };
+	m_pTransCom->Set_Scale(&vScale);
+
+	m_pTransCom->Set_Pos(m_fX - WINCX * 0.5f,
+		(-m_fY + WINCY * 0.5f), 0.0f);
+	m_pTransCom->Update_Component(1.f);
+
 	return S_OK;
 }
 
 _int CInventory_UI::Update_Object(const _float & fTimeDelta)
 {
-	Engine::CGameObject::Update_Object(fTimeDelta);
 
-	Add_RenderGroup(RENDER_UI, this);
-	
-	return 0;
-}
-
-void CInventory_UI::LateUpdate_Object(void)
-{
-	
-	
-}
-
-void CInventory_UI::Render_Obejct(void)
-{
-	CPlayer_Dead_UI* pDead_UI = static_cast<CPlayer_Dead_UI*>(Engine::Get_GameObject(L"Layer_UI", L"Dead_UI"));
-
-	if (pDead_UI->Get_Render() == false)
-	{
-		m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
-
-		_matrix		OldViewMatrix, OldProjMatrix;
-
-		m_pGraphicDev->GetTransform(D3DTS_VIEW, &OldViewMatrix);
-		m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &OldProjMatrix);
-
-		_matrix		ViewMatrix;
-
-		ViewMatrix = *D3DXMatrixIdentity(&ViewMatrix);
-
-		_matrix		matProj;
-
-		Get_ProjMatrix(&matProj);
-
-		m_pGraphicDev->SetTransform(D3DTS_VIEW, &ViewMatrix);
-		m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
-		// 텍스처 정보 세팅을 우선적으로 한다.
-
-	if (Key_Down(DIK_I) )
+	if (Key_Down(DIK_I))
 	{
 		m_bInvenSwitch = !m_bInvenSwitch;
-		
+
 		dynamic_cast<CMyCamera*>(Engine::Get_GameObject(L"Layer_Environment", L"CMyCamera"))->Set_inventroyActive(m_bInvenSwitch);
 		dynamic_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"))->Set_inventroyActive(m_bInvenSwitch);
 
@@ -97,22 +97,56 @@ void CInventory_UI::Render_Obejct(void)
 				_uint iA = 0;
 			}
 		}
-
-	
 	}
 
 	::Key_InputReset();
 
 
-		if (m_bInvenSwitch)
-		{
-			m_pTextureCom->Set_Texture(0);
-			m_pBufferCom->Render_Buffer();
-			//	Find_Equip_Item();
-		}
+	Engine::CGameObject::Update_Object(fTimeDelta);
+
+	Add_RenderGroup(RENDER_UI, this);
+	
+	return 0;
+}
+
+void CInventory_UI::LateUpdate_Object(void)
+{
+	Engine::CGameObject::LateUpdate_Object();
+	
+}
+
+void CInventory_UI::Render_Obejct(void)
+{
+
+	CPlayer_Dead_UI* pDead_UI = static_cast<CPlayer_Dead_UI*>(Engine::Get_GameObject(L"Layer_UI", L"Dead_UI"));
+	if (pDead_UI->Get_Render())
+		return;
+	
+	if(m_bInvenSwitch)
+	{
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
+		_matrix		OldViewMatrix, OldProjMatrix;
+
+		m_pGraphicDev->GetTransform(D3DTS_VIEW, &OldViewMatrix);
+		m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &OldProjMatrix);
+
+		_matrix		ViewMatrix;
+		ViewMatrix = *D3DXMatrixIdentity(&ViewMatrix);
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0x10);
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+		m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+		m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+		m_pGraphicDev->SetTransform(D3DTS_VIEW, &ViewMatrix);
+		m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &m_ProjMatrix);
+		m_pTextureCom->Set_Texture(0);
+		m_pBufferCom->Render_Buffer();
 
 		m_pGraphicDev->SetTransform(D3DTS_VIEW, &OldViewMatrix);
 		m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &OldProjMatrix);
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 	}
 }
 

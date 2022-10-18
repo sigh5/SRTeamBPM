@@ -19,13 +19,13 @@ HRESULT CUI_Effect::Ready_Object()
 
 	Set_OrthoMatrix(300.f, 300.f, 0.f, 0.f);
 
-	m_vecScale = { m_fSizeX *4.5f , m_fSizeY*4.5f , 1.f };
+	m_vecScale = { WINCX , WINCY , 1.f };
 
 	m_pTransCom->Set_Scale(&m_vecScale);
 	m_pTransCom->Set_Pos(m_fX , m_fY , 0.1f);
 
 	m_fDelay = 15.f;
-	m_pAnimationCom->Ready_Animation(3, 0, 0.1f);
+	m_pAnimationCom->Ready_Animation(4, 0, 0.05f);
 	return S_OK;
 }
 
