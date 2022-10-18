@@ -81,9 +81,7 @@ HRESULT CChange_Stage::Ready_Layer_Environment(const _tchar * pLayerTag)
 }
 
 HRESULT CChange_Stage::Ready_Proto(void)
-{
-	//	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ChangeScene_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Logo/Change_Scene/Change_Scene%d.png", TEX_NORMAL, 7)), E_FAIL);
-	
+{	
 	return S_OK;
 }
 

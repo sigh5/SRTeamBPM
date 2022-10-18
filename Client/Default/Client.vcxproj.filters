@@ -299,15 +299,24 @@
     <ClCompile Include="..\Code\Npc.cpp">
       <Filter>02. GameObject\01. For_Stage\16. NPC</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\ShopUI.cpp" />
     <ClCompile Include="..\Code\UI_Effect.cpp">
       <Filter>02. GameObject\01. For_Stage\07. Effect\UI_Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ShopUI.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\95. ShopUI</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\FireTrap.cpp">
       <Filter>02. GameObject\01. For_Stage\02. Monster\07. FireTrap</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\BackButton.cpp" />
+    <ClCompile Include="..\Code\BGMDownBtn.cpp" />
+    <ClCompile Include="..\Code\BGMUpBtn.cpp" />
+    <ClCompile Include="..\Code\SettingButton.cpp" />
+    <ClCompile Include="..\Code\Setting_BackGround.cpp" />
+    <ClCompile Include="..\Code\Setting_Stage.cpp" />
+    <ClCompile Include="..\Code\SoundBox_UI.cpp" />
     <ClCompile Include="..\Code\FirePillar.cpp">
-      <Filter>02. GameObject\01. For_Stage\02. Monster\07. FireTrap</Filter>
+      <Filter>02. GameObject\01. For_Stage\02. Monster\07. FireTrap\FirePillar</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\ObeliskWreck.cpp">
       <Filter>02. GameObject\01. For_Stage\02. Monster\04. Obelisk</Filter>
@@ -501,6 +510,9 @@
     <ClInclude Include="..\Header\Box.h">
       <Filter>02. GameObject\01. For_Stage\11. Item\02. Box</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Stage_BIH.h">
+      <Filter>01. Scene\96. Stage_BIH</Filter>
+    </ClInclude>
     <ClInclude Include="..\Header\Player.h">
       <Filter>02. GameObject\01. For_Stage\00. Player</Filter>
     </ClInclude>
@@ -632,15 +644,27 @@
     <ClInclude Include="..\Header\Npc.h">
       <Filter>02. GameObject\01. For_Stage\16. NPC</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\ShopUI.h" />
     <ClInclude Include="..\Header\UI_Effect.h">
       <Filter>02. GameObject\01. For_Stage\07. Effect\UI_Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\ShopUI.h">
+      <Filter>02. GameObject\01. For_Stage\10. UI\95. ShopUI</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\FireTrap.h">
       <Filter>02. GameObject\01. For_Stage\02. Monster\07. FireTrap</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Stage1PreHeader.h">
+      <Filter>99. Default\PreSceneHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\BackButton.h" />
+    <ClInclude Include="..\Header\BGMDownBtn.h" />
+    <ClInclude Include="..\Header\BGMUpBtn.h" />
+    <ClInclude Include="..\Header\SettingButton.h" />
+    <ClInclude Include="..\Header\Setting_BackGround.h" />
+    <ClInclude Include="..\Header\Setting_Stage.h" />
+    <ClInclude Include="..\Header\SoundBox_UI.h" />
     <ClInclude Include="..\Header\FirePillar.h">
-      <Filter>02. GameObject\01. For_Stage\02. Monster\07. FireTrap</Filter>
+      <Filter>02. GameObject\01. For_Stage\02. Monster\07. FireTrap\FirePillar</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\ObeliskWreck.h">
       <Filter>02. GameObject\01. For_Stage\02. Monster\04. Obelisk</Filter>
@@ -878,6 +902,9 @@
     <Filter Include="02. GameObject\02. For_public\06. ControlRoom">
       <UniqueIdentifier>{08900aaa-48ff-42ce-88fb-99eb1939c09a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Scene\96. Stage_BIH">
+      <UniqueIdentifier>{95da0eaf-6815-47e4-ac7b-77679616c28f}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02. GameObject\01. For_Stage\13. Gun_Screen\ax">
       <UniqueIdentifier>{62352cd4-6a15-42ac-9b3e-51468ea9b123}</UniqueIdentifier>
     </Filter>
@@ -927,7 +954,13 @@
       <UniqueIdentifier>{ffb685ba-12a5-4b36-9cdf-b341a75516af}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\02. Monster\07. FireTrap">
-      <UniqueIdentifier>{775d2fbc-6d26-484f-838a-73e493a7cd47}</UniqueIdentifier>
+      <UniqueIdentifier>{dcd88898-686a-4041-94f2-18b1f08de531}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99. Default\PreSceneHeader">
+      <UniqueIdentifier>{7bbba3a4-82ee-45b1-b6fe-01f6151023ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\02. Monster\07. FireTrap\FirePillar">
+      <UniqueIdentifier>{c20d6dae-77e7-4842-af6c-a2e565a5b515}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\02. Monster\08. Soldier">
       <UniqueIdentifier>{d7488879-330d-4497-a26a-6c5535f641f4}</UniqueIdentifier>

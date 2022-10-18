@@ -52,11 +52,21 @@ bool			Mouse_Down(MOUSEKEYSTATE _MouseButton)
 	return CInputDev::GetInstance()->Mouse_Down(_MouseButton);
 }
 
+bool		Mouse_Up(MOUSEKEYSTATE _MouseButton)
+{
+	return CInputDev::GetInstance()->Mouse_UP(_MouseButton);
+}
+
+
 void			Key_InputReset()
 {
 	CInputDev::GetInstance()->KeyInputReset();
 }
 
+void			MouseInputReset()
+{
+	CInputDev::GetInstance()->MouseInputReset();
+}
 
 
 

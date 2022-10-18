@@ -28,9 +28,9 @@ public:
 	bool		Key_Up(int _iKey);		//조건문 버그 못고침
 
 	bool		Mouse_Down(MOUSEKEYSTATE _MouseButton);
-
+	bool		Mouse_UP(MOUSEKEYSTATE _MouseButton);
 	void		KeyInputReset();
-
+	void		MouseInputReset();
 public:
 	HRESULT			Ready_InputDev(HINSTANCE hInst, HWND hWnd);
 	void			SetUp_InputDev(void);

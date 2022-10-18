@@ -61,7 +61,6 @@ _int CMetronomeUI::Update_Object(const _float & fTimeDelta)
 		static_cast<CGun_Screen*>(Get_GameObject(L"Layer_UI", L"Gun"))
 			->Set_ReadyShot(true);
 		
-	
 		pGameObject = CObjectMgr::GetInstance()->Reuse_MetronomeRectUI(m_pGraphicDev,  4);
 		NULL_CHECK_RETURN(pGameObject, 0);
 		pMyLayer->Add_GameObjectList(pGameObject);

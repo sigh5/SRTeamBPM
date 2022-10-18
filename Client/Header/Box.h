@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "Engine_Include.h"
-#include "TestPlayer.h"
+
 
 BEGIN(Engine)
 
@@ -29,8 +29,7 @@ public:
 
 private:
 	HRESULT				Add_Component(void);
-	void				Set_OnTerrain(void);
-
+	
 public:
 	HRESULT				Open_Event(CGameObject* pGameObject);
 

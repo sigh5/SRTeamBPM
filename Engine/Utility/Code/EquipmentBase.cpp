@@ -13,13 +13,16 @@
 USING(Engine)
 
 CEquipmentBase::CEquipmentBase(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CGameObject(pGraphicDev)
+	: CGameObject(pGraphicDev) , m_EquipState(EquipState_Equip_End)
 {
+	ZeroMemory(&rcUI, sizeof(RECT));
+	
 }
 
 CEquipmentBase::CEquipmentBase(const CEquipmentBase & rhs)
-	: CGameObject(rhs)
+	: CGameObject(rhs), m_EquipState(rhs.m_EquipState)
 {
+	memcpy(&rcUI,&rhs.rcUI, sizeof(RECT));
 }
 
 CEquipmentBase::~CEquipmentBase()
@@ -38,6 +41,7 @@ _int CEquipmentBase::Update_Object(const _float & fTimeDelta)
 
 void CEquipmentBase::LateUpdate_Object(void)
 {
+	CGameObject::LateUpdate_Object();
 }
 
 HRESULT CEquipmentBase::Ready_EquipInfo(_uint iPlusAtk, _uint iPlusDefense, _float fPlusSpeed, _float fPlusRange, WEAPON_TYPE eID)

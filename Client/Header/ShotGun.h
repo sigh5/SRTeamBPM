@@ -1,6 +1,6 @@
 #pragma once
 #include "EquipmentBase.h"
-#include "TestPlayer.h"
+
 
 BEGIN(Engine)
 
@@ -10,10 +10,9 @@ class CRcTex;
 class CAnimation;
 class CCalculator;
 class CCollider;
-
-
 END
 
+class CInventory_UI;
 
 class CShotGun : public CEquipmentBase
 {
@@ -27,10 +26,18 @@ public:
 	virtual void		LateUpdate_Object(void);
 	virtual void		Render_Obejct(void);
 	virtual void		Collision_Event()override;
-	
-	void				 Set_OnTerrain(void);
+	virtual void		Change_Equip()override;
 
-	_bool				Get_RenderFalse(void) { return m_bRenderFalse; }
+public:
+	virtual void		Set_MouseToInventory();
+
+public:
+	void				PickingMouseUp();
+	void				SearchInventorySlot(CInventory_UI** pInven);
+	_bool				EquipIconPicking();
+
+
+
 
 private:
 	CTransform*				m_pTransCom = nullptr;
@@ -39,20 +46,32 @@ private:
 	CAnimation*				m_pAnimationCom = nullptr;
 	CCalculator*			m_pCalculatorCom = nullptr;
 	CCollider*				m_pColliderCom = nullptr;
-	
+
 
 private:
 	HRESULT				Add_Component(void);
 
+private:
 	// 샷건이 가지는 기본 탄창량
 	_uint				m_iShotgunMagazine = 6;
-	
-	_bool				m_bRenderFalse = false;
 
+	_matrix				m_ProjMatrix;
+
+
+	_bool			m_bOnce = false;
+
+	_float			m_fTimedelta = 0.f;
+
+
+	/*_bool			m_bPickingEnd = false;
+	_bool			m_iMouseUpEnd = false;
+	_bool			m_bisPicking = false;
+
+	_int			m_iInvenSlotIndex = 0;*/
 
 public:
 	static CShotGun*	Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint iX, _uint iZ);
 	virtual void		Free(void);
-	
+
 };
 

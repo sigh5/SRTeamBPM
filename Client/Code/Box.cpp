@@ -39,7 +39,6 @@ _int CBox::Update_Object(const _float & fTimeDelta)
 
 	_uint iResult = Engine::CGameObject::Update_Object(fTimeDelta);
 
-	//Set_OnTerrain();
 	
 	Add_RenderGroup(RENDER_ALPHA, this);
 
@@ -122,21 +121,6 @@ void CBox::Collision_Event()
 }
 
 
-
-void CBox::Set_OnTerrain(void)
-{
-	_vec3		vPos;
-	m_pTransCom->Get_Info(INFO_POS, &vPos);
-
-	Engine::CTerrainTex*	pTerrainTexCom = dynamic_cast<Engine::CTerrainTex*>(Engine::Get_Component(L"Layer_Environment", L"Terrain", L"Proto_TerrainTexCom", ID_STATIC));
-	NULL_CHECK(pTerrainTexCom);
-
-	_float fHeight = m_pCalculatorCom->HeightOnTerrain(&vPos, pTerrainTexCom->Get_VtxPos(), VTXCNTX, VTXCNTZ);
-
-	m_pTransCom->Set_Pos(vPos.x, fHeight+0.9f, vPos.z);
-
-}
-
 HRESULT CBox::Open_Event(CGameObject * pGameObject)
 {
 	CScene* pScene = ::Get_Scene();
@@ -172,26 +156,34 @@ HRESULT CBox::Open_Event(CGameObject * pGameObject)
 
 		CGameObject* pGameObj = nullptr;
 	
-	
+		static _bool bWeaponOnce = false;
 		
 		// 박스가 돈 힐포션 무기 
 		// 몬스터 열쇠 , 코인 
-		if (rand() % 3 == 0)
+	/*	if (rand() % 3 == 0)
 		{
-			pGameObj = READY_LAYER_POS(pGameObj, CHealthPotion, pMyLayer, m_pGraphicDev, ItemName, (_uint)vPos.x + 2, (_uint)vPos.z + 2);
+			pGameObj = READY_LAYER_POS(pGameObj, CHealthPotion, pMyLayer, m_pGraphicDev, ItemName, (_uint)vPos.x+3, (_uint)vPos.z);
 		}
 		else if (rand() % 3 == 1)
 		{
-			pGameObj = READY_LAYER_POS(pGameObj, CCoin, pMyLayer, m_pGraphicDev, ItemName, (_uint)vPos.x + 2, (_uint)vPos.z + 4);
+			pGameObj = READY_LAYER_POS(pGameObj, CCoin, pMyLayer, m_pGraphicDev, ItemName, (_uint)vPos.x+3 , (_uint)vPos.z);
 		}
 		
-		else if (rand() % 3 == 2)
+		else if ( !bWeaponOnce && rand() % 3 == 2)
 		{
 			//  무기가 들어가면되고
 			// 종욱이형 머지하면 하면됌
-			pGameObj = READY_LAYER_POS(pGameObj, CShotGun, pMyLayer, m_pGraphicDev, ItemName, (_uint)vPos.x + 2, (_uint)vPos.z + 4);
-		}
+			pGameObj = READY_LAYER_POS(pGameObj, CShotGun, pMyLayer, m_pGraphicDev, L"ShotGun", (_uint)vPos.x+3, (_uint)vPos.z);
+			bWeaponOnce = true;
+		}*/
 
+		 if (!bWeaponOnce )
+		{
+			//  무기가 들어가면되고
+			// 종욱이형 머지하면 하면됌
+			pGameObj = READY_LAYER_POS(pGameObj, CShotGun, pMyLayer, m_pGraphicDev, L"ShotGun", (_uint)vPos.x + 3, (_uint)vPos.z);
+			bWeaponOnce = true;
+		}
 	
 	}
 	return S_OK;

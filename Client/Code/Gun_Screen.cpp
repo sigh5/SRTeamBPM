@@ -64,13 +64,16 @@ _int CGun_Screen::Update_Object(const _float & fTimeDelta)
 
 	Add_UpdateComponent();
 
-	CShotGun* pShotGun = static_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"));
+	/*CShotGun* pShotGun = dynamic_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"));
 
-	if (pShotGun->Get_RenderFalse() == true)
+	if (pShotGun != nullptr)
 	{
-		m_pAnimationCom->Ready_Animation(15, 0, 0.2f);
-	}
-
+		if (pShotGun->Get_RenderFalse() == true)
+		{
+			m_pAnimationCom->Ready_Animation(15, 0, 0.2f);
+		}
+	}*/
+	
 	Engine::CGameObject::Update_Object(fTimeDelta);
 		
 	Add_RenderGroup(RENDER_UI, this);
@@ -118,7 +121,7 @@ void CGun_Screen::Render_Obejct(void)
 	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-	m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);
+	m_pTextureMainCom->Set_Texture(m_pAnimationCom->m_iMotion);
 
 	m_pBufferCom->Render_Buffer();
 
@@ -136,10 +139,11 @@ HRESULT CGun_Screen::Add_Component(void)
 	m_pTransCom = CAbstractFactory<COrthoTransform>::Clone_Proto_Component(L"Proto_OrthoTransformCom", m_mapComponent, ID_DYNAMIC);
 	m_pCalculatorCom = CAbstractFactory<CCalculator>::Clone_Proto_Component(L"Proto_CalculatorCom", m_mapComponent, ID_STATIC);
 	m_pAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_STATIC);
-		
-	if(!m_bChangeWeaponUI)
-	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Gun_ScreenTexture", m_mapComponent, ID_STATIC);
+	
+	m_pTextureMagnumGun = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Gun_ScreenTexture", m_mapComponent, ID_STATIC);
+	m_pTextureShotGun  = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_ShotGun_ScreenTexture", m_mapComponent, ID_STATIC);
 
+	m_pTextureMainCom = m_pTextureMagnumGun;
 	return S_OK;
 }
 
@@ -147,10 +151,19 @@ HRESULT CGun_Screen::Add_UpdateComponent(void)
 {							// 임시 _bool 변수
 	if (m_bChangeWeaponUI && !m_bControl)
 	{
-		m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_ShotGun_ScreenTexture", m_mapComponent, ID_STATIC);
-
+		if (m_iID == ID_MAGNUM)
+		{
+			m_pTextureMainCom = m_pTextureMagnumGun;
+		}
+		else if (m_iID == ID_SHOT_GUN)
+		{
+			m_pTextureMainCom = m_pTextureShotGun;
+		}
 		m_bControl = true;
 	}
+
+	
+
 	
 	return S_OK;
 }
@@ -184,7 +197,7 @@ HRESULT CGun_Screen::Shoot_Motion(const _float& fTimeDelta)
 
 void CGun_Screen::GunFailSound()
 {
-	::PlaySoundW(L"Rythm_Check_Fail.wav", SOUND_EFFECT, 0.1f);
+	Engine::PlaySoundW(L"Rythm_Check_Fail.wav", SOUND_EFFECT, 0.1f);
 }
 
 void CGun_Screen::Get_shellPosition(_vec3& vPos, _vec3& vdir)
