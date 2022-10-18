@@ -299,7 +299,6 @@
     <ClCompile Include="..\Code\Npc.cpp">
       <Filter>02. GameObject\01. For_Stage\16. NPC</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\ShopUI.cpp" />
     <ClCompile Include="..\Code\UI_Effect.cpp">
       <Filter>02. GameObject\01. For_Stage\07. Effect\UI_Effect</Filter>
     </ClCompile>
@@ -336,6 +335,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\SoundBox_UI.cpp">
       <Filter>02. GameObject\01. For_Stage\10. UI\13. SoundBox_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ShopUI.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\95. ShopUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -653,7 +655,6 @@
     <ClInclude Include="..\Header\Npc.h">
       <Filter>02. GameObject\01. For_Stage\16. NPC</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\ShopUI.h" />
     <ClInclude Include="..\Header\UI_Effect.h">
       <Filter>02. GameObject\01. For_Stage\07. Effect\UI_Effect</Filter>
     </ClInclude>
@@ -690,6 +691,9 @@
     </ClInclude>
     <ClInclude Include="..\Header\SoundBox_UI.h">
       <Filter>02. GameObject\01. For_Stage\10. UI\13. SoundBox_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\ShopUI.h">
+      <Filter>02. GameObject\01. For_Stage\10. UI\95. ShopUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -25,12 +25,14 @@ HRESULT CSetting_Stage::Ready_Scene(void)
 	FAILED_CHECK_RETURN(Ready_Proto(), E_FAIL);
 
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(L"Ready_Layer_Environment"), E_FAIL);
-
+	
 	return S_OK;
 }
 
 _int CSetting_Stage::Update_Scene(const _float & fTimeDelta)
 {	
+	Engine::PlaySoundW(L"Huginn_s_Shop.mp3", SOUND_BGM, g_fSound);
+
 	m_pBackButton = dynamic_cast<CBackButton*>(Engine::Get_GameObject(L"Ready_Layer_Environment", L"BackButton"));
 	m_pBGMdnButton = dynamic_cast<CBGMDownBtn*>(Engine::Get_GameObject(L"Ready_Layer_Environment", L"BGM_Dn"));
 	m_pBGMupButton = dynamic_cast<CBGMUpBtn*>(Engine::Get_GameObject(L"Ready_Layer_Environment", L"BGM_Up"));
@@ -46,6 +48,7 @@ _int CSetting_Stage::Update_Scene(const _float & fTimeDelta)
 		CScene* pScene = (Engine::Get_Scene());
 		FAILED_CHECK_RETURN(Engine::Current_Scene(pScene), E_FAIL);
 		m_bCheck = false;
+		Engine::StopSound(SOUND_BGM);
 	}	
 
 	return iResult;

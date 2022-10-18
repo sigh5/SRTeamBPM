@@ -36,10 +36,13 @@ private:
 	CTexture*			m_pTextureCom = nullptr;
 
 private:
-	_uint		m_iVolume = 0;
+	_uint		m_iVolume = 10;
 
 	_uint		m_iMaxVol; 
 	_uint		m_iMinVol; 
+
+	_float		m_fMaxSound;
+	_float		m_fMinSound;
 
 	wstring		m_szVolume = L"";
 
