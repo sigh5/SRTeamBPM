@@ -31,6 +31,8 @@ _int CStart_Button::Update_Object(const _float & fTimeDelta)
 		MouseCheck();
 	}
 			
+	::MouseInputReset();
+
 	CGameObject::Update_Object(fTimeDelta);
 
 	Add_RenderGroup(RENDER_UI, this);

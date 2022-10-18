@@ -40,7 +40,7 @@ public:
 
 
 private:
-	COrthoTransform*		m_pTransCom = nullptr;
+	CTransform*				m_pTransCom = nullptr;
 	CTexture*				m_pTextureCom = nullptr;
 	CRcTex*					m_pBufferCom = nullptr;
 	CAnimation*				m_pAnimationCom = nullptr;
