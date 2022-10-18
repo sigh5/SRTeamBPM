@@ -35,11 +35,17 @@ public:
 	void						Find_Equip_Item(void);
 	_bool						Get_InvenSwitch(void) { return m_bInvenSwitch; }
 
-
+public:
+	const _uint&				Get_Current_Picking_ItemID() { return m_iCurrent_Piciking_ItemType; }
+	void						Set__Current_Picking_ItemID(_uint iID) { m_iCurrent_Piciking_ItemType = iID; }
 public:
 	SlotInfo*					Get_EquipSlot() { return m_rcEquipSlot; }
 	SlotInfo*					Get_InvenSlot() { return m_rcInvenSlot; }
 	// 값을 수정해야되서 const 안붙임
+
+	void						Set_CurrentEquipWeapon(CEquipmentBase* pWeapon);
+
+
 
 private:
 	HRESULT						Add_Component(void);
@@ -53,13 +59,18 @@ private:
 	CCollider*					m_pColliderCom = nullptr;
 
 private:
+	CEquipmentBase*				m_pCurrentEquipWeapon = nullptr;
+	_uint						m_iCurrent_Piciking_ItemType = 0; // 0일때 아무것도 없음 macro ID 에 정의하셈 
+	_bool						m_bWeaponChangeOnce = false;
+
+private:
 	_matrix						m_ProjMatrix;
 
 	_bool						m_bInvenSwitch = false;
 	vector<CEquipmentBase*>		m_vecWeaponType; // 현재 인벤토리에 있는 장비
 	
 	SlotInfo					m_rcEquipSlot[4];
-	SlotInfo				m_rcInvenSlot[36];
+	SlotInfo					m_rcInvenSlot[36];
 
 public:
 	vector<CEquipmentBase*>*	Get_WeaponType(void) { return &m_vecWeaponType; }

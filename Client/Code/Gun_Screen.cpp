@@ -121,7 +121,7 @@ void CGun_Screen::Render_Obejct(void)
 	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-	m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);
+	m_pTextureMainCom->Set_Texture(m_pAnimationCom->m_iMotion);
 
 	m_pBufferCom->Render_Buffer();
 
@@ -139,10 +139,11 @@ HRESULT CGun_Screen::Add_Component(void)
 	m_pTransCom = CAbstractFactory<COrthoTransform>::Clone_Proto_Component(L"Proto_OrthoTransformCom", m_mapComponent, ID_DYNAMIC);
 	m_pCalculatorCom = CAbstractFactory<CCalculator>::Clone_Proto_Component(L"Proto_CalculatorCom", m_mapComponent, ID_STATIC);
 	m_pAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_STATIC);
-		
-	if(!m_bChangeWeaponUI)
-	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Gun_ScreenTexture", m_mapComponent, ID_STATIC);
+	
+	m_pTextureMagnumGun = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Gun_ScreenTexture", m_mapComponent, ID_STATIC);
+	m_pTextureShotGun  = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_ShotGun_ScreenTexture", m_mapComponent, ID_STATIC);
 
+	m_pTextureMainCom = m_pTextureMagnumGun;
 	return S_OK;
 }
 
@@ -150,10 +151,19 @@ HRESULT CGun_Screen::Add_UpdateComponent(void)
 {							// 임시 _bool 변수
 	if (m_bChangeWeaponUI && !m_bControl)
 	{
-		m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_ShotGun_ScreenTexture", m_mapComponent, ID_STATIC);
-
+		if (m_iID == ID_MAGNUM)
+		{
+			m_pTextureMainCom = m_pTextureMagnumGun;
+		}
+		else if (m_iID == ID_SHOT_GUN)
+		{
+			m_pTextureMainCom = m_pTextureShotGun;
+		}
 		m_bControl = true;
 	}
+
+	
+
 	
 	return S_OK;
 }

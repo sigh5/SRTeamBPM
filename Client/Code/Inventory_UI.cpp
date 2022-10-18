@@ -100,8 +100,7 @@ _int CInventory_UI::Update_Object(const _float & fTimeDelta)
 	}
 
 	::Key_InputReset();
-
-
+	::MouseInputReset();
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
 	Add_RenderGroup(RENDER_UI, this);
@@ -111,6 +110,8 @@ _int CInventory_UI::Update_Object(const _float & fTimeDelta)
 
 void CInventory_UI::LateUpdate_Object(void)
 {
+	
+
 	Engine::CGameObject::LateUpdate_Object();
 	
 }
@@ -153,6 +154,44 @@ void CInventory_UI::Render_Obejct(void)
 void CInventory_UI::Find_Equip_Item(void)
 {
 		
+}
+
+void CInventory_UI::Set_CurrentEquipWeapon(CEquipmentBase * pWeapon)
+{ 
+	if (m_pCurrentEquipWeapon == nullptr)
+	{
+		m_pCurrentEquipWeapon = pWeapon;
+		return;
+	}
+	_vec3 vPreWeaponvPos,vCurrentWeaponPos;
+	
+
+	CTransform* pRreWeaponTrans = static_cast<CTransform*>(m_pCurrentEquipWeapon->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+	pRreWeaponTrans->Get_Info(INFO_POS,&vPreWeaponvPos);
+
+	CTransform* pCurrentvWeaponTrans = static_cast<CTransform*>(pWeapon->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+	
+	RECT Rc{};
+	memcpy(&Rc, &m_rcInvenSlot[pWeapon->m_iInvenSlotIndex].rcInvenSlot, sizeof(RECT));
+	float __fX = (Rc.left + Rc.right) / 2.f;
+	float __fY = (Rc.top + Rc.bottom) / 2.f;
+	
+	vCurrentWeaponPos = { __fX,__fY,0.f };
+
+	m_pCurrentEquipWeapon->Set_EquipState(EquipState_Slot);
+	pWeapon->Set_EquipState(EquipState_Equip_Weapon);
+
+	pRreWeaponTrans->Set_Pos(__fX -WINCX * 0.5f,(-__fY + WINCY * 0.5f), 0.f);
+	
+	pCurrentvWeaponTrans->Set_Pos(vPreWeaponvPos.x, vPreWeaponvPos.y, vPreWeaponvPos.z);
+	m_pCurrentEquipWeapon->m_iInvenSlotIndex = pWeapon->m_iInvenSlotIndex;
+	m_pCurrentEquipWeapon->Set_FX_FY(__fX  ,__fY );
+
+	pRreWeaponTrans->Update_Component(1.f);
+	pCurrentvWeaponTrans->Update_Component(1.f);
+
+	m_pCurrentEquipWeapon = pWeapon; 
+	
 }
 
 HRESULT CInventory_UI::Add_Component(void)

@@ -13,13 +13,14 @@
 USING(Engine)
 
 CEquipmentBase::CEquipmentBase(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CGameObject(pGraphicDev) 
+	: CGameObject(pGraphicDev) , m_EquipState(EquipState_Equip_End)
 {
 	ZeroMemory(&rcUI, sizeof(RECT));
+	
 }
 
 CEquipmentBase::CEquipmentBase(const CEquipmentBase & rhs)
-	: CGameObject(rhs)
+	: CGameObject(rhs), m_EquipState(rhs.m_EquipState)
 {
 	memcpy(&rcUI,&rhs.rcUI, sizeof(RECT));
 }

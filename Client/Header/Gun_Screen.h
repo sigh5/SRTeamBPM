@@ -50,6 +50,19 @@ public:	// Get/Set
 
 	void				Set_ChangeWeaponUI(_bool bChangeWeaponUI) { m_bChangeWeaponUI = bChangeWeaponUI; }
 
+	void				Set_ChaneWeaponUI_ID(_bool bChangeWeaponUI, _uint iID)
+	{
+		m_bChangeWeaponUI = bChangeWeaponUI;
+		
+		if (iID != m_iID)
+		{
+			m_bControl = false;
+		}
+
+		m_iID = iID;
+	}
+
+
 public:
 	void				GunFailSound();
 	void				Set_Active(_bool bEvent) { m_bActive = bEvent; }
@@ -77,10 +90,17 @@ private:
 
 	bool				m_bCreatedShell = false;
 
+	_uint				m_iID = 0;		
 
 private:
 	CRcTex*				m_pBufferCom = nullptr;
-	CTexture*			m_pTextureCom = nullptr;
+	
+	CTexture*			m_pTextureMainCom = nullptr;
+	
+	CTexture*			m_pTextureMagnumGun = nullptr;
+	CTexture*			m_pTextureShotGun = nullptr;
+
+
 	CCalculator*		m_pCalculatorCom = nullptr;
 	CAnimation*			m_pAnimationCom = nullptr;
 	COrthoTransform*	m_pTransCom = nullptr;

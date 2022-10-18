@@ -28,7 +28,7 @@ HRESULT CShotGun::Ready_Object(_uint iX, _uint iZ)
 	m_RenderID = RENDER_ALPHA;
 	
 	D3DXMatrixOrthoLH(&m_ProjMatrix, WINCX, WINCY, 0.f, 1.f);
-	
+	m_EquipState = EquipState_Equip_End;
 
 	m_pTransCom->Set_Pos((_float)iX, 1.f, (_float)iZ);
 	m_pTransCom->Compulsion_Update();
@@ -38,6 +38,7 @@ HRESULT CShotGun::Ready_Object(_uint iX, _uint iZ)
  
 _int CShotGun::Update_Object(const _float & fTimeDelta)
 {
+	
 	m_fTimedelta = fTimeDelta;
 
 	if (m_bIsWorld)
@@ -54,17 +55,7 @@ _int CShotGun::Update_Object(const _float & fTimeDelta)
 	}
 
 	PickingMouseUp();
-
-	
-
-
-	::MouseInputReset();
-
-	
-
 	_uint iResult = Engine::CGameObject::Update_Object(fTimeDelta);
-
-	
 
 	Add_RenderGroup(m_RenderID, this);
 	
@@ -177,7 +168,7 @@ void CShotGun::Collision_Event()
 			// 인벤토리에 들어감
 			CInventory_UI* pInven = static_cast<CInventory_UI*>(Get_GameObject(L"Layer_UI", L"InventoryUI"));
 			pInven->Get_WeaponType()->push_back(this);
-
+			m_EquipState = EquipState_Slot;
 			m_fX = WINCX * 0.5f;
 			m_fY = WINCY * 0.5f;
 			m_fSizeX = 100.f ;
@@ -207,22 +198,40 @@ void CShotGun::Collision_Event()
 						m_bOnce = true;
 						m_bIsWorld = false;
 						m_bIsInventory = true;
+						m_fOriginPosX = m_fX - WINCX * 0.5f;
+						m_fOriginPosY = (-m_fY + WINCY * 0.5f);
 						return;
 					}
 				}
 			}
 			
 			
+			
 		
-			//// 플레이어의 스탯에 관여하기 위함 // 나중에 위쪽에다가 넣자
-			//CPlayer* pTestPlayer = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
-			//pTestPlayer->Set_bCurStat(true);
-
-		/*	CGun_Screen* pGun_Screen = static_cast<CGun_Screen*>(Engine::Get_GameObject(L"Layer_UI", L"Gun"));
-			pGun_Screen->Set_ChangeWeaponUI(true);*/
+		
 		}
 
 	}
+}
+
+void CShotGun::Change_Equip()
+{
+	if (m_EquipState == EquipState_Equip_Weapon)
+		return;
+
+	
+	
+	CGun_Screen* pGun_Screen = static_cast<CGun_Screen*>(Engine::Get_GameObject(L"Layer_UI", L"Gun"));
+	pGun_Screen->Set_ChaneWeaponUI_ID(true, ID_SHOT_GUN);
+
+	CInventory_UI* pInven = static_cast<CInventory_UI*>(Get_GameObject(L"Layer_UI", L"InventoryUI"));
+	pInven->Set_CurrentEquipWeapon(this);
+
+	CPlayer* pPlayer = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
+	pPlayer->EquipItem_Add_Stat(m_EquipInfo._iAddAttack);
+	
+
+
 }
 
 void CShotGun::Set_MouseToInventory() // 누르면 걍 따라오는 함수
@@ -247,7 +256,7 @@ void CShotGun::PickingMouseUp()
 		m_bPickingEnd = true;
 	}
 
-	if (m_bPickingEnd == true)
+	if (m_bPickingEnd == true) // 나중에 장비창에 있는지 슬롯창에있는지 확인하는 조건 필요
 	{
 		CInventory_UI* pInven = static_cast<CInventory_UI*>(Get_GameObject(L"Layer_UI", L"InventoryUI"));
 		SearchInventorySlot(&pInven);
@@ -255,8 +264,16 @@ void CShotGun::PickingMouseUp()
 		if (!m_iMouseUpEnd)
 		{
 			RECT Rc{};
+			if (m_EquipState == EquipState_Equip_Weapon)
+			{
+				memcpy(&Rc, &pInven->Get_EquipSlot()[m_iInvenSlotIndex].rcInvenSlot, sizeof(RECT));
+				m_fX = (Rc.left + Rc.right) / 2.f;
+				m_fY = (Rc.top + Rc.bottom) / 2.f;
+				m_pTransCom->Set_Pos(m_fX - WINCX * 0.5f,
+					(-m_fY + WINCY * 0.5f), 0.f);
+			}
 
-			if (m_iInvenSlotIndex != -1 && pInven->Get_InvenSlot()[m_iInvenSlotIndex].bSlotEmpty)
+			else if (m_iInvenSlotIndex != -1 && pInven->Get_InvenSlot()[m_iInvenSlotIndex].bSlotEmpty)
 			{
 				memcpy(&Rc, &pInven->Get_InvenSlot()[m_iInvenSlotIndex].rcInvenSlot, sizeof(RECT));
 
@@ -266,7 +283,7 @@ void CShotGun::PickingMouseUp()
 					(-m_fY + WINCY * 0.5f), 0.f);
 			}
 		}
-
+		pInven->Set__Current_Picking_ItemID(0);
 	}
 
 
@@ -286,46 +303,66 @@ void CShotGun::SearchInventorySlot(CInventory_UI** pInven)
 	RECT rcMouse = { ptMouse.x - 30.f ,ptMouse.y - 35.f ,ptMouse.x + 30.f ,ptMouse.y + 30.f };
 	RECT Rc{};
 
-	(*pInven)->Get_EquipSlot();
 
-	for (int i = 0; i < 4; ++i)
+	
+	if (m_EquipState != EquipState_Equip_Weapon)
 	{
-		for (int j = 0; j < 9; ++j)
+		memcpy(&Rc, &(*pInven)->Get_EquipSlot()[0].rcInvenSlot, sizeof(RECT));
+		if (PtInRect(&Rc, ptMouse))
 		{
-			int iIndex = (i * 9) + j;
-			memcpy(&Rc, &(*pInven)->Get_InvenSlot()[iIndex].rcInvenSlot, sizeof(RECT));
+			Change_Equip();
 
-			if (PtInRect(&Rc, ptMouse))
-			{
-				m_iInvenSlotIndex = -1;
-				m_fX = (Rc.left + Rc.right) / 2.f;
-				m_fY = (Rc.top + Rc.bottom) / 2.f;
-
-				//cout << m_fX - WINCX * 0.5f << " " << (-m_fY + WINCY * 0.5f);
-
-				m_pTransCom->Set_Pos(m_fX - WINCX * 0.5f,
-					(-m_fY + WINCY * 0.5f), 0.f);
-
-				m_fOriginPosX = m_fX - WINCX * 0.5f;
-				m_fOriginPosY = (-m_fY + WINCY * 0.5f);
-
-				m_pTransCom->Update_Component(1.f);
-				m_iMouseUpEnd = true;
-				(*pInven)->Get_InvenSlot()[iIndex].bSlotEmpty = true;
-				m_iInvenSlotIndex = iIndex;
-				break;
-			}
+			m_iMouseUpEnd = true;
+			//m_iInvenSlotIndex = 0;
 
 		}
+
+
+		for (int i = 0; i < 4; ++i)
+		{
+			for (int j = 0; j < 9; ++j)
+			{
+				int iIndex = (i * 9) + j;
+				memcpy(&Rc, &(*pInven)->Get_InvenSlot()[iIndex].rcInvenSlot, sizeof(RECT));
+
+				if (PtInRect(&Rc, ptMouse))
+				{
+					m_iInvenSlotIndex = -1;
+					m_fX = (Rc.left + Rc.right) / 2.f;
+					m_fY = (Rc.top + Rc.bottom) / 2.f;
+
+					//cout << m_fX - WINCX * 0.5f << " " << (-m_fY + WINCY * 0.5f);
+
+					m_pTransCom->Set_Pos(m_fX - WINCX * 0.5f,
+						(-m_fY + WINCY * 0.5f), 0.f);
+
+					m_fOriginPosX = m_fX - WINCX * 0.5f;
+					m_fOriginPosY = (-m_fY + WINCY * 0.5f);
+
+					m_pTransCom->Update_Component(1.f);
+					m_iMouseUpEnd = true;
+					(*pInven)->Get_InvenSlot()[iIndex].bSlotEmpty = true;
+					m_iInvenSlotIndex = iIndex;
+					break;
+				}
+
+			}
+		}
 	}
+	
 	m_bIsPick = false;
 	m_bPickingEnd = false;
 
 }
 	
-
 _bool CShotGun::EquipIconPicking()
 {	
+	CInventory_UI* pInven = static_cast<CInventory_UI*>(Get_GameObject(L"Layer_UI", L"InventoryUI"));
+	
+	const _uint iCurrentPickingID = pInven->Get_Current_Picking_ItemID();
+
+	if (!(iCurrentPickingID == ID_SHOT_GUN || iCurrentPickingID == 0))
+		return false;
 
 	POINT		ptMouse{};
 	GetCursorPos(&ptMouse);
@@ -342,6 +379,7 @@ _bool CShotGun::EquipIconPicking()
 		//cout << ptMouse.x << " " << ptMouse.y << endl;
 		if(PtInRect(&rcUI2, ptMouse))
 		{
+			pInven->Set__Current_Picking_ItemID(ID_SHOT_GUN);
 			m_bPickingEnd = false;
 			m_bisPicking = true;
 			return true;
@@ -354,8 +392,6 @@ _bool CShotGun::EquipIconPicking()
 
 	return false;
 }
-
-
 
 HRESULT CShotGun::Add_Component(void)
 { // CDynamic_Transform
