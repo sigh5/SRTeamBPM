@@ -11,6 +11,9 @@
 #include "MyCamera.h"
 #include "Gun_Screen.h"
 #include "ObeliskSpawnEffect.h"
+#include "ObeliskWreck.h"
+#include "Key.h"
+#include "Coin.h"
 
 CObelisk::CObelisk(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -194,6 +197,7 @@ bool CObelisk::Dead_Judge(const _float & fTimeDelta)
 			m_pDynamicTransCom->Add_Y(m_pDynamicTransCom->m_vInfo[INFO_POS].y *-0.35f);
 			m_pDynamicTransCom->Set_Scale(&_vec3{ m_pDynamicTransCom->m_vScale.x, m_pDynamicTransCom->m_vScale.y * 0.7f, m_pDynamicTransCom->m_vScale.z });
 			m_bDead = true;
+			Drop_Item(rand() % 3);
 		}
 		//Safe_Release(m_pAttackAnimationCom);
 	}
@@ -259,27 +263,108 @@ void CObelisk::NoHit_Loop(const _float & fTimeDelta)
 
 void CObelisk::Hit_Loop(const _float & fTimeDelta)
 {
-	_vec3 pScale;
+	CScene  *pScene = ::Get_Scene();
+	CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+	_vec3 pScale, vDir;
 	pScale = m_pDynamicTransCom->m_vScale;
+	vDir = m_vPlayerPos - m_pDynamicTransCom->m_vInfo[INFO_POS];
+	D3DXVec3Cross(&vDir, &_vec3(0.f, 1.f, 0.f), &m_vPlayerPos);
+	D3DXVec3Normalize(&vDir, &vDir);
+	CGameObject* pWreck = nullptr;
 	if (4 == m_pInfoCom->Get_Hp())
 	{
 		m_pAnimationCom->m_iMotion = 0;
+		int Wreckdir = 0;
+		Wreckdir = rand() % 2;
+		if (Wreckdir)
+		{
+			pWreck = CObeliskWreck::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS], vDir);
+		}
+		else
+		{
+			pWreck = CObeliskWreck::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS], -vDir);
+		}
+		pLayer->Add_GameObjectList(pWreck);
 	}
 	if (3 == m_pInfoCom->Get_Hp())
 	{
 		m_pAnimationCom->m_iMotion = 1;
+		for (int i = 0; i != 2; ++i)
+		{
+			int Wreckdir = 0;
+			Wreckdir = rand() % 2;
+			if (Wreckdir)
+			{
+				pWreck = CObeliskWreck::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS], vDir * (i * 0.3f));
+			}
+			else
+			{
+				pWreck = CObeliskWreck::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS], -vDir * (i * 0.3f));
+			}
+			pLayer->Add_GameObjectList(pWreck);
+		}
 	}
 	if (2 == m_pInfoCom->Get_Hp())
 	{
 		m_pAnimationCom->m_iMotion = 2;
+		for (int i = 0; i != 4; ++i)
+		{
+			int Wreckdir = 0;
+			Wreckdir = rand() % 2;
+			if (Wreckdir)
+			{
+				pWreck = CObeliskWreck::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS], vDir * (i * 0.3f));
+			}
+			else
+			{
+				pWreck = CObeliskWreck::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS], -vDir * (i * 0.3f));
+			}
+			pLayer->Add_GameObjectList(pWreck);
+		}
 	}
 	if (1 == m_pInfoCom->Get_Hp())
 	{
 		m_pAnimationCom->m_iMotion = 3;
 		m_pDynamicTransCom->Add_Y(m_pDynamicTransCom->m_vInfo[INFO_POS].y *- 0.5f);
 		m_pDynamicTransCom->Set_Scale(&_vec3{ pScale.x, pScale.y * 0.55f, pScale.z });
+		for (int i = 0; i != 7; ++i)
+		{
+			int Wreckdir = 0;
+			Wreckdir = rand() % 2;
+			if (Wreckdir)
+			{
+				pWreck = CObeliskWreck::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS], vDir * (i * 0.3f));
+			}
+			else
+			{
+				pWreck = CObeliskWreck::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS], -vDir * (i * 0.3f));
+			}
+			pLayer->Add_GameObjectList(pWreck);
+		}
 	}
 	m_pDynamicTransCom->Update_Component(fTimeDelta);
+}
+
+void	CObelisk::Drop_Item(int ItemType)
+{
+	CScene  *pScene = ::Get_Scene();
+	CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+	CGameObject* pItem = nullptr;
+	switch (ItemType)
+	{
+	case 0:
+		pItem = CCoin::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS].x, m_pDynamicTransCom->m_vInfo[INFO_POS].z);
+		pLayer->Add_DropItemList(pItem);
+		break;
+
+	case 1:
+		pItem = CKey::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS].x, m_pDynamicTransCom->m_vInfo[INFO_POS].z);
+		pLayer->Add_DropItemList(pItem);
+		break;
+
+	default:
+		break;
+	}
 }
 
 CObelisk * CObelisk::Create(LPDIRECT3DDEVICE9 pGraphicDev, float Posx, float Posy)

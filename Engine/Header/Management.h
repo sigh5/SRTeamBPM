@@ -30,8 +30,18 @@ public:
 	CGameObject*			Get_GameObject(const _tchar* pLayerTag, const _tchar* pObjTag);
 	CScene*		Get_Scene() { return m_pScene; }
 
+	HRESULT		Change_Scene(CScene* pScene, CScene* pChangeScene);
+
+	HRESULT		Load_SaveScene(CScene* pScene); // CScene* pScene : 현재 씬임을 확인
+
+	CScene*		Get_SaveScene() { return m_pSaveScene; }
+
+	HRESULT		Current_Scene(CScene* pScene);
+
 private:
 	CScene*		m_pScene;
+
+	CScene*		m_pSaveScene;
 
 public:
 	virtual void Free(void);

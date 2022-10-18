@@ -9,6 +9,8 @@
 #include "Player.h"
 #include "Gun_Screen.h"
 #include "Special_Effect.h"
+#include "Coin.h"
+#include "Key.h"
 
 CEarthShaker::CEarthShaker(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -47,6 +49,7 @@ HRESULT CEarthShaker::Ready_Object(float Posx, float Posy)
 	m_fInterval = 1.9f;
 
 	m_fWaitingTime = 0.35f;
+	m_fSoundInterval = 1.5f;
 
 	m_pDynamicTransCom->Set_Scale(&_vec3(6.f, 7.f, 6.f));
 
@@ -78,20 +81,8 @@ _int CEarthShaker::Update_Object(const _float & fTimeDelta)
 	m_pColliderCom->Set_HitBoxMatrix_With_Scale(&matWorld, vScale);
 	//~Control Room
 
-	for (auto iter = m_Spikelist.begin(); iter != m_Spikelist.end();)
-	{
-		_int iResult = 0;
-		iResult = (*iter)->Update_Object(fTimeDelta);
-		if (iResult == 1)
-		{
-			Safe_Release((*iter));
-			iter = m_Spikelist.erase(iter);
-		}
-		else
-		{
-			++iter;
-		}
-	}
+	
+	SpikeUpdateLoop(fTimeDelta);
 	m_pDynamicTransCom->Set_Y(m_pDynamicTransCom->m_vScale.y * 0.5f);
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 	if (Distance_Over())
@@ -275,7 +266,7 @@ bool CEarthShaker::Dead_Judge(const _float & fTimeDelta)
 				::PlaySoundW(L"Croccman_death_03.wav", SOUND_MONSTER, 0.4f);
 				break;
 			}
-
+			Drop_Item(rand() % 3);
 			m_bDead = true;
 		}
 		//Safe_Release(m_pAttackAnimationCom);
@@ -541,9 +532,92 @@ void CEarthShaker::Excution_Event()
 
 		::PlaySoundW(L"explosion_1.wav", SOUND_EFFECT, 0.05f); // BGM
 	}
-
 }
+void	CEarthShaker::SpikeUpdateLoop(const _float& fTimeDelta)
+{
+	float fDistance, fVolume;
+	fDistance = 0.f;
+	fVolume = 0.f;
+	for (auto iter = m_Spikelist.begin(); iter != m_Spikelist.end();)
+	{
+		_int iResult = 0;
 
+		iResult = (*iter)->Update_Object(fTimeDelta);
+		if (iResult == 1)
+		{
+			Safe_Release((*iter));
+			iter = m_Spikelist.erase(iter);
+			//볼륨을 받아서 최대 볼륨만 저장
+			//채널별로 최대 볼륨만 실행
+		}
+		else
+		{
+			if (fDistance > (*iter)->Get_Distance())
+			{
+				fDistance = (*iter)->Get_Distance();
+	}
+			++iter;
+		}
+
+	}
+	if (0 != m_Spikelist.size())
+	{
+		switch(m_iSoundNumber)
+		{
+		case 0:
+			::PlaySoundW(L"CrashRock.wav", SOUND_CRUSHROCK, 0.3f);
+			break;
+		case 1:
+			::PlaySoundW(L"CrashRock2.wav", SOUND_CRUSHROCK2, 0.5f);
+			break;
+		case 2:
+			::PlaySoundW(L"CrashRock3.wav", SOUND_CRUSHROCK3, 0.7f);
+			break;
+		default:
+			::PlaySoundW(L"CrashRock3.wav", SOUND_CRUSHROCK3, 0.7f);
+			break;
+		}
+	}
+	m_fSoundCount += fTimeDelta;
+	if (m_fSoundInterval < m_fSoundCount)
+	{
+		++m_iSoundNumber;
+		m_fSoundCount = 0.f;
+		if (3 <= m_iSoundNumber)
+		{
+			::StopSound(SOUND_CRUSHROCK);
+			::PlaySoundW(L"CrashRock3.wav", SOUND_CRUSHROCK, 0.8f);
+		}
+	}
+	if (0 == m_Spikelist.size())
+	{
+		m_iSoundNumber = 0;
+	}
+	//::SetChannelVolume(SOUND_CRUSHROCK, fVolume);
+	//::SetChannelVolume(SOUND_CRUSHROCK2, fVolume);
+	//::SetChannelVolume(SOUND_CRUSHROCK3, fVolume);
+}
+void	CEarthShaker::Drop_Item(int ItemType)
+{
+	CScene  *pScene = ::Get_Scene();
+	CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+	CGameObject* pItem = nullptr;
+	switch (ItemType)
+	{
+	case 0:
+		pItem = CCoin::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS].x, m_pDynamicTransCom->m_vInfo[INFO_POS].z);
+		pLayer->Add_DropItemList(pItem);
+		break;
+
+	case 1:
+		pItem = CKey::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS].x, m_pDynamicTransCom->m_vInfo[INFO_POS].z);
+		pLayer->Add_DropItemList(pItem);
+		break;
+
+	default:
+		break;
+	}
+}
 CEarthShaker * CEarthShaker::Create(LPDIRECT3DDEVICE9 pGraphicDev, float Posx, float Posy)
 {
 	CEarthShaker*	pInstance = new CEarthShaker(pGraphicDev);

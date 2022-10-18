@@ -158,6 +158,19 @@ _int CLayer::Update_Layer(const _float & fTimeDelta)
 
 	}
 
+	for (auto iter = m_DropItemList.begin(); iter != m_DropItemList.end(); )
+	{
+		_int iResult = (*iter)->Update_Object(fTimeDelta);
+
+		if (iResult == OBJ_DEAD)
+		{
+			Safe_Release(*iter);
+			iter = m_DropItemList.erase(iter);
+		}
+		else
+			iter++;
+
+	}
 	return iResult;
 }
 
@@ -174,7 +187,8 @@ void CLayer::LateUpdate_Layer(void)
 	for (auto& iter : m_ControlRoomList)
 		iter->LateUpdate_Object();
 
-
+	for (auto& iter : m_DropItemList)
+		iter->LateUpdate_Object();
 }
 
 void CLayer::initStartCube()
@@ -275,11 +289,15 @@ void		CLayer::ActivevecColliderMonster(void)
 			}
 		}
 	}
-	m_vecColliderMonster.clear();
+
 }
 void		CLayer::Clear_ColliderMonster(void)
 {
 	m_vecColliderMonster.clear();
+}
+void		CLayer::Add_DropItemList(CGameObject* pItem)
+{
+	m_DropItemList.push_back(pItem);
 }
 
 void CLayer::Free(void)
@@ -326,5 +344,7 @@ void CLayer::Free(void)
 		Safe_Release(iter);
 	m_ControlRoomList.clear();
 
-	
+	for (auto& iter : m_DropItemList)
+		Safe_Release(iter);
+	m_DropItemList.clear();
 }

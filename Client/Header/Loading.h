@@ -20,8 +20,6 @@ public:
 	
 	_uint		Loading_ForBoss(void);
 
-	_uint		Loading_ForTest(void);
-
 	_uint		Loading_ForPlayer_UI(void);
 
 	_uint		Loading_For_ToolScene();

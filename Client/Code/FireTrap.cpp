@@ -29,6 +29,7 @@ HRESULT CFireTrap::Ready_Object(float Posx, float Posy)
 	Save_OriginPos();
 	m_pInfoCom->Ready_CharacterInfo(2, 5, 0.f);
 	m_iPreHp = (m_pInfoCom->Get_InfoRef()._iHp);
+	m_fAttackDelay = 3.f;
 
 	m_pDynamicTransCom->Update_Component(1.f);
 	return S_OK;
@@ -97,24 +98,9 @@ _int CFireTrap::Update_Object(const _float & fTimeDelta)
 
 void CFireTrap::LateUpdate_Object(void)
 {
-	CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
-	NULL_CHECK(pCamera);
-
-	_matrix		matWorld, matView, matBill;
-
-	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
-	D3DXMatrixIdentity(&matBill);
-	memcpy(&matBill, &matView, sizeof(_matrix));
-	memset(&matBill._41, 0, sizeof(_vec3));
-	D3DXMatrixInverse(&matBill, 0, &matBill);
-
-	_matrix      matScale, matTrans;
+	_matrix      matScale, matTrans, matRot;
 	D3DXMatrixScaling(&matScale, m_pDynamicTransCom->m_vScale.x, m_pDynamicTransCom->m_vScale.y, m_pDynamicTransCom->m_vScale.z);
 
-	_matrix      matRot;
-
-	D3DXMatrixIdentity(&matRot);
-	D3DXMatrixRotationX(&matRot, (90.f*3.14f / 180.f));
 
 	_vec3 vPos;
 	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
@@ -124,8 +110,13 @@ void CFireTrap::LateUpdate_Object(void)
 		vPos.y,
 		vPos.z);
 
+	D3DXMatrixIdentity(&matRot);
+	D3DXMatrixRotationX(&matRot, (90.f*3.14f / 180.f));
+
+	_matrix		matWorld;
 	D3DXMatrixIdentity(&matWorld);
-	matWorld = matScale* matRot * matBill * matTrans;
+
+	matWorld = matScale * matRot * matTrans;
 	m_pDynamicTransCom->Set_WorldMatrix(&(matWorld));
 	Engine::CMonsterBase::LateUpdate_Object();
 	// 빌보드 에러 해결
@@ -203,7 +194,7 @@ bool CFireTrap::Dead_Judge(const _float & fTimeDelta)
 
 void CFireTrap::NoHit_Loop(const _float & fTimeDelta)
 {
-	if (2.f < fMtoPDistance  && m_bAttacking == false)
+	if (2.5f < fMtoPDistance  && m_bAttacking == false)
 	{
 
 	}

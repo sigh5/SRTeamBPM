@@ -73,6 +73,7 @@ _int CSphinx::Update_Object(const _float & fTimeDelta)
 	// 맨위에있어야됌 리턴되면 안됌
 
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
+	
 	if (Distance_Over())
 	{
 		Engine::CMonsterBase::Update_Object(fTimeDelta);
@@ -121,6 +122,8 @@ void CSphinx::LateUpdate_Object(void)
 
 	matWorld = matScale * matRot * matTrans;
 	m_pDynamicTransCom->Set_WorldMatrix(&(matWorld));
+
+	Engine::CMonsterBase::LateUpdate_Object();
 }
 
 void CSphinx::Render_Obejct(void)

@@ -12,6 +12,8 @@
 
 #include "Gun_Screen.h"
 #include "Special_Effect.h"
+#include "Coin.h"
+#include "Key.h"
 
 CFatBat::CFatBat(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -64,10 +66,11 @@ HRESULT CFatBat::Ready_Object(int Posx, int Posy)
 	m_fFrame = rand() % 200 * 0.01f;
 	Save_OriginPos();
 
-	_vec3 vPos;
-	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
-	vScale = m_pDynamicTransCom->Get_Scale();
-	m_pColliderCom->Set_vCenter(&vPos, &vScale);
+	m_pDynamicTransCom->Set_Info(INFO_POS, &_vec3((float)Posx, 2.f, (float)Posy));
+	
+
+	m_pDynamicTransCom->Update_Component(1.f);
+
 
 	return S_OK;
 }
@@ -94,6 +97,7 @@ bool	CFatBat::Dead_Judge(const _float& fTimeDelta)
 				::PlaySoundW(L"Bat_death_03.wav", SOUND_MONSTER, 0.4f);
 				break;
 			}
+			Drop_Item(rand() % 3);
 			m_bDead = true;
 		}
 		_vec3 vPos;
@@ -121,6 +125,8 @@ bool	CFatBat::Dead_Judge(const _float& fTimeDelta)
 
 _int CFatBat::Update_Object(const _float & fTimeDelta)
 {
+
+	m_pDynamicTransCom->Update_Component(fTimeDelta);
 
 	// 맨위에있어야됌 리턴되면 안됌
 	_matrix matWorld;
@@ -160,9 +166,7 @@ _int CFatBat::Update_Object(const _float & fTimeDelta)
 		Hit_Loop(fTimeDelta);
 	}
 
-	m_pDynamicTransCom->Update_Component(fTimeDelta);
-	
-	
+
 	
 	CMonsterBase::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
@@ -497,6 +501,28 @@ void		CFatBat::Dead_Action(const _float& fTimeDelta)
 		}
 	}
 }
+void	CFatBat::Drop_Item(int ItemType)
+{
+	CScene  *pScene = ::Get_Scene();
+	CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+	CGameObject* pItem = nullptr;
+	switch (ItemType)
+	{
+	case 0:
+		pItem = CCoin::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS].x, m_pDynamicTransCom->m_vInfo[INFO_POS].z);
+		pLayer->Add_DropItemList(pItem);
+		break;
+
+	case 1:
+		pItem = CKey::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS].x, m_pDynamicTransCom->m_vInfo[INFO_POS].z);
+		pLayer->Add_DropItemList(pItem);
+		break;
+
+	default:
+		break;
+	}
+}
+
 CFatBat * CFatBat::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)
 {
 	CFatBat*	pInstance = new CFatBat(pGraphicDev);

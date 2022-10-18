@@ -17,7 +17,7 @@ HRESULT CStart_Button::Ready_Object(void)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	_vec3		vScale = { 0.28f, 0.18f, 0.f };
+	_vec3		vScale = { 0.28f, 0.15f, 0.f };
 
 	m_pTransCom->Set_Scale(&vScale);
 
@@ -26,18 +26,10 @@ HRESULT CStart_Button::Ready_Object(void)
 
 _int CStart_Button::Update_Object(const _float & fTimeDelta)
 {	
-	if (MouseCheck())
+	if (Engine::Mouse_Down(DIM_LB))
 	{
-		m_bCheck = TRUE;
-
-		if (Engine::CInputDev::GetInstance()->Get_DIMouseState(DIM_LB) & 0x80)
-		{
-			m_bClick = TRUE;
-		}
+		MouseCheck();
 	}
-
-	else		
-		m_bCheck = FALSE;
 			
 	CGameObject::Update_Object(fTimeDelta);
 
@@ -61,11 +53,11 @@ void CStart_Button::Render_Obejct(void)
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-
-
+	
 	m_pTextureCom->Set_Texture(0);	// 텍스처 정보 세팅을 우선적으로 한다.
 
 	m_pBufferCom->Render_Buffer();
+
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 
@@ -89,10 +81,18 @@ _bool CStart_Button::MouseCheck(void)
 
 	RECT rcButton = { lLeft, lTop, lRight, lBottom };
 
-	if (PtInRect(&rcButton, ptMouse))
-		return true;
+	/*cout << "스레 : " << rcButton.left << "스탑 : " << rcButton.top << "스라 : " << rcButton.right << "스바 : " << rcButton.bottom << endl;
+	cout << "---------------------------------------------------------" << endl;
+	cout << "마엑 : " << ptMouse.x << "마와 : " << ptMouse.y << endl;*/
 
-	return false;
+	if (PtInRect(&rcButton, ptMouse))
+	{
+		m_bClick = true;	
+		return m_bClick;
+	}
+
+		return false;
+	
 }
 
 HRESULT CStart_Button::Add_Component(void)

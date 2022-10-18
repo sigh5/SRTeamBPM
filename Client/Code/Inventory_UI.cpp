@@ -6,6 +6,7 @@
 #include "TestPlayer.h"
 #include "ShotGun.h"
 #include "Magnum.h"
+#include "TestWeapon.h"
 
 #include "MyCamera.h"
 #include "Player.h"
@@ -17,6 +18,17 @@ USING(Engine)
 CInventory_UI::CInventory_UI(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CUI_Base(pGraphicDev)
 {
+	
+	ZeroMemory(&m_SlotType, sizeof(ItemSlot));
+	
+	for (_uint i = 0; i < m_iMaxColumn; ++i)
+	{
+		for (_uint j = 0; j < m_iMaxRow; ++j)
+		{
+			m_SlotType.pItem[i][j]= nullptr;
+		}
+	}
+
 }
 
 CInventory_UI::CInventory_UI(const CUI_Base & rhs)
@@ -32,27 +44,116 @@ HRESULT CInventory_UI::Ready_Object()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	Set_OrthoMatrix(250.f, 320.f, 100.f, 100.f);
+	// 슬롯 초기값
+	m_fSlotX = 45.f; // 슬롯 한 칸의 X(가로) 크기
+	m_fSlotY = 65.f; // 슬롯 한 칸의 Y(세로) 크기
+	m_SlotType.ItemSlotSize[0][0] = {-210.5f, 23.5f}; // 첫 번째 슬롯의 중점 위치
+	
+
+	// ~슬롯 초기값
+
+	Set_OrthoMatrix(512.f, 512.f, 0.f, 0.f);
 
 	m_vecScale = { m_fSizeX, m_fSizeY, 1.f };
 
 	m_pTransCom->Set_Scale(&m_vecScale);
 	m_pTransCom->Set_Pos(m_fX , m_fY , 0.3f);
-	//m_pTransCom->Set_Pos(m_fX - WINCX * 0.5f, -m_fY + WINCY * 0.5f, 0.2f);
-											// 120.f
+	
 	return S_OK;
 }
 
 _int CInventory_UI::Update_Object(const _float & fTimeDelta)
-{
-	/*if (0 != m_vecWeaponType.size())
+{	
+	// 무기를 획득시 
+
+	if (m_bItemInfoAdd)
 	{
-		for (_uint i = 0; i < 5; ++i)
+		if (!m_vecWeaponType.empty())
 		{
-			
+			m_SlotType.pItem[iIndexColumn][iIndexRow] = m_stackWeapon.top();
+
+			if (m_SlotType.pItem[iIndexColumn][iIndexRow] != nullptr)
+			{
+				iIndexRow += 1;
+
+				if (iIndexRow >= 9)
+				{
+					iIndexColumn += 1;
+					iIndexRow = 0;
+				}
+				m_bItemInfoAdd = false;
+				m_vecWeaponType.clear();
+			}
+
 		}
+	}
+		//cout << "벡터에 들어오는가 : " << m_vecWeaponType.size() << "스택 top :" << m_stackWeapon.size() << endl;
+	
+	
+	// i가 세로(4) , j가 가로(9) , 슬롯의 가로 세로 중점 위치를 알기 위한 이중 for문
+	
+	for (_uint i = 0; i < m_iMaxColumn; ++i)
+	{
+		for (_uint j = 0; j < m_iMaxRow; ++j)
+		{		
+			if (i != 0 && j == 0)
+			{			
+				m_SlotType.ItemSlotSize[i][j].y += (_float)(67 * i);
+			}
+
+			if (i == 0 && j != 0)
+			{				
+				m_SlotType.ItemSlotSize[i][j].x += (_float)(47 * j);
+			}
+
+			if (m_SlotType.pItem[i][j] != nullptr)
+			{
+				CTransform* pTransform = nullptr;
+
+				pTransform = dynamic_cast<CTransform*>((m_SlotType.pItem[i][j]->Get_Component(L"Proto_TransformCom", ID_DYNAMIC)));
+				
+				pTransform->Set_Pos(m_SlotType.ItemSlotSize[i][j].x, m_SlotType.ItemSlotSize[i][j].y, 0.f);
+
+				CShotGun* pShotgun = static_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"));
+											
+				if (pShotgun->Get_bPicking() == true)
+				{
+					_vec3 vecShotPos;
+
+					CTransform* pShotTransform = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"ShotGun", L"Proto_TransformCom", ID_DYNAMIC));
+					pShotTransform->Get_Info(INFO_POS, &vecShotPos);
+
+					pTransform->Set_Pos(vecShotPos.x, vecShotPos.y, 0.f);
+				}
+				
+			}
+
+		}
+	}
+	
+
+	/*if (m_SlotType.pItem[0][0] != nullptr)
+	{
+		CTransform* pTransform = nullptr;
+
+		pTransform = dynamic_cast<CTransform*>((m_SlotType.pItem[0][0]->Get_Component(L"Proto_TransformCom", ID_DYNAMIC)));
+
+		CShotGun* pShotgun = static_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"));
+
+		if(!pShotgun->Get_bPicking())
+		pTransform->Set_Pos(m_SlotType.ItemSlotSize[0][0].x, m_SlotType.ItemSlotSize[0][0].y, 0.f);
+
+		else
+		{
+			_vec3 vecShotPos;
+
+			CTransform* pShotTransform = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"ShotGun", L"Proto_TransformCom", ID_DYNAMIC));
+			pShotTransform->Get_Info(INFO_POS, &vecShotPos);
+
+			pTransform->Set_Pos(vecShotPos.x, vecShotPos.y, 0.f);
+		}
+			
 	}*/
-	//cout << m_vecWeaponType.size() << endl;
 
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
@@ -63,21 +164,7 @@ _int CInventory_UI::Update_Object(const _float & fTimeDelta)
 
 void CInventory_UI::LateUpdate_Object(void)
 {
-	//RECT		rcUI = { m_fX - m_fSizeX * 0.5f, m_fY - m_fSizeY  *0.5f, m_fX + m_fSizeX * 3.5f, m_fY + m_fSizeY * 2.5f };//rcUI = { m_fX - m_fSizeX, m_fY - m_fSizeY, m_fX + m_fSizeX * 1.5f, m_fY + m_fSizeY * 1.5f };
-	////RECT		rcUI = { m_fX - m_fSizeX * 1.5f, m_fY - m_fSizeY  *1.5f, m_fX + m_fSizeX * 1.5f, m_fY + m_fSizeY * 1.5f };
-	//
-	//POINT		ptMouse;
-	//GetCursorPos(&ptMouse);
-	//ScreenToClient(g_hWnd, &ptMouse);
-	//
-	//if (PtInRect(&rcUI, ptMouse) && (Get_DIMouseState(DIM_LB) & 0x80))
-	//{
-	//	//MSG_BOX("충돌");		
-	//	m_pTransCom->Set_Pos((_float)ptMouse.x -(WINCX * 0.5f), (_float)ptMouse.y - (WINCY * 0.5f), 0.2f);
-	//
-	//	cout << "마우스 위치 : " << ptMouse.x << "//" << ptMouse.y << endl;
-	//}
-	
+	CGameObject::LateUpdate_Object();
 }
 
 void CInventory_UI::Render_Obejct(void)
@@ -127,7 +214,6 @@ void CInventory_UI::Render_Obejct(void)
 		{
 			m_pTextureCom->Set_Texture(0);
 			m_pBufferCom->Render_Buffer();
-			//	Find_Equip_Item();
 		}
 
 		m_pGraphicDev->SetTransform(D3DTS_VIEW, &OldViewMatrix);

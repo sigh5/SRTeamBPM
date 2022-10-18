@@ -107,6 +107,9 @@
     <ClCompile Include="..\Code\Base_Effect.cpp">
       <Filter>01. GameObject\Effect</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\WreckBase.cpp">
+      <Filter>01. GameObject\Wreck</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Header\Animation.h">
@@ -224,6 +227,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Header\Base_Effect.h">
       <Filter>01. GameObject\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Header\WreckBase.h">
+      <Filter>01. GameObject\Wreck</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -349,6 +355,9 @@
     </Filter>
     <Filter Include="01. GameObject\Effect">
       <UniqueIdentifier>{cfa469d6-aacd-4a00-bc1f-df315c6340a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. GameObject\Wreck">
+      <UniqueIdentifier>{ec78b969-c33d-4e70-926e-fc0d8af99a89}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

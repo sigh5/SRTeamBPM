@@ -26,7 +26,7 @@ public:
 	void			Add_GhulList(CGameObject* pGhul);
 	void			Add_ObeliskList(CGameObject* pObelisk);
 	void			Add_vecColliderMonster(CMonsterBase* pMonster);
-
+	void			Add_DropItemList(CGameObject* pItem);
 
 	HRESULT			Ready_Layer(void);
 	_int			Update_Layer(const _float& fTimeDelta);
@@ -59,7 +59,8 @@ public:
 	list<CGameObject*>&		Get_ObeliskList() { return m_ObeliskList; }
 	list<CGameObject*>&		Get_ControlRoomList() { return m_ControlRoomList; }
 	list<CGameObject*>&		Get_EffectList() { return m_EffectList; }
-
+	vector<CMonsterBase*>&	Get_vecColliderMonster() { return m_vecColliderMonster; }
+	list<CGameObject*>&		Get_DropItemList() { return m_DropItemList; }
 
 	void					Add_ControlRoomList(CGameObject* pControlRoom) { m_ControlRoomList.push_back(pControlRoom); }
 	void					Add_EffectList(CGameObject* pEffectObject) { m_EffectList.push_back(pEffectObject); }
@@ -80,7 +81,7 @@ private:
 	list<CGameObject*>	m_ObeliskList;
 	vector<CMonsterBase*> m_vecColliderMonster;
 	list<CGameObject*>  m_ControlRoomList;
-
+	list<CGameObject*>	m_DropItemList;
 
 
 	list<_tchar* > NameList;

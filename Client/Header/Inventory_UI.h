@@ -14,8 +14,17 @@ class CAnimation;
 class CCollider;
 
 class CEquipmentBase;
+class CGameObject;
 
 END
+
+typedef struct TagItemSlot
+{
+	_vec2	ItemSlotSize[4][9];	// 슬롯 갯수 및 몇 번 슬롯인지를 알기 위한 변수
+
+	CGameObject* pItem[4][9];			// 실질적인 담긴 아이템 정보
+	
+}ItemSlot;
 
 class CInventory_UI : public CUI_Base
 {
@@ -33,6 +42,14 @@ public:
 
 	_bool				Get_InvenSwitch(void) { return m_bInvenSwitch; }
 
+	void				Set_ItemInfoAdd(_bool _bItemInfoAdd) { m_bItemInfoAdd = _bItemInfoAdd; }
+
+	ItemSlot*			Get_ItemSlot(void) { return &m_SlotType; }
+
+
+	_uint				Get_MaxRow(void) { return m_iMaxRow; }
+	_uint				Get_MaxColumn(void) { return m_iMaxColumn; }
+
 private:
 	HRESULT				Add_Component(void);
 	
@@ -46,15 +63,32 @@ public:
 	CCollider*			m_pColliderCom = nullptr;
 
 private:
-	_vec3				m_vecScale;
+	_vec3						m_vecScale;
 
-	_bool				m_bInvenSwitch = false;
+	_bool						m_bInvenSwitch = false;	
+	vector<CGameObject*>		m_vecWeaponType;
 
-	vector<CEquipmentBase*>		m_vecWeaponType;
-	
+	// 인벤토리 내 아이템 피킹 및 칸에 들어가기 위한 변수
+
+	// 2중 for문 용
+	_uint		m_iMaxRow = 9; // '행'. 가로 칸 갯수
+	_uint		m_iMaxColumn = 4; // '열'. 세로 칸 갯수
+
+	// 슬롯 1칸의 X, Y
+	_float		m_fSlotX = 0.f;
+	_float		m_fSlotY = 0.f;
+
+	ItemSlot	m_SlotType;
+	stack<CGameObject*>		m_stackWeapon;
+
+	_uint iIndexRow = 0;
+	_uint iIndexColumn = 0;
+
+	_bool		m_bItemInfoAdd = false;
+
 public:
-	vector<CEquipmentBase*>*	Get_WeaponType(void) { return &m_vecWeaponType; }
-
+	vector<CGameObject*>*	Get_WeaponType(void) { return &m_vecWeaponType; }
+	stack<CGameObject*>*	Get_Weapon(void) { return &m_stackWeapon; }
 public:
 	static CInventory_UI*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
 	virtual void				Free();

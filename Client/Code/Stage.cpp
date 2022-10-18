@@ -15,6 +15,7 @@
 #include "Box.h"
 #include "HealthPotion.h"
 #include "ShotGun.h"
+#include "Magnum.h"
 #include "HpBar.h"
 
 #include "CoinKeyUI.h"
@@ -150,6 +151,9 @@ void CStage::LateUpdate_Scene(void)
 		}
 	}
 
+	for (auto iter : (pLayer->Get_DropItemList()))
+		iter->Collision_Event();
+
 	pLayer = GetLayer(L"Layer_CubeCollsion");
 
 	for (auto iter = pLayer->Get_GameObjectMap().begin(); iter != pLayer->Get_GameObjectMap().end(); ++iter)
@@ -278,6 +282,8 @@ HRESULT CStage::Ready_Layer_UI(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Dead_UI", pGameObject), E_FAIL);
 
+	
+
 	m_mapLayer.insert({ pLayerTag, pLayer });
 
 
@@ -290,7 +296,7 @@ HRESULT CStage::Ready_Layer_Icon(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 
 	CGameObject*		pGameObject = nullptr;
-	CTestPlayer*		pPlayer = dynamic_cast<CTestPlayer*>(Get_GameObject(L"Layer_GameLogic", L"TestPlayer"));
+	CPlayer*		pPlayer = dynamic_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"));
 
 	pGameObject = CBullet_UI::Create(m_pGraphicDev, pPlayer);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
