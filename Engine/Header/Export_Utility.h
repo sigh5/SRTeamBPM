@@ -25,7 +25,7 @@
 #include "UI_Base.h"
 #include "EquipmentBase.h"
 #include "Base_Effect.h"
-
+#include "WreckBase.h"
 
 
 
@@ -101,6 +101,7 @@ inline void StopSound(CHANNELID eID);
 inline void	StopAll();
 inline void PlaySlow(TCHAR * pSoundKey, CHANNELID eID, float fVolume, float fRate);
 inline void SetChannelVolume(CHANNELID eID, float fVolume);
+inline bool MyChannelPlayCheck(CHANNELID eID);
 inline void LoadSoundFile();
 inline void Initialize();
 

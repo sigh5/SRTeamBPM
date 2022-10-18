@@ -4,6 +4,13 @@
 #include "Export_Function.h"
 #include "AbstractFactory.h"
 #include "MyCamera.h"
+#include "EarthSpike.h"
+#include "HitEffect.h"
+#include "Player.h"
+#include "Gun_Screen.h"
+#include "Special_Effect.h"
+#include "Coin.h"
+#include "Key.h"
 
 CEarthShaker::CEarthShaker(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -15,7 +22,7 @@ CEarthShaker::~CEarthShaker()
 {
 }
 
-HRESULT CEarthShaker::Ready_Object(float Posx, float Posy, float Size)
+HRESULT CEarthShaker::Ready_Object(float Posx, float Posy)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
@@ -36,34 +43,47 @@ HRESULT CEarthShaker::Ready_Object(float Posx, float Posy, float Size)
 	
 	m_pInfoCom->Ready_CharacterInfo(4, 10, 3.f);
 
-	m_fAttackDelay = 0.3f;
+	m_fAttackDelay = 0.1f;
 	m_bDead = false;
 	m_fHitDelay = 0.f;
+	m_fInterval = 1.9f;
 
-	
-	if (Size != 0)
-	{
-		m_pDynamicTransCom->Set_Scale(&_vec3(Size, Size, Size));
-	}
-	else
-	{
-		m_pDynamicTransCom->Set_Scale(&_vec3(1.f, 1.f, 1.f));
-	}
+	m_fWaitingTime = 0.35f;
+	m_fSoundInterval = 1.5f;
+
+	m_pDynamicTransCom->Set_Scale(&_vec3(6.f, 7.f, 6.f));
+
 	if (Posx == 0 && Posy == 0) {}
 	else
 	{
-		m_pDynamicTransCom->Set_Pos((_float)Posx, 1.f, (_float)Posy);
+		m_pDynamicTransCom->Set_Pos((_float)Posx, m_pDynamicTransCom->m_vScale.y * 0.5f, (_float)Posy);
 	}
-	
-	m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, 0.1f);// 임시
-	m_pDynamicTransCom->Update_Component(1.f);
 	Save_OriginPos();
+	m_pDynamicTransCom->Update_Component(1.f);
+
+	// ControlRoom
+	_vec3 vPos, vScale;
+	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+	vScale = m_pDynamicTransCom->Get_Scale();
+	m_pColliderCom->Set_vCenter(&vPos, &vScale);
+	// ~ControlRoom
+
 	return S_OK;
 }
 
 _int CEarthShaker::Update_Object(const _float & fTimeDelta)
 {
+	//Control Room
+	_matrix matWorld;
+	_vec3 vScale;
+	vScale = m_pDynamicTransCom->Get_Scale();
+	m_pDynamicTransCom->Get_WorldMatrix(&matWorld);
+	m_pColliderCom->Set_HitBoxMatrix_With_Scale(&matWorld, vScale);
+	//~Control Room
 
+	
+	SpikeUpdateLoop(fTimeDelta);
+	m_pDynamicTransCom->Set_Y(m_pDynamicTransCom->m_vScale.y * 0.5f);
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 	if (Distance_Over())
 	{
@@ -72,7 +92,7 @@ _int CEarthShaker::Update_Object(const _float & fTimeDelta)
 
 		return 0;
 	}
-	if (Dead_Judge(fTimeDelta)) //깡통
+	if (Dead_Judge(fTimeDelta))
 	{
 		return 0;
 	}
@@ -90,13 +110,15 @@ _int CEarthShaker::Update_Object(const _float & fTimeDelta)
 	{
 		Hit_Loop(fTimeDelta);
 	}
-	// 임시로 추가한 y값
-	m_pDynamicTransCom->Set_Y(3.f);
-	
-	Excution_Event();
 
+
+	
+
+	m_pDynamicTransCom->Update_Component(fTimeDelta);
 	Engine::CMonsterBase::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
+
+	
 
 	return 0;
 }
@@ -135,6 +157,7 @@ void CEarthShaker::LateUpdate_Object(void)
 	m_pDynamicTransCom->Set_WorldMatrix(&(matWorld));
 
 	// 빌보드 에러 해결
+	Add_ColliderMonsterlist();
 	Engine::CMonsterBase::LateUpdate_Object();
 }
 
@@ -171,13 +194,81 @@ void CEarthShaker::Render_Obejct(void)
 
 void CEarthShaker::Collision_Event()
 {
+	CScene  *pScene = ::Get_Scene();
+	NULL_CHECK_RETURN(pScene, );
+	CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+	NULL_CHECK_RETURN(pLayer, );
+	CGameObject *pGameObject = nullptr;
+	pGameObject = static_cast<CGun_Screen*>(::Get_GameObject(L"Layer_UI", L"Gun"));
+	_vec3	vPos;
+	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+
+	_vec3 PickPos;
+
+	if (static_cast<CGun_Screen*>(pGameObject)->Get_Shoot() == true &&
+		fMtoPDistance < MAX_CROSSROAD &&
+		m_pColliderCom->Check_Lay_InterSect(m_pBufferCom, m_pDynamicTransCom, g_hWnd))
+	{
+		m_bHit = true;
+		static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"))->Set_ComboCount(1);
+		m_pInfoCom->Receive_Damage(1);
+		cout << "EarthShaker" << m_pInfoCom->Get_InfoRef()._iHp << endl;
+		static_cast<CGun_Screen*>(pGameObject)->Set_Shoot(false);
+
+		READY_CREATE_EFFECT_VECTOR(pGameObject, CHitEffect, pLayer, m_pGraphicDev, vPos);
+		static_cast<CHitEffect*>(pGameObject)->Set_Effect_INFO(OWNER_EARTHSHAKER, 0, 7, 0.2f);
+	
+		if (false == m_bDead)
+		{
+			_int Hitsound = rand() % 3;
+			switch (Hitsound)
+			{
+			case 0:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Croccman_pain_01.wav", SOUND_MONSTER, 0.4f);
+				break;
+
+			case 1:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Croccman_pain_02.wav", SOUND_MONSTER, 0.4f);
+				break;
+
+			case 2:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Croccman_pain_03.wav", SOUND_MONSTER, 0.4f);
+				break;
+			}
+		}
+	}
+
 }
 
 bool CEarthShaker::Dead_Judge(const _float & fTimeDelta)
 {
 	if (0 >= m_pInfoCom->Get_Hp())
 	{
-		m_bDead = true;
+		if (false == m_bDead)
+		{
+			_int Hitsound = rand() % 3;
+			switch (Hitsound)
+			{
+			case 0:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Croccman_death_01.wav", SOUND_MONSTER, 0.4f);
+				break;
+			case 1:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Croccman_death_02.wav", SOUND_MONSTER, 0.4f);
+				break;
+
+			case 2:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Croccman_death_03.wav", SOUND_MONSTER, 0.4f);
+				break;
+			}
+			Drop_Item(rand() % 3);
+			m_bDead = true;
+		}
 		//Safe_Release(m_pAttackAnimationCom);
 	}
 	if (m_bDead)
@@ -219,13 +310,45 @@ void		CEarthShaker::Attack(const _float& fTimeDelta)
 {
 	Ready_Attack(fTimeDelta);
 	m_pAttackAnimationCom->Move_Animation(fTimeDelta);
+	if (1 == m_pAttackAnimationCom->m_iMotion)
+	{
+		if (false == m_bDead && false == m_bAttackSound)
+		{
+			_int Hitsound = rand() % 3;
+			switch (Hitsound)
+			{
+			case 0:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Croccman_attack_01.wav", SOUND_MONSTER, 0.5f);
+				break;
+
+			case 1:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Croccman_attack_02.wav", SOUND_MONSTER, 0.5f);
+				break;
+
+			case 2:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Croccman_attack_02.wav", SOUND_MONSTER, 0.5f);
+				break;
+			}
+			m_bAttackSound = true;
+		}
+	}
 	if (m_pAttackAnimationCom->m_iMotion == 2)
 	{
+		
 		if (0 < m_iReadyAttackNumber)
 		{
 			m_pAttackAnimationCom->m_iMotion = 0;
 			--m_iReadyAttackNumber;
+			if (false == m_bReadyAttackNumber)
+			{
+				++m_iAttacknumber;
+				m_bAttackSound = false;
+			}
 		}
+		
 		if (m_iReadyAttackNumber == 0)
 		{
 			if (m_bAttackWaiting == false)
@@ -234,15 +357,107 @@ void		CEarthShaker::Attack(const _float& fTimeDelta)
 				m_bAttackWaiting = true;
 			}
 		}
+		
 	}
-	if (m_pAttackAnimationCom->m_iMotion == 5)
+	if (m_pAttackAnimationCom->m_iMotion == 3)
 	{
-		//땅을 찍는 순간 플레이어의 점프 상태를 검사
+		if (false == m_bQoongSound)
+		{
+			::StopSound(SOUND_MONSTER);
+			::PlaySoundW(L"Qoong.wav", SOUND_MONSTER, 0.4f);
+			m_bQoongSound = true;
+		}
+	}
+	if (m_pAttackAnimationCom->m_iMotion == 4)
+	{
+		m_bReadyAttackNumber = true;
+		if (false == m_bSpikeCreate)
+		{
+			_vec3 ShakerPos, vDir, vPlayerRight;
+			m_pDynamicTransCom->Get_Info(INFO_POS, &ShakerPos);
+			vDir = m_vPlayerPos - ShakerPos;
+			D3DXVec3Normalize(&vDir, &vDir);
+			D3DXVec3Cross(&vPlayerRight, &_vec3(0.f, 1.f, 0.f), &vDir);
+
+			dynamic_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"))->Set_ShakeCheck(true);
+			CEarthSpike* pSpike;
+			for (int i = 1; i < 16; ++i)
+			{
+				pSpike = CEarthSpike::Create(m_pGraphicDev, m_fWaitingTime * i, ShakerPos.x + vDir.x * m_fInterval * i, ShakerPos.z + vDir.z * m_fInterval * i, m_bSpikeType);
+				m_Spikelist.push_back(pSpike);
+			
+				if (m_bSpikeType)
+				{
+					m_bSpikeType = false;
+				}
+				else
+				{
+					m_bSpikeType = true;
+				}
+			}//중앙 스파이크
+
+			for (int i = 1; i < 16; ++i)
+			{
+				pSpike = CEarthSpike::Create(m_pGraphicDev, m_fWaitingTime * i, ShakerPos.x + vDir.x * m_fInterval * i + vPlayerRight.x * i * 0.25f, ShakerPos.z + vDir.z * m_fInterval * i + vPlayerRight.z * i * 0.25f, m_bSpikeType);
+				m_Spikelist.push_back(pSpike);
+				if (m_bSpikeType)
+				{
+					m_bSpikeType = false;
+				}
+				else
+				{
+					m_bSpikeType = true;
+				}
+			}
+			for (int i = 1; i < 16; ++i)
+			{
+				pSpike = CEarthSpike::Create(m_pGraphicDev, m_fWaitingTime * i, ShakerPos.x + vDir.x * m_fInterval * i - vPlayerRight.x * i * 0.25f, ShakerPos.z + vDir.z * m_fInterval * i - vPlayerRight.z * i * 0.25f, m_bSpikeType);
+				m_Spikelist.push_back(pSpike);
+				if (m_bSpikeType)
+				{
+					m_bSpikeType = false;
+				}
+				else
+				{
+					m_bSpikeType = true;
+				}
+			}
+			for (int i = 1; i < 16; ++i)
+			{
+				pSpike = CEarthSpike::Create(m_pGraphicDev, m_fWaitingTime * i, ShakerPos.x + vDir.x * m_fInterval * i + vPlayerRight.x * i * 0.5f, ShakerPos.z + vDir.z * m_fInterval * i + vPlayerRight.z * i * 0.5f, m_bSpikeType);
+				m_Spikelist.push_back(pSpike);
+				if (m_bSpikeType)
+				{
+					m_bSpikeType = false;
+				}
+				else
+				{
+					m_bSpikeType = true;
+				}
+			}
+			for (int i = 1; i < 16; ++i)
+			{
+				pSpike = CEarthSpike::Create(m_pGraphicDev, m_fWaitingTime * i, ShakerPos.x + vDir.x * m_fInterval * i - vPlayerRight.x * i * 0.5f, ShakerPos.z + vDir.z * m_fInterval * i - vPlayerRight.z * i * 0.5f, m_bSpikeType);
+				m_Spikelist.push_back(pSpike);
+				if (m_bSpikeType)
+				{
+					m_bSpikeType = false;
+				}
+				else
+				{
+					m_bSpikeType = true;
+				}
+			}
+			m_bSpikeCreate = true;
+			--m_iAttacknumber;
+		}
+		
 
 		if (0 < m_iAttacknumber)
 		{
 			m_pAttackAnimationCom->m_iMotion = 2;
-			--m_iAttacknumber;
+			m_bSpikeCreate = false;
+			m_bQoongSound = false;
 		}
 	}
 	if (m_pAttackAnimationCom->m_iMotion == 7)
@@ -258,6 +473,11 @@ void		CEarthShaker::Attack(const _float& fTimeDelta)
 		m_bAttack = false;
 		m_bReady_Attack = false;
 		m_bAttackWaiting = false;
+		m_iAttacknumber = 0;
+		m_iReadyAttackNumber = 0;
+		m_bSpikeCreate = false;
+		m_bReadyAttackNumber = false;
+		m_bQoongSound = false;
 	}
 
 	//팔을 치켜 올린 만큼 공격
@@ -269,18 +489,18 @@ void	CEarthShaker::Ready_Attack(const _float& fTimeDelta)
 	if (m_bReady_Attack == false)
 	{
 		m_bReady_Attack = true;
-		m_iAttacknumber = 1 + rand() % 3;
-		m_iReadyAttackNumber = m_iAttacknumber - 1;
+		m_iReadyAttackNumber = 1 + rand() % 3;
+
 		m_iDefenseless = m_iReadyAttackNumber;
+		
 	}
 }
 void CEarthShaker::NoHit_Loop(const _float& fTimeDelta)
 {
 	// 거리
-	if (20.f >  fMtoPDistance  && fMtoPDistance > 10.f && m_bAttacking == false)
+	if (20.f <  fMtoPDistance && m_bAttacking == false)
 	{
 		m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
-		m_pDynamicTransCom->Set_Y(3.f);	// 임시 추가
 
 		m_pAnimationCom->Move_Animation(fTimeDelta);
 	}
@@ -297,12 +517,113 @@ void CEarthShaker::NoHit_Loop(const _float& fTimeDelta)
 	}
 }
 
-CEarthShaker * CEarthShaker::Create(LPDIRECT3DDEVICE9 pGraphicDev, float Posx, float Posy, float Size)
+void CEarthShaker::Excution_Event()
+{
+	if (!m_bDead && 1 >= m_pInfoCom->Get_Hp())
+	{
+		m_pInfoCom->Receive_Damage(1);
+		_vec3	vPos;
+		CGameObject *pGameObject = nullptr;
+		CScene* pScene = Get_Scene();
+		CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+		READY_CREATE_EFFECT_VECTOR(pGameObject, CSpecial_Effect, pLayer, m_pGraphicDev, vPos);
+		static_cast<CSpecial_Effect*>(pGameObject)->Set_Effect_INFO(OWNER_PALYER, 0, 17, 0.2f);
+
+		::PlaySoundW(L"explosion_1.wav", SOUND_EFFECT, 0.05f); // BGM
+	}
+}
+void	CEarthShaker::SpikeUpdateLoop(const _float& fTimeDelta)
+{
+	float fDistance, fVolume;
+	fDistance = 0.f;
+	fVolume = 0.f;
+	for (auto iter = m_Spikelist.begin(); iter != m_Spikelist.end();)
+	{
+		_int iResult = 0;
+
+		iResult = (*iter)->Update_Object(fTimeDelta);
+		if (iResult == 1)
+		{
+			Safe_Release((*iter));
+			iter = m_Spikelist.erase(iter);
+			//볼륨을 받아서 최대 볼륨만 저장
+			//채널별로 최대 볼륨만 실행
+		}
+		else
+		{
+			if (fDistance > (*iter)->Get_Distance())
+			{
+				fDistance = (*iter)->Get_Distance();
+	}
+			++iter;
+		}
+
+	}
+	if (0 != m_Spikelist.size())
+	{
+		switch(m_iSoundNumber)
+		{
+		case 0:
+			::PlaySoundW(L"CrashRock.wav", SOUND_CRUSHROCK, 0.3f);
+			break;
+		case 1:
+			::PlaySoundW(L"CrashRock2.wav", SOUND_CRUSHROCK2, 0.5f);
+			break;
+		case 2:
+			::PlaySoundW(L"CrashRock3.wav", SOUND_CRUSHROCK3, 0.7f);
+			break;
+		default:
+			::PlaySoundW(L"CrashRock3.wav", SOUND_CRUSHROCK3, 0.7f);
+			break;
+		}
+	}
+	m_fSoundCount += fTimeDelta;
+	if (m_fSoundInterval < m_fSoundCount)
+	{
+		++m_iSoundNumber;
+		m_fSoundCount = 0.f;
+		if (3 <= m_iSoundNumber)
+		{
+			::StopSound(SOUND_CRUSHROCK);
+			::PlaySoundW(L"CrashRock3.wav", SOUND_CRUSHROCK, 0.8f);
+		}
+	}
+	if (0 == m_Spikelist.size())
+	{
+		m_iSoundNumber = 0;
+	}
+	//::SetChannelVolume(SOUND_CRUSHROCK, fVolume);
+	//::SetChannelVolume(SOUND_CRUSHROCK2, fVolume);
+	//::SetChannelVolume(SOUND_CRUSHROCK3, fVolume);
+}
+void	CEarthShaker::Drop_Item(int ItemType)
+{
+	CScene  *pScene = ::Get_Scene();
+	CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+	CGameObject* pItem = nullptr;
+	switch (ItemType)
+	{
+	case 0:
+		pItem = CCoin::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS].x, m_pDynamicTransCom->m_vInfo[INFO_POS].z);
+		pLayer->Add_DropItemList(pItem);
+		break;
+
+	case 1:
+		pItem = CKey::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS].x, m_pDynamicTransCom->m_vInfo[INFO_POS].z);
+		pLayer->Add_DropItemList(pItem);
+		break;
+
+	default:
+		break;
+	}
+}
+CEarthShaker * CEarthShaker::Create(LPDIRECT3DDEVICE9 pGraphicDev, float Posx, float Posy)
 {
 	CEarthShaker*	pInstance = new CEarthShaker(pGraphicDev);
 
 
-	if (FAILED(pInstance->Ready_Object(Posx, Posy, Size)))
+	if (FAILED(pInstance->Ready_Object(Posx, Posy)))
 	{
 		Safe_Release(pInstance);
 		return nullptr;
@@ -314,4 +635,9 @@ CEarthShaker * CEarthShaker::Create(LPDIRECT3DDEVICE9 pGraphicDev, float Posx, f
 void CEarthShaker::Free(void)
 {
 	CMonsterBase::Free();
+	for (auto& iter : m_Spikelist)
+	{
+		Safe_Release(iter);
+	}
+	m_Spikelist.clear();
 }

@@ -8,6 +8,7 @@ CTerrainTex::CTerrainTex(LPDIRECT3DDEVICE9 pGraphicDev)
 {
 	ZeroMemory(&m_fH, sizeof(BITMAPFILEHEADER));
 	ZeroMemory(&m_iH, sizeof(BITMAPINFOHEADER));
+	ZeroMemory(&m_vCenter, sizeof(_vec3));
 }
 
 
@@ -19,6 +20,7 @@ Engine::CTerrainTex::CTerrainTex(const CTerrainTex& rhs)
 {
 	memcpy(&m_fH, &rhs.m_fH, sizeof(BITMAPFILEHEADER));
 	memcpy(&m_iH, &rhs.m_iH, sizeof(BITMAPINFOHEADER));
+	memcpy(&m_vCenter, &rhs.m_vCenter, sizeof(_vec3));
 }
 
 CTerrainTex::~CTerrainTex()
@@ -46,9 +48,6 @@ HRESULT CTerrainTex::Ready_Buffer(const _ulong& dwCntX, const _ulong& dwCntZ, co
 
 	D3DXSaveTextureToFile(L"../Bin/Resource/Texture/Test.bmp", D3DXIFF_BMP, pTexture, nullptr);*/
 
-
-
-	
 	m_dwVtxCnt = dwCntX * dwCntZ;
 	m_pPos = new _vec3[m_dwVtxCnt];
 	m_dwTriCnt = (dwCntX - 1) * (dwCntZ - 1) * 2;
@@ -98,6 +97,7 @@ HRESULT CTerrainTex::Ready_Buffer(const _ulong& dwCntX, const _ulong& dwCntZ, co
 		}
 	}
 	
+	m_vCenter = m_pPos[_int(m_dwVtxCnt*0.5)];
 	Safe_Delete_Array(pPixel);
 
 	_ulong dwTriCnt = 0;

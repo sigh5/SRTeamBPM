@@ -34,17 +34,22 @@ private:
 	_bool			m_bCheck = true;
 public:
 	_int			Get_BillBoardDir() { return m_iBillBoardDir; }
-
 	void			Set_CamDistance(_float fDistance) {m_fDistance = fDistance;}
-
 	void			Set_Excution(_bool bExcution) { m_bExecution = bExcution; }
-	
 	void			Set_PlayerHit(_bool bHitCameraCam) { m_bPlayerHit = bHitCameraCam; }
 
+
+public: 
+	const _bool&	Get_InventroyActive() { return m_bInventroyActive; }
+	void			Set_inventroyActive(_bool  bInventroyActive) { m_bInventroyActive = bInventroyActive; }
+
+	void			Set_PlayerDeadCam(_bool bEvent) { m_bPlayerDead = bEvent; }
+	_float			m_fOriginAngle = 0.f;
 public:
 	const _bool&   Get_InventroyActive() { return m_bInventroyActive; }
 	void         Set_inventroyActive(_bool  bInventroyActive) { m_bInventroyActive = bInventroyActive; }
 
+	void			Set_ShakeCheck(_bool bShake) { m_bEarthShake = bShake; }
 
 private:
 	_bool			m_bExecution = false;
@@ -65,7 +70,13 @@ private:
 	_int			m_iBillBoardDir = 0;	// 0 왼쪽 1 오른쪽
 
 	_float			m_fFrame = 0.f;
+	_bool			m_bInventroyActive = false;
 
+	_bool			m_bPlayerDead = false;
+	_float			m_fDeadTimer=0.f;
+	
+	_bool			m_bEarthShake = false;
+	_float			m_fShakeTimer = 0.f;
 	// 추가
 	_bool         m_bInventroyActive = false;
 

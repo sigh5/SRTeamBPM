@@ -126,13 +126,10 @@ _int CShotGun::Update_Object(const _float & fTimeDelta)
 void CShotGun::LateUpdate_Object(void)
 {
 	// MyCamera를 통한 빌보드
-
-	if (!m_bRenderControl && !m_bRenderFalse)
-	{
-		CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
-		NULL_CHECK(pCamera);
-
-		_matrix		matWorld, matView, matBill;
+	CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
+	NULL_CHECK(pCamera);
+	
+	_matrix		matWorld, matView, matBill;
 
 		m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
 		D3DXMatrixIdentity(&matBill);
@@ -157,10 +154,10 @@ void CShotGun::LateUpdate_Object(void)
 			vPos.y,
 			vPos.z);
 
-		D3DXMatrixIdentity(&matWorld);
-		matWorld = matScale* matRot * matBill * matTrans;
-		m_pTransCom->Set_WorldMatrix(&(matWorld));
-	}
+	D3DXMatrixIdentity(&matWorld);
+	matWorld = matScale* matRot * matBill * matTrans;
+	m_pTransCom->Set_WorldMatrix(&(matWorld));
+
 }
 
 void CShotGun::Render_Obejct(void)

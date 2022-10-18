@@ -10,8 +10,8 @@
 
 
 #include "HitEffect.h"
-
-
+#include "Special_Effect.h"
+#include "SoundMgr.h"
 
 CGhul::CGhul(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -23,7 +23,7 @@ CGhul::~CGhul()
 {
 }
 
-HRESULT CGhul::Ready_Object(int Posx, int Posy)
+HRESULT CGhul::Ready_Object(float Posx, float Posy)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
@@ -43,24 +43,41 @@ HRESULT CGhul::Ready_Object(int Posx, int Posy)
 	m_pDigoutAnimationCom->Ready_Animation(17, 0, 0.3f);
 	m_pAttackAnimationCom->Ready_Animation(13, 0, 0.2f);
 	m_pDeadAnimationCom->Ready_Animation(11, 0, 0.2f);
-	m_pInfoCom->Ready_CharacterInfo(5, 10, 1.f);
+	m_pInfoCom->Ready_CharacterInfo(1, 10, 1.f);
 
 	m_iMonsterIndex = MONSTER_GHUL;
 	m_fHitDelay = 0.f;
 	m_fAttackDelay = 0.5f;
-
+	m_pDynamicTransCom->Set_Scale(&_vec3(4.f, 4.f, 4.f));
 	if (Posx == 0 && Posy == 0) {}
 	else
 	{
-		m_pDynamicTransCom->Set_Pos((float)Posx, 1.f, (float)Posy);
+		m_pDynamicTransCom->Set_Pos((float)Posx, m_pDynamicTransCom->m_vScale.y * 0.5f, (float)Posy);
 	}
 	m_pDynamicTransCom->Update_Component(1.f);
 	Save_OriginPos();
+	
+	// ControlRoom
+	_vec3 vPos, vScale;
+	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+	vScale =  m_pDynamicTransCom->Get_Scale();
+	m_pColliderCom->Set_vCenter(&vPos, &vScale);
+	// ~ControlRoom
+	
 	return S_OK;
 }
 
 _int CGhul::Update_Object(const _float & fTimeDelta)
 {
+	// Cotrol Room
+	_matrix matWorld;
+	_vec3 vScale;
+	vScale = m_pDynamicTransCom->Get_Scale();
+	m_pDynamicTransCom->Get_WorldMatrix(&matWorld);
+	m_pColliderCom->Set_HitBoxMatrix_With_Scale(&matWorld, vScale);
+	// ~Cotrol Room
+
+	m_pDynamicTransCom->Set_Y(m_pDynamicTransCom->m_vScale.y * 0.5f);
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 	if (Distance_Over())
 	{
@@ -90,10 +107,10 @@ _int CGhul::Update_Object(const _float & fTimeDelta)
 		Hit_Loop(fTimeDelta);
 	}
 
-	Excution_Event();
 
+	
 
-
+	m_pDynamicTransCom->Update_Component(fTimeDelta);
 	Engine::CMonsterBase::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
 
@@ -117,7 +134,7 @@ void CGhul::LateUpdate_Object(void)
 		D3DXMatrixInverse(&matBill, 0, &matBill);
 
 		_matrix      matScale, matTrans;
-		D3DXMatrixScaling(&matScale, 2.f, 2.f, 2.f);
+		D3DXMatrixScaling(&matScale, m_pDynamicTransCom->m_vScale.x, m_pDynamicTransCom->m_vScale.y, m_pDynamicTransCom->m_vScale.z);
 
 		_matrix      matRot;
 		D3DXMatrixIdentity(&matRot);
@@ -137,6 +154,8 @@ void CGhul::LateUpdate_Object(void)
 
 		// 빌보드 에러 해결
 	}
+
+	Add_ColliderMonsterlist();
 	Engine::CMonsterBase::LateUpdate_Object();
 }
 
@@ -204,8 +223,47 @@ void CGhul::Collision_Event()
 		static_cast<CGun_Screen*>(pGameObject)->Set_Shoot(false);
 
 		READY_CREATE_EFFECT_VECTOR(pGameObject, CHitEffect, pLayer, m_pGraphicDev, vPos);
-		static_cast<CHitEffect*>(pGameObject)->Set_Effect_INFO(OWNER_GHUL, 0, 8, 0.2f);
+		static_cast<CHitEffect*>(pGameObject)->Set_Effect_INFO(OWNER_GHUL, 0, 7, 0.2f);
 
+
+		if (false == m_bDead)
+		{
+			_int Hitsound = rand() % 3;
+			switch (Hitsound)
+			{
+			case 0:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"zombie_pain_01.wav", SOUND_MONSTER, 0.4f);
+				break;
+
+			case 1:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"zombie_pain_02.wav", SOUND_MONSTER, 0.4f);
+				break;
+
+			case 2:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"zombie_pain_03.wav", SOUND_MONSTER, 0.4f);
+				break;
+			}
+		}
+	}
+}
+
+void CGhul::Excution_Event()
+{
+	if (!m_bDead && 1 >= m_pInfoCom->Get_Hp())
+	{
+		m_pInfoCom->Receive_Damage(1);
+		_vec3	vPos;
+		CGameObject *pGameObject = nullptr;
+		CScene* pScene = Get_Scene();
+		CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+		READY_CREATE_EFFECT_VECTOR(pGameObject, CSpecial_Effect, pLayer, m_pGraphicDev, vPos);
+		static_cast<CSpecial_Effect*>(pGameObject)->Set_Effect_INFO(OWNER_PALYER, 0, 17, 0.2f);
+		
+		::PlaySoundW(L"explosion_1.wav", SOUND_EFFECT, 0.05f); // BGM
 	}
 }
 
@@ -213,7 +271,26 @@ bool CGhul::Dead_Judge(const _float & fTimeDelta)
 {
 	if (0 >= m_pInfoCom->Get_Hp())
 	{
-		m_bDead = true;
+		if (false == m_bDead)
+		{
+			_int Hitsound = rand() % 3;
+			switch (Hitsound)
+			{
+			case 0:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"zombie_death_01.wav", SOUND_MONSTER, 0.4f);
+				break;
+			case 1:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"zombie_death_02.wav", SOUND_MONSTER, 0.4f);
+				break;
+			case 2:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"zombie_death_03.wav", SOUND_MONSTER, 0.4f);
+				break;
+			}
+			m_bDead = true;
+		}
 		//Safe_Release(m_pAttackAnimationCom);
 	}
 	if (m_bDead)
@@ -233,7 +310,7 @@ bool CGhul::Dead_Judge(const _float & fTimeDelta)
 void CGhul::NoHit_Loop(const _float & fTimeDelta)
 {
 	if(m_bCanWalk)
-	if (15.f > fMtoPDistance &&   fMtoPDistance > 6.f && m_bAttacking == false)
+	if (6.f < fMtoPDistance  && m_bAttacking == false)
 	{
 		m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
 
@@ -298,17 +375,38 @@ void CGhul::Attack(const _float & fTimeDelta)
 	CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
 	float Distance;
 	Get_MonsterToPlayer_Distance(&Distance);
-
+	if (5 == m_pAttackAnimationCom->m_iMotion)
+	{
+		if (false == m_bAttackSound)
+		{
+			_int Hitsound = rand() % 3;
+			switch (Hitsound)
+			{
+			case 0:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"zombie_attack_01.wav", SOUND_MONSTER, 0.4f);
+				break;
+			case 1:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"zombie_attack_02.wav", SOUND_MONSTER, 0.4f);
+				break;
+			case 2:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"zombie_attack_03.wav", SOUND_MONSTER, 0.4f);
+				break;
+			}
+		}
+	}
 	if (6 == m_pAttackAnimationCom->m_iMotion)
 	{
-		if (2.5f > Distance)
+		if (7.f > Distance)
 		{
 			pPlayerInfo->Receive_Damage(m_pInfoCom->Get_AttackPower());
 		}
 	}
 	if (9 == m_pAttackAnimationCom->m_iMotion)
 	{
-		if (2.5f > Distance)
+		if (7.f > Distance)
 		{
 			pPlayerInfo->Receive_Damage(m_pInfoCom->Get_AttackPower());
 		}
@@ -323,6 +421,27 @@ void CGhul::Attack(const _float & fTimeDelta)
 void CGhul::DigOut(const _float& fTimeDelta)
 {
 	m_pDigoutAnimationCom->Move_Animation(fTimeDelta);
+	if (false == m_bDigOutSound)
+	{
+		_int Hitsound = rand() % 3;
+		switch (Hitsound)
+		{
+		case 0:
+			::StopSound(SOUND_MONSTER);
+			::PlaySoundW(L"zombie_detect_01.wav", SOUND_MONSTER, 0.4f);
+			break;
+		case 1:
+			::StopSound(SOUND_MONSTER);
+			::PlaySoundW(L"zombie_detect_02.wav", SOUND_MONSTER, 0.4f);
+			break;
+		case 2:
+			::StopSound(SOUND_MONSTER);
+			::PlaySoundW(L"zombie_detect_03.wav", SOUND_MONSTER, 0.4f);
+			break;
+		}
+		m_bDigOutSound = true;
+	}
+	//FMOD_Channel_GetCurrentSound
 	if (11 == m_pDigoutAnimationCom->m_iMotion)
 	{
 		m_bCanDie = true;
@@ -340,7 +459,7 @@ void CGhul::DigOut(const _float& fTimeDelta)
 	}
 }
 
-CGhul * CGhul::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)
+CGhul * CGhul::Create(LPDIRECT3DDEVICE9 pGraphicDev, float Posx, float Posy)
 {
 	CGhul*	pInstance = new CGhul(pGraphicDev);
 

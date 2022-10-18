@@ -23,6 +23,9 @@ public:
 
 private:
 	HRESULT				Add_Component(void);
+public:
+	void				Set_ControlCubeCheck(_bool bEvent){m_bConrolTeleCubeCheck = bEvent;}
+	const _bool&		Get_controlCubeCheck() { return m_bConrolTeleCubeCheck; }
 
 private:
 	CCubeTex*		m_pBufferCom = nullptr;
@@ -30,6 +33,11 @@ private:
 	CTexture*			m_pTextureCom = nullptr;
 
 	_vec3				m_vDirection;
+
+private:
+	// TeleCube Control
+	_bool			m_bConrolTeleCubeCheck = false;
+
 
 public:
 	static CSkyBox*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

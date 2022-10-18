@@ -6,8 +6,12 @@
 #include "FileIOMgr.h"
 #include "ObjectMgr.h"
 #include <crtdbg.h>
+#include "MouseMgr.h"
 
 USING(Engine)
+
+
+
 CMainApp::CMainApp()	
 	: m_pGraphicDev(nullptr)
 {
@@ -21,11 +25,12 @@ CMainApp::~CMainApp()
 
 HRESULT CMainApp::Ready_MainApp(void)
 {
-	srand(time(NULL));
+	
+	srand((unsigned int)time(NULL));
 	_CrtDumpMemoryLeaks();
 	FAILED_CHECK_RETURN(SetUp_DefaultSetting(&m_pGraphicDev), E_FAIL);	
 
-	 //디버그용
+	// 디버그용
 	#ifdef _DEBUG
 	
 		if (::AllocConsole() == TRUE)
@@ -41,12 +46,17 @@ HRESULT CMainApp::Ready_MainApp(void)
 	
 	FAILED_CHECK_RETURN(Ready_Scene(m_pGraphicDev, &m_pManagementClass), E_FAIL);
 	::Initialize();
+	
+	
+	CMouseMgr::GetInstance()->Mouse_Change(m_pGraphicDev, CUSOR_INVENTORY);
+
 	return S_OK;
 }
 
 _int CMainApp::Update_MainApp(const _float & fTimeDelta)
 {
 	// Engine::Update_Input();
+
 
 	Engine::SetUp_InputDev();
 
@@ -154,7 +164,9 @@ HRESULT CMainApp::SetUp_DefaultSetting(LPDIRECT3DDEVICE9 * ppGraphicDev)
 	ImGui_ImplDX9_Init(m_pGraphicDev);
 
 #endif // _DEBUG
-
+	
+	SendMessage(g_hWnd, 27000, (WPARAM)m_pGraphicDev, NULL);
+	
 	return S_OK;
 }
 
@@ -197,6 +209,9 @@ void CMainApp::Free(void)
 #endif // _DEBUG
 	CObjectMgr::GetInstance()->DestroyInstance();
 	CFileIOMgr::GetInstance()->DestroyInstance();
+	CMouseMgr::GetInstance()->DestroyInstance();
+
+
 
 	FreeConsole();
 	

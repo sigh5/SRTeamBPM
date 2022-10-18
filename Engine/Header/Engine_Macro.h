@@ -19,6 +19,11 @@ namespace Engine
 
 #define		MAX_CROSSROAD 15.f	// »ç°Å¸®
 
+#define		MSG_GRAPHICDEV 27000
+
+#define		CUSOR_INVENTORY  L"../Bin/Resource/Texture/MouseImage/cross_0.png"
+#define		CUSOR_SHOT		 L"../Bin/Resource/Texture/MouseImage/cross_12.png"
+
 
 
 #ifndef			MSG_BOX

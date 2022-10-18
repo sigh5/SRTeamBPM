@@ -33,6 +33,7 @@ private:
 	Engine::CManagement*			m_pManagementClass = nullptr;
 	Engine::CTimerMgr*				m_pTimerMgr = nullptr;
 
+public:
 	LPDIRECT3DDEVICE9				m_pGraphicDev;
 
 

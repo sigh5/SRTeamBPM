@@ -91,35 +91,35 @@ _int CLayer::Update_Layer(const _float & fTimeDelta)
 {
 	_int iResult = 0;
 
-	
+
 	for (auto iter = m_mapObject.begin(); iter != m_mapObject.end(); )
 	{
 		iResult = iter->second->Update_Object(fTimeDelta);
 
 		if (iResult & 0x80000000)
-				return iResult;
-		
+			return iResult;
+
 		if (iResult == OBJ_DEAD)
 		{
 			Safe_Release(iter->second);
 			iter = m_mapObject.erase(iter);
-			
+
 		}
 		else
 		{
 			iter++;
 		}
-		
+
 
 	}
-	
+
 	for (auto &iter = m_objPoolList.begin(); iter != m_objPoolList.end();)
 	{
 		int iResult = (*iter)->Update_Object(fTimeDelta);
-	
+
 		if (iResult & 0x80000000)
 			return iResult;
-		
+
 		else if (iResult == 5)
 		{
 			m_objPoolList.erase(iter++);
@@ -127,8 +127,8 @@ _int CLayer::Update_Layer(const _float & fTimeDelta)
 		}
 		++iter;
 
-		
-	
+
+
 	}
 	for (auto iter = m_GhulList.begin(); iter != m_GhulList.end(); ++iter)
 	{
@@ -149,11 +149,28 @@ _int CLayer::Update_Layer(const _float & fTimeDelta)
 			iter++;
 
 	}
+	ActivevecColliderMonster();
 
 
+	for (auto iter = m_ControlRoomList.begin(); iter != m_ControlRoomList.end(); ++iter)
+	{
+		(*iter)->Update_Object(fTimeDelta);
 
+	}
 
+	for (auto iter = m_DropItemList.begin(); iter != m_DropItemList.end(); )
+	{
+		_int iResult = (*iter)->Update_Object(fTimeDelta);
 
+		if (iResult == OBJ_DEAD)
+		{
+			Safe_Release(*iter);
+			iter = m_DropItemList.erase(iter);
+		}
+		else
+			iter++;
+
+	}
 	return iResult;
 }
 
@@ -167,6 +184,11 @@ void CLayer::LateUpdate_Layer(void)
 	for (auto& iter : m_EffectList)
 		iter->LateUpdate_Object();
 
+	for (auto& iter : m_ControlRoomList)
+		iter->LateUpdate_Object();
+
+	for (auto& iter : m_DropItemList)
+		iter->LateUpdate_Object();
 }
 
 void CLayer::initStartCube()
@@ -236,6 +258,48 @@ void		CLayer::Reset_Monster()
 	}
 }
 
+void		CLayer::Add_vecColliderMonster(CMonsterBase* pMonster)
+{
+	m_vecColliderMonster.push_back(pMonster);
+}
+
+void		CLayer::ActivevecColliderMonster(void)
+{
+	int vecend = 0;
+	vecend = m_vecColliderMonster.size();
+	float f_iRadius, f_jRadius, fDistance;
+	_vec3 v_iPos, v_jPos;
+	for (int i = 0; i < vecend; ++i)
+	{
+		for (int j = i + 1; j < vecend; ++j)
+		{
+			f_iRadius = m_vecColliderMonster[i]->Get_Radius();
+			f_jRadius = m_vecColliderMonster[j]->Get_Radius();
+			v_iPos = m_vecColliderMonster[i]->Get_Pos();
+			v_jPos = m_vecColliderMonster[j]->Get_Pos();
+			fDistance = sqrtf((powf(v_jPos.x - v_iPos.x, 2) + powf(v_jPos.y - v_iPos.y, 2) + powf(v_jPos.z - v_iPos.z, 2)));
+
+			if (f_iRadius + f_jRadius > fDistance)
+			{
+				_vec3 viToj, vjToi;
+				vjToi = v_iPos - v_jPos;
+				viToj = v_jPos - v_iPos;
+				m_vecColliderMonster[i]->Move_Pos(vjToi * (((f_iRadius + f_jRadius) - fDistance)* 0.2f));
+				m_vecColliderMonster[j]->Move_Pos(viToj * (((f_iRadius + f_jRadius) - fDistance)* 0.2f));
+			}
+		}
+	}
+
+}
+void		CLayer::Clear_ColliderMonster(void)
+{
+	m_vecColliderMonster.clear();
+}
+void		CLayer::Add_DropItemList(CGameObject* pItem)
+{
+	m_DropItemList.push_back(pItem);
+}
+
 void CLayer::Free(void)
 {
 
@@ -244,7 +308,7 @@ void CLayer::Free(void)
 		Safe_Delete_Array(iter);
 	}
 	NameList.clear();
-	
+
 	for (auto iter : m_objPoolList)
 	{
 		Safe_Release(iter);
@@ -268,11 +332,19 @@ void CLayer::Free(void)
 	m_GhulList.clear();
 	m_ObeliskList.clear();
 
-	
+
 
 	for (auto& iter : m_EffectList)
 		Safe_Release(iter);
 	m_EffectList.clear();
+	m_vecColliderMonster.clear();
 
 
+	for (auto& iter : m_ControlRoomList)
+		Safe_Release(iter);
+	m_ControlRoomList.clear();
+
+	for (auto& iter : m_DropItemList)
+		Safe_Release(iter);
+	m_DropItemList.clear();
 }

@@ -8,11 +8,12 @@ private:
 	virtual ~CGhul();
 
 public:
-	virtual HRESULT		Ready_Object(int Posx, int Posy);
+	virtual HRESULT		Ready_Object(float Posx, float Posy);
 	virtual _int		Update_Object(const _float& fTimeDelta) override;
 	virtual void		LateUpdate_Object(void) override;
 	virtual void		Render_Obejct(void) override;
 	virtual void		Collision_Event()override;
+	virtual void		Excution_Event();
 
 	virtual bool		Dead_Judge(const _float& fTimeDelta);
 
@@ -25,8 +26,10 @@ public:
 	
 	void DigOut(const _float& fTimeDelta);
 
+	
+
 public:
-	static CGhul*		Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx = 0, int Posy = 0);
+	static CGhul*		Create(LPDIRECT3DDEVICE9 pGraphicDev, float Posx = 0, float Posy = 0);
 	virtual void		Free(void);
 
 private:
@@ -42,5 +45,8 @@ private:
 
 	bool m_bCanDie = false;
 	bool m_bCanWalk = false;
+
+	bool	m_bDigOutSound = false;
+	bool	m_bAttackSound = false;
 };
 

@@ -138,6 +138,10 @@ void SetChannelVolume(CHANNELID eID, float fVolume)
 {
 	CSoundMgr::GetInstance()->SetChannelVolume(eID, fVolume);
 }
+bool MyChannelPlayCheck(CHANNELID eID)
+{
+	CSoundMgr::GetInstance()->MyChannelPlayCheck(eID);
+}
 void LoadSoundFile()
 {
 	CSoundMgr::GetInstance()->LoadSoundFile();

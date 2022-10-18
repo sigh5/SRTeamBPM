@@ -35,13 +35,23 @@ public:
 	_bool		Check_Collision(CGameObject* pItemObject, CGameObject* pPlayer,const _float& fItemRadius,const _float& fPlayerRadius);
 	_bool		Check_CollisonUseCollider(CCollider* pSour, CCollider* pDest);
 
+	_bool		Check_Collsion_CubeAABB(CCollider* CWallCollider, CGameObject* pDest);
+
+	
 public:
 	void		Set_HitBoxMatrix(_matrix* matWorld);
+	void		Set_HitBoxMatrix_With_Scale(_matrix* matWorld,const _vec3& vScale);
 	const	_matrix& HitBoxWolrdmat() { return m_HitBoxWolrdmat; }
 
 	void		Set_HitRadiuos(_float fRadius) { m_fRadius = fRadius; }
-	void		Set_vCenter(_vec3* vCenter) { m_vCenter = *vCenter; }
+	void		Set_vCenter(_vec3* vCenter ,_vec3* vScale);
 
+	
+	
+
+
+private:
+	_bool		Check_Collsion_AABB(CCollider* CWallCollider, CCollider* pDest);
 
 public:
 	virtual CComponent* Clone(void) override;
@@ -61,7 +71,7 @@ private:
 	_vec3		 m_vMax;
 	_vec3		 m_vCenter;
 	_float		 m_fRadius;
-
+	
 private:
 	virtual void Free(void) override;
 };

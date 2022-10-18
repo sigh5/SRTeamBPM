@@ -175,7 +175,7 @@ void CFileIOMgr::Save_FileData(CScene * pScene,
 			memcpy(vScale, Transcom->m_vScale, sizeof(_vec3));
 			memcpy(vAngle, Transcom->m_vAngle, sizeof(_vec3));
 			iDrawNum = iter->second->Get_DrawTexIndex();
-			iOption = static_cast<CWallCube*>(iter->second)->Get_Option();
+			iOption = static_cast<CObstacle*>(iter->second)->Get_Option();
 
 			WriteFile(hFile, &vRight, sizeof(_vec3), &dwByte, nullptr);
 			WriteFile(hFile, &vUp, sizeof(_vec3), &dwByte, nullptr);
@@ -283,7 +283,6 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 					pGameObject->Set_DrawTexIndex(iDrawIndex);
 					static_cast<CWallCube*>(pGameObject)->Set_Option(CUBE_TYPE(iCubeOption));
 					FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(test1, pGameObject), );
-
 				}
 			}
 
@@ -294,6 +293,11 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 			Transcom->Set_Info(INFO_POS, &vPos);
 			Transcom->Set_Angle(&vAngle);
 			Transcom->Set_Scale(&vScale);
+			if (iCubeOption == CUBE_COLLISION_WALL)
+			{
+				static_cast<CWallCube*>(pGameObject)->init_For_Collistion_vector();
+			}
+
 			Transcom->Update_Component(0.01f);
 			
 			
@@ -342,6 +346,7 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 
 				case MONSTER_OBELISK:
 					pGameObject = CObelisk::Create(pGrahicDev);
+					pMyLayer->Add_ObeliskList(pGameObject);
 					break;
 
 				case MONSTER_SPHINX:
@@ -372,7 +377,7 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 			CTransform* Transcom = nullptr;
 			if (SCENE_TOOLTEST != Get_Scene()->Get_SceneType())
 			{
-			static_cast<CMonsterBase*>(pGameObject)->Get_MonsterType() = iMonsterType;
+				static_cast<CMonsterBase*>(pGameObject)->Get_MonsterType() = iMonsterType;
 				Transcom = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_DynamicTransformCom", ID_DYNAMIC));
 			}
 			else
@@ -384,8 +389,12 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 
 
 			Transcom->Set_Info(INFO_POS, &vPos);
-			Transcom->Set_Scale(&vScale);
+			//Transcom->Set_Scale(&vScale);
+			if (SCENE_TOOLTEST != Get_Scene()->Get_SceneType())
+			{
+				static_cast<CMonsterBase*>(pGameObject)->Save_OriginPos();
 
+			}
 			Transcom->Update_Component(0.01f);
 
 			if (0 == dwByte)
@@ -504,6 +513,7 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 			Transcom->Set_Info(INFO_POS, &vPos);
 			Transcom->Set_Angle(&vAngle);
 			Transcom->Set_Scale(&vScale);
+			static_cast<CObstacle*>(pGameObject)->Set_Option(iOption);
 			
 			if(pScene->Get_SceneType() != SCENE_TOOLTEST)
 				static_cast<CObstacle*>(pGameObject)->Set_TextureCom();

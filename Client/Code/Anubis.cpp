@@ -9,9 +9,12 @@
 #include "HitBlood.h"
 #include "AnubisThunder.h"
 #include "AnubisStormBall.h"
+#include "HitEffect.h"
 
 #include "Gun_Screen.h"
-
+#include "AttackEffect.h"
+#include "Coin.h"
+#include "Key.h"
 
 CAnubis::CAnubis(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -43,11 +46,11 @@ HRESULT CAnubis::Ready_Object(float Posx, float Posy)
 	m_iMonsterIndex = MONSTER_ANUBIS;
 	m_fAttackDelay = 0.5f;
 
-	_vec3	vScale = { 2.f,2.f,2.f };
+	_vec3	vScale = { 5.f,6.f,5.f };
 
 	m_pDynamicTransCom->Set_Scale(&vScale);
-
-
+	
+	m_bOldPlayerPos = { 1.0f,1.0f,1.0f };
 	m_pInfoCom->Ready_CharacterInfo(5, 10, 5.f);
 	m_pAnimationCom->Ready_Animation(6, 1, 0.2f);
 	m_iPreHp = (m_pInfoCom->Get_InfoRef()._iHp);
@@ -62,14 +65,38 @@ HRESULT CAnubis::Ready_Object(float Posx, float Posy)
 	}
 	Save_OriginPos();
 	m_pDynamicTransCom->Update_Component(1.f);
+	
+	// Control Room
+	_vec3 vPos;
+	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+	vScale = m_pDynamicTransCom->Get_Scale();
+	m_pColliderCom->Set_vCenter(&vPos, &vScale);
+	
 	return S_OK;
 }
 
 bool	CAnubis::Dead_Judge(const _float& fTimeDelta)
 {
+	m_pDynamicTransCom->Set_Y(m_pDynamicTransCom->m_vScale.y * 0.5f);
 	if (0 >= m_pInfoCom->Get_Hp())
 	{
+		if (false == m_bDead)
+		{
+			_int Hitsound = rand() % 2;
+			switch (Hitsound)
+			{
+			case 0:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Anubis_Death_01.wav", SOUND_MONSTER, 0.4f);
+				break;
+			case 1:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Anubis_Death_02.wav", SOUND_MONSTER, 0.4f);
+				break;
+			}
+			Drop_Item(rand() % 3);
 		m_bDead = true;
+		}
 		//Safe_Release(m_pAttackAnimationCom);
 	}
 	if (m_bDead)
@@ -88,10 +115,20 @@ bool	CAnubis::Dead_Judge(const _float& fTimeDelta)
 
 _int CAnubis::Update_Object(const _float & fTimeDelta)
 {
+	// 맨위에있어야됌 리턴되면 안됌
+	_matrix matWorld;
+	_vec3 vScale;
+	vScale = m_pDynamicTransCom->Get_Scale();
+	m_pDynamicTransCom->Get_WorldMatrix(&matWorld);
+	m_pColliderCom->Set_HitBoxMatrix_With_Scale(&matWorld, vScale);
+	Engine::CMonsterBase::Update_Object(fTimeDelta);
+	// 맨위에있어야됌 리턴되면 안됌
+	m_pDynamicTransCom->Set_Y(m_pDynamicTransCom->m_vScale.y * 0.5f);
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 	
 	if (Distance_Over())
 	{
+		m_pAnimationCom->m_iMotion = 0;
 		Engine::CMonsterBase::Update_Object(fTimeDelta);
 		Add_RenderGroup(RENDER_ALPHA, this);
 
@@ -109,8 +146,6 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 
 	AttackJudge(fTimeDelta);
 
-
-
 	if (m_bHit == false)
 	{
 		NoHit_Loop(fTimeDelta);
@@ -119,11 +154,6 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 	{
 		Hit_Loop(fTimeDelta);
 	}
-
-
-
-	Excution_Event();
-
 
 	for (auto iter = m_AnubisThunderlist.begin(); iter != m_AnubisThunderlist.end();)
 	{
@@ -153,8 +183,11 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 			++iter;
 		}
 	}
+	// Control Room
 
-	Engine::CMonsterBase::Update_Object(fTimeDelta);
+	
+	m_pDynamicTransCom->Update_Component(fTimeDelta);
+	
 	Add_RenderGroup(RENDER_ALPHA, this);
 
 	return 0;
@@ -197,6 +230,10 @@ void CAnubis::LateUpdate_Object(void)
 
 		// 빌보드 에러 해결
 	}
+	Add_ColliderMonsterlist();
+
+	
+
 	Engine::CMonsterBase::LateUpdate_Object();
 }
 
@@ -240,7 +277,8 @@ void CAnubis::Collision_Event()
 	NULL_CHECK_RETURN(pLayer, );
 	CGameObject *pGameObject = nullptr;
 	pGameObject = static_cast<CGun_Screen*>(::Get_GameObject(L"Layer_UI", L"Gun"));
-
+	_vec3	vPos;
+	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
 
 	if (static_cast<CGun_Screen*>(pGameObject)->Get_Shoot() &&
 		fMtoPDistance < MAX_CROSSROAD  &&
@@ -251,21 +289,52 @@ void CAnubis::Collision_Event()
 		m_pInfoCom->Receive_Damage(1);
 		cout << "Anubis " << m_pInfoCom->Get_InfoRef()._iHp << endl;
 		static_cast<CGun_Screen*>(pGameObject)->Set_Shoot(false);
+		READY_CREATE_EFFECT_VECTOR(pGameObject, CHitEffect, pLayer, m_pGraphicDev, vPos);
+		static_cast<CHitEffect*>(pGameObject)->Set_Effect_INFO(OWNER_ANUBIS, 0, 7, 0.2f);
+
+		if(false==m_bDead)
+		{
+		_int Hitsound = rand() % 3;
+		switch (Hitsound)
+		{
+		case 0:
+			::StopSound(SOUND_MONSTER);
+			::PlaySoundW(L"Anubis_pain_01.wav", SOUND_MONSTER, 0.4f);
+			break;
+
+		case 1:
+			::StopSound(SOUND_MONSTER);
+			::PlaySoundW(L"Anubis_pain_02.wav", SOUND_MONSTER, 0.4f);
+			break;
+
+		case 2:
+			::StopSound(SOUND_MONSTER);
+			::PlaySoundW(L"Anubis_pain_03.wav", SOUND_MONSTER, 0.4f);
+			break;
+		}
+		}
 	}
 }
 
 void CAnubis::Excution_Event()
 {
-	if (!m_bExcutionCheck && m_pInfoCom->Get_Hp() <= 1 )
+	if (!m_bDead &&1 >= m_pInfoCom->Get_Hp())
 	{
-		static_cast<CMyCamera*>(::Get_GameObject(L"Layer_Environment", L"CMyCamera"))->Set_Excution(true);
-		m_bExcutionCheck = true;
+		m_pInfoCom->Receive_Damage(1);
+		_vec3	vPos;
+		CGameObject *pGameObject = nullptr;
+		CScene* pScene = Get_Scene();
+		CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+		READY_CREATE_EFFECT_VECTOR(pGameObject, CAttackEffect, pLayer, m_pGraphicDev, vPos);
+		static_cast<CAttackEffect*>(pGameObject)->Set_Effect_INFO(OWNER_PALYER, 0, 12, 0.2f);
+
 	}
 }
 
 void CAnubis::NoHit_Loop(const _float& fTimeDelta)
 {
-	if ( fMtoPDistance > 7.f && m_bAttacking == false)
+	if ( fMtoPDistance > 15.f && m_bAttacking == false)
 	{
 		m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
 
@@ -276,6 +345,7 @@ void CAnubis::NoHit_Loop(const _float& fTimeDelta)
 	{
 		if (m_bAttack)
 		{
+
 			Attack(fTimeDelta);
 		}
 		else
@@ -319,7 +389,9 @@ void CAnubis::Attack_Thunder(const _float& fTimeDelta)
 			D3DXVec3Cross(&vDir, &_vec3(0.f, 1.f, 0.f), &vDir);
 
 			CAnubisThunder* pThunder;
-			pThunder = CAnubisThunder::Create(m_pGraphicDev, AnubisInfo.x + (vDir.x* 0.57f), 1.8f, AnubisInfo.z + (vDir.z* 0.5f));
+			pThunder = CAnubisThunder::Create(m_pGraphicDev, AnubisInfo.x + (vDir.x* 1.2f), m_pDynamicTransCom->m_vScale.y * 0.85f, AnubisInfo.z + (vDir.z* 1.2f));
+			::StopSound(SOUND_EFFECT);
+			::PlaySoundW(L"thunder_spell_loop.wav", SOUND_EFFECT, 0.2f);
 
 			m_AnubisThunderlist.push_back(pThunder);
 			m_bCreateOneThunder = true;
@@ -333,6 +405,8 @@ void CAnubis::Attack_Thunder(const _float& fTimeDelta)
 			D3DXVec3Normalize(&vDir, &vDir);
 			CAnubisThunder* pThunder;
 			pThunder = CAnubisThunder::Create(m_pGraphicDev, m_vPlayerPos.x - vDir.x * 0.5f, 1.0f, m_vPlayerPos.z - vDir.z * 0.5f);
+			::StopSound(SOUND_EFFECT);
+			::PlaySoundW(L"thunder_spell_cast.wav", SOUND_EFFECT, 0.2f);
 
 			m_AnubisThunderlist.push_back(pThunder);
 			m_bCreateTwoThunder = true;
@@ -360,7 +434,9 @@ void CAnubis::Attack_Stormball(const _float& fTimeDelta)
 			D3DXVec3Cross(&vDir, &_vec3(0.f, 1.f, 0.f), &vDir);
 
 			CAnubisThunder* pThunder;
-			pThunder = CAnubisThunder::Create(m_pGraphicDev, AnubisInfo.x + (vDir.x* 0.55f), 2.f, AnubisInfo.z + (vDir.z* 0.55f));
+			pThunder = CAnubisThunder::Create(m_pGraphicDev, AnubisInfo.x + (vDir.x* 1.2f), m_pDynamicTransCom->m_vScale.y * 0.85f, AnubisInfo.z + (vDir.z* 1.2f));
+			//::StopSound(SOUND_EFFECT);
+			::PlaySoundW(L"thunder_spell_loop.wav", SOUND_EFFECT, 0.2f);
 
 			m_AnubisThunderlist.push_back(pThunder);
 			m_bCreateChargThunder = true;
@@ -383,17 +459,37 @@ void CAnubis::Attack_Stormball(const _float& fTimeDelta)
 			_vec3 vDir = m_vPlayerPos - AnubisInfo;
 			D3DXVec3Normalize(&vDir, &vDir);
 			D3DXVec3Cross(&vDir, &_vec3(0.f, 1.f, 0.f), &vDir);
+			_vec3 vSpawnPos = _vec3((AnubisInfo.x + (vDir.x* 1.2f)), (m_pDynamicTransCom->m_vScale.y * 0.8f), (AnubisInfo.z + (vDir.z * 1.2f)));
+			_int Stormballsound = rand() % 3;
+			switch (Stormballsound)
+			{
+			case 0:
+				::StopSound(SOUND_EFFECT);
+				::PlaySoundW(L"lightning_strike_1.wav", SOUND_EFFECT, 0.2f);
+				break;
+
+			case 1:
+				::StopSound(SOUND_EFFECT);
+				::PlaySoundW(L"lightning_strike_2.wav", SOUND_EFFECT, 0.2f);
+				break;
+
+			case 2:
+				::StopSound(SOUND_EFFECT);
+				::PlaySoundW(L"lightning_strike_3.wav", SOUND_EFFECT, 0.2f);
+				break;
+			}
+
 			if (m_bStormballLeftRight)
 			{
 				CAnubisStormBall* pStormball;
-				pStormball = CAnubisStormBall::Create(m_pGraphicDev, AnubisInfo, (m_vPlayerPos - vDir * 2.f));
+				pStormball = CAnubisStormBall::Create(m_pGraphicDev, vSpawnPos, (m_vPlayerPos - vDir * 1.4f));
 				m_bStormballLeftRight = false;
 				m_AnubisStormballList.push_back(pStormball);
 			}
 			else
 			{
 				CAnubisStormBall* pStormball;
-				pStormball = CAnubisStormBall::Create(m_pGraphicDev, AnubisInfo, (m_vPlayerPos + vDir * 2.f));
+				pStormball = CAnubisStormBall::Create(m_pGraphicDev, vSpawnPos, (m_vPlayerPos + vDir * 1.4f));
 				m_bStormballLeftRight = true;
 				m_AnubisStormballList.push_back(pStormball);
 			}
@@ -478,6 +574,27 @@ void CAnubis::Attack(const _float& fTimeDelta)
 	}
 
 	
+}
+void	CAnubis::Drop_Item(int ItemType)
+{
+	CScene  *pScene = ::Get_Scene();
+	CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+	CGameObject* pItem = nullptr;
+	switch (ItemType)
+	{
+	case 0:
+		pItem = CCoin::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS].x, m_pDynamicTransCom->m_vInfo[INFO_POS].z);
+		pLayer->Add_DropItemList(pItem);
+		break;
+
+	case 1:
+		pItem = CKey::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS].x, m_pDynamicTransCom->m_vInfo[INFO_POS].z);
+		pLayer->Add_DropItemList(pItem);
+		break;
+
+	default:
+		break;
+	}
 }
 
 CAnubis * CAnubis::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)

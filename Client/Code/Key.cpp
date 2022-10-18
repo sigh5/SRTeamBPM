@@ -31,6 +31,15 @@ HRESULT CKey::Ready_Object(_uint iX, _uint iY)
 
 _int CKey::Update_Object(const _float & fTimeDelta)
 {
+	if (m_bDead == true)
+	{
+		CScene  *pScene = ::Get_Scene();
+		NULL_CHECK_RETURN(pScene, RETURN_ERR);
+		CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+		NULL_CHECK_RETURN(pLayer, RETURN_ERR);
+		return OBJ_DEAD;
+	}
+
 	_uint iRssult = Engine::CGameObject::Update_Object(fTimeDelta);
 
 	//Set_OnTerrain();
@@ -42,39 +51,38 @@ _int CKey::Update_Object(const _float & fTimeDelta)
 
 void CKey::LateUpdate_Object(void)
 {
-	//CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
-	//NULL_CHECK(pCamera);
+	CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
+	NULL_CHECK(pCamera);
 
-	//// 
-	//_matrix		matWorld, matView, matBill;
+	_matrix		matWorld, matView, matBill;
 
-	//m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
-	//D3DXMatrixIdentity(&matBill);
-	//memcpy(&matBill, &matView, sizeof(_matrix));
-	//memset(&matBill._41, 0, sizeof(_vec3));
-	//D3DXMatrixInverse(&matBill, 0, &matBill);
+	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
+	D3DXMatrixIdentity(&matBill);
+	memcpy(&matBill, &matView, sizeof(_matrix));
+	memset(&matBill._41, 0, sizeof(_vec3));
+	D3DXMatrixInverse(&matBill, 0, &matBill);
 
-	//_matrix      matScale, matTrans;
-	//D3DXMatrixScaling(&matScale, 2.f, 2.f, 2.f);
+	_matrix      matScale, matTrans;
+	D3DXMatrixScaling(&matScale, m_pTransCom->m_vScale.x, m_pTransCom->m_vScale.y, m_pTransCom->m_vScale.z);
 
-	//_matrix      matRot;
-	//D3DXMatrixIdentity(&matRot);
-	//D3DXMatrixRotationY(&matRot, (_float)pCamera->Get_BillBoardDir());
+	_matrix      matRot;
+	D3DXMatrixIdentity(&matRot);
+	D3DXMatrixRotationY(&matRot, (_float)pCamera->Get_BillBoardDir());
 
-	//_vec3 vPos;
-	//m_pTransCom->Get_Info(INFO_POS, &vPos);
+	_vec3 vPos;
+	m_pTransCom->Get_Info(INFO_POS, &vPos);
 
-	//D3DXMatrixTranslation(&matTrans,
-	//	vPos.x,
-	//	vPos.y,
-	//	vPos.z);
+	D3DXMatrixTranslation(&matTrans,
+		vPos.x,
+		vPos.y,
+		vPos.z);
 
-	//D3DXMatrixIdentity(&matWorld);
-	//matWorld = matScale* matRot * matBill * matTrans;
-	//m_pTransCom->Set_WorldMatrix(&(matWorld));
+	D3DXMatrixIdentity(&matWorld);
+	matWorld = matScale* matRot * matBill * matTrans;
+	m_pTransCom->Set_WorldMatrix(&(matWorld));
 
-
-	//CItemBase::LateUpdate_Object();
+	// 빌보드 에러 해결
+	Engine::CGameObject::LateUpdate_Object();
 }
 
 void CKey::Render_Obejct(void)
@@ -108,16 +116,17 @@ void CKey::Collision_Event()
 	pGameObject = pLayer->Get_GameObject(L"Player");
 	NULL_CHECK_RETURN(pGameObject, );
 
-	if (!m_pColliderCom->Check_Collision(this, pGameObject, 1, 1))
-	{
-		if (Engine::Key_Down(DIK_F))
+	
+		if (!m_bAddKey && m_pColliderCom->Check_Collision(this, pGameObject, 1, 1))
 		{
-			CPlayer* pTestPlayer = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
-
 			m_bAddKey = true;
-			pTestPlayer->Set_bCurStat(true);
+			CCharacterInfo *pCharInfo = dynamic_cast<CCharacterInfo*>(pGameObject->Get_Component(L"Proto_CharacterInfoCom", ID_STATIC));
+			pCharInfo->Add_Key();
+			m_bDead = true;
+			/*CPlayer* pTestPlayer = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
+			m_bAddKey = true;
+			pTestPlayer->Set_bCurStat(true);*/
 		}
-	}
 }
 
 HRESULT CKey::Add_Component(void)

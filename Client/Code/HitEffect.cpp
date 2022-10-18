@@ -101,16 +101,23 @@ HRESULT CHitEffect::Set_Effect_INFO(_int iEffcet_Owner, _int iStartAnimNum, _int
 	CBase_Effect::Set_Effect_INFO(iEffcet_Owner, iStartAnimNum, iAnimMax, fIntervel);
 	
 
-	//if(iEffcet_Owner == OWNER_ANUBIS)
-	ADD_CLONE_PROTO(CTexture, m_pTextureCom, m_mapComponent, ID_STATIC, L"Proto_hitbloodTexture");
+	switch(iEffcet_Owner)
+	{
+	case OWNER_SPHINX:
+		ADD_CLONE_PROTO(CTexture, m_pTextureCom, m_mapComponent, ID_STATIC, L"Proto_hitbloodTexture3");
+		break;
+	case OWNER_FLYHEAD:
+		ADD_CLONE_PROTO(CTexture, m_pTextureCom, m_mapComponent, ID_STATIC, L"Proto_hitbloodTexture3");
+		break;
 
+	
+	default:
+		ADD_CLONE_PROTO(CTexture, m_pTextureCom, m_mapComponent, ID_STATIC, L"Proto_hitbloodTexture");
+		break;
+	}
 
 
 	m_pAnimationCom->Ready_Animation(iAnimMax, iStartAnimNum, fIntervel);
-
-	
-	
-
 
 
 	return S_OK;

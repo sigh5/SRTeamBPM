@@ -15,6 +15,8 @@
 #include "WallCube.h"
 #include "MonsterToolObject.h"
 #include "Obstacle.h"
+#include "ControlRoom.h"
+
 
 IMPLEMENT_SINGLETON(CImGuiMgr)
 
@@ -27,11 +29,12 @@ bool CImGuiMgr::Show_Cube_Tool = false;
 bool CImGuiMgr::Show_Monster_Tool = false;
 bool CImGuiMgr::Show_Object_Tool = false;
 
-//지우셈
-
 _int CImGuiMgr::m_iInterval = 100;
 _int CImGuiMgr::m_iWidth = 100;
 _int CImGuiMgr::m_iDepth = 1;
+
+
+static _bool  g_Show_Sphere = false;
 
 
 ImVec4 CImGuiMgr::clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
@@ -60,6 +63,9 @@ HRESULT CImGuiMgr::Ready_MapTool(LPDIRECT3DDEVICE9 pGraphicDev, CScene* pScene)
 
 	CLayer* TerrainLayer = Engine::CLayer::Create();
 	pScene->Add_Layer(TerrainLayer, L"TerrainLayer");
+
+	CLayer* ControlLayer = Engine::CLayer::Create();
+	pScene->Add_Layer(ControlLayer, L"ControlLayer");
 
 	return S_OK;
 }
@@ -93,8 +99,7 @@ void CImGuiMgr::TransformEdit(CCamera* pCamera, CTransform* pTransform, _bool& W
 	if (Window == false)
 		return;
 
-
-	if (true == Show_Cube_Tool || Show_Object_Tool)
+	if (g_Show_Sphere)
 	{
 		ImGui::Begin("Transform");
 		ImGuizmo::BeginFrame();
@@ -194,7 +199,109 @@ void CImGuiMgr::TransformEdit(CCamera* pCamera, CTransform* pTransform, _bool& W
 
 		ImGui::End();
 	}
-	if (true == Show_Monster_Tool)
+
+
+	else if (true == Show_Cube_Tool || Show_Object_Tool)
+	{
+		ImGui::Begin("Transform");
+		ImGuizmo::BeginFrame();
+		static float snap[3] = { 1.f, 1.f, 1.f };
+		static ImGuizmo::OPERATION mCurrentGizmoOperation(ImGuizmo::ROTATE);
+		static ImGuizmo::MODE mCurrentGizmoMode(ImGuizmo::WORLD);
+		if (ImGui::IsKeyPressed(90))
+			mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
+		if (ImGui::IsKeyPressed(69))
+			mCurrentGizmoOperation = ImGuizmo::ROTATE;
+		if (ImGui::IsKeyPressed(82)) // r Key
+			mCurrentGizmoOperation = ImGuizmo::SCALE;
+		if (ImGui::RadioButton("Translate", mCurrentGizmoOperation == ImGuizmo::TRANSLATE))
+			mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
+		ImGui::SameLine();
+		if (ImGui::RadioButton("Rotate", mCurrentGizmoOperation == ImGuizmo::ROTATE))
+			mCurrentGizmoOperation = ImGuizmo::ROTATE;
+		ImGui::SameLine();
+		if (ImGui::RadioButton("Scale", mCurrentGizmoOperation == ImGuizmo::SCALE))
+			mCurrentGizmoOperation = ImGuizmo::SCALE;
+
+		if (pTransform == nullptr)
+		{
+			ImGui::Text("Object Delete or nullptr");
+			ImGui::End();
+			return;
+		}
+
+		float matrixTranslation[3], matrixRotation[3], matrixScale[3];
+		_matrix matWorld = pTransform->m_matWorld;
+
+		ImGuizmo::DecomposeMatrixToComponents(matWorld, matrixTranslation, matrixRotation, matrixScale);
+		ImGui::InputFloat3("Tr", matrixTranslation);
+		ImGui::InputFloat3("Rt", matrixRotation);
+		ImGui::InputFloat3("Sc", matrixScale);
+		ImGuizmo::RecomposeMatrixFromComponents(matrixTranslation, matrixRotation, matrixScale, matWorld);
+
+		if (mCurrentGizmoOperation != ImGuizmo::SCALE)
+		{
+			if (ImGui::RadioButton("Local", mCurrentGizmoMode == ImGuizmo::LOCAL))
+				mCurrentGizmoMode = ImGuizmo::LOCAL;
+			ImGui::SameLine();
+			if (ImGui::RadioButton("World", mCurrentGizmoMode == ImGuizmo::WORLD))
+				mCurrentGizmoMode = ImGuizmo::WORLD;
+		}
+
+		static bool useSnap(false);
+		if (ImGui::IsKeyPressed(83))
+			useSnap = !useSnap;
+		ImGui::Checkbox("##something", &useSnap);
+		ImGui::SameLine();
+		switch (mCurrentGizmoOperation)
+		{
+		case ImGuizmo::TRANSLATE:
+			ImGui::InputFloat3("Snap", &snap[0]);
+			break;
+		case ImGuizmo::ROTATE:
+			ImGui::InputFloat("Angle Snap", &snap[0]);
+			break;
+		case ImGuizmo::SCALE:
+			ImGui::InputFloat("Scale Snap", &snap[0]);
+			break;
+		}
+
+		if (ImGui::Button("Close"))
+		{
+			Window = false;
+		}
+
+
+		_matrix matId;
+		D3DXMatrixIdentity(&matId);
+
+		ImGuiIO& io = ImGui::GetIO();
+		RECT rt;
+		GetClientRect(g_hWnd, &rt);
+		POINT lt{ rt.left, rt.top };
+		ClientToScreen(g_hWnd, &lt);
+		ImGuizmo::SetRect((_float)lt.x, (_float)lt.y, (_float)io.DisplaySize.x, (_float)io.DisplaySize.y);
+
+		// ImGuizmo::DrawGrid(m_pCam->GetView(), m_pCam->GetPrj(), matId, 100.f);
+
+		ImGuizmo::Manipulate(pCamera->GetView(), pCamera->GetProj(), mCurrentGizmoOperation, mCurrentGizmoMode, matWorld, NULL, useSnap ? &snap[0] : NULL);
+
+		pTransform->m_matWorld = matWorld;
+
+		ImGuizmo::DecomposeMatrixToComponents(matWorld, matrixTranslation, matrixRotation, matrixScale);
+		matrixRotation[0] = D3DXToRadian(matrixRotation[0]);
+		matrixRotation[1] = D3DXToRadian(matrixRotation[1]);
+		matrixRotation[2] = D3DXToRadian(matrixRotation[2]);
+		memcpy(&pTransform->m_vInfo[INFO_POS], matrixTranslation, sizeof(matrixTranslation));
+		memcpy(&pTransform->m_vAngle, matrixRotation, sizeof(matrixRotation));
+		memcpy(&pTransform->m_vScale, matrixScale, sizeof(matrixScale));
+
+
+
+
+		ImGui::End();
+	}
+	else if (true == Show_Monster_Tool)
 	{
 		ImGui::Begin("Transform");
 		ImGuizmo::BeginFrame();
@@ -290,7 +397,7 @@ void CImGuiMgr::TransformEdit(CCamera* pCamera, CTransform* pTransform, _bool& W
 
 		ImGui::End();
 	}
-	if (true == Show_Terrain_Window)
+	else if (true == Show_Terrain_Window)
 	{
 		ImGui::Begin("Transform");
 		ImGuizmo::BeginFrame();
@@ -606,6 +713,7 @@ void CImGuiMgr::WindowLayOut()
 	ImGui::End();
 }
 
+
 void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCamera* pCam, wstring pObjectName)
 {
 	if (!Show_Cube_Tool)
@@ -637,6 +745,22 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 	}
 
 
+	if (ImGui::Button("Create Sphere"))
+	{
+		g_Show_Sphere = !g_Show_Sphere;
+	}
+
+
+	if (g_Show_Sphere)
+	{
+		Create_Sphere(pGrahicDev, pScene, pCam, pObjectName);
+	}
+
+
+
+
+
+
 
 	if (ImGui::CollapsingHeader("Cube Create & Chose Button", ImGuiTreeNodeFlags_DefaultOpen))
 	{
@@ -655,7 +779,7 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 
 	CTransform * pTranscom = nullptr;
 
-	if (m_bCubeCreateCheck)
+	if (m_bCubeCreateCheck && !g_Show_Sphere)
 	{
 		Set_CubeDir();
 
@@ -702,6 +826,8 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 
 			CLayer* MyLayer = pScene->GetLayer(L"MapCubeLayer");
 			(m_pWallCube) = dynamic_cast<CWallCube*>(SelectObject<CWallCube>(MyLayer, &m_CurrentObjectName));
+
+			
 
 		}
 
@@ -963,35 +1089,22 @@ void CImGuiMgr::MonsterTool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 			m_bMonsterCreateCheck = false;
 		}
 	}
-
+	CLayer* pLayer = pScene->GetLayer(L"TestLayer3");
 	CTransform * pTranscom = nullptr;
 	if (m_bMonsterCreateCheck)
 	{
 		ImGui::Text("if double click Create Cube");
 		if (ImGui::IsMouseDoubleClicked(0))
 		{
+			CMonsterToolObject* pMonsterObj = nullptr;
+			CGameObject*		pGameObject = nullptr;
+			_bool isUpcube = false;
+
 			ImVec2 temp = ImGui::GetMousePos();
+			_vec2 vec2MousePos = { temp.x,temp.y };
+			ObjectCreate<CMonsterToolObject>(pGrahicDev, pLayer, &pGameObject, L"TestLayer3");
+			static_cast<CMonsterToolObject*>(pGameObject)->InitSetting(&vec2MousePos, L"TerrainLayer", &m_CurrentTerrainObjectName);
 
-			//_vec3 vTemp = temp.x
-			CGameObject *pGameObject = nullptr;
-
-			_tchar* test1 = new _tchar[20];
-
-			wstring t = L"Test%d";
-			wsprintfW(test1, t.c_str(), m_iIndex);
-
-			NameList.push_back(test1);
-
-			pGameObject = CMonsterToolObject::Create(pGrahicDev, (_int)temp.x, (_int)temp.y);
-			NULL_CHECK_RETURN(pGameObject, );
-
-			CLayer* pMonsterlayer = pScene->GetLayer(L"TestLayer3");
-
-			FAILED_CHECK_RETURN(pMonsterlayer->Add_GameObject(test1, pGameObject), );
-
-			++m_iIndex;
-
-			pScene->Add_Layer(pMonsterlayer, L"TestLayer3");
 		}
 	}
 
@@ -1120,11 +1233,13 @@ void CImGuiMgr::Object_Tool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 
 	ImGui::Text("this is Transform_ButtonMenu");
 	if (ImGui::Button("Save"))
-		CFileIOMgr::GetInstance()->Save_FileData(pScene, L"ObjectLayer", L"../../Data/", L"Stage1Obstacle.dat", OBJ_OBSTRACLE);
+		CFileIOMgr::GetInstance()->Save_FileData(pScene, L"ObjectLayer",
+			L"../../Data/", L"Stage1Obstacle.dat", OBJ_OBSTRACLE);
 	ImGui::SameLine();
 
 	if (ImGui::Button("Load"))
-		CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev, pScene, L"ObjectLayer", L"../../Data/", L"Stage1Obstacle.dat", L"Obstacle", OBJ_OBSTRACLE);
+		CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev, pScene, 
+			L"ObjectLayer", L"../../Data/", L"Stage1Obstacle.dat", L"Obstacle", OBJ_OBSTRACLE);
 
 
 
@@ -1355,6 +1470,42 @@ void CImGuiMgr::Load_CubeMap(LPDIRECT3DDEVICE9 pGrahicDev, CScene *pScene)
 			OBJ_CUBE);
 		break;
 	}
+}
+
+void CImGuiMgr::Create_Sphere(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCamera * pCam, wstring pObjectName)
+{
+
+
+
+	//if (ImGui::IsMouseDoubleClicked(0))
+	//{
+	//	CLayer* MyLayer = pScene->GetLayer(L"ControlLayer");
+
+	//	
+	//	ImVec2 temp = ImGui::GetMousePos();
+	///*	_vec2 vec2MousePos = { temp.x,temp.y };
+	//	ObjectCreate<CWallCube>(pGrahicDev, MyLayer, &pGameObject, pObjectName);
+	//	static_cast<CWallCube*>(pGameObject)->InitSetting(&vec2MousePos, L"TerrainLayer", &m_CurrentTerrainObjectName);
+
+	//	static_cast<CWallCube*>(pGameObject)->Set_DrawTexIndex(m_iMapCubeIndex);*/
+
+	//	/*	if (pGameObject != nullptr && pWallCube != nullptr)
+	//			Set_Create_Cube_Pos(&pGameObject, &pWallCube, &isUpcube);*/
+
+
+
+	//}
+
+
+	//if (pControlSphere != nullptr)
+	//{
+	//	CTransform* pTransform = dynamic_cast<CTransform*>(pControlSphere->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+
+	//	TransformEdit(pCam, pTransform, g_Show_Sphere);
+	//}
+
+
+
 }
 
 

@@ -45,8 +45,10 @@ private:
 	int		m_iAttackPattern;
 	CRcTex*			m_pBufferCom = nullptr;
 	bool	m_bBattle = false;
-	float m_fDeadY = 0;
+	float m_fDeadY = 0.f;
 	bool  m_bArrFalldown[4];
+	float m_fLimitY = 0.f;
+	float	m_fVolume = 0.f;
 
 	//dead
 	CTexture*		m_pDeadTexture = nullptr;
@@ -64,6 +66,8 @@ private:
 	bool	m_bGet_PlayerPos_LR = false;
 	bool	m_bSelectedLeftRight = false;
 	_vec3  m_vPrePlayerPosdir;
+	bool	m_bLRChargeSound = false;
+	bool	m_bLRAttackSound = false;
 	//~
 
 	//BodyAttack
@@ -85,10 +89,13 @@ private:
 	bool		m_bLeftRight = false;
 	_vec3  m_vTargetPos;
 	_vec3  m_vTackleDir;
+	bool	m_bHitPlayer = false;
+	bool	m_bBodyAttackSound = false;
+	bool	m_bChargeSound = false;
 	//~
 	float m_fRearrangementDelay = 0.f;
 	float m_fRearrangementDealyCount = 0.f;
-
 	
+
 };
 

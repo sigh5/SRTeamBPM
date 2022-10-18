@@ -13,7 +13,10 @@ public:
 
 public:
 	const _matrix*		Get_WorldMatrixPointer()					 {	return &m_matWorld; }
-	void				Move_Pos(const _vec3* const pDir)			 {	m_vInfo[INFO_POS] += *pDir;}
+	void				Move_Pos(const _vec3* const pDir)			 {	m_vInfo[INFO_POS] += *pDir;
+	Set_CountMovePos(const_cast<_vec3*>(pDir));
+	}
+	
 	void				Rotation(ROTATIONID eID, const _float& fAngle){	*(((_float*)&m_vAngle) + eID) += fAngle;	}
 	void				Get_Info(INFOID eID, _vec3* pInfo) {	memcpy(pInfo, &m_matWorld.m[eID][0], sizeof(_vec3));}
 	//void				Set_Scale(_float fX, _float fY, _float fZ){ 	m_vScale = { fX, fY, fZ };	}
@@ -45,7 +48,8 @@ public:
 	void				Chase_Target(const _vec3* pTargetPos, const _float& fSpeed, const _float& fTimeDelta);
 	void				Chase_Target_notRot(const _vec3* pTargetPos, const _float& fSpeed, const _float& fTimeDelta);
 	const _matrix*		Compute_LookAtTarget(const _vec3* pTargetPos);
-
+	void				Set_CountMovePos(_vec3* vMovedir) { m_vCounterMovepos = -1.f*(*vMovedir); }
+	const _vec3			&Get_CounterMovePos()const { return m_vCounterMovepos; }
 public:
 	HRESULT				Ready_Transform(void);
 	virtual _int		Update_Component(const _float& fTimeDelta);

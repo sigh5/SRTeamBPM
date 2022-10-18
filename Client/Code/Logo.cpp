@@ -6,8 +6,6 @@
 #include "TestMonster.h"
 #include "Stage.h"
 #include "ToolTest.h"
-#include "ColliderStage.h"
-
 #include "Stage_Pjw.h"
 #include "Change_Stage.h"
 #include "Setting_Stage.h"
@@ -44,7 +42,7 @@ HRESULT CLogo::Ready_Scene(void)
 		
 	return S_OK;
 }
- //ÁÖ¼®Áö¿ì¼À
+
 Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 {
 	++m_iCount;
@@ -65,7 +63,7 @@ Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 			CScene*		pScene = CChange_Stage::Create(m_pGraphicDev);
 			NULL_CHECK_RETURN(pScene, E_FAIL);
 
-			m_SceneType = SCENE_TOOLTEST;
+			//m_SceneType = SCENE_TOOLTEST;
 
 			FAILED_CHECK_RETURN(Engine::Set_Scene(pScene), E_FAIL);
 		

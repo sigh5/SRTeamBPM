@@ -45,8 +45,9 @@ private:
 	int		m_iAliveObelisk = 0;
 	int		m_iDeadObelisk = 0;
 	bool	m_bUnbreakable = true;
-   //남아있는 비석의 갯수
-
+	//남아있는 비석의 갯수
+	bool	m_bTransform = false;
+	bool	m_bAttackSound = false;
 	_vec3 m_vScale;
 
 private:

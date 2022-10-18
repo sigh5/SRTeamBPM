@@ -14,6 +14,7 @@ HINSTANCE g_hInst;                                // 현재 인스턴스입니다.
 WCHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입니다.
 WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름입니다.
 HWND	g_hWnd;
+LPDIRECT3DDEVICE9	g_pDevice;
 // All Volume Control Function
 float	g_fSound = 1.f;
 
@@ -61,6 +62,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	CMainApp*		pMainApp = CMainApp::Create();
 	NULL_CHECK_RETURN(pMainApp, FALSE);
+
 
 
 	/*if (nullptr == pMainApp)
@@ -134,12 +136,12 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.cbWndExtra     = 0;
     wcex.hInstance      = hInstance;
     wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_CLIENT));
-    wcex.hCursor        = LoadCursor(nullptr, IDC_CROSS);
+    wcex.hCursor        = LoadCursor(nullptr, IDC_NO);
     wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
     wcex.lpszMenuName   = NULL;
     wcex.lpszClassName  = szWindowClass;
     wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
-
+	
     return RegisterClassExW(&wcex);
 }
 
@@ -213,7 +215,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             }
         }
         break;
+	case WM_SETCURSOR:
+		SetCursor(NULL);
+		if (g_pDevice)
+			g_pDevice->ShowCursor(TRUE);
+		return TRUE;
 
+	case MSG_GRAPHICDEV:
+		g_pDevice = (LPDIRECT3DDEVICE9)wParam;
+		break;
+	
 	case WM_KEYDOWN:
 		switch (wParam)
 		{

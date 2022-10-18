@@ -8,8 +8,12 @@
 #include "ObjectMgr.h"
 #include "MyCamera.h"
 #include "Player.h"
+#include "HitEffect.h"
 
 #include "Gun_Screen.h"
+#include "Special_Effect.h"
+#include "Coin.h"
+#include "Key.h"
 
 CFatBat::CFatBat(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -37,14 +41,14 @@ HRESULT CFatBat::Ready_Object(int Posx, int Posy)
 	{
 		m_bArrFalldown[i] = false;
 	}
-	_vec3	vScale = { 0.5f,0.5f,0.5f };
+	_vec3	vScale = { 3.f,3.f,3.f };
 
 	m_pDynamicTransCom->Set_Scale(&vScale);
 
 	if (Posx == 0 && Posy == 0) {}
 	else
 	{
-		Set_TransformPositon(g_hWnd, m_pCalculatorCom);
+		m_pDynamicTransCom->Set_Pos((float)Posx, 2.f, (float)Posy);
 	}
 
 	m_iDodgeDir = 0;
@@ -59,7 +63,15 @@ HRESULT CFatBat::Ready_Object(int Posx, int Posy)
 	m_fStopperDelayCount = 0.f;
 	m_fHitDelay = 0.f;
 	m_fDeadY = 0.f;
+	m_fFrame = rand() % 200 * 0.01f;
 	Save_OriginPos();
+
+	m_pDynamicTransCom->Set_Info(INFO_POS, &_vec3((float)Posx, 2.f, (float)Posy));
+	
+
+	m_pDynamicTransCom->Update_Component(1.f);
+
+
 	return S_OK;
 }
 
@@ -67,10 +79,32 @@ bool	CFatBat::Dead_Judge(const _float& fTimeDelta)
 {
 	if (0 >= m_pInfoCom->Get_Hp() && false == m_bDead)
 	{
-		m_bDead = true;
+		if (false == m_bDead)
+		{
+			_int Hitsound = rand() % 3;
+			switch (Hitsound)
+			{
+			case 0:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Bat_death_01.wav", SOUND_MONSTER, 0.4f);
+				break;
+			case 1:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Bat_death_02.wav", SOUND_MONSTER, 0.4f);
+				break;
+			case 2:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Bat_death_03.wav", SOUND_MONSTER, 0.4f);
+				break;
+			}
+			Drop_Item(rand() % 3);
+			m_bDead = true;
+		}
 		_vec3 vPos;
 		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
 		m_fDeadY = vPos.y;
+
+
 	}
 	if (m_bDead)
 	{
@@ -91,10 +125,22 @@ bool	CFatBat::Dead_Judge(const _float& fTimeDelta)
 
 _int CFatBat::Update_Object(const _float & fTimeDelta)
 {
+
+	m_pDynamicTransCom->Update_Component(fTimeDelta);
+
+	// 맨위에있어야됌 리턴되면 안됌
+	_matrix matWorld;
+	_vec3 vScale;
+	vScale = m_pDynamicTransCom->Get_Scale();
+	m_pDynamicTransCom->Get_WorldMatrix(&matWorld);
+	m_pColliderCom->Set_HitBoxMatrix_With_Scale(&matWorld, vScale);
+	// 맨위에있어야됌 리턴되면 안됌
+
 	// 수정 쿨타임 대신 타임
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 	if (Distance_Over())
 	{
+		m_pAnimationCom->m_iMotion = 0;
 		Engine::CMonsterBase::Update_Object(fTimeDelta);
 		Add_RenderGroup(RENDER_ALPHA, this);
 
@@ -120,7 +166,8 @@ _int CFatBat::Update_Object(const _float & fTimeDelta)
 		Hit_Loop(fTimeDelta);
 	}
 
-	m_pDynamicTransCom->Update_Component(fTimeDelta);
+
+	
 	CMonsterBase::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
 
@@ -129,6 +176,9 @@ _int CFatBat::Update_Object(const _float & fTimeDelta)
 
 void CFatBat::LateUpdate_Object(void)
 {
+	
+
+
 	CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
 	NULL_CHECK(pCamera);
 
@@ -141,7 +191,7 @@ void CFatBat::LateUpdate_Object(void)
 	D3DXMatrixInverse(&matBill, 0, &matBill);
 
 	_matrix      matScale, matTrans;
-	D3DXMatrixScaling(&matScale, 1.f, 1.f, 1.f);
+	D3DXMatrixScaling(&matScale, m_pDynamicTransCom->m_vScale.x, m_pDynamicTransCom->m_vScale.y, m_pDynamicTransCom->m_vScale.z);
 
 	_matrix      matRot;
 	D3DXMatrixIdentity(&matRot);
@@ -160,6 +210,7 @@ void CFatBat::LateUpdate_Object(void)
 	m_pDynamicTransCom->Set_WorldMatrix(&(matWorld));
 
 	// 빌보드 에러 해결
+	Add_ColliderMonsterlist();
 	Engine::CGameObject::LateUpdate_Object();
 
 }
@@ -174,8 +225,8 @@ void CFatBat::NoHit_Loop(const _float& fTimeDelta)
 	FatBat_Fly(fTimeDelta);
 	FatBat_Dodge(fTimeDelta, &m_vPlayerPos, &m_vMonsterPos);
 
-	//지형에 올림
-	if (fMtoPDistance > 13.f && 14.f > fMtoPDistance)
+
+	if (fMtoPDistance > 13.f)
 	{
 		m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
 
@@ -230,6 +281,8 @@ void CFatBat::Collision_Event()
 	NULL_CHECK_RETURN(pLayer, );
 	CGameObject *pGameObject = nullptr;
 	pGameObject = static_cast<CGun_Screen*>(::Get_GameObject(L"Layer_UI", L"Gun"));
+	_vec3	vPos;
+	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
 
 	_vec3 PickPos;
 
@@ -241,6 +294,31 @@ void CFatBat::Collision_Event()
 		static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"))->Set_ComboCount(1);
 		m_pInfoCom->Receive_Damage(1);
 		cout << "FatBat" << m_pInfoCom->Get_InfoRef()._iHp << endl;
+		READY_CREATE_EFFECT_VECTOR(pGameObject, CHitEffect, pLayer, m_pGraphicDev, vPos);
+		static_cast<CHitEffect*>(pGameObject)->Set_Effect_INFO(OWNER_FATBAT, 0, 7, 0.2f);
+	
+		if (false == m_bDead)
+		{
+			_int Hitsound = rand() % 3;
+			switch (Hitsound)
+			{
+			case 0:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Bat_pain_01.wav", SOUND_MONSTER, 0.4f);
+				break;
+
+			case 1:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Bat_pain_02.wav", SOUND_MONSTER, 0.4f);
+				break;
+
+			case 2:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Bat_pain_03.wav", SOUND_MONSTER, 0.4f);
+				break;
+			}
+		}
+		::PlaySoundW(L"explosion_1.wav", SOUND_EFFECT, 0.05f); // BGM
 	}
 
 
@@ -249,7 +327,20 @@ void CFatBat::Collision_Event()
 
 void CFatBat::Excution_Event()
 {
-	// 추후 로직추가
+	if (!m_bDead && 1 >= m_pInfoCom->Get_Hp())
+	{
+		m_pInfoCom->Receive_Damage(1);
+		_vec3	vPos;
+		CGameObject *pGameObject = nullptr;
+		CScene* pScene = Get_Scene();
+		CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+		READY_CREATE_EFFECT_VECTOR(pGameObject, CSpecial_Effect, pLayer, m_pGraphicDev, vPos);
+		static_cast<CSpecial_Effect*>(pGameObject)->Set_Effect_INFO(OWNER_PALYER, 0, 17, 0.2f);
+
+		::PlaySoundW(L"explosion_1.wav", SOUND_EFFECT, 0.05f); // BGM
+
+	}
 }
 
 void	CFatBat::FatBat_Fly(const _float& fTimeDelta)
@@ -303,6 +394,23 @@ void CFatBat::FatBat_Shoot(void)
 
 	CScene* pScene = ::Get_Scene();
 	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+
+	_int Hitsound = rand() % 3;
+	switch (Hitsound)
+	{
+	case 0:
+		::StopSound(SOUND_MONSTER);
+		::PlaySoundW(L"Bat_attack_01.wav", SOUND_MONSTER, 0.4f);
+		break;
+	case 1:
+		::StopSound(SOUND_MONSTER);
+		::PlaySoundW(L"Bat_attack_02.wav", SOUND_MONSTER, 0.4f);
+		break;
+	case 2:
+		::StopSound(SOUND_MONSTER);
+		::PlaySoundW(L"Bat_attack_03.wav", SOUND_MONSTER, 0.4f);
+		break;
+	}
 
 	CGameObject* pGameObject = nullptr;
 	pGameObject = CObjectMgr::GetInstance()->Reuse_MonsterBulltObj(m_pGraphicDev, vPos);
@@ -393,6 +501,28 @@ void		CFatBat::Dead_Action(const _float& fTimeDelta)
 		}
 	}
 }
+void	CFatBat::Drop_Item(int ItemType)
+{
+	CScene  *pScene = ::Get_Scene();
+	CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+	CGameObject* pItem = nullptr;
+	switch (ItemType)
+	{
+	case 0:
+		pItem = CCoin::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS].x, m_pDynamicTransCom->m_vInfo[INFO_POS].z);
+		pLayer->Add_DropItemList(pItem);
+		break;
+
+	case 1:
+		pItem = CKey::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS].x, m_pDynamicTransCom->m_vInfo[INFO_POS].z);
+		pLayer->Add_DropItemList(pItem);
+		break;
+
+	default:
+		break;
+	}
+}
+
 CFatBat * CFatBat::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)
 {
 	CFatBat*	pInstance = new CFatBat(pGraphicDev);

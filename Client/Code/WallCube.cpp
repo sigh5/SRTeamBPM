@@ -5,6 +5,7 @@
 #include "Export_Function.h"
 #include "Terrain.h"
 #include "AbstractFactory.h"
+#include "SphinxFlyHead.h"
 
 
 CWallCube::CWallCube(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -14,7 +15,7 @@ CWallCube::CWallCube(LPDIRECT3DDEVICE9 pGraphicDev)
 
 CWallCube::~CWallCube()
 {
-	//주석지우셈
+	
 }
 
 HRESULT CWallCube::InitSetting(_vec2* vMousPos, const wstring & LayerName,wstring* RoomName)
@@ -33,26 +34,38 @@ HRESULT CWallCube::InitSetting(_vec2* vMousPos, const wstring & LayerName,wstrin
 	vCurretPos.y += 0.5f;
 	m_pTransCom->Set_Y(vCurretPos.y);
 
+
+
+
+	m_pColliderCom->Set_HitRadiuos(5.0f);
+	//m_pColliderCom->Set_vCenter(&vCurretPos ,);
+
+
 	return S_OK;
 }
 
 HRESULT CWallCube::Ready_Object()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-	_vec3 vPos;
+	_vec3 vPos,vScale;
 	m_pTransCom->Get_Info(INFO_POS, &vPos);
-
+	vScale =m_pTransCom->Get_Scale();
 	// set_hit_distance 
 	m_pColliderCom->Set_HitRadiuos(1.f);
-	m_pColliderCom->Set_HitRadiuos(1.f);
-	m_pColliderCom->Set_vCenter(&vPos);
+	
+	//if(m_iOption==4)
+	//	m_pColliderCom->Set_vCenter(&vPos, &vScale);
+
+
+
 
 	return S_OK;
 }
 
 _int CWallCube::Update_Object(const _float & fTimeDelta)
 {
-	m_pColliderCom->Set_HitBoxMatrix(&(m_pTransCom->m_matWorld));
+	if(m_iOption==4)
+		m_pColliderCom->Set_HitBoxMatrix_With_Scale(&(m_pTransCom->m_matWorld),m_pTransCom->Get_Scale());
 
 	CGameObject::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_PRIORITY, this);
@@ -62,15 +75,43 @@ _int CWallCube::Update_Object(const _float & fTimeDelta)
 
 void CWallCube::Render_Obejct(void)
 {
-
-
-
 	/*if (m_bWireFrame)
 		m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);*/
 
 	
 	// Hit Box 
 	
+
+	if (m_iOption == CUBE_COLLISION_WALL)
+	{
+		CScene* pScene = Get_Scene();
+		
+		
+		if (pScene->Get_SceneType() == SCENE_TOOLTEST)
+		{
+			m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
+			m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+			m_pTextureCom->Set_Texture(m_iTexIndex);
+			m_pBufferCom->Render_Buffer();
+			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pColliderCom->HitBoxWolrdmat());
+			m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+			m_pColliderCom->Render_Buffer();
+			m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+			m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+		}
+		else
+		{
+			return;
+		}
+		/*_vec3 vPos, vScale;
+		m_pTransCom->Get_Info(INFO_POS, &vPos);
+		cout << vPos.x << " " << vPos.y << " " << vPos.z << endl;
+		return; */
+
+	}
+
+
+
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
 
 	if (m_bWireFrame)
@@ -99,9 +140,9 @@ void CWallCube::Render_Obejct(void)
 
 
 	//// HitBox
-	//m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-	//m_pColliderCom->Render_Buffer();
-	//m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	m_pColliderCom->Render_Buffer();
+	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 	//// ~Hit Box 
 	
 	if (m_bWireFrame)
@@ -129,11 +170,51 @@ void CWallCube::Collision_Event()
 
 	if (pScene->Get_SceneType() == SCENE_TOOLTEST)
 		return;
-	if (m_iOption == (_int)CUBE_WALL)
+
+	//if (m_iOption == (_int)CUBE_WALL)
+	//{
+	//	m_pColliderCom->Check_Collision_Wall(this, pGameObject);
+	//}
+
+	if (m_iOption == (_int)CUBE_COLLISION_WALL)
 	{
-		m_pColliderCom->Check_Collision_Wall(this, pGameObject);
+
+		//CCollider* pColider = static_cast<CCollider*>(pGameObject->Get_Component(L"Proto_ColliderCom", ID_STATIC));
+
+		if (m_pColliderCom->Check_Collsion_CubeAABB(m_pColliderCom, pGameObject))
+			_bool b = false;
+		
+		for (auto iter : pLayer->Get_MapObject())
+		{
+			if (nullptr == dynamic_cast<CMonsterBase*>(iter.second))
+			{
+				continue;
+			}
+			else
+			{
+				if (nullptr != dynamic_cast<CSphinxFlyHead*>(iter.second))
+					continue;
+				if (m_pColliderCom->Check_Collsion_CubeAABB(m_pColliderCom, iter.second))
+					_bool b = false;
+			}
+		}
+		pLayer->Clear_ColliderMonster();
+
+		
 	}
 
+
+}
+
+void CWallCube::init_For_Collistion_vector()
+{
+	_vec3 vPos, vScale;
+	m_pTransCom->Get_Info(INFO_POS, &vPos);
+	vScale = m_pTransCom->Get_Scale();
+	m_pColliderCom->Set_HitRadiuos(1.f);
+
+	m_pColliderCom->Set_vCenter(&vPos, &vScale);
+	m_pColliderCom->Set_HitBoxMatrix(&(m_pTransCom->m_matWorld));
 }
 
 void CWallCube::MousePostoScreen()	// 지형타기

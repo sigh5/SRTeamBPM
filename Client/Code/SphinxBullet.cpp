@@ -22,6 +22,7 @@ HRESULT CSphinxBullet::Ready_Object(_vec3 vPos)
 
 	m_pAnimationCom->Ready_Animation(3, 0, 0.03f);
 
+	m_pDeadAnimationCom->Ready_Animation(9, 0, 0.1f);
 	/*CTransform* pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC));
 	NULL_CHECK_RETURN(pPlayerTransformCom, E_FAIL);
 	m_pTransCom->Set_Pos(vPos.x, vPos.y, vPos.z);
@@ -32,24 +33,23 @@ HRESULT CSphinxBullet::Ready_Object(_vec3 vPos)
 	pPlayerTransformCom->Get_Info(INFO_POS, &vPlayerPos);
 	m_MoveDir = vPlayerPos - vPos;*/
 
-	_vec3 vScale = { 0.5f,0.5f,0.5f };
-
-	Set_MoveDir(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC, &vPos, MONSTER_BULLET, &vScale);
 
 
+	Set_MoveDir(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC, &vPos, MONSTER_BULLET, &_vec3(1.f, 1.f, 1.f));
 
+	m_pTransCom->Set_Scale(&_vec3(1.f, 1.f, 1.f));
+	m_pTransCom->Update_Component(1.f);
 	return S_OK;
 }
 
 _int CSphinxBullet::Update_Object(const _float & fTimeDelta)
 {
-	m_fFrame += 2.f * fTimeDelta;
-	_vec3 vScale = { 0.5f,0.5f,0.5f };
-	m_pTransCom->Set_Scale(&vScale);
+	_vec3 vPos = m_pTransCom->m_vInfo[INFO_POS];
+	m_fFrame += fTimeDelta;
 
-
-	if (m_fFrame > 2.f)
+	if (m_fFrame > 3.f)
 	{
+		m_bHitPlayer = false;
 		CObjectMgr::GetInstance()->Collect_SphinxBulletObj(this);
 		m_fFrame = 0.f;
 		return 5;
@@ -57,8 +57,43 @@ _int CSphinxBullet::Update_Object(const _float & fTimeDelta)
 
 	m_pAnimationCom->Move_Animation(fTimeDelta);
 
-	m_pTransCom->Move_Pos(&(m_MoveDir * 2.f * fTimeDelta));
 
+	CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
+	CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
+	_vec3 vPlayerPos = pPlayerTransformCom->m_vInfo[INFO_POS];
+
+	float fDistance = sqrtf((powf(vPos.x - vPlayerPos.x, 2) + powf(vPos.y - vPlayerPos.y, 2) + powf(vPos.z - vPlayerPos.z, 2)));
+
+	if (fDistance < 1.5f && false == m_bHitPlayer)
+	{
+		pPlayerInfo->Receive_Damage(10);
+		m_bHitPlayer = true;
+	}
+	if (vPos.y <= 0.f)
+	{
+		m_pTransCom->Set_Scale(&_vec3(3.f, 3.f, 3.f));
+		m_pDeadAnimationCom->Move_Animation(fTimeDelta);
+		if (false == m_bExplosionSound)
+		{
+			::StopSound(SOUND_EXPLOSION);
+			::PlaySoundW(L"explosion_2.wav", SOUND_EXPLOSION, 0.3f);
+			m_bExplosionSound = true;
+		}
+		if (m_pDeadAnimationCom->m_iMotion == m_pDeadAnimationCom->m_iMaxMotion)
+		{
+			m_pDeadAnimationCom->m_iMotion = m_pDeadAnimationCom->m_iMinMotion;
+			m_pTransCom->Set_Scale(&_vec3(1.f, 1.f, 1.f));
+			m_bHitPlayer = false;
+			m_bExplosionSound = false;
+			CObjectMgr::GetInstance()->Collect_SphinxBulletObj(this);
+			m_fFrame = 0.f;
+			return 5;
+		}
+	}
+	else
+	{
+		m_pTransCom->Move_Pos(&(m_MoveDir * 2.f * fTimeDelta));
+	}
 
 	Engine::CBaseBullet::Update_Object(fTimeDelta);
 
@@ -81,7 +116,7 @@ void CSphinxBullet::LateUpdate_Object(void)
 	D3DXMatrixInverse(&matBill, 0, &matBill);
 
 	_matrix      matScale, matTrans;
-	D3DXMatrixScaling(&matScale, 0.5f, 0.5f, 0.5f);
+	D3DXMatrixScaling(&matScale, m_pTransCom->m_vScale.x, m_pTransCom->m_vScale.y, m_pTransCom->m_vScale.z);
 
 	_matrix      matRot;
 	D3DXMatrixIdentity(&matRot);
@@ -114,9 +149,14 @@ void CSphinxBullet::Render_Obejct(void)
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-
-	m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);	// 텍스처 정보 세팅을 우선적으로 한다.
-
+	if (m_pTransCom->m_vInfo[INFO_POS].y <= 0.f)
+	{
+		m_pDeadTextureCom->Set_Texture(m_pDeadAnimationCom->m_iMotion);
+	}
+	else
+	{
+		m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);	// 텍스처 정보 세팅을 우선적으로 한다.
+	}
 	m_pBufferCom->Render_Buffer();
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
@@ -128,6 +168,8 @@ HRESULT CSphinxBullet::Add_Component(void)
 	m_pTransCom = CAbstractFactory<CTransform>::Clone_Proto_Component(L"Proto_DynamicTransformCom", m_mapComponent, ID_DYNAMIC);
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
 	m_pAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_STATIC);
+	m_pDeadTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_explosion_sphinx", m_mapComponent, ID_STATIC);
+	m_pDeadAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_Dead_AnimationCom", m_mapComponent, ID_STATIC);
 	//m_pCubeTexCom = CAbstractFactory<CCubeTex>::Clone_Proto_Component(L"Proto_CubeTexCom", m_mapComponent, ID_STATIC);
 	return S_OK;
 }

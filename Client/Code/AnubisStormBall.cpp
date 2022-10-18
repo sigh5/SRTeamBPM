@@ -57,6 +57,19 @@ _int CAnubisStormBall::Update_Object(const _float & fTimeDelta)
 
 	m_pAnimationCom->Move_Animation(fTimeDelta);
 
+	_vec3 vThunderPos = m_pTransCom->m_vInfo[INFO_POS];
+	CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
+	CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
+	_vec3 vPlayerPos = pPlayerTransformCom->m_vInfo[INFO_POS];
+
+	float fDistance = sqrtf((powf(vThunderPos.x - vPlayerPos.x, 2) + powf(vThunderPos.y - vPlayerPos.y, 2) + powf(vThunderPos.z - vPlayerPos.z, 2)));
+
+	if (fDistance < 1.5f && false == m_bHitPlayer)
+	{
+		pPlayerInfo->Receive_Damage(10);
+		m_bHitPlayer = true;
+	}
+
 	m_pTransCom->Move_Pos(&(m_MoveDir * 3.f * fTimeDelta));
 
 	Render_Obejct();

@@ -56,16 +56,23 @@ public:					// ★ m_pInfoCom->Get_InfoRef()._iHp를 return 해주면 실전 OK
 	_uint				Get_HpChange(void) { return m_iOriginHP; }
 	_uint				Get_Skill(void) { return m_iSkillPower; }
 	
+	//탄피 생성하려고 방향이 필요해서 만들었음
+	_vec3				Get_Direction(void) { return m_vDirection; }
 
 	void				Set_bPreStat(_bool _AddStat) { m_bPreStat = _AddStat; }
 	void				Set_bCurStat(_bool _bStat) { m_bCurStat = _bStat; }
 
 	void				Loss_Damage();
-	
+
+	void				Excution_Motion();
+
+	void				Set_inventroyActive(_bool bInventoryActive) { m_bInventroyActive = bInventoryActive; }
+	const _bool&		Get_inventroyActive() { return m_bInventroyActive; }
+
 private:
 	void				Random_ResurrectionRoom();
-
-
+	void				Player_Dead_CaemraAction();
+	void				Player_Dead(const _float& fTimeDelta);
 
 private:
 	CRcTex*				m_pBufferCom = nullptr;
@@ -97,7 +104,9 @@ private:		// Jw
 	TYPING_TYPE			m_tpType;					// 어느 방향으로 가는 중인가에 따라 대쉬 방향을 정하기 위한 구조체 변수
 	_float				m_fDashPower = 0.f;		//대쉬 시 가속력
 	_float				m_fBuffDashPower = 0.f; //가중된 가속력
-	// ~Dash
+	_float				m_fDashTimer = 0.f;
+	_bool				m_bIsDash = false;
+// ~Dash
 
 	// Player_Combo
 	_int				m_iComboCount = 0;
@@ -123,6 +132,12 @@ private:		// Jw
 	_bool				m_bGainItem[3] = { false, }; //나중에 숫자만큼 넣으세요
 
 	// ~Player's Status(Private)
+
+	// InventroyActive 
+	_bool				m_bInventroyActive = false;
+	_float				m_bDeadTimer = 0.f;
+	// ~InventroyActive 
+
 
 public:
 	static CPlayer*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

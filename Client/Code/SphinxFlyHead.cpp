@@ -30,7 +30,7 @@ HRESULT CSphinxFlyHead::Ready_Object(float Posx, float Posy, float Size)
 	m_pHeadActivatedAnimationCom = dynamic_cast<CAnimation*>(Clone_Proto(L"Proto_AnimationCom"));
 	NULL_CHECK_RETURN(m_pHeadActivatedAnimationCom, E_FAIL);
 	m_mapComponent[ID_STATIC].insert({ L"Proto_Head_Active_AnimationCom", m_pHeadActivatedAnimationCom });
-	
+
 	m_pLRAttackAnimationCom = dynamic_cast<CAnimation*>(Clone_Proto(L"Proto_AnimationCom"));
 	NULL_CHECK_RETURN(m_pLRAttackAnimationCom, E_FAIL);
 	m_mapComponent[ID_STATIC].insert({ L"Proto_LRAttack_AnimationCom", m_pLRAttackAnimationCom });
@@ -42,13 +42,13 @@ HRESULT CSphinxFlyHead::Ready_Object(float Posx, float Posy, float Size)
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
 
 	m_pAnimationCom->Ready_Animation(7, 0, 100);
-	
+
 	m_pHeadActivatedAnimationCom->Ready_Animation(5, 0, 0.5f);
 	m_pLRAttackAnimationCom->Ready_Animation(4, 0, 0.5f);
 	m_pBodyAttackAnimation->Ready_Animation(8, 0, 0.4f);
 	m_pDeadAnimationCom->Ready_Animation(23, 0, 0.3f);
 
-	m_pInfoCom->Ready_CharacterInfo(3, 10, 2.f);
+	m_pInfoCom->Ready_CharacterInfo(2, 10, 2.f);
 
 	for (int i = 0; i < 4; ++i)
 	{
@@ -64,6 +64,7 @@ HRESULT CSphinxFlyHead::Ready_Object(float Posx, float Posy, float Size)
 	m_fTackleStopper = 0.05f;
 	m_fOriginTackleStopper = m_fTackleStopper;
 
+
 	m_iMonsterIndex = MONSTER_FLY_HEAD;
 	m_fRearrangementDelay = 1.f;
 
@@ -73,13 +74,32 @@ HRESULT CSphinxFlyHead::Ready_Object(float Posx, float Posy, float Size)
 		m_pDynamicTransCom->Set_Pos(Posx, Size*0.5f, Posy);
 	}
 	m_pDynamicTransCom->Set_Scale(&_vec3{ Size, Size, 1.f });
+	m_fLimitY = m_pDynamicTransCom->m_vScale.y * 0.2f;
+
+	Save_OriginPos();
+	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
+	_vec3 MonsterPos;
+	m_pDynamicTransCom->Get_Info(INFO_POS, &MonsterPos);
+	_vec3 dir = m_vPlayerPos - MonsterPos;
+	//D3DXVec3Normalize(&dir, &dir);
+	m_pColliderCom->Set_HitRadiuos(0.f);
+	m_pDynamicTransCom->Set_CountMovePos(&(-dir * 0.2f));
 	m_pDynamicTransCom->Update_Component(1.f);
 	return S_OK;
 }
 
 _int CSphinxFlyHead::Update_Object(const _float & fTimeDelta)
 {
+	// 맨위에있어야됌 리턴되면 안됌
+	_matrix matWorld;
+	_vec3 vScale;
+	vScale = m_pDynamicTransCom->Get_Scale();
+	m_pDynamicTransCom->Get_WorldMatrix(&matWorld);
+	m_pColliderCom->Set_HitBoxMatrix_With_Scale(&matWorld, vScale);
+	// 맨위에있어야됌 리턴되면 안됌
+
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
+	m_fVolume = (100 - fMtoPDistance) * 0.01f;
 	if (Distance_Over())
 	{
 		Engine::CMonsterBase::Update_Object(fTimeDelta);
@@ -87,8 +107,8 @@ _int CSphinxFlyHead::Update_Object(const _float & fTimeDelta)
 
 		return 0;
 	}
-	if(false == m_bBattle)
-	HeadActive(fTimeDelta);
+	if (false == m_bBattle)
+		HeadActive(fTimeDelta);
 	if (Dead_Judge(fTimeDelta))
 	{
 		return 0;
@@ -98,17 +118,25 @@ _int CSphinxFlyHead::Update_Object(const _float & fTimeDelta)
 
 	AttackJudge(fTimeDelta);
 
-	if(m_bBattle)
-	BattleLoop(fTimeDelta);
+	if (m_bBattle)
+		BattleLoop(fTimeDelta);
 
+	if (m_fLimitY > m_pDynamicTransCom->m_vInfo[INFO_POS].y)
+	{
+		m_pDynamicTransCom->m_vInfo[INFO_POS].y = m_fLimitY;
+	}
 	Engine::CMonsterBase::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
-
+	CScene* pScene = ::Get_Scene();
+	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+	//pMyLayer->Add_vecColliderMonster(static_cast<CMonsterBase*>(this));
 	return 0;
 }
 
 void CSphinxFlyHead::LateUpdate_Object(void)
 {
+	::SetChannelVolume(SOUND_EFFECT, m_fVolume);
+
 	CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
 	NULL_CHECK(pCamera);
 
@@ -270,11 +298,25 @@ void		CSphinxFlyHead::AttackLeftRight(const _float& fTimeDelta)
 	m_pLRAttackAnimationCom->m_fMotionChangeCounter += fTimeDelta;
 	if (4 == m_pLRAttackAnimationCom->m_iMotion)
 	{
+		if (false == m_bLRAttackSound)
+		{
+			::StopSound(SOUND_EFFECT);
+			::PlaySoundW(L"executor_spell_sound.wav", SOUND_EFFECT, m_fVolume);
+			m_bLRAttackSound = true;
+		}
 		LeftAttack(fTimeDelta);
+	
 	}
 	if (2 == m_pLRAttackAnimationCom->m_iMotion)
 	{
+		if (false == m_bLRAttackSound)
+		{
+			::StopSound(SOUND_EFFECT);
+			::PlaySoundW(L"executor_spell_sound.wav", SOUND_EFFECT, m_fVolume);
+			m_bLRAttackSound = true;
+		}
 		RightAttack(fTimeDelta);
+	
 	}
 	if (3 == m_pLRAttackAnimationCom->m_iMotion || 1 == m_pLRAttackAnimationCom->m_iMotion)
 	{
@@ -291,10 +333,16 @@ void		CSphinxFlyHead::AttackLeftRight(const _float& fTimeDelta)
 	if (0 == m_pLRAttackAnimationCom->m_iMotion)
 	{
 		LeftRightJudge(fTimeDelta);
+		if (false == m_bLRChargeSound)
+		{
+			::StopSound(SOUND_EFFECT);
+			::PlaySoundW(L"curse_spell_loop_sound.wav", SOUND_EFFECT, m_fVolume);
+			m_bLRChargeSound = true;
+		}
 	}
 
-	
-	
+
+
 }
 
 void CSphinxFlyHead::LeftRightJudge(const _float & fTimeDelta)
@@ -341,6 +389,8 @@ void CSphinxFlyHead::LeftAttack(const _float & fTimeDelta)
 		m_bGet_PlayerPos_LR = false;
 		m_bSelectedLeftRight = false;
 		m_iLRJudge = 0;
+		m_bLRChargeSound = false;
+		m_bLRAttackSound = false;
 	}
 }
 
@@ -363,6 +413,8 @@ void CSphinxFlyHead::RightAttack(const _float & fTimeDelta)
 		m_bGet_PlayerPos_LR = false;
 		m_bSelectedLeftRight = false;
 		m_iLRJudge = 0;
+		m_bLRChargeSound = false;
+		m_bLRAttackSound = false;
 	}
 }
 
@@ -380,6 +432,12 @@ void	CSphinxFlyHead::BodyAttack(const _float& fTimeDelta)
 	{
 	case 0:
 		//Ready level
+		if (false == m_bChargeSound)
+		{
+			::StopSound(SOUND_EFFECT);
+			::PlaySoundW(L"Energy_Shield_Looping_1.wav", SOUND_EFFECT, m_fVolume);
+			m_bChargeSound = true;
+		}
 		m_bRenderBodyAttack = true;
 		m_pBodyAttackAnimation->Move_Animation(fTimeDelta);
 		if (m_pBodyAttackAnimation->m_iMaxMotion <= m_pBodyAttackAnimation->m_iMotion)
@@ -388,7 +446,7 @@ void	CSphinxFlyHead::BodyAttack(const _float& fTimeDelta)
 			m_iBodyAttackLevel = 1;
 			m_bRenderBodyAttack = false;
 		}
-			break;
+		break;
 
 	case 1:
 		//Set direction
@@ -398,14 +456,35 @@ void	CSphinxFlyHead::BodyAttack(const _float& fTimeDelta)
 
 	case 2:
 		Tackle(fTimeDelta);
+		if (false == m_bBodyAttackSound)
+		{
+			_int BodyAttacksound = rand() % 2;
+			switch (BodyAttacksound)
+			{
+			case 0:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"satan_transform_2to3.wav", SOUND_MONSTER, m_fVolume);
+				break;
+
+			case 1:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"satan_transform_3to4.wav", SOUND_MONSTER, m_fVolume);
+				break;
+			}
+			
+			m_bBodyAttackSound = true;
+		}
 		if (m_bAttack == false)
 		{
 			m_iBodyAttackLevel = 0;
+			m_bBodyAttackSound = false;
+			m_bChargeSound = false;
+		
 		}
 		break;
 
 
-	}	
+	}
 }
 void		CSphinxFlyHead::Save_PlayerPos_forBody(const _float& fTimeDelta)
 {
@@ -417,6 +496,20 @@ void		CSphinxFlyHead::Save_PlayerPos_forBody(const _float& fTimeDelta)
 }
 void		CSphinxFlyHead::Tackle(const _float& fTimeDelta)
 {
+
+	_vec3 vThunderPos = m_pDynamicTransCom->m_vInfo[INFO_POS];
+	CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
+	CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
+	_vec3 vPlayerPos = pPlayerTransformCom->m_vInfo[INFO_POS];
+
+	float fDistance = sqrtf((powf(vThunderPos.x - vPlayerPos.x, 2) + powf(vThunderPos.y - vPlayerPos.y, 2) + powf(vThunderPos.z - vPlayerPos.z, 2)));
+
+	if (fDistance < 2.f && false == m_bHitPlayer)
+	{
+		pPlayerInfo->Receive_Damage(10);
+		m_bHitPlayer = true;
+	}
+
 	m_fTackleAttenuationTimeCount += fTimeDelta;
 	Tackle_HeadSpin(fTimeDelta);
 	if (m_bAttenuationStart)
@@ -435,19 +528,21 @@ void		CSphinxFlyHead::Tackle(const _float& fTimeDelta)
 			m_fTackleAttenuationTimeCount = 0.f;
 		}
 	}
-	if(0<m_fTackleSpeed - m_fTackleStopper)
-		m_pDynamicTransCom->Move_Pos(&(m_vTackleDir * (m_fTackleSpeed-m_fTackleStopper) * 0.1f));
+	if (0<m_fTackleSpeed - m_fTackleStopper)
+		m_pDynamicTransCom->Move_Pos(&(m_vTackleDir * (m_fTackleSpeed - m_fTackleStopper) * 0.1f));
 	else
-		{
-			m_fTackleStopper = m_fOriginTackleStopper;
-			m_bTackleStart = false;
-			m_bGet_PlayerPos_Body = false;
-			m_bBodyAttackChargeFinish = false;
-			m_bAttack = false;
-			m_bAttenuationStart = false;
-		}
-		m_pDynamicTransCom->Update_Component(fTimeDelta);
+	{
+		m_fTackleStopper = m_fOriginTackleStopper;
+		m_bTackleStart = false;
+		m_bGet_PlayerPos_Body = false;
+		m_bBodyAttackChargeFinish = false;
+		m_bAttack = false;
+		m_bAttenuationStart = false;
+		m_bHitPlayer = false;
+
 	}
+	m_pDynamicTransCom->Update_Component(fTimeDelta);
+}
 
 void	CSphinxFlyHead::Tackle_HeadSpin(const _float& fTimeDelta)
 {
@@ -480,7 +575,7 @@ void	CSphinxFlyHead::Tackle_HeadSpin(const _float& fTimeDelta)
 	}
 
 	float fDegree = acosf(fFrontBack);
-	
+
 	if (m_bFrontback)
 	{
 		if (m_bLeftRight)
@@ -518,7 +613,7 @@ void	CSphinxFlyHead::Tackle_HeadSpin(const _float& fTimeDelta)
 	else
 	{
 		float minusdgree = acosf(D3DXVec3Dot(&m_vTackleDir, &-vNowdir));
-		
+
 		if (m_bLeftRight)
 		{//34분면
 			if (0.8 < minusdgree)
@@ -557,9 +652,16 @@ void	CSphinxFlyHead::Tackle_HeadSpin(const _float& fTimeDelta)
 void	CSphinxFlyHead::Rearrangement(const _float& fTimeDelta)
 {
 	m_fRearrangementDealyCount += fTimeDelta;
+	if (m_pDynamicTransCom->m_vScale.y > m_pDynamicTransCom->m_vInfo[INFO_POS].y)
+	{
+		m_pDynamicTransCom->Move_Pos(&(_vec3(0.f, 1.f, 0.f) * 0.03f));
+		m_pDynamicTransCom->Update_Component(fTimeDelta);
+	}
+
 	if (m_fRearrangementDelay < m_fRearrangementDealyCount)
 	{
 		m_fRearrangementDealyCount = 0.f;
+
 		switch (m_pAnimationCom->m_iMotion)
 		{
 		case 0:

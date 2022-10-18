@@ -20,6 +20,10 @@ public:
 	HRESULT Ready_Buffer(const _ulong& dwCntX, const _ulong& dwCntZ, const _ulong& dwVtxItv);
 	virtual void Render_Buffer(void) override;
 
+	const _vec3&		Get_Center() {return m_vCenter;}
+
+
+
 private:
 	HANDLE				m_hFile;
 	BITMAPFILEHEADER	m_fH;
@@ -27,6 +31,8 @@ private:
 
 	_vec3*				m_pPos;
 	_bool				m_bClone;
+
+	_vec3				m_vCenter;
 
 public:
 	static CTerrainTex*	Create(LPDIRECT3DDEVICE9 pGraphicDev, const _ulong& dwCntX, const _ulong& dwCntZ, const _ulong& dwVtxItv);

@@ -32,7 +32,7 @@ private:
 	HRESULT				Add_UpdateComponent(void);
 
 public:
-	HRESULT				Shoot_Motion(void);
+	HRESULT				Shoot_Motion(const _float& fTimeDelta);
 
 public:	// Get/Set
 	const _bool&		Get_ReadyShot(void)const		 { return m_bReadyShot; }
@@ -52,6 +52,11 @@ public:	// Get/Set
 
 public:
 	void				GunFailSound();
+	void				Set_Active(_bool bEvent) { m_bActive = bEvent; }
+
+	void				Set_GunNoRender(_bool bEvent) { m_bNoRender = bEvent; }
+
+	void				Get_shellPosition(_vec3& vPos, _vec3& vdir);
 
 private:
 	_bool				m_bShootCheck = false;
@@ -61,12 +66,17 @@ private:
 
 
 	_bool				m_bChangeWeaponUI = false;
-
 	_bool				m_bControl = false;
-
 	_uint				m_iAlpha = 0;
-
 	_vec3				m_vecScale;
+
+	_bool				m_bActive = false;
+	_float				m_fActiveTimer = 0.f;
+	
+	_bool				m_bNoRender = false;
+
+	bool				m_bCreatedShell = false;
+
 
 private:
 	CRcTex*				m_pBufferCom = nullptr;

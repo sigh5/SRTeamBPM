@@ -4,6 +4,7 @@
 #include "Export_Function.h"
 #include "Terrain.h"
 #include "AbstractFactory.h"
+#include "ControlRoom.h"
 
 CTeleCube::CTeleCube(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -14,17 +15,15 @@ CTeleCube::~CTeleCube()
 {
 }
 
-//ÁÖ¼®Áö¿ì¼À
-
 HRESULT CTeleCube::Ready_Object()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
-	_vec3 vPos;
+	_vec3 vPos, vScale;
 	m_pTransCom->Get_Info(INFO_POS, &vPos);
-
+	vScale = m_pTransCom->Get_Scale();
 	// set_hit_distance 
 	m_pColliderCom->Set_HitRadiuos(2.f);
-	m_pColliderCom->Set_vCenter(&vPos);
+	m_pColliderCom->Set_vCenter(&vPos, &vScale);
 
 	return S_OK;
 }
@@ -33,8 +32,18 @@ _int CTeleCube::Update_Object(const _float & fTimeDelta)
 {
 	m_pColliderCom->Set_HitBoxMatrix(&(m_pTransCom->m_matWorld));
 
+	if (m_bCollisionCheck)
+	{
+		m_bSetActive = true;
+		m_fActiveTimer += 1.f*fTimeDelta;
+	}
 
-
+	if (m_fActiveTimer >= 5.f)
+	{
+		m_bSetActive = false;
+		m_bCollisionCheck = false;
+		m_fActiveTimer = 0.f;
+	}
 
 	CGameObject::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_PRIORITY, this);
@@ -87,6 +96,9 @@ void CTeleCube::Render_Obejct(void)
 
 void CTeleCube::Collision_Event()
 {
+	if (m_bSetActive == true)
+		return;
+	
 	CScene  *pScene = ::Get_Scene();
 	NULL_CHECK_RETURN(pScene, );
 	CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
@@ -111,13 +123,34 @@ void CTeleCube::Collision_Event()
 				return;
 
 			CTransform* sour = dynamic_cast<CTransform*>(pTeleCube->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
-			pLayer->m_iRestRoom++;
+			pLayer->m_iRestRoom++; 
 			_vec3 vPos;
 			sour->Get_Info(INFO_POS, &vPos);
 
-			pTransform->Set_Pos(vPos.x + 10.f, vPos.y, vPos.z + 10.f);
-			pTransform->Update_Component(1.f);
+			_vec3 vRight,vLook,vAngle;
+			m_pTransCom->Get_Info(INFO_RIGHT, &vRight);
+			m_pTransCom->Get_Info(INFO_LOOK, &vLook);
+			vAngle = m_pTransCom->Get_Angle();
 
+			D3DXVec3Normalize(&vRight, &vRight);
+			D3DXVec3Normalize(&vLook, &vLook);
+			
+			_matrix matWorld;
+
+			m_pTransCom->Get_WorldMatrix(&matWorld);
+			
+			pTransform->Set_Pos(vPos.x , vPos.y, vPos.z);
+			pTransform->Rotation(ROT_Y, vAngle.y);
+			pTransform->Update_Component(1.f);
+			
+			CScene* pScene = Get_Scene();
+			CLayer* pLayer = pScene->GetLayer(L"Layer_CubeCollsion");
+			for (int i = 0; i < TELEPORT_CUBE_LIST_END; ++i)
+			{
+				for (auto iter : *(pLayer->Get_TeleCubeList(i)))
+					dynamic_cast<CTeleCube*>(iter)->Set_Active(true);
+			}
+			m_bCollisionCheck = true;
 
 		}
 
@@ -125,12 +158,11 @@ void CTeleCube::Collision_Event()
 
 	else if (m_iOption == (_int)CUBE_END_TELE)
 	{
-
-
 		CCollider *pCollider = dynamic_cast<CCollider*>(pGameObject->Get_Component(L"Proto_ColliderCom", ID_STATIC));
 
 		if (m_pColliderCom->Check_CollisonUseCollider(m_pColliderCom, pCollider))
 		{
+			Get_Scene()->GetLayer(L"Layer_GameLogic")->Clear_ColliderMonster();
 			Get_Scene()->GetLayer(L"Layer_GameLogic")->Delete_GhulList();
 
 			CDynamic_Transform *pTransform = dynamic_cast<CDynamic_Transform*>(pGameObject->Get_Component(L"Proto_DynamicTransformCom", ID_DYNAMIC));
@@ -147,13 +179,23 @@ void CTeleCube::Collision_Event()
 				pLayer->Save_CurrentRoom(this);
 
 			CTransform* sour = dynamic_cast<CTransform*>(temp[iRandomNum]->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
-
 			_vec3 vPos;
 			sour->Get_Info(INFO_POS, &vPos);
-			pTransform->Set_Pos(vPos.x + 5.f, vPos.y, vPos.z + 5.f);
-			pTransform->Update_Component(1.f);
-			return;
 
+			_vec3 vAngle;
+			vAngle =sour->Get_Angle();
+		
+			pTransform->Set_Pos(vPos.x, vPos.y, vPos.z);
+			pTransform->Rotation(ROT_Y, vAngle.y);
+			pTransform->Update_Component(1.f);
+			CScene* pScene = Get_Scene();
+			CLayer* pLayer = pScene->GetLayer(L"Layer_CubeCollsion");
+			for (int i = 0; i < TELEPORT_CUBE_LIST_END; ++i)
+			{
+				for (auto iter : *(pLayer->Get_TeleCubeList(i)))
+					dynamic_cast<CTeleCube*>(iter)->Set_Active(true);
+			}
+			m_bCollisionCheck = true;
 		}
 	}
 

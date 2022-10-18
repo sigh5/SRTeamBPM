@@ -18,7 +18,7 @@ END
 
 class CWallCube;
 class CTerrain;
-
+class CControlRoom;
 // TexturePath 를 위한 Struct
 struct TexturePath
 {
@@ -70,7 +70,7 @@ public: // Wall
 	void	Load_CubeMap(LPDIRECT3DDEVICE9 pGrahicDev, CScene *pScene);
 
 
-
+	void	Create_Sphere(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCamera *pCam, wstring pObjectName);
 
 
 public:
@@ -99,6 +99,7 @@ public:
 	wstring         m_CurrentTerrainObjectName = L"";
 	wstring			m_CurrentObstaclName = L"";
 
+	
 	
 
 public:
@@ -131,7 +132,7 @@ private:
 
 	
 	CWallCube*	m_pWallCube = nullptr;
-	
+	CControlRoom* pControlSphere = nullptr;
 
 
 	// ~Map_Tool 변수
@@ -202,16 +203,21 @@ CGameObject* CImGuiMgr::SelectObject(CLayer* pLayer,wstring* currentObjectName)
 	{
 		if (dynamic_cast<T*>(iter->second)->Set_SelectGizmo())
 		{
-			m_pSelectedTransform = nullptr;
-			m_pSelectedObject = nullptr;
-			m_pSelectedTransform = dynamic_cast<CTransform*>(iter->second->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
-			m_pSelectedObject = dynamic_cast<T*>(iter->second);
-			m_CurrentSelectGameObjectObjKey = iter->first;
-			
-			*currentObjectName = iter->first;
+			//if (dynamic_cast<CWallCube*>(iter->second)->Get_Option() == 4 ) // Only Collsion
+			{
+				m_pSelectedTransform = nullptr;
+				m_pSelectedObject = nullptr;
+				m_pSelectedTransform = dynamic_cast<CTransform*>(iter->second->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+				m_pSelectedObject = dynamic_cast<T*>(iter->second);
+				m_CurrentSelectGameObjectObjKey = iter->first;
+
+				*currentObjectName = iter->first;
 
 
-			return m_pSelectedObject;
+				return m_pSelectedObject;
+			}
+
+		
 		}
 	}
 

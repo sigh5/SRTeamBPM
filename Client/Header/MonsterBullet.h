@@ -31,7 +31,7 @@ private:
 	CRcTex*				m_pBufferCom = nullptr;
 	CAnimation*			m_pAnimationCom = nullptr;
 
-
+	bool				m_bHitPlayer = false;
 public:
 	static CMonsterBullet*		Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos);
 	virtual void		Free(void);

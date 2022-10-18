@@ -28,6 +28,7 @@ public:
 private:
 	void		AttackJudge(const _float& fTimeDelta);
 	void		Attack(const _float& fTimeDelta);
+	void			Drop_Item(int ItemType);
 	//~
 
 	//积己 家戈
@@ -38,8 +39,9 @@ public:
 private:
 	// 单固瘤 HW
 	_bool			m_bHitDamage = true;
-
-
+	bool	m_bReadyAttackSound = false;
+	bool	m_bAttackSound = false;
+	bool	m_bAttackSound2 = false;
 
 private:
 	CTexture*		m_pTextureCom = nullptr;
@@ -48,6 +50,6 @@ private:
 	CAnimation*		m_pAttackAnimationCom = nullptr;
 	CRcTex*			m_pBufferCom = nullptr;
 	
-	
+
 };
 

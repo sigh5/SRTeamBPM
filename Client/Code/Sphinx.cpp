@@ -11,6 +11,7 @@
 #include "SphinxBody.h"
 #include "SphinxFlyHead.h"
 #include "Obelisk.h"
+#include "HitEffect.h"
 
 CSphinx::CSphinx(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -39,7 +40,7 @@ HRESULT CSphinx::Ready_Object(int Posx, int Posy)
 	m_iMonsterIndex = MONSTER_SPHINX;
 	m_vOldPlayerPos = { 0.f, 0.f, 0.f };
 	m_pAnimationCom->Ready_Animation(13, 0, 0.2f);
-	m_pInfoCom->Ready_CharacterInfo(5, 10, 8.f);
+	m_pInfoCom->Ready_CharacterInfo(2, 10, 8.f);
 	m_pHeadOffAnimationCom->Ready_Animation(19, 0, 0.3f);
 	m_iPreHp = m_pInfoCom->Get_Hp();
 	m_iShootLeftRight = 0;
@@ -50,15 +51,29 @@ HRESULT CSphinx::Ready_Object(int Posx, int Posy)
 	if (Posx == 0 && Posy == 0) {}
 	else
 	{
-		m_pDynamicTransCom->Set_Pos((float)Posx, m_vScale.y * 0.5f, (float)Posy);
+
 	}
-	m_pDynamicTransCom->Compulsion_Update();
+	
+
+
+	//m_pDynamicTransCom->Rotation(ROT_Y, 90.f);
+	m_pDynamicTransCom->Update_Component(1.f);
 	return S_OK;
 }
 
 _int CSphinx::Update_Object(const _float & fTimeDelta)
 {
+	// 맨위에있어야됌 리턴되면 안됌
+	_matrix matWorld;
+	_vec3 vScale;
+	vScale = m_pDynamicTransCom->Get_Scale();
+	m_pDynamicTransCom->Get_WorldMatrix(&matWorld);
+	m_pColliderCom->Set_HitBoxMatrix_With_Scale(&matWorld, vScale);
+	Engine::CMonsterBase::Update_Object(fTimeDelta);
+	// 맨위에있어야됌 리턴되면 안됌
+
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
+	
 	if (Distance_Over())
 	{
 		Engine::CMonsterBase::Update_Object(fTimeDelta);
@@ -69,7 +84,7 @@ _int CSphinx::Update_Object(const _float & fTimeDelta)
 
 	Get_ObeliskState();
 
-	if ( !m_bBattle  )
+	if (!m_bBattle)
 	{
 		IdleLoop(fTimeDelta);
 	}
@@ -87,22 +102,28 @@ _int CSphinx::Update_Object(const _float & fTimeDelta)
 
 void CSphinx::LateUpdate_Object(void)
 {
-		_matrix      matScale, matTrans;
-		D3DXMatrixScaling(&matScale, m_vScale.x, m_vScale.y, m_vScale.z);
+	_matrix      matScale, matTrans, matRot;
+	D3DXMatrixScaling(&matScale, m_vScale.x, m_vScale.y, m_vScale.z);
 
-		_vec3 vPos;
-		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
 
-		D3DXMatrixTranslation(&matTrans,
-			vPos.x,
-			vPos.y,
-			vPos.z);
+	_vec3 vPos;
+	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
 
-		_matrix		matWorld;
-		D3DXMatrixIdentity(&matWorld);
+	D3DXMatrixTranslation(&matTrans,
+		vPos.x,
+		m_vScale.y * 0.5f,
+		vPos.z);
 
-		matWorld = matScale * matTrans;
-		m_pDynamicTransCom->Set_WorldMatrix(&(matWorld));
+	D3DXMatrixIdentity(&matRot);
+	D3DXMatrixRotationY(&matRot, (90.f*3.14f / 180.f));
+
+	_matrix		matWorld;
+	D3DXMatrixIdentity(&matWorld);
+
+	matWorld = matScale * matRot * matTrans;
+	m_pDynamicTransCom->Set_WorldMatrix(&(matWorld));
+
+	Engine::CMonsterBase::LateUpdate_Object();
 }
 
 void CSphinx::Render_Obejct(void)
@@ -145,6 +166,8 @@ void		CSphinx::Collision_Event()
 	CGameObject *pGameObject = nullptr;
 	pGameObject = static_cast<CGun_Screen*>(::Get_GameObject(L"Layer_UI", L"Gun"));
 
+	_vec3	vPos;
+	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
 
 	if (static_cast<CGun_Screen*>(pGameObject)->Get_Shoot() &&
 		fMtoPDistance < MAX_CROSSROAD &&
@@ -156,9 +179,18 @@ void		CSphinx::Collision_Event()
 		m_pInfoCom->Receive_Damage(1);
 		cout << "Sphinx" << m_pInfoCom->Get_InfoRef()._iHp << endl;
 		static_cast<CGun_Screen*>(pGameObject)->Set_Shoot(false);
-	}
 
+		READY_CREATE_EFFECT_VECTOR(pGameObject, CHitEffect, pLayer, m_pGraphicDev, vPos);
+		static_cast<CHitEffect*>(pGameObject)->Set_Effect_INFO(OWNER_SPHINX, 0, 7, 0.2f);
+
+		if (false == m_bTransform)
+		{
+			::StopSound(SOUND_MONSTER);
+			::PlaySoundW(L"Satan_pain_01.wav", SOUND_MONSTER, 0.4f);
+		}
+	}
 }
+
 
 void CSphinx::BattleLoop(const _float & fTimeDelta)
 {
@@ -200,7 +232,7 @@ void CSphinx::IdleLoop(const _float & fTimeDelta)
 
 		m_bBattle = true;
 	}
-	
+
 }
 
 void CSphinx::AttackJudge(const _float & fTimeDelta)
@@ -209,12 +241,22 @@ void CSphinx::AttackJudge(const _float & fTimeDelta)
 
 void CSphinx::Attack(const _float & fTimeDelta)
 {
-	m_pAnimationCom->Move_Animation(fTimeDelta);
-	CTransform* pPlayerTransform =
-		static_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
+	if (false == m_bAttackSound)
+	{
+		::StopSound(SOUND_MONSTER);
+		::PlaySoundW(L"Sphynx_attack_01.wav", SOUND_MONSTER, 0.5f);
+		m_bAttackSound = true;
+	}
 
+	m_pAnimationCom->Move_Animation(fTimeDelta);
+	CTransform* pPlayerTransform =static_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
+	_vec3 vSphinxPos = m_pDynamicTransCom->m_vInfo[INFO_POS];
+	_vec3 vDir = m_vPlayerPos - vSphinxPos;
+	D3DXVec3Normalize(&vDir, &vDir);
+	D3DXVec3Cross(&vDir, &_vec3(0.f, 1.f, 0.f), &vDir);
 	if (m_pAnimationCom->m_iMotion == 5)
 	{
+		
 		if (0 == m_iShootLeftRight)
 		{
 			_vec3 vPosOrigin, vPos;
@@ -222,7 +264,7 @@ void CSphinx::Attack(const _float & fTimeDelta)
 
 			vPos = vPosOrigin;
 			vPos.y += 2.5f;
-			vPos.x += 1.f;
+			vPos += vDir * 1.f;
 
 			CScene* pScene = ::Get_Scene();
 			CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
@@ -232,15 +274,18 @@ void CSphinx::Attack(const _float & fTimeDelta)
 			NULL_CHECK_RETURN(pGameObject, );
 			pMyLayer->Add_GameObjectList(pGameObject);
 			++m_iShootLeftRight;
+
+			::StopSound(SOUND_EFFECT);
+			::PlaySoundW(L"staff_basic_shot.wav", SOUND_EFFECT, 0.25f);
 		}
 		else if (1 == m_iShootLeftRight)
 		{
 			_vec3 vPosOrigin, vPos;
 			m_pDynamicTransCom->Get_Info(INFO_POS, &vPosOrigin);
-
+			
 			vPos = vPosOrigin;
 			vPos.y += 2.5f;
-			vPos.x -= 1.f;
+			vPos -= vDir * 1.f;
 
 			CScene* pScene = ::Get_Scene();
 			CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
@@ -256,6 +301,7 @@ void CSphinx::Attack(const _float & fTimeDelta)
 	if (m_pAnimationCom->m_iMotion == 6)
 	{
 		m_iShootLeftRight = 0;
+		
 	}
 	if (m_pAnimationCom->m_iMotion == 8)
 	{
@@ -268,6 +314,7 @@ void CSphinx::Attack(const _float & fTimeDelta)
 	if (m_pAnimationCom->m_iMotion == m_pAnimationCom->m_iMaxMotion)
 	{
 		m_iShootCycle = 0;
+		m_bAttackSound = false;
 	}
 }
 void	CSphinx::HeadOff_Judge(const _float& fTimeDelta)
@@ -277,12 +324,18 @@ void	CSphinx::HeadOff_Judge(const _float& fTimeDelta)
 		m_bHeadOff = true;
 
 	}
-	
+
 }
 
 void CSphinx::HeadOff_Animation(const _float& fTimeDelta)
 {
 	m_pHeadOffAnimationCom->Move_Animation(fTimeDelta);
+	if (false == m_bTransform)
+	{
+		::StopSound(SOUND_MONSTER);
+		::PlaySoundW(L"satan_transform_1to2.wav", SOUND_MONSTER, 0.4f);
+		m_bTransform = true;
+	}
 	if (m_pHeadOffAnimationCom->m_iMotion >= m_pHeadOffAnimationCom->m_iMaxMotion)
 	{
 		_vec3 vPos;
@@ -314,6 +367,11 @@ void		CSphinx::Get_ObeliskState()
 		{
 			++m_iDeadObelisk;
 		}
+		if (static_cast<CObelisk*>((*iter))->Get_Hit())
+		{
+			m_bBattle = true;
+		}
+
 	}
 	if (0 >= m_iAliveObelisk - m_iDeadObelisk)
 	{

@@ -7,6 +7,10 @@
 #include "Player.h"
 
 #include "Gun_Screen.h"
+#include "HitEffect.h"
+#include "Special_Effect.h"
+#include "Key.h"
+#include "Coin.h"
 
 CSpider::CSpider(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -33,24 +37,52 @@ HRESULT CSpider::Ready_Object(int Posx, int Posy)
 
 	m_iMonsterIndex = MONSTER_SPIDER;
 	m_fAttackDelay = 0.3f;
-	m_pInfoCom->Ready_CharacterInfo(1, 10, 8.f);
+	m_pInfoCom->Ready_CharacterInfo(1, 10, 7.f);
 	m_pAnimationCom->Ready_Animation(4, 1, 0.07f);
 	m_pDeadAnimationCom->Ready_Animation(13, 0, 0.2f);
 	m_pAttackAnimationCom->Ready_Animation(13, 0, 0.2f);
 	m_fHitDelay = 0.f;
+	m_pDynamicTransCom->Set_Scale(&_vec3(3.f, 3.f, 3.f));
 	if (Posx == 0 && Posy == 0) {}
 	else
 	{
 		m_pDynamicTransCom->Set_Pos((_float)Posx, m_pDynamicTransCom->m_vScale.y * 0.5f, (_float)Posy);
 	}
 	Save_OriginPos();
+
+	// ControlRoom
+	_vec3 vPos, vScale;
+	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+	vScale = m_pDynamicTransCom->Get_Scale();
+	m_pColliderCom->Set_vCenter(&vPos, &vScale);
+	// ~ControlRoom
 	return S_OK;
 }
 bool	CSpider::Dead_Judge(const _float& fTimeDelta)
 {
 	if (0 >= m_pInfoCom->Get_Hp())
 	{
-		m_bDead = true;
+		if (false == m_bDead)
+		{
+			_int Hitsound = rand() % 3;
+			switch (Hitsound)
+			{
+			case 0:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Spider_death_01.wav", SOUND_MONSTER, 0.4f);
+				break;
+			case 1:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Spider_death_02.wav", SOUND_MONSTER, 0.4f);
+				break;
+			case 2:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Spider_death_03.wav", SOUND_MONSTER, 0.4f);
+				break;
+			}
+			Drop_Item(rand() % 3);
+			m_bDead = true;
+		}
 	}
 	if (m_bDead)
 	{
@@ -67,10 +99,21 @@ bool	CSpider::Dead_Judge(const _float& fTimeDelta)
 }
 _int CSpider::Update_Object(const _float & fTimeDelta)
 {
+	// 맨위에있어야됌 리턴되면 안됌
+	_matrix matWorld;
+	_vec3 vScale;
+	vScale = m_pDynamicTransCom->Get_Scale();
+	m_pDynamicTransCom->Get_WorldMatrix(&matWorld);
+	m_pColliderCom->Set_HitBoxMatrix_With_Scale(&matWorld, vScale);
+	Engine::CMonsterBase::Update_Object(fTimeDelta);
+	// 맨위에있어야됌 리턴되면 안됌
+
 	//쿨타임 루프
+	m_pDynamicTransCom->Set_Y(m_pDynamicTransCom->m_vScale.y * 0.5f);
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 	if (Distance_Over())
 	{
+		m_pAnimationCom->m_iMotion = 0;
 		Engine::CMonsterBase::Update_Object(fTimeDelta);
 		Add_RenderGroup(RENDER_ALPHA, this);
 
@@ -95,9 +138,8 @@ _int CSpider::Update_Object(const _float & fTimeDelta)
 		Hit_Loop(fTimeDelta);
 	}
 
-	// 처형이벤트
-	Excution_Event();
-	
+
+	m_pDynamicTransCom->Update_Component(fTimeDelta);
 	Engine::CMonsterBase::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
 
@@ -106,6 +148,8 @@ _int CSpider::Update_Object(const _float & fTimeDelta)
 
 void CSpider::LateUpdate_Object(void)
 {
+
+
 	// 빌보드 에러 해결
 	/*CTransform*	pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC));
 	NULL_CHECK(pPlayerTransform);*/
@@ -141,6 +185,13 @@ void CSpider::LateUpdate_Object(void)
 	m_pDynamicTransCom->Set_WorldMatrix(&(matWorld));
 
 	// 빌보드 에러 해결
+	CScene* pScene = ::Get_Scene();
+	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+	pMyLayer->Add_vecColliderMonster(static_cast<CMonsterBase*>(this));
+	
+	
+	
+	
 	Engine::CMonsterBase::LateUpdate_Object();
 }
 
@@ -183,7 +234,8 @@ void CSpider::Collision_Event()
 	NULL_CHECK_RETURN(pLayer, );
 	CGameObject *pGameObject = nullptr;
 	pGameObject = static_cast<CGun_Screen*>(::Get_GameObject(L"Layer_UI", L"Gun"));
-
+	_vec3	vPos;
+	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
 
 	if (static_cast<CGun_Screen*>(pGameObject)->Get_Shoot()&&
 		fMtoPDistance < MAX_CROSSROAD  &&
@@ -194,39 +246,135 @@ void CSpider::Collision_Event()
 		m_pInfoCom->Receive_Damage(1);
 		cout << "Spider "<<m_pInfoCom->Get_InfoRef()._iHp << endl;
 		static_cast<CGun_Screen*>(pGameObject)->Set_Shoot(false);
+	
+		READY_CREATE_EFFECT_VECTOR(pGameObject, CHitEffect, pLayer, m_pGraphicDev, vPos);
+		static_cast<CHitEffect*>(pGameObject)->Set_Effect_INFO(OWNER_SPIDER, 0, 7, 0.2f);
+	
+		if (false == m_bDead)
+		{
+			_int Hitsound = rand() % 3;
+			switch (Hitsound)
+			{
+			case 0:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Spider_pain_01.wav", SOUND_MONSTER, 0.4f);
+				break;
+
+			case 1:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Spider_pain_02.wav", SOUND_MONSTER, 0.4f);
+				break;
+
+			case 2:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Spider_pain_03.wav", SOUND_MONSTER, 0.4f);
+				break;
+			}
+		}
 	}
-
-
-
 }
 
 void CSpider::Excution_Event()
 {
-	// 나중에 로직추가
+	if (!m_bDead &&  1 >= m_pInfoCom->Get_Hp())
+	{
+		m_pInfoCom->Receive_Damage(1);
+		_vec3	vPos;
+		CGameObject *pGameObject = nullptr;
+		CScene* pScene = Get_Scene();
+		CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+		READY_CREATE_EFFECT_VECTOR(pGameObject, CSpecial_Effect, pLayer, m_pGraphicDev, vPos);
+		static_cast<CSpecial_Effect*>(pGameObject)->Set_Effect_INFO(OWNER_PALYER, 0, 17, 0.2f);
+
+		::PlaySoundW(L"explosion_1.wav", SOUND_EFFECT, 0.05f); // BGM
+
+	}
 }
 
 void		CSpider::Attack(const _float& fTimeDelta)
 {
 	m_pAttackAnimationCom->Move_Animation(fTimeDelta);
 
+	if (false == m_bReadyAttackSound)
+	{
+		_int Hitsound = rand() % 3;
+		switch (Hitsound)
+		{
+		case 0:
+			::StopSound(SOUND_MONSTER);
+			::PlaySoundW(L"Spider_detect_01.wav", SOUND_MONSTER, 0.4f);
+			break;
+		case 1:
+			::StopSound(SOUND_MONSTER);
+			::PlaySoundW(L"Spider_detect_02.wav", SOUND_MONSTER, 0.4f);
+			break;
+		case 2:
+			::StopSound(SOUND_MONSTER);
+			::PlaySoundW(L"Spider_detect_03.wav", SOUND_MONSTER, 0.4f);
+			break;
+		}
+		m_bReadyAttackSound = true;
+	}
+
 	CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
 	float Distance;
 	Get_MonsterToPlayer_Distance(&Distance);
 	if (6==m_pAttackAnimationCom->m_iMotion)
 	{
-		if (2.5f > Distance && m_bHitDamage)
+		if (7.f > Distance && m_bHitDamage)
 		{
 			pPlayerInfo->Receive_Damage(m_pInfoCom->Get_AttackPower());
 			m_bHitDamage = false;
+		}
+		if (false == m_bAttackSound)
+		{
+			_int Hitsound = rand() % 3;
+			switch (Hitsound)
+			{
+			case 0:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Spider_attack_01.wav", SOUND_MONSTER, 0.4f);
+				break;
+			case 1:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Spider_attack_02.wav", SOUND_MONSTER, 0.4f);
+				break;
+			case 2:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Spider_attack_03.wav", SOUND_MONSTER, 0.4f);
+				break;
+			}
+			m_bAttackSound = true;
 		}
 	}
 	
 	if (9 == m_pAttackAnimationCom->m_iMotion)
 	{
-		if (2.5f > Distance && m_bHitDamage)
+		if (7.f > Distance && m_bHitDamage)
 		{
 			pPlayerInfo->Receive_Damage(m_pInfoCom->Get_AttackPower());
 			m_bHitDamage = false;
+		}
+		if (false == m_bAttackSound2)
+		{
+			_int Hitsound = rand() % 3;
+			switch (Hitsound)
+			{
+			case 0:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Spider_attack_01.wav", SOUND_MONSTER, 0.4f);
+				break;
+			case 1:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Spider_attack_02.wav", SOUND_MONSTER, 0.4f);
+				break;
+			case 2:
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Spider_attack_03.wav", SOUND_MONSTER, 0.4f);
+				break;
+			}
+			m_bAttackSound2 = true;
 		}
 	}
 
@@ -234,6 +382,8 @@ void		CSpider::Attack(const _float& fTimeDelta)
 	{
 		m_bAttack = false;
 		m_bHitDamage = true;
+		m_bAttackSound = false;
+		m_bAttackSound2 = false;
 	}
 }
 
@@ -264,12 +414,9 @@ void		CSpider::AttackJudge(const _float& fTimeDelta)
 void CSpider::NoHit_Loop(const _float& fTimeDelta)
 {
 	 // 일정 거리 이하면 추적을 안함 // 근데 공격모션 오류 있는거 수정부탁드립니다.
-	if (fMtoPDistance > 15.f)
-	{
-		m_pAnimationCom->Move_Animation(fTimeDelta);
-	}
 
-	else if (fMtoPDistance > 3.f && m_bAttacking == false)
+
+	if (fMtoPDistance > 5.5f && m_bAttacking == false)
 	{
 		m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
 
@@ -297,6 +444,28 @@ void CSpider::Hit_Loop(const _float& fTimeDelta)
 	{
 		m_bHit = false;
 		m_fHitDelay = 0.f;
+	}
+}
+
+void	CSpider::Drop_Item(int ItemType)
+{
+	CScene  *pScene = ::Get_Scene();
+	CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+	CGameObject* pItem = nullptr;
+	switch (ItemType)
+	{
+	case 0:
+		pItem = CCoin::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS].x, m_pDynamicTransCom->m_vInfo[INFO_POS].z);
+		pLayer->Add_DropItemList(pItem);
+		break;
+
+	case 1:
+		pItem = CKey::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS].x, m_pDynamicTransCom->m_vInfo[INFO_POS].z);
+		pLayer->Add_DropItemList(pItem);
+		break;
+
+	default:
+		break;
 	}
 }
 CSpider * CSpider::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)

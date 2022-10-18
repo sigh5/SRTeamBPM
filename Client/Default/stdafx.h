@@ -54,6 +54,10 @@
 extern HINSTANCE	g_hInst;
 extern HWND			g_hWnd;
 
+
+extern LPDIRECT3DDEVICE9	g_pDevice;
+
+
 // All Volume Control Function
 extern float		g_fSound;
 
