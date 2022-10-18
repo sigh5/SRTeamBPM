@@ -95,7 +95,7 @@ void CPlayer_Dead_UI::Render_Obejct(void)
 
 				_tchar szReStart[128] = L"다시 시작하시겠습니까? M키";
 
-				Render_Font(L"Font_Jinji", szReStart, &_vec2(350.f, 800.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+				Render_Font(L"BMJUA_ttf", szReStart, &_vec2(350.f, 800.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 			}
 
 			if (Engine::Key_Down(DIK_M))

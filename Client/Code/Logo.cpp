@@ -37,9 +37,11 @@ HRESULT CLogo::Ready_Scene(void)
 											// LOADING_STAGE  LOADING_TOOL
 	m_pLoading = CLoading::Create(m_pGraphicDev, LOADING_STAGE);
 	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
-		
+	
 	Engine::LoadSoundFile();
-		
+								// Paradox
+	
+
 	return S_OK;
 }
 
@@ -47,6 +49,7 @@ Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 {
 	++m_iCount;
 
+	Engine::PlaySoundW(L"Paradox.mp3", SOUND_BGM, g_fSound);
 	//cout << "Å×½ºÆ® : " << m_iCount << endl;
 
 	m_pStartButton = dynamic_cast<CStart_Button*>(Engine::Get_GameObject(L"Ready_Layer_Environment", L"StartButton"));
@@ -66,6 +69,7 @@ Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 			//m_SceneType = SCENE_TOOLTEST;
 
 			FAILED_CHECK_RETURN(Engine::Set_Scene(pScene), E_FAIL);
+			Engine::StopSound(SOUND_BGM);
 		
 			return 0;
 		}
@@ -80,7 +84,7 @@ Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 			m_SceneType = SCENE_TOOLTEST;
 												// Logo    Setting_Stage
 			FAILED_CHECK_RETURN(Engine::Change_Scene(static_cast<CScene*>(this), pScene), E_FAIL);
-
+			Engine::StopSound(SOUND_BGM);
 			return 0;
 		}
 		
@@ -198,6 +202,8 @@ HRESULT CLogo::Ready_Proto(void)
 		FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"LeeSoonSin", L"LoadingHUD_Font", 18, 25, FW_HEAVY), E_FAIL);
 		// Ghanachocolate
 		FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"Ghanachocolate", L"SoundSettings_Font", 15, 20, FW_HEAVY), E_FAIL);
-	
+		// BMJUA_ttf
+		FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"BMJUA_ttf", L"PlayerDead_Font", 29, 30, FW_HEAVY), E_FAIL);
+
 		return S_OK;
 }

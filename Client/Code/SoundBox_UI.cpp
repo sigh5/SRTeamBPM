@@ -30,10 +30,13 @@ HRESULT CSoundBox_UI::Ready_Object()
 	m_pTransCom->Set_Scale(&vScale);
 
 	// g_fSound = 1.f , Engine::SetChannelVolume() 함수의 2번째 인자에 쓰기 위함. 0.1f ~ 1f 사이로 설정
-	m_iVolume = _uint(g_fSound * 10);
+	m_iVolume = _uint(g_fSound * 100);	
 
 	m_iMaxVol = 100;
 	m_iMinVol = 10;
+
+	m_fMaxSound = 1.f;
+	m_fMinSound = 0.1f;
 		
 	return S_OK;
 }
@@ -49,11 +52,15 @@ _int CSoundBox_UI::Update_Object(const _float & fTimeDelta)
 
 	if (m_bPlusSound) 
 	{
+		g_fSound += 0.1f;
 		m_iVolume += 10;
 		m_bPlusSound = false;
 
 		if (m_iVolume >= 100)
+		{
 			m_iVolume = m_iMaxVol;
+			g_fSound = m_fMaxSound;
+		}
 	
 	}
 		pBGMup->Set_Click(false);
@@ -64,12 +71,15 @@ _int CSoundBox_UI::Update_Object(const _float & fTimeDelta)
 
 	if (m_bMinusSound)
 	{
+		g_fSound -= 0.1f;
 		m_iVolume -= 10;
 		m_bMinusSound = false;
 
 		if (m_iVolume <= 10)
+		{
 			m_iVolume = m_iMinVol;
-
+			g_fSound = m_fMinSound;
+		}
 	}
 		pBGMdown->Set_Click(false);
 
