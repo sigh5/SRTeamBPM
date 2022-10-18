@@ -1,6 +1,6 @@
 #pragma once
 #include "EquipmentBase.h"
-#include "Engine_Include.h"
+
 
 BEGIN(Engine)
 
@@ -10,8 +10,9 @@ class CRcTex;
 class CAnimation;
 class CCalculator;
 class CCollider;
-
 END
+
+class CInventory_UI;
 
 class CShotGun : public CEquipmentBase
 {
@@ -21,19 +22,23 @@ private:
 
 public:
 	HRESULT				Ready_Object(_uint iX, _uint iZ);
-	virtual _int		Update_Object(const _float& fTimeDelta) override;
-	virtual void		LateUpdate_Object(void) override;
-	virtual void		Render_Obejct(void) override;
+	virtual _int		Update_Object(const _float& fTimeDelta);
+	virtual void		LateUpdate_Object(void);
+	virtual void		Render_Obejct(void);
 	virtual void		Collision_Event()override;
-	
-	void				 Set_OnTerrain(void);
+	virtual void		Change_Equip()override;
 
-	_bool				Get_RenderFalse(void) { return m_bRenderFalse; }
+public:
+	virtual void		Set_MouseToInventory();
 
-	_bool	Picking(void);
+public:
+	void				PickingMouseUp();
+	void				SearchInventorySlot(CInventory_UI** pInven);
+	_bool				EquipIconPicking();
 
-	_bool				Get_bPicking(void) { return m_bPick; }
-	
+
+
+
 private:
 	CTransform*				m_pTransCom = nullptr;
 	CTexture*				m_pTextureCom = nullptr;
@@ -41,37 +46,32 @@ private:
 	CAnimation*				m_pAnimationCom = nullptr;
 	CCalculator*			m_pCalculatorCom = nullptr;
 	CCollider*				m_pColliderCom = nullptr;
-	
+
+
 private:
 	HRESULT				Add_Component(void);
 
-public:
-	HRESULT				Open_Event(CGameObject* pGameObject);
-
+private:
 	// 샷건이 가지는 기본 탄창량
 	_uint				m_iShotgunMagazine = 6;
 
-	_bool				m_bRenderFalse = false;
+	_matrix				m_ProjMatrix;
 
-	_matrix				m_matProj;
 
-	_float				m_fX, m_fY, m_fSizeX, m_fSizeY;
+	_bool			m_bOnce = false;
 
-	// for Inventory
-	_uint iIndexRow = 0;
-	_uint iIndexColumn = 0;
+	_float			m_fTimedelta = 0.f;
 
-	_uint iPickRow = 0;
-	_uint iPickColumn = 0;
 
-	_bool	m_bPick = false;
+	/*_bool			m_bPickingEnd = false;
+	_bool			m_iMouseUpEnd = false;
+	_bool			m_bisPicking = false;
 
-	RECT		rcUI;
-	// ~for Inventory
+	_int			m_iInvenSlotIndex = 0;*/
 
 public:
 	static CShotGun*	Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint iX, _uint iZ);
 	virtual void		Free(void);
-	
+
 };
 

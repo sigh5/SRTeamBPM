@@ -45,14 +45,7 @@ bool CInputDev::Key_Up(int _iKey)
 		return true;
 	}
 
-	for (int i = 0; i < 256; ++i)
-	{
-		if (!m_bKeyState[i] && (Get_DIKeyState(i) & 0x80))
-		{
-			m_bKeyState[i] = true;
-		}
-	}
-
+	
 	return false;
 }
 
@@ -64,13 +57,18 @@ bool CInputDev::Mouse_Down(MOUSEKEYSTATE _MouseButton)
 		return true;
 	}
 
-	for (int i = 0; i < 4; ++i)
+	
+	return false;
+}
+
+bool CInputDev::Mouse_UP(MOUSEKEYSTATE _MouseButton)
+{
+	if (m_bMouseState[_MouseButton] && !(m_MouseState.rgbButtons[_MouseButton] & 0x80))
 	{
-		if (m_bMouseState[i] && !(m_MouseState.rgbButtons[i] & 0x80))
-		{
-			 m_bMouseState[i] = false;
-		}
+		m_bMouseState[_MouseButton] = false;
+		return true;
 	}
+
 	return false;
 }
 
@@ -83,6 +81,18 @@ void CInputDev::KeyInputReset()
 
 		else if (!m_bKeyState[i] & (Get_DIKeyState(i) & 0x80))
 			m_bKeyState[i] = true;
+	}
+
+}
+
+void CInputDev::MouseInputReset()
+{
+	for (int i = 0; i < 4; ++i)
+	{
+		if (m_bMouseState[i] && !(m_MouseState.rgbButtons[i] & 0x80))
+		{
+			m_bMouseState[i] = false;
+		}
 	}
 }
 

@@ -153,7 +153,7 @@ void CPlayer::LateUpdate_Object(void)
 		
 	
 	}
-	EquipItem_Add_Stat();
+	
 	CGameObject::LateUpdate_Object();
 }
 
@@ -350,36 +350,14 @@ void CPlayer::ComboCheck()
 		m_iComboCount = 0;
 }
 
-void CPlayer::EquipItem_Add_Stat(void)  // 현재 각 아이템들 충돌처리 부분이 애매해서 F 누르면 스탯이 다 증가할 거임. 충돌처리를 고치던지 날 잡고 한 번 뜯어봐야 함.
+void CPlayer::EquipItem_Add_Stat(_int _iAttack , _int _iHp , _int iCoin, _int _iKey, float _fSpeed)  // 현재 각 아이템들 충돌처리 부분이 애매해서 F 누르면 스탯이 다 증가할 거임. 충돌처리를 고치던지 날 잡고 한 번 뜯어봐야 함.
 {
-	CShotGun* pShotGun = static_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"));
-	/*CCoin* pCoin = static_cast<CCoin*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Coin"));
-	CKey* pKey = static_cast<CKey*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Key"));*/
+	m_pInfoCom->Get_InfoRef()._iAttackPower = _iAttack + 10;		// iOrginAttack =10
 
-	// ShotGun을 먹은 경우
-	if (pShotGun!=nullptr  &&pShotGun->Get_RenderFalse() == true && m_bCurStat && !m_bGainItem[0])
-	{
-		_uint iAtk = 0;
-		iAtk = m_pInfoCom->Get_InfoRef()._iAttackPower + pShotGun->Get_EquipInfoRef()._iAddAttack;
-		m_pInfoCom->Get_InfoRef()._iAttackPower = iAtk;
-		m_bCurStat = false;	
-		m_bGainItem[0] = true;
-	}
+	//_int iHp = _iArmor + m_pInfoCom->Get_InfoRef()._iAttackPower;
+	//m_pInfoCom->Get_InfoRef()._iHp = iHp;
 
-	//if (pCoin != nullptr && pCoin->Get_bAddCoin() == true && m_bCurStat && !m_bGainItem[1])
-	//{
-	//	m_pInfoCom->Add_Coin();
-	//	m_bGainItem[1] = true;
-	//	m_bCurStat = false;
-	//}
 
-	//if (pKey != nullptr  &&  pKey->Get_bAddKey() == true && m_bCurStat && !m_bGainItem[2])
-	//{
-	//	m_pInfoCom->Add_Key();
-	//	m_bGainItem[2] = true;
-	//	m_bCurStat = false;
-
-	//}
 }
 
 void CPlayer::Loss_Damage()

@@ -295,7 +295,6 @@ _bool  CCalculator::PickingOnTransform(HWND hWnd, const CCubeTex * pCubeTexBuffe
 	D3DXVec3TransformNormal(&vRayDir, &vRayDir, &matView);
 
 	_matrix		matWorld;
-
 	pCubeTransCom->Get_WorldMatrix(&matWorld);
 	D3DXMatrixInverse(&matWorld, nullptr, &matWorld);
 	D3DXVec3TransformCoord(&vRayPos, &vRayPos, &matWorld);

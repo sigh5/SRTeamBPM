@@ -124,6 +124,17 @@ namespace Engine
 			MAP_CONTAINER[MAP_CONTAINER_TYPE].insert({PROTO_NAME,PCOMPONENT});				
 
 
+
+#define		ID_SHOT_GUN		1
+#define		ID_MAGNUM		2
+// ........ 
+
+
+
+
+
+
+
 }
 
 #endif // Engine_Macro_h__

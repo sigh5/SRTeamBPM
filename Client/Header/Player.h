@@ -50,7 +50,7 @@ public:
 	void				ComboCheck();
 
 
-	void				EquipItem_Add_Stat(void);
+	void				EquipItem_Add_Stat(_int iAttack = 0, _int _iHp = 0,	_int iCoin =0,_int _iKey=0,float _fSpeed=0.f);
 
 public:					// ★ m_pInfoCom->Get_InfoRef()._iHp를 return 해주면 실전 OK
 	_uint				Get_HpChange(void) { return m_iOriginHP; }
@@ -59,6 +59,7 @@ public:					// ★ m_pInfoCom->Get_InfoRef()._iHp를 return 해주면 실전 OK
 	//탄피 생성하려고 방향이 필요해서 만들었음
 	_vec3				Get_Direction(void) { return m_vDirection; }
 
+public:
 	void				Set_bPreStat(_bool _AddStat) { m_bPreStat = _AddStat; }
 	void				Set_bCurStat(_bool _bStat) { m_bCurStat = _bStat; }
 
@@ -68,6 +69,9 @@ public:					// ★ m_pInfoCom->Get_InfoRef()._iHp를 return 해주면 실전 OK
 
 	void				Set_inventroyActive(_bool bInventoryActive) { m_bInventroyActive = bInventoryActive; }
 	const _bool&		Get_inventroyActive() { return m_bInventroyActive; }
+
+
+
 
 private:
 	void				Random_ResurrectionRoom();
@@ -129,7 +133,7 @@ private:		// Jw
 	// Player's Status(Private)	
 	_bool				m_bPreStat = false;
 	_bool				m_bCurStat = false;
-	_bool				m_bGainItem[3] = { false, }; //나중에 숫자만큼 넣으세요
+
 
 	// ~Player's Status(Private)
 

@@ -147,7 +147,6 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 
 //
 //   함수: InitInstance(HINSTANCE, int)
-//
 //   목적: 인스턴스 핸들을 저장하고 주 창을 만듭니다.
 //
 //   설명:

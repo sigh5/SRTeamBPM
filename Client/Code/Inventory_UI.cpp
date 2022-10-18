@@ -6,7 +6,6 @@
 #include "TestPlayer.h"
 #include "ShotGun.h"
 #include "Magnum.h"
-#include "TestWeapon.h"
 
 #include "MyCamera.h"
 #include "Player.h"
@@ -18,14 +17,33 @@ USING(Engine)
 CInventory_UI::CInventory_UI(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CUI_Base(pGraphicDev)
 {
-	
-	ZeroMemory(&m_SlotType, sizeof(ItemSlot));
-	
-	for (_uint i = 0; i < m_iMaxColumn; ++i)
+	ZeroMemory(&m_rcEquipSlot, sizeof(SlotInfo) * 4);
+	ZeroMemory(&m_rcInvenSlot, sizeof(SlotInfo) * 36);
+
+	m_rcEquipSlot[0].rcInvenSlot = { 350 - 30, 275 - 30 ,350 + 30, 275 + 30 };
+	m_rcEquipSlot[0].bSlotEmpty = true;
+
+	m_rcEquipSlot[1].rcInvenSlot = { 550 - 30, 275 - 30 ,550 + 30, 275 + 30 };
+	m_rcEquipSlot[1].bSlotEmpty = false;
+
+	m_rcEquipSlot[2].rcInvenSlot = { 350 - 30, 395 - 30 ,350 + 30, 395 + 30 };
+	m_rcEquipSlot[2].bSlotEmpty = false;
+
+	m_rcEquipSlot[3].rcInvenSlot = { 550 - 30, 395 - 30 ,550 + 30, 395 + 30 };
+	m_rcEquipSlot[3].bSlotEmpty = false;
+
+	float	fx = 350.f;
+	float	fy = 485.f;
+	// 뺴는값 x = 30 y=35
+	for (int i = 0; i < 4; ++i)
 	{
-		for (_uint j = 0; j < m_iMaxRow; ++j)
+		if (i != 0)
+			fy += 80.f;
+		for (int j = 0; j < 9; ++j)
 		{
-			m_SlotType.pItem[i][j]= nullptr;
+			int iIndex = (i * 9) + j;
+			m_rcInvenSlot[iIndex].rcInvenSlot = { LONG((fx + (j*65.f)) - 30), LONG(fy - 35.f), LONG((fx + (j*65.f) + 30)), LONG(fy + 35.f) };
+			m_rcInvenSlot[iIndex].bSlotEmpty = false;
 		}
 	}
 
@@ -44,186 +62,136 @@ HRESULT CInventory_UI::Ready_Object()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	// 슬롯 초기값
-	m_fSlotX = 45.f; // 슬롯 한 칸의 X(가로) 크기
-	m_fSlotY = 65.f; // 슬롯 한 칸의 Y(세로) 크기
-	m_SlotType.ItemSlotSize[0][0] = {-210.5f, 23.5f}; // 첫 번째 슬롯의 중점 위치
-	
+	D3DXMatrixOrthoLH(&m_ProjMatrix, WINCX, WINCY, 0.f, 1.f);
 
-	// ~슬롯 초기값
+	m_fX = WINCX * 0.5f;
+	m_fY = WINCY * 0.5f;
+	m_fSizeX = 700.f;
+	m_fSizeY = 600.f;
 
-	Set_OrthoMatrix(512.f, 512.f, 0.f, 0.f);
+	_vec3 vScale = { m_fSizeX, m_fSizeY, 1.f };
+	m_pTransCom->Set_Scale(&vScale);
 
-	m_vecScale = { m_fSizeX, m_fSizeY, 1.f };
+	m_pTransCom->Set_Pos(m_fX - WINCX * 0.5f,
+		(-m_fY + WINCY * 0.5f), 0.0f);
+	m_pTransCom->Update_Component(1.f);
 
-	m_pTransCom->Set_Scale(&m_vecScale);
-	m_pTransCom->Set_Pos(m_fX , m_fY , 0.3f);
-	
 	return S_OK;
 }
 
 _int CInventory_UI::Update_Object(const _float & fTimeDelta)
-{	
-	// 무기를 획득시 
+{
 
-	if (m_bItemInfoAdd)
+	if (Key_Down(DIK_I))
 	{
-		if (!m_vecWeaponType.empty())
+		m_bInvenSwitch = !m_bInvenSwitch;
+
+		dynamic_cast<CMyCamera*>(Engine::Get_GameObject(L"Layer_Environment", L"CMyCamera"))->Set_inventroyActive(m_bInvenSwitch);
+		dynamic_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"))->Set_inventroyActive(m_bInvenSwitch);
+
+		CShotGun* pShotGun = dynamic_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"));
+
+		if (pShotGun != nullptr)
 		{
-			m_SlotType.pItem[iIndexColumn][iIndexRow] = m_stackWeapon.top();
-
-			if (m_SlotType.pItem[iIndexColumn][iIndexRow] != nullptr)
 			{
-				iIndexRow += 1;
-
-				if (iIndexRow >= 9)
-				{
-					iIndexColumn += 1;
-					iIndexRow = 0;
-				}
-				m_bItemInfoAdd = false;
-				m_vecWeaponType.clear();
+				_uint iA = 0;
 			}
-
 		}
 	}
-		//cout << "벡터에 들어오는가 : " << m_vecWeaponType.size() << "스택 top :" << m_stackWeapon.size() << endl;
-	
-	
-	// i가 세로(4) , j가 가로(9) , 슬롯의 가로 세로 중점 위치를 알기 위한 이중 for문
-	
-	for (_uint i = 0; i < m_iMaxColumn; ++i)
-	{
-		for (_uint j = 0; j < m_iMaxRow; ++j)
-		{		
-			if (i != 0 && j == 0)
-			{			
-				m_SlotType.ItemSlotSize[i][j].y += (_float)(67 * i);
-			}
 
-			if (i == 0 && j != 0)
-			{				
-				m_SlotType.ItemSlotSize[i][j].x += (_float)(47 * j);
-			}
-
-			if (m_SlotType.pItem[i][j] != nullptr)
-			{
-				CTransform* pTransform = nullptr;
-
-				pTransform = dynamic_cast<CTransform*>((m_SlotType.pItem[i][j]->Get_Component(L"Proto_TransformCom", ID_DYNAMIC)));
-				
-				pTransform->Set_Pos(m_SlotType.ItemSlotSize[i][j].x, m_SlotType.ItemSlotSize[i][j].y, 0.f);
-
-				CShotGun* pShotgun = static_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"));
-											
-				if (pShotgun->Get_bPicking() == true)
-				{
-					_vec3 vecShotPos;
-
-					CTransform* pShotTransform = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"ShotGun", L"Proto_TransformCom", ID_DYNAMIC));
-					pShotTransform->Get_Info(INFO_POS, &vecShotPos);
-
-					pTransform->Set_Pos(vecShotPos.x, vecShotPos.y, 0.f);
-				}
-				
-			}
-
-		}
-	}
-	
-
-	/*if (m_SlotType.pItem[0][0] != nullptr)
-	{
-		CTransform* pTransform = nullptr;
-
-		pTransform = dynamic_cast<CTransform*>((m_SlotType.pItem[0][0]->Get_Component(L"Proto_TransformCom", ID_DYNAMIC)));
-
-		CShotGun* pShotgun = static_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"));
-
-		if(!pShotgun->Get_bPicking())
-		pTransform->Set_Pos(m_SlotType.ItemSlotSize[0][0].x, m_SlotType.ItemSlotSize[0][0].y, 0.f);
-
-		else
-		{
-			_vec3 vecShotPos;
-
-			CTransform* pShotTransform = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"ShotGun", L"Proto_TransformCom", ID_DYNAMIC));
-			pShotTransform->Get_Info(INFO_POS, &vecShotPos);
-
-			pTransform->Set_Pos(vecShotPos.x, vecShotPos.y, 0.f);
-		}
-			
-	}*/
-
+	::Key_InputReset();
+	::MouseInputReset();
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
 	Add_RenderGroup(RENDER_UI, this);
-	
+
 	return 0;
 }
 
 void CInventory_UI::LateUpdate_Object(void)
 {
-	CGameObject::LateUpdate_Object();
+
+
+	Engine::CGameObject::LateUpdate_Object();
+
 }
 
 void CInventory_UI::Render_Obejct(void)
 {
-	CPlayer_Dead_UI* pDead_UI = static_cast<CPlayer_Dead_UI*>(Engine::Get_GameObject(L"Layer_UI", L"Dead_UI"));
 
-	if (pDead_UI->Get_Render() == false)
+	CPlayer_Dead_UI* pDead_UI = static_cast<CPlayer_Dead_UI*>(Engine::Get_GameObject(L"Layer_UI", L"Dead_UI"));
+	if (pDead_UI->Get_Render())
+		return;
+
+	if (m_bInvenSwitch)
 	{
 		m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
-
 		_matrix		OldViewMatrix, OldProjMatrix;
 
 		m_pGraphicDev->GetTransform(D3DTS_VIEW, &OldViewMatrix);
 		m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &OldProjMatrix);
 
 		_matrix		ViewMatrix;
-
 		ViewMatrix = *D3DXMatrixIdentity(&ViewMatrix);
-
-		_matrix		matProj;
-
-		Get_ProjMatrix(&matProj);
-
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0x10);
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+		m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+		m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 		m_pGraphicDev->SetTransform(D3DTS_VIEW, &ViewMatrix);
-		m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
-		// 텍스처 정보 세팅을 우선적으로 한다.
-
-	if (Key_Down(DIK_I) )
-	{
-		m_bInvenSwitch = !m_bInvenSwitch;
-		
-		dynamic_cast<CMyCamera*>(Engine::Get_GameObject(L"Layer_Environment", L"CMyCamera"))->Set_inventroyActive(m_bInvenSwitch);
-		dynamic_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"))->Set_inventroyActive(m_bInvenSwitch);
-
-		if (dynamic_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"))->Get_RenderFalse() == true)
-		{
-			dynamic_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"))->Set_RenderControl(true);
-
-			_uint iA = 0;
-		}	
-	}
-
-	::Key_InputReset();
-
-
-		if (m_bInvenSwitch)
-		{
-			m_pTextureCom->Set_Texture(0);
-			m_pBufferCom->Render_Buffer();
-		}
+		m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &m_ProjMatrix);
+		m_pTextureCom->Set_Texture(0);
+		m_pBufferCom->Render_Buffer();
 
 		m_pGraphicDev->SetTransform(D3DTS_VIEW, &OldViewMatrix);
 		m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &OldProjMatrix);
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 	}
 }
 
 void CInventory_UI::Find_Equip_Item(void)
 {
-		
+
+}
+
+void CInventory_UI::Set_CurrentEquipWeapon(CEquipmentBase * pWeapon)
+{
+	if (m_pCurrentEquipWeapon == nullptr)
+	{
+		m_pCurrentEquipWeapon = pWeapon;
+		return;
+	}
+	_vec3 vPreWeaponvPos, vCurrentWeaponPos;
+
+
+	CTransform* pRreWeaponTrans = static_cast<CTransform*>(m_pCurrentEquipWeapon->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+	pRreWeaponTrans->Get_Info(INFO_POS, &vPreWeaponvPos);
+
+	CTransform* pCurrentvWeaponTrans = static_cast<CTransform*>(pWeapon->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+
+	RECT Rc{};
+	memcpy(&Rc, &m_rcInvenSlot[pWeapon->m_iInvenSlotIndex].rcInvenSlot, sizeof(RECT));
+	float __fX = (Rc.left + Rc.right) / 2.f;
+	float __fY = (Rc.top + Rc.bottom) / 2.f;
+
+	vCurrentWeaponPos = { __fX,__fY,0.f };
+
+	m_pCurrentEquipWeapon->Set_EquipState(EquipState_Slot);
+	pWeapon->Set_EquipState(EquipState_Equip_Weapon);
+
+	pRreWeaponTrans->Set_Pos(__fX - WINCX * 0.5f, (-__fY + WINCY * 0.5f), 0.f);
+
+	pCurrentvWeaponTrans->Set_Pos(vPreWeaponvPos.x, vPreWeaponvPos.y, vPreWeaponvPos.z);
+	m_pCurrentEquipWeapon->m_iInvenSlotIndex = pWeapon->m_iInvenSlotIndex;
+	m_pCurrentEquipWeapon->Set_FX_FY(__fX, __fY);
+
+	pRreWeaponTrans->Update_Component(1.f);
+	pCurrentvWeaponTrans->Update_Component(1.f);
+
+	m_pCurrentEquipWeapon = pWeapon;
+
 }
 
 HRESULT CInventory_UI::Add_Component(void)

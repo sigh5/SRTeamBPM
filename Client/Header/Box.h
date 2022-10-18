@@ -29,8 +29,7 @@ public:
 
 private:
 	HRESULT				Add_Component(void);
-	void				Set_OnTerrain(void);
-
+	
 public:
 	HRESULT				Open_Event(CGameObject* pGameObject);
 

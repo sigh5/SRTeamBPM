@@ -160,14 +160,14 @@ void CMyCamera::Mouse_Fix(void)
 	if (m_bInventroyActive)
 		return;
 
-	int Mouse_speed = 3;
+	//int Mouse_speed = 3;
 
-	SystemParametersInfo(SPI_SETMOUSESPEED,
-		0,
-		(LPVOID)Mouse_speed,
-		SPIF_UPDATEINIFILE ||
-		SPIF_SENDCHANGE ||
-		SPIF_SENDWININICHANGE);
+	//SystemParametersInfo(SPI_SETMOUSESPEED,
+	//	0,
+	//	(LPVOID)Mouse_speed,
+	//	SPIF_UPDATEINIFILE ||
+	//	SPIF_SENDCHANGE ||
+	//	SPIF_SENDWININICHANGE);
 
 
 	POINT	pt{};

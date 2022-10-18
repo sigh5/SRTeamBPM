@@ -27,12 +27,16 @@ public:
 	virtual _int		Update_Object(const _float& fTimeDelta) override;
 	virtual	void		LateUpdate_Object(void);
 	virtual void		Render_Obejct(void) override;
-	void				Find_Equip_Item(void);
+	
+
+public:
+	void				Set_Active(_bool bEvent) { m_bActvie = bEvent; }
+	const	_bool&		Get_Active()			 { return m_bActvie; }
 
 private:
 	HRESULT				Add_Component(void);
 
-public:
+private:
 	CRcTex*				m_pBufferCom = nullptr;
 	CTexture*			m_pTextureCom = nullptr;
 	COrthoTransform*	m_pTransCom = nullptr;
@@ -41,6 +45,9 @@ public:
 	CCollider*			m_pColliderCom = nullptr;
 
 
+private:
+	_bool				m_bActvie = false;
+	_vec3				m_vecScale;
 public:
 	static CShopUI*			Create(LPDIRECT3DDEVICE9 pGraphicDev);
 	virtual void			Free();
