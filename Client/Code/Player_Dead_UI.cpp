@@ -26,7 +26,7 @@ HRESULT CPlayer_Dead_UI::Ready_Object(_uint _iAlpha)
 
 	m_pTransCom->Set_Scale(&m_vecScale);
 
-	m_pTransCom->Set_Pos(0.f, 0.f, 0.05f);
+	m_pTransCom->Set_Pos(0.f, 0.f, 0.0f);
 
 	m_iAlpha = _iAlpha;
 
@@ -92,11 +92,30 @@ void CPlayer_Dead_UI::Render_Obejct(void)
 			if (m_iAlpha == 0)
 			{
 				m_bEvent = true;
-
+				//m_bBGMdown = true;
 				_tchar szReStart[128] = L"다시 시작하시겠습니까? M키";
 
-				Render_Font(L"BMJUA_ttf", szReStart, &_vec2(350.f, 800.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+				Render_Font(L"Ghanachocolate", szReStart, &_vec2(350.f, 800.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+				
+			/*	if (m_bBGMdown)
+				{
+					Engine::StopSound(SOUND_EFFECT);
+					Engine::StopSound(SOUND_EFFECT2);
+					Engine::StopSound(SOUND_OBJECT);
+					Engine::StopSound(SOUND_BGM);
+					Engine::StopSound(SOUND_PLAYER);
+					Engine::StopSound(SOUND_MONSTER);
+					Engine::StopSound(SOUND_MONSTER2);
+					Engine::StopSound(SOUND_MONSTER3);
+					Engine::StopSound(SOUND_EXPLOSION);
+					Engine::StopSound(SOUND_CRUSHROCK);
+					Engine::StopSound(SOUND_CRUSHROCK2);
+					Engine::StopSound(SOUND_CRUSHROCK3);
+				}*/				
 			}
+			
+			//if(m_bEvent)
+			//Engine::PlaySoundW(L"PlayerDead.mp3", SOUND_BGM, g_fSound);
 
 			if (Engine::Key_Down(DIK_M))
 			{
@@ -168,6 +187,7 @@ void CPlayer_Dead_UI::Render_Obejct(void)
 		{
 			m_bPlusCount = true;
 			m_bRenderIn = false;
+			//Engine::StopSound(SOUND_BGM);
 		}
 
 		m_pTextureCom->Set_Texture(0);

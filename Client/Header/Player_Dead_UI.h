@@ -51,6 +51,9 @@ private:
 	_bool				m_bRenderIn = false;
 	_bool				m_bPlusCount = false;
 
+	// BGM Control
+	_bool				m_bBGMdown = false;
+
 public:
 	static CPlayer_Dead_UI*		Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint _iAlpha);
 	virtual void				Free();
