@@ -122,7 +122,8 @@ _uint CLoading::Loading_ForStage(void)
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_FadeOut_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Fade_Out.png", TEX_NORMAL)), E_FAIL);
 																												// \Bin\Resource\Texture\Logo
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_SettingsScene_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Logo/SettingsScene.png", TEX_NORMAL)), E_FAIL);
-		
+																											//\Bin\Resource\Texture\UI	
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_SoundBox_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/SoundBox.png", TEX_NORMAL)), E_FAIL);
 	// ~UI
 
 	// Box

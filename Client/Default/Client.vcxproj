@@ -216,6 +216,7 @@
     <ClInclude Include="..\Header\SkillEffct.h" />
     <ClInclude Include="..\Header\SkyBox.h" />
     <ClInclude Include="..\Header\Snowfall.h" />
+    <ClInclude Include="..\Header\SoundBox_UI.h" />
     <ClInclude Include="..\Header\Sphinx.h" />
     <ClInclude Include="..\Header\SphinxBullet.h" />
     <ClInclude Include="..\Header\SphinxFlyHead.h" />
@@ -316,6 +317,7 @@
     <ClCompile Include="..\Code\SkillEffct.cpp" />
     <ClCompile Include="..\Code\SkyBox.cpp" />
     <ClCompile Include="..\Code\Snowfall.cpp" />
+    <ClCompile Include="..\Code\SoundBox_UI.cpp" />
     <ClCompile Include="..\Code\Sphinx.cpp" />
     <ClCompile Include="..\Code\SphinxBullet.cpp" />
     <ClCompile Include="..\Code\SphinxFlyHead.cpp" />

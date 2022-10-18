@@ -8,8 +8,6 @@ class CTexture;
 class CTransform;
 class CRcTex;
 
-END
-
 class CSettingButton : public CGameObject
 {
 private:
@@ -37,9 +35,8 @@ private:
 	CTransform*			m_pTransCom = nullptr;
 
 private:
-	_bool			m_bCheck = FALSE;
+	_bool			m_bCheck = false;
 	_bool			m_bClick = false;
-
 
 public:
 	static CSettingButton*		Create(LPDIRECT3DDEVICE9 pGraphicDev, _float fX, _float fY);
@@ -49,3 +46,4 @@ private:
 
 };
 
+END

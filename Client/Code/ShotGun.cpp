@@ -51,7 +51,7 @@ _int CShotGun::Update_Object(const _float & fTimeDelta)
 	
 	rcUI = { (_long)((vecObject.x + WINCX * 0.5f) - 22.5f), (_long)((vecObject.y + WINCY * 0.5f) - 75.5f), (_long)((vecObject.x + WINCX * 0.5f) + 22.5f), (_long)((vecObject.y + WINCY * 0.5f) - 12.5f) };
 
-	cout << "레 : " << rcUI.left << "탑 : " << rcUI.top << "라 : " << rcUI.right << "바 : " << rcUI.bottom << endl;
+	//cout << "레 : " << rcUI.left << "탑 : " << rcUI.top << "라 : " << rcUI.right << "바 : " << rcUI.bottom << endl;
 	// ~Rect 사이즈
 
 	CInventory_UI* pInven = static_cast<CInventory_UI*>(Get_GameObject(L"Layer_UI", L"InventoryUI"));

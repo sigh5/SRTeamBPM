@@ -3,6 +3,7 @@
 #include "Export_Function.h"
 
 #include "Setting_BackGround.h"
+#include "SoundBox_UI.h"
 #include "Logo.h"
 
 CSetting_Stage::CSetting_Stage(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -81,6 +82,10 @@ HRESULT CSetting_Stage::Ready_Layer_Environment(const _tchar * pLayerTag)
 	pGameObject = CBGMUpBtn::Create(m_pGraphicDev, -0.25f, 0.08f);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"BGM_Up", pGameObject), E_FAIL);
+
+	pGameObject = CSoundBox_UI::Create(m_pGraphicDev, -0.5f , 0.08f);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"SoundBox", pGameObject), E_FAIL);
 
 	m_mapLayer.insert({ pLayerTag, pLayer });
 

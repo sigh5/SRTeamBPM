@@ -80,9 +80,9 @@ _bool CBackButton::MouseCheck(void)
 
 	 rcButton = { lLeft, lTop, lRight, lBottom };
 
-	cout << "레 : " << rcButton.left << "탑 : " << rcButton.top << "라 : " << rcButton.right << "바 : " << rcButton.bottom << endl;
+	/*cout << "레 : " << rcButton.left << "탑 : " << rcButton.top << "라 : " << rcButton.right << "바 : " << rcButton.bottom << endl;
 	cout << "---------------------------------------------------------" << endl;
-	cout << "마엑 : " << ptMouse.x << "마와 : " << ptMouse.y << endl;
+	cout << "마엑 : " << ptMouse.x << "마와 : " << ptMouse.y << endl;*/
 	if (PtInRect(&rcButton, ptMouse))
 	{
 		m_bClick = true;

@@ -299,6 +299,9 @@
     <ClCompile Include="..\Code\BGMUpBtn.cpp">
       <Filter>02. GameObject\00. For_Logo\01. Button\04. BGMCtrlBtn\04-2. BGMUpBtn</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\SoundBox_UI.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\13. SoundBox_UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -615,6 +618,9 @@
     <ClInclude Include="..\Header\BGMUpBtn.h">
       <Filter>02. GameObject\00. For_Logo\01. Button\04. BGMCtrlBtn\04-2. BGMUpBtn</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\SoundBox_UI.h">
+      <Filter>02. GameObject\01. For_Stage\10. UI\13. SoundBox_UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -903,6 +909,9 @@
     </Filter>
     <Filter Include="02. GameObject\00. For_Logo\01. Button\04. BGMCtrlBtn\04-2. BGMUpBtn">
       <UniqueIdentifier>{58350f4e-1024-4b56-8d40-340dcb591fe2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\13. SoundBox_UI">
+      <UniqueIdentifier>{17f81342-2a53-450e-a04c-ef21483e369e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

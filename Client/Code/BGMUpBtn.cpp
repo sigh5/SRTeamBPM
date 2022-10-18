@@ -25,12 +25,25 @@ HRESULT CBGMUpBtn::Ready_Object(void)
 
 _int CBGMUpBtn::Update_Object(const _float & fTimeDelta)
 {
-	/*if (Engine::Mouse_Down(DIM_LB))
-	{
-	MouseCheck();
-	}*/
-
 	Engine::CGameObject::Update_Object(fTimeDelta);
+
+	if (Engine::Key_Down(DIK_L))
+	{
+		m_bClick = true;		
+		
+		_vec3		vScale = { 0.19f, 0.19f, 0.f };
+
+		m_pTransCom->Set_Scale(&vScale);
+	}
+
+	else
+	{
+		_vec3		vScale = { 0.13f, 0.13f, 0.f };
+
+		m_pTransCom->Set_Scale(&vScale);
+	}
+
+	Engine::Key_InputReset();
 
 	Add_RenderGroup(RENDER_UI, this);
 
@@ -79,6 +92,9 @@ _bool CBGMUpBtn::MouseCheck(void)
 
 	rcButton = { lLeft, lTop, lRight, lBottom };
 
+	cout << "---------------------------------------------------------" << endl;
+	cout << "셋레 : " << rcButton.left << "셋탑 : " << rcButton.top << "셋라 : " << rcButton.right << "셋바 : " << rcButton.bottom << endl;
+	cout << "마엑 : " << ptMouse.x << "마와 : " << ptMouse.y << endl; 
 	if (PtInRect(&rcButton, ptMouse))
 	{
 		m_bClick = true;
@@ -89,7 +105,7 @@ _bool CBGMUpBtn::MouseCheck(void)
 
 		return m_bClick;
 	}
-
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
 	else
 	{
 		_vec3		vScale = { 0.13f, 0.13f, 0.f };
@@ -98,6 +114,8 @@ _bool CBGMUpBtn::MouseCheck(void)
 
 		return false;
 	}
+
+
 }
 
 HRESULT CBGMUpBtn::Add_Component(void)

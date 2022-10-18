@@ -54,4 +54,7 @@
 extern HINSTANCE	g_hInst;
 extern HWND			g_hWnd;
 
+// All Volume Control Function
+extern float		g_fSound;
+
 using namespace std;

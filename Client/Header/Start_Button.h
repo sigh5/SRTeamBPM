@@ -25,6 +25,8 @@ public:
 public:
 	_bool			Get_Click(void) { return m_bClick; }
 
+	void			Set_Click(_bool _bClick) { m_bClick = _bClick; }
+
 private:
 	HRESULT			Add_Component(void);
 
@@ -34,9 +36,8 @@ private:
 	CTransform*			m_pTransCom = nullptr;
 
 private:
-	_bool			m_bCheck = FALSE;
-	_bool			m_bClick = FALSE;
-
+	_bool			m_bCheck = false;
+	_bool			m_bClick = false;
 
 public:
 	static CStart_Button*		Create(LPDIRECT3DDEVICE9 pGraphicDev, _float fX, _float fY);

@@ -25,12 +25,24 @@ HRESULT CBGMDownBtn::Ready_Object(void)
 
 _int CBGMDownBtn::Update_Object(const _float & fTimeDelta)
 {
-	/*if (Engine::Mouse_Down(DIM_LB))
-	{
-		MouseCheck();
-	}*/
-
 	Engine::CGameObject::Update_Object(fTimeDelta);
+
+	if (Engine::Key_Down(DIK_K))
+	{
+		m_bClick = true;
+
+		_vec3		vScale = { 0.19f, 0.19f, 0.f };
+
+		m_pTransCom->Set_Scale(&vScale);
+	}
+
+	else
+	{
+		_vec3		vScale = { 0.13f, 0.13f, 0.f };
+
+		m_pTransCom->Set_Scale(&vScale);
+	}
+	Engine::Key_InputReset();
 
 	Add_RenderGroup(RENDER_UI, this);
 

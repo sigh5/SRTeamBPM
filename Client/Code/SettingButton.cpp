@@ -16,7 +16,7 @@ HRESULT CSettingButton::Ready_Object(void)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	_vec3		vScale = { 0.28f, 0.18f, 0.f };
+	_vec3		vScale = { 0.28f, 0.15f, 0.f };
 
 	m_pTransCom->Set_Scale(&vScale);
 
@@ -25,15 +25,12 @@ HRESULT CSettingButton::Ready_Object(void)
 
 _int CSettingButton::Update_Object(const _float & fTimeDelta)
 {	
-	if (Engine::Mouse_Down(DIM_LB))
+	if (Engine::Mouse_Down(DIM_RB))
 	{
 		MouseCheck();
-	}
-		
+	}		
 	
-
-	
-	Engine::CGameObject::Update_Object(fTimeDelta);
+	CGameObject::Update_Object(fTimeDelta);
 
 	Add_RenderGroup(RENDER_UI, this);
 
@@ -42,7 +39,7 @@ _int CSettingButton::Update_Object(const _float & fTimeDelta)
 
 void CSettingButton::LateUpdate_Object(void)
 {
-	Engine::CGameObject::LateUpdate_Object();
+	CGameObject::LateUpdate_Object();
 }
 
 void CSettingButton::Render_Obejct(void)
@@ -81,15 +78,19 @@ _bool CSettingButton::MouseCheck(void)
 	lTop = _long(((WINCY * 0.5f) * (1 - m_pTransCom->m_vInfo[INFO_POS].y)) - ((WINCY * m_pTransCom->m_vScale.y) * 0.5f));
 	lBottom = _long(((WINCY * 0.5f) * (1 - m_pTransCom->m_vInfo[INFO_POS].y)) + ((WINCY * m_pTransCom->m_vScale.y) * 0.5f));
 
-	RECT rcButton = { lLeft, lTop, lRight, lBottom };
+	RECT	rcButton = { lLeft, lTop, lRight, lBottom };
 
+	//cout << "---------------------------------------------------------" << endl;
+	//cout << "셋레 : " << rcButton.left << "셋탑 : " << rcButton.top << "셋라 : " << rcButton.right << "셋바 : " << rcButton.bottom << endl;
+		
 	if (PtInRect(&rcButton, ptMouse))
 	{
 		m_bClick = true;
 		return m_bClick;
 	}
 
-	return false;
+		return false;
+
 }
 
 HRESULT CSettingButton::Add_Component(void)
@@ -118,5 +119,5 @@ CSettingButton * CSettingButton::Create(LPDIRECT3DDEVICE9 pGraphicDev, _float fX
 
 void CSettingButton::Free(void)
 {
-	Engine::CGameObject::Free();
+	CGameObject::Free();
 }

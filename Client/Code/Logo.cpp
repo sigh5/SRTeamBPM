@@ -61,17 +61,19 @@ Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 	{
 		if (m_pStartButton->Get_Click())
 		{						// CChange_Stage  CToolTest
+			m_pStartButton->Set_Click(false);
 			CScene*		pScene = CChange_Stage::Create(m_pGraphicDev);
 			NULL_CHECK_RETURN(pScene, E_FAIL);
 
 			m_SceneType = SCENE_TOOLTEST;
 
 			FAILED_CHECK_RETURN(Engine::Set_Scene(pScene), E_FAIL);
-
+		
 			return 0;
 		}
 
-		if (m_pSettingButton->Get_Click())
+
+		else if (m_pSettingButton->Get_Click())
 		{
 			m_pSettingButton->Set_Click(false);
 			CScene*		pScene = CSetting_Stage::Create(m_pGraphicDev);
@@ -131,7 +133,7 @@ HRESULT CLogo::Ready_Layer_Environment(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"BackGround", pGameObject), E_FAIL);
 
-	pGameObject = CStart_Button::Create(m_pGraphicDev, -0.6f, 0.45f);
+	pGameObject = CStart_Button::Create(m_pGraphicDev, -0.6f, 0.55f);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"StartButton", pGameObject), E_FAIL);
 
@@ -139,7 +141,7 @@ HRESULT CLogo::Ready_Layer_Environment(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"SettingButton", pGameObject), E_FAIL);
 
-	pGameObject = CExit_Button::Create(m_pGraphicDev, -0.6f, -0.45f);
+	pGameObject = CExit_Button::Create(m_pGraphicDev, -0.6f, -0.55f);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"ExitButton", pGameObject), E_FAIL);
 
@@ -196,9 +198,8 @@ HRESULT CLogo::Ready_Proto(void)
 		FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"HoengseongHanu", L"BulletUIFont", 20, 25, FW_NORMAL), E_FAIL);
 		// LeeSoonSin
 		FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"LeeSoonSin", L"LoadingHUD_Font", 18, 25, FW_HEAVY), E_FAIL);
+		// Ghanachocolate
+		FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"Ghanachocolate", L"SoundSettings_Font", 15, 20, FW_HEAVY), E_FAIL);
 	
-		m_bFinish = true;
-	
-
-	return S_OK;
+		return S_OK;
 }
