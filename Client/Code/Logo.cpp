@@ -202,6 +202,8 @@ HRESULT CLogo::Ready_Proto(void)
 		FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"LeeSoonSin", L"LoadingHUD_Font", 18, 25, FW_HEAVY), E_FAIL);
 		// Ghanachocolate
 		FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"Ghanachocolate", L"SoundSettings_Font", 15, 20, FW_HEAVY), E_FAIL);
-	
+		// BMJUA_ttf
+		FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"BMJUA_ttf", L"PlayerDead_Font", 29, 30, FW_HEAVY), E_FAIL);
+
 		return S_OK;
 }
