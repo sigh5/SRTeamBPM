@@ -312,6 +312,10 @@
     <ClCompile Include="..\Code\ObeliskWreck.cpp">
       <Filter>02. GameObject\01. For_Stage\02. Monster\04. Obelisk</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\Soldier.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. Monster\08. Soldier</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SoldierBullet.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -641,6 +645,10 @@
     <ClInclude Include="..\Header\ObeliskWreck.h">
       <Filter>02. GameObject\01. For_Stage\02. Monster\04. Obelisk</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Soldier.h">
+      <Filter>02. GameObject\01. For_Stage\02. Monster\08. Soldier</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\SoldierBullet.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -920,6 +928,9 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\02. Monster\07. FireTrap">
       <UniqueIdentifier>{775d2fbc-6d26-484f-838a-73e493a7cd47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\02. Monster\08. Soldier">
+      <UniqueIdentifier>{d7488879-330d-4497-a26a-6c5535f641f4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -64,7 +64,7 @@ HRESULT CLayer::Add_GameObjectList(CGameObject * pInstance)
 	if (nullptr == pInstance)
 		return E_FAIL;
 
-
+	
 	m_objPoolList.push_back(pInstance);
 
 

@@ -219,6 +219,8 @@
     <ClInclude Include="..\Header\SkillEffct.h" />
     <ClInclude Include="..\Header\SkyBox.h" />
     <ClInclude Include="..\Header\Snowfall.h" />
+    <ClInclude Include="..\Header\Soldier.h" />
+    <ClInclude Include="..\Header\SoldierBullet.h" />
     <ClInclude Include="..\Header\Special_Effect.h" />
     <ClInclude Include="..\Header\Sphinx.h" />
     <ClInclude Include="..\Header\SphinxBullet.h" />
@@ -323,6 +325,8 @@
     <ClCompile Include="..\Code\SkillEffct.cpp" />
     <ClCompile Include="..\Code\SkyBox.cpp" />
     <ClCompile Include="..\Code\Snowfall.cpp" />
+    <ClCompile Include="..\Code\Soldier.cpp" />
+    <ClCompile Include="..\Code\SoldierBullet.cpp" />
     <ClCompile Include="..\Code\Special_Effect.cpp" />
     <ClCompile Include="..\Code\Sphinx.cpp" />
     <ClCompile Include="..\Code\SphinxBullet.cpp" />
