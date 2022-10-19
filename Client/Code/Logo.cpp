@@ -2,15 +2,13 @@
 #include "..\Header\Logo.h"
 
 #include "Export_Function.h"
-#include "TestPlayer.h"
-#include "TestMonster.h"
+
 #include "Stage.h"
 #include "ToolTest.h"
-#include "Stage_Pjw.h"
+
 #include "Change_Stage.h"
 #include "Setting_Stage.h"
 
-#include "STAGE_BIH.h"
 
 
 

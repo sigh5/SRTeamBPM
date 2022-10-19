@@ -3,7 +3,7 @@
 #include "Export_Function.h"
 #include "AbstractFactory.h"
 
-#include "TestPlayer.h"
+
 #include "ShotGun.h"
 #include "Magnum.h"
 

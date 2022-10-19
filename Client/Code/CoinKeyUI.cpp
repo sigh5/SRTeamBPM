@@ -5,7 +5,7 @@
 
 #include "Player.h"
 #include "Player_Dead_UI.h"
-#include "TestPlayer.h"
+
 #include "Coin.h" 
 
 USING(Engine)

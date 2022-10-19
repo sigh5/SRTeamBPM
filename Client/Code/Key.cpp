@@ -4,7 +4,7 @@
 
 #include "AbstractFactory.h"
 #include "MyCamera.h"
-#include "TestPlayer.h"
+
 #include "Player.h"
 
 USING(Engine)
