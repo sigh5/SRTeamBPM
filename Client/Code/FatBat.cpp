@@ -496,7 +496,7 @@ void		CFatBat::Dead_Action(const _float& fTimeDelta)
 		if (false == m_bArrFalldown[3])
 		{
 			//m_pDynamicTransCom->Add_Y(-m_fDeadY * 0.2f);
-			m_pDynamicTransCom->Set_Y(1);
+			m_pDynamicTransCom->Set_Y(m_pDynamicTransCom->m_vScale.y * 0.5f);
 			m_bArrFalldown[3] = true;
 		}
 	}
