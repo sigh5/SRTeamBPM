@@ -53,20 +53,6 @@ HRESULT CMagnum::Ready_Object()
 _int CMagnum::Update_Object(const _float & fTimeDelta)
 {
 	
-	m_fTimedelta = fTimeDelta;
-
-	if (m_bIsWorld)
-		m_RenderID = RENDER_ALPHA;
-	else if (m_bIsInventory)
-	{
-		m_RenderID = RENDER_ICON;
-		m_bIsPick = EquipIconPicking();
-	}
-	if (m_bIsPick)
-		Set_MouseToInventory();
-
-	PickingMouseUp();
-
 	if (m_bOnce)
 	{
 		// µüÇÑ¹ø¸¸ 
@@ -77,7 +63,23 @@ _int CMagnum::Update_Object(const _float & fTimeDelta)
 		m_bOnce = false;
 	}
 
+	m_fTimedelta = fTimeDelta;
 
+	if (m_bIsWorld)
+		m_RenderID = RENDER_ALPHA;
+	else if (m_bIsInventory)
+	{
+		m_RenderID = RENDER_ICON;
+		m_bIsPick = EquipIconPicking();
+	}
+	if (m_bIsPick)
+	{
+		Set_MouseToInventory();
+	}
+
+	PickingMouseUp();
+
+	
 	_uint iResult = Engine::CGameObject::Update_Object(fTimeDelta);
 	Add_RenderGroup(m_RenderID, this);
 
@@ -223,7 +225,7 @@ void CMagnum::PickingMouseUp()
 			RECT Rc{};
 			if (m_EquipState == EquipState_Equip_Weapon)
 			{
-				memcpy(&Rc, &pInven->Get_EquipSlot()[m_iInvenSlotIndex].rcInvenSlot, sizeof(RECT));
+				memcpy(&Rc, &pInven->Get_EquipSlot()[0].rcInvenSlot, sizeof(RECT));
 				m_fX = (Rc.left + Rc.right) / 2.f;
 				m_fY = (Rc.top + Rc.bottom) / 2.f;
 				m_pTransCom->Set_Pos(m_fX - WINCX * 0.5f,
@@ -242,7 +244,7 @@ void CMagnum::PickingMouseUp()
 		}
 		pInven->Set__Current_Picking_ItemID(0);
 	}
-
+	
 }
 
 void CMagnum::SearchInventorySlot(CInventory_UI ** pInven)

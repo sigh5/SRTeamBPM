@@ -70,6 +70,8 @@ public:
 	void				Set_inventroyActive(_bool bInventoryActive) { m_bInventroyActive = bInventoryActive; }
 	const _bool&		Get_inventroyActive() { return m_bInventroyActive; }
 
+	void				Set_ShopUIActive(_bool bShopctive) { m_bShopUIActive = bShopctive; }
+	const _bool&		Get_ShopUIActive() { return m_bShopUIActive; }
 
 
 
@@ -142,6 +144,8 @@ private:		// Jw
 	_float				m_bDeadTimer = 0.f;
 	// ~InventroyActive 
 
+	_bool				m_bShopUIActive = false;
+	
 
 public:
 	static CPlayer*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

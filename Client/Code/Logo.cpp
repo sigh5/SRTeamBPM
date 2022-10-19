@@ -12,8 +12,7 @@
 
 #include "STAGE_BIH.h"
 
-// UI Test
-#include "TestUI.h"
+
 
 CLogo::CLogo(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev), m_bFinish(false)
@@ -73,7 +72,7 @@ Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 		
 			return 0;
 		}
-
+		
 
 		else if (m_pSettingButton->Get_Click())
 		{

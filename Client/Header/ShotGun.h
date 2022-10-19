@@ -54,20 +54,9 @@ private:
 private:
 	// 샷건이 가지는 기본 탄창량
 	_uint				m_iShotgunMagazine = 6;
-
 	_matrix				m_ProjMatrix;
-
-
 	_bool			m_bOnce = false;
-
 	_float			m_fTimedelta = 0.f;
-
-
-	/*_bool			m_bPickingEnd = false;
-	_bool			m_iMouseUpEnd = false;
-	_bool			m_bisPicking = false;
-
-	_int			m_iInvenSlotIndex = 0;*/
 
 public:
 	static CShotGun*	Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint iX, _uint iZ);

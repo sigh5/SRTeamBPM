@@ -66,6 +66,10 @@ inline 	CComponent*				Get_Component(const _tchar* pLayerTag,
 	COMPONENTID eID);
 inline CGameObject*		Get_GameObject(const _tchar* pLayerTag, const _tchar* pObjTag);
 inline HRESULT			Add_GameObject(const _tchar* pLayerTag, const _tchar* pObjTag, CGameObject* pInstance);
+inline void				Set_SaveScene(CScene* pScene);
+	
+
+
 
 // Test
 inline CScene*			Get_Scene();

@@ -290,9 +290,6 @@
     <Filter Include="01. GameObject\Monster">
       <UniqueIdentifier>{feb04f23-9279-4288-a4ee-a1b9817fe775}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Scene\04. Manager">
-      <UniqueIdentifier>{ae4c7f4e-2225-4b96-895a-5445b47d1aca}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04. Manager\00. Management">
       <UniqueIdentifier>{f4d03c6c-9577-496b-bd3e-0e3471c6c161}</UniqueIdentifier>
     </Filter>

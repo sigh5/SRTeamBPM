@@ -3,6 +3,11 @@
 
 #include "Export_Function.h"
 #include "MyCamera.h"
+#include "ShopUI.h"
+#include "Player.h"
+
+#include "ObjectMgr.h"
+#include "Stage.h"
 CNpc::CNpc(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
 {
@@ -95,27 +100,28 @@ void CNpc::Render_Obejct(void)
 
 void CNpc::Collision_Event()
 {
-	if (Key_Down(DIK_F))
+
+	CScene  *pScene = ::Get_Scene();
+	NULL_CHECK_RETURN(pScene, );
+	CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+	NULL_CHECK_RETURN(pLayer, );
+	CGameObject *pGameObject = nullptr;
+
+	pGameObject = pLayer->Get_GameObject(L"Player");
+	NULL_CHECK_RETURN(pGameObject, );
+	CTransform *pTransform = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_DynamicTransformCom", ID_DYNAMIC));
+
+	if (m_pColliderCom->Check_Collision(this, pGameObject, 2, 2))
 	{
-		CScene  *pScene = ::Get_Scene();
-		NULL_CHECK_RETURN(pScene, );
-		CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
-		NULL_CHECK_RETURN(pLayer, );
-		CGameObject *pGameObject = nullptr;
-
-		pGameObject = pLayer->Get_GameObject(L"Player");
-		NULL_CHECK_RETURN(pGameObject, );
-		CTransform *pTransform = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_DynamicTransformCom", ID_DYNAMIC));
-
-		// Test¿ë
-		if (!m_pColliderCom->Check_Collision(this, pGameObject, 1, 1))
+		if (Key_Down(DIK_F))
 		{
-			cout << "Shop OPEN" << endl;
+			m_fShopUICheck = !m_fShopUICheck;
+			pGameObject = pLayer->Get_GameObject(L"ShopUI");
+			static_cast<CShopUI*>(pGameObject)->Set_Active(m_fShopUICheck);
+			dynamic_cast<CMyCamera*>(Engine::Get_GameObject(L"Layer_Environment", L"CMyCamera"))->Set_ShopActive(m_fShopUICheck);
+			dynamic_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"))->Set_ShopUIActive(m_fShopUICheck);
 		}
-
 	}
-
-	Engine::Key_InputReset();
 }
 
 HRESULT CNpc::Add_Component(void)

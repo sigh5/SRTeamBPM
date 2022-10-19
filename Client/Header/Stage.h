@@ -40,10 +40,8 @@ private:
 	HRESULT			Ready_Proto(void);
 	HRESULT			Ready_Light(void);
 
-
 	void			TeleportCubeUpdate(const _float& fTimeDelta);
 	void			Set_Player_StartCubePos();
-
 
 
 	// Effect : multimap -> map issue

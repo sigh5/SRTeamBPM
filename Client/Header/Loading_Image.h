@@ -35,7 +35,7 @@ private:
 	CTransform*			m_pTransCom = nullptr;
 	CAnimation*			m_pAnimationCom = nullptr;
 
-	CStart_Button*		m_pStartButton = nullptr;
+	//CStart_Button*		m_pStartButton = nullptr;
 
 
 	_bool				m_bChangePNG = false;

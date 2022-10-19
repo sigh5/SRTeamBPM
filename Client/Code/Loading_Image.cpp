@@ -2,7 +2,6 @@
 #include "..\Header\Loading_Image.h"
 #include "Export_Function.h"
 #include "AbstractFactory.h"
-#include "Start_Button.h"
 
 CLoading_Image::CLoading_Image(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CUI_Base(pGraphicDev)
@@ -32,6 +31,12 @@ _int CLoading_Image::Update_Object(const _float & fTimeDelta)
 
 	Add_RenderGroup(RENDER_PRIORITY, this);
 
+	if (m_bChangePNG)
+	{
+		m_iChangePNG = rand() % 7;
+		m_bChangePNG = false;
+	}
+
 	return 0;
 }
 
@@ -44,13 +49,14 @@ void CLoading_Image::Render_Obejct(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
 
+	_matrix MatIdntity;
+	D3DXMatrixIdentity(&MatIdntity);
+
+	m_pGraphicDev->SetTransform(D3DTS_VIEW, &MatIdntity);
+	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &MatIdntity);
+
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	
-		if (m_bChangePNG)
-		{
-			m_iChangePNG = rand() % 7;
-			m_bChangePNG = false;
-		}	
+
 
 	m_pTextureCom->Set_Texture(m_iChangePNG);
 		
@@ -85,5 +91,5 @@ CLoading_Image * CLoading_Image::Create(LPDIRECT3DDEVICE9 pGraphicDev, _bool _bT
 
 void CLoading_Image::Free(void)
 {
-	CGameObject::Free();
+	CUI_Base::Free();
 }

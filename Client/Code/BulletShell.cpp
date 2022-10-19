@@ -16,9 +16,20 @@ CBulletShell::~CBulletShell()
 {
 }
 
-HRESULT CBulletShell::Ready_Object(_vec3 vPos, _vec3 vDir)
+HRESULT CBulletShell::Ready_Object(_vec3 vPos, _vec3 vDir, int shelltype)
 {
 	Add_Component();
+
+	if (0 == shelltype)
+	{
+		m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_bullet_shell", m_mapComponent, ID_STATIC);
+		m_iShellType = 0;
+	}
+	else
+	{
+		m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_shotgun_shell", m_mapComponent, ID_STATIC);
+		m_iShellType = 1;
+	}
 
 	m_vDir = vDir;
 
@@ -57,20 +68,41 @@ _int CBulletShell::Update_Object(const _float & fTimeDelta)
 	{
 		
 		m_vUpDown = -m_vUpDown * 0.5f;
-		switch (m_iDropGround)
+		if (0 == m_iShellType)
 		{
-		case 0:
-			::StopSound(SOUND_OBJECT);
-			::PlaySoundW(L"case_pistol_1.wav", SOUND_OBJECT, 0.5f);
-			break;
-		case 1:
-			::StopSound(SOUND_OBJECT);
-			::PlaySoundW(L"case_pistol_2.wav", SOUND_OBJECT, 0.5f);
-			break;
-		case 2:
-			::StopSound(SOUND_OBJECT);
-			::PlaySoundW(L"case_pistol_3.wav", SOUND_OBJECT, 0.5f);
-			break;
+			switch (m_iDropGround)
+			{
+			case 0:
+				::StopSound(SOUND_OBJECT);
+				::PlaySoundW(L"case_pistol_1.wav", SOUND_OBJECT, 0.5f);
+				break;
+			case 1:
+				::StopSound(SOUND_OBJECT);
+				::PlaySoundW(L"case_pistol_2.wav", SOUND_OBJECT, 0.5f);
+				break;
+			case 2:
+				::StopSound(SOUND_OBJECT);
+				::PlaySoundW(L"case_pistol_3.wav", SOUND_OBJECT, 0.5f);
+				break;
+			}
+		}
+		else
+		{
+			switch (m_iDropGround)
+			{
+			case 0:
+				::StopSound(SOUND_OBJECT);
+				::PlaySoundW(L"shell_shotgun_1.wav", SOUND_OBJECT, 0.5f);
+				break;
+			case 1:
+				::StopSound(SOUND_OBJECT);
+				::PlaySoundW(L"shell_shotgun_2.wav", SOUND_OBJECT, 0.5f);
+				break;
+			case 2:
+				::StopSound(SOUND_OBJECT);
+				::PlaySoundW(L"shell_shotgun_3.wav", SOUND_OBJECT, 0.5f);
+				break;
+			}
 		}
 		++m_iDropGround;
 	}
@@ -137,18 +169,18 @@ void CBulletShell::Render_Obejct(void)
 
 HRESULT CBulletShell::Add_Component(void)
 {
-	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_bullet_shell", m_mapComponent, ID_STATIC);
+	
 	m_pTransCom = CAbstractFactory<CTransform>::Clone_Proto_Component(L"Proto_TransformCom", m_mapComponent, ID_DYNAMIC);
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
 	
 	return S_OK;
 }
 
-CBulletShell * CBulletShell::Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos, _vec3 vRight)
+CBulletShell * CBulletShell::Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos, _vec3 vRight, int shelltype)
 {
 	CBulletShell *	pInstance = new CBulletShell(pGraphicDev);
 
-	if (FAILED(pInstance->Ready_Object(vPos, vRight)))
+	if (FAILED(pInstance->Ready_Object(vPos, vRight, shelltype)))
 	{
 		Safe_Release(pInstance);
 		return nullptr;

@@ -19,6 +19,8 @@
 #include "Sphinx.h"
 #include "SphinxFlyHead.h"
 #include "EarthShaker.h"
+#include "Soldier.h"
+#include "FireTrap.h"
 
 IMPLEMENT_SINGLETON(CFileIOMgr)
 
@@ -359,6 +361,14 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 
 				case MONSTER_EARTHSHAKER:
 					pGameObject = CEarthShaker::Create(pGrahicDev);
+					break;
+
+				case MONSTER_FIRETRAP:
+					pGameObject = CFireTrap::Create(pGrahicDev);
+					break;
+
+				case MONSTER_SOLDIER:
+					pGameObject = CSoldier::Create(pGrahicDev);
 					break;
 
 				default:

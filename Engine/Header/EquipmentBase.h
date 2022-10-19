@@ -13,7 +13,7 @@ class CDynamic_Transform;
 class COrthoTransform;
 
 //나중에 방어구 있으면 방어구 추가하면됌
-enum EquipState{ EquipState_Slot, EquipState_Equip_Weapon,  EquipState_Equip_End};
+enum EquipState{ EquipState_Slot, EquipState_Equip_Weapon, EquipState_Equip_HELMET,EquipState_Equip_End};
 
 
 
