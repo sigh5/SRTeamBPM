@@ -47,7 +47,8 @@ public:
 		m_mapLayer.insert({ LayerName,pLayer });
 	}
 
-	
+public:
+	void Set_SceneChane(_bool bEvent) { m_bSceneChane = bEvent; }
 
 protected:
 	LPDIRECT3DDEVICE9				m_pGraphicDev;
@@ -56,6 +57,7 @@ protected:
 	// 현재 어떤 씬인지 알기 위한 ENUM 타입 변수 	
 	SCENE_TYPE			m_SceneType;
 
+	_bool				m_bSceneChane = false;
 	// 룸이동을 도와주는 게임오브젝트를 묶는 리스트
 	
 public:

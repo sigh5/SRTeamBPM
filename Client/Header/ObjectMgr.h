@@ -40,7 +40,6 @@ public:
 
 
 
-
 private:
 	// 오브젝트 풀 쓸때마다 해야되네 두개 같이 쓰면 뻑남
 	list<CBaseBullet*>		m_MonsterBulletList;
@@ -53,6 +52,7 @@ private:
 
 	_int					m_iCount;
 	_int					m_iTest = -1;
+
 private:
 	virtual void Free(void);
 };

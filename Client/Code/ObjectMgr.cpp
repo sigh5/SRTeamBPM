@@ -153,7 +153,6 @@ CGameObject * CObjectMgr::Reuse_MetronomeUI(LPDIRECT3DDEVICE9 pGraphicDev, _floa
 	{
 		pObject = m_UIMetroList.front();
 		dynamic_cast<CMetronomeUI*>(pObject)->init(fPosX, fPosY, fSpeed, iTexIndex,150);
-		
 		m_UIMetroList.pop_front();
 	}
 
@@ -180,7 +179,7 @@ CGameObject * CObjectMgr::Reuse_MetronomeSmallUI(LPDIRECT3DDEVICE9 pGraphicDev, 
 	{
 		pObject = m_UISmallMetroList.front();
 		dynamic_cast<CMetronomeSmallUI*>(pObject)->init(fPosX, fPosY, fSpeed, iTexIndex, 150);
-
+	
 		m_UISmallMetroList.pop_front();
 	}
 
@@ -208,12 +207,13 @@ CGameObject * CObjectMgr::Reuse_MetronomeRectUI(LPDIRECT3DDEVICE9 pGraphicDev, i
 	{
 		pObject = m_UIMetroRectList.front();
 		dynamic_cast<CMetronomeRect*>(pObject)->init(iTexIndex, 150);
-
 		m_UIMetroRectList.pop_front();
 	}
 
 	return pObject;
 }
+
+
 
 void CObjectMgr::Free(void)
 {

@@ -24,6 +24,9 @@ public:
 	static	CTexture*		Create(LPDIRECT3DDEVICE9 pGraphicDev, const _tchar* pPath, TEXTUREID eType, const _uint& iCnt = 1);
 	virtual CComponent*		Clone(void);
 	virtual void			Free(void);
+
+private:
+	_bool			m_bClone;
 };
 
 END

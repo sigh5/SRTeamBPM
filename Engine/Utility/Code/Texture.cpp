@@ -4,13 +4,13 @@ USING(Engine)
 #include "Export_Function.h"
 
 CTexture::CTexture(LPDIRECT3DDEVICE9 pGraphicDev)
-	: CComponent(pGraphicDev)
+	: CComponent(pGraphicDev), m_bClone(false)
 {
 }
 
 
 Engine::CTexture::CTexture(const CTexture& rhs)
-	:CComponent(rhs)
+	:CComponent(rhs), m_bClone(true)
 {
 	_uint iSize = rhs.m_vecTexture.size();
 	m_vecTexture.reserve(iSize);

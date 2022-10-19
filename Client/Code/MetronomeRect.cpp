@@ -6,6 +6,7 @@
 #include "ObjectMgr.h"
 
 #include "Player_Dead_UI.h"
+#include "Npc.h"
 
 CMetronomeRect::CMetronomeRect(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CUI_Base(pGraphicDev)
@@ -66,12 +67,21 @@ _int CMetronomeRect::Update_Object(const _float & fTimeDelta)
 
 void CMetronomeRect::LateUpdate_Object(void)
 {
+	CScene*	pScene = Get_Scene();
+	CLayer* pLayer = pScene->GetLayer(L"Layer_GameLogic");
+	CNpc* pNpc = static_cast<CNpc*>(pLayer->Get_GameObject(L"NPC"));
+
+	m_bRenderOut = pNpc->Get_ShopUICheck();
+
 
 	CUI_Base::LateUpdate_Object();
 }
 
 void CMetronomeRect::Render_Obejct(void)
 {
+	if (m_bRenderOut)
+		return;
+
 	CPlayer_Dead_UI* pDead_UI = static_cast<CPlayer_Dead_UI*>(Engine::Get_GameObject(L"Layer_UI", L"Dead_UI"));
 
 	if (pDead_UI->Get_Render() == false)

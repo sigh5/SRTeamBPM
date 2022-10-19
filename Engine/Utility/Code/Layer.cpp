@@ -96,6 +96,9 @@ _int CLayer::Update_Layer(const _float & fTimeDelta)
 	{
 		iResult = iter->second->Update_Object(fTimeDelta);
 
+		if (iResult == 33)
+			return 33;
+
 		if (iResult & 0x80000000)
 			return iResult;
 
@@ -125,6 +128,10 @@ _int CLayer::Update_Layer(const _float & fTimeDelta)
 			m_objPoolList.erase(iter++);
 			continue;
 		}
+
+
+		
+
 		++iter;
 
 

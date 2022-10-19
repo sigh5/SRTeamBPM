@@ -67,6 +67,14 @@ CGameObject*		 Get_GameObject(const _tchar* pLayerTag, const _tchar* pObjTag)
 	return CManagement::GetInstance()->Get_GameObject(pLayerTag, pObjTag);
 }
 
+void				Set_SaveScene(CScene* pScene)
+{
+	CManagement::GetInstance()->Set_SaveScene(pScene);
+}
+
+
+
+
 
 inline HRESULT			Ready_Proto(const _tchar* pProtoTag, CComponent* pComponent)
 {

@@ -39,6 +39,9 @@ public:
 		
 	}
 
+public:
+	void			Set_RenderOut(_bool bRenderOut) { m_bRenderOut = bRenderOut; }
+
 
 private:
 	_float				m_fFrame = 0.f; // WinZero  µµÂø½Ã°£
@@ -55,7 +58,7 @@ private:
 	COrthoTransform*	m_pTransCom = nullptr;
 	CCalculator*		m_pCalculatorCom = nullptr;
 
-
+	_bool				m_bRenderOut = false;
 
 public:
 	static CMetronomeSmallUI*	Create(LPDIRECT3DDEVICE9 pGraphicDev, _float fPosX, _float fPosY, _float fSpeed, int iTexIndex);

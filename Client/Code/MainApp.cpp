@@ -72,7 +72,7 @@ _int CMainApp::Update_MainApp(const _float & fTimeDelta)
 #endif // _DEBUG
 
 	m_pManagementClass->Update_Scene(fTimeDelta);
-
+	::MouseInputReset();
 	return 0;
 }
 

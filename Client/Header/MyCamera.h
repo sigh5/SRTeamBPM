@@ -43,19 +43,20 @@ public:
 	const _bool&	Get_InventroyActive() { return m_bInventroyActive; }
 	void			Set_inventroyActive(_bool  bInventroyActive) { m_bInventroyActive = bInventroyActive; }
 
-	void			Set_PlayerDeadCam(_bool bEvent) { m_bPlayerDead = bEvent; }
-	_float			m_fOriginAngle = 0.f;
-//public:
-//	const _bool&   Get_InventroyActive() { return m_bInventroyActive; }
-//	void         Set_inventroyActive(_bool  bInventroyActive) { m_bInventroyActive = bInventroyActive; }
+	const _bool&	Get_ShopActive() { return m_bShopActive; }
+	void			Set_ShopActive(_bool  bShopActive) { m_bShopActive = bShopActive; }
 
+	void			Set_PlayerDeadCam(_bool bEvent) { m_bPlayerDead = bEvent; }
 	void			Set_ShakeCheck(_bool bShake) { m_bEarthShake = bShake; }
+
+
+	_float			m_fOriginAngle = 0.f;
 
 private:
 	_bool			m_bExecution = false;
 	_bool			m_bSoundCheck = false;
 	_bool			m_bPlayerHit = false;
-
+	
 private:
 	_float			m_fDistance = 1.f;
 	_float			m_fSpeed = 5.f;
@@ -71,6 +72,8 @@ private:
 
 	_float			m_fFrame = 0.f;
 	_bool			m_bInventroyActive = false;
+	_bool			m_bShopActive = false;
+
 
 	_bool			m_bPlayerDead = false;
 	_float			m_fDeadTimer=0.f;

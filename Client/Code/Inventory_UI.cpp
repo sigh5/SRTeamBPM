@@ -88,19 +88,10 @@ _int CInventory_UI::Update_Object(const _float & fTimeDelta)
 
 		dynamic_cast<CMyCamera*>(Engine::Get_GameObject(L"Layer_Environment", L"CMyCamera"))->Set_inventroyActive(m_bInvenSwitch);
 		dynamic_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"))->Set_inventroyActive(m_bInvenSwitch);
-
-		CShotGun* pShotGun = dynamic_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"));
-
-		if (pShotGun != nullptr)
-		{
-			{
-				_uint iA = 0;
-			}
-		}
 	}
 
 	::Key_InputReset();
-	::MouseInputReset();
+
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
 	Add_RenderGroup(RENDER_UI, this);
@@ -193,6 +184,46 @@ void CInventory_UI::Set_CurrentEquipWeapon(CEquipmentBase * pWeapon)
 	m_pCurrentEquipWeapon = pWeapon;
 
 }
+
+void CInventory_UI::Set_CurrentEquipHelmet(CEquipmentBase * pHelmet)
+{
+	if (m_pCurrentEquipWeapon == nullptr)
+	{
+		m_pCurrentEquipWeapon = pHelmet;
+		return;
+	}
+	/*_vec3 vPreWeaponvPos, vCurrentWeaponPos;
+
+
+	CTransform* pRreWeaponTrans = static_cast<CTransform*>(m_pCurrentEquipWeapon->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+	pRreWeaponTrans->Get_Info(INFO_POS, &vPreWeaponvPos);
+
+	CTransform* pCurrentvWeaponTrans = static_cast<CTransform*>(pHelmet->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+
+	RECT Rc{};
+	memcpy(&Rc, &m_rcInvenSlot[pHelmet->m_iInvenSlotIndex].rcInvenSlot, sizeof(RECT));
+	float __fX = (Rc.left + Rc.right) / 2.f;
+	float __fY = (Rc.top + Rc.bottom) / 2.f;
+
+	vCurrentWeaponPos = { __fX,__fY,0.f };
+
+	m_pCurrentEquipWeapon->Set_EquipState(EquipState_Slot);
+	pHelmet->Set_EquipState(EquipState_Equip_HELMET);
+
+	pRreWeaponTrans->Set_Pos(__fX - WINCX * 0.5f, (-__fY + WINCY * 0.5f), 0.f);
+
+	pCurrentvWeaponTrans->Set_Pos(vPreWeaponvPos.x, vPreWeaponvPos.y, vPreWeaponvPos.z);
+	m_pCurrentEquipWeapon->m_iInvenSlotIndex = pHelmet->m_iInvenSlotIndex;
+	m_pCurrentEquipWeapon->Set_FX_FY(__fX, __fY);
+
+	pRreWeaponTrans->Update_Component(1.f);
+	pCurrentvWeaponTrans->Update_Component(1.f);
+
+	m_pCurrentEquipWeapon = pHelmet;*/
+
+}
+
+
 
 HRESULT CInventory_UI::Add_Component(void)
 {

@@ -36,7 +36,7 @@ HRESULT CStage::Ready_Scene(void)
 
 	Set_Player_StartCubePos();
 
-	//::PlaySoundW(L"SamTow.wav", SOUND_BGM, 0.05f); // BGM
+	Engine::PlaySoundW(L"SamTow.wav", SOUND_BGM, g_fSound); // BGM
 
 	CMouseMgr::GetInstance()->Mouse_Change(m_pGraphicDev, CUSOR_SHOT);
 	
@@ -48,7 +48,7 @@ _int CStage::Update_Scene(const _float & fTimeDelta)
 
 	m_fFrame += 1.f * fTimeDelta;
 
-	if (m_fFrame >= 1.f)
+	if (m_fFrame >= 1.f )
 	{
 		CGameObject*		pGameObject = nullptr;
 		CLayer *pMyLayer = GetLayer(L"Layer_UI");
@@ -75,6 +75,7 @@ _int CStage::Update_Scene(const _float & fTimeDelta)
 		}
 		m_fFrame = 0.f;
 	}
+	
 
 	TeleportCubeUpdate(fTimeDelta);
 
@@ -130,14 +131,27 @@ void CStage::LateUpdate_Scene(void)
 	
 	for (auto iter : (pLayer->Get_ControlRoomList()))
 		iter->Collision_Event();
+
+	CPlayer_Dead_UI* pPlayerDead = static_cast<CPlayer_Dead_UI*>(Engine::Get_GameObject(L"Layer_UI", L"Dead_UI"));
+
+	if (pPlayerDead->Get_Render() && !m_bStopBGM)
+	{
+		Engine::StopSound(SOUND_BGM);
+		m_bStopBGM = true;
+
+		_uint iC = 0;
+	}
 	
-
-
+	else
+	{
+		Engine::PlaySoundW(L"SamTow.wav", SOUND_BGM, g_fSound); // BGM
+		m_bStopBGM = false;
+	}
 }
 
 void CStage::Render_Scene(void)
 {
-
+	
 }
 
 HRESULT CStage::Ready_Layer_Environment(const _tchar * pLayerTag)
@@ -201,6 +215,11 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	pGameObject = CMagnum::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Magnum", pGameObject), E_FAIL);
+
+	pGameObject = CHelmet::Create(m_pGraphicDev, 310.f, 325.f);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Helmet1", pGameObject), E_FAIL);
+
 
 
 	CFileIOMgr::GetInstance()->Load_FileData(m_pGraphicDev,

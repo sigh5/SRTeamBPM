@@ -1,6 +1,6 @@
 #pragma once
 #include "EquipmentBase.h"
-
+#include "Engine_Include.h"
 
 BEGIN(Engine)
 
@@ -14,11 +14,11 @@ END
 
 class CInventory_UI;
 
-class CShotGun : public CEquipmentBase
+class CHelmet : public CEquipmentBase
 {
 private:
-	explicit CShotGun(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual ~CShotGun();
+	explicit CHelmet(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual ~CHelmet();
 
 public:
 	HRESULT				Ready_Object(_uint iX, _uint iZ);
@@ -37,8 +37,6 @@ public:
 	_bool				EquipIconPicking();
 
 
-
-
 private:
 	CTransform*				m_pTransCom = nullptr;
 	CTexture*				m_pTextureCom = nullptr;
@@ -47,20 +45,17 @@ private:
 	CCalculator*			m_pCalculatorCom = nullptr;
 	CCollider*				m_pColliderCom = nullptr;
 
-
 private:
-	HRESULT				Add_Component(void);
+	HRESULT					Add_Component(void);
 
-private:
-	// 샷건이 가지는 기본 탄창량
-	_uint				m_iShotgunMagazine = 6;
 	_matrix				m_ProjMatrix;
 	_bool			m_bOnce = false;
 	_float			m_fTimedelta = 0.f;
 
 public:
-	static CShotGun*	Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint iX, _uint iZ);
-	virtual void		Free(void);
+	static	CHelmet*		Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint iX, _uint iZ);
+	virtual void			Free(void);
+
 
 };
 

@@ -26,6 +26,9 @@ public:
 	virtual void	Render_Obejct(void) override;
 	virtual void	Collision_Event();
 
+public:
+	const _bool&	Get_ShopUICheck() { return m_fShopUICheck; }
+
 private:
 	HRESULT				Add_Component(void);
 
@@ -35,6 +38,9 @@ private:
 	CTransform*			m_pTransCom = nullptr;
 	CAnimation*			m_pAnimationCom = nullptr;
 	CCollider*			m_pColliderCom = nullptr;
+
+
+	_bool				m_fShopUICheck = false;
 
 public:
 	static CNpc*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

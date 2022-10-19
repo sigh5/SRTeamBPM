@@ -191,6 +191,7 @@
     <ClInclude Include="..\Header\Ghul.h" />
     <ClInclude Include="..\Header\Gun_Screen.h" />
     <ClInclude Include="..\Header\HealthPotion.h" />
+    <ClInclude Include="..\Header\Helmet.h" />
     <ClInclude Include="..\Header\HitBlood.h" />
     <ClInclude Include="..\Header\HitEffect.h" />
     <ClInclude Include="..\Header\HpBar.h" />
@@ -206,6 +207,7 @@
     <ClInclude Include="..\Header\MetronomeRect.h" />
     <ClInclude Include="..\Header\MetronomeSmallUI.h" />
     <ClInclude Include="..\Header\MetronomeUI.h" />
+    <ClInclude Include="..\Header\MiniStage1.h" />
     <ClInclude Include="..\Header\MonsterBullet.h" />
     <ClInclude Include="..\Header\MonsterToolObject.h" />
     <ClInclude Include="..\Header\MouseMgr.h" />
@@ -218,6 +220,7 @@
     <ClInclude Include="..\Header\Obstacle.h" />
     <ClInclude Include="..\Header\Player.h" />
     <ClInclude Include="..\Header\Player_Dead_UI.h" />
+    <ClInclude Include="..\Header\QuizBox.h" />
     <ClInclude Include="..\Header\SettingButton.h" />
     <ClInclude Include="..\Header\Setting_BackGround.h" />
     <ClInclude Include="..\Header\Setting_Stage.h" />
@@ -247,7 +250,6 @@
     <ClInclude Include="..\Header\TestCube.h" />
     <ClInclude Include="..\Header\TestMonster.h" />
     <ClInclude Include="..\Header\TestPlayer.h" />
-    <ClInclude Include="..\Header\TestUI.h" />
     <ClInclude Include="..\Header\ToolTest.h" />
     <ClInclude Include="..\Header\UI_Effect.h" />
     <ClInclude Include="..\Header\UI_Frame.h" />
@@ -307,6 +309,7 @@
     <ClCompile Include="..\Code\Ghul.cpp" />
     <ClCompile Include="..\Code\Gun_Screen.cpp" />
     <ClCompile Include="..\Code\HealthPotion.cpp" />
+    <ClCompile Include="..\Code\Helmet.cpp" />
     <ClCompile Include="..\Code\HitBlood.cpp" />
     <ClCompile Include="..\Code\HitEffect.cpp" />
     <ClCompile Include="..\Code\HpBar.cpp" />
@@ -321,6 +324,7 @@
     <ClCompile Include="..\Code\MainApp.cpp" />
     <ClCompile Include="..\Code\MetronomeRect.cpp" />
     <ClCompile Include="..\Code\MetronomeSmallUI.cpp" />
+    <ClCompile Include="..\Code\MiniStage1.cpp" />
     <ClCompile Include="..\Code\MonsterBullet.cpp" />
     <ClCompile Include="..\Code\MetronomeUI.cpp" />
     <ClCompile Include="..\Code\MonsterToolObject.cpp" />
@@ -334,6 +338,7 @@
     <ClCompile Include="..\Code\Obstacle.cpp" />
     <ClCompile Include="..\Code\Player.cpp" />
     <ClCompile Include="..\Code\Player_Dead_UI.cpp" />
+    <ClCompile Include="..\Code\QuizBox.cpp" />
     <ClCompile Include="..\Code\SettingButton.cpp" />
     <ClCompile Include="..\Code\Setting_BackGround.cpp" />
     <ClCompile Include="..\Code\Setting_Stage.cpp" />
@@ -361,7 +366,6 @@
     <ClCompile Include="..\Code\TestCube.cpp" />
     <ClCompile Include="..\Code\TestMonster.cpp" />
     <ClCompile Include="..\Code\TestPlayer.cpp" />
-    <ClCompile Include="..\Code\TestUI.cpp" />
     <ClCompile Include="..\Code\ToolTest.cpp" />
     <ClCompile Include="..\Code\UI_Effect.cpp" />
     <ClCompile Include="..\Code\UI_Frame.cpp" />
