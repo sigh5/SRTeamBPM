@@ -54,7 +54,7 @@ _int CGun_Screen::Update_Object(const _float & fTimeDelta)
 	{
 		m_fActiveTimer += 1.f*fTimeDelta;
 	}
-	
+
 	if (m_fActiveTimer >= 1.f)
 	{
 		m_bActive = false;
@@ -70,14 +70,14 @@ _int CGun_Screen::Update_Object(const _float & fTimeDelta)
 
 	if (pShotGun != nullptr)
 	{
-		if (pShotGun->Get_RenderFalse() == true)
-		{
-			m_pAnimationCom->Ready_Animation(15, 0, 0.2f);
-		}
+	if (pShotGun->Get_RenderFalse() == true)
+	{
+	m_pAnimationCom->Ready_Animation(15, 0, 0.2f);
+	}
 	}*/
-	
+
 	Engine::CGameObject::Update_Object(fTimeDelta);
-		
+
 	Add_RenderGroup(RENDER_UI, this);
 
 	return 0;
@@ -87,11 +87,11 @@ void CGun_Screen::LateUpdate_Object(void)
 {
 
 
-	CPlayer* pPlayer = static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic",L"Player"));
+	CPlayer* pPlayer = static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"));
 
 	if (m_bShootCheck)
 		pPlayer->Reset_ComboCount();
-	
+
 	m_bShootCheck = false;
 	CGameObject::LateUpdate_Object();
 }
@@ -118,7 +118,7 @@ void CGun_Screen::Render_Obejct(void)
 
 	m_pGraphicDev->SetTransform(D3DTS_VIEW, &ViewMatrix);
 	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &matProj);
-	
+
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
@@ -132,7 +132,7 @@ void CGun_Screen::Render_Obejct(void)
 
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	//m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-	
+
 }
 
 HRESULT CGun_Screen::Add_Component(void)
@@ -141,9 +141,9 @@ HRESULT CGun_Screen::Add_Component(void)
 	m_pTransCom = CAbstractFactory<COrthoTransform>::Clone_Proto_Component(L"Proto_OrthoTransformCom", m_mapComponent, ID_DYNAMIC);
 	m_pCalculatorCom = CAbstractFactory<CCalculator>::Clone_Proto_Component(L"Proto_CalculatorCom", m_mapComponent, ID_STATIC);
 	m_pAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_STATIC);
-	
+
 	m_pTextureMagnumGun = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Gun_ScreenTexture", m_mapComponent, ID_STATIC);
-	m_pTextureShotGun  = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_ShotGun_ScreenTexture", m_mapComponent, ID_STATIC);
+	m_pTextureShotGun = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_ShotGun_ScreenTexture", m_mapComponent, ID_STATIC);
 
 	m_pTextureMainCom = m_pTextureMagnumGun;
 	return S_OK;
@@ -166,9 +166,9 @@ HRESULT CGun_Screen::Add_UpdateComponent(void)
 		m_bControl = true;
 	}
 
-	
 
-	
+
+
 	return S_OK;
 }
 
@@ -228,16 +228,16 @@ HRESULT CGun_Screen::Shoot_Motion(const _float& fTimeDelta)
 					pLayer->Add_GameObjectList(pShell);
 					m_bCreatedShell = true;
 				}
-				
+
 			}
-			
+
 		}
 		if (false == m_bAnimation)
 		{
 			m_bCreatedShell = false;
 			m_bShotgunSound = false;
 		}
-	}		
+	}
 
 	return S_OK;
 }
@@ -249,13 +249,13 @@ void CGun_Screen::GunFailSound()
 
 void CGun_Screen::Get_shellPosition(_vec3& vPos, _vec3& vdir)
 {//ÅºÇÇ
-	_vec3  vPlayerPos,vPlayerDirection;
+	_vec3  vPlayerPos, vPlayerDirection;
 	CPlayer* pPlayer = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
 	CTransform* pPlayerTransform = static_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
 	vPlayerDirection = pPlayer->Get_Direction();
 	D3DXVec3Normalize(&vPlayerDirection, &vPlayerDirection);
 	vPlayerPos = pPlayerTransform->m_vInfo[INFO_POS];
-	
+
 	D3DXVec3Cross(&vdir, &_vec3(0.f, 1.f, 0.f), &vPlayerDirection);
 	D3DXVec3Normalize(&vdir, &vdir);
 	vPos = vPlayerPos + vPlayerDirection + vdir * 0.3f;
@@ -271,9 +271,9 @@ CGun_Screen * CGun_Screen::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 		return nullptr;
 	}
 	return pInstance;
-} 
+}
 
 void CGun_Screen::Free(void)
-{	
+{
 	CGameObject::Free();
 }

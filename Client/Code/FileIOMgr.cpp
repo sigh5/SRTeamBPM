@@ -21,6 +21,8 @@
 #include "EarthShaker.h"
 #include "Soldier.h"
 #include "FireTrap.h"
+#include "FinalBoss.h"
+#include "HarpoonGuy.h"
 
 IMPLEMENT_SINGLETON(CFileIOMgr)
 
@@ -371,6 +373,12 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 					pGameObject = CSoldier::Create(pGrahicDev);
 					break;
 
+				case MONSTER_HARPOONGUY:
+					pGameObject = CHarpoonGuy::Create(pGrahicDev);
+					break;
+				case MONSTER_FINALBOSS:
+					pGameObject = CFinalBoss::Create(pGrahicDev);
+					break;
 				default:
 					pGameObject = CAnubis::Create(pGrahicDev);
 					break;

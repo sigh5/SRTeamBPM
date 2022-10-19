@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "..\Header\Soldier.h"
+#include "..\Header\HarpoonGuy.h"
 
 #include "Export_Function.h"
 #include "AbstractFactory.h"
@@ -7,45 +7,43 @@
 #include "Gun_Screen.h"
 #include "Player.h"
 #include "HitEffect.h"
-#include "Special_Effect.h"
 #include "Coin.h"
 #include "Key.h"
+#include "Special_Effect.h"
 #include "SoldierBullet.h"
 
-CSoldier::CSoldier(LPDIRECT3DDEVICE9 pGraphicDev)
+CHarpoonGuy::CHarpoonGuy(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
 {
 }
 
 
-CSoldier::~CSoldier()
+CHarpoonGuy::~CHarpoonGuy()
 {
 }
 
-
-
-HRESULT CSoldier::Ready_Object(float Posx, float Posz)
+HRESULT CHarpoonGuy::Ready_Object(float Posx, float Posz)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	CComponent* pComponent = nullptr;
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
-	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Soldier_Texture", m_mapComponent, ID_STATIC);
+	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Harpoonguy_Texture", m_mapComponent, ID_STATIC);
 
-	m_pAttackTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Soldier_Attack_Texture", m_mapComponent, ID_STATIC);
-	
-	m_pDeadTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Soldier_Death_Texture", m_mapComponent, ID_STATIC);
+	m_pAttackTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Harpoonguy_Attack_Texture", m_mapComponent, ID_STATIC);
+
+	m_pDeadTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Harpoonguy_Death_Texture", m_mapComponent, ID_STATIC);
 
 	m_pAttackAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_STATIC);
 
-	m_iMonsterIndex = MONSTER_SOLDIER;
-	m_fAttackDelay = 0.4f;
+	m_iMonsterIndex = MONSTER_HARPOONGUY;
 	m_pInfoCom->Ready_CharacterInfo(1, 10, 4.f);
-	m_pAnimationCom->Ready_Animation(6, 1, 0.3f);
-	m_pAttackAnimationCom->Ready_Animation(11, 0, 0.2f);
-	m_pDeadAnimationCom->Ready_Animation(12, 0, 0.2f);
-	
-	m_fHitDelay = 0.f;
+	m_fAttackDelay = 0.4f;
+	m_pAnimationCom->Ready_Animation(6, 1, 0.2f);
+	m_pAttackAnimationCom->Ready_Animation(12, 0, 0.2f);
+	m_pDeadAnimationCom->Ready_Animation(8, 0, 0.2f);
+
+
 	m_pDynamicTransCom->Set_Scale(&_vec3(3.f, 3.f, 3.f));
 	if (Posx == 0 && Posz == 0) {}
 	else
@@ -61,7 +59,7 @@ HRESULT CSoldier::Ready_Object(float Posx, float Posz)
 	return S_OK;
 }
 
-_int CSoldier::Update_Object(const _float & fTimeDelta)
+_int CHarpoonGuy::Update_Object(const _float & fTimeDelta)
 {
 	// 맨위에있어야됌 리턴되면 안됌
 	_matrix matWorld;
@@ -74,6 +72,7 @@ _int CSoldier::Update_Object(const _float & fTimeDelta)
 
 	m_pDynamicTransCom->Set_Y(m_pDynamicTransCom->m_vScale.y * 0.5f);
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
+
 	if (Distance_Over())
 	{
 		m_pAnimationCom->m_iMotion = 0;
@@ -86,7 +85,6 @@ _int CSoldier::Update_Object(const _float & fTimeDelta)
 	{
 		return 0;
 	}
-	m_fTimeDelta = fTimeDelta;
 
 	Hit_Delay_toZero();
 
@@ -109,7 +107,7 @@ _int CSoldier::Update_Object(const _float & fTimeDelta)
 	return 0;
 }
 
-void CSoldier::LateUpdate_Object(void)
+void CHarpoonGuy::LateUpdate_Object(void)
 {
 	CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
 	NULL_CHECK(pCamera);
@@ -146,13 +144,10 @@ void CSoldier::LateUpdate_Object(void)
 	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
 	pMyLayer->Add_vecColliderMonster(static_cast<CMonsterBase*>(this));
 
-
-
-
 	Engine::CMonsterBase::LateUpdate_Object();
 }
 
-void CSoldier::Render_Obejct(void)
+void CHarpoonGuy::Render_Obejct(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pDynamicTransCom->Get_WorldMatrixPointer());
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
@@ -183,7 +178,7 @@ void CSoldier::Render_Obejct(void)
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 }
 
-void CSoldier::Collision_Event()
+void CHarpoonGuy::Collision_Event()
 {
 	CScene  *pScene = ::Get_Scene();
 	NULL_CHECK_RETURN(pScene, );
@@ -231,7 +226,7 @@ void CSoldier::Collision_Event()
 	}
 }
 
-void CSoldier::Excution_Event()
+void CHarpoonGuy::Excution_Event()
 {
 	if (!m_bDead && 1 >= m_pInfoCom->Get_Hp())
 	{
@@ -249,7 +244,7 @@ void CSoldier::Excution_Event()
 	}
 }
 
-bool CSoldier::Dead_Judge(const _float & fTimeDelta)
+bool CHarpoonGuy::Dead_Judge(const _float & fTimeDelta)
 {
 	if (0 >= m_pInfoCom->Get_Hp())
 	{
@@ -289,7 +284,7 @@ bool CSoldier::Dead_Judge(const _float & fTimeDelta)
 	}
 }
 
-void CSoldier::NoHit_Loop(const _float & fTimeDelta)
+void CHarpoonGuy::NoHit_Loop(const _float & fTimeDelta)
 {
 	if (fMtoPDistance > 10.f && m_bAttacking == false)
 	{
@@ -311,7 +306,7 @@ void CSoldier::NoHit_Loop(const _float & fTimeDelta)
 	}
 }
 
-void CSoldier::Hit_Loop(const _float & fTimeDelta)
+void CHarpoonGuy::Hit_Loop(const _float & fTimeDelta)
 {
 	m_pAnimationCom->m_iMotion = 7;
 
@@ -323,7 +318,7 @@ void CSoldier::Hit_Loop(const _float & fTimeDelta)
 	}
 }
 
-void CSoldier::AttackJudge(const _float & fTimeDelta)
+void CHarpoonGuy::AttackJudge(const _float & fTimeDelta)
 {
 	if (m_bAttack == false)
 	{
@@ -346,7 +341,7 @@ void CSoldier::AttackJudge(const _float & fTimeDelta)
 	}
 }
 
-void CSoldier::Attack(const _float & fTimeDelta)
+void CHarpoonGuy::Attack(const _float & fTimeDelta)
 {
 	m_pAttackAnimationCom->Move_Animation(fTimeDelta);
 	CScene* pScene = ::Get_Scene();
@@ -372,7 +367,7 @@ void CSoldier::Attack(const _float & fTimeDelta)
 	}
 }
 
-void CSoldier::Drop_Item(int ItemType)
+void CHarpoonGuy::Drop_Item(int ItemType)
 {
 	CScene  *pScene = ::Get_Scene();
 	CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
@@ -394,9 +389,9 @@ void CSoldier::Drop_Item(int ItemType)
 	}
 }
 
-CSoldier * CSoldier::Create(LPDIRECT3DDEVICE9 pGraphicDev, float Posx, float Posz)
+CHarpoonGuy * CHarpoonGuy::Create(LPDIRECT3DDEVICE9 pGraphicDev, float Posx, float Posz)
 {
-	CSoldier*	pInstance = new CSoldier(pGraphicDev);
+	CHarpoonGuy*	pInstance = new CHarpoonGuy(pGraphicDev);
 
 
 	if (FAILED(pInstance->Ready_Object(Posx, Posz)))
@@ -408,7 +403,7 @@ CSoldier * CSoldier::Create(LPDIRECT3DDEVICE9 pGraphicDev, float Posx, float Pos
 	return pInstance;
 }
 
-void CSoldier::Free(void)
+void CHarpoonGuy::Free(void)
 {
 	CMonsterBase::Free();
 }

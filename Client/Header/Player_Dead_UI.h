@@ -35,6 +35,8 @@ public:
 private:
 	HRESULT				Add_Component(void);
 
+	HRESULT				Create_Quiz(void);
+
 public:
 	CRcTex*				m_pBufferCom = nullptr;
 	CTexture*			m_pTextureCom = nullptr;
@@ -51,6 +53,13 @@ private:
 	_bool				m_bRenderIn = false;
 	_bool				m_bPlusCount = false;
 
+	_bool				m_bBGM = false;
+
+	_bool				m_bQuiz = false; // Render_Font off
+
+public:
+	void			Set_RenderIn(_bool _bRenderIn) { m_bRenderIn = _bRenderIn; }
+	void			Set_BGM(_bool _bBGM) { m_bBGM = _bBGM; }
 public:
 	static CPlayer_Dead_UI*		Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint _iAlpha);
 	virtual void				Free();

@@ -202,6 +202,7 @@
     <ClInclude Include="..\Header\FireTrap.h" />
     <ClInclude Include="..\Header\Ghul.h" />
     <ClInclude Include="..\Header\Gun_Screen.h" />
+    <ClInclude Include="..\Header\HarpoonGuy.h" />
     <ClInclude Include="..\Header\HealthPotion.h" />
     <ClInclude Include="..\Header\Helmet.h" />
     <ClInclude Include="..\Header\Helmet2.h" />
@@ -235,6 +236,7 @@
     <ClInclude Include="..\Header\Player_Dead_UI.h" />
     <ClInclude Include="..\Header\QuestNpc.h" />
     <ClInclude Include="..\Header\QuestTalkingFrame.h" />
+    <ClInclude Include="..\Header\QuizBox.h" />
     <ClInclude Include="..\Header\SettingButton.h" />
     <ClInclude Include="..\Header\Setting_BackGround.h" />
     <ClInclude Include="..\Header\Setting_Stage.h" />
@@ -259,6 +261,7 @@
     <ClInclude Include="..\Header\Start_Button.h" />
     <ClInclude Include="..\Header\StaticCamera.h" />
     <ClInclude Include="..\Header\Status_UI.h" />
+    <ClInclude Include="..\Header\TapeWorm.h" />
     <ClInclude Include="..\Header\TeleCube.h" />
     <ClInclude Include="..\Header\Terrain.h" />
     <ClInclude Include="..\Header\TestCube.h" />
@@ -322,6 +325,7 @@
     <ClCompile Include="..\Code\FireTrap.cpp" />
     <ClCompile Include="..\Code\Ghul.cpp" />
     <ClCompile Include="..\Code\Gun_Screen.cpp" />
+    <ClCompile Include="..\Code\HarpoonGuy.cpp" />
     <ClCompile Include="..\Code\HealthPotion.cpp" />
     <ClCompile Include="..\Code\Helmet.cpp" />
     <ClCompile Include="..\Code\Helmet2.cpp" />
@@ -355,6 +359,7 @@
     <ClCompile Include="..\Code\Player_Dead_UI.cpp" />
     <ClCompile Include="..\Code\QuestNpc.cpp" />
     <ClCompile Include="..\Code\QuestTalkingFrame.cpp" />
+    <ClCompile Include="..\Code\QuizBox.cpp" />
     <ClCompile Include="..\Code\SettingButton.cpp" />
     <ClCompile Include="..\Code\Setting_BackGround.cpp" />
     <ClCompile Include="..\Code\Setting_Stage.cpp" />
@@ -377,6 +382,7 @@
     <ClCompile Include="..\Code\Start_Button.cpp" />
     <ClCompile Include="..\Code\StaticCamera.cpp" />
     <ClCompile Include="..\Code\Status_UI.cpp" />
+    <ClCompile Include="..\Code\TapeWorm.cpp" />
     <ClCompile Include="..\Code\TeleCube.cpp" />
     <ClCompile Include="..\Code\Terrain.cpp" />
     <ClCompile Include="..\Code\TestCube.cpp" />

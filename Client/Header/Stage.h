@@ -27,7 +27,7 @@ public:
 	virtual _int Update_Scene(const _float& fTimeDelta) override;
 	virtual void LateUpdate_Scene(void) override;
 	virtual void Render_Scene(void) override;
-
+	
 private:
 	HRESULT			Ready_Layer_Environment(const _tchar* pLayerTag);
 
@@ -51,6 +51,8 @@ private:
 	
 
 	_float				m_fFrame = 0.f; // WinZero  µµÂø½Ã°£
+
+	_bool		m_bStopBGM = false;
 
 public:
 	static CStage*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
