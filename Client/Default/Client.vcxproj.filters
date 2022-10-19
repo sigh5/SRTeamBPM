@@ -321,6 +321,37 @@
     <ClCompile Include="..\Code\ObeliskWreck.cpp">
       <Filter>02. GameObject\01. For_Stage\02. Monster\04. Obelisk</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\AnubisStormBall.cpp" />
+    <ClCompile Include="..\Code\TestWeapon.cpp">
+      <Filter>02. GameObject\01. For_Stage\14. Equipment\00. Weapon\02. TestWeapon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SettingButton.cpp">
+      <Filter>02. GameObject\00. For_Logo\01. Button\02. SettingButton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Setting_Stage.cpp">
+      <Filter>01. Scene\52. Setting_Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Setting_BackGround.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\12. Setting_BackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\BackButton.cpp">
+      <Filter>02. GameObject\00. For_Logo\01. Button\03. BackButton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\BGMDownBtn.cpp">
+      <Filter>02. GameObject\00. For_Logo\01. Button\04. BGMCtrlBtn\04-1. BGMDownBtn</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\BGMUpBtn.cpp">
+      <Filter>02. GameObject\00. For_Logo\01. Button\04. BGMCtrlBtn\04-2. BGMUpBtn</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SoundBox_UI.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\13. SoundBox_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ShopUI.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\95. ShopUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\QuizBox.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\14. QuizBox</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -665,6 +696,37 @@
     <ClInclude Include="..\Header\ObeliskWreck.h">
       <Filter>02. GameObject\01. For_Stage\02. Monster\04. Obelisk</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\AnubisStormBall.h" />
+    <ClInclude Include="..\Header\TestWeapon.h">
+      <Filter>02. GameObject\01. For_Stage\14. Equipment\00. Weapon\02. TestWeapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\SettingButton.h">
+      <Filter>02. GameObject\00. For_Logo\01. Button\02. SettingButton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Setting_Stage.h">
+      <Filter>01. Scene\52. Setting_Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Setting_BackGround.h">
+      <Filter>02. GameObject\01. For_Stage\10. UI\12. Setting_BackGround</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\BackButton.h">
+      <Filter>02. GameObject\00. For_Logo\01. Button\03. BackButton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\BGMDownBtn.h">
+      <Filter>02. GameObject\00. For_Logo\01. Button\04. BGMCtrlBtn\04-1. BGMDownBtn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\BGMUpBtn.h">
+      <Filter>02. GameObject\00. For_Logo\01. Button\04. BGMCtrlBtn\04-2. BGMUpBtn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\SoundBox_UI.h">
+      <Filter>02. GameObject\01. For_Stage\10. UI\13. SoundBox_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\ShopUI.h">
+      <Filter>02. GameObject\01. For_Stage\10. UI\95. ShopUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\QuizBox.h">
+      <Filter>02. GameObject\01. For_Stage\10. UI\14. QuizBox</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -953,6 +1015,9 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\02. Monster\07. FireTrap\FirePillar">
       <UniqueIdentifier>{c20d6dae-77e7-4842-af6c-a2e565a5b515}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\14. QuizBox">
+      <UniqueIdentifier>{aa95c8e2-13c0-4ddd-ab05-332598b9f9dd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

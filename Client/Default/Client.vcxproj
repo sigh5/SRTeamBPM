@@ -217,6 +217,7 @@
     <ClInclude Include="..\Header\Obstacle.h" />
     <ClInclude Include="..\Header\Player.h" />
     <ClInclude Include="..\Header\Player_Dead_UI.h" />
+    <ClInclude Include="..\Header\QuizBox.h" />
     <ClInclude Include="..\Header\SettingButton.h" />
     <ClInclude Include="..\Header\Setting_BackGround.h" />
     <ClInclude Include="..\Header\Setting_Stage.h" />
@@ -330,6 +331,7 @@
     <ClCompile Include="..\Code\Obstacle.cpp" />
     <ClCompile Include="..\Code\Player.cpp" />
     <ClCompile Include="..\Code\Player_Dead_UI.cpp" />
+    <ClCompile Include="..\Code\QuizBox.cpp" />
     <ClCompile Include="..\Code\SettingButton.cpp" />
     <ClCompile Include="..\Code\Setting_BackGround.cpp" />
     <ClCompile Include="..\Code\Setting_Stage.cpp" />

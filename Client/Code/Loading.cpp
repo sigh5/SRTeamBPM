@@ -130,7 +130,8 @@ _uint CLoading::Loading_ForStage(void)
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_SettingsScene_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Logo/SettingsScene.png", TEX_NORMAL)), E_FAIL);
 																											//\Bin\Resource\Texture\UI	
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_SoundBox_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/SoundBox.png", TEX_NORMAL)), E_FAIL);
-	
+																										// Bin\Resource\Texture\UI
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_QuizBox1_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/QuizBox1.png", TEX_NORMAL)), E_FAIL);
 	// AX 
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_AX_ScreenTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Weapon_UI/AX/AX_%d.png", TEX_NORMAL, 10)), E_FAIL);
 
