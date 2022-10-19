@@ -106,6 +106,14 @@ _uint CLoading::Loading_ForStage(void)
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Soldier_Attack_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Soldier/Soldier_attack%d.png", TEX_NORMAL, 12)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Soldier_Death_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Soldier/Soldier_death%d.png", TEX_NORMAL, 13)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Soldier_Bullet_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Soldier/Soldierbullet%d.png", TEX_NORMAL, 4)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Harpoonguy_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Harpoonguy/harpoonguy%d.png", TEX_NORMAL, 8)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Harpoonguy_Attack_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Harpoonguy/harpoonguy_attack%d.png", TEX_NORMAL, 13)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Thingy_AttackA_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Thingy/thingyattackA%d.png", TEX_NORMAL, 18)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Thingy_AttackB_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Thingy/thingyattackB%d.png", TEX_NORMAL, 28)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Thingy_AttackC_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Thingy/thingyattackC%d.png", TEX_NORMAL, 14)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Thingy_Morph_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Thingy/thingy_morph%d.png", TEX_NORMAL, 18)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Thingy_Walk_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Thingy/thingywalk%d.png", TEX_NORMAL, 6)), E_FAIL);
+
 	// ~Monster
 
 	// _UI
