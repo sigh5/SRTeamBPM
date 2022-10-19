@@ -222,15 +222,15 @@ bool CTapeWorm::Dead_Judge(const _float & fTimeDelta)
 			{
 			case 0:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Soldier_Deth_01.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Tapeworm_death_01.wav", SOUND_MONSTER, 0.4f);
 				break;
 			case 1:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Soldier_Deth_02.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Tapeworm_death_02.wav", SOUND_MONSTER, 0.4f);
 				break;
 			case 2:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Soldier_Deth_03.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Tapeworm_death_03.wav", SOUND_MONSTER, 0.4f);
 				break;
 			}
 			m_bDead = true;
