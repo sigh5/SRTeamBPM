@@ -255,6 +255,7 @@
     <ClInclude Include="..\Header\UI_Frame.h" />
     <ClInclude Include="..\Header\WallCube.h" />
     <ClInclude Include="..\Header\Weapon_UI.h" />
+    <ClInclude Include="..\Header\WrongPicFind.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Imgui\GraphEditor.h" />
     <ClInclude Include="Imgui\imconfig.h" />
@@ -371,6 +372,7 @@
     <ClCompile Include="..\Code\UI_Frame.cpp" />
     <ClCompile Include="..\Code\WallCube.cpp" />
     <ClCompile Include="..\Code\Weapon_UI.cpp" />
+    <ClCompile Include="..\Code\WrongPicFind.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="Imgui\GraphEditor.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>

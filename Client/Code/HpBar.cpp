@@ -5,6 +5,7 @@
 #include "AbstractFactory.h"
 #include "Player.h"
 #include "Player_Dead_UI.h"
+#include "CharacterInfo.h"
 
 USING(Engine)
 
@@ -37,6 +38,10 @@ HRESULT CHpBar::Ready_Object(CGameObject * pPlayer)
 
 	m_pPlayer = pPlayer;
 
+	m_iPlayerHp = 0;
+
+	m_iHpFont = 0;
+
 	m_pAnimationCom->Ready_Animation(5, 0, 0.2f, 4);
 
 	return S_OK;
@@ -44,12 +49,13 @@ HRESULT CHpBar::Ready_Object(CGameObject * pPlayer)
 
 _int CHpBar::Update_Object(const _float & fTimeDelta)
 {
-
-
 	CPlayer* pPlayer = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
-
-	_uint iA = (pPlayer->Get_HpChange()) / 25;
+	
+	m_iPlayerHp = (pPlayer->Get_HpChange()) / 25;
 				// 24/25 = 0.96 // 0/25 = 0
+
+	//m_iHpFont = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._iHp;
+
 	if (m_pAnimationCom->m_iMotion == 4)
 	{
 		if (Engine::Key_Down(DIK_M)) 
@@ -59,7 +65,7 @@ _int CHpBar::Update_Object(const _float & fTimeDelta)
 		Engine::Key_InputReset();
 	}
 
-	m_pAnimationCom->Control_Animation(iA);
+	m_pAnimationCom->Control_Animation(m_iPlayerHp);
 	
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
@@ -105,6 +111,15 @@ void CHpBar::Render_Obejct(void)
 		m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 		m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
+		_uint iHpFont = dynamic_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC))->Get_Hp();
+
+		_tchar	tPlayerHp[MAX_PATH];
+		swprintf_s(tPlayerHp, L"%d", iHpFont);
+		m_szPlayerHp = L"";
+		m_szPlayerHp += tPlayerHp;
+
+		Render_Font(L"HoengseongHanu", m_szPlayerHp.c_str(), &_vec2(275.f, 960.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+		
 		m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);
 
 		m_pBufferCom->Render_Buffer();
@@ -144,6 +159,16 @@ HRESULT CHpBar::Add_Component(void)
 
 	return S_OK;
 }
+
+//void CHpBar::Render_PlayerHpFont(void)
+//{
+//	_tchar	tPlayerHp[MAX_PATH];
+//	swprintf_s(tPlayerHp, L"%d", m_iHpFont);
+//	m_szPlayerHp += tPlayerHp;
+//
+//	Render_Font(L"HoengseongHanu", m_szPlayerHp.c_str(), &_vec2(275.f, 960.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+//
+//}
 
 
 CHpBar * CHpBar::Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject * pPlayer)

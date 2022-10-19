@@ -315,20 +315,8 @@
     <ClCompile Include="..\Code\SettingButton.cpp">
       <Filter>02. GameObject\00. For_Logo\01. Button\02. SettingButton</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Setting_Stage.cpp">
-      <Filter>01. Scene\52. Setting_Stage</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\Setting_BackGround.cpp">
-      <Filter>02. GameObject\01. For_Stage\10. UI\12. Setting_BackGround</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\BackButton.cpp">
       <Filter>02. GameObject\00. For_Logo\01. Button\03. BackButton</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\BGMDownBtn.cpp">
-      <Filter>02. GameObject\00. For_Logo\01. Button\04. BGMCtrlBtn\04-1. BGMDownBtn</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\BGMUpBtn.cpp">
-      <Filter>02. GameObject\00. For_Logo\01. Button\04. BGMCtrlBtn\04-2. BGMUpBtn</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\SoundBox_UI.cpp">
       <Filter>02. GameObject\01. For_Stage\10. UI\13. SoundBox_UI</Filter>
@@ -364,6 +352,21 @@
     </ClCompile>
     <ClCompile Include="..\Code\Setting_BackGround.cpp">
       <Filter>02. GameObject\01. For_Stage\10. UI\12. SettingBackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\BGMDownBtn.cpp">
+      <Filter>02. GameObject\00. For_Logo\01. Button\04. BGMdnBtn</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\BGMUpBtn.cpp">
+      <Filter>02. GameObject\00. For_Logo\01. Button\05. BGMupBtn</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Setting_BackGround.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\12. SettingBackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Setting_Stage.cpp">
+      <Filter>01. Scene\52. SettingStage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\WrongPicFind.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\15. WrongPicFind</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -703,20 +706,8 @@
     <ClInclude Include="..\Header\SettingButton.h">
       <Filter>02. GameObject\00. For_Logo\01. Button\02. SettingButton</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Setting_Stage.h">
-      <Filter>01. Scene\52. Setting_Stage</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\Setting_BackGround.h">
-      <Filter>02. GameObject\01. For_Stage\10. UI\12. Setting_BackGround</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\BackButton.h">
       <Filter>02. GameObject\00. For_Logo\01. Button\03. BackButton</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\BGMDownBtn.h">
-      <Filter>02. GameObject\00. For_Logo\01. Button\04. BGMCtrlBtn\04-1. BGMDownBtn</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\BGMUpBtn.h">
-      <Filter>02. GameObject\00. For_Logo\01. Button\04. BGMCtrlBtn\04-2. BGMUpBtn</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\SoundBox_UI.h">
       <Filter>02. GameObject\01. For_Stage\10. UI\13. SoundBox_UI</Filter>
@@ -752,6 +743,21 @@
     </ClInclude>
     <ClInclude Include="..\Header\Setting_BackGround.h">
       <Filter>02. GameObject\01. For_Stage\10. UI\12. SettingBackGround</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\BGMDownBtn.h">
+      <Filter>02. GameObject\00. For_Logo\01. Button\04. BGMdnBtn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\BGMUpBtn.h">
+      <Filter>02. GameObject\00. For_Logo\01. Button\05. BGMupBtn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Setting_BackGround.h">
+      <Filter>02. GameObject\01. For_Stage\10. UI\12. SettingBackGround</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Setting_Stage.h">
+      <Filter>01. Scene\52. SettingStage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\WrongPicFind.h">
+      <Filter>02. GameObject\01. For_Stage\10. UI\15. WrongPicFind</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1065,6 +1071,9 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\10. UI\12. SettingBackGround">
       <UniqueIdentifier>{be76b925-6703-489f-80ee-f493df280a08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\15. WrongPicFind">
+      <UniqueIdentifier>{64fc931d-1db7-48f5-9b5e-ca96543b8e9e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

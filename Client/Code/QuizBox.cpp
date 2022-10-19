@@ -99,19 +99,19 @@ void CQuizBox::Render_Obejct(void)
 
 			case 1:
 			{
-				pString = L"가나다라";
+				pString = L"복습을 생활화 합시다.";
 				break;
 			}
 
 			case 2:
 			{
-				pString = L"마바사";
+				pString = L"이걸...틀려?";
 				break;
 			}
 
 			case 3:
 			{
-				pString = L"아자차카";
+				pString = L"뇌자극책을 다시 봅시다.";
 				break;
 			}
 			}
@@ -119,7 +119,6 @@ void CQuizBox::Render_Obejct(void)
 			if(!m_bTest)
 			Render_Font(L"LeeSoonSin", pString, &_vec2(700.f, 700.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 			
-
 			if (m_iCount > 50)
 			{
 				m_bTest = true;
