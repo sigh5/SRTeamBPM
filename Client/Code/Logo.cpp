@@ -204,5 +204,9 @@ HRESULT CLogo::Ready_Proto(void)
 		// BMJUA_ttf
 		FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"BMJUA_ttf", L"PlayerDead_Font", 29, 30, FW_HEAVY), E_FAIL);
 
+
+		FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ShaderRectCom", CShader::Create(m_pGraphicDev, TEXT("../Bin/ShaderFilesPath/ShaderRect.hlsl"))), E_FAIL);
+
+
 		return S_OK;
 }

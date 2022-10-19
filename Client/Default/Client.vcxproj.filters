@@ -1020,6 +1020,12 @@
     <Filter Include="02. GameObject\01. For_Stage\14. Equipment\01. Helmet\Helmet1">
       <UniqueIdentifier>{5f74fdc8-60ae-4019-a74f-9354ab31d63c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="99. Default\Shader">
+      <UniqueIdentifier>{49a39c71-3e09-4dc5-9581-3d9a8a12acc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99. Default\Shader\ShaderRect">
+      <UniqueIdentifier>{365aebbc-dce1-42c9-b64e-910726b4161b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -1035,5 +1041,10 @@
     <Text Include="ReadMe.txt">
       <Filter>99. Default</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\Bin\ShaderFilesPath\ShaderRect.hlsl">
+      <Filter>99. Default\Shader\ShaderRect</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

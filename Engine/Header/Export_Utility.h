@@ -17,7 +17,7 @@
 #include "Collider.h"
 //캐릭터 인포
 #include "CharacterInfo.h"
-
+#include "Shader.h"
 //~
 #include "MonsterBase.h"
 #include "BaseBullet.h"
