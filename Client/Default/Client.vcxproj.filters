@@ -293,9 +293,6 @@
     <ClCompile Include="..\Code\Special_Effect.cpp">
       <Filter>02. GameObject\01. For_Stage\07. Effect\Special_Effect</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Npc.cpp">
-      <Filter>02. GameObject\01. For_Stage\16. NPC</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\UI_Effect.cpp">
       <Filter>02. GameObject\01. For_Stage\07. Effect\UI_Effect</Filter>
     </ClCompile>
@@ -329,6 +326,13 @@
     <ClCompile Include="..\Code\MiniStage1.cpp">
       <Filter>01. Scene\02.MiniGame\01. MiniGame1</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\Npc.cpp">
+      <Filter>02. GameObject\01. For_Stage\16. NPC\ShopNpc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\QuestNpc.cpp">
+      <Filter>02. GameObject\01. For_Stage\16. NPC\QuestNpc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\QuestTalkingFrame.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -642,9 +646,6 @@
     <ClInclude Include="..\Header\Special_Effect.h">
       <Filter>02. GameObject\01. For_Stage\07. Effect\Special_Effect</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Npc.h">
-      <Filter>02. GameObject\01. For_Stage\16. NPC</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\UI_Effect.h">
       <Filter>02. GameObject\01. For_Stage\07. Effect\UI_Effect</Filter>
     </ClInclude>
@@ -681,6 +682,13 @@
     <ClInclude Include="..\Header\MiniStage1.h">
       <Filter>01. Scene\02.MiniGame\01. MiniGame1</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Npc.h">
+      <Filter>02. GameObject\01. For_Stage\16. NPC\ShopNpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\QuestNpc.h">
+      <Filter>02. GameObject\01. For_Stage\16. NPC\QuestNpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\QuestTalkingFrame.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -990,6 +998,15 @@
     </Filter>
     <Filter Include="01. Scene\51. Change_Stage\TestChange">
       <UniqueIdentifier>{bdd88e64-d155-428f-bd9a-e5746b57595d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\16. NPC\ShopNpc">
+      <UniqueIdentifier>{5d282855-1853-42f3-a1b9-3493d2f88da7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\16. NPC\QuestNpc">
+      <UniqueIdentifier>{10cfd3a0-354e-42a9-8188-68e65c701c9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\16. NPC\QuestNpc\QuestTalkingFrame">
+      <UniqueIdentifier>{0936e311-b009-4c74-a3a0-bb84ae24a586}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

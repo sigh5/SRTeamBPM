@@ -44,3 +44,5 @@
 #include "Npc.h"
 #include "MouseMgr.h"
 #include "Helmet.h"
+#include "QuestNpc.h"
+#include "QuestTalkingFrame.h"
