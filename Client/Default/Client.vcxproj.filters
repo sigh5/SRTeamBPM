@@ -318,6 +318,11 @@
     <ClCompile Include="..\Code\ObeliskWreck.cpp">
       <Filter>02. GameObject\01. For_Stage\02. Monster\04. Obelisk</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\Soldier.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. Monster\08. Soldier</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SoldierBullet.cpp" />
+    <ClCompile Include="..\Code\FinalBoss.cpp" />
     <ClCompile Include="..\Code\Helmet.cpp">
       <Filter>02. GameObject\01. For_Stage\14. Equipment\01. Helmet</Filter>
     </ClCompile>
@@ -665,6 +670,11 @@
     <ClInclude Include="..\Header\ObeliskWreck.h">
       <Filter>02. GameObject\01. For_Stage\02. Monster\04. Obelisk</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Soldier.h">
+      <Filter>02. GameObject\01. For_Stage\02. Monster\08. Soldier</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\SoldierBullet.h" />
+    <ClInclude Include="..\Header\FinalBoss.h" />
     <ClInclude Include="..\Header\Helmet.h">
       <Filter>02. GameObject\01. For_Stage\14. Equipment\01. Helmet</Filter>
     </ClInclude>
@@ -956,6 +966,12 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\02. Monster\07. FireTrap\FirePillar">
       <UniqueIdentifier>{c20d6dae-77e7-4842-af6c-a2e565a5b515}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\02. Monster\08. Soldier">
+      <UniqueIdentifier>{d7488879-330d-4497-a26a-6c5535f641f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\02. Monster\09. FinalBoss">
+      <UniqueIdentifier>{68f3120e-8eb2-427b-935c-fe6cf6ebc6c1}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\14. Equipment\01. Helmet">
       <UniqueIdentifier>{fb30dcd1-4825-4bb9-a29d-3cbc6c30c9ce}</UniqueIdentifier>

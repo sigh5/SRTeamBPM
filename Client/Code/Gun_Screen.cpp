@@ -43,6 +43,8 @@ HRESULT CGun_Screen::Ready_Object()
 
 	m_bShootCheck = false;
 
+	m_iID = 2;
+
 	return S_OK;
 }
 
@@ -154,10 +156,12 @@ HRESULT CGun_Screen::Add_UpdateComponent(void)
 		if (m_iID == ID_MAGNUM)
 		{
 			m_pTextureMainCom = m_pTextureMagnumGun;
+			m_pAnimationCom->Ready_Animation(4, 0, 0.11f);
 		}
 		else if (m_iID == ID_SHOT_GUN)
 		{
 			m_pTextureMainCom = m_pTextureShotGun;
+			m_pAnimationCom->Ready_Animation(15, 0, 0.06f);
 		}
 		m_bControl = true;
 	}
@@ -175,20 +179,63 @@ HRESULT CGun_Screen::Shoot_Motion(const _float& fTimeDelta)
 	if (m_bAnimation == true)
 	{
 		m_bAnimation = m_pAnimationCom->Gun_Animation(fTimeDelta);
+
+		if (m_iID == ID_SHOT_GUN)
+		{
+			if (6 == m_pAnimationCom->m_iMotion)
+			{
+				::StopSound(SOUND_GUNREROAD);
+				::PlaySoundW(L"basic_shotgun_pumpin.wav", SOUND_GUNREROAD, 0.4f);
+			}
+			if (9 == m_pAnimationCom->m_iMotion)
+			{
+				::StopSound(SOUND_GUNREROAD);
+				::PlaySoundW(L"basic_shotgun_pumpout.wav", SOUND_GUNREROAD, 0.4f);
+			}
+		}
 		if (false == m_bCreatedShell)
 		{
-			_vec3 vPos, vDir;
-			Get_shellPosition(vPos, vDir);
-			CGameObject* pShell = CBulletShell::Create(m_pGraphicDev, vPos, vDir);
-			CScene  *pScene = ::Get_Scene();
-			NULL_CHECK_RETURN(pScene, E_FAIL);
-			CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
-			pLayer->Add_GameObjectList(pShell);
-			m_bCreatedShell = true;
+			if (m_iID == ID_MAGNUM)
+			{
+				_vec3 vPos, vDir;
+				Get_shellPosition(vPos, vDir);
+				CGameObject* pShell = CBulletShell::Create(m_pGraphicDev, vPos, vDir);
+				CScene  *pScene = ::Get_Scene();
+				NULL_CHECK_RETURN(pScene, E_FAIL);
+				CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+				pLayer->Add_GameObjectList(pShell);
+				m_bCreatedShell = true;
+
+				::StopSound(SOUND_GUNFIRE);
+				::PlaySoundW(L"magnum_shot.wav", SOUND_GUNFIRE, 0.4f);
+			}
+			else if (m_iID == ID_SHOT_GUN)
+			{
+				if (false == m_bShotgunSound)
+				{
+					::StopSound(SOUND_GUNFIRE);
+					::PlaySoundW(L"basic_shotgun_shot.wav", SOUND_GUNFIRE, 0.4f);
+					m_bShotgunSound = true;
+				}
+				if (6 == m_pAnimationCom->m_iMotion)
+				{
+					_vec3 vPos, vDir;
+					Get_shellPosition(vPos, vDir);
+					CGameObject* pShell = CBulletShell::Create(m_pGraphicDev, vPos, vDir, 1);
+					CScene  *pScene = ::Get_Scene();
+					NULL_CHECK_RETURN(pScene, E_FAIL);
+					CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+					pLayer->Add_GameObjectList(pShell);
+					m_bCreatedShell = true;
+				}
+				
+			}
+			
 		}
 		if (false == m_bAnimation)
 		{
 			m_bCreatedShell = false;
+			m_bShotgunSound = false;
 		}
 	}		
 

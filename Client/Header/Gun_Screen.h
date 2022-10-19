@@ -89,6 +89,7 @@ private:
 	_bool				m_bNoRender = false;
 
 	bool				m_bCreatedShell = false;
+	bool				m_bShotgunSound = false;
 
 	_uint				m_iID = 0;		
 

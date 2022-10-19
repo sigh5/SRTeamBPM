@@ -317,7 +317,7 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 	}
 
 	if (Engine::Key_Down(DIK_C))
-	{
+	{		
 		m_pInfoCom->Get_InfoRef()._iHp -= 25;
 	}
 	Engine::Key_InputReset();

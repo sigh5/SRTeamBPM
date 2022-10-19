@@ -42,13 +42,14 @@ public:
 
 private:
 	CTexture*		m_pTextureCom = nullptr;
-	int		m_iAttackPattern;
+
 	CRcTex*			m_pBufferCom = nullptr;
 	bool	m_bBattle = false;
 	float m_fDeadY = 0.f;
 	bool  m_bArrFalldown[4];
 	float m_fLimitY = 0.f;
 	float	m_fVolume = 0.f;
+	int		m_iAttackPattern = 0;
 
 	//dead
 	CTexture*		m_pDeadTexture = nullptr;

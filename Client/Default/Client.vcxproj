@@ -185,6 +185,7 @@
     <ClInclude Include="..\Header\Exit_Button.h" />
     <ClInclude Include="..\Header\FatBat.h" />
     <ClInclude Include="..\Header\FileIOMgr.h" />
+    <ClInclude Include="..\Header\FinalBoss.h" />
     <ClInclude Include="..\Header\FirePillar.h" />
     <ClInclude Include="..\Header\FireTrap.h" />
     <ClInclude Include="..\Header\Ghul.h" />
@@ -227,6 +228,8 @@
     <ClInclude Include="..\Header\SkillEffct.h" />
     <ClInclude Include="..\Header\SkyBox.h" />
     <ClInclude Include="..\Header\Snowfall.h" />
+    <ClInclude Include="..\Header\Soldier.h" />
+    <ClInclude Include="..\Header\SoldierBullet.h" />
     <ClInclude Include="..\Header\SoundBox_UI.h" />
     <ClInclude Include="..\Header\Special_Effect.h" />
     <ClInclude Include="..\Header\Sphinx.h" />
@@ -299,6 +302,7 @@
     <ClCompile Include="..\Code\Exit_Button.cpp" />
     <ClCompile Include="..\Code\FatBat.cpp" />
     <ClCompile Include="..\Code\FileIOMgr.cpp" />
+    <ClCompile Include="..\Code\FinalBoss.cpp" />
     <ClCompile Include="..\Code\FirePillar.cpp" />
     <ClCompile Include="..\Code\FireTrap.cpp" />
     <ClCompile Include="..\Code\Ghul.cpp" />
@@ -341,6 +345,8 @@
     <ClCompile Include="..\Code\SkillEffct.cpp" />
     <ClCompile Include="..\Code\SkyBox.cpp" />
     <ClCompile Include="..\Code\Snowfall.cpp" />
+    <ClCompile Include="..\Code\Soldier.cpp" />
+    <ClCompile Include="..\Code\SoldierBullet.cpp" />
     <ClCompile Include="..\Code\SoundBox_UI.cpp" />
     <ClCompile Include="..\Code\Special_Effect.cpp" />
     <ClCompile Include="..\Code\Sphinx.cpp" />
