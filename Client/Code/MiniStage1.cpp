@@ -11,8 +11,6 @@
 #include "Setting_Stage.h"
 #include "ShopUI.h"
 
-// UI Test
-#include "TestUI.h"
 
 
 CMiniStage1::CMiniStage1(LPDIRECT3DDEVICE9 pGraphicDev)

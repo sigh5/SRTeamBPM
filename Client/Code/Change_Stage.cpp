@@ -6,7 +6,7 @@
 #include "LoadingBackFont.h"
 #include "Stage.h"
 #include "MiniStage1.h"
-#include "TestUI.h"
+
 CChange_Stage::CChange_Stage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
 {
