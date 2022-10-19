@@ -80,8 +80,6 @@ _int CGun_Screen::Update_Object(const _float & fTimeDelta)
 
 void CGun_Screen::LateUpdate_Object(void)
 {
-
-
 	CPlayer* pPlayer = static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic",L"Player"));
 
 	if (m_bShootCheck)

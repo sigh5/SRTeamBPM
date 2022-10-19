@@ -79,7 +79,7 @@ HRESULT CStage::Ready_Scene(void)
 
 	Set_Player_StartCubePos();
 
-	::PlaySoundW(L"SamTow.wav", SOUND_BGM, 0.05f); // BGM
+	Engine::PlaySoundW(L"SamTow.wav", SOUND_BGM, g_fSound); // BGM
 
 	CMouseMgr::GetInstance()->Mouse_Change(m_pGraphicDev, CUSOR_SHOT);
 	
@@ -117,7 +117,7 @@ _int CStage::Update_Scene(const _float & fTimeDelta)
 			(*iter)->Update_Object(fTimeDelta);
 		}
 		m_fFrame = 0.f;
-	}
+	}	
 
 	TeleportCubeUpdate(fTimeDelta);
 
@@ -175,14 +175,27 @@ void CStage::LateUpdate_Scene(void)
 	
 	for (auto iter : (pLayer->Get_ControlRoomList()))
 		iter->Collision_Event();
+
+	CPlayer_Dead_UI* pPlayerDead = static_cast<CPlayer_Dead_UI*>(Engine::Get_GameObject(L"Layer_UI", L"Dead_UI"));
+
+	if (pPlayerDead->Get_Render() && !m_bStopBGM)
+	{
+		Engine::StopSound(SOUND_BGM);
+		m_bStopBGM = true;
+
+		_uint iC = 0;
+	}
 	
-
-
+	else
+	{
+		Engine::PlaySoundW(L"SamTow.wav", SOUND_BGM, g_fSound); // BGM
+		m_bStopBGM = false;
+	}
 }
 
 void CStage::Render_Scene(void)
 {
-
+	
 }
 
 HRESULT CStage::Ready_Layer_Environment(const _tchar * pLayerTag)

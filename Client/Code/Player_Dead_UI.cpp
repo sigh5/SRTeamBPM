@@ -4,6 +4,7 @@
 #include "AbstractFactory.h"
 
 #include "Player.h"
+#include "QuizBox.h"
 
 
 CPlayer_Dead_UI::CPlayer_Dead_UI(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -26,7 +27,7 @@ HRESULT CPlayer_Dead_UI::Ready_Object(_uint _iAlpha)
 
 	m_pTransCom->Set_Scale(&m_vecScale);
 
-	m_pTransCom->Set_Pos(0.f, 0.f, 0.0f);
+	m_pTransCom->Set_Pos(0.f, 0.f, 0.1f);
 
 	m_iAlpha = _iAlpha;
 
@@ -35,11 +36,35 @@ HRESULT CPlayer_Dead_UI::Ready_Object(_uint _iAlpha)
 
 _int CPlayer_Dead_UI::Update_Object(const _float & fTimeDelta)
 {		
-	Engine::CGameObject::Update_Object(fTimeDelta);
-
+	_uint iResult = Engine::CGameObject::Update_Object(fTimeDelta);
+	
 	Add_RenderGroup(RENDER_UI, this);
 
-	return 0;
+	if (m_bEvent)
+	{
+		Engine::StopSound(SOUND_EFFECT);
+		Engine::StopSound(SOUND_EFFECT2);
+		Engine::StopSound(SOUND_OBJECT);
+		Engine::StopSound(SOUND_PLAYER);
+		Engine::StopSound(SOUND_MONSTER);
+		Engine::StopSound(SOUND_MONSTER2);
+		Engine::StopSound(SOUND_MONSTER3);
+		Engine::StopSound(SOUND_EXPLOSION);
+		Engine::StopSound(SOUND_CRUSHROCK);
+		Engine::StopSound(SOUND_CRUSHROCK2);
+		Engine::StopSound(SOUND_CRUSHROCK3);
+	}
+
+
+		if (m_bRender && !m_bBGM)
+		{
+			Engine::PlaySoundW(L"PlayerDead.mp3", SOUND_EFFECT, g_fSound);
+
+			_uint iB = 0;
+
+		}
+	
+	return iResult;
 }
 
 void CPlayer_Dead_UI::LateUpdate_Object(void)
@@ -91,36 +116,23 @@ void CPlayer_Dead_UI::Render_Obejct(void)
 
 			if (m_iAlpha == 0)
 			{
-				m_bEvent = true;
-				//m_bBGMdown = true;
-				_tchar szReStart[128] = L"다시 시작하시겠습니까? M키";
-
-				Render_Font(L"Ghanachocolate", szReStart, &_vec2(350.f, 800.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+				m_bEvent = true;	
 				
-			/*	if (m_bBGMdown)
+				if (!m_bQuiz)
 				{
-					Engine::StopSound(SOUND_EFFECT);
-					Engine::StopSound(SOUND_EFFECT2);
-					Engine::StopSound(SOUND_OBJECT);
-					Engine::StopSound(SOUND_BGM);
-					Engine::StopSound(SOUND_PLAYER);
-					Engine::StopSound(SOUND_MONSTER);
-					Engine::StopSound(SOUND_MONSTER2);
-					Engine::StopSound(SOUND_MONSTER3);
-					Engine::StopSound(SOUND_EXPLOSION);
-					Engine::StopSound(SOUND_CRUSHROCK);
-					Engine::StopSound(SOUND_CRUSHROCK2);
-					Engine::StopSound(SOUND_CRUSHROCK3);
-				}*/				
-			}
-			
-			//if(m_bEvent)
-			//Engine::PlaySoundW(L"PlayerDead.mp3", SOUND_BGM, g_fSound);
+					_tchar szReStart[128] = L"다시 시작하시겠습니까? M키";
+
+					Render_Font(L"BMJUA_ttf", szReStart, &_vec2(350.f, 800.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+				}				
+			}						
 
 			if (Engine::Key_Down(DIK_M))
 			{
-				m_bRender = false;
-				m_bRenderIn = true;
+				Create_Quiz();
+
+				//m_bRender = false;
+				//m_bRenderIn = true;
+				//m_bBGM = false;
 			}
 			::Engine::Key_InputReset();
 
@@ -134,8 +146,7 @@ void CPlayer_Dead_UI::Render_Obejct(void)
 
 			m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 			m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-			//D3DCOLOR_ARGB(1, m_iAlpha, m_iAlpha, m_iAlpha)
-		
+					
 	}
 
 	else
@@ -187,7 +198,7 @@ void CPlayer_Dead_UI::Render_Obejct(void)
 		{
 			m_bPlusCount = true;
 			m_bRenderIn = false;
-			//Engine::StopSound(SOUND_BGM);
+			Engine::StopSound(SOUND_BGM);
 		}
 
 		m_pTextureCom->Set_Texture(0);
@@ -215,6 +226,49 @@ HRESULT CPlayer_Dead_UI::Add_Component(void)
 	
 	return S_OK;
 }
+
+HRESULT CPlayer_Dead_UI::Create_Quiz(void)
+{
+	CScene*			pScene = Engine::Get_Scene();
+	CLayer*			pMyLayer = pScene->GetLayer(L"Layer_UI");
+
+	CGameObject*	pGameObject = nullptr;
+	pGameObject = CQuizBox::Create(m_pGraphicDev, true);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(L"QuizBox1", pGameObject), E_FAIL);
+
+	m_bQuiz = true;
+
+	return S_OK;
+}
+
+/*
+
+HRESULT CTestPlayer::Create_Bullet(_vec3 vPos)
+{
+++m_iCoolTime;
+
+if (m_bOneShot && m_iCoolTime > 10)
+{
+m_bOneShot = FALSE;
+
+m_iCoolTime = 0;
+
+CScene* pScene = ::Get_Scene();
+CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+
+CGameObject* pGameObject = nullptr;  // Reuse_PlayerBulltObj
+pGameObject = CObjectMgr::GetInstance()->Reuse_PlayerBulltObj(m_pGraphicDev, vPos);
+NULL_CHECK_RETURN(pGameObject, E_FAIL);
+pMyLayer->Add_GameObjectList(pGameObject);
+
+m_iMagazine -= 1;
+
+}
+return S_OK;
+}
+
+*/
 
 CPlayer_Dead_UI * CPlayer_Dead_UI::Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint _iAlpha)
 {

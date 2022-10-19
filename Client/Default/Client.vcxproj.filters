@@ -339,6 +339,9 @@
     <ClCompile Include="..\Code\ShopUI.cpp">
       <Filter>02. GameObject\01. For_Stage\10. UI\95. ShopUI</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\QuizBox.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\14. QuizBox</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -695,6 +698,9 @@
     <ClInclude Include="..\Header\ShopUI.h">
       <Filter>02. GameObject\01. For_Stage\10. UI\95. ShopUI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\QuizBox.h">
+      <Filter>02. GameObject\01. For_Stage\10. UI\14. QuizBox</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1001,6 +1007,9 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\10. UI\13. SoundBox_UI">
       <UniqueIdentifier>{17f81342-2a53-450e-a04c-ef21483e369e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\14. QuizBox">
+      <UniqueIdentifier>{aa95c8e2-13c0-4ddd-ab05-332598b9f9dd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
