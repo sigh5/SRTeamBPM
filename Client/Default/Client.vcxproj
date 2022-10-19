@@ -262,9 +262,6 @@
     <ClInclude Include="..\Header\TapeWorm.h" />
     <ClInclude Include="..\Header\TeleCube.h" />
     <ClInclude Include="..\Header\Terrain.h" />
-    <ClInclude Include="..\Header\TestCube.h" />
-    <ClInclude Include="..\Header\TestMonster.h" />
-    <ClInclude Include="..\Header\TestPlayer.h" />
     <ClInclude Include="..\Header\ToolTest.h" />
     <ClInclude Include="..\Header\UI_Effect.h" />
     <ClInclude Include="..\Header\UI_Frame.h" />
@@ -382,9 +379,6 @@
     <ClCompile Include="..\Code\TapeWorm.cpp" />
     <ClCompile Include="..\Code\TeleCube.cpp" />
     <ClCompile Include="..\Code\Terrain.cpp" />
-    <ClCompile Include="..\Code\TestCube.cpp" />
-    <ClCompile Include="..\Code\TestMonster.cpp" />
-    <ClCompile Include="..\Code\TestPlayer.cpp" />
     <ClCompile Include="..\Code\ToolTest.cpp" />
     <ClCompile Include="..\Code\UI_Effect.cpp" />
     <ClCompile Include="..\Code\UI_Frame.cpp" />
