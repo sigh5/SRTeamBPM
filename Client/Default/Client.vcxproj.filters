@@ -94,9 +94,6 @@
     <ClCompile Include="..\Code\StaticCamera.cpp">
       <Filter>02. GameObject\02. For_public\01. StaticCamera</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\TestUI.cpp">
-      <Filter>02. GameObject\01. For_Stage\10. UI\96. TestUI</Filter>
-    </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>99. Default</Filter>
     </ClCompile>
@@ -437,9 +434,6 @@
     <ClInclude Include="..\Header\StaticCamera.h">
       <Filter>02. GameObject\02. For_public\01. StaticCamera</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\TestUI.h">
-      <Filter>02. GameObject\01. For_Stage\10. UI\96. TestUI</Filter>
-    </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>99. Default</Filter>
     </ClInclude>
@@ -761,9 +755,6 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\10. UI\00. MetronomeUI">
       <UniqueIdentifier>{f594112e-a545-4cd0-a034-d8e6d68c1f26}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\01. For_Stage\10. UI\96. TestUI">
-      <UniqueIdentifier>{30a11242-b2c6-4385-94b1-e251f53dd8c9}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObject\02. For_public">
       <UniqueIdentifier>{6fe30055-787d-4b58-9662-32370e2ec84b}</UniqueIdentifier>
