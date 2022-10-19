@@ -7,7 +7,7 @@
 #include "Player.h"
 #include "MiniStage1.h"
 #include "Change_Stage.h"
-
+#include "Helmet.h"
 
 CShopUI::CShopUI(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CUI_Base(pGraphicDev)
@@ -19,7 +19,7 @@ CShopUI::CShopUI(LPDIRECT3DDEVICE9 pGraphicDev)
 	m_rcShopSlot[3] = { 910 - 90,  380 - 120, 910 + 90,  380 + 120 };
 	m_rcShopSlot[4] = { 680 - 90,  680 - 120, 680 + 90,  680 + 120 };
 	m_rcShopSlot[5] = { 910 - 90,  674 - 120, 910 + 90,  674 + 120 };
-	m_rcShopSlot[5] = { 910 - 90,  674 - 120, 910 + 90,  674 + 120 };
+	
 }
 
 CShopUI::~CShopUI()
@@ -51,6 +51,15 @@ _int CShopUI::Update_Object(const _float & fTimeDelta)
 	if (m_bActvie)
 	{
 		 Picking_Rect_Index();
+		 
+		 CPlayer* pPlayer = static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"));
+
+		 CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(pPlayer->Get_Component(L"Proto_CharacterInfoCom",ID_STATIC));
+		 
+		  _int iCoin = pPlayerInfo->Get_InfoRef()._iCoin;
+		  pString = std::to_wstring(iCoin);
+			
+		
 	}
 	
 	Engine::CUI_Base::Update_Object(fTimeDelta);
@@ -89,6 +98,7 @@ void CShopUI::Render_Obejct(void)
 		m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &m_ProjMatrix);
 		m_pTextureCom->Set_Texture(0);
 		m_pBufferCom->Render_Buffer();
+		Render_Font(L"LeeSoonSin", pString.c_str(), &_vec2(_float(WINCX / 2 + 300), 30.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 
 		m_pGraphicDev->SetTransform(D3DTS_VIEW, &OldViewMatrix);
 		m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &OldProjMatrix);
@@ -157,10 +167,32 @@ void CShopUI::Picking_Rect_Index()
 				{
 					_bool b = false;
 				}
+				else if (i == 5 && !m_bSelect[5])
+				{
+					m_iEquipIndex = 5;
+					m_bSelect[5] = true;
+					return;
+				}
+
+
 			}
 		}
 	}
 	
+	if (m_bSelect[5] && !m_bShopingEnd[5])
+	{
+		CPlayer* pPlayer = static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"));
+		CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(pPlayer->Get_Component(L"Proto_CharacterInfoCom", ID_STATIC));
+		_int iCoin = pPlayerInfo->Get_InfoRef()._iCoin -=1;		// 나중에 가격적으면됌
+
+		m_bShopingEnd[5] = true;
+
+		CHelmet* pHelmet = static_cast<CHelmet*>(Get_GameObject(L"Layer_GameLogic", L"Helmet1"));
+		pHelmet->Shop_Goods();
+
+
+	}
+
 
 
 }

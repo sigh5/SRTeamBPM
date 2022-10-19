@@ -187,15 +187,15 @@ void CInventory_UI::Set_CurrentEquipWeapon(CEquipmentBase * pWeapon)
 
 void CInventory_UI::Set_CurrentEquipHelmet(CEquipmentBase * pHelmet)
 {
-	if (m_pCurrentEquipWeapon == nullptr)
+	if (m_pCurrentEquipHelmet == nullptr)
 	{
-		m_pCurrentEquipWeapon = pHelmet;
+		m_pCurrentEquipHelmet = pHelmet;
 		return;
 	}
-	/*_vec3 vPreWeaponvPos, vCurrentWeaponPos;
+	_vec3 vPreWeaponvPos, vCurrentWeaponPos;
 
 
-	CTransform* pRreWeaponTrans = static_cast<CTransform*>(m_pCurrentEquipWeapon->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+	CTransform* pRreWeaponTrans = static_cast<CTransform*>(m_pCurrentEquipHelmet->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
 	pRreWeaponTrans->Get_Info(INFO_POS, &vPreWeaponvPos);
 
 	CTransform* pCurrentvWeaponTrans = static_cast<CTransform*>(pHelmet->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
@@ -207,19 +207,19 @@ void CInventory_UI::Set_CurrentEquipHelmet(CEquipmentBase * pHelmet)
 
 	vCurrentWeaponPos = { __fX,__fY,0.f };
 
-	m_pCurrentEquipWeapon->Set_EquipState(EquipState_Slot);
+	m_pCurrentEquipHelmet->Set_EquipState(EquipState_Slot);
 	pHelmet->Set_EquipState(EquipState_Equip_HELMET);
 
 	pRreWeaponTrans->Set_Pos(__fX - WINCX * 0.5f, (-__fY + WINCY * 0.5f), 0.f);
 
 	pCurrentvWeaponTrans->Set_Pos(vPreWeaponvPos.x, vPreWeaponvPos.y, vPreWeaponvPos.z);
-	m_pCurrentEquipWeapon->m_iInvenSlotIndex = pHelmet->m_iInvenSlotIndex;
-	m_pCurrentEquipWeapon->Set_FX_FY(__fX, __fY);
+	m_pCurrentEquipHelmet->m_iInvenSlotIndex = pHelmet->m_iInvenSlotIndex;
+	m_pCurrentEquipHelmet->Set_FX_FY(__fX, __fY);
 
 	pRreWeaponTrans->Update_Component(1.f);
 	pCurrentvWeaponTrans->Update_Component(1.f);
 
-	m_pCurrentEquipWeapon = pHelmet;*/
+	m_pCurrentEquipHelmet = pHelmet;
 
 }
 

@@ -320,9 +320,6 @@
     </ClCompile>
     <ClCompile Include="..\Code\SoldierBullet.cpp" />
     <ClCompile Include="..\Code\FinalBoss.cpp" />
-    <ClCompile Include="..\Code\Helmet.cpp">
-      <Filter>02. GameObject\01. For_Stage\14. Equipment\01. Helmet</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\MiniStage1.cpp">
       <Filter>01. Scene\02.MiniGame\01. MiniGame1</Filter>
     </ClCompile>
@@ -333,6 +330,12 @@
       <Filter>02. GameObject\01. For_Stage\16. NPC\QuestNpc</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\QuestTalkingFrame.cpp" />
+    <ClCompile Include="..\Code\Helmet2.cpp">
+      <Filter>02. GameObject\01. For_Stage\14. Equipment\01. Helmet\Helmet2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Helmet.cpp">
+      <Filter>02. GameObject\01. For_Stage\14. Equipment\01. Helmet\Helmet1</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -676,9 +679,6 @@
     </ClInclude>
     <ClInclude Include="..\Header\SoldierBullet.h" />
     <ClInclude Include="..\Header\FinalBoss.h" />
-    <ClInclude Include="..\Header\Helmet.h">
-      <Filter>02. GameObject\01. For_Stage\14. Equipment\01. Helmet</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\MiniStage1.h">
       <Filter>01. Scene\02.MiniGame\01. MiniGame1</Filter>
     </ClInclude>
@@ -689,6 +689,12 @@
       <Filter>02. GameObject\01. For_Stage\16. NPC\QuestNpc</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\QuestTalkingFrame.h" />
+    <ClInclude Include="..\Header\Helmet2.h">
+      <Filter>02. GameObject\01. For_Stage\14. Equipment\01. Helmet\Helmet2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Helmet.h">
+      <Filter>02. GameObject\01. For_Stage\14. Equipment\01. Helmet\Helmet1</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1007,6 +1013,12 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\16. NPC\QuestNpc\QuestTalkingFrame">
       <UniqueIdentifier>{0936e311-b009-4c74-a3a0-bb84ae24a586}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\14. Equipment\01. Helmet\Helmet2">
+      <UniqueIdentifier>{73ac6d19-f8de-4424-88b7-d203c3ffad5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\14. Equipment\01. Helmet\Helmet1">
+      <UniqueIdentifier>{5f74fdc8-60ae-4019-a74f-9354ab31d63c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

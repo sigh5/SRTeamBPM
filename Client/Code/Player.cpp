@@ -37,6 +37,8 @@ HRESULT CPlayer::Ready_Object(void)
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_pInfoCom->Ready_CharacterInfo(10000, 10, 5.f);
+	m_pInfoCom->Get_InfoRef()._iCoin = 10;
+
 
 	_vec3 vPos = { 20.f, 6.f, 15.f };
 

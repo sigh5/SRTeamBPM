@@ -14,11 +14,12 @@ END
 
 class CInventory_UI;
 
-class CHelmet : public CEquipmentBase
+
+class CHelmet2 :public CEquipmentBase
 {
 private:
-	explicit CHelmet(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual ~CHelmet();
+	explicit CHelmet2(LPDIRECT3DDEVICE9 pGraphicDev);
+	virtual ~CHelmet2();
 
 public:
 	HRESULT				Ready_Object(_uint iX, _uint iZ);
@@ -27,7 +28,6 @@ public:
 	virtual void		Render_Obejct(void);
 	virtual void		Collision_Event()override;
 	virtual void		Change_Equip()override;
-
 
 
 public:
@@ -58,9 +58,7 @@ private:
 	_float			m_fTimedelta = 0.f;
 
 public:
-	static	CHelmet*		Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint iX, _uint iZ);
+	static	CHelmet2*		Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint iX, _uint iZ);
 	virtual void			Free(void);
-
-
 };
 

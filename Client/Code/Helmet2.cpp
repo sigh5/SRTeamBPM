@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "..\Header\Helmet.h"
+#include "..\Header\Helmet2.h"
 #include "Export_Function.h"
 
 #include "AbstractFactory.h"
@@ -8,16 +8,16 @@
 #include "Status_UI.h"
 #include "Player.h"
 
-CHelmet::CHelmet(LPDIRECT3DDEVICE9 pGraphicDev)
+CHelmet2::CHelmet2(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CEquipmentBase(pGraphicDev)
 {
 }
 
-CHelmet::~CHelmet()
+CHelmet2::~CHelmet2()
 {
 }
 
-HRESULT CHelmet::Ready_Object(_uint iX, _uint iZ)
+HRESULT CHelmet2::Ready_Object(_uint iX, _uint iZ)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
@@ -34,7 +34,7 @@ HRESULT CHelmet::Ready_Object(_uint iX, _uint iZ)
 	return S_OK;
 }
 
-_int CHelmet::Update_Object(const _float & fTimeDelta)
+_int CHelmet2::Update_Object(const _float & fTimeDelta)
 {
 
 	m_fTimedelta = fTimeDelta;
@@ -60,7 +60,7 @@ _int CHelmet::Update_Object(const _float & fTimeDelta)
 	return iResult;
 }
 
-void CHelmet::LateUpdate_Object(void)
+void CHelmet2::LateUpdate_Object(void)
 {
 	if (m_bIsWorld)
 	{
@@ -95,7 +95,7 @@ void CHelmet::LateUpdate_Object(void)
 	m_iMouseUpEnd = false;
 }
 
-void CHelmet::Render_Obejct(void)
+void CHelmet2::Render_Obejct(void)
 {
 	if (m_bIsWorld)
 	{
@@ -147,7 +147,7 @@ void CHelmet::Render_Obejct(void)
 	}
 }
 
-void CHelmet::Collision_Event()
+void CHelmet2::Collision_Event()
 {
 	CScene  *pScene = ::Get_Scene();
 	NULL_CHECK_RETURN(pScene, );
@@ -205,7 +205,7 @@ void CHelmet::Collision_Event()
 	}
 }
 
-void CHelmet::Change_Equip()
+void CHelmet2::Change_Equip()
 {
 	if (m_EquipState == EquipState_Equip_HELMET)
 		return;
@@ -214,12 +214,12 @@ void CHelmet::Change_Equip()
 	pInven->Set_CurrentEquipHelmet(this);
 
 	CPlayer* pPlayer = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
-	pPlayer->EquipItem_Add_Stat(0,10);	//체력올림
+	pPlayer->EquipItem_Add_Stat(0, 10);	//체력올림
 
 }
 
 
-void CHelmet::Set_MouseToInventory()
+void CHelmet2::Set_MouseToInventory()
 {
 	POINT		ptMouse{};
 
@@ -234,7 +234,7 @@ void CHelmet::Set_MouseToInventory()
 		(-m_fY + WINCY * 0.5f), 0.f);
 }
 
-void CHelmet::PickingMouseUp()
+void CHelmet2::PickingMouseUp()
 {
 	if (m_bisPicking &&::Mouse_Up(DIM_LB) && !m_bPickingEnd) // 마우스 들었을때
 	{
@@ -272,7 +272,7 @@ void CHelmet::PickingMouseUp()
 	}
 }
 
-void CHelmet::SearchInventorySlot(CInventory_UI ** pInven)
+void CHelmet2::SearchInventorySlot(CInventory_UI ** pInven)
 {
 	POINT		ptMouse{};
 
@@ -348,13 +348,13 @@ void CHelmet::SearchInventorySlot(CInventory_UI ** pInven)
 	m_bPickingEnd = false;
 }
 
-_bool CHelmet::EquipIconPicking()
+_bool CHelmet2::EquipIconPicking()
 {
 	CInventory_UI* pInven = static_cast<CInventory_UI*>(Get_GameObject(L"Layer_UI", L"InventoryUI"));
 
 	const _uint iCurrentPickingID = pInven->Get_Current_Picking_ItemID();
 
-	if (!(iCurrentPickingID == ID_HELMET1 || iCurrentPickingID == 0))
+	if (!(iCurrentPickingID == ID_HELMET2 || iCurrentPickingID == 0))
 		return false;
 
 	POINT		ptMouse{};
@@ -372,7 +372,7 @@ _bool CHelmet::EquipIconPicking()
 		//cout << ptMouse.x << " " << ptMouse.y << endl;
 		if (PtInRect(&rcUI2, ptMouse))
 		{
-			pInven->Set__Current_Picking_ItemID(ID_HELMET1);
+			pInven->Set__Current_Picking_ItemID(ID_HELMET2);
 			m_bPickingEnd = false;
 			m_bisPicking = true;
 			return true;
@@ -384,7 +384,7 @@ _bool CHelmet::EquipIconPicking()
 	return false;
 }
 
-void CHelmet::Shop_Goods()
+void CHelmet2::Shop_Goods()
 {
 	CInventory_UI* pInven = static_cast<CInventory_UI*>(Get_GameObject(L"Layer_UI", L"InventoryUI"));
 	pInven->Get_WeaponType()->push_back(this);
@@ -427,10 +427,10 @@ void CHelmet::Shop_Goods()
 }
 
 
-HRESULT CHelmet::Add_Component(void)
+HRESULT CHelmet2::Add_Component(void)
 {
 	m_pTransCom = CAbstractFactory<CTransform>::Clone_Proto_Component(L"Proto_TransformCom", m_mapComponent, ID_DYNAMIC);
-	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Helmet1Texture", m_mapComponent, ID_STATIC);
+	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Helmet2Texture", m_mapComponent, ID_STATIC);
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
 	m_pAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_STATIC);
 	m_pCalculatorCom = CAbstractFactory<CCalculator>::Clone_Proto_Component(L"Proto_CalculatorCom", m_mapComponent, ID_STATIC);
@@ -439,9 +439,9 @@ HRESULT CHelmet::Add_Component(void)
 	return S_OK;
 }
 
-CHelmet * CHelmet::Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint iX, _uint iZ)
+CHelmet2 * CHelmet2::Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint iX, _uint iZ)
 {
-	CHelmet* pInstance = new CHelmet(pGraphicDev);
+	CHelmet2* pInstance = new CHelmet2(pGraphicDev);
 
 	if (FAILED(pInstance->Ready_Object(iX, iZ)))
 	{
@@ -451,7 +451,7 @@ CHelmet * CHelmet::Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint iX, _uint iZ)
 	return pInstance;
 }
 
-void CHelmet::Free(void)
+void CHelmet2::Free(void)
 {
 	CGameObject::Free();
 }

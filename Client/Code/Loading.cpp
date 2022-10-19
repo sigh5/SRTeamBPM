@@ -172,6 +172,7 @@ _uint CLoading::Loading_ForStage(void)
 
 	// Helmet1
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Helmet1Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Equipment/Equip_HelMet/Helmet1.png", TEX_NORMAL, 1)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Helmet2Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Equipment/Equip_HelMet/Helmet2.png", TEX_NORMAL, 1)), E_FAIL);
 
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ThunderTexCom", CThunderTex::Create(m_pGraphicDev)), E_FAIL);
 	//작업할때 create clone 추가할것
