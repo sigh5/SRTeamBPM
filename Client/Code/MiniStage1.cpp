@@ -9,7 +9,7 @@
 #include "Stage_Pjw.h"
 #include "Change_Stage.h"
 #include "Setting_Stage.h"
-
+#include "ShopUI.h"
 
 // UI Test
 #include "TestUI.h"
@@ -26,9 +26,13 @@ CMiniStage1::~CMiniStage1()
 
 HRESULT CMiniStage1::Ready_Scene(void)
 {
-	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
+	if (FAILED(Engine::CScene::Ready_Scene()))
+		return E_FAIL;
 
-	
+	m_SceneType = SCENE_MINISTAGE1;
+
+	FAILED_CHECK_RETURN(Ready_Proto(), E_FAIL);
+
 
 	return S_OK;
 
@@ -36,6 +40,17 @@ HRESULT CMiniStage1::Ready_Scene(void)
 
 _int CMiniStage1::Update_Scene(const _float & fTimeDelta)
 {
+	if (Key_Down(DIK_Q))
+	{
+		CScene* pStage1 = ::Get_SaveScene();
+		CLayer* pLayer = pStage1->GetLayer(L"Layer_GameLogic");
+		CShopUI* pShopUI = dynamic_cast<CShopUI*>(pLayer->Get_GameObject(L"ShopUI"));
+		pShopUI->Set_ForceScene(0);
+		pStage1->Set_SceneChane(false);
+
+		Load_SaveScene(this);
+		return -1;
+	}
 	Engine::PlaySoundW(L"Paradox.mp3", SOUND_BGM, 0.1f);
 
 	_int iResult = Engine::CScene::Update_Scene(fTimeDelta);

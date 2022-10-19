@@ -6,6 +6,8 @@
 #include "MyCamera.h"
 #include "Player.h"
 #include "MiniStage1.h"
+#include "Change_Stage.h"
+
 
 CShopUI::CShopUI(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CUI_Base(pGraphicDev)
@@ -54,8 +56,8 @@ _int CShopUI::Update_Object(const _float & fTimeDelta)
 	Engine::CUI_Base::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_UI, this);
 
-	if (m_iForceSceneReturn == 33)
-		return 33;
+	if (m_iForceSceneReturn == SCENE_CHANGE_RETRURN)
+		return SCENE_CHANGE_RETRURN;
 
 
 	return 0;
@@ -96,7 +98,6 @@ void CShopUI::Render_Obejct(void)
 	}
 }
 
-
 HRESULT CShopUI::Add_Component(void)
 {
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
@@ -132,13 +133,20 @@ void CShopUI::Picking_Rect_Index()
 			{
 				if (i == 2)
 				{
-					CScene*pScene = Get_Scene();
+					CScene*pScene = ::Get_Scene();
 					pScene->Set_SceneChane(true);
-					CScene* pMiniScene = CMiniStage1::Create(m_pGraphicDev);
-					
-					Change_Scene(pScene, pMiniScene);
-					m_iForceSceneReturn = 33;
-				
+					::Set_SaveScene(pScene);
+
+					//CScene*		pMiniStage1 = CMiniStage1::Create(m_pGraphicDev);
+					//Change_Scene(pScene, pMiniStage1);
+
+					CScene*		pChangeScene = CChange_Stage::Create(m_pGraphicDev,1);
+					NULL_CHECK_RETURN(pScene, );
+
+					::Change_Scene(pScene, pChangeScene);
+
+					m_iForceSceneReturn = SCENE_CHANGE_RETRURN;
+					return;
 
 				}
 				else if (i == 3)

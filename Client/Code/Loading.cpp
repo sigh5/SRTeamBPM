@@ -207,7 +207,6 @@ _uint CLoading::Loading_ForStage(void)
 	return 0;
 }
 
-
 _uint CLoading::Loading_ForBoss(void)
 {
 	return 0;

@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "..\Header\Change_Stage.h"
+#include "..\Header\TestChane.h"
 #include "Export_Function.h"
 
 #include "Loading_Image.h"
@@ -7,16 +7,17 @@
 #include "Stage.h"
 #include "MiniStage1.h"
 #include "TestUI.h"
-CChange_Stage::CChange_Stage(LPDIRECT3DDEVICE9 pGraphicDev)
+
+CTestChane::CTestChane(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
 {
 }
 
-CChange_Stage::~CChange_Stage()
+CTestChane::~CTestChane()
 {
 }
 
-HRESULT CChange_Stage::Ready_Scene(_uint iStageNum)
+HRESULT CTestChane::Ready_Scene(_uint iStageNum)
 {
 	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
 	m_iStageIndex = iStageNum;
@@ -31,15 +32,15 @@ HRESULT CChange_Stage::Ready_Scene(_uint iStageNum)
 	return S_OK;
 }
 
-_int CChange_Stage::Update_Scene(const _float & fTimeDelta)
+_int CTestChane::Update_Scene(const _float & fTimeDelta)
 {
 	_int iResult = Engine::CScene::Update_Scene(fTimeDelta);
-	
+
 	++m_iLoadingCount;
 
 	//cout << "How Count : " << m_iLoadingCount << endl;
-						// 150~200
-	
+	// 150~200
+
 	if (m_iStageIndex == 0)
 	{
 		if (m_iLoadingCount > 100)
@@ -48,43 +49,52 @@ _int CChange_Stage::Update_Scene(const _float & fTimeDelta)
 			NULL_CHECK_RETURN(pScene, E_FAIL);
 
 			FAILED_CHECK_RETURN(Engine::Set_Scene(pScene), E_FAIL);
-			
+
 			return 0;
 		}
 	}
 	else if (m_iStageIndex == 1)
 	{
-		if (m_iLoadingCount > 100)
+		/*	if (m_iLoadingCount > 100)
 		{
-			CScene*		pScene = CMiniStage1::Create(m_pGraphicDev);
-			NULL_CHECK_RETURN(pScene, E_FAIL);
+		CScene*		pScene = CMiniStage1::Create(m_pGraphicDev);
+		NULL_CHECK_RETURN(pScene, E_FAIL);
 
-			FAILED_CHECK_RETURN(Engine::Set_Scene(pScene), E_FAIL);
-			
-			return 0;
+		FAILED_CHECK_RETURN(Engine::Set_Scene(pScene), E_FAIL);
+
+		return 0;
 		}
+		return 0;*/
 		return iResult;
 	}
-	
+
 	return iResult;
 }
 
-void CChange_Stage::LateUpdate_Scene(void)
+void CTestChane::LateUpdate_Scene(void)
 {
 	Engine::CScene::LateUpdate_Scene();
 }
 
-void CChange_Stage::Render_Scene(void)
+void CTestChane::Render_Scene(void)
 {
 }
 
-HRESULT CChange_Stage::Ready_Layer_Environment(const _tchar * pLayerTag)
+HRESULT CTestChane::Ready_Layer_Environment(const _tchar * pLayerTag)
 {
+	wstring szImageName = L"";
+	wstring szBackGroundName = L"";
+	if (m_iStageIndex == 0)
+	{
+		szImageName = LOADING_IMAGE0;
+		szBackGroundName = LOADING_FONT_BACKGROUND0;
+	}
+
+
 	Engine::CLayer*		pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
-	
-	CGameObject*		pGameObject = nullptr;
 
+	CGameObject*		pGameObject = nullptr;
 
 	pGameObject = CLoading_Image::Create(m_pGraphicDev, true);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -93,20 +103,20 @@ HRESULT CChange_Stage::Ready_Layer_Environment(const _tchar * pLayerTag)
 	pGameObject = CLoadingBackFont::Create(m_pGraphicDev, 0.58f, -0.75f);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(LOADING_FONT_BACKGROUND0, pGameObject), E_FAIL);
-		
+
 	m_mapLayer.insert({ pLayerTag, pLayer });
 
 	return S_OK;
 }
 
-HRESULT CChange_Stage::Ready_Proto(void)
-{	
+HRESULT CTestChane::Ready_Proto(void)
+{
 	return S_OK;
 }
 
-CChange_Stage * CChange_Stage::Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint iStageNum)
+CTestChane * CTestChane::Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint iStageNum)
 {
-	CChange_Stage*	pInstance = new CChange_Stage(pGraphicDev);
+	CTestChane*	pInstance = new CTestChane(pGraphicDev);
 
 	if (FAILED(pInstance->Ready_Scene(iStageNum)))
 	{
@@ -117,7 +127,7 @@ CChange_Stage * CChange_Stage::Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint iStag
 	return pInstance;
 }
 
-void CChange_Stage::Free(void)
+void CTestChane::Free(void)
 {
 	Engine::CScene::Free();
 }

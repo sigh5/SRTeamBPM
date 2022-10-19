@@ -21,6 +21,8 @@ public:
 		COMPONENTID eID);
 
 	HRESULT			Add_GameObject(const _tchar* pLayerTag, const _tchar* pObjTag, CGameObject* pInstance);
+	
+	
 
 public:
 	HRESULT		Set_Scene(CScene* pScene);
@@ -35,6 +37,8 @@ public:
 	HRESULT		Load_SaveScene(CScene* pScene); // CScene* pScene : 현재 씬임을 확인
 
 	CScene*		Get_SaveScene() { return m_pSaveScene; }
+	void		Set_SaveScene(CScene* pScene) { m_pSaveScene = pScene; }
+
 
 	HRESULT		Current_Scene(CScene* pScene);
 

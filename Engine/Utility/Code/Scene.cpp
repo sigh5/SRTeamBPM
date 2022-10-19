@@ -53,8 +53,8 @@ _int CScene::Update_Scene(const _float & fTimeDelta)
 		if (iResult & 0x80000000)
 			return iResult;
 
-		if (iResult == 33)
-			return 33;
+		if (iResult == SCENE_CHANGE_RETRURN)
+			return SCENE_CHANGE_RETRURN;
 	}
 	
 	return iResult;

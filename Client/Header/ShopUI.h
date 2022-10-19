@@ -33,7 +33,7 @@ public:
 public:
 	void				Set_Active(_bool bEvent) { m_bActvie = bEvent; }
 	const	_bool&		Get_Active()			 { return m_bActvie; }
-
+	void	Set_ForceScene(_int iNum) { m_iForceSceneReturn = iNum; }
 private:
 	HRESULT				Add_Component(void);
 	void				Picking_Rect_Index();

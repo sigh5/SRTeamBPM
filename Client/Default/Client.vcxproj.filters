@@ -324,7 +324,9 @@
     <ClCompile Include="..\Code\Helmet.cpp">
       <Filter>02. GameObject\01. For_Stage\14. Equipment\01. Helmet</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\MiniStage1.cpp" />
+    <ClCompile Include="..\Code\MiniStage1.cpp">
+      <Filter>01. Scene\02.MiniGame\01. MiniGame1</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -672,7 +674,9 @@
     <ClInclude Include="..\Header\Helmet.h">
       <Filter>02. GameObject\01. For_Stage\14. Equipment\01. Helmet</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\MiniStage1.h" />
+    <ClInclude Include="..\Header\MiniStage1.h">
+      <Filter>01. Scene\02.MiniGame\01. MiniGame1</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -965,8 +969,20 @@
     <Filter Include="02. GameObject\01. For_Stage\14. Equipment\01. Helmet">
       <UniqueIdentifier>{fb30dcd1-4825-4bb9-a29d-3cbc6c30c9ce}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Scene\02. MiniStage2">
+    <Filter Include="01. Scene\02.MiniGame">
       <UniqueIdentifier>{d11e5a53-bfb1-4b8a-ba35-b86825356c60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\02.MiniGame\01. MiniGame1">
+      <UniqueIdentifier>{e917574e-9bef-4c6f-b9d4-7a33a2898bac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\02.MiniGame\02. MiniGame2">
+      <UniqueIdentifier>{60a3494f-016e-4b0e-94cb-062a6c9448b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\02.MiniGame\03. MiniGame3">
+      <UniqueIdentifier>{6273c58b-7faf-4240-81b7-b770ea924be9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\51. Change_Stage\TestChange">
+      <UniqueIdentifier>{bdd88e64-d155-428f-bd9a-e5746b57595d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

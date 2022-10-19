@@ -16,6 +16,8 @@ namespace Engine
 
 #define		OBJ_DEAD     99
 #define		RETURN_ERR  -1
+#define		SCENE_CHANGE_RETRURN	33
+
 
 #define		MAX_CROSSROAD 15.f	// »ç°Å¸®
 
@@ -132,7 +134,26 @@ namespace Engine
 
 
 
+#define		LOADING_IMAGE0			 L"LoadingImage0"
+#define		LOADING_IMAGE1			 L"LoadingImagefsaijfhsa"
+#define		LOADING_IMAGE2			 L"LoadingImage2"
+#define		LOADING_IMAGE3			 L"LoadingImage3"
+#define		LOADING_IMAGE4			 L"LoadingImage4"
+#define		LOADING_IMAGE5			 L"LoadingImage5"
+#define		LOADING_IMAGE6			 L"LoadingImage6"
+#define		LOADING_IMAGE7			 L"LoadingImage7"
+#define		LOADING_IMAGE8			 L"LoadingImage8"
 
+
+#define		LOADING_FONT_BACKGROUND0  L"LoadingFontBackGround0"
+#define		LOADING_FONT_BACKGROUND1  L"LoadingFontBackGroundfsajhdsk"
+#define		LOADING_FONT_BACKGROUND2  L"LoadingFontBackGround2"
+#define		LOADING_FONT_BACKGROUND3  L"LoadingFontBackGround3"
+#define		LOADING_FONT_BACKGROUND4  L"LoadingFontBackGround4"
+#define		LOADING_FONT_BACKGROUND5  L"LoadingFontBackGround5"
+#define		LOADING_FONT_BACKGROUND6  L"LoadingFontBackGround6"
+#define		LOADING_FONT_BACKGROUND7  L"LoadingFontBackGround7"
+#define		LOADING_FONT_BACKGROUND8  L"LoadingFontBackGround8"
 
 
 

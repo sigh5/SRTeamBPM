@@ -11,7 +11,7 @@ public:
 	virtual ~CChange_Stage();
 
 public:
-	virtual HRESULT Ready_Scene(void) override;
+	HRESULT Ready_Scene(_uint iStageNum = 0) ;
 	virtual _int Update_Scene(const _float& fTimeDelta) override;
 	virtual void LateUpdate_Scene(void) override;
 	virtual void Render_Scene(void) override;
@@ -27,8 +27,10 @@ private:
 private:
 	_uint			m_iLoadingCount = 0;
 	
+	_uint			m_iStageIndex = 0;
+
 public:
-	static CChange_Stage*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
+	static CChange_Stage*		Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint iStageNum = 0);
 
 private:
 	virtual void	Free(void);
