@@ -315,20 +315,8 @@
     <ClCompile Include="..\Code\SettingButton.cpp">
       <Filter>02. GameObject\00. For_Logo\01. Button\02. SettingButton</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Setting_Stage.cpp">
-      <Filter>01. Scene\52. Setting_Stage</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\Setting_BackGround.cpp">
-      <Filter>02. GameObject\01. For_Stage\10. UI\12. Setting_BackGround</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\BackButton.cpp">
       <Filter>02. GameObject\00. For_Logo\01. Button\03. BackButton</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\BGMDownBtn.cpp">
-      <Filter>02. GameObject\00. For_Logo\01. Button\04. BGMCtrlBtn\04-1. BGMDownBtn</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\BGMUpBtn.cpp">
-      <Filter>02. GameObject\00. For_Logo\01. Button\04. BGMCtrlBtn\04-2. BGMUpBtn</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\SoundBox_UI.cpp">
       <Filter>02. GameObject\01. For_Stage\10. UI\13. SoundBox_UI</Filter>
@@ -342,7 +330,6 @@
     <ClCompile Include="..\Code\FinalBoss.cpp" />
     <ClCompile Include="..\Code\Helmet.cpp" />
     <ClCompile Include="..\Code\MiniStage1.cpp" />
-    <ClCompile Include="..\Code\Soldier.cpp" />
     <ClCompile Include="..\Code\SoldierBullet.cpp" />
     <ClCompile Include="..\Code\BackButton.cpp">
       <Filter>02. GameObject\00. For_Logo\01. Button\03. BackButton</Filter>
@@ -364,6 +351,14 @@
     </ClCompile>
     <ClCompile Include="..\Code\Setting_BackGround.cpp">
       <Filter>02. GameObject\01. For_Stage\10. UI\12. SettingBackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\BGMDownBtn.cpp" />
+    <ClCompile Include="..\Code\BGMUpBtn.cpp" />
+    <ClCompile Include="..\Code\Setting_BackGround.cpp" />
+    <ClCompile Include="..\Code\Setting_Stage.cpp" />
+    <ClCompile Include="..\Code\HarpoonGuy.cpp" />
+    <ClCompile Include="..\Code\Soldier.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. Monster\08. Soldier</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -703,20 +698,8 @@
     <ClInclude Include="..\Header\SettingButton.h">
       <Filter>02. GameObject\00. For_Logo\01. Button\02. SettingButton</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Setting_Stage.h">
-      <Filter>01. Scene\52. Setting_Stage</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\Setting_BackGround.h">
-      <Filter>02. GameObject\01. For_Stage\10. UI\12. Setting_BackGround</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\BackButton.h">
       <Filter>02. GameObject\00. For_Logo\01. Button\03. BackButton</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\BGMDownBtn.h">
-      <Filter>02. GameObject\00. For_Logo\01. Button\04. BGMCtrlBtn\04-1. BGMDownBtn</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\BGMUpBtn.h">
-      <Filter>02. GameObject\00. For_Logo\01. Button\04. BGMCtrlBtn\04-2. BGMUpBtn</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\SoundBox_UI.h">
       <Filter>02. GameObject\01. For_Stage\10. UI\13. SoundBox_UI</Filter>
@@ -730,7 +713,6 @@
     <ClInclude Include="..\Header\FinalBoss.h" />
     <ClInclude Include="..\Header\Helmet.h" />
     <ClInclude Include="..\Header\MiniStage1.h" />
-    <ClInclude Include="..\Header\Soldier.h" />
     <ClInclude Include="..\Header\SoldierBullet.h" />
     <ClInclude Include="..\Header\BackButton.h">
       <Filter>02. GameObject\00. For_Logo\01. Button\03. BackButton</Filter>
@@ -752,6 +734,14 @@
     </ClInclude>
     <ClInclude Include="..\Header\Setting_BackGround.h">
       <Filter>02. GameObject\01. For_Stage\10. UI\12. SettingBackGround</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\BGMDownBtn.h" />
+    <ClInclude Include="..\Header\BGMUpBtn.h" />
+    <ClInclude Include="..\Header\Setting_BackGround.h" />
+    <ClInclude Include="..\Header\Setting_Stage.h" />
+    <ClInclude Include="..\Header\HarpoonGuy.h" />
+    <ClInclude Include="..\Header\Soldier.h">
+      <Filter>02. GameObject\01. For_Stage\02. Monster\08. Soldier</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1065,6 +1055,12 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\10. UI\12. SettingBackGround">
       <UniqueIdentifier>{be76b925-6703-489f-80ee-f493df280a08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\02. Monster\09. HarpoonGuy">
+      <UniqueIdentifier>{313c8fe1-8567-4ea5-a4e5-df31fdaf0920}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\02. Monster\08. Soldier">
+      <UniqueIdentifier>{405c20fe-3fcb-4f71-952a-67c268f95385}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

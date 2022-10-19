@@ -190,6 +190,7 @@
     <ClInclude Include="..\Header\FireTrap.h" />
     <ClInclude Include="..\Header\Ghul.h" />
     <ClInclude Include="..\Header\Gun_Screen.h" />
+    <ClInclude Include="..\Header\HarpoonGuy.h" />
     <ClInclude Include="..\Header\HealthPotion.h" />
     <ClInclude Include="..\Header\Helmet.h" />
     <ClInclude Include="..\Header\HitBlood.h" />
@@ -308,6 +309,7 @@
     <ClCompile Include="..\Code\FireTrap.cpp" />
     <ClCompile Include="..\Code\Ghul.cpp" />
     <ClCompile Include="..\Code\Gun_Screen.cpp" />
+    <ClCompile Include="..\Code\HarpoonGuy.cpp" />
     <ClCompile Include="..\Code\HealthPotion.cpp" />
     <ClCompile Include="..\Code\Helmet.cpp" />
     <ClCompile Include="..\Code\HitBlood.cpp" />
