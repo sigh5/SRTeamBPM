@@ -206,11 +206,11 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Magnum", pGameObject), E_FAIL);
 
-	pGameObject = CHelmet::Create(m_pGraphicDev, 310.f, 325.f);
+	pGameObject = CHelmet::Create(m_pGraphicDev, 310, 325);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Helmet1", pGameObject), E_FAIL);
 
-	pGameObject = CHelmet2::Create(m_pGraphicDev, 310.f, 340.f);
+	pGameObject = CHelmet2::Create(m_pGraphicDev, 310, 340);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Helmet2", pGameObject), E_FAIL);
 	

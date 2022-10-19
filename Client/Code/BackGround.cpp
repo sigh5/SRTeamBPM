@@ -74,11 +74,6 @@ void CBackGround::Render_Obejct(void)
 
 	D3DXMatrixTranspose(&matWorld, &matWorld);
 
-
-
-
-
-
 	if (FAILED(m_pShaderCom->Set_Raw_Value("g_WorldMatrix", &matWorld, sizeof(_matrix))))
 		return;
 	if (FAILED(m_pShaderCom->Set_Raw_Value("g_ViewMatrix", &IdentityMatrix, sizeof(_matrix))))

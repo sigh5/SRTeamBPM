@@ -80,13 +80,11 @@ void CWallCube::Render_Obejct(void)
 
 	
 	// Hit Box 
-	
+	//m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, TRUE);
 
 	if (m_iOption == CUBE_COLLISION_WALL)
 	{
 		CScene* pScene = Get_Scene();
-		
-		
 		if (pScene->Get_SceneType() == SCENE_TOOLTEST)
 		{
 			m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
@@ -103,17 +101,10 @@ void CWallCube::Render_Obejct(void)
 		{
 			return;
 		}
-		/*_vec3 vPos, vScale;
-		m_pTransCom->Get_Info(INFO_POS, &vPos);
-		cout << vPos.x << " " << vPos.y << " " << vPos.z << endl;
-		return; */
-
 	}
-
-
-
+	
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
-
+	
 	if (m_bWireFrame)
 	{
 		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
@@ -128,7 +119,6 @@ void CWallCube::Render_Obejct(void)
 		m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 	}
 
-
 	m_pTextureCom->Set_Texture(m_iTexIndex);
 	
 	if (m_bWireFrame)
@@ -137,7 +127,6 @@ void CWallCube::Render_Obejct(void)
 
 	}
 	m_pBufferCom->Render_Buffer();
-
 
 	//// HitBox
 	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
@@ -154,8 +143,8 @@ void CWallCube::Render_Obejct(void)
 		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	}
 
-	/*if (m_bWireFrame)
-		m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);*/
+	//m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
+
 }
 
 void CWallCube::Collision_Event()
@@ -170,11 +159,6 @@ void CWallCube::Collision_Event()
 
 	if (pScene->Get_SceneType() == SCENE_TOOLTEST)
 		return;
-
-	//if (m_iOption == (_int)CUBE_WALL)
-	//{
-	//	m_pColliderCom->Check_Collision_Wall(this, pGameObject);
-	//}
 
 	if (m_iOption == (_int)CUBE_COLLISION_WALL)
 	{
