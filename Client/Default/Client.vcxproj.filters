@@ -360,6 +360,7 @@
     <ClCompile Include="..\Code\Soldier.cpp">
       <Filter>02. GameObject\01. For_Stage\02. Monster\08. Soldier</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\TapeWorm.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -743,6 +744,7 @@
     <ClInclude Include="..\Header\Soldier.h">
       <Filter>02. GameObject\01. For_Stage\02. Monster\08. Soldier</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\TapeWorm.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1061,6 +1063,9 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\02. Monster\08. Soldier">
       <UniqueIdentifier>{405c20fe-3fcb-4f71-952a-67c268f95385}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\02. Monster\11. TapeWorm">
+      <UniqueIdentifier>{226795df-bbb7-4ef9-a309-cd18cb67e86f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

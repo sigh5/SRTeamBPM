@@ -23,6 +23,8 @@ public:
 	void		AttackJudge(const _float& fTimeDelta);
 	void		Attack(const _float& fTimeDelta);
 	void		BattleLoop(const _float& fTimeDelta);
+	void		AttackPettern2(const _float& fTimeDelta);
+
 
 public:
 	static CFinalBoss*		Create(LPDIRECT3DDEVICE9 pGraphicDev, float Posx = 0, float Posy = 0);
@@ -50,6 +52,10 @@ private:
 
 	int				m_iAttackPattern = 0;
 	FinalBossState  m_bState = Camouflage_Walk;
+
+	//AttackPettern2
+	bool			m_bCreatedTapeWorm = false;
+	//~
 
 };
 

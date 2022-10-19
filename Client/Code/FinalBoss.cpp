@@ -7,6 +7,7 @@
 #include "HitEffect.h"
 #include "Player.h"
 #include "Gun_Screen.h"
+#include "TapeWorm.h"
 
 
 CFinalBoss::CFinalBoss(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -341,7 +342,8 @@ void CFinalBoss::AttackJudge(const _float & fTimeDelta)
 		if (m_fAttackDelay <= m_fAttackDelayTime)
 		{
 			m_bAttack = true;
-			m_iAttackPattern = rand() % 2; //rand
+			//m_iAttackPattern = rand() % 2; //rand
+			m_iAttackPattern = 1;
 			m_fAttackDelayTime = 0.f;
 		}
 	}
@@ -369,6 +371,7 @@ void CFinalBoss::Attack(const _float & fTimeDelta)
 
 	case 1:
 		m_bState = Attack_B;
+		AttackPettern2(fTimeDelta);
 		break;
 
 	case 2:
@@ -407,7 +410,30 @@ void CFinalBoss::BattleLoop(const _float & fTimeDelta)
 		Attack(fTimeDelta);
 	}
 }
+void	CFinalBoss::AttackPettern2(const _float& fTimeDelta)
+{
 
+	CScene* pScene = ::Get_Scene();
+	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+
+	m_pThingy_AttackB_AnimationCom->Move_Animation(fTimeDelta);
+	if (11 == m_pThingy_AttackB_AnimationCom->m_iMotion)
+	{
+		if (false == m_bCreatedTapeWorm)
+		{
+			CGameObject* pTapeWorm = nullptr;
+			pTapeWorm = CTapeWorm::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS].x, m_pDynamicTransCom->m_vInfo[INFO_POS].z);
+			pMyLayer->Add_GhulList(pTapeWorm);
+			m_bCreatedTapeWorm = true;
+		}
+	}
+	if (m_pThingy_AttackB_AnimationCom->m_iMaxMotion == m_pThingy_AttackB_AnimationCom->m_iMotion)
+	{
+		m_bCreatedTapeWorm = false;
+		m_bAttack = false;
+		m_bState = Thingy_Walk;
+	}
+}
 CFinalBoss * CFinalBoss::Create(LPDIRECT3DDEVICE9 pGraphicDev, float Posx, float Posy)
 {
 	CFinalBoss*	pInstance = new CFinalBoss(pGraphicDev);

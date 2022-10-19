@@ -375,7 +375,6 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 
 				case MONSTER_HARPOONGUY:
 					pGameObject = CHarpoonGuy::Create(pGrahicDev);
-					//임시 아누비스
 					break;
 				case MONSTER_FINALBOSS:
 					pGameObject = CFinalBoss::Create(pGrahicDev);
