@@ -50,15 +50,15 @@ _int CShopUI::Update_Object(const _float & fTimeDelta)
 {
 	if (m_bActvie)
 	{
-		 Picking_Rect_Index();
-		 
-		 CPlayer* pPlayer = static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"));
+		CPlayer* pPlayer = static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"));
 
-		 CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(pPlayer->Get_Component(L"Proto_CharacterInfoCom",ID_STATIC));
-		 
-		  _int iCoin = pPlayerInfo->Get_InfoRef()._iCoin;
-		  pString = std::to_wstring(iCoin);
-			
+		CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(pPlayer->Get_Component(L"Proto_CharacterInfoCom", ID_STATIC));
+
+		_int iCoin = pPlayerInfo->Get_InfoRef()._iCoin;
+		pString = std::to_wstring(iCoin);
+
+		Picking_Rect_Index();
+		 	
 		
 	}
 	
