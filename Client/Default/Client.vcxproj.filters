@@ -327,10 +327,8 @@
     <ClCompile Include="..\Code\QuizBox.cpp">
       <Filter>02. GameObject\01. For_Stage\10. UI\14. QuizBox</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\FinalBoss.cpp" />
     <ClCompile Include="..\Code\Helmet.cpp" />
     <ClCompile Include="..\Code\MiniStage1.cpp" />
-    <ClCompile Include="..\Code\SoldierBullet.cpp" />
     <ClCompile Include="..\Code\BackButton.cpp">
       <Filter>02. GameObject\00. For_Logo\01. Button\03. BackButton</Filter>
     </ClCompile>
@@ -356,11 +354,22 @@
     <ClCompile Include="..\Code\BGMUpBtn.cpp" />
     <ClCompile Include="..\Code\Setting_BackGround.cpp" />
     <ClCompile Include="..\Code\Setting_Stage.cpp" />
-    <ClCompile Include="..\Code\HarpoonGuy.cpp" />
     <ClCompile Include="..\Code\Soldier.cpp">
       <Filter>02. GameObject\01. For_Stage\02. Monster\08. Soldier</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\TapeWorm.cpp" />
+    <ClCompile Include="..\Code\HarpoonGuy.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. Monster\09. HarpoonGuy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SoldierBullet.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. Monster\08. Soldier</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\TapeWorm.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. Monster\11. TapeWorm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FinalBoss.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. Monster\10. FinalBos</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SkillParticle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -711,10 +720,8 @@
     <ClInclude Include="..\Header\QuizBox.h">
       <Filter>02. GameObject\01. For_Stage\10. UI\14. QuizBox</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\FinalBoss.h" />
     <ClInclude Include="..\Header\Helmet.h" />
     <ClInclude Include="..\Header\MiniStage1.h" />
-    <ClInclude Include="..\Header\SoldierBullet.h" />
     <ClInclude Include="..\Header\BackButton.h">
       <Filter>02. GameObject\00. For_Logo\01. Button\03. BackButton</Filter>
     </ClInclude>
@@ -740,11 +747,22 @@
     <ClInclude Include="..\Header\BGMUpBtn.h" />
     <ClInclude Include="..\Header\Setting_BackGround.h" />
     <ClInclude Include="..\Header\Setting_Stage.h" />
-    <ClInclude Include="..\Header\HarpoonGuy.h" />
     <ClInclude Include="..\Header\Soldier.h">
       <Filter>02. GameObject\01. For_Stage\02. Monster\08. Soldier</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\TapeWorm.h" />
+    <ClInclude Include="..\Header\HarpoonGuy.h">
+      <Filter>02. GameObject\01. For_Stage\02. Monster\09. HarpoonGuy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\SoldierBullet.h">
+      <Filter>02. GameObject\01. For_Stage\02. Monster\08. Soldier</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\TapeWorm.h">
+      <Filter>02. GameObject\01. For_Stage\02. Monster\11. TapeWorm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\FinalBoss.h">
+      <Filter>02. GameObject\01. For_Stage\02. Monster\10. FinalBos</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\SkillParticle.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1066,6 +1084,12 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\02. Monster\11. TapeWorm">
       <UniqueIdentifier>{226795df-bbb7-4ef9-a309-cd18cb67e86f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\02. Monster\10. FinalBos">
+      <UniqueIdentifier>{5ea223d0-0d4f-4d8b-a422-bc10cc8b8a9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\02. For_public\07. SkillParticle">
+      <UniqueIdentifier>{48eb0c59-8403-4f4d-a36f-c810d0e66dbf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
