@@ -411,10 +411,6 @@ void CSoldier::Drop_Item(int ItemType)
 
 HRESULT CSoldier::SetUp_Material(void)
 {
-	if (Distance_Over())
-	{
-		return E_FAIL;
-	}
 
 	if (Get_Distance() < 30.f)
 	{
@@ -445,6 +441,8 @@ HRESULT CSoldier::SetUp_Material(void)
 
 		m_pGraphicDev->SetMaterial(&tMtrl);
 	}
+
+	return S_OK;
 }
 
 void CSoldier::Set_Light_Obj()

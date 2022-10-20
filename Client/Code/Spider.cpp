@@ -484,11 +484,6 @@ void	CSpider::Drop_Item(int ItemType)
 }
 HRESULT CSpider::SetUp_Material(void)
 {
-	if (Distance_Over())
-	{
-		return E_FAIL;
-	}
-
 	if (Get_Distance() < 30.f)
 	{
 		_float fDistance = ((1.f - Get_Distance() / 30.f)) * 2;

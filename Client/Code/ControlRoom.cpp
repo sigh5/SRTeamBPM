@@ -87,18 +87,19 @@ void CControlRoom::LateUpdate_Object()
 		
 	}
 	m_iRestMonsterNum = 0;
+	Set_Light_Obj();
 }
 
 void CControlRoom::Render_Obejct(void)
 {
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
-	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	m_pBufferCom->Render_Buffer();
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pColliderCom->HitBoxWolrdmat());
-	//m_pColliderCom->Render_Buffer();
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	//m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
+	//m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	//m_pBufferCom->Render_Buffer();
+	//m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pColliderCom->HitBoxWolrdmat());
+	////m_pColliderCom->Render_Buffer();
+	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	//m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 
 }
 
@@ -188,6 +189,48 @@ HRESULT CControlRoom::Add_Component(void)
 
 
 	return S_OK;
+}
+
+HRESULT CControlRoom::SetUp_Material(void)
+{
+	return E_NOTIMPL;
+}
+
+void CControlRoom::Set_Light_Obj()
+{
+	if (m_bPlayerInTerrain)
+	{
+		_vec3 vPos;
+		m_pTransCom->Get_Info(INFO_POS, &vPos);
+		vPos.y += 7.f;
+
+		D3DLIGHT9		tLightInfo;
+		ZeroMemory(&tLightInfo, sizeof(D3DLIGHT9));
+
+		tLightInfo.Type = D3DLIGHT_DIRECTIONAL;
+		tLightInfo.Diffuse = D3DXCOLOR(0.6f, 0.5f, 0.5f, 0.5f);
+		tLightInfo.Specular = D3DXCOLOR(0.6f, 0.5f, 0.5f, 0.5f);
+		tLightInfo.Ambient = D3DXCOLOR(0.6f, 0.5f, 0.5f, 0.5f);
+		tLightInfo.Direction = _vec3(1.f, 0.f, -1.f);
+		tLightInfo.Position = vPos;
+		FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &tLightInfo, 0), );
+
+		D3DLIGHT9		tLightInfo1;
+		ZeroMemory(&tLightInfo1, sizeof(D3DLIGHT9));
+
+		tLightInfo1.Type = D3DLIGHT_DIRECTIONAL;
+		tLightInfo1.Diffuse = D3DXCOLOR(0.6f, 0.5f, 0.5f, 0.5f);
+		tLightInfo1.Specular = D3DXCOLOR(0.6f, 0.5f, 0.5f, 0.5f);
+		tLightInfo1.Ambient = D3DXCOLOR(0.6f, 0.5f, 0.5f, 0.5f);
+		tLightInfo1.Direction = _vec3(-1.f, 0.f, 1.f);
+		tLightInfo.Position = vPos;
+		FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &tLightInfo1, 1), );
+
+	}
+
+
+
+
 }
 
 CControlRoom * CControlRoom::Create(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3& vCenter)

@@ -382,7 +382,7 @@ void CStage::Free(void)
 
 HRESULT CStage::Ready_Light(void)
 {
-	D3DLIGHT9		tLightInfo;
+	/*D3DLIGHT9		tLightInfo;
 	ZeroMemory(&tLightInfo, sizeof(D3DLIGHT9));
 
 	tLightInfo.Type		= D3DLIGHT_DIRECTIONAL;
@@ -415,7 +415,7 @@ HRESULT CStage::Ready_Light(void)
 	tLightInfo2.Direction = _vec3(0.f, 0.f, 1.f);
 	tLightInfo2.Position = _vec3(200.f, 10.f, 200.f);
 	FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &tLightInfo2, 2), E_FAIL);
-
+*/
 
 
 

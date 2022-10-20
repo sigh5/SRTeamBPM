@@ -34,6 +34,11 @@ private:
 	HRESULT				Add_Component(void);
 
 public:
+	HRESULT				SetUp_Material(void);
+	void				Set_Light_Obj();
+
+
+public:
 	CSphereTex*			m_pBufferCom = nullptr;
 	CTransform*			m_pTransCom = nullptr;
 	CCalculator*		m_pCalculatorCom = nullptr;

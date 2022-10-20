@@ -36,7 +36,7 @@ HRESULT CPlayer::Ready_Object(void)
 	
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pInfoCom->Ready_CharacterInfo(10000, 10, 5.f);
+	m_pInfoCom->Ready_CharacterInfo(1000, 10, 5.f);
 	m_pInfoCom->Get_InfoRef()._iCoin = 10;
 
 
@@ -62,7 +62,7 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 	if (m_bDead)
 		m_bDeadTimer += 1.0f* fTimeDelta;
 	
-	if (m_bDeadTimer >= 5.f)
+	if (m_bDeadTimer >= 7.f)
 	{
 		Random_ResurrectionRoom();
 		m_bDeadTimer = 0.f;

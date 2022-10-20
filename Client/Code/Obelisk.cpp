@@ -201,10 +201,6 @@ void CObelisk::Collision_Event()
 
 HRESULT CObelisk::SetUp_Material(void)
 {
-	if (Distance_Over())
-	{
-		return E_FAIL;
-	}
 
 	if (Get_Distance() < 50.f)
 	{

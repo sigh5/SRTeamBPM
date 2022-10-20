@@ -91,8 +91,6 @@ _int CObstacle::Update_Object(const _float & fTimeDelta)
 
 	CScene  *pScene = ::Get_Scene();
 	NULL_CHECK_RETURN(pScene, -1 );
-
-	Set_Light_Obj();
 	
 
 	if (m_bRythmeObstacle &&pScene->Get_SceneType() != SCENE_TOOLTEST)
@@ -136,6 +134,8 @@ void CObstacle::LateUpdate_Object(void)
 		Engine::CGameObject::LateUpdate_Object();
 		return;
 	}
+
+
 	CScene  *pScene = ::Get_Scene();
 
 	NULL_CHECK_RETURN(pScene, );
@@ -187,17 +187,20 @@ void CObstacle::Render_Obejct(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
 
-	//m_pGraphicDev->LightEnable(3, FALSE);
-	Set_Light_Obj();
-
+	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, TRUE);
+	m_pGraphicDev->LightEnable(0, FALSE);
+	m_pGraphicDev->LightEnable(1, FALSE);
+	m_pGraphicDev->LightEnable(2, FALSE);
+	m_pGraphicDev->LightEnable(3, FALSE);
+	m_pGraphicDev->LightEnable(4, TRUE);
 
 	if (m_iTexIndex == 0 || m_iTexIndex == 1 || m_iTexIndex == 2 || m_iTexIndex == 3 || m_iTexIndex == 4)
 	{
-		m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, TRUE);
-		m_pGraphicDev->LightEnable(0, FALSE);
-		m_pGraphicDev->LightEnable(1, FALSE);
-		m_pGraphicDev->LightEnable(2, FALSE);
-		m_pGraphicDev->LightEnable(3, TRUE);
+		Set_Light_Anim_Obj();
+	}
+	else
+	{
+		Set_Light_Normal_Obj();
 	}
 	if (m_bWireFrame)
 	{
@@ -232,12 +235,17 @@ void CObstacle::Render_Obejct(void)
 
 		if (m_iTexIndex == 0 || m_iTexIndex == 1 || m_iTexIndex == 2 || m_iTexIndex == 3 || m_iTexIndex == 4)
 		{
-			SetUp_Material();
+
 			m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);
+			SetUp_Material();
 
 		}
 		else
+		{
 			m_pTextureCom->Set_Texture(m_iTexIndex);
+			SetUp_NormalMaterial();
+			
+		}
 	}
 
 	if (m_bWireFrame)
@@ -263,17 +271,13 @@ void CObstacle::Render_Obejct(void)
 	}
 	
 
-	D3DLIGHT9		tLightInfo4;
-	ZeroMemory(&tLightInfo4, sizeof(D3DLIGHT9));
-	FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &tLightInfo4, 4), );
-
 	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
 	
 	m_pGraphicDev->LightEnable(0, TRUE);
 	m_pGraphicDev->LightEnable(1, TRUE);
 	m_pGraphicDev->LightEnable(2, TRUE);
-	m_pGraphicDev->LightEnable(3, FALSE);
-
+	m_pGraphicDev->LightEnable(3, TRUE);
+	m_pGraphicDev->LightEnable(4, FALSE);
 }
 
 void CObstacle::Collision_Event()
@@ -372,7 +376,7 @@ void CObstacle::Set_TextureCom()
 
 }
 
-void CObstacle::Set_Light_Obj()
+void CObstacle::Set_Light_Anim_Obj()
 {
 	if (m_bControlAnim)
 	{
@@ -387,16 +391,51 @@ void CObstacle::Set_Light_Obj()
 		
 		tLightInfo4.Position = vPos;
 		tLightInfo4.Range = 1.f;
-		FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &tLightInfo4, 3), );
+		FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &tLightInfo4, 4), );
+	}
+}
+
+void CObstacle::Set_Light_Normal_Obj()
+{
+	_vec3 vPlayerPos,vPos;
+
+	CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
+	if (pPlayerTransformCom == nullptr)
+		return;
+
+	pPlayerTransformCom->Get_Info(INFO_POS, &vPlayerPos);
+	m_pTransCom->Get_Info(INFO_POS, &vPos);
+
+	_float fMtoPDistance = sqrtf((powf(vPlayerPos.x - vPos.x, 2)
+		+ powf(vPlayerPos.y - vPos.y, 2)
+		+ powf(vPlayerPos.z - vPos.z, 2)));
+
+	
+
+	if (fMtoPDistance < 30.f)
+	{
+		_float fDistance = ((1.f - fMtoPDistance/ 30.f)) * 2;
+		max(fDistance, 0.1f);
+
+		D3DLIGHT9		tLightInfo4;
+		ZeroMemory(&tLightInfo4, sizeof(D3DLIGHT9));
+		_vec3 vPos;
+		m_pTransCom->Get_Info(INFO_POS, &vPos);
+		tLightInfo4.Type = D3DLIGHT_SPOT;
+		tLightInfo4.Diffuse = D3DXCOLOR(fDistance, fDistance, fDistance, fDistance);
+		tLightInfo4.Specular = D3DXCOLOR(fDistance, fDistance, fDistance, fDistance);
+		tLightInfo4.Ambient = D3DXCOLOR(fDistance, fDistance, fDistance, fDistance);
+		tLightInfo4.Position = vPos;
+		FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &tLightInfo4, 4), );
 	}
 	else
 	{
-		D3DLIGHT9		tLightInfo4;
-		ZeroMemory(&tLightInfo4, sizeof(D3DLIGHT9));
-		FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &tLightInfo4, 3), );
+		return;
 	}
-
 	
+	
+
+
 }
 
 CObstacle * CObstacle::Create(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -438,4 +477,46 @@ HRESULT CObstacle::SetUp_Material(void)
 
 	return S_OK;
 
+}
+
+HRESULT CObstacle::SetUp_NormalMaterial()
+{
+	_vec3 vPlayerPos, vPos;
+
+	CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
+	NULL_CHECK(pPlayerTransformCom);
+
+	pPlayerTransformCom->Get_Info(INFO_POS, &vPlayerPos);
+	m_pTransCom->Get_Info(INFO_POS, &vPos);
+
+	_float fMtoPDistance = sqrtf((powf(vPlayerPos.x - vPos.x, 2)
+		+ powf(vPlayerPos.y - vPos.y, 2)
+		+ powf(vPlayerPos.z - vPos.z, 2)));
+
+
+	D3DMATERIAL9		tMtrl;
+	if (fMtoPDistance < 30.f)
+	{
+		_float fDistance = ((1.f - fMtoPDistance / 30.f)) +0.5f;
+		max(fDistance, 0.5f);
+		ZeroMemory(&tMtrl, sizeof(D3DMATERIAL9));
+		tMtrl.Diffuse = D3DXCOLOR(fDistance, fDistance, fDistance, fDistance);
+		tMtrl.Specular = D3DXCOLOR(fDistance, fDistance, fDistance, fDistance);
+		tMtrl.Ambient = D3DXCOLOR(fDistance, fDistance, fDistance, fDistance);
+		tMtrl.Emissive = D3DXCOLOR(fDistance, fDistance, fDistance, fDistance);
+		tMtrl.Power = 0.f;
+	}
+	else
+	{
+		_float fDistance = 0.4f;
+		ZeroMemory(&tMtrl, sizeof(D3DMATERIAL9));
+		tMtrl.Diffuse = D3DXCOLOR(fDistance, fDistance, fDistance, fDistance);
+		tMtrl.Specular = D3DXCOLOR(fDistance, fDistance, fDistance, fDistance);
+		tMtrl.Ambient = D3DXCOLOR(fDistance, fDistance, fDistance, fDistance);
+		tMtrl.Emissive = D3DXCOLOR(fDistance, fDistance, fDistance, fDistance);
+		tMtrl.Power = 0.f;
+	}
+	
+
+	m_pGraphicDev->SetMaterial(&tMtrl);
 }

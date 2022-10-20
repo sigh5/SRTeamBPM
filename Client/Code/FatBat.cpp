@@ -251,10 +251,6 @@ void CFatBat::Hit_Loop(const _float& fTimeDelta)
 
 HRESULT CFatBat::SetUp_Material(void)
 {
-	if (Distance_Over())
-	{
-		return E_FAIL;
-	}
 
 	if (Get_Distance() < 30.f)
 	{

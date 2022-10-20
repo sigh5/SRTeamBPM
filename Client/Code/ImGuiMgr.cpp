@@ -954,6 +954,10 @@ void CImGuiMgr::TerrainTool(LPDIRECT3DDEVICE9 pGrahicDev, CCamera* pCam, CScene*
 			OBJ_ROOM);
 	}
 
+	if ((Get_DIKeyState(DIK_Z) & 0x80))
+	{
+		m_fMinDistance = 999999.f;
+	}
 	if (ImGui::CollapsingHeader("Tile Count", ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		CLayer* pLayer = pScene->GetLayer(L"TerrainLayer");
@@ -1246,7 +1250,10 @@ void CImGuiMgr::Object_Tool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 		CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev, pScene, 
 			L"ObjectLayer", L"../../Data/", L"Stage1Obstacle.dat", L"Obstacle", OBJ_OBSTRACLE);
 
-
+	if ((Get_DIKeyState(DIK_Z) & 0x80))
+	{
+		m_fMinDistance = 999999.f;
+	}
 
 	if (ImGui::Button("Delete"))
 	{
@@ -1254,6 +1261,11 @@ void CImGuiMgr::Object_Tool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 		MyLayer->Delete_GameObject(m_CurrentObstaclName.c_str());
 		m_pSelectedObject = nullptr;
 	}
+
+
+
+	
+
 
 	static _int		iWidth = 100;
 	static _int		iHeight = 100;
@@ -1300,6 +1312,12 @@ void CImGuiMgr::Object_Tool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 		ImGui::SameLine();
 		dynamic_cast<CObstacle*>(pTerrain)->Set_Option(iOption);
 
+		ImGui::Text("Current choose Cube Option : ");
+		ImGui::SameLine();
+		char szOption[20];
+		sprintf_s(szOption, "%d", dynamic_cast<CObstacle*>(pTerrain)->Get_Option());
+		ImGui::Text(szOption);
+
 		CLayer* pLayer = pScene->GetLayer(L"ObjectLayer");
 
 		for (auto &iter : pLayer->Get_GameObjectMap())
@@ -1310,6 +1328,7 @@ void CImGuiMgr::Object_Tool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 		pTerrain->Set_WireFrame(true);
 		EditObjectTexture<CObstacle>(L"Proto_fetrues_Texture");
 		TransformEdit(pCam,m_pSelectedTransform, Show_Object_Tool);
+
 	}
 
 	ImGui::End();
