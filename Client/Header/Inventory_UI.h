@@ -47,6 +47,9 @@ public:
 
 	void						Set_CurrentEquipHelmet(CEquipmentBase* pHelmet);
 	CEquipmentBase*				Get_CurrentEquipHelmet() { return m_pCurrentEquipHelmet; }
+
+	void						Set_CurrentEquipPet(CEquipmentBase* pPet);
+	CEquipmentBase*				Get_CurrentEquipPet() { return m_pCurrentEquipPet; }
 private:
 	HRESULT						Add_Component(void);
 
@@ -61,6 +64,7 @@ private:
 private:
 	CEquipmentBase*				m_pCurrentEquipWeapon = nullptr;
 	CEquipmentBase*				m_pCurrentEquipHelmet = nullptr;
+	CEquipmentBase*				m_pCurrentEquipPet = nullptr;
 
 	_uint						m_iCurrent_Piciking_ItemType = 0; // 0일때 아무것도 없음 macro ID 에 정의하셈 
 	_bool						m_bWeaponChangeOnce = false;

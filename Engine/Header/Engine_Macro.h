@@ -131,6 +131,7 @@ namespace Engine
 #define		ID_MAGNUM		2
 #define		ID_HELMET1		3
 #define		ID_HELMET2		4
+#define		ID_YETI			5
 // ........ 
 
 

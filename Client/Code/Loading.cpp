@@ -177,6 +177,9 @@ _uint CLoading::Loading_ForStage(void)
 	// Magnum 																			 // \Bin\Resource\Texture\Equipment\Equip-Weapon/Shotgun_Rot.png
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MagnumTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Equipment/Equip-Weapon/Equip_Weapon0.png", TEX_NORMAL)), E_FAIL);
 
+	//PetYeti
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Equip_YetiTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Equipment/Equip_Pet/Equip_Yeti.png", TEX_NORMAL)), E_FAIL);
+
 	// Helmet1
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Helmet1Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Equipment/Equip_HelMet/Helmet1.png", TEX_NORMAL, 1)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Helmet2Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Equipment/Equip_HelMet/Helmet2.png", TEX_NORMAL, 1)), E_FAIL);
@@ -221,6 +224,12 @@ _uint CLoading::Loading_ForStage(void)
 
 
 	// ~ NPC
+	
+	// Pet
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Yeti_TextureCom", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Pet/Yeti/yeti%d.png", TEX_NORMAL, 9)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Yeti_dance_TextureCom", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Pet/Yeti/yeti_dance%d.png", TEX_NORMAL, 5)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Yeti_talk_TextureCom", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Pet/Yeti/yeti_talk.png", TEX_NORMAL, 1)), E_FAIL);
+	//~pet
 
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_KeyTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Item/Key.png", TEX_NORMAL)), E_FAIL);
 	
