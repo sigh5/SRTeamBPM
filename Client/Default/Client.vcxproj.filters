@@ -330,6 +330,9 @@
     <ClCompile Include="..\Code\Helmet2.cpp">
       <Filter>02. GameObject\01. For_Stage\14. Equipment\01. Helmet\Helmet2</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\Currect_Answer.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\15. WrongPicFind\00. Currect_Answer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\MiniStage1.h" />
@@ -682,6 +685,9 @@
     <ClInclude Include="..\Header\Helmet2.h">
       <Filter>02. GameObject\01. For_Stage\14. Equipment\01. Helmet\Helmet2</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Currect_Answer.h">
+      <Filter>02. GameObject\01. For_Stage\10. UI\15. WrongPicFind\00. Currect_Answer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1003,6 +1009,9 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\14. Equipment\01. Helmet\Helmet2">
       <UniqueIdentifier>{4bc885fd-e2a8-435d-b85a-bf7cdf867b25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\15. WrongPicFind\00. Currect_Answer">
+      <UniqueIdentifier>{d27f8438-8bb5-499b-9dbc-a8de80377c4f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

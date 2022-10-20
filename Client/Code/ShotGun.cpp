@@ -165,6 +165,7 @@ void CShotGun::Collision_Event()
 	{
 		if (Key_Down(DIK_F))//Engine::Key_Down(DIK_F))
 		{
+			Engine::PlaySoundW(L"Drop_Gun.mp3", SOUND_OBJECT, 1.f);
 			// 인벤토리에 들어감
 			CInventory_UI* pInven = static_cast<CInventory_UI*>(Get_GameObject(L"Layer_UI", L"InventoryUI"));
 			pInven->Get_WeaponType()->push_back(this);
@@ -372,6 +373,7 @@ _bool CShotGun::EquipIconPicking()
 		//cout << ptMouse.x << " " << ptMouse.y << endl;
 		if (PtInRect(&rcUI2, ptMouse))
 		{
+			Engine::PlaySoundW(L"Item_Picking.mp3", SOUND_OBJECT, 1.f);
 			pInven->Set__Current_Picking_ItemID(ID_SHOT_GUN);
 			m_bPickingEnd = false;
 			m_bisPicking = true;

@@ -605,12 +605,12 @@ void	CEarthShaker::Drop_Item(int ItemType)
 	switch (ItemType)
 	{
 	case 0:
-		pItem = CCoin::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS].x, m_pDynamicTransCom->m_vInfo[INFO_POS].z);
+		pItem = CCoin::Create(m_pGraphicDev, (_uint)m_pDynamicTransCom->m_vInfo[INFO_POS].x, (_uint)m_pDynamicTransCom->m_vInfo[INFO_POS].z);
 		pLayer->Add_DropItemList(pItem);
 		break;
 
 	case 1:
-		pItem = CKey::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS].x, m_pDynamicTransCom->m_vInfo[INFO_POS].z);
+		pItem = CKey::Create(m_pGraphicDev, (_uint)m_pDynamicTransCom->m_vInfo[INFO_POS].x, (_uint)m_pDynamicTransCom->m_vInfo[INFO_POS].z);
 		pLayer->Add_DropItemList(pItem);
 		break;
 

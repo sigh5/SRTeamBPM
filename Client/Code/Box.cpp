@@ -113,6 +113,7 @@ void CBox::Collision_Event()
 	{
 		if (Engine::Key_Down(DIK_F))
 		{
+			Engine::PlaySoundW(L"Box_Open.mp3", SOUND_OBJECT, 1.f);
 			CAnimation* pBoxAnimation = dynamic_cast<CAnimation*>(pGameObject->Get_Component(L"Proto_AnimationCom", ID_STATIC));
 			Open_Event(pGameObject);
 		}

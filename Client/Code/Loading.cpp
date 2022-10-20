@@ -117,7 +117,7 @@ _uint CLoading::Loading_ForStage(void)
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_TapeWorm_death_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/TapeWorm/tapeworm_death%d.png", TEX_NORMAL, 6)), E_FAIL);
 	// ~Monster
 
-	// _UI
+	// _UI																								
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_BulletUI_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Bullet_UI/Bullet_UI%d.png", TEX_NORMAL, 9)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_WeaponUI_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Weapon_UI/Weapon%d.png", TEX_NORMAL, 2)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_HpBar_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/HpBar/HpBar%d.png", TEX_NORMAL, 5)), E_FAIL);
@@ -145,6 +145,10 @@ _uint CLoading::Loading_ForStage(void)
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_SoundBox_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/SoundBox.png", TEX_NORMAL)), E_FAIL);
 																										// Bin\Resource\Texture\UI
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_QuizBox1_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/QuizBox1.png", TEX_NORMAL)), E_FAIL);
+																										// \Bin\Resource\Texture\Bullet_UI\Shotgun_Shell
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ShotGunShellUI_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Bullet_UI/Shotgun_Shell/Sg_Shell%d.png", TEX_NORMAL, 7)), E_FAIL);
+	
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_CurrectUI_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Currect/Currect%d.png", TEX_NORMAL, 6)), E_FAIL);
 	// AX 
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_AX_ScreenTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Weapon_UI/AX/AX_%d.png", TEX_NORMAL, 10)), E_FAIL);
 

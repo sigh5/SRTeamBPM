@@ -71,6 +71,8 @@ public:
 
 	void				Get_shellPosition(_vec3& vPos, _vec3& vdir);
 
+	_uint				Get_miID(void) { return m_iID; }
+
 private:
 	_bool				m_bShootCheck = false;
 	_bool				m_bReadyShot = false;

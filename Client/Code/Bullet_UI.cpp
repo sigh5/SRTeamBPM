@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "Gun_Screen.h"
 #include "Player_Dead_UI.h"
+#include "ShotGun.h"
 
 // Work
 
@@ -41,12 +42,28 @@ HRESULT CBullet_UI::Ready_Object(CGameObject* pPlayer)
 }
 
 _int CBullet_UI::Update_Object(const _float & fTimeDelta)
-{			
-							
-	// m_pGun = 
-	// 여기만 바꾸면							// ◆ CGun_Screen
-	m_pAnimationCom->Control_Animation(dynamic_cast<CGun_Screen*>(::Get_GameObject(L"Layer_UI", L"Gun"))->Get_Magazine());
+{	
+	CGun_Screen* pGun_Screen = static_cast<CGun_Screen*>(Engine::Get_GameObject(L"Layer_UI", L"Gun"));
+	CShotGun* pShotGun = static_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"));
 	
+	if (pGun_Screen->Get_miID() == ID_MAGNUM && !m_bMagnum)
+	{
+		m_pAnimationCom->Set_Motion(8);
+		m_pAnimationCom->Set_MaxMotion(8);
+		m_bMagnum = true;
+		m_bShotgun = false;
+	}
+
+	else if (pShotGun != nullptr && pGun_Screen->Get_miID() == ID_SHOT_GUN && !m_bShotgun)
+	{
+		m_pAnimationCom->Set_Motion(6);
+		m_pAnimationCom->Set_MaxMotion(6);
+		m_bShotgun = true;
+		m_bMagnum = false;
+	}	
+
+	m_pAnimationCom->Control_Animation(dynamic_cast<CGun_Screen*>(::Get_GameObject(L"Layer_UI", L"Gun"))->Get_Magazine());
+		
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
 	Add_RenderGroup(RENDER_ICON, this);
@@ -64,6 +81,8 @@ void CBullet_UI::LateUpdate_Object(void)
 void CBullet_UI::Render_Obejct(void)
 {
 	CPlayer_Dead_UI* pDead_UI = static_cast<CPlayer_Dead_UI*>(Engine::Get_GameObject(L"Layer_UI", L"Dead_UI"));
+	CGun_Screen* pGun_Screen = static_cast<CGun_Screen*>(Engine::Get_GameObject(L"Layer_UI", L"Gun"));
+	CShotGun* pShotGun = static_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"));
 
 	if (pDead_UI->Get_Render() == false)
 	{
@@ -90,12 +109,22 @@ void CBullet_UI::Render_Obejct(void)
 		// Player's Bullet Magazine left
 
 		_tchar	tMagazine[MAX_PATH];
-		swprintf_s(tMagazine, L"%d / 8", iMagazineCount);
+
+		if (pGun_Screen->Get_miID() == ID_MAGNUM)
+		{
+			swprintf_s(tMagazine, L"%d / 8", iMagazineCount);
+		}
+
+		else if (pShotGun != nullptr && pGun_Screen->Get_miID() == ID_SHOT_GUN)
+		{
+			swprintf_s(tMagazine, L"%d / 6", iMagazineCount);
+		}
+
 		m_szMagazine = L"";
 		m_szMagazine += tMagazine;
 
 		Render_Font(L"HoengseongHanu", m_szMagazine.c_str(), &_vec2(1112.f, 810.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
-
+		
 		_uint  iComboCount = dynamic_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"))->Get_ComboCount();
 		if (iComboCount != 0)
 		{
@@ -117,8 +146,12 @@ void CBullet_UI::Render_Obejct(void)
 		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 		m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 		m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-
+		
 		m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);
+		
+		if (pShotGun != nullptr && pGun_Screen->Get_miID() == ID_SHOT_GUN)
+			m_pSG_TextureCom->Set_Texture(m_pAnimationCom->m_iMotion);
+
 		m_pBufferCom->Render_Buffer();
 
 		m_pGraphicDev->SetTransform(D3DTS_VIEW, &OldViewMatrix);
@@ -140,6 +173,10 @@ HRESULT CBullet_UI::Add_Component(void)
 	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_BulletUI_Texture"));
 	NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
 	m_mapComponent[ID_STATIC].insert({ L"Proto_BulletUI_Texture", pComponent });
+
+	pComponent = m_pSG_TextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_ShotGunShellUI_Texture"));
+	NULL_CHECK_RETURN(m_pSG_TextureCom, E_FAIL);
+	m_mapComponent[ID_STATIC].insert({ L"Proto_ShotGunShellUI_Texture", pComponent });
 
 	pComponent = m_pTransCom = dynamic_cast<COrthoTransform*>(Clone_Proto(L"Proto_OrthoTransformCom"));
 	NULL_CHECK_RETURN(m_pTransCom, E_FAIL);

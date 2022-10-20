@@ -334,6 +334,7 @@ _bool CMagnum::EquipIconPicking()
 		cout << ptMouse.x << " " << ptMouse.y << endl;
 		if (PtInRect(&rcUI2, ptMouse))
 		{
+			Engine::PlaySoundW(L"Item_Picking.mp3", SOUND_OBJECT, 1.f);
 			pInven->Set__Current_Picking_ItemID(ID_MAGNUM);
 			m_bPickingEnd = false;
 			m_bisPicking = true;
