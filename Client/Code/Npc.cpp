@@ -80,7 +80,16 @@ void CNpc::LateUpdate_Object(void)
 
 void CNpc::Render_Obejct(void)
 {
+
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
+
+	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, TRUE);
+	m_pGraphicDev->LightEnable(0, FALSE);
+	m_pGraphicDev->LightEnable(1, FALSE);
+	m_pGraphicDev->LightEnable(2, FALSE);
+	m_pGraphicDev->LightEnable(3, FALSE);
+	m_pGraphicDev->LightEnable(4, TRUE);
+
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0x10);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
@@ -92,9 +101,16 @@ void CNpc::Render_Obejct(void)
 
 	m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);	// 텍스처 정보 세팅을 우선적으로 한다.
 
+	SetUp_Material();
 	m_pBufferCom->Render_Buffer();
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+
+	m_pGraphicDev->LightEnable(0, TRUE);
+	m_pGraphicDev->LightEnable(1, TRUE);
+	m_pGraphicDev->LightEnable(2, TRUE);
+	m_pGraphicDev->LightEnable(3, TRUE);
+	m_pGraphicDev->LightEnable(4, FALSE);
 
 }
 
@@ -134,6 +150,86 @@ HRESULT CNpc::Add_Component(void)
 	//Proto_HpPotionTexture Proto_NPCTexture
 
 	return S_OK;
+}
+
+HRESULT CNpc::SetUp_Material(void)
+{
+	_vec3 vPlayerPos, vPos;
+
+	CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
+	if (pPlayerTransformCom == nullptr)
+		return E_FAIL;
+
+	pPlayerTransformCom->Get_Info(INFO_POS, &vPlayerPos);
+	m_pTransCom->Get_Info(INFO_POS, &vPos);
+
+	_float fMtoPDistance = sqrtf((powf(vPlayerPos.x - vPos.x, 2)
+		+ powf(vPlayerPos.y - vPos.y, 2)
+		+ powf(vPlayerPos.z - vPos.z, 2)));
+
+
+	D3DMATERIAL9		tMtrl;
+	if (fMtoPDistance < 30.f)
+	{
+		_float fDistance = ((1.f - fMtoPDistance / 30.f)) + 0.5f;
+		max(fDistance, 0.5f);
+		ZeroMemory(&tMtrl, sizeof(D3DMATERIAL9));
+		tMtrl.Diffuse = D3DXCOLOR(fDistance, fDistance, fDistance, fDistance);
+		tMtrl.Specular = D3DXCOLOR(fDistance, fDistance, fDistance, fDistance);
+		tMtrl.Ambient = D3DXCOLOR(fDistance, fDistance, fDistance, fDistance);
+		tMtrl.Emissive = D3DXCOLOR(fDistance, fDistance, fDistance, fDistance);
+		tMtrl.Power = 0.f;
+	}
+	else
+	{
+		_float fDistance = 0.4f;
+		ZeroMemory(&tMtrl, sizeof(D3DMATERIAL9));
+		tMtrl.Diffuse = D3DXCOLOR(fDistance, fDistance, fDistance, fDistance);
+		tMtrl.Specular = D3DXCOLOR(fDistance, fDistance, fDistance, fDistance);
+		tMtrl.Ambient = D3DXCOLOR(fDistance, fDistance, fDistance, fDistance);
+		tMtrl.Emissive = D3DXCOLOR(fDistance, fDistance, fDistance, fDistance);
+		tMtrl.Power = 0.f;
+	}
+
+
+	m_pGraphicDev->SetMaterial(&tMtrl);
+}
+
+void CNpc::Set_Light_Obj()
+{
+	_vec3 vPlayerPos, vPos;
+
+	CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
+	if (pPlayerTransformCom == nullptr)
+		return;
+
+	pPlayerTransformCom->Get_Info(INFO_POS, &vPlayerPos);
+	m_pTransCom->Get_Info(INFO_POS, &vPos);
+
+	_float fMtoPDistance = sqrtf((powf(vPlayerPos.x - vPos.x, 2)
+		+ powf(vPlayerPos.y - vPos.y, 2)
+		+ powf(vPlayerPos.z - vPos.z, 2)));
+
+	if (fMtoPDistance < 30.f)
+	{
+		_float fDistance = ((1.f - fMtoPDistance / 30.f)) * 2;
+		max(fDistance, 0.1f);
+
+		D3DLIGHT9		tLightInfo4;
+		ZeroMemory(&tLightInfo4, sizeof(D3DLIGHT9));
+		_vec3 vPos;
+		m_pTransCom->Get_Info(INFO_POS, &vPos);
+		tLightInfo4.Type = D3DLIGHT_SPOT;
+		tLightInfo4.Diffuse = D3DXCOLOR(fDistance, fDistance, fDistance, fDistance);
+		tLightInfo4.Specular = D3DXCOLOR(fDistance, fDistance, fDistance, fDistance);
+		tLightInfo4.Ambient = D3DXCOLOR(fDistance, fDistance, fDistance, fDistance);
+		tLightInfo4.Position = vPos;
+		FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &tLightInfo4, 4), );
+	}
+	else
+	{
+		return;
+	}
 }
 
 CNpc * CNpc::Create(LPDIRECT3DDEVICE9 pGraphicDev)

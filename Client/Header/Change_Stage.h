@@ -24,6 +24,8 @@ private:
 
 	HRESULT			Ready_Proto(void);
 
+	HRESULT			Ready_MiniStage3();
+
 private:
 	_uint			m_iLoadingCount = 0;
 	

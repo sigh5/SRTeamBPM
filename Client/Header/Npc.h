@@ -31,6 +31,10 @@ public:
 
 private:
 	HRESULT				Add_Component(void);
+public:
+	HRESULT				SetUp_Material(void);
+	void				Set_Light_Obj();
+
 
 private:
 	CRcTex*				m_pBufferCom = nullptr;

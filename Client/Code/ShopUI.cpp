@@ -8,7 +8,7 @@
 #include "MiniStage1.h"
 #include "Change_Stage.h"
 #include "Helmet.h"
-
+#include "QuestProcessing_UI.h"
 CShopUI::CShopUI(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CUI_Base(pGraphicDev)
 {
@@ -151,20 +151,48 @@ void CShopUI::Picking_Rect_Index()
 					NULL_CHECK_RETURN(pScene, );
 
 					::Change_Scene(pScene, pChangeScene);
-
 					m_iForceSceneReturn = SCENE_CHANGE_RETRURN;
+
+					CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+					NULL_CHECK_RETURN(pLayer, );
+					pLayer = pScene->GetLayer(L"Layer_UI");
+
+					CQuestProcessing_UI* pQuestProcessing_UI =
+						static_cast<CQuestProcessing_UI*>(pLayer->Get_GameObject(L"QuestProcessing_UI"));
+					pQuestProcessing_UI->Set_Quest_Claer(Quest_Index_ONE, true);
+
 					return;
 
 				}
 				else if (i == 3)
 				{
-					_bool b = false;
+					// 나중에 미니게임추가
+
+					CScene*pScene = ::Get_Scene();
+					CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+					NULL_CHECK_RETURN(pLayer, );
+					pLayer = pScene->GetLayer(L"Layer_UI");
+
+					CQuestProcessing_UI* pQuestProcessing_UI =
+						static_cast<CQuestProcessing_UI*>(pLayer->Get_GameObject(L"QuestProcessing_UI"));
+					pQuestProcessing_UI->Set_Quest_Claer(Quest_Index_TWO, true);
+				
 				}
 				else if (i == 4)
 				{
 					CScene*pScene = ::Get_Scene();
 					pScene->Set_SceneChane(true);
 					::Set_SaveScene(pScene);
+					
+					CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+					NULL_CHECK_RETURN(pLayer, );
+					pLayer = pScene->GetLayer(L"Layer_UI");
+
+					CQuestProcessing_UI* pQuestProcessing_UI =
+						dynamic_cast<CQuestProcessing_UI*>(pLayer->Get_GameObject(L"QuestProcessing_UI"));
+					
+					if(pQuestProcessing_UI!=nullptr)
+						pQuestProcessing_UI->Set_Quest_Claer(Quest_Index_THREE, true);
 
 					CScene*		pChangeScene = CChange_Stage::Create(m_pGraphicDev, 3);
 					NULL_CHECK_RETURN(pScene, );
@@ -172,6 +200,10 @@ void CShopUI::Picking_Rect_Index()
 					::Change_Scene(pScene, pChangeScene);
 
 					m_iForceSceneReturn = SCENE_CHANGE_RETRURN;
+				
+					
+
+				
 					return;
 				}
 				else if (i == 5 && !m_bSelect[5])

@@ -85,6 +85,7 @@ _int CChange_Stage::Update_Scene(const _float & fTimeDelta)
 	{
 		if (m_iLoadingCount > 100)
 		{
+		
 			CScene*		pScene = CMiniGame3::Create(m_pGraphicDev);
 			NULL_CHECK_RETURN(pScene, E_FAIL);
 
@@ -133,6 +134,14 @@ HRESULT CChange_Stage::Ready_Layer_Environment(const _tchar * pLayerTag)
 
 HRESULT CChange_Stage::Ready_Proto(void)
 {	
+	return S_OK;
+}
+
+HRESULT CChange_Stage::Ready_MiniStage3()
+{
+	
+
+
 	return S_OK;
 }
 

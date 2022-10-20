@@ -367,6 +367,9 @@ _uint CLoading::Loading_For_ToolScene()
 	return 0;
 }
 
+
+
+
 unsigned int CLoading::Thread_Main(void * pArg)
 {
 	CLoading*		pLoading = (CLoading*)pArg;

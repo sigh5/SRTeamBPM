@@ -4,6 +4,8 @@
 #include "Export_Function.h"
 #include "Stage.h"
 #include "ShopUI.h"
+#include "SkyBox.h"
+#include "MiniTerrain.h"
 
 CMiniGame3::CMiniGame3(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -18,10 +20,16 @@ HRESULT CMiniGame3::Ready_Scene(void)
 {
 	if (FAILED(Engine::CScene::Ready_Scene()))
 		return E_FAIL;
-
 	m_SceneType = SCENE_MINISTAGE3;
 
 	FAILED_CHECK_RETURN(Ready_Proto(), E_FAIL);
+
+	FAILED_CHECK_RETURN(Ready_Layer_Environment(L"Layer_Environment"), E_FAIL);
+	FAILED_CHECK_RETURN(Ready_Layer_GameLogic(L"Layer_GameLogic"), E_FAIL);
+	FAILED_CHECK_RETURN(Ready_Layer_UI(L"Layer_UI"), E_FAIL);
+
+
+	
 
 
 	return S_OK;
@@ -60,11 +68,40 @@ void CMiniGame3::Render_Scene(void)
 
 HRESULT CMiniGame3::Ready_Layer_Environment(const _tchar * pLayerTag)
 {
+	
+	Engine::CLayer*		pLayer = Engine::CLayer::Create();
+	NULL_CHECK_RETURN(pLayer, E_FAIL);
+
+	CGameObject*		pGameObject = nullptr;
+
+	pGameObject  = CDynamicCamera::Create(m_pGraphicDev, &_vec3(0.f, 10.f, -10.f), &_vec3(0.f, 0.f, 0.f), &_vec3(0.f, 1.f, 0.f));
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"DynamicCamera2", pGameObject), E_FAIL);
+
+	pGameObject = CSkyBox::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"SkyBox2", pGameObject), E_FAIL);
+
+
+	pGameObject = CMiniTerrain::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"MiniTerrain3", pGameObject), E_FAIL);
+
+	m_mapLayer.insert({ L"Layer_Environment3", pLayer });
+
+
 	return S_OK;
 }
 
 HRESULT CMiniGame3::Ready_Proto(void)
 {
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_TerrainMoveTexCom", CTerrainMoveTex::Create(m_pGraphicDev, VTXCNTX, VTXCNTZ, VTXITV)), E_FAIL);
+
+
+	
+
+
+
 	return S_OK;
 }
 

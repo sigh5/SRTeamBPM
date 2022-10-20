@@ -10,6 +10,7 @@
 #include "SphereTex.h"
 #include "ThunderTex.h"
 #include "CubeNormalTex.h"
+#include "TerrainMoveTex.h"
 
 #include "Transform.h"
 #include "Calculator.h"
