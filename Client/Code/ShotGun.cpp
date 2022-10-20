@@ -117,9 +117,12 @@ void CShotGun::Render_Obejct(void)
 	}
 	else if (m_bIsInventory)
 	{
-		CInventory_UI* pInven = static_cast<CInventory_UI*>(Get_GameObject(L"Layer_UI", L"InventoryUI"));
+		CInventory_UI* pInven = dynamic_cast<CInventory_UI*>(Get_GameObject(L"Layer_UI", L"InventoryUI"));
+				
+		if (pInven == nullptr)
+			return;
 
-		if (!pInven->Get_InvenSwitch())
+		if (!pInven->Get_InvenSwitch())  
 			return;
 
 		m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
