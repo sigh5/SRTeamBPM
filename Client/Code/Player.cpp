@@ -37,7 +37,7 @@ HRESULT CPlayer::Ready_Object(void)
 	
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pInfoCom->Ready_CharacterInfo(10, 10, 5.f);
+	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
 	m_pInfoCom->Get_InfoRef()._iCoin = 10;
 
 
@@ -349,11 +349,13 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		m_pDynamicTransCom->Get_Info(INFO_POS, &vcurrentPos);
 	}
 
-	//if (Engine::Key_Down(DIK_C))
-	//{
-	//	Player_Dead(fTimeDelta);
-	//	//m_pInfoCom->Get_InfoRef()._iHp -= 25;
-	//}
+	if (Engine::Key_Down(DIK_L))
+	{
+		m_pInfoCom->Get_InfoRef()._iHp += 10000;
+
+		//Player_Dead(fTimeDelta);
+		//m_pInfoCom->Get_InfoRef()._iHp -= 25;
+	}
 	Engine::Key_InputReset();
 }
 
