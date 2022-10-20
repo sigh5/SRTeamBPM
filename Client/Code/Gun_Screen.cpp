@@ -207,9 +207,7 @@ HRESULT CGun_Screen::Shoot_Motion(const _float& fTimeDelta)
 				pLayer->Add_GameObjectList(pShell);
 				m_bCreatedShell = true;
 				
-				vPos.y += 50.f;
-				CGameObject* pFireworks = CFireWorks::Create(m_pGraphicDev, vPos);
-				pLayer->Add_GameObjectList(pFireworks);
+				
 
 				::StopSound(SOUND_GUNFIRE);
 				::PlaySoundW(L"magnum_shot.wav", SOUND_GUNFIRE, 0.4f);
