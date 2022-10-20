@@ -9,6 +9,7 @@
 #include "Change_Stage.h"
 #include "Helmet.h"
 #include "EquipYeti.h"
+#include "QuestProcessing_UI.h"
 
 CShopUI::CShopUI(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CUI_Base(pGraphicDev)

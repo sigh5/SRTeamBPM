@@ -43,7 +43,7 @@ HRESULT CHpBar::Ready_Object(CGameObject * pPlayer)
 
 	m_iHpFont = 0;
 
-	m_pAnimationCom->Ready_Animation(5, 0, 0.2f, 4);
+	m_pAnimationCom->Ready_Animation(10, 0, 0.2f, 10);
 
 	return S_OK;
 }
@@ -52,19 +52,19 @@ _int CHpBar::Update_Object(const _float & fTimeDelta)
 {
 	CPlayer* pPlayer = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
 	
-	m_iPlayerHp = (pPlayer->Get_HpChange()) / 25;
+	m_iPlayerHp = (pPlayer->Get_HpChange()) / 10;
 				// 24/25 = 0.96 // 0/25 = 0
 
 	//m_iHpFont = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._iHp;
 
-	if (m_pAnimationCom->m_iMotion == 4)
+	/*if (m_pAnimationCom->m_iMotion == 4)
 	{
 		if (Engine::Key_Down(DIK_M)) 
 		{
 			m_pAnimationCom->m_iMotion = 0;
 		}
 		Engine::Key_InputReset();
-	}
+	}*/
 
 	m_pAnimationCom->Control_Animation(m_iPlayerHp);
 	
@@ -114,7 +114,9 @@ void CHpBar::Render_Obejct(void)
 		m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 		m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-		_uint iHpFont = dynamic_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC))->Get_Hp();
+		_uint iHpFont = dynamic_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._iHp;
+
+		cout << "ÆùÆ® : " << iHpFont << endl;
 
 		_tchar	tPlayerHp[MAX_PATH];
 		swprintf_s(tPlayerHp, L"%d / 100", iHpFont);

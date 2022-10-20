@@ -42,7 +42,7 @@ _int CCurrect_Answer::Update_Object(const _float & fTimeDelta)
 {
 	Engine::CGameObject::Update_Object(fTimeDelta);
 	
-	cout << ffx << "¹º Â÷ÀÌÁö" << ffy << endl;
+//	cout << ffx << "¹º Â÷ÀÌÁö" << ffy << endl;
 
 	Add_RenderGroup(RENDER_UI, this);
 

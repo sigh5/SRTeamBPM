@@ -121,7 +121,7 @@ void CWrongPicFind::Picking_WrongPoint(void)
 		m_fX = (_float)ptMouse.x;
 		m_fY = (_float)ptMouse.y;
 		
-		cout << m_fX << ": o :" << m_fY << endl;
+		//cout << m_fX << ": o :" << m_fY << endl;
 
 		RECT RcFind{};
 

@@ -16,6 +16,7 @@
 #include "AttackEffect.h"
 #include "UI_Effect.h"
 #include "FireWorks.h"
+#include "HpBar.h"
 
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -129,7 +130,7 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 		pGameObject->Set_Active(false);
 	}
 
-
+	cout << m_pInfoCom->Get_InfoRef()._iHp << endl;
 
 
 
@@ -443,7 +444,11 @@ void CPlayer::Random_ResurrectionRoom()
 	pFirstCubeTransform->Get_Info(INFO_POS, &vFirstCubePos);
 
 	m_pDynamicTransCom->Set_Pos(vFirstCubePos.x + 5.f, vFirstCubePos.y, vFirstCubePos.z + 5.f);
+	// Player HpBar Reset
+	CAnimation* pHpBarAnimation = dynamic_cast<CAnimation*>(Engine::Get_Component(L"Layer_Icon", L"HpBar", L"Proto_AnimationCom", ID_DYNAMIC));
 
+	pHpBarAnimation->m_iMotion = 0;
+	// ~Player HpBar Reset
 	pLayer->Reset_Monster();
 	m_pDynamicTransCom->Update_Component(1.f);
 }
