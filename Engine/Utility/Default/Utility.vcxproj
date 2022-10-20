@@ -176,6 +176,7 @@ call CopyUtility.bat</Command>
     <ClInclude Include="..\..\Header\CharacterInfo.h" />
     <ClInclude Include="..\..\Header\Collider.h" />
     <ClInclude Include="..\..\Header\Component.h" />
+    <ClInclude Include="..\..\Header\CubeNormalTex.h" />
     <ClInclude Include="..\..\Header\CubeTex.h" />
     <ClInclude Include="..\..\Header\Dynamic_Transform.h" />
     <ClInclude Include="..\..\Header\EquipmentBase.h" />
@@ -198,6 +199,7 @@ call CopyUtility.bat</Command>
     <ClInclude Include="..\..\Header\Shader.h" />
     <ClInclude Include="..\..\Header\SoundMgr.h" />
     <ClInclude Include="..\..\Header\SphereTex.h" />
+    <ClInclude Include="..\..\Header\TerrainMoveTex.h" />
     <ClInclude Include="..\..\Header\TerrainTex.h" />
     <ClInclude Include="..\..\Header\Texture.h" />
     <ClInclude Include="..\..\Header\ThunderTex.h" />
@@ -216,6 +218,7 @@ call CopyUtility.bat</Command>
     <ClCompile Include="..\Code\CharacterInfo.cpp" />
     <ClCompile Include="..\Code\Collider.cpp" />
     <ClCompile Include="..\Code\Component.cpp" />
+    <ClCompile Include="..\Code\CubeNormalTex.cpp" />
     <ClCompile Include="..\Code\CubeTex.cpp" />
     <ClCompile Include="..\Code\Dynamic_Transform.cpp" />
     <ClCompile Include="..\Code\EquipmentBase.cpp" />
@@ -237,6 +240,7 @@ call CopyUtility.bat</Command>
     <ClCompile Include="..\Code\Shader.cpp" />
     <ClCompile Include="..\Code\SoundMgr.cpp" />
     <ClCompile Include="..\Code\SphereTex.cpp" />
+    <ClCompile Include="..\Code\TerrainMoveTex.cpp" />
     <ClCompile Include="..\Code\TerrainTex.cpp" />
     <ClCompile Include="..\Code\Texture.cpp" />
     <ClCompile Include="..\Code\ThunderTex.cpp" />

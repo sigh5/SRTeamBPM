@@ -27,6 +27,11 @@ private:
 
 	void		Get_ObeliskState();
 
+
+public:
+	HRESULT				SetUp_Material(void);
+	void				Set_Light_Obj();
+
 public:
 	static CSphinx*		Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx = 0, int Posy = 0);
 	virtual void	Free(void);

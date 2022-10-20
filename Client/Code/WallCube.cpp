@@ -80,8 +80,8 @@ void CWallCube::Render_Obejct(void)
 
 	
 	// Hit Box 
-	//m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, TRUE);
-
+	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, TRUE);
+	m_pGraphicDev->LightEnable(3, FALSE);
 	if (m_iOption == CUBE_COLLISION_WALL)
 	{
 		CScene* pScene = Get_Scene();
@@ -105,7 +105,7 @@ void CWallCube::Render_Obejct(void)
 	
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
 	
-	if (m_bWireFrame)
+	/*if (m_bWireFrame)
 	{
 		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(150, 0, 0, 0));
@@ -117,15 +117,16 @@ void CWallCube::Render_Obejct(void)
 		m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, (DWORD)0x00000001);
 		m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 		m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-	}
+	}*/
 
 	m_pTextureCom->Set_Texture(m_iTexIndex);
-	
+	/*
 	if (m_bWireFrame)
 	{
 		m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
 
-	}
+	}*/
+	FAILED_CHECK_RETURN(SetUp_Material(), );
 	m_pBufferCom->Render_Buffer();
 
 	//// HitBox
@@ -133,17 +134,17 @@ void CWallCube::Render_Obejct(void)
 	m_pColliderCom->Render_Buffer();
 	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 	//// ~Hit Box 
-	
-	if (m_bWireFrame)
-	{
-		m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-		m_pBufferCom->Render_Buffer();
-		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
-		m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-	}
+	//
+	//if (m_bWireFrame)
+	//{
+	//	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	//	m_pBufferCom->Render_Buffer();
+	//	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
+	//	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+	//	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	//}
 
-	//m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
+	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
 
 }
 
@@ -183,11 +184,7 @@ void CWallCube::Collision_Event()
 			}
 		}
 		pLayer->Clear_ColliderMonster();
-
-		
 	}
-
-
 }
 
 void CWallCube::init_For_Collistion_vector()
@@ -226,15 +223,35 @@ void CWallCube::MousePostoScreen()	// 지형타기
 _bool CWallCube::Set_SelectGizmo()
 {
 	return m_pCalculatorCom->PickingOnTransform(g_hWnd, m_pBufferCom, m_pTransCom);
+	//return false;
 }
 
 HRESULT CWallCube::Add_Component(void)
 {
-	m_pBufferCom = CAbstractFactory<CCubeTex>::Clone_Proto_Component(L"Proto_CubeTexCom", m_mapComponent, ID_STATIC);
+	m_pBufferCom = CAbstractFactory<CCubeNormalTex>::Clone_Proto_Component(L"Proto_CubeNormalTexCom", m_mapComponent, ID_STATIC);
+	
+	//m_pBufferCom = CAbstractFactory<CCubeTex>::Clone_Proto_Component(L"Proto_CubeTexCom", m_mapComponent, ID_STATIC);
+
 	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_MapCubeTexture", m_mapComponent, ID_STATIC);
 	m_pTransCom = CAbstractFactory<CTransform>::Clone_Proto_Component(L"Proto_TransformCom", m_mapComponent, ID_DYNAMIC);
 	m_pCalculatorCom = CAbstractFactory<CCalculator>::Clone_Proto_Component(L"Proto_CalculatorCom", m_mapComponent, ID_STATIC);
 	m_pColliderCom = CAbstractFactory<CCollider>::Clone_Proto_Component(L"Proto_ColliderCom", m_mapComponent, ID_STATIC);
+
+	return S_OK;
+}
+
+HRESULT CWallCube::SetUp_Material(void)
+{
+	D3DMATERIAL9		tMtrl;
+	ZeroMemory(&tMtrl, sizeof(D3DMATERIAL9));
+
+	tMtrl.Diffuse = D3DXCOLOR(0.2f, 0.2f, 0.2f, 0.2f);
+	tMtrl.Specular = D3DXCOLOR(0.2f, 0.2f, 0.2f, 0.2f);
+	tMtrl.Ambient = D3DXCOLOR(0.2f, 0.2f, 0.2f, 0.2f);
+	tMtrl.Emissive = D3DXCOLOR(0.2f, 0.2f, 0.2f, 0.2f);
+	tMtrl.Power = 0.f;
+
+	m_pGraphicDev->SetMaterial(&tMtrl);
 
 	return S_OK;
 }

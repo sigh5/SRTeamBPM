@@ -50,6 +50,8 @@ public:
 	const _bool&		 Get_Hit()const { return m_bHit; }
 	const _bool&		Get_Dead()const { return m_bDead; }
 
+	const _float&		Get_Distance()const { return fMtoPDistance; }
+
 
 protected:
 	CCharacterInfo*		m_pInfoCom = nullptr;    // ³²±æ°Í 

@@ -63,7 +63,7 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 	if (m_bDead)
 		m_bDeadTimer += 1.0f* fTimeDelta;
 	
-	if (m_bDeadTimer >= 5.f)
+	if (m_bDeadTimer >= 7.f)
 	{
 		Random_ResurrectionRoom();
 		m_bDeadTimer = 0.f;
@@ -162,19 +162,19 @@ void CPlayer::LateUpdate_Object(void)
 
 void CPlayer::Render_Obejct(void)
 {
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pDynamicTransCom->Get_WorldMatrixPointer());
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	//m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pDynamicTransCom->Get_WorldMatrixPointer());
+	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
-	//m_pTextureCom->Set_Texture(m_iTexIndex);
-	m_pBufferCom->Render_Buffer();
-	
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pColliderCom->HitBoxWolrdmat());
-	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-	
-	m_pColliderCom->Render_Buffer();
-	
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	////m_pTextureCom->Set_Texture(m_iTexIndex);
+	//m_pBufferCom->Render_Buffer();
+	//
+	//m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pColliderCom->HitBoxWolrdmat());
+	//m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	//
+	//m_pColliderCom->Render_Buffer();
+	//
+	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	//m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 	
 }
 

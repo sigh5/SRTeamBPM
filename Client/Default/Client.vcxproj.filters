@@ -471,6 +471,7 @@
     </ClInclude>
     <ClInclude Include="..\Header\MonsterBullet.h">
       <Filter>02. GameObject\01. For_Stage\06. Bullet</Filter>
+	
     </ClInclude>
     <ClInclude Include="..\Header\MyCamera.h">
       <Filter>02. GameObject\02. For_public\02. MyCamera</Filter>
@@ -544,8 +545,8 @@
     <ClInclude Include="..\Header\CoinKeyUI.h">
       <Filter>02. GameObject\01. For_Stage\10. UI\05. CoinUI</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Box.h">
-      <Filter>02. GameObject\01. For_Stage\11. Item\02. Box</Filter>
+    <ClInclude Include="..\Header\StaticCamera.h">
+      <Filter>02.GameObject\For_Public\StaticCamera</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Player.h">
       <Filter>02. GameObject\01. For_Stage\00. Player</Filter>
@@ -613,8 +614,8 @@
     <ClInclude Include="..\Header\LoadingBackFont.h">
       <Filter>02. GameObject\01. For_Stage\10. UI\10. LoadingFont_BackGround</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\TeleCube.h">
-      <Filter>02. GameObject\02. For_public\05. TeleCube</Filter>
+    <ClInclude Include="..\Header\BackGround.h">
+      <Filter>02.GameObject\For_logo\BackGround</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\EarthShaker.h">
       <Filter>02. GameObject\01. For_Stage\02. Monster\06. EarthShaker</Filter>

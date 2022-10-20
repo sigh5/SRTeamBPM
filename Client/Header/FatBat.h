@@ -20,7 +20,9 @@ public:
 	virtual void Hit_Loop(const _float& fTimeDelta);
 public:
 	// 처형 판독
-	virtual void		Excution_Event();
+public:
+	HRESULT				SetUp_Material(void);
+	void				Set_Light_Obj();
 
 public:
 	void				FatBat_Fly(const _float& fTimeDelta);

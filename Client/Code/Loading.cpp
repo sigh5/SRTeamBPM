@@ -52,7 +52,7 @@ _uint CLoading::Loading_ForStage(void)
 	// SkyBox
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_CubeTexCom", CCubeTex::Create(m_pGraphicDev)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_CubeTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/SkyBox/burger%d.dds", TEX_CUBE, 6)), E_FAIL);
-
+	
 	// ~SkyBox
 
 	// Player
@@ -160,7 +160,7 @@ _uint CLoading::Loading_ForStage(void)
 	// Box
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_BoxTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Item/Box/Box%d.png", TEX_NORMAL, 2)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_CoinTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Item/Coin/Coin%d.png", TEX_NORMAL, 6)), E_FAIL);
-
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_CubeNormalTexCom", CCubeNormalTex::Create(m_pGraphicDev)), E_FAIL);
 	// ~Box
 
 	// Particle
@@ -368,7 +368,7 @@ _uint CLoading::Loading_For_ToolScene()
 	//~
 
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_fetrues_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/features/features_%d.png", TEX_NORMAL, 24)), E_FAIL);
-
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_CubeNormalTexCom", CCubeNormalTex::Create(m_pGraphicDev)), E_FAIL);
 	// しいけかい
 
 
@@ -379,6 +379,9 @@ _uint CLoading::Loading_For_ToolScene()
 
 	return 0;
 }
+
+
+
 
 unsigned int CLoading::Thread_Main(void * pArg)
 {

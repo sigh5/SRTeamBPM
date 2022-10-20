@@ -2,7 +2,7 @@
 #include "..\Header\QuestTalkingFrame.h"
 
 #include "Export_Function.h"
-
+#include "QuestProcessing_UI.h"
 
 
 
@@ -43,6 +43,20 @@ _int CQuestTalkingFrame::Update_Object(const _float & fTimeDelta)
 
 	if (m_bActive)
 		Create_Quest();
+
+	if (m_bClearcheck)
+	{
+		m_fClearTimer += 1.f*fTimeDelta;
+
+		if (m_fClearTimer >= 3.f)
+		{
+			m_bActive = false;
+			m_fClearTimer = 0.f;
+		}
+	}
+	
+	
+
 
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
@@ -111,6 +125,9 @@ HRESULT CQuestTalkingFrame::Add_Component(void)
 
 void CQuestTalkingFrame::Create_Quest()
 {
+	if (m_bClearcheck)
+		return;
+
 	if (Key_Down(DIK_X))
 	{
 		++m_iTalkNum;
@@ -146,8 +163,37 @@ void CQuestTalkingFrame::Create_Quest()
 		NULL_CHECK_RETURN(pLayer, );
 		pLayer = pScene->GetLayer(L"Layer_UI");
 		CQuestTalkingFrame *pFrame = dynamic_cast<CQuestTalkingFrame*>(pLayer->Get_GameObject(L"QuestUIFrame"));
+		
+		CQuestProcessing_UI* QuestProcessing_UI = CQuestProcessing_UI::Create(m_pGraphicDev);
+		if (QuestProcessing_UI == nullptr)
+			return;
+		pLayer->Add_GameObject(L"QuestProcessing_UI", QuestProcessing_UI);
+		QuestProcessing_UI->Set_Active(true);
+
+	
 	}
 
+}
+
+void CQuestTalkingFrame::Quest_Clear()
+{
+	m_bClearcheck = true;
+	
+	_int i = rand() % 3;
+	
+	if (i == 0)
+	{
+		pString = L"미니게임 다 했으면 \n니 할일해!";
+	}
+	else if (i == 1)
+	{
+		pString = L"나 바쁨";
+	}
+	else if (i == 2)
+	{
+		pString = L"꺼져! ";
+	}
+	
 }
 
 CQuestTalkingFrame * CQuestTalkingFrame::Create(LPDIRECT3DDEVICE9 pGraphicDev)

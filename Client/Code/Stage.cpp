@@ -282,7 +282,6 @@ HRESULT CStage::Ready_Layer_UI(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Dead_UI", pGameObject), E_FAIL);
 
-	
 
 	m_mapLayer.insert({ pLayerTag, pLayer });
 
@@ -397,16 +396,42 @@ void CStage::Free(void)
 
 HRESULT CStage::Ready_Light(void)
 {
-	D3DLIGHT9		tLightInfo;
+	/*D3DLIGHT9		tLightInfo;
 	ZeroMemory(&tLightInfo, sizeof(D3DLIGHT9));
 
 	tLightInfo.Type		= D3DLIGHT_DIRECTIONAL;
-	tLightInfo.Diffuse	= D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
-	tLightInfo.Specular	= D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
-	tLightInfo.Ambient	= D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
-	tLightInfo.Direction  = _vec3(0.f, -1.f, 1.f);
-
+	tLightInfo.Diffuse	= D3DXCOLOR(0.5f, 0.5f, 0.5f, 0.5f);
+	tLightInfo.Specular = D3DXCOLOR(0.5f, 0.5f, 0.5f, 0.5f);
+	tLightInfo.Ambient = D3DXCOLOR(0.5f, 0.5f, 0.5f, 0.5f);
+	tLightInfo.Direction  = _vec3(1.f, 0.f, -1.f);
+	tLightInfo.Position = _vec3(100.f, 10.f, 100.f);
 	FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &tLightInfo, 0), E_FAIL);
+
+	D3DLIGHT9		tLightInfo1;
+	ZeroMemory(&tLightInfo1, sizeof(D3DLIGHT9));
+
+	tLightInfo1.Type = D3DLIGHT_DIRECTIONAL;
+	tLightInfo1.Diffuse =	 D3DXCOLOR(0.5f, 0.5f, 0.5f, 0.5f);
+	tLightInfo1.Specular =	 D3DXCOLOR(0.5f, 0.5f, 0.5f, 0.5f);
+	tLightInfo1.Ambient =	 D3DXCOLOR(0.5f, 0.5f, 0.5f, 0.5f);
+	tLightInfo1.Direction = _vec3(-1.f, 0.f, 1.f);
+	tLightInfo1.Position = _vec3(100.f, 10.f, 100.f);
+	FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &tLightInfo1, 1), E_FAIL);
+
+
+	D3DLIGHT9		tLightInfo2;
+	ZeroMemory(&tLightInfo2, sizeof(D3DLIGHT9));
+
+	tLightInfo2.Type = D3DLIGHT_DIRECTIONAL;
+	tLightInfo2.Diffuse =	D3DXCOLOR(0.5f, 0.5f, 0.5f, 0.5f);
+	tLightInfo2.Specular =	D3DXCOLOR(0.5f, 0.5f, 0.5f, 0.5f);
+	tLightInfo2.Ambient =	D3DXCOLOR(0.5f, 0.5f, 0.5f, 0.5f);
+	tLightInfo2.Direction = _vec3(0.f, 0.f, 1.f);
+	tLightInfo2.Position = _vec3(200.f, 10.f, 200.f);
+	FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &tLightInfo2, 2), E_FAIL);
+*/
+
+
 
 	return S_OK;
 }

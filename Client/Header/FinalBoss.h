@@ -25,7 +25,9 @@ public:
 	void		BattleLoop(const _float& fTimeDelta);
 	void		AttackPettern2(const _float& fTimeDelta);
 
-
+public:
+	HRESULT				SetUp_Material(void);
+	void				Set_Light_Obj();
 public:
 	static CFinalBoss*		Create(LPDIRECT3DDEVICE9 pGraphicDev, float Posx = 0, float Posy = 0);
 	virtual void	Free(void);

@@ -10,6 +10,7 @@ namespace Engine
 	class CCalculator;
 	class CCollider;
 	class CAnimation;
+	class CLayer;
 }
 
 class CQuestNpc :public CGameObject
@@ -26,8 +27,10 @@ public:
 	virtual void	Collision_Event();
 
 
-
-
+private:
+	HRESULT				SetUp_Material(void);
+	void				Set_Light_Obj();
+	bool				Quest_clear(CLayer* pLayer);
 
 private:
 	HRESULT				Add_Component(void);

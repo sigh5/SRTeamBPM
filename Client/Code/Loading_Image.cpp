@@ -47,6 +47,8 @@ void CLoading_Image::LateUpdate_Object(void)
 
 void CLoading_Image::Render_Obejct(void)
 {
+	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
+
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
 
 	_matrix MatIdntity;

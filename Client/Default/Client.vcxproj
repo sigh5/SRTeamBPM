@@ -227,7 +227,9 @@
     <ClInclude Include="..\Header\MetronomeRect.h" />
     <ClInclude Include="..\Header\MetronomeSmallUI.h" />
     <ClInclude Include="..\Header\MetronomeUI.h" />
+    <ClInclude Include="..\Header\MiniGame3.h" />
     <ClInclude Include="..\Header\MiniStage1.h" />
+    <ClInclude Include="..\Header\MiniTerrain.h" />
     <ClInclude Include="..\Header\MonsterBullet.h" />
     <ClInclude Include="..\Header\MonsterToolObject.h" />
     <ClInclude Include="..\Header\MouseMgr.h" />
@@ -242,6 +244,7 @@
     <ClInclude Include="..\Header\Player.h" />
     <ClInclude Include="..\Header\Player_Dead_UI.h" />
     <ClInclude Include="..\Header\QuestNpc.h" />
+    <ClInclude Include="..\Header\QuestProcessing_UI.h" />
     <ClInclude Include="..\Header\QuestTalkingFrame.h" />
     <ClInclude Include="..\Header\QuizBox.h" />
     <ClInclude Include="..\Header\SettingButton.h" />
@@ -354,7 +357,9 @@
     <ClCompile Include="..\Code\MainApp.cpp" />
     <ClCompile Include="..\Code\MetronomeRect.cpp" />
     <ClCompile Include="..\Code\MetronomeSmallUI.cpp" />
+    <ClCompile Include="..\Code\MiniGame3.cpp" />
     <ClCompile Include="..\Code\MiniStage1.cpp" />
+    <ClCompile Include="..\Code\MiniTerrain.cpp" />
     <ClCompile Include="..\Code\MonsterBullet.cpp" />
     <ClCompile Include="..\Code\MetronomeUI.cpp" />
     <ClCompile Include="..\Code\MonsterToolObject.cpp" />
@@ -370,6 +375,7 @@
     <ClCompile Include="..\Code\Player.cpp" />
     <ClCompile Include="..\Code\Player_Dead_UI.cpp" />
     <ClCompile Include="..\Code\QuestNpc.cpp" />
+    <ClCompile Include="..\Code\QuestProcessing_UI.cpp" />
     <ClCompile Include="..\Code\QuestTalkingFrame.cpp" />
     <ClCompile Include="..\Code\QuizBox.cpp" />
     <ClCompile Include="..\Code\SettingButton.cpp" />

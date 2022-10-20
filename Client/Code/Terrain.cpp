@@ -10,7 +10,6 @@ CTerrain::CTerrain(LPDIRECT3DDEVICE9 pGraphicDev)
 {
 	
 }
-//주석지우셈
 
 CTerrain::~CTerrain()
 {
@@ -75,19 +74,22 @@ void CTerrain::LateUpdate_Object(void)
 
 void CTerrain::Render_Obejct(void)
 {
+
+	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, TRUE);
+	m_pGraphicDev->LightEnable(3, FALSE);
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
-	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	if (m_bWireFrame)
 		m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
 	m_pTextureCom->Set_Texture(m_iTexIndex);	// 텍스처 정보 세팅을 우선적으로 한다.
-
+	FAILED_CHECK_RETURN(SetUp_Material(), );
 	m_pBufferCom->Render_Buffer();
 
 	if (m_bWireFrame)
 		m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 
+	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
 }
 
 _bool CTerrain::Set_SelectGizmo()
@@ -125,10 +127,10 @@ HRESULT CTerrain::SetUp_Material(void)
 	D3DMATERIAL9		tMtrl;
 	ZeroMemory(&tMtrl, sizeof(D3DMATERIAL9));
 
-	tMtrl.Diffuse = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
-	tMtrl.Specular = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
-	tMtrl.Ambient = D3DXCOLOR(0.2f, 0.2f, 0.2f, 1.f);
-	tMtrl.Emissive = D3DXCOLOR(0.f, 0.f, 0.f, 1.f);
+	tMtrl.Diffuse = D3DXCOLOR(0.2f, 0.2f, 0.2f, 0.2f);
+	tMtrl.Specular = D3DXCOLOR(0.2f, 0.2f, 0.2f,0.2f);
+	tMtrl.Ambient = D3DXCOLOR(0.2f, 0.2f, 0.2f, 0.2f);
+	tMtrl.Emissive = D3DXCOLOR(0.2f, 0.2f, 0.2f, 0.2f);
 	tMtrl.Power = 0.f;
 
 	m_pGraphicDev->SetMaterial(&tMtrl);

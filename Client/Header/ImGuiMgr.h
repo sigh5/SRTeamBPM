@@ -14,11 +14,13 @@ class CTransform;
 class CScene;
 class CLayer;
 class CGameObject;
+class CCamera;
 END
 
 class CWallCube;
 class CTerrain;
 class CControlRoom;
+
 // TexturePath 를 위한 Struct
 struct TexturePath
 {
@@ -78,7 +80,7 @@ public:
 	template <typename T>
 	void  ObjectCreate(LPDIRECT3DDEVICE9 pGrahicDev, CLayer* pLayer, CGameObject** pGameObject,const wstring& objStr);
 	template <typename T>
-	CGameObject*   SelectObject(CLayer* pLayer, wstring* currentObjectName);
+	CGameObject*   SelectObject(CLayer* pLayer, wstring* currentObjectName, CCamera* pCam);
 	template <typename T>
 	HRESULT  EditObjectTexture(const wstring& m_CureentTextureProtoName);
 	template <typename T>
@@ -135,6 +137,7 @@ private:
 	CControlRoom* pControlSphere = nullptr;
 
 
+	_float		 m_fMinDistance = 999999;
 	// ~Map_Tool 변수
 
 	// Player Tool 변수
@@ -195,7 +198,7 @@ void CImGuiMgr::ObjectCreate(LPDIRECT3DDEVICE9 pGrahicDev, CLayer* pLayer, CGame
 }
 
 template<typename T>
-CGameObject* CImGuiMgr::SelectObject(CLayer* pLayer,wstring* currentObjectName)
+CGameObject* CImGuiMgr::SelectObject(CLayer* pLayer,wstring* currentObjectName,CCamera* pCam)
 {
 	map<const _tchar*, CGameObject*> MapLayer = pLayer->Get_GameObjectMap();
 
@@ -205,9 +208,37 @@ CGameObject* CImGuiMgr::SelectObject(CLayer* pLayer,wstring* currentObjectName)
 		{
 			//if (dynamic_cast<CWallCube*>(iter->second)->Get_Option() == 4 ) // Only Collsion
 			{
+				float fMtoPDistance; // 몬스터와 플레이어 간의 거리
+
+				CTransform* piterTransform = dynamic_cast<CTransform*>(iter->second->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+				_vec3 viterPos;
+				piterTransform->Get_Info(INFO_POS, &viterPos);
+
+				fMtoPDistance = sqrtf((powf(viterPos.x - pCam->m_vEye.x, 2) + powf(viterPos.y - pCam->m_vEye.y, 2) + powf(viterPos.z - pCam->m_vEye.z, 2)));
+
+				if (fMtoPDistance < m_fMinDistance)
+				{
+					m_fMinDistance = fMtoPDistance;
+				}
+				else
+				{
+					continue;
+				}
+					
+
 				m_pSelectedTransform = nullptr;
 				m_pSelectedObject = nullptr;
 				m_pSelectedTransform = dynamic_cast<CTransform*>(iter->second->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+				
+				
+				CCamera*		pCamTransform = dynamic_cast<CCamera*>(Engine::Get_GameObject(L"TestLayer", L"DynamicCamera"));
+				NULL_CHECK(pCamTransform);
+
+
+				
+				
+				
+				
 				m_pSelectedObject = dynamic_cast<T*>(iter->second);
 				m_CurrentSelectGameObjectObjKey = iter->first;
 
