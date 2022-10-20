@@ -103,6 +103,12 @@
       <LargeAddressAware>true</LargeAddressAware>
       <AdditionalLibraryDirectories>../../Reference/Library</AdditionalLibraryDirectories>
     </Link>
+    <FxCompile>
+      <ShaderType>Effect</ShaderType>
+    </FxCompile>
+    <FxCompile>
+      <ShaderModel>2.0</ShaderModel>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -137,6 +143,12 @@
       <LargeAddressAware>true</LargeAddressAware>
       <AdditionalLibraryDirectories>../../Reference/Library</AdditionalLibraryDirectories>
     </Link>
+    <FxCompile>
+      <ShaderType>Effect</ShaderType>
+    </FxCompile>
+    <FxCompile>
+      <ShaderModel>2.0</ShaderModel>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -195,6 +207,7 @@
     <ClInclude Include="..\Header\HarpoonGuy.h" />
     <ClInclude Include="..\Header\HealthPotion.h" />
     <ClInclude Include="..\Header\Helmet.h" />
+    <ClInclude Include="..\Header\Helmet2.h" />
     <ClInclude Include="..\Header\HitBlood.h" />
     <ClInclude Include="..\Header\HitEffect.h" />
     <ClInclude Include="..\Header\HpBar.h" />
@@ -223,6 +236,8 @@
     <ClInclude Include="..\Header\Obstacle.h" />
     <ClInclude Include="..\Header\Player.h" />
     <ClInclude Include="..\Header\Player_Dead_UI.h" />
+    <ClInclude Include="..\Header\QuestNpc.h" />
+    <ClInclude Include="..\Header\QuestTalkingFrame.h" />
     <ClInclude Include="..\Header\QuizBox.h" />
     <ClInclude Include="..\Header\SettingButton.h" />
     <ClInclude Include="..\Header\Setting_BackGround.h" />
@@ -244,22 +259,18 @@
     <ClInclude Include="..\Header\Spider.h" />
     <ClInclude Include="..\Header\Stage.h" />
     <ClInclude Include="..\Header\Stage1PreHeader.h" />
-    <ClInclude Include="..\Header\Stage_BIH.h" />
-    <ClInclude Include="..\Header\Stage_Pjw.h" />
     <ClInclude Include="..\Header\Start_Button.h" />
     <ClInclude Include="..\Header\StaticCamera.h" />
     <ClInclude Include="..\Header\Status_UI.h" />
     <ClInclude Include="..\Header\TapeWorm.h" />
     <ClInclude Include="..\Header\TeleCube.h" />
     <ClInclude Include="..\Header\Terrain.h" />
-    <ClInclude Include="..\Header\TestCube.h" />
-    <ClInclude Include="..\Header\TestMonster.h" />
-    <ClInclude Include="..\Header\TestPlayer.h" />
     <ClInclude Include="..\Header\ToolTest.h" />
     <ClInclude Include="..\Header\UI_Effect.h" />
     <ClInclude Include="..\Header\UI_Frame.h" />
     <ClInclude Include="..\Header\WallCube.h" />
     <ClInclude Include="..\Header\Weapon_UI.h" />
+    <ClInclude Include="..\Header\WrongPicFind.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Imgui\GraphEditor.h" />
     <ClInclude Include="Imgui\imconfig.h" />
@@ -318,6 +329,7 @@
     <ClCompile Include="..\Code\HarpoonGuy.cpp" />
     <ClCompile Include="..\Code\HealthPotion.cpp" />
     <ClCompile Include="..\Code\Helmet.cpp" />
+    <ClCompile Include="..\Code\Helmet2.cpp" />
     <ClCompile Include="..\Code\HitBlood.cpp" />
     <ClCompile Include="..\Code\HitEffect.cpp" />
     <ClCompile Include="..\Code\HpBar.cpp" />
@@ -346,6 +358,8 @@
     <ClCompile Include="..\Code\Obstacle.cpp" />
     <ClCompile Include="..\Code\Player.cpp" />
     <ClCompile Include="..\Code\Player_Dead_UI.cpp" />
+    <ClCompile Include="..\Code\QuestNpc.cpp" />
+    <ClCompile Include="..\Code\QuestTalkingFrame.cpp" />
     <ClCompile Include="..\Code\QuizBox.cpp" />
     <ClCompile Include="..\Code\SettingButton.cpp" />
     <ClCompile Include="..\Code\Setting_BackGround.cpp" />
@@ -366,21 +380,18 @@
     <ClCompile Include="..\Code\SphinxHole.cpp" />
     <ClCompile Include="..\Code\Spider.cpp" />
     <ClCompile Include="..\Code\Stage.cpp" />
-    <ClCompile Include="..\Code\Stage_Pjw.cpp" />
     <ClCompile Include="..\Code\Start_Button.cpp" />
     <ClCompile Include="..\Code\StaticCamera.cpp" />
     <ClCompile Include="..\Code\Status_UI.cpp" />
     <ClCompile Include="..\Code\TapeWorm.cpp" />
     <ClCompile Include="..\Code\TeleCube.cpp" />
     <ClCompile Include="..\Code\Terrain.cpp" />
-    <ClCompile Include="..\Code\TestCube.cpp" />
-    <ClCompile Include="..\Code\TestMonster.cpp" />
-    <ClCompile Include="..\Code\TestPlayer.cpp" />
     <ClCompile Include="..\Code\ToolTest.cpp" />
     <ClCompile Include="..\Code\UI_Effect.cpp" />
     <ClCompile Include="..\Code\UI_Frame.cpp" />
     <ClCompile Include="..\Code\WallCube.cpp" />
     <ClCompile Include="..\Code\Weapon_UI.cpp" />
+    <ClCompile Include="..\Code\WrongPicFind.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="Imgui\GraphEditor.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
@@ -454,6 +465,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Imgui\imgui.ini" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\Bin\ShaderFilesPath\ShaderRect.hlsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

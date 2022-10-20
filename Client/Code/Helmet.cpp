@@ -216,9 +216,8 @@ void CHelmet::Change_Equip()
 	CPlayer* pPlayer = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
 	pPlayer->EquipItem_Add_Stat(0,10);	//체력올림
 
-
-
 }
+
 
 void CHelmet::Set_MouseToInventory()
 {
@@ -384,6 +383,49 @@ _bool CHelmet::EquipIconPicking()
 
 	return false;
 }
+
+void CHelmet::Shop_Goods()
+{
+	CInventory_UI* pInven = static_cast<CInventory_UI*>(Get_GameObject(L"Layer_UI", L"InventoryUI"));
+	pInven->Get_WeaponType()->push_back(this);
+	m_EquipState = EquipState_Slot;
+	m_fX = WINCX * 0.5f;
+	m_fY = WINCY * 0.5f;
+	m_fSizeX = 100.f;
+	m_fSizeY = 100.f;
+
+	_vec3 vScale = { m_fSizeX, m_fSizeY, 1.f };
+	m_pTransCom->Set_Scale(&vScale);
+
+	RECT Rc{};
+	for (int i = 0; i < 4; ++i)
+	{
+		for (int j = 0; j < 9; ++j)
+		{
+			int iIndex = (i * 9) + j;
+			memcpy(&Rc, &pInven->Get_InvenSlot()[iIndex].rcInvenSlot, sizeof(RECT));
+
+			m_fX = (Rc.left + Rc.right) / 2.f;
+			m_fY = (Rc.top + Rc.bottom) / 2.f;
+
+			if (pInven->Get_InvenSlot()[iIndex].bSlotEmpty == false)
+			{
+				m_pTransCom->Set_Pos(m_fX - WINCX * 0.5f,
+					(-m_fY + WINCY * 0.5f), 0.0f);
+
+				pInven->Get_InvenSlot()[iIndex].bSlotEmpty = true;
+				m_pTransCom->Update_Component(1.f);
+				m_bOnce = true;
+				m_bIsWorld = false;
+				m_bIsInventory = true;
+				m_fOriginPosX = m_fX - WINCX * 0.5f;
+				m_fOriginPosY = (-m_fY + WINCY * 0.5f);
+				return;
+			}
+		}
+	}
+}
+
 
 HRESULT CHelmet::Add_Component(void)
 {

@@ -37,6 +37,8 @@ HRESULT CPlayer::Ready_Object(void)
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_pInfoCom->Ready_CharacterInfo(10000, 10, 5.f);
+	m_pInfoCom->Get_InfoRef()._iCoin = 10;
+
 
 	_vec3 vPos = { 20.f, 6.f, 15.f };
 
@@ -268,21 +270,28 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		}
 
 
-/*
-		NULL_CHECK_RETURN(pScene, );
+
+	/*	NULL_CHECK_RETURN(pScene, );
 		CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
 		NULL_CHECK_RETURN(pLayer, );
 		CGameObject *pGameObject = nullptr;
 		_vec3	vPos;
-		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
-		READY_CREATE_EFFECT_VECTOR(pGameObject, CAttackEffect, pLayer, m_pGraphicDev, vPos);
-		static_cast<CAttackEffect*>(pGameObject)->Set_Effect_INFO(OWNER_PALYER, 0, 12, 0.2f);
-*/
+		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);*/
+	
+
 	}
 
 	if (Get_DIKeyState(DIK_SPACE) & 0X80)
-		m_bJump = TRUE;
-	if (::Key_Down(DIK_LSHIFT))
+	{//m_bJump = TRUE;
+
+
+		_vec3	vPos;
+		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+
+		cout << vPos.x << " " << vPos.z << endl;
+
+	}
+		if (::Key_Down(DIK_LSHIFT))
 	{
 		m_bDash = true;
 		

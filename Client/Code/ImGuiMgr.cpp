@@ -6,10 +6,10 @@
 #include "Scene.h"
 #include "Export_Function.h"
 #include "Terrain.h"
-#include "TestCube.h"
+
 #include "Texture.h"
 #include "Anubis.h"
-#include "TestPlayer.h"
+
 
 #include "FileIOMgr.h"
 #include "WallCube.h"
@@ -1175,52 +1175,52 @@ void CImGuiMgr::Player_Tool(LPDIRECT3DDEVICE9 pGraphicDev, CScene * pScene, wstr
 {
 	if (!Show_Player_Window)
 		return;
-
-	ImGui::Begin("Player Setting Manager");
-
-	CTestPlayer* pGameObject = dynamic_cast<CTestPlayer*>(Engine::Get_GameObject(L"TestLayer", L"TestPlayer"));
-
-	if (pGameObject)
-	{
-		if (ImGui::CollapsingHeader("Player Texture", ImGuiTreeNodeFlags_DefaultOpen))
-		{
-			CTexture* pTextureCom = dynamic_cast<CTexture*>(pGameObject->Get_Component(L"Proto_PlayerTexture2", ID_STATIC));
-
-			vector<IDirect3DBaseTexture9*> vecPlayerTexture = pTextureCom->Get_Texture();
-
-			for (_uint i = 0; i < 5; ++i)
-			{
-				if (ImGui::ImageButton((void*)vecPlayerTexture[i], ImVec2(40.f, 40.f)))
-				{
-					pGameObject->Set_DrawTexIndex(i);
-				}
-				if (i == 0 || (i + 1) % 3)
-					ImGui::SameLine();
-			}
-		}
-
-		ImGui::Text("this is Transform_ButtonMenu");
-		if (ImGui::Button("Save"))
-		{
-			CFileIOMgr::GetInstance()->Save_FileData(pScene, pLayerTag, L"../../Data/", L"Player.dat", OBJ_PLAYER);
-
-		}
-		ImGui::SameLine();
-		if (ImGui::Button("Load"))
-		{
-
-			CFileIOMgr::GetInstance()->Load_FileData(pGraphicDev,
-				pScene,
-				const_cast<_tchar*>(pLayerTag),
-				L"../../Data/",
-				L"Player.dat",
-				L"TestPlayer",
-				OBJ_PLAYER);
-
-
-		}
-	}
-	ImGui::End();
+//
+//	ImGui::Begin("Player Setting Manager");
+//
+//	/*CTestPlayer* pGameObject = dynamic_cast<CTestPlayer*>(Engine::Get_GameObject(L"TestLayer", L"TestPlayer"));
+//
+//	if (pGameObject)
+//	{
+//		if (ImGui::CollapsingHeader("Player Texture", ImGuiTreeNodeFlags_DefaultOpen))
+//		{
+//			CTexture* pTextureCom = dynamic_cast<CTexture*>(pGameObject->Get_Component(L"Proto_PlayerTexture2", ID_STATIC));
+//
+//			vector<IDirect3DBaseTexture9*> vecPlayerTexture = pTextureCom->Get_Texture();
+//
+//			for (_uint i = 0; i < 5; ++i)
+//			{
+//				if (ImGui::ImageButton((void*)vecPlayerTexture[i], ImVec2(40.f, 40.f)))
+//				{
+//					pGameObject->Set_DrawTexIndex(i);
+//				}
+//				if (i == 0 || (i + 1) % 3)
+//					ImGui::SameLine();
+//			}
+//		}
+//
+//		ImGui::Text("this is Transform_ButtonMenu");
+//		if (ImGui::Button("Save"))
+//		{
+//			CFileIOMgr::GetInstance()->Save_FileData(pScene, pLayerTag, L"../../Data/", L"Player.dat", OBJ_PLAYER);
+//
+//		}
+//		ImGui::SameLine();
+//		if (ImGui::Button("Load"))
+//		{
+//
+//			CFileIOMgr::GetInstance()->Load_FileData(pGraphicDev,
+//				pScene,
+//				const_cast<_tchar*>(pLayerTag),
+//				L"../../Data/",
+//				L"Player.dat",
+//				L"TestPlayer",
+//				OBJ_PLAYER);
+//*/
+//
+//		
+//	}
+//	ImGui::End();
 
 }
 

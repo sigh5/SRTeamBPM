@@ -2,17 +2,17 @@
 #include "ToolTest.h"
 #include "Export_Function.h"
 
-#include "TestCube.h"
+
 #include "DynamicCamera.h"
 #include "ImGuiMgr.h"
 
 #include "Terrain.h"
 #include "SkyBox.h"
-#include "TestMonster.h"
 
-#include "TestPlayer.h"
 
-//ÁÖ¼®Áö¿ì¼À
+
+
+
 CToolTest::CToolTest(LPDIRECT3DDEVICE9 pGraphicDev) : CScene(pGraphicDev)
 {
 	m_SceneType = SCENE_TOOLTEST;
@@ -20,7 +20,7 @@ CToolTest::CToolTest(LPDIRECT3DDEVICE9 pGraphicDev) : CScene(pGraphicDev)
 
 CToolTest::~CToolTest()
 {
-	//Áö¿ì¼À
+
 }
 
 HRESULT CToolTest::Ready_Scene()

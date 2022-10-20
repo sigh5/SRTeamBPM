@@ -21,7 +21,6 @@ public:
 	virtual void LateUpdate_Scene(void) override;
 	virtual void Render_Scene(void) override;
 
-
 private:
 	HRESULT			Ready_Layer_Environment(const _tchar* pLayerTag);
 
