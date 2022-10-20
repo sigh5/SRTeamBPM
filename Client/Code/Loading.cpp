@@ -237,6 +237,9 @@ _uint CLoading::Loading_ForStage(void)
 
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_KeyTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Item/Key.png", TEX_NORMAL)), E_FAIL);
 	
+	// CoinSlot																						// \Bin\Resource\Texture\CoinSlot
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_CoinSlotTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/CoinSlot/CoinSlot%d.png", TEX_NORMAL, 2)), E_FAIL);
+
 	m_bFinish = true;
 
 	lstrcpy(m_szLoading, L"Press Start Button");

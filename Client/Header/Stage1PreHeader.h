@@ -48,3 +48,10 @@
 #include "QuestTalkingFrame.h"
 #include "Helmet2.h"
 #include "QuestProcessing_UI.h"
+
+#include "SkillParticle.h"
+#include "FireWorks.h"
+#include "PetYeti.h"
+#include "EquipYeti.h"
+
+#include "Gacha_Machine.h"
