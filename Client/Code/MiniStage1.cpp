@@ -10,6 +10,7 @@
 #include "Change_Stage.h"
 #include "Setting_Stage.h"
 #include "ShopUI.h"
+#include "WrongPicFind.h"
 
 
 
@@ -31,6 +32,9 @@ HRESULT CMiniStage1::Ready_Scene(void)
 
 	FAILED_CHECK_RETURN(Ready_Proto(), E_FAIL);
 
+	FAILED_CHECK_RETURN(Ready_Layer_Environment(L"Ready_Layer_Environment"), E_FAIL);
+
+	Engine::PlaySoundW(L"Wrong_Image_Find_Game.mp3", SOUND_BGM, g_fSound);
 
 	return S_OK;
 
@@ -38,18 +42,24 @@ HRESULT CMiniStage1::Ready_Scene(void)
 
 _int CMiniStage1::Update_Scene(const _float & fTimeDelta)
 {
-	if (Key_Down(DIK_Q))
+	CWrongPicFind*	pWrongPicFind = static_cast<CWrongPicFind*>(Engine::Get_GameObject(L"Ready_Layer_Environment", L"WrongPicFind"));
+	
+	if (pWrongPicFind->Get_Success()) //(Key_Down(DIK_Q))
 	{
-		CScene* pStage1 = ::Get_SaveScene();
-		CLayer* pLayer = pStage1->GetLayer(L"Layer_GameLogic");
-		CShopUI* pShopUI = dynamic_cast<CShopUI*>(pLayer->Get_GameObject(L"ShopUI"));
-		pShopUI->Set_ForceScene(0);
-		pStage1->Set_SceneChane(false);
+		++m_iCount;
 
-		Load_SaveScene(this);
-		return -1;
+		if (m_iCount > 30)
+		{
+			CScene* pStage1 = ::Get_SaveScene();
+			CLayer* pLayer = pStage1->GetLayer(L"Layer_GameLogic");
+			CShopUI* pShopUI = dynamic_cast<CShopUI*>(pLayer->Get_GameObject(L"ShopUI"));
+			pShopUI->Set_ForceScene(0);
+			pStage1->Set_SceneChane(false);
+
+			Load_SaveScene(this);
+			return -1;
+		}		
 	}
-	Engine::PlaySoundW(L"Paradox.mp3", SOUND_BGM, 0.1f);
 
 	_int iResult = Engine::CScene::Update_Scene(fTimeDelta);
 
@@ -67,11 +77,24 @@ void CMiniStage1::Render_Scene(void)
 
 HRESULT CMiniStage1::Ready_Layer_Environment(const _tchar * pLayerTag)
 {
+	Engine::CLayer*		pMyLayer = Engine::CLayer::Create();
+	NULL_CHECK_RETURN(pMyLayer, E_FAIL);
+
+	CGameObject*		pGameObject = nullptr;
+
+	pGameObject = CWrongPicFind::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(L"WrongPicFind", pGameObject), E_FAIL);
+
+	m_mapLayer.insert({ pLayerTag, pMyLayer });
+
 	return S_OK;
 }
 
 HRESULT CMiniStage1::Ready_Proto(void)
 {
+	// FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Chim_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Chim_Binpole.png", TEX_NORMAL)), E_FAIL);
+
 	return S_OK;
 }
 

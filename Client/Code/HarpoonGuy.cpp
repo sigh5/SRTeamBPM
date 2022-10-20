@@ -10,7 +10,7 @@
 #include "Coin.h"
 #include "Key.h"
 #include "Special_Effect.h"
-#include "SoldierBullet.h"
+#include "HarpoonBullet.h"
 
 CHarpoonGuy::CHarpoonGuy(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -351,7 +351,7 @@ void CHarpoonGuy::Attack(const _float & fTimeDelta)
 	{
 		//ÃÑ¾Ë ¸¸µé±â
 		CGameObject* pBullet;
-		pBullet = CSoldierBullet::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS]);
+		pBullet = CHarpoonBullet::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS]);
 		pMyLayer->Add_EffectList(pBullet);
 		m_bShotBullet = true;
 

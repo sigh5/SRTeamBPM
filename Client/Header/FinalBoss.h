@@ -54,6 +54,7 @@ private:
 
 	int				m_iAttackPattern = 0;
 	FinalBossState  m_bState = Camouflage_Walk;
+	bool			m_bShotBullet = false;
 
 	//AttackPettern2
 	bool			m_bCreatedTapeWorm = false;

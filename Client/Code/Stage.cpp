@@ -4,7 +4,8 @@
 #include "Export_Function.h"
 
 #include "Stage1PreHeader.h"
-
+#include "SkillParticle.h"
+#include "FireWorks.h"
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
 {
@@ -226,7 +227,11 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	pGameObject = CHelmet2::Create(m_pGraphicDev, 310, 340);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Helmet2", pGameObject), E_FAIL);
-	
+	pGameObject = CSkillParticle::Create(m_pGraphicDev, _vec3(330.f, 2.f, 330.f));
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"testparticle1", pGameObject), E_FAIL);
+
+
 
 	CFileIOMgr::GetInstance()->Load_FileData(m_pGraphicDev,
 		this,

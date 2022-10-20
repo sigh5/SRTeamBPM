@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "Gun_Screen.h"
 #include "TapeWorm.h"
+#include "HarpoonBullet.h"
 
 
 CFinalBoss::CFinalBoss(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -322,16 +323,29 @@ bool CFinalBoss::Dead_Judge(const _float & fTimeDelta)
 
 void CFinalBoss::Camouflage_Attack(const _float & fTimeDelta)
 {
+
+	m_pCamouAttackAnimationCom->Move_Animation(fTimeDelta);
+	CScene* pScene = ::Get_Scene();
+	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
 	m_bState = Camouflage_Shoot;
 	m_pCamouAttackAnimationCom->Move_Animation(fTimeDelta);
+
 	if (5 == m_pCamouAttackAnimationCom->m_iMotion)
 	{
-		//ÃÑ¾Ë »ý¼º
+		CGameObject* pBullet;
+		pBullet = CHarpoonBullet::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS]);
+		pMyLayer->Add_EffectList(pBullet);
+		m_bShotBullet = true;
+
+		::StopSound(SOUND_EFFECT2);
+		::PlaySoundW(L"LaserGun.wav", SOUND_EFFECT2, 0.4f);
 	}
 	if (m_pCamouAttackAnimationCom->m_iMaxMotion == m_pCamouAttackAnimationCom->m_iMotion)
 	{
 		m_bAttack = false;
 		m_bState = Camouflage_Walk;
+
+		m_bShotBullet = false;
 	}
 }
 

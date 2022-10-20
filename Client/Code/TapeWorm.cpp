@@ -284,7 +284,7 @@ void CTapeWorm::Attack(const _float & fTimeDelta)
 	m_pAnimationCom->Move_Animation(fTimeDelta);
 	if (2 < m_pAnimationCom->m_iMotion && 14 > m_pAnimationCom->m_iMotion)
 	{
-		if (fMtoPDistance < 1.5f && false == m_bHitPlayer)
+		if (fMtoPDistance < 2.f && false == m_bHitPlayer)
 		{
 			pPlayerInfo->Receive_Damage(10);
 			m_bHitPlayer = true;
