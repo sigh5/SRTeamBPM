@@ -130,6 +130,7 @@ namespace Engine
 #define		ID_SHOT_GUN		1
 #define		ID_MAGNUM		2
 #define		ID_HELMET1		3
+#define		ID_HELMET2		4
 // ........ 
 
 

@@ -32,7 +32,6 @@ HRESULT CLoading::Ready_Loading(LOADINGID eID)
 _uint CLoading::Loading_ForStage(void)
 {
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_HpPotionTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Item/HpPotion/HpPotion_%d.png", TEX_NORMAL, 4)), E_FAIL);
-
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_TerrainTexCom", CTerrainTex::Create(m_pGraphicDev, VTXCNTX, VTXCNTZ, VTXITV)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_TerrainTexture2", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Terrain/Tile/textures_%d.png", TEX_NORMAL, 54)), E_FAIL);
 
@@ -108,12 +107,14 @@ _uint CLoading::Loading_ForStage(void)
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Soldier_Bullet_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Soldier/Soldierbullet%d.png", TEX_NORMAL, 4)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Harpoonguy_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Harpoonguy/harpoonguy%d.png", TEX_NORMAL, 8)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Harpoonguy_Attack_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Harpoonguy/harpoonguy_attack%d.png", TEX_NORMAL, 13)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Harpoonguy_Death_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Harpoonguy/harpoonguy_death%d.png", TEX_NORMAL, 9)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Thingy_AttackA_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Thingy/thingyattackA%d.png", TEX_NORMAL, 18)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Thingy_AttackB_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Thingy/thingyattackB%d.png", TEX_NORMAL, 28)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Thingy_AttackC_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Thingy/thingyattackC%d.png", TEX_NORMAL, 14)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Thingy_Morph_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Thingy/thingy_morph%d.png", TEX_NORMAL, 18)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Thingy_Walk_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Thingy/thingywalk%d.png", TEX_NORMAL, 6)), E_FAIL);
-
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Thingy_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Thingy/thingy%d.png", TEX_NORMAL, 7)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_TapeWorm_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/TapeWorm/tapeworm%d.png", TEX_NORMAL, 28)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_TapeWorm_death_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/TapeWorm/tapeworm_death%d.png", TEX_NORMAL, 6)), E_FAIL);
 	// ~Monster
 
 	// _UI
@@ -137,10 +138,8 @@ _uint CLoading::Loading_ForStage(void)
 	// \Bin\Resource\Texture\UI
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_LoadingFontBackGround_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/LoadingFont_Background.png", TEX_NORMAL)), E_FAIL);
 
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ShotGun_ScreenTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Gun_Output/Shotgun/Shotgun%d.png", TEX_NORMAL, 16)), E_FAIL);
-																											// \Bin\Resource\Texture
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_FadeOut_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Fade_Out.png", TEX_NORMAL)), E_FAIL);
-																												// \Bin\Resource\Texture\Logo
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ShotGun_ScreenTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Gun_Output/Shotgun/Shotgun%d.png", TEX_NORMAL, 16)), E_FAIL);																									// \Bin\Resource\Texture
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_FadeOut_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Fade_Out.png", TEX_NORMAL)), E_FAIL);																										// \Bin\Resource\Texture\Logo
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_SettingsScene_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Logo/SettingsScene.png", TEX_NORMAL)), E_FAIL);
 																											//\Bin\Resource\Texture\UI	
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_SoundBox_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/SoundBox.png", TEX_NORMAL)), E_FAIL);
@@ -177,6 +176,7 @@ _uint CLoading::Loading_ForStage(void)
 
 	// Helmet1
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Helmet1Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Equipment/Equip_HelMet/Helmet1.png", TEX_NORMAL, 1)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Helmet2Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Equipment/Equip_HelMet/Helmet2.png", TEX_NORMAL, 1)), E_FAIL);
 
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ThunderTexCom", CThunderTex::Create(m_pGraphicDev)), E_FAIL);
 	//작업할때 create clone 추가할것
@@ -211,6 +211,10 @@ _uint CLoading::Loading_ForStage(void)
 
 	// NPC
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_NPCTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/NPC/ShopNPC/NPC_%d.png", TEX_NORMAL, 17)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_QuestNPCTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/NPC/QuestNPC/QuestNpc_%d.png", TEX_NORMAL,8)), E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_QuestTalking_Frame_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/NPC/QuestNPC/QuestDialog.png", TEX_NORMAL)), E_FAIL);
+
 
 	// ~ NPC
 
@@ -326,7 +330,7 @@ _uint CLoading::Loading_For_ToolScene()
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_HpPotionTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Item/HpPotion/HpPotion_%d.png", TEX_NORMAL, 4)), E_FAIL);
 
 	//monstertool
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Monster_Example_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Example/Example_%d.png", TEX_NORMAL, 10)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Monster_Example_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Example/Example_%d.png", TEX_NORMAL, 12)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MonsterTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Anubis/anubis%d.png", TEX_NORMAL, 8)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MonsterTexture2", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Fatbat/fatbat_fly%d.png", TEX_NORMAL, 7)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MonsterTexture3", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Spider/Spider%d.png", TEX_NORMAL, 5)), E_FAIL);

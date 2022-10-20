@@ -52,10 +52,15 @@ private:
 	_bool				m_bShopUISwitch = false;
 	_vec3				m_vecScale;
 	RECT				m_rcShopSlot[6];
-
+	   wstring			pString = L"";
 	_int				m_iRectIndex = 0;
 
 	_int				m_iForceSceneReturn = 0;
+
+	_int				m_iEquipIndex = 0;
+	_int				m_bSelect[6] = { false, };
+	_int				m_bShopingEnd[6] = { false, };
+
 public:
 	static CShopUI*			Create(LPDIRECT3DDEVICE9 pGraphicDev);
 	virtual void			Free();

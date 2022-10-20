@@ -206,6 +206,9 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"NPC", pGameObject), E_FAIL);
 	
+	READY_LAYER(pGameObject, CQuestNpc, pLayer, m_pGraphicDev, L"QuestNPC");
+
+
 	pGameObject = CFireTrap::Create(m_pGraphicDev, 320, 320);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Trap1", pGameObject), E_FAIL);
@@ -216,11 +219,14 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Magnum", pGameObject), E_FAIL);
 
-	pGameObject = CHelmet::Create(m_pGraphicDev, 310.f, 325.f);
+	pGameObject = CHelmet::Create(m_pGraphicDev, 310, 325);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Helmet1", pGameObject), E_FAIL);
 
-
+	pGameObject = CHelmet2::Create(m_pGraphicDev, 310, 340);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Helmet2", pGameObject), E_FAIL);
+	
 
 	CFileIOMgr::GetInstance()->Load_FileData(m_pGraphicDev,
 		this,
@@ -253,6 +259,9 @@ HRESULT CStage::Ready_Layer_UI(const _tchar * pLayerTag)
 	READY_LAYER(pGameObject, CAx, pLayer, m_pGraphicDev, L"AX");
 	READY_LAYER(pGameObject, CUI_Effect, pLayer, m_pGraphicDev, L"Dash_Effect");
 	READY_LAYER(pGameObject, CUI_Frame, pLayer, m_pGraphicDev, L"Frame");
+
+	READY_LAYER(pGameObject, CQuestTalkingFrame, pLayer, m_pGraphicDev, L"QuestUIFrame");
+
 
 	pGameObject = CPlayer_Dead_UI::Create(m_pGraphicDev, 255);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);

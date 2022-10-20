@@ -3,7 +3,7 @@
 #include "Export_Function.h"
 
 #include "AbstractFactory.h"
-#include "TestPlayer.h"
+
 #include "MyCamera.h"
 #include "Inventory_UI.h"
 #include "Status_UI.h"

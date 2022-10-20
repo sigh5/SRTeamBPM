@@ -2,15 +2,13 @@
 #include "..\Header\Logo.h"
 
 #include "Export_Function.h"
-#include "TestPlayer.h"
-#include "TestMonster.h"
+
 #include "Stage.h"
 #include "ToolTest.h"
-#include "Stage_Pjw.h"
+
 #include "Change_Stage.h"
 #include "Setting_Stage.h"
 
-#include "STAGE_BIH.h"
 
 
 
@@ -203,6 +201,10 @@ HRESULT CLogo::Ready_Proto(void)
 		FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"Ghanachocolate", L"SoundSettings_Font", 15, 20, FW_HEAVY), E_FAIL);
 		// BMJUA_ttf
 		FAILED_CHECK_RETURN(Engine::Ready_Font(m_pGraphicDev, L"BMJUA_ttf", L"PlayerDead_Font", 29, 30, FW_HEAVY), E_FAIL);
+
+
+		FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ShaderRectCom", CShader::Create(m_pGraphicDev, TEXT("../Bin/ShaderFilesPath/ShaderRect.hlsl"))), E_FAIL);
+
 
 		return S_OK;
 }

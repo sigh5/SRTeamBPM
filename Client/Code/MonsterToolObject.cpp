@@ -37,7 +37,7 @@ HRESULT CMonsterToolObject::Ready_Object(int Posx, int Posy)
 
 	m_pAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_STATIC);
 
-	m_pAnimationCom->Ready_Animation(9, 0, 50000.f);
+	m_pAnimationCom->Ready_Animation(11, 0, 50000.f);
 
 	m_iMonsterIndex = 0;
 	m_iPreIndex = 0;

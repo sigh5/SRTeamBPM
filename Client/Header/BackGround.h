@@ -8,7 +8,7 @@ BEGIN(Engine)
 class CRcTex;
 class CTexture;
 class CTransform;
-
+class CShader;
 
 END
 
@@ -32,6 +32,16 @@ private:
 	CRcTex*				m_pBufferCom = nullptr;
 	CTexture*			m_pTextureCom = nullptr;
 	CTransform*			m_pTransCom = nullptr;
+	CShader*			m_pShaderCom = nullptr;
+
+private:
+	_float				m_fFrame = 0.f;
+	_vec3				m_vOriginScale;
+
+
+	_int				m_iTempNum = 0;
+	
+
 
 public:
 	static CBackGround*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

@@ -7,7 +7,7 @@
 #include "Anubis.h"
 #include "FatBat.h"
 #include "Spider.h"
-#include "TestPlayer.h"
+
 #include "WallCube.h"
 #include "MonsterToolObject.h"
 #include "Terrain.h"
@@ -21,6 +21,8 @@
 #include "EarthShaker.h"
 #include "Soldier.h"
 #include "FireTrap.h"
+#include "FinalBoss.h"
+#include "HarpoonGuy.h"
 
 IMPLEMENT_SINGLETON(CFileIOMgr)
 
@@ -371,6 +373,12 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 					pGameObject = CSoldier::Create(pGrahicDev);
 					break;
 
+				case MONSTER_HARPOONGUY:
+					pGameObject = CHarpoonGuy::Create(pGrahicDev);
+					break;
+				case MONSTER_FINALBOSS:
+					pGameObject = CFinalBoss::Create(pGrahicDev);
+					break;
 				default:
 					pGameObject = CAnubis::Create(pGrahicDev);
 					break;
@@ -414,7 +422,7 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 	//ÁÖ¼®Áö¿ì¼À
 	else if (eObjType == OBJ_PLAYER)
 	{
-		ReadFile(hFile, &vRight, sizeof(_vec3), &dwByte, nullptr);
+		/*ReadFile(hFile, &vRight, sizeof(_vec3), &dwByte, nullptr);
 		ReadFile(hFile, &vUp, sizeof(_vec3), &dwByte, nullptr);
 		ReadFile(hFile, &vLook, sizeof(_vec3), &dwByte, nullptr);
 		ReadFile(hFile, &vPos, sizeof(_vec3), &dwByte, nullptr);
@@ -443,7 +451,7 @@ void CFileIOMgr::Load_FileData(LPDIRECT3DDEVICE9 pGrahicDev,
 		Transcom->Set_Angle(&vAngle);
 		Transcom->Set_Scale(&vScale);
 
-		Transcom->Update_Component(0.01f);
+		Transcom->Update_Component(0.01f);*/
 	}
 
 	else if (eObjType == OBJ_ROOM)

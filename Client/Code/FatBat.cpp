@@ -294,6 +294,8 @@ void CFatBat::Collision_Event()
 		static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"))->Set_ComboCount(1);
 		m_pInfoCom->Receive_Damage(1);
 		cout << "FatBat" << m_pInfoCom->Get_InfoRef()._iHp << endl;
+		static_cast<CGun_Screen*>(pGameObject)->Set_Shoot(false);
+
 		READY_CREATE_EFFECT_VECTOR(pGameObject, CHitEffect, pLayer, m_pGraphicDev, vPos);
 		static_cast<CHitEffect*>(pGameObject)->Set_Effect_INFO(OWNER_FATBAT, 0, 7, 0.2f);
 	
@@ -496,7 +498,7 @@ void		CFatBat::Dead_Action(const _float& fTimeDelta)
 		if (false == m_bArrFalldown[3])
 		{
 			//m_pDynamicTransCom->Add_Y(-m_fDeadY * 0.2f);
-			m_pDynamicTransCom->Set_Y(1);
+			m_pDynamicTransCom->Set_Y(m_pDynamicTransCom->m_vScale.y * 0.5f);
 			m_bArrFalldown[3] = true;
 		}
 	}

@@ -28,6 +28,11 @@ public:
 	virtual void		Collision_Event()override;
 	virtual void		Change_Equip()override;
 
+
+
+public:
+	void	Shop_Goods();
+
 public:
 	virtual void		Set_MouseToInventory();
 

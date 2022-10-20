@@ -136,6 +136,7 @@ HRESULT CMainApp::SetUp_DefaultSetting(LPDIRECT3DDEVICE9 * ppGraphicDev)
 	m_pGraphicDev->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
 	m_pGraphicDev->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 
+
 	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, TRUE);
 
 #ifdef _DEBUG  // 디버그 모드일때만
