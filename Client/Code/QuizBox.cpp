@@ -47,6 +47,11 @@ _int CQuizBox::Update_Object(const _float & fTimeDelta)
 		m_bRandom = true;
 	}	
 
+
+	if (m_bDead)
+		return OBJ_DEAD;
+
+
 	Add_RenderGroup(RENDER_UI, this);
 
 	return 0;
@@ -170,6 +175,8 @@ void CQuizBox::Quiz_Answer(void)
 		pPlayerDead->Set_Render(false);
 		pPlayerDead->Set_RenderIn(true);
 		pPlayerDead->Set_BGM(false);
+		pPlayerDead->Set_Quiz(false);
+		m_bDead = true;
 	}		
 	Engine::Key_InputReset();
 		

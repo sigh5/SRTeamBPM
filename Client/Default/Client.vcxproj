@@ -186,6 +186,7 @@
     <ClInclude Include="..\Header\BulletShell.h" />
     <ClInclude Include="..\Header\Bullet_UI.h" />
     <ClInclude Include="..\Header\Change_Stage.h" />
+    <ClInclude Include="..\Header\Click_Particle.h" />
     <ClInclude Include="..\Header\Coin.h" />
     <ClInclude Include="..\Header\CoinKeyUI.h" />
     <ClInclude Include="..\Header\ControlRoom.h" />
@@ -203,6 +204,7 @@
     <ClInclude Include="..\Header\FirePillar.h" />
     <ClInclude Include="..\Header\FireTrap.h" />
     <ClInclude Include="..\Header\FireWorks.h" />
+    <ClInclude Include="..\Header\Gacha_Machine.h" />
     <ClInclude Include="..\Header\Ghul.h" />
     <ClInclude Include="..\Header\Gun_Screen.h" />
     <ClInclude Include="..\Header\HarpoonBullet.h" />
@@ -312,6 +314,7 @@
     <ClCompile Include="..\Code\BulletShell.cpp" />
     <ClCompile Include="..\Code\Bullet_UI.cpp" />
     <ClCompile Include="..\Code\Change_Stage.cpp" />
+    <ClCompile Include="..\Code\Click_Particle.cpp" />
     <ClCompile Include="..\Code\Coin.cpp" />
     <ClCompile Include="..\Code\CoinKeyUI.cpp" />
     <ClCompile Include="..\Code\ControlRoom.cpp" />
@@ -329,6 +332,7 @@
     <ClCompile Include="..\Code\FirePillar.cpp" />
     <ClCompile Include="..\Code\FireTrap.cpp" />
     <ClCompile Include="..\Code\FireWorks.cpp" />
+    <ClCompile Include="..\Code\Gacha_Machine.cpp" />
     <ClCompile Include="..\Code\Ghul.cpp" />
     <ClCompile Include="..\Code\Gun_Screen.cpp" />
     <ClCompile Include="..\Code\HarpoonBullet.cpp" />

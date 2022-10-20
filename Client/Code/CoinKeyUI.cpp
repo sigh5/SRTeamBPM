@@ -7,6 +7,7 @@
 #include "Player_Dead_UI.h"
 
 #include "Coin.h" 
+#include "ShopUI.h"
 
 USING(Engine)
 
@@ -62,6 +63,8 @@ void CCoinKeyUI::LateUpdate_Object(void)
 void CCoinKeyUI::Render_Obejct(void)
 {
 	CPlayer_Dead_UI* pDead_UI = static_cast<CPlayer_Dead_UI*>(Engine::Get_GameObject(L"Layer_UI", L"Dead_UI"));
+	CShopUI* pShopUI = static_cast<CShopUI*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShopUI"));
+
 
 	if (pDead_UI->Get_Render() == false)
 	{
@@ -91,6 +94,7 @@ void CCoinKeyUI::Render_Obejct(void)
 		m_szCoin = L"";
 		m_szCoin += tBCoin;
 
+		if (pShopUI->Get_Active() == false)
 		Render_Font(L"HoengseongHanu", m_szCoin.c_str(), &_vec2(133.f, 680.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 		// ~Coin
 
@@ -100,6 +104,7 @@ void CCoinKeyUI::Render_Obejct(void)
 		m_szKey = L"";
 		m_szKey += tBKey;
 
+		if (pShopUI->Get_Active() == false)
 		Render_Font(L"HoengseongHanu", m_szKey.c_str(), &_vec2(203.f, 680.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 		// ~Key
 

@@ -372,8 +372,10 @@
     <ClCompile Include="..\Code\Helmet2.cpp">
       <Filter>02. GameObject\01. For_Stage\14. Equipment\01. Helmet\Helmet2</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Currect_Answer.cpp">
-      <Filter>02. GameObject\01. For_Stage\10. UI\15. WrongPicFind\00. Currect_Answer</Filter>
+    <ClCompile Include="..\Code\Currect_Answer.cpp" />
+    <ClCompile Include="..\Code\Click_Particle.cpp" />
+    <ClCompile Include="..\Code\Gacha_Machine.cpp">
+      <Filter>02. GameObject\01. For_Stage\50. Gacha_Machine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -764,8 +766,10 @@
     <ClInclude Include="..\Header\PetYeti.h" />
     <ClInclude Include="..\Header\YetiTalk.h" />
     <ClInclude Include="..\Header\EquipYeti.h" />
-    <ClInclude Include="..\Header\Currect_Answer.h">
-      <Filter>02. GameObject\01. For_Stage\10. UI\15. WrongPicFind\00. Currect_Answer</Filter>
+    <ClInclude Include="..\Header\Currect_Answer.h" />
+    <ClInclude Include="..\Header\Click_Particle.h" />
+    <ClInclude Include="..\Header\Gacha_Machine.h">
+      <Filter>02. GameObject\01. For_Stage\50. Gacha_Machine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1104,8 +1108,11 @@
     <Filter Include="02. GameObject\01. For_Stage\14. Equipment\02. Pet">
       <UniqueIdentifier>{ce2111e0-7f46-414f-9ae3-1fb08de0345f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. For_Stage\10. UI\15. WrongPicFind\00. Currect_Answer">
-      <UniqueIdentifier>{d27f8438-8bb5-499b-9dbc-a8de80377c4f}</UniqueIdentifier>
+    <Filter Include="02. GameObject\01. For_Stage\09. Particle\50. Click_Particle">
+      <UniqueIdentifier>{6b07cd91-aa99-4cc1-8ced-58e54cb13b9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\50. Gacha_Machine">
+      <UniqueIdentifier>{3d53369c-c1e8-4acc-af1e-65c83ff5ba99}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

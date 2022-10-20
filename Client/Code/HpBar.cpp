@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "Player_Dead_UI.h"
 #include "CharacterInfo.h"
+#include "ShopUI.h"
 
 USING(Engine)
 
@@ -82,6 +83,8 @@ void CHpBar::LateUpdate_Object(void)
 void CHpBar::Render_Obejct(void)
 {
 	CPlayer_Dead_UI* pDead_UI = static_cast<CPlayer_Dead_UI*>(Engine::Get_GameObject(L"Layer_UI", L"Dead_UI"));
+	CShopUI* pShopUI = static_cast<CShopUI*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShopUI"));
+
 
 	if (pDead_UI->Get_Render() == false)
 	{
@@ -118,7 +121,8 @@ void CHpBar::Render_Obejct(void)
 		m_szPlayerHp = L"";
 		m_szPlayerHp += tPlayerHp;
 
-		Render_Font(L"HoengseongHanu", m_szPlayerHp.c_str(), &_vec2(255.f, 960.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+		if (pShopUI->Get_Active() == false)
+		Render_Font(L"DalseoHealingBold", m_szPlayerHp.c_str(), &_vec2(190.f, 940.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 		
 		m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);
 
