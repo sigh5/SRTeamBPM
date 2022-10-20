@@ -8,6 +8,7 @@ class CCubeTex;
 class CTransform;
 class CCalculator;
 class CCollider;
+class CCubeNormalTex;
 END
 //주석지우셈
 class CWallCube : public CGameObject
@@ -25,26 +26,27 @@ public:
 public:
 	void				init_For_Collistion_vector();
 
-public:// For Tool
+public: 
+	// For Tool
 	void				MousePostoScreen(); // 현재 마우스 더블클릭한 위치로 큐브를 만들어주는 함수
 	_bool				Set_SelectGizmo();
 	void				Set_WireFrame(_bool bWireFrame) { m_bWireFrame = bWireFrame; }
-	void				Set_Layer_Map_Name(const wstring& LayerName, wstring* RoomName)
-	{m_LayerName = LayerName;
-	m_RoomName = *RoomName;	}
+	void				Set_Layer_Map_Name(const wstring& LayerName, wstring* RoomName) {m_LayerName = LayerName; m_RoomName = *RoomName;	}
 	const _int&			Get_Option() { return m_iOption; }
 	void				Set_Option(CUBE_TYPE eType) { m_iOption = (_int)eType; }
 	// ~For Tool
 private:
 	HRESULT				Add_Component(void);
+	HRESULT				SetUp_Material(void);
 
 public:
-	CCubeTex*			m_pBufferCom = nullptr;
+	//CCubeTex*			m_pBufferCom = nullptr;
+	CCubeNormalTex*		m_pBufferCom = nullptr;
 	CTransform*			m_pTransCom = nullptr;
 	CTexture*			m_pTextureCom = nullptr;
 	CCalculator*		m_pCalculatorCom = nullptr;
 	CCollider*			m_pColliderCom = nullptr;
-
+	//
 private:
 	_bool				m_bIsOnterrrain = false;
 	_int				m_iOption = 0;					// 0: Wall 1: Obstacle 2: TeleportStart 3: TelePortEnd

@@ -26,7 +26,10 @@ public:
 	
 	void DigOut(const _float& fTimeDelta);
 
-	
+
+	HRESULT				SetUp_Material(void);
+	void				Set_Light_Obj();
+
 
 public:
 	static CGhul*		Create(LPDIRECT3DDEVICE9 pGraphicDev, float Posx = 0, float Posy = 0);

@@ -39,10 +39,13 @@ public:
 	void				Set_Layer_Map_Name(const wstring& LayerName, wstring* RoomName){m_LayerName = LayerName; m_RoomName = *RoomName;	}
 
 	void				Set_TextureCom();
-
+	void				Set_Light_Obj();
 public:
 	const _int&			Get_Option() { return m_iOption; }
 	void				Set_Option(_int iType) { m_iOption = iType; }
+
+
+	HRESULT				SetUp_Material();
 
 
 private:

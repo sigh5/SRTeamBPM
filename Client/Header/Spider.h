@@ -31,6 +31,10 @@ private:
 	void			Drop_Item(int ItemType);
 	//~
 
+public:
+	HRESULT				SetUp_Material(void);
+	void				Set_Light_Obj();
+
 	//»ý¼º ¼Ò¸ê
 public:
 	static CSpider*		Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx = 0, int Posy = 0);

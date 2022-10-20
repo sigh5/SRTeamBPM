@@ -825,7 +825,7 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 		{
 
 			CLayer* MyLayer = pScene->GetLayer(L"MapCubeLayer");
-			(m_pWallCube) = dynamic_cast<CWallCube*>(SelectObject<CWallCube>(MyLayer, &m_CurrentObjectName));
+			(m_pWallCube) = dynamic_cast<CWallCube*>(SelectObject<CWallCube>(MyLayer, &m_CurrentObjectName,pCam));
 
 			
 
@@ -835,7 +835,7 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 		{
 			CLayer* MyLayer = pScene->GetLayer(L"MapCubeLayer");
 			CGameObject * pMultiPleObject = nullptr;
-			pMultiPleObject = (SelectObject<CWallCube>(MyLayer, &m_CurrentObjectName));
+			pMultiPleObject = (SelectObject<CWallCube>(MyLayer, &m_CurrentObjectName,pCam));
 			m_SelecteObjectlist.push_back({ m_CurrentObjectName, pMultiPleObject });
 			m_bMultiple_Select = true;
 		}
@@ -904,6 +904,11 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 
 		MultipleTransformEdit(pCam, m_SelecteObjectlist, Show_Cube_Tool);
 
+
+		if ((Get_DIKeyState(DIK_Z) & 0x80))
+		{
+			m_fMinDistance = 999999.f;
+		}
 	}
 	else
 	{
@@ -975,7 +980,7 @@ void CImGuiMgr::TerrainTool(LPDIRECT3DDEVICE9 pGrahicDev, CCamera* pCam, CScene*
 	if (ImGui::IsMouseClicked(1))
 	{
 		CLayer* pLayer = pScene->GetLayer(L"TerrainLayer");
-		CGameObject* temp = SelectObject<CTerrain>(pLayer, &m_CurrentTerrainObjectName);
+		CGameObject* temp = SelectObject<CTerrain>(pLayer, &m_CurrentTerrainObjectName,pCam);
 	}
 
 	CTerrain *pTerrain = dynamic_cast<CTerrain*>(m_pSelectedObject);
@@ -1283,7 +1288,7 @@ void CImGuiMgr::Object_Tool(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCame
 	if (ImGui::IsMouseClicked(0))
 	{
 		CLayer* pLayer = pScene->GetLayer(L"ObjectLayer");
-		CGameObject* temp = SelectObject<CObstacle>(pLayer, &m_CurrentObstaclName);
+		CGameObject* temp = SelectObject<CObstacle>(pLayer, &m_CurrentObstaclName,pCam);
 	}
 
 	CObstacle *pTerrain = dynamic_cast<CObstacle*>(m_pSelectedObject);

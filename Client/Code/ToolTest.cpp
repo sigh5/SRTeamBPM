@@ -23,6 +23,23 @@ CToolTest::~CToolTest()
 
 }
 
+HRESULT CToolTest::Ready_Light(void)
+{
+	D3DLIGHT9		tLightInfo;
+	ZeroMemory(&tLightInfo, sizeof(D3DLIGHT9));
+
+	tLightInfo.Type = D3DLIGHT_DIRECTIONAL;
+	tLightInfo.Diffuse = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	tLightInfo.Specular = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	tLightInfo.Ambient = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	tLightInfo.Direction = _vec3(0.f, -1.f, 1.f);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &tLightInfo, 0), E_FAIL);
+
+	return S_OK;
+}
+
+
 HRESULT CToolTest::Ready_Scene()
 {
 	m_SceneType = SCENE_TOOLTEST;
@@ -32,6 +49,8 @@ HRESULT CToolTest::Ready_Scene()
 	CImGuiMgr::GetInstance()->Ready_PlayerTool(m_pGraphicDev, this);
 	CImGuiMgr::GetInstance()->Ready_ObjectTool(m_pGraphicDev, this);
 
+
+	FAILED_CHECK_RETURN(Ready_Light(), E_FAIL);
 
 	Engine::CLayer*		pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);

@@ -160,7 +160,7 @@ HRESULT CBox::Open_Event(CGameObject * pGameObject)
 		
 		// 박스가 돈 힐포션 무기 
 		// 몬스터 열쇠 , 코인 
-	/*	if (rand() % 3 == 0)
+		if (rand() % 3 == 0)
 		{
 			pGameObj = READY_LAYER_POS(pGameObj, CHealthPotion, pMyLayer, m_pGraphicDev, ItemName, (_uint)vPos.x+3, (_uint)vPos.z);
 		}
@@ -175,15 +175,15 @@ HRESULT CBox::Open_Event(CGameObject * pGameObject)
 			// 종욱이형 머지하면 하면됌
 			pGameObj = READY_LAYER_POS(pGameObj, CShotGun, pMyLayer, m_pGraphicDev, L"ShotGun", (_uint)vPos.x+3, (_uint)vPos.z);
 			bWeaponOnce = true;
-		}*/
-
-		 if (!bWeaponOnce )
-		{
-			//  무기가 들어가면되고
-			// 종욱이형 머지하면 하면됌
-			pGameObj = READY_LAYER_POS(pGameObj, CShotGun, pMyLayer, m_pGraphicDev, L"ShotGun", (_uint)vPos.x + 3, (_uint)vPos.z);
-			bWeaponOnce = true;
 		}
+
+		//else  if (!bWeaponOnce )
+		//{
+		//	//  무기가 들어가면되고
+		//	// 종욱이형 머지하면 하면됌
+		//	pGameObj = READY_LAYER_POS(pGameObj, CShotGun, pMyLayer, m_pGraphicDev, L"ShotGun", (_uint)vPos.x + 3, (_uint)vPos.z);
+		//	bWeaponOnce = true;
+		//}
 	
 	}
 	return S_OK;

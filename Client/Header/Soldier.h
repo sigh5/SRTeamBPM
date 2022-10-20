@@ -24,6 +24,10 @@ private:
 	void			Drop_Item(int ItemType);
 
 public:
+	HRESULT				SetUp_Material(void);
+	void				Set_Light_Obj();
+
+public:
 	static CSoldier*		Create(LPDIRECT3DDEVICE9 pGraphicDev, float Posx = 0, float Posz = 0);
 	virtual void	Free(void);
 

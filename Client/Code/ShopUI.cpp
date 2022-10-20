@@ -147,9 +147,6 @@ void CShopUI::Picking_Rect_Index()
 					pScene->Set_SceneChane(true);
 					::Set_SaveScene(pScene);
 
-					//CScene*		pMiniStage1 = CMiniStage1::Create(m_pGraphicDev);
-					//Change_Scene(pScene, pMiniStage1);
-
 					CScene*		pChangeScene = CChange_Stage::Create(m_pGraphicDev,1);
 					NULL_CHECK_RETURN(pScene, );
 
@@ -165,7 +162,17 @@ void CShopUI::Picking_Rect_Index()
 				}
 				else if (i == 4)
 				{
-					_bool b = false;
+					CScene*pScene = ::Get_Scene();
+					pScene->Set_SceneChane(true);
+					::Set_SaveScene(pScene);
+
+					CScene*		pChangeScene = CChange_Stage::Create(m_pGraphicDev, 3);
+					NULL_CHECK_RETURN(pScene, );
+
+					::Change_Scene(pScene, pChangeScene);
+
+					m_iForceSceneReturn = SCENE_CHANGE_RETRURN;
+					return;
 				}
 				else if (i == 5 && !m_bSelect[5])
 				{

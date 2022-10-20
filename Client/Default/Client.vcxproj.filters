@@ -311,17 +311,20 @@
     <ClCompile Include="..\Code\SettingButton.cpp">
       <Filter>02. GameObject\00. For_Logo\01. Button\04. SettingButton</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Loading_Image.cpp">
-      <Filter>01. Scene\98. Change_Stage\Loading_Image</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\LoadingBackFont.cpp">
-      <Filter>01. Scene\98. Change_Stage\Loading_Font</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\HarpoonGuy.cpp">
       <Filter>02. GameObject\01. For_Stage\01.Monster\08. FinalBoss\HarpoonGuy</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\TapeWorm.cpp">
       <Filter>02. GameObject\01. For_Stage\01.Monster\08. FinalBoss\TapeWorm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Loading_Image.cpp">
+      <Filter>02. GameObject\01. For_Stage\10.UI\09. Loading_Image</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\LoadingBackFont.cpp">
+      <Filter>02. GameObject\01. For_Stage\10.UI\10. LoadingFont_BackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MiniGame3.cpp">
+      <Filter>01. Scene\02. MiniMap\02 .MiniGame3</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -656,17 +659,20 @@
     <ClInclude Include="..\Header\SettingButton.h">
       <Filter>02. GameObject\00. For_Logo\01. Button\04. SettingButton</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Loading_Image.h">
-      <Filter>01. Scene\98. Change_Stage\Loading_Image</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\LoadingBackFont.h">
-      <Filter>01. Scene\98. Change_Stage\Loading_Font</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\HarpoonGuy.h">
       <Filter>02. GameObject\01. For_Stage\01.Monster\08. FinalBoss\HarpoonGuy</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\TapeWorm.h">
       <Filter>02. GameObject\01. For_Stage\01.Monster\08. FinalBoss\TapeWorm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Loading_Image.h">
+      <Filter>02. GameObject\01. For_Stage\10.UI\09. Loading_Image</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\LoadingBackFont.h">
+      <Filter>02. GameObject\01. For_Stage\10.UI\10. LoadingFont_BackGround</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\MiniGame3.h">
+      <Filter>01. Scene\02. MiniMap\02 .MiniGame3</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -978,17 +984,17 @@
     <Filter Include="02. GameObject\00. For_Logo\01. Button\03. BgmButton">
       <UniqueIdentifier>{7b4ec0ce-ce52-4684-83b7-2e2ae1e41890}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Scene\98. Change_Stage\Loading_Image">
-      <UniqueIdentifier>{c329723b-3aca-4653-aac0-bf6f1e5154ad}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Scene\98. Change_Stage\Loading_Font">
-      <UniqueIdentifier>{4d1b2a3e-6662-454f-8b9e-d735543b7814}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\01. For_Stage\01.Monster\08. FinalBoss\HarpoonGuy">
       <UniqueIdentifier>{60fda548-5067-4c26-b3d7-cff07bd9c854}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\01.Monster\08. FinalBoss\TapeWorm">
       <UniqueIdentifier>{620d5471-5b98-4ef2-819a-00ee5316cd79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\02. MiniMap\01. MiniGame2">
+      <UniqueIdentifier>{a7196e5c-4ffe-41e0-a540-f03b9e5d2335}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\02. MiniMap\02 .MiniGame3">
+      <UniqueIdentifier>{101a8af9-741e-4d2e-8460-68e025a9058c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

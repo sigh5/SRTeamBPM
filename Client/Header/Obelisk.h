@@ -16,7 +16,9 @@ public:
 	bool			Get_Dead() { return m_bDead; }
 	bool			Get_Hit() { return m_bHit; }
 
-
+public:
+	HRESULT				SetUp_Material(void);
+	void				Set_Light_Obj();
 private:
 	virtual bool		Dead_Judge(const _float& fTimeDelta);
 
