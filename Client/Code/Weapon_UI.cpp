@@ -91,14 +91,15 @@ void CWeapon_UI::Render_Obejct(void)
 		m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
 		// 웨펀 이미지 바꾸는것
-	/*	CShotGun* pShotGun = dynamic_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"));
-
-		if (pShotGun!=nullptr &&pShotGun->Get_RenderFalse() == true)
+		CShotGun* pShotGun = static_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"));
+		CEquipmentBase* pEquipShotGun = dynamic_cast<CEquipmentBase*>(pShotGun);
+			
+		if (pShotGun != nullptr && pEquipShotGun->Get_IsInventory() == true)
 		{
 			m_pTextureCom->Set_Texture(1);
 		}
 
-		else*/
+		else
 			m_pTextureCom->Set_Texture(0);
 
 		m_pBufferCom->Render_Buffer();

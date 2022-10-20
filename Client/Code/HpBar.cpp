@@ -114,11 +114,11 @@ void CHpBar::Render_Obejct(void)
 		_uint iHpFont = dynamic_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC))->Get_Hp();
 
 		_tchar	tPlayerHp[MAX_PATH];
-		swprintf_s(tPlayerHp, L"%d", iHpFont);
+		swprintf_s(tPlayerHp, L"%d / 100", iHpFont);
 		m_szPlayerHp = L"";
 		m_szPlayerHp += tPlayerHp;
 
-		Render_Font(L"HoengseongHanu", m_szPlayerHp.c_str(), &_vec2(275.f, 960.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+		Render_Font(L"HoengseongHanu", m_szPlayerHp.c_str(), &_vec2(255.f, 960.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 		
 		m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);
 
