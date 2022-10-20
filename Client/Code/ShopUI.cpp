@@ -9,6 +9,7 @@
 #include "Change_Stage.h"
 #include "Helmet.h"
 #include "EquipYeti.h"
+#include "QuestProcessing_UI.h"
 
 CShopUI::CShopUI(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CUI_Base(pGraphicDev)
@@ -170,13 +171,15 @@ void CShopUI::Picking_Rect_Index()
 					// 나중에 미니게임추가
 
 					CScene*pScene = ::Get_Scene();
-					CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+					CLayer * pLayer = pScene->GetLayer(L"Layer_UI");
 					NULL_CHECK_RETURN(pLayer, );
-					pLayer = pScene->GetLayer(L"Layer_UI");
+					/*pLayer = pScene->GetLayer(L"Layer_UI");*/
 
+					
 					CQuestProcessing_UI* pQuestProcessing_UI =
-						static_cast<CQuestProcessing_UI*>(pLayer->Get_GameObject(L"QuestProcessing_UI"));
-					pQuestProcessing_UI->Set_Quest_Claer(Quest_Index_TWO, true);
+						dynamic_cast<CQuestProcessing_UI*>(pLayer->Get_GameObject(L"QuestProcessing_UI"));
+					if(pQuestProcessing_UI!=nullptr)
+						pQuestProcessing_UI->Set_Quest_Claer(Quest_Index_TWO, true);
 				
 				}
 				else if (i == 4)

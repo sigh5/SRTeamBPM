@@ -225,7 +225,7 @@ void CInventory_UI::Set_CurrentEquipHelmet(CEquipmentBase * pHelmet)
 
 void CInventory_UI::Set_CurrentEquipPet(CEquipmentBase * pPet)
 {
-	if (m_pCurrentEquipHelmet == nullptr)
+	if (m_pCurrentEquipPet == nullptr)
 	{
 		m_pCurrentEquipPet = pPet;
 		return;
@@ -233,7 +233,7 @@ void CInventory_UI::Set_CurrentEquipPet(CEquipmentBase * pPet)
 	_vec3 vPreWeaponvPos, vCurrentWeaponPos;
 
 
-	CTransform* pRreWeaponTrans = static_cast<CTransform*>(m_pCurrentEquipHelmet->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
+	CTransform* pRreWeaponTrans = static_cast<CTransform*>(m_pCurrentEquipPet->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));
 	pRreWeaponTrans->Get_Info(INFO_POS, &vPreWeaponvPos);
 
 	CTransform* pCurrentvWeaponTrans = static_cast<CTransform*>(pPet->Get_Component(L"Proto_TransformCom", ID_DYNAMIC));

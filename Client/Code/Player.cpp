@@ -37,7 +37,7 @@ HRESULT CPlayer::Ready_Object(void)
 	
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pInfoCom->Ready_CharacterInfo(1000, 10, 5.f);
+	m_pInfoCom->Ready_CharacterInfo(10, 10, 5.f);
 	m_pInfoCom->Get_InfoRef()._iCoin = 10;
 
 
@@ -63,9 +63,10 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 	if (m_bDead)
 		m_bDeadTimer += 1.0f* fTimeDelta;
 	
-	if (m_bDeadTimer >= 7.f)
+	if (m_bDeadTimer >= 5.f)
 	{
 		Random_ResurrectionRoom();
+		
 		m_bDeadTimer = 0.f;
 		m_bDead = false;
 	}
@@ -348,11 +349,11 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		m_pDynamicTransCom->Get_Info(INFO_POS, &vcurrentPos);
 	}
 
-	if (Engine::Key_Down(DIK_C))
-	{
-		Player_Dead(fTimeDelta);
-		//m_pInfoCom->Get_InfoRef()._iHp -= 25;
-	}
+	//if (Engine::Key_Down(DIK_C))
+	//{
+	//	Player_Dead(fTimeDelta);
+	//	//m_pInfoCom->Get_InfoRef()._iHp -= 25;
+	//}
 	Engine::Key_InputReset();
 }
 
@@ -441,10 +442,16 @@ void CPlayer::Random_ResurrectionRoom()
 
 	_vec3 vFirstCubePos;
 	pFirstCubeTransform->Get_Info(INFO_POS, &vFirstCubePos);
+	
+	_vec3  vAngle;
+	vAngle = pFirstCubeTransform->Get_Angle();
+	m_pDynamicTransCom->Rotation(ROT_Y, vAngle.y);
 
-	m_pDynamicTransCom->Set_Pos(vFirstCubePos.x + 5.f, vFirstCubePos.y, vFirstCubePos.z + 5.f);
+	m_pDynamicTransCom->Set_Pos(vFirstCubePos.x , vFirstCubePos.y, vFirstCubePos.z );
 
 	pLayer->Reset_Monster();
+	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
+	m_iComboCount = 0;
 	m_pDynamicTransCom->Update_Component(1.f);
 }
 
@@ -465,7 +472,7 @@ void CPlayer::Player_Dead(const _float& fTimeDelta)
 	pDead_UI->Set_Render(true);
 
 	Player_Dead_CaemraAction();
-	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
+
 
 	m_bDead = true;
 }

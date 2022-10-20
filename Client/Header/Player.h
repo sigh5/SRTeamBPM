@@ -73,10 +73,10 @@ public:
 	void				Set_ShopUIActive(_bool bShopctive) { m_bShopUIActive = bShopctive; }
 	const _bool&		Get_ShopUIActive() { return m_bShopUIActive; }
 
-
+	void				Random_ResurrectionRoom();
 
 private:
-	void				Random_ResurrectionRoom();
+	
 	void				Player_Dead_CaemraAction();
 	void				Player_Dead(const _float& fTimeDelta);
 
