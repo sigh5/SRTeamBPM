@@ -60,6 +60,7 @@ private:
 public:
 	void			Set_RenderIn(_bool _bRenderIn) { m_bRenderIn = _bRenderIn; }
 	void			Set_BGM(_bool _bBGM) { m_bBGM = _bBGM; }
+	void			Set_Quiz(_bool _bQuiz) { m_bQuiz = _bQuiz; }
 public:
 	static CPlayer_Dead_UI*		Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint _iAlpha);
 	virtual void				Free();

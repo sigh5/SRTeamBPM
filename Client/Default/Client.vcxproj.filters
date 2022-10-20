@@ -362,8 +362,9 @@
       <Filter>02. GameObject\01. For_Stage\14. Equipment\01. Helmet\Helmet2</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Currect_Answer.cpp" />
-    <ClCompile Include="..\Code\Helmet.cpp">
-      <Filter>02. GameObject\01. For_Stage\14. Equipment\01. HelMet</Filter>
+    <ClCompile Include="..\Code\Click_Particle.cpp" />
+    <ClCompile Include="..\Code\Gacha_Machine.cpp">
+      <Filter>02. GameObject\01. For_Stage\50. Gacha_Machine</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Helmet2.cpp">
       <Filter>02. GameObject\01. For_Stage\14. Equipment\01. HelMet</Filter>

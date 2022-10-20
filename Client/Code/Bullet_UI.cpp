@@ -6,6 +6,7 @@
 #include "Gun_Screen.h"
 #include "Player_Dead_UI.h"
 #include "ShotGun.h"
+#include "ShopUI.h"
 
 // Work
 
@@ -83,6 +84,7 @@ void CBullet_UI::Render_Obejct(void)
 	CPlayer_Dead_UI* pDead_UI = static_cast<CPlayer_Dead_UI*>(Engine::Get_GameObject(L"Layer_UI", L"Dead_UI"));
 	CGun_Screen* pGun_Screen = static_cast<CGun_Screen*>(Engine::Get_GameObject(L"Layer_UI", L"Gun"));
 	CShotGun* pShotGun = static_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"));
+	CShopUI* pShopUI = static_cast<CShopUI*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShopUI"));
 
 	if (pDead_UI->Get_Render() == false)
 	{
@@ -123,6 +125,7 @@ void CBullet_UI::Render_Obejct(void)
 		m_szMagazine = L"";
 		m_szMagazine += tMagazine;
 
+		if(pShopUI->Get_Active() == false)
 		Render_Font(L"HoengseongHanu", m_szMagazine.c_str(), &_vec2(1112.f, 810.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 		
 		_uint  iComboCount = dynamic_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"))->Get_ComboCount();

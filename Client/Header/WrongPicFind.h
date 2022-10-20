@@ -46,6 +46,9 @@ private:
 	
 	_bool						m_bFinalSuccess = false;
 
+	wstring						m_szCurrect = L"";
+	_uint						m_iCurrect = 0;
+
 public:
 	static CWrongPicFind*		 Create(LPDIRECT3DDEVICE9 pGrhaphicDev);
 		
