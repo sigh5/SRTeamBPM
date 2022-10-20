@@ -88,6 +88,8 @@ void CBackGround::Render_Obejct(void)
 	m_pBufferCom->Render_Buffer();
 
 	m_pShaderCom->End_Shader();
+
+
 }
 
 CBackGround * CBackGround::Create(LPDIRECT3DDEVICE9 pGraphicDev)
