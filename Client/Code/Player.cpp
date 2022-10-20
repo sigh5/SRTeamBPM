@@ -130,7 +130,7 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 		pGameObject->Set_Active(false);
 	}
 
-	cout << m_pInfoCom->Get_InfoRef()._iHp << endl;
+	//	cout << m_pInfoCom->Get_InfoRef()._iHp << endl;
 
 
 
@@ -448,6 +448,7 @@ void CPlayer::Random_ResurrectionRoom()
 	CAnimation* pHpBarAnimation = dynamic_cast<CAnimation*>(Engine::Get_Component(L"Layer_Icon", L"HpBar", L"Proto_AnimationCom", ID_DYNAMIC));
 
 	pHpBarAnimation->m_iMotion = 0;
+	pHpBarAnimation->Set_Motion(10);
 	// ~Player HpBar Reset
 	pLayer->Reset_Monster();
 	m_pDynamicTransCom->Update_Component(1.f);

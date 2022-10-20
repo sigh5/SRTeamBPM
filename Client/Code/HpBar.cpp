@@ -64,7 +64,7 @@ _int CHpBar::Update_Object(const _float & fTimeDelta)
 			m_pAnimationCom->m_iMotion = 0;
 		}
 		Engine::Key_InputReset();
-	}*/
+	}*/ 
 
 	m_pAnimationCom->Control_Animation(m_iPlayerHp);
 	
@@ -116,7 +116,7 @@ void CHpBar::Render_Obejct(void)
 
 		_uint iHpFont = dynamic_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._iHp;
 
-		cout << "폰트 : " << iHpFont << endl;
+		//cout << "폰트 : " << iHpFont << endl;
 
 		_tchar	tPlayerHp[MAX_PATH];
 		swprintf_s(tPlayerHp, L"%d / 100", iHpFont);
@@ -127,6 +127,8 @@ void CHpBar::Render_Obejct(void)
 		Render_Font(L"DalseoHealingBold", m_szPlayerHp.c_str(), &_vec2(190.f, 940.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 		
 		m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);
+
+		cout << m_pAnimationCom->m_iMotion << endl;
 
 		m_pBufferCom->Render_Buffer();
 

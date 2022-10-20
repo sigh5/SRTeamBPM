@@ -30,6 +30,10 @@ public:
 
 	void	Set_MaxMotion(int _iMaxMotion) { m_iMaxMotion = _iMaxMotion; }
 
+	void	Add_Origin(_uint _iOrigin) { m_iOrigin += _iOrigin; }
+
+	void	Eliminate_Motion(_uint _iMinusMotion) { m_iMotion -= _iMinusMotion; }
+
 public:
 	
 	int		m_iMinMotion = 0;		//시작 스프라이트
