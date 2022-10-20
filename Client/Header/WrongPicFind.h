@@ -29,6 +29,8 @@ public:
 private:
 	HRESULT						 Add_Component(void);
 
+	HRESULT						 Create_CurrectMark(_float fX, _float fY);
+
 private:
 	CRcTex*					     m_pBufferCom = nullptr;
 	CTransform*					 m_pTransCom = nullptr;

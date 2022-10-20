@@ -15,6 +15,7 @@
 #include  "Ax.h"
 #include "AttackEffect.h"
 #include "UI_Effect.h"
+#include "FireWorks.h"
 
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -258,6 +259,8 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		//
 		Excution_Motion();
 
+		Engine::PlaySoundW(L"Axe_Swing.mp3", SOUND_EFFECT, 1.f);
+
 		CScene* pScene = Get_Scene();
 		CLayer* PLayer = pScene->GetLayer(L"Layer_GameLogic");
 		
@@ -313,10 +316,30 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 
 		Ready_MonsterShotPicking();
 	}
-
+	if (::Mouse_Down(DIM_RB)) // Picking
+	{
+		CScene  *pScene = ::Get_Scene();
+		CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+		_vec3 vPos;
+		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+		vPos.y += 40.f;
+		CGameObject* pFireworks = CFireWorks::Create(m_pGraphicDev, vPos);
+		pLayer->Add_GameObjectList(pFireworks);
+	}
+	
 	if (Get_DIKeyState(DIK_R) & 0X80)
 	{
-		pEquipItem->Set_Magazine(8);
+		if (pEquipItem->Get_miID() == ID_MAGNUM)
+		{
+			pEquipItem->Set_Magazine(8);
+			Engine::PlaySoundW(L"Magnum_Reload.mp3", SOUND_GUNREROAD, 0.4f);
+		}
+
+		else if (pEquipItem->Get_miID() == ID_SHOT_GUN)
+		{
+			pEquipItem->Set_Magazine(6);
+			Engine::PlaySoundW(L"Shotgun_Reload.mp3", SOUND_GUNREROAD, 0.4f);
+		}
 	}
 
 	if (Get_DIKeyState(DIK_P) & 0X80)

@@ -43,7 +43,7 @@ _int CQuizBox::Update_Object(const _float & fTimeDelta)
 	
 	if (!m_bRandom)
 	{
-		m_iRandom = rand() % 3;
+		m_iRandom = rand() % 4;
 		m_bRandom = true;
 	}	
 

@@ -67,15 +67,12 @@ _int CGun_Screen::Update_Object(const _float & fTimeDelta)
 
 	Add_UpdateComponent();
 
-	/*CShotGun* pShotGun = dynamic_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"));
+	//CShotGun* pShotGun = static_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"));
+	//CEquipmentBase* pEquipShotGun = dynamic_cast<CEquipmentBase*>(pShotGun);
 
-	if (pShotGun != nullptr)
-	{
-	if (pShotGun->Get_RenderFalse() == true)
-	{
-	m_pAnimationCom->Ready_Animation(15, 0, 0.2f);
-	}
-	}*/
+	//if (pShotGun != nullptr && pEquipShotGun->Get_IsInventory() == true)
+	//m_pAnimationCom->Ready_Animation(15, 0, 0.11f);
+	
 
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
@@ -156,11 +153,13 @@ HRESULT CGun_Screen::Add_UpdateComponent(void)
 	{
 		if (m_iID == ID_MAGNUM)
 		{
+			m_iMagazine = 8;
 			m_pTextureMainCom = m_pTextureMagnumGun;
 			m_pAnimationCom->Ready_Animation(4, 0, 0.11f);
 		}
 		else if (m_iID == ID_SHOT_GUN)
 		{
+			m_iMagazine = 6;
 			m_pTextureMainCom = m_pTextureShotGun;
 			m_pAnimationCom->Ready_Animation(15, 0, 0.06f);
 		}
@@ -184,7 +183,7 @@ HRESULT CGun_Screen::Shoot_Motion(const _float& fTimeDelta)
 		if (m_iID == ID_SHOT_GUN)
 		{
 			if (6 == m_pAnimationCom->m_iMotion)
-			{
+			{	
 				::StopSound(SOUND_GUNREROAD);
 				::PlaySoundW(L"basic_shotgun_pumpin.wav", SOUND_GUNREROAD, 0.4f);
 			}
@@ -207,9 +206,7 @@ HRESULT CGun_Screen::Shoot_Motion(const _float& fTimeDelta)
 				pLayer->Add_GameObjectList(pShell);
 				m_bCreatedShell = true;
 				
-				vPos.y += 50.f;
-				CGameObject* pFireworks = CFireWorks::Create(m_pGraphicDev, vPos);
-				pLayer->Add_GameObjectList(pFireworks);
+				
 
 				::StopSound(SOUND_GUNFIRE);
 				::PlaySoundW(L"magnum_shot.wav", SOUND_GUNFIRE, 0.4f);

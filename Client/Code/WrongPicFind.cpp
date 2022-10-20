@@ -5,6 +5,7 @@
 #include "Coin.h"
 #include "Player.h"
 #include "CharacterInfo.h"
+#include "Currect_Answer.h"
 
 
 CWrongPicFind::CWrongPicFind(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -33,7 +34,7 @@ HRESULT CWrongPicFind::Ready_Object()
 	_vec3	vScale = { m_fSizeX, m_fSizeY, 1.f };
 	m_pTransCom->Set_Scale(&vScale);
 
-	m_pTransCom->Set_Pos(m_fX- WINCX * 0.5f, (-m_fY + WINCY * 0.5f), 0.f);
+	m_pTransCom->Set_Pos(m_fX- WINCX * 0.5f, (-m_fY + WINCY * 0.5f), 0.1f);
 	//m_pTransCom->Update_Component(1.f);
 
 	return S_OK;
@@ -112,6 +113,8 @@ void CWrongPicFind::Picking_WrongPoint(void)
 		_vec3	vPoint;
 		m_fX = (_float)ptMouse.x;
 		m_fY = (_float)ptMouse.y;
+		
+		cout << m_fX << ": o :" << m_fY << endl;
 
 		RECT RcFind{};
 
@@ -125,21 +128,24 @@ void CWrongPicFind::Picking_WrongPoint(void)
 				{
 					// Event
 
-					MSG_BOX("8bit");
-					m_bSuccess0 = true;					
+					//MSG_BOX("8bit");
+					Engine::PlaySoundW(L"Currect_Mark.wav", SOUND_EFFECT, 1.f);				
+					m_bSuccess0 = true;	
 				}		
 
 				if (i == 1)
 				{
 					// Event
 
-					MSG_BOX("상남자");
+					//MSG_BOX("상남자");
+					Engine::PlaySoundW(L"Currect_Mark.wav", SOUND_EFFECT, 1.f);
 					m_bSuccess1 = true;
 				}
 
 				if (i == 2)
 				{
-					MSG_BOX("나만의 작은 침");
+					//MSG_BOX("나만의 작은 침");
+					Engine::PlaySoundW(L"Currect_Mark.wav", SOUND_EFFECT, 1.f);
 					m_bSuccess2 = true;
 				}				
 			}
@@ -166,6 +172,19 @@ HRESULT CWrongPicFind::Add_Component(void)
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
 	m_pTransCom = CAbstractFactory<CTransform>::Clone_Proto_Component(L"Proto_TransformCom", m_mapComponent, ID_DYNAMIC);
 	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Chim_Texture", m_mapComponent, ID_STATIC);
+
+	return S_OK;
+}
+
+HRESULT CWrongPicFind::Create_CurrectMark(_float fX, _float fY)
+{
+	CScene*			pScene = Engine::Get_Scene();
+	CLayer*			pMyLayer = pScene->GetLayer(L"Ready_Layer_Environment");
+
+	CGameObject*	pGameObject = nullptr;
+	pGameObject = CCurrect_Answer::Create(m_pGraphicDev, fX, fY);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(L"Currect", pGameObject), E_FAIL);
 
 	return S_OK;
 }

@@ -7,6 +7,7 @@
 #include "ShotGun.h"
 #include "Magnum.h"
 #include "Player_Dead_UI.h"
+#include "Gun_Screen.h"
 
 USING(Engine)
 
@@ -91,10 +92,10 @@ void CWeapon_UI::Render_Obejct(void)
 		m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
 		// 웨펀 이미지 바꾸는것
-		CShotGun* pShotGun = static_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"));
-		CEquipmentBase* pEquipShotGun = dynamic_cast<CEquipmentBase*>(pShotGun);
-			
-		if (pShotGun != nullptr && pEquipShotGun->Get_IsInventory() == true)
+		CShotGun* pShotGun = static_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"));	
+		CGun_Screen* pGun_Screen = static_cast<CGun_Screen*>(Engine::Get_GameObject(L"Layer_UI", L"Gun"));
+		
+		if (pShotGun != nullptr && pGun_Screen->Get_miID() == ID_SHOT_GUN)
 		{
 			m_pTextureCom->Set_Texture(1);
 		}
