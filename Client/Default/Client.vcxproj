@@ -195,14 +195,17 @@
     <ClInclude Include="..\Header\EarthShaker.h" />
     <ClInclude Include="..\Header\EarthSpike.h" />
     <ClInclude Include="..\Header\Effect.h" />
+    <ClInclude Include="..\Header\EquipYeti.h" />
     <ClInclude Include="..\Header\Exit_Button.h" />
     <ClInclude Include="..\Header\FatBat.h" />
     <ClInclude Include="..\Header\FileIOMgr.h" />
     <ClInclude Include="..\Header\FinalBoss.h" />
     <ClInclude Include="..\Header\FirePillar.h" />
     <ClInclude Include="..\Header\FireTrap.h" />
+    <ClInclude Include="..\Header\FireWorks.h" />
     <ClInclude Include="..\Header\Ghul.h" />
     <ClInclude Include="..\Header\Gun_Screen.h" />
+    <ClInclude Include="..\Header\HarpoonBullet.h" />
     <ClInclude Include="..\Header\HarpoonGuy.h" />
     <ClInclude Include="..\Header\HealthPotion.h" />
     <ClInclude Include="..\Header\Helmet.h" />
@@ -233,6 +236,7 @@
     <ClInclude Include="..\Header\ObeliskWreck.h" />
     <ClInclude Include="..\Header\ObjectMgr.h" />
     <ClInclude Include="..\Header\Obstacle.h" />
+    <ClInclude Include="..\Header\PetYeti.h" />
     <ClInclude Include="..\Header\Player.h" />
     <ClInclude Include="..\Header\Player_Dead_UI.h" />
     <ClInclude Include="..\Header\QuestNpc.h" />
@@ -244,6 +248,7 @@
     <ClInclude Include="..\Header\ShopUI.h" />
     <ClInclude Include="..\Header\ShotGun.h" />
     <ClInclude Include="..\Header\SkillEffct.h" />
+    <ClInclude Include="..\Header\SkillParticle.h" />
     <ClInclude Include="..\Header\SkyBox.h" />
     <ClInclude Include="..\Header\Snowfall.h" />
     <ClInclude Include="..\Header\Soldier.h" />
@@ -269,6 +274,7 @@
     <ClInclude Include="..\Header\WallCube.h" />
     <ClInclude Include="..\Header\Weapon_UI.h" />
     <ClInclude Include="..\Header\WrongPicFind.h" />
+    <ClInclude Include="..\Header\YetiTalk.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Imgui\GraphEditor.h" />
     <ClInclude Include="Imgui\imconfig.h" />
@@ -315,14 +321,17 @@
     <ClCompile Include="..\Code\EarthShaker.cpp" />
     <ClCompile Include="..\Code\EarthSpike.cpp" />
     <ClCompile Include="..\Code\Effect.cpp" />
+    <ClCompile Include="..\Code\EquipYeti.cpp" />
     <ClCompile Include="..\Code\Exit_Button.cpp" />
     <ClCompile Include="..\Code\FatBat.cpp" />
     <ClCompile Include="..\Code\FileIOMgr.cpp" />
     <ClCompile Include="..\Code\FinalBoss.cpp" />
     <ClCompile Include="..\Code\FirePillar.cpp" />
     <ClCompile Include="..\Code\FireTrap.cpp" />
+    <ClCompile Include="..\Code\FireWorks.cpp" />
     <ClCompile Include="..\Code\Ghul.cpp" />
     <ClCompile Include="..\Code\Gun_Screen.cpp" />
+    <ClCompile Include="..\Code\HarpoonBullet.cpp" />
     <ClCompile Include="..\Code\HarpoonGuy.cpp" />
     <ClCompile Include="..\Code\HealthPotion.cpp" />
     <ClCompile Include="..\Code\Helmet.cpp" />
@@ -353,6 +362,7 @@
     <ClCompile Include="..\Code\ObeliskWreck.cpp" />
     <ClCompile Include="..\Code\ObjectMgr.cpp" />
     <ClCompile Include="..\Code\Obstacle.cpp" />
+    <ClCompile Include="..\Code\PetYeti.cpp" />
     <ClCompile Include="..\Code\Player.cpp" />
     <ClCompile Include="..\Code\Player_Dead_UI.cpp" />
     <ClCompile Include="..\Code\QuestNpc.cpp" />
@@ -364,6 +374,7 @@
     <ClCompile Include="..\Code\ShopUI.cpp" />
     <ClCompile Include="..\Code\ShotGun.cpp" />
     <ClCompile Include="..\Code\SkillEffct.cpp" />
+    <ClCompile Include="..\Code\SkillParticle.cpp" />
     <ClCompile Include="..\Code\SkyBox.cpp" />
     <ClCompile Include="..\Code\Snowfall.cpp" />
     <ClCompile Include="..\Code\Soldier.cpp" />
@@ -388,6 +399,7 @@
     <ClCompile Include="..\Code\WallCube.cpp" />
     <ClCompile Include="..\Code\Weapon_UI.cpp" />
     <ClCompile Include="..\Code\WrongPicFind.cpp" />
+    <ClCompile Include="..\Code\YetiTalk.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="Imgui\GraphEditor.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>

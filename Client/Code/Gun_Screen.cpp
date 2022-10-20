@@ -7,6 +7,7 @@
 
 #include "ShotGun.h"
 #include "BulletShell.h"
+#include "FireWorks.h"
 
 
 
@@ -204,6 +205,8 @@ HRESULT CGun_Screen::Shoot_Motion(const _float& fTimeDelta)
 				CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
 				pLayer->Add_GameObjectList(pShell);
 				m_bCreatedShell = true;
+				
+				
 
 				::StopSound(SOUND_GUNFIRE);
 				::PlaySoundW(L"magnum_shot.wav", SOUND_GUNFIRE, 0.4f);

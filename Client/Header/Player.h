@@ -89,6 +89,7 @@ private:
 	CCharacterInfo*		m_pInfoCom = nullptr;
 	CCollider*			m_pColliderCom = nullptr;
 
+
 private:		// Jw
 	// _vec3
 	_vec3				m_vDirection;

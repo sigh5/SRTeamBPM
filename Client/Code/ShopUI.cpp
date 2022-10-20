@@ -8,6 +8,7 @@
 #include "MiniStage1.h"
 #include "Change_Stage.h"
 #include "Helmet.h"
+#include "EquipYeti.h"
 
 CShopUI::CShopUI(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CUI_Base(pGraphicDev)
@@ -189,7 +190,9 @@ void CShopUI::Picking_Rect_Index()
 
 		CHelmet* pHelmet = static_cast<CHelmet*>(Get_GameObject(L"Layer_GameLogic", L"Helmet1"));
 		pHelmet->Shop_Goods();
-
+		
+		CEquipYeti* pYeti = static_cast<CEquipYeti*>(Get_GameObject(L"Layer_GameLogic", L"EquipYeti"));
+		pYeti->Shop_Goods();
 
 	}
 
