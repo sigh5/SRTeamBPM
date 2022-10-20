@@ -369,7 +369,11 @@
     <ClCompile Include="..\Code\FinalBoss.cpp">
       <Filter>02. GameObject\01. For_Stage\02. Monster\10. FinalBos</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\SkillParticle.cpp" />
+    <ClCompile Include="..\Code\SkillParticle.cpp">
+      <Filter>02. GameObject\02. For_public\07. SkillParticle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FireWorks.cpp" />
+    <ClCompile Include="..\Code\HarpoonBullet.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -762,7 +766,11 @@
     <ClInclude Include="..\Header\FinalBoss.h">
       <Filter>02. GameObject\01. For_Stage\02. Monster\10. FinalBos</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\SkillParticle.h" />
+    <ClInclude Include="..\Header\SkillParticle.h">
+      <Filter>02. GameObject\02. For_public\07. SkillParticle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\FireWorks.h" />
+    <ClInclude Include="..\Header\HarpoonBullet.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1090,6 +1098,9 @@
     </Filter>
     <Filter Include="02. GameObject\02. For_public\07. SkillParticle">
       <UniqueIdentifier>{48eb0c59-8403-4f4d-a36f-c810d0e66dbf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\02. For_public\08. FireWorks">
+      <UniqueIdentifier>{b393e8cf-4f25-47d7-91ae-e03aa13127ed}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

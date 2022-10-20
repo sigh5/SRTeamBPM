@@ -2,8 +2,9 @@
 #include "PSystem.h"
 class CSkillParticle :public CPSystem
 {
-public:
+private:
 	CSkillParticle(LPDIRECT3DDEVICE9 pGraphicDev, BDBOX* boundingBox, int numParticles, _vec3 vPos);
+	void resetParticle(Attribute* attribute);
 	virtual ~CSkillParticle();
 	virtual		_int		Update_Object(const _float& fTimeDelta);
 	virtual void		update(_float fTimeDelta);
@@ -16,5 +17,6 @@ public:
 private:
 	CTexture* m_pTextureCom = nullptr;
 	CTransform* m_pTransform = nullptr;
+
 };
 

@@ -4,7 +4,8 @@
 #include "Export_Function.h"
 
 #include "Stage1PreHeader.h"
-
+#include "SkillParticle.h"
+#include "FireWorks.h"
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
 {
@@ -169,7 +170,7 @@ HRESULT CStage::Ready_Layer_Environment(const _tchar * pLayerTag)
 	
 	READY_LAYER(pGameObject, CSkyBox, pLayer, m_pGraphicDev, L"SkyBox");
 	READY_LAYER(pGameObject, CSnowfall, pLayer, m_pGraphicDev, L"Snowfall");
-
+	
 	m_mapLayer.insert({ pLayerTag, pLayer });
 
 
@@ -220,7 +221,11 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Helmet1", pGameObject), E_FAIL);
 
+	pGameObject = CSkillParticle::Create(m_pGraphicDev, _vec3(330.f, 2.f, 330.f));
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"testparticle1", pGameObject), E_FAIL);
 
+	
 
 	CFileIOMgr::GetInstance()->Load_FileData(m_pGraphicDev,
 		this,

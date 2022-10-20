@@ -188,8 +188,10 @@
     <ClInclude Include="..\Header\FinalBoss.h" />
     <ClInclude Include="..\Header\FirePillar.h" />
     <ClInclude Include="..\Header\FireTrap.h" />
+    <ClInclude Include="..\Header\FireWorks.h" />
     <ClInclude Include="..\Header\Ghul.h" />
     <ClInclude Include="..\Header\Gun_Screen.h" />
+    <ClInclude Include="..\Header\HarpoonBullet.h" />
     <ClInclude Include="..\Header\HarpoonGuy.h" />
     <ClInclude Include="..\Header\HealthPotion.h" />
     <ClInclude Include="..\Header\Helmet.h" />
@@ -309,8 +311,10 @@
     <ClCompile Include="..\Code\FinalBoss.cpp" />
     <ClCompile Include="..\Code\FirePillar.cpp" />
     <ClCompile Include="..\Code\FireTrap.cpp" />
+    <ClCompile Include="..\Code\FireWorks.cpp" />
     <ClCompile Include="..\Code\Ghul.cpp" />
     <ClCompile Include="..\Code\Gun_Screen.cpp" />
+    <ClCompile Include="..\Code\HarpoonBullet.cpp" />
     <ClCompile Include="..\Code\HarpoonGuy.cpp" />
     <ClCompile Include="..\Code\HealthPotion.cpp" />
     <ClCompile Include="..\Code\Helmet.cpp" />
