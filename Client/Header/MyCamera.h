@@ -85,6 +85,11 @@ private:
 	//_bool         m_bInventroyActive = false;
 
 
+	_bool			m_bOnceAngle = false;
+	
+public:
+	void			CameraReset();
+
 public:
 	static CMyCamera*		Create(LPDIRECT3DDEVICE9 pGraphicDev,
 		const _vec3* pEye,
