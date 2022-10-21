@@ -18,6 +18,7 @@
 #include "FireWorks.h"
 #include "ThunderHand.h"
 #include "ControlRoom.h"
+#include "Helmet.h"
 
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
