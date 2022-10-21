@@ -133,7 +133,6 @@ void CQuestTalkingFrame::Create_Quest()
 		++m_iTalkNum;
 	}
 
-
 	if (m_iTalkNum == 0)
 		pString = L"¾îÀÌ!";
 
@@ -168,9 +167,6 @@ void CQuestTalkingFrame::Create_Quest()
 		if (QuestProcessing_UI == nullptr)
 			return;
 		pLayer->Add_GameObject(L"QuestProcessing_UI", QuestProcessing_UI);
-		QuestProcessing_UI->Set_Active(true);
-
-	
 	}
 
 }

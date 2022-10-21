@@ -358,14 +358,7 @@
     <ClCompile Include="..\Code\FireWorks.cpp" />
     <ClCompile Include="..\Code\HarpoonBullet.cpp" />
     <ClCompile Include="..\Code\WrongPicFind.cpp" />
-    <ClCompile Include="..\Code\Helmet2.cpp">
-      <Filter>02. GameObject\01. For_Stage\14. Equipment\01. Helmet\Helmet2</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\Currect_Answer.cpp" />
-    <ClCompile Include="..\Code\Click_Particle.cpp" />
-    <ClCompile Include="..\Code\Gacha_Machine.cpp">
-      <Filter>02. GameObject\01. For_Stage\50. Gacha_Machine</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\Helmet2.cpp">
       <Filter>02. GameObject\01. For_Stage\14. Equipment\01. HelMet</Filter>
     </ClCompile>
@@ -399,6 +392,13 @@
     <ClCompile Include="..\Code\QuestTalkingFrame.cpp">
       <Filter>02. GameObject\01. For_Stage\10. UI\20. Quest_UI</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\Gacha_Machine.cpp" />
+    <ClCompile Include="..\Code\Helmet.cpp" />
+    <ClCompile Include="..\Code\Helmet2.cpp" />
+    <ClCompile Include="..\Code\Click_Particle.cpp">
+      <Filter>02. GameObject\02. For_public\07. SkillParticle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ThunderHand.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -820,6 +820,11 @@
     <ClInclude Include="..\Header\QuestTalkingFrame.h">
       <Filter>02. GameObject\01. For_Stage\10. UI\20. Quest_UI</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Gacha_Machine.h" />
+    <ClInclude Include="..\Header\Click_Particle.h">
+      <Filter>02. GameObject\02. For_public\07. SkillParticle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\ThunderHand.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1181,6 +1186,12 @@
     <Filter Include="02. GameObject\01. For_Stage\10. UI\20. Quest_UI">
       <UniqueIdentifier>{adea0d0c-4cb8-4060-b5fc-ba3c60f66e1c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\13. Gun_Screen\Magic">
+      <UniqueIdentifier>{2c522efa-e34d-4f34-9702-24a096ee9dce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{bfd05942-66b2-4a91-94d6-611833d6a014}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -1198,6 +1209,11 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="..\Bin\ShaderFilesPath\ShaderRect.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFilesPath\ShaderRect.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFilesPath\Shader_Terrain.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

@@ -35,7 +35,7 @@ private:
 
 public:
 	HRESULT				SetUp_Material(void);
-	void				Set_Light_Obj();
+	_bool				Set_Light_Obj();
 
 
 public:

@@ -218,6 +218,11 @@ _uint CLoading::Loading_ForStage(void)
 	
 	// 
 
+	//Shader
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ShaderTerrain", CShader::Create(m_pGraphicDev, TEXT("../Bin/ShaderFilesPath/Shader_Terrain.hlsl"))), E_FAIL);
+
+
+
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_fetrues_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/features/features_%d.png", TEX_NORMAL, 24)), E_FAIL);
 
 	// NPC
@@ -236,7 +241,7 @@ _uint CLoading::Loading_ForStage(void)
 	//~pet
 
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_KeyTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Item/Key.png", TEX_NORMAL)), E_FAIL);
-	
+
 	m_bFinish = true;
 
 	lstrcpy(m_szLoading, L"Press Start Button");

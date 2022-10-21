@@ -3,6 +3,8 @@
 
 #include "Export_Function.h"
 #include "AbstractFactory.h"
+#include "MyCamera.h"
+#include "Player.h"
 
 CSkillParticle::CSkillParticle(LPDIRECT3DDEVICE9 pGraphicDev, BDBOX * boundingBox, int numParticles, _vec3 vPos)
 	:CPSystem(pGraphicDev)
@@ -20,6 +22,7 @@ CSkillParticle::CSkillParticle(LPDIRECT3DDEVICE9 pGraphicDev, BDBOX * boundingBo
 	{
 		addParticle();
 	}
+	
 	m_pTransform->Set_Pos(vPos.x, vPos.y, vPos.z);
 
 
@@ -32,6 +35,31 @@ CSkillParticle::~CSkillParticle()
 
 _int CSkillParticle::Update_Object(const _float & fTimeDelta)
 {
+	if (m_bActive)
+	{
+		m_fFrame += 1.f*fTimeDelta;
+
+		CPlayer* pPlayer = dynamic_cast<CPlayer*>(::Get_GameObject(L"Layer_GameLogic",L"Player"));
+		_vec3 vPos;
+		
+		CTransform* pPlayerTransform = static_cast<CTransform*>(pPlayer->Get_Component(L"Proto_DynamicTransformCom", ID_DYNAMIC));
+		pPlayerTransform->Get_Info(INFO_POS, &vPos);
+		_vec3 vAngle;
+		vAngle = pPlayerTransform->Get_Angle();
+
+		m_pTransform->Rotation(ROT_Y, vAngle.y);
+		if (vAngle.y > 0)
+			vPos.x += 1.f;
+		else
+			vPos.x -= 1.f;
+		m_pTransform->Set_Pos(vPos.x, vPos.y, vPos.z);
+	}
+
+	if (m_fFrame >= 1.f)
+	{
+		m_bActive = false;
+		m_fFrame = 0.f;
+	}
 	update(fTimeDelta);
 
 
@@ -68,9 +96,15 @@ void CSkillParticle::update(_float fTimeDelta)
 
 void CSkillParticle::Render_Obejct(void)
 {
+	if (!m_bActive)
+		return;
+
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransform->Get_WorldMatrixPointer());
 	m_pTextureCom->Set_Texture(0);
 	render();
+
+	
+
 }
 
 void CSkillParticle::resetParticle(Attribute* attribute)

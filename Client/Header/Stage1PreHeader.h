@@ -48,3 +48,4 @@
 #include "QuestTalkingFrame.h"
 #include "Helmet2.h"
 #include "QuestProcessing_UI.h"
+#include "ThunderHand.h"

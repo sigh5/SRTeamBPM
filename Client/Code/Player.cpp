@@ -16,7 +16,7 @@
 #include "AttackEffect.h"
 #include "UI_Effect.h"
 #include "FireWorks.h"
-
+#include "ThunderHand.h"
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -37,7 +37,7 @@ HRESULT CPlayer::Ready_Object(void)
 	
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
+	m_pInfoCom->Ready_CharacterInfo(10000, 10, 5.f);
 	m_pInfoCom->Get_InfoRef()._iCoin = 10;
 
 
@@ -319,13 +319,23 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 	}
 	if (::Mouse_Down(DIM_RB)) // Picking
 	{
-		CScene  *pScene = ::Get_Scene();
+		/*CScene  *pScene = ::Get_Scene();
 		CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
 		_vec3 vPos;
 		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
 		vPos.y += 40.f;
 		CGameObject* pFireworks = CFireWorks::Create(m_pGraphicDev, vPos);
-		pLayer->Add_GameObjectList(pFireworks);
+		pLayer->Add_GameObjectList(pFireworks);*/
+
+		CScene  *pScene = ::Get_Scene();
+		CLayer * pLayer = pScene->GetLayer(L"Layer_UI");
+		CThunderHand* pThunderHand = dynamic_cast<CThunderHand*>(pLayer->Get_GameObject(L"SkillHand"));
+	
+		if (pThunderHand == nullptr) //|| !pThunderHand->Player_BuySkill())
+			return;
+
+		pThunderHand->Set_Active(true);
+
 	}
 	
 	if (Get_DIKeyState(DIK_R) & 0X80)

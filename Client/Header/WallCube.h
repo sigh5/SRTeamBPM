@@ -38,7 +38,7 @@ public:
 private:
 	HRESULT				Add_Component(void);
 	HRESULT				SetUp_Material(void);
-
+	void				Set_Light_Obj();
 public:
 	//CCubeTex*			m_pBufferCom = nullptr;
 	CCubeNormalTex*		m_pBufferCom = nullptr;

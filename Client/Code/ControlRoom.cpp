@@ -87,6 +87,7 @@ void CControlRoom::LateUpdate_Object()
 		
 	}
 	m_iRestMonsterNum = 0;
+
 	Set_Light_Obj();
 }
 
@@ -196,40 +197,58 @@ HRESULT CControlRoom::SetUp_Material(void)
 	return E_NOTIMPL;
 }
 
-void CControlRoom::Set_Light_Obj()
+_bool CControlRoom::Set_Light_Obj()
 {
 	if (m_bPlayerInTerrain)
 	{
 		_vec3 vPos;
 		m_pTransCom->Get_Info(INFO_POS, &vPos);
-		vPos.y += 7.f;
 
+		
 		D3DLIGHT9		tLightInfo;
 		ZeroMemory(&tLightInfo, sizeof(D3DLIGHT9));
 
 		tLightInfo.Type = D3DLIGHT_DIRECTIONAL;
-		tLightInfo.Diffuse = D3DXCOLOR(0.6f, 0.5f, 0.5f, 0.5f);
-		tLightInfo.Specular = D3DXCOLOR(0.6f, 0.5f, 0.5f, 0.5f);
-		tLightInfo.Ambient = D3DXCOLOR(0.6f, 0.5f, 0.5f, 0.5f);
+		tLightInfo.Diffuse = D3DXCOLOR(0.8f, 0.8f, 0.8f, 0.8f);
+		tLightInfo.Specular = D3DXCOLOR(0.8f, 0.8f, 0.8f, 0.8f);
+		tLightInfo.Ambient = D3DXCOLOR(0.8f, 0.8f, 0.8f, 0.8f);
 		tLightInfo.Direction = _vec3(1.f, 0.f, -1.f);
 		tLightInfo.Position = vPos;
+		
 		FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &tLightInfo, 0), );
-
+		
+		
 		D3DLIGHT9		tLightInfo1;
 		ZeroMemory(&tLightInfo1, sizeof(D3DLIGHT9));
 
 		tLightInfo1.Type = D3DLIGHT_DIRECTIONAL;
-		tLightInfo1.Diffuse = D3DXCOLOR(0.6f, 0.5f, 0.5f, 0.5f);
-		tLightInfo1.Specular = D3DXCOLOR(0.6f, 0.5f, 0.5f, 0.5f);
-		tLightInfo1.Ambient = D3DXCOLOR(0.6f, 0.5f, 0.5f, 0.5f);
+		tLightInfo1.Diffuse = D3DXCOLOR(0.8f, 0.8f, 0.8f, 0.8f);
+		tLightInfo1.Specular = D3DXCOLOR(0.8f, 0.8f, 0.8f, 0.8f);
+		tLightInfo1.Ambient = D3DXCOLOR(0.8f, 0.8f, 0.8f, 0.8f);
 		tLightInfo1.Direction = _vec3(-1.f, 0.f, 1.f);
-		tLightInfo.Position = vPos;
+		tLightInfo1.Position = vPos;
+	
 		FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &tLightInfo1, 1), );
+		
 
+		//D3DLIGHT9		tLightInfo2;
+		//ZeroMemory(&tLightInfo1, sizeof(D3DLIGHT9));
+
+		//tLightInfo2.Type = D3DLIGHT_DIRECTIONAL;
+		//tLightInfo2.Diffuse = D3DXCOLOR(0.8f, 0.8f, 0.8f, 0.8f);
+		//tLightInfo2.Specular = D3DXCOLOR(0.8f, 0.8f, 0.8f, 0.8f);
+		//tLightInfo2.Ambient = D3DXCOLOR(0.8f, 0.8f, 0.8f, 0.8f);
+		///*tLightInfo2.Direction = _vec3(0.f, -1.f, 0.f);
+		//tLightInfo2.Position = vPos;*/
+
+		//FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &tLightInfo2, 2), );
+
+
+		return true;
 	}
 
 
-
+	return false;
 
 }
 

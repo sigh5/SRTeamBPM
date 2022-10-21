@@ -231,10 +231,6 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Helmet2", pGameObject), E_FAIL);
 
-	pGameObject = CSkillParticle::Create(m_pGraphicDev, _vec3(330.f, 2.f, 330.f));
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"testparticle1", pGameObject), E_FAIL);
-
 	pGameObject = CPetYeti::Create(m_pGraphicDev, 330.f, 330.f);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Yeti", pGameObject), E_FAIL);
@@ -242,6 +238,12 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	pGameObject = CEquipYeti::Create(m_pGraphicDev, 310, 345);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EquipYeti", pGameObject), E_FAIL);
+
+
+	//pGameObject = CSkillParticle::Create(m_pGraphicDev, _vec3(330.f, 2.f, 330.f));
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"testparticle1", pGameObject), E_FAIL);
+
 
 	CFileIOMgr::GetInstance()->Load_FileData(m_pGraphicDev,
 		this,
@@ -282,8 +284,11 @@ HRESULT CStage::Ready_Layer_UI(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Dead_UI", pGameObject), E_FAIL);
 
+	
 
 	m_mapLayer.insert({ pLayerTag, pLayer });
+
+	READY_LAYER(pGameObject, CThunderHand, pLayer, m_pGraphicDev, L"SkillHand");
 
 
 	return S_OK;
