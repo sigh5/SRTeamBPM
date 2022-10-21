@@ -57,7 +57,7 @@ HRESULT CPlayer::Ready_Object(void)
 	m_pColliderCom->Set_HitBoxMatrix(&(m_pDynamicTransCom->m_matWorld));
 	m_iOriginHP = m_pInfoCom->Get_Hp();
 	m_iOriginDef = m_pInfoCom->Get_InfoRef()._iDefense;
-
+	
 	return S_OK;
 }
 
@@ -501,6 +501,7 @@ void CPlayer::Player_Dead(const _float& fTimeDelta)
 
 	CPlayer_Dead_UI* pDead_UI = static_cast<CPlayer_Dead_UI*>(Engine::Get_GameObject(L"Layer_UI", L"Dead_UI"));
 	pDead_UI->Set_Render(true);
+	pDead_UI->Set_BGM(false);
 
 	Player_Dead_CaemraAction();
 	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);

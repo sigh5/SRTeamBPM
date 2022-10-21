@@ -174,7 +174,7 @@ void CQuizBox::Quiz_Answer(void)
 		m_bRenderQuiz = false;
 		pPlayerDead->Set_Render(false);
 		pPlayerDead->Set_RenderIn(true);
-		pPlayerDead->Set_BGM(false);
+		pPlayerDead->Set_BGM(true);
 		pPlayerDead->Set_Quiz(false);
 		m_bDead = true;
 	}		

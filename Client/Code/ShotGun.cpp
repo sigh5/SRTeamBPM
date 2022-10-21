@@ -227,7 +227,7 @@ void CShotGun::Change_Equip()
 	CPlayer* pPlayer = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
 	pPlayer->EquipItem_Add_Stat(m_EquipInfo._iAddAttack);
 
-
+	g_fRange += 10.f;
 
 }
 

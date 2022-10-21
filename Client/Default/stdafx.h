@@ -61,4 +61,7 @@ extern LPDIRECT3DDEVICE9	g_pDevice;
 // All Volume Control Function
 extern float		g_fSound;
 
+// All Range Control Function
+extern float		g_fRange;
+
 using namespace std;

@@ -255,6 +255,7 @@
     <ClInclude Include="..\Header\ShotGun.h" />
     <ClInclude Include="..\Header\SkillEffct.h" />
     <ClInclude Include="..\Header\SkillParticle.h" />
+    <ClInclude Include="..\Header\Skill_UI.h" />
     <ClInclude Include="..\Header\SkyBox.h" />
     <ClInclude Include="..\Header\Snowfall.h" />
     <ClInclude Include="..\Header\Soldier.h" />
@@ -387,6 +388,7 @@
     <ClCompile Include="..\Code\ShotGun.cpp" />
     <ClCompile Include="..\Code\SkillEffct.cpp" />
     <ClCompile Include="..\Code\SkillParticle.cpp" />
+    <ClCompile Include="..\Code\Skill_UI.cpp" />
     <ClCompile Include="..\Code\SkyBox.cpp" />
     <ClCompile Include="..\Code\Snowfall.cpp" />
     <ClCompile Include="..\Code\Soldier.cpp" />

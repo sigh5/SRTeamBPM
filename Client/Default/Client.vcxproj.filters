@@ -383,6 +383,9 @@
     <ClCompile Include="..\Code\DefBar.cpp">
       <Filter>02. GameObject\01. For_Stage\10. UI\03. HpBar\00. DefenseBar</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\Skill_UI.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\50. Skill_UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -787,6 +790,9 @@
     <ClInclude Include="..\Header\DefBar.h">
       <Filter>02. GameObject\01. For_Stage\10. UI\03. HpBar\00. DefenseBar</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Skill_UI.h">
+      <Filter>02. GameObject\01. For_Stage\10. UI\50. Skill_UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1132,6 +1138,9 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\10. UI\03. HpBar\00. DefenseBar">
       <UniqueIdentifier>{df31ea24-520b-4d5b-8b47-f4c6b5cd3afb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\50. Skill_UI">
+      <UniqueIdentifier>{7500e8c5-8ae7-46c2-8cb1-7b4e71aecf82}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
