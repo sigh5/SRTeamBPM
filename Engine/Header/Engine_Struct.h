@@ -73,6 +73,8 @@ namespace Engine
 		int _iCoin;
 		int _iKey;
 		float _fSpeed;
+
+		int _iDefense;
 	}CharacterInfo;
 
 

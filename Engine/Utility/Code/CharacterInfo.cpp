@@ -32,6 +32,7 @@ HRESULT CCharacterInfo::Ready_CharacterInfo(int _hp, int _Attack, float _fSpeed)
 	memcpy(&m_Info._fSpeed, &_fSpeed, sizeof(float));
 	m_Info._iCoin = 0;
 	m_Info._iKey = 0;
+	m_Info._iDefense = 0;
 
 	return S_OK;
 }
@@ -39,6 +40,11 @@ HRESULT CCharacterInfo::Ready_CharacterInfo(int _hp, int _Attack, float _fSpeed)
 void CCharacterInfo::Receive_Damage(int _Damage)
 {
 	m_Info._iHp -= _Damage;
+}
+
+void CCharacterInfo::Receive_DefenseCount(int _iDamage)
+{
+	m_Info._iDefense -= _iDamage;
 }
 
 int CCharacterInfo::Get_AttackPower(void)

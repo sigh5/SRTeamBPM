@@ -17,6 +17,7 @@
 #include "UI_Effect.h"
 #include "FireWorks.h"
 #include "HpBar.h"
+#include "Helmet.h"
 
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -55,12 +56,18 @@ HRESULT CPlayer::Ready_Object(void)
 	m_pDynamicTransCom->Update_Component(1.0f);
 	m_pColliderCom->Set_HitBoxMatrix(&(m_pDynamicTransCom->m_matWorld));
 	m_iOriginHP = m_pInfoCom->Get_Hp();
+	m_iOriginDef = m_pInfoCom->Get_InfoRef()._iDefense;
 
 	return S_OK;
 }
 
 _int CPlayer::Update_Object(const _float & fTimeDelta)
 {
+	CHelmet* pHelmet = static_cast<CHelmet*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Helmet1"));
+	CAnimation* pHpBarAnimation = dynamic_cast<CAnimation*>(Engine::Get_Component(L"Layer_Icon", L"HpBar", L"Proto_AnimationCom", ID_DYNAMIC));
+
+	cout << m_bDefenseToHp << endl;
+
 	if (m_bDead)
 		m_bDeadTimer += 1.0f* fTimeDelta;
 	
@@ -82,6 +89,29 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 	pEquipItem = dynamic_cast<CGun_Screen*>(Get_GameObject(L"Layer_UI", L"Gun"));
 	NULL_CHECK_RETURN(pEquipItem, -1);
 	m_iOriginHP = m_pInfoCom->Get_Hp();
+	m_iOriginDef = m_pInfoCom->Get_InfoRef()._iDefense;
+
+	if (pHelmet->Get_EquipCheck() == true)
+	{
+		//m_bDefenseOn = true;
+
+		if (!m_bDefenseOn)
+		{
+			if (m_bDefenseToHp)
+			{
+				m_pInfoCom->Add_Hp(10);
+				m_pInfoCom->Receive_DefenseCount(10);
+
+				pHpBarAnimation->Eliminate_Motion(1);
+				pHpBarAnimation->Add_Origin(1);
+
+				m_bDefenseToHp = false;
+			}
+
+			if (m_pInfoCom->Get_InfoRef()._iDefense == 0)
+				m_bDefenseOn = true;
+		}
+	}
 
 	if (m_pInfoCom->Get_Hp() <= 0)
 	{
@@ -202,7 +232,7 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 
 	if (Get_DIKeyState(DIK_L) & 0X80)
 	{
-		cout << m_pInfoCom->Get_Hp() << endl;
+		//cout << m_pInfoCom->Get_Hp() << endl;
 	}
 
 	if (Get_DIKeyState(DIK_W) & 0X80)
@@ -292,7 +322,7 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		_vec3	vPos;
 		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
 
-		cout << vPos.x << " " << vPos.z << endl;
+		//cout << vPos.x << " " << vPos.z << endl;
 
 	}
 		if (::Key_Down(DIK_LSHIFT))
@@ -395,10 +425,12 @@ void CPlayer::ComboCheck()
 		m_iComboCount = 0;
 }
 
-void CPlayer::EquipItem_Add_Stat(_int _iAttack , _int _iHp , _int iCoin, _int _iKey, float _fSpeed)  // 현재 각 아이템들 충돌처리 부분이 애매해서 F 누르면 스탯이 다 증가할 거임. 충돌처리를 고치던지 날 잡고 한 번 뜯어봐야 함.
+void CPlayer::EquipItem_Add_Stat(_int _iAttack , _int _iHp , _int iCoin, _int _iKey, float _fSpeed, _uint iDefense)  // 현재 각 아이템들 충돌처리 부분이 애매해서 F 누르면 스탯이 다 증가할 거임. 충돌처리를 고치던지 날 잡고 한 번 뜯어봐야 함.
 {
 	m_pInfoCom->Get_InfoRef()._iAttackPower = _iAttack + 10;		// iOrginAttack =10
 	m_pInfoCom->Get_InfoRef()._iHp += _iHp ;		// iOrginAttack =10
+
+	m_pInfoCom->Get_InfoRef()._iDefense += iDefense;
 	//_int iHp = _iArmor + m_pInfoCom->Get_InfoRef()._iAttackPower;
 	//m_pInfoCom->Get_InfoRef()._iHp = iHp;
 

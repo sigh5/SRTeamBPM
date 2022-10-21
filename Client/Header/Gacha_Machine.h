@@ -30,6 +30,11 @@ public:
 private:
 	HRESULT				Add_Component(void);
 
+public:
+	HRESULT				SetUp_Material(void);
+	void				Set_Light_Obj();
+
+
 private:
 	CRcTex*				m_pBufferCom = nullptr;
 	CTransform*			m_pTransCom = nullptr;
@@ -39,6 +44,8 @@ private:
 
 private:
 	_bool				m_bTextRender = false;
+
+	_bool				m_bUseCoin = false;
 
 public:
 	static CGacha_Machine*		Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint iX, _uint iY);

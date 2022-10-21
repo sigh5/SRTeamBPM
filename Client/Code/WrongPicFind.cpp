@@ -190,7 +190,7 @@ HRESULT CWrongPicFind::Add_Component(void)
 HRESULT CWrongPicFind::Create_CurrectMark(_float fX, _float fY)
 {
 	CScene*			pScene = Engine::Get_Scene();
-	CLayer*			pMyLayer = pScene->GetLayer(L"Ready_Layer_GameLogic");
+	CLayer*			pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
 
 	CGameObject*	pGameObject = nullptr;
 	pGameObject = CClick_Particle::Create(m_pGraphicDev, _vec3(fX, 0.f, fY));

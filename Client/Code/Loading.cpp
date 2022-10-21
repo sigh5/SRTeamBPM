@@ -153,8 +153,8 @@ _uint CLoading::Loading_ForStage(void)
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_CurrectUI_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Currect/Currect%d.png", TEX_NORMAL, 6)), E_FAIL);
 	// AX 
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_AX_ScreenTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Weapon_UI/AX/AX_%d.png", TEX_NORMAL, 10)), E_FAIL);
-
-	
+																										// \Bin\Resource\Texture\HpBar\DefBar
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_DefBar_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/HpBar/DefBar/DefBar%d.png", TEX_NORMAL, 11)), E_FAIL);
 	// ~UI
 
 	// Box

@@ -21,7 +21,7 @@ HRESULT CHelmet::Ready_Object(_uint iX, _uint iZ)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	Engine::CEquipmentBase::Ready_EquipInfo(10, 0, 0, 10, WEAPON_SHOTGUN);
+	Engine::CEquipmentBase::Ready_EquipInfo(0, 10, 0, 0, WEAPON_SHOTGUN);
 
 	m_RenderID = RENDER_ALPHA;
 
@@ -214,8 +214,8 @@ void CHelmet::Change_Equip()
 	pInven->Set_CurrentEquipHelmet(this);
 
 	CPlayer* pPlayer = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
-	pPlayer->EquipItem_Add_Stat(0,10);	//체력올림
-
+	pPlayer->EquipItem_Add_Stat(0,0,0,0,0,100);	//방어력 올림
+	m_bEquip = true;
 }
 
 

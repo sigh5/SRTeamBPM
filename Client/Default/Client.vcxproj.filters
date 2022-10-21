@@ -377,6 +377,12 @@
     <ClCompile Include="..\Code\Gacha_Machine.cpp">
       <Filter>02. GameObject\01. For_Stage\50. Gacha_Machine</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\MiniGame3.cpp" />
+    <ClCompile Include="..\Code\MiniTerrain.cpp" />
+    <ClCompile Include="..\Code\QuestProcessing_UI.cpp" />
+    <ClCompile Include="..\Code\DefBar.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\03. HpBar\00. DefenseBar</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -471,7 +477,6 @@
     </ClInclude>
     <ClInclude Include="..\Header\MonsterBullet.h">
       <Filter>02. GameObject\01. For_Stage\06. Bullet</Filter>
-	
     </ClInclude>
     <ClInclude Include="..\Header\MyCamera.h">
       <Filter>02. GameObject\02. For_public\02. MyCamera</Filter>
@@ -771,6 +776,16 @@
     <ClInclude Include="..\Header\Click_Particle.h" />
     <ClInclude Include="..\Header\Gacha_Machine.h">
       <Filter>02. GameObject\01. For_Stage\50. Gacha_Machine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\MiniGame3.h" />
+    <ClInclude Include="..\Header\MiniTerrain.h" />
+    <ClInclude Include="..\Header\QuestProcessing_UI.h" />
+    <ClInclude Include="..\Header\TeleCube.h" />
+    <ClInclude Include="..\Header\Box.h">
+      <Filter>02. GameObject\01. For_Stage\11. Item\02. Box</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\DefBar.h">
+      <Filter>02. GameObject\01. For_Stage\10. UI\03. HpBar\00. DefenseBar</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1114,6 +1129,9 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\50. Gacha_Machine">
       <UniqueIdentifier>{3d53369c-c1e8-4acc-af1e-65c83ff5ba99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\03. HpBar\00. DefenseBar">
+      <UniqueIdentifier>{df31ea24-520b-4d5b-8b47-f4c6b5cd3afb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

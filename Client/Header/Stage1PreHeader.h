@@ -55,3 +55,4 @@
 #include "EquipYeti.h"
 
 #include "Gacha_Machine.h"
+#include "DefBar.h"
