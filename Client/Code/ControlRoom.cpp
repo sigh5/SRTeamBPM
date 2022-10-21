@@ -249,7 +249,7 @@ _bool CControlRoom::Set_Light_Obj()
 		tLightInfo.Direction = _vec3(1.f, 0.f, -1.f);
 		tLightInfo.Position = vPos;
 		
-		FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &tLightInfo, 0), );
+		FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &tLightInfo, 0),false );
 		
 		
 		D3DLIGHT9		tLightInfo1;
@@ -262,7 +262,7 @@ _bool CControlRoom::Set_Light_Obj()
 		tLightInfo1.Direction = _vec3(-1.f, 0.f, 1.f);
 		tLightInfo1.Position = vPos;
 	
-		FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &tLightInfo1, 1), );
+		FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &tLightInfo1, 1), false);
 
 		return true;
 	}

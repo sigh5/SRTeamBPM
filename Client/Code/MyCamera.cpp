@@ -106,6 +106,7 @@ _int CMyCamera::Update_Object(const _float & fTimeDelta)
 		CGun_Screen* pGun = dynamic_cast<CGun_Screen*>(Get_GameObject(L"Layer_UI", L"Gun"));
 		NULL_CHECK_RETURN(pGun,RETURN_ERR);
 		pGun->Set_GunNoRender(false);
+		m_fPlayerDeadRotation = 0.f;
 	}
 	else if( m_fDeadTimer <5.f && m_bPlayerDead)
 	{
