@@ -20,6 +20,9 @@
 #include "ControlRoom.h"
 #include "Helmet.h"
 
+#include "DashUI.h"
+#include "Skill_UI.h"
+
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -307,8 +310,6 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 			if(pMonster!= nullptr)
 				static_cast<CMonsterBase*>(iter.second)->Excution_Event();
 		}*/
-
-
 	}
 
 	if (Get_DIKeyState(DIK_SPACE) & 0X80)
@@ -321,7 +322,8 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		cout << vPos.x << " " << vPos.z << endl;
 
 	}
-		if (::Key_Down(DIK_LSHIFT))
+	
+	if (::Key_Down(DIK_LSHIFT))
 	{
 		m_bDash = true;
 		
@@ -330,10 +332,17 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		CLayer* pLayer = pScene->GetLayer(L"Layer_UI");
 		NULL_CHECK_RETURN(pLayer, );
 		CUI_Effect* pGameObject = nullptr;
-
 		pGameObject =dynamic_cast<CUI_Effect*>(pLayer->Get_GameObject(L"Dash_Effect"));
 		pGameObject->Set_Active(true);
-
+		
+		/*CScene* pMyScene = ::Get_Scene();
+		NULL_CHECK_RETURN(pMyScene, );*/
+		CLayer* pMyLayer = pScene->GetLayer(L"Layer_Icon");
+		NULL_CHECK_RETURN(pMyLayer, );
+		CDashUI* pDashUI = nullptr;		
+		pDashUI = dynamic_cast<CDashUI*>(pMyLayer->Get_GameObject(L"DashUI"));		
+		pDashUI->Set_Lshift(true);
+		
 	}
 
 	if (::Mouse_Down(DIM_LB)) // Picking
@@ -343,6 +352,7 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 
 		Ready_MonsterShotPicking();
 	}
+
 	if (::Mouse_Down(DIM_RB)) // Picking
 	{
 		/*CScene  *pScene = ::Get_Scene();

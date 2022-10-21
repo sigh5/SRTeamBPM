@@ -26,9 +26,9 @@ HRESULT CDashUI::Ready_Object()
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	Set_OrthoMatrix(300.f, 300.f, 0.f, 0.f);
+	Set_OrthoMatrix(128.f, 128.f, 0.f, 0.f);
 
-	m_vecScale = { m_fSizeX * 0.3f, m_fSizeY * 0.3f, 1.f };
+	m_vecScale = { m_fSizeX, m_fSizeY, 1.f };
 
 	m_pTransCom->Set_Scale(&m_vecScale);
 	m_pTransCom->Set_Pos(m_fX - 194.f, m_fY - WINCY * 0.416f, 0.1f);
@@ -50,18 +50,15 @@ _int CDashUI::Update_Object(const _float & fTimeDelta)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);	
 	
 
-	if (Key_Down(DIK_LSHIFT))//(Engine::Get_DIKeyState(DIK_LSHIFT) & 0x80)
+	if (m_bLshift)//(Engine::Get_DIKeyState(DIK_LSHIFT) & 0x80)
 	{
 		m_bSize = true;
 
 		_vec3	vecLSHIFT = { m_vecScale.x * 0.7f, m_vecScale.y * 0.7f, 0.1f };
 		m_pTransCom->Set_Scale(&vecLSHIFT);
-	}
 
-	::Key_InputReset();
-
-		if(m_bSize)
-		m_fDelayTime += 50.f * fTimeDelta;
+		if (m_bSize)
+			m_fDelayTime += 50.f * fTimeDelta;
 
 		if (m_fDelay < m_fDelayTime)
 		{
@@ -69,7 +66,9 @@ _int CDashUI::Update_Object(const _float & fTimeDelta)
 			m_fDelayTime = 0.f;
 			m_bSize = false;
 		}
-			
+
+		m_bLshift = false;
+	}
 
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
@@ -146,7 +145,7 @@ CDashUI * CDashUI::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 	if (FAILED(pInstance->Ready_Object()))
 	{
 		Safe_Release(pInstance);
-		return nullptr;
+		return nullptr; 
 	}
 	return pInstance;
 }
