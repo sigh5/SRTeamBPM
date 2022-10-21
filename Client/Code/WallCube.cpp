@@ -6,7 +6,7 @@
 #include "Terrain.h"
 #include "AbstractFactory.h"
 #include "SphinxFlyHead.h"
-
+#include "ControlRoom.h"
 
 CWallCube::CWallCube(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -77,11 +77,16 @@ void CWallCube::Render_Obejct(void)
 {
 	/*if (m_bWireFrame)
 		m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);*/
-
+	Set_Light_Obj();
 	
 	// Hit Box 
 	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, TRUE);
+	m_pGraphicDev->LightEnable(0, TRUE);
+	m_pGraphicDev->LightEnable(1, TRUE);
+	m_pGraphicDev->LightEnable(2, FALSE);
 	m_pGraphicDev->LightEnable(3, FALSE);
+	
+
 	if (m_iOption == CUBE_COLLISION_WALL)
 	{
 		CScene* pScene = Get_Scene();
@@ -145,6 +150,12 @@ void CWallCube::Render_Obejct(void)
 	//}
 
 	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
+	m_pGraphicDev->LightEnable(0, FALSE);
+	m_pGraphicDev->LightEnable(1, FALSE);
+	m_pGraphicDev->LightEnable(2, FALSE);
+	m_pGraphicDev->LightEnable(3, FALSE);
+
+
 
 }
 
@@ -242,18 +253,82 @@ HRESULT CWallCube::Add_Component(void)
 
 HRESULT CWallCube::SetUp_Material(void)
 {
+	CScene* pScene = Get_Scene();
+	CLayer* pLayer = pScene->GetLayer(L"Layer_Room");
+
+	_vec3 vPlayerPos, vPos;
+
+	CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
+	if (pPlayerTransformCom == nullptr)
+		return E_FAIL;
+
+	pPlayerTransformCom->Get_Info(INFO_POS, &vPlayerPos);
+	m_pTransCom->Get_Info(INFO_POS, &vPos);
+
+	_float fMtoPDistance = sqrtf((powf(vPlayerPos.x - vPos.x, 2)
+		+ powf(vPlayerPos.y - vPos.y, 2)
+		+ powf(vPlayerPos.z - vPos.z, 2)));
+
+	_float fDistance = ((1.f - fMtoPDistance / 30.f)) + 0.2f;;
+
 	D3DMATERIAL9		tMtrl;
 	ZeroMemory(&tMtrl, sizeof(D3DMATERIAL9));
 
-	tMtrl.Diffuse = D3DXCOLOR(0.2f, 0.2f, 0.2f, 0.2f);
-	tMtrl.Specular = D3DXCOLOR(0.2f, 0.2f, 0.2f, 0.2f);
-	tMtrl.Ambient = D3DXCOLOR(0.2f, 0.2f, 0.2f, 0.2f);
-	tMtrl.Emissive = D3DXCOLOR(0.2f, 0.2f, 0.2f, 0.2f);
+	tMtrl.Diffuse = D3DXCOLOR(fDistance, fDistance, fDistance, fDistance);
+	tMtrl.Specular = D3DXCOLOR(fDistance, fDistance, fDistance, fDistance);
+	tMtrl.Ambient = D3DXCOLOR(fDistance, fDistance, fDistance, fDistance);
+	tMtrl.Emissive = D3DXCOLOR(fDistance, fDistance, fDistance, fDistance);
 	tMtrl.Power = 0.f;
 
 	m_pGraphicDev->SetMaterial(&tMtrl);
 
 	return S_OK;
+}
+
+void CWallCube::Set_Light_Obj()
+{
+	/*CScene* pScene = Get_Scene();
+	CLayer* pLayer = pScene->GetLayer(L"Layer_Room");
+	
+	_vec3 vPlayerPos, vPos;
+
+	CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
+	if (pPlayerTransformCom == nullptr)
+		return;
+
+	pPlayerTransformCom->Get_Info(INFO_POS, &vPlayerPos);
+	m_pTransCom->Get_Info(INFO_POS, &vPos);
+
+	_float fMtoPDistance = sqrtf((powf(vPlayerPos.x - vPos.x, 2)
+		+ powf(vPlayerPos.y - vPos.y, 2)
+		+ powf(vPlayerPos.z - vPos.z, 2)));
+
+	_float fDistance = ((1.f - fMtoPDistance / 10.f)) + 0.3f;;
+	
+	max(fDistance, 0.3f);
+
+	D3DLIGHT9		tLightInfo;
+	ZeroMemory(&tLightInfo, sizeof(D3DLIGHT9));
+
+	D3DLIGHT9		tLightInfo1;
+	ZeroMemory(&tLightInfo1, sizeof(D3DLIGHT9));
+
+	for (auto iter : pLayer->Get_ControlRoomList())
+	{
+		
+		if (static_cast<CControlRoom*>(iter)->Set_Light_Obj(fDistance, &tLightInfo, &tLightInfo1))
+		{
+			FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &tLightInfo1, 1), );
+			FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &tLightInfo, 0), );
+			return;
+		}
+
+
+	}
+*/
+
+
+	
 }
 
 CWallCube * CWallCube::Create(LPDIRECT3DDEVICE9 pGraphicDev)

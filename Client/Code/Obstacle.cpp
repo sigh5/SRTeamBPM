@@ -273,10 +273,10 @@ void CObstacle::Render_Obejct(void)
 
 	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
 	
-	m_pGraphicDev->LightEnable(0, TRUE);
-	m_pGraphicDev->LightEnable(1, TRUE);
-	m_pGraphicDev->LightEnable(2, TRUE);
-	m_pGraphicDev->LightEnable(3, TRUE);
+	m_pGraphicDev->LightEnable(0, FALSE);
+	m_pGraphicDev->LightEnable(1, FALSE);
+	m_pGraphicDev->LightEnable(2, FALSE);
+	m_pGraphicDev->LightEnable(3, FALSE);
 	m_pGraphicDev->LightEnable(4, FALSE);
 }
 
@@ -461,16 +461,45 @@ HRESULT CObstacle::SetUp_Material(void)
 {
 	if (m_bControlAnim)
 	{
-		D3DMATERIAL9		tMtrl;
-		ZeroMemory(&tMtrl, sizeof(D3DMATERIAL9));
+		_vec3 vPlayerPos, vPos;
 
-		tMtrl.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-		tMtrl.Specular = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-		tMtrl.Ambient = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-		tMtrl.Emissive = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-		tMtrl.Power = 0.f;
+		CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
+		NULL_CHECK(pPlayerTransformCom);
 
-		m_pGraphicDev->SetMaterial(&tMtrl);
+		pPlayerTransformCom->Get_Info(INFO_POS, &vPlayerPos);
+		m_pTransCom->Get_Info(INFO_POS, &vPos);
+
+		_float fMtoPDistance = sqrtf((powf(vPlayerPos.x - vPos.x, 2)
+			+ powf(vPlayerPos.y - vPos.y, 2)
+			+ powf(vPlayerPos.z - vPos.z, 2)));
+
+		if (fMtoPDistance < 100.f)
+		{
+
+			D3DMATERIAL9		tMtrl;
+			ZeroMemory(&tMtrl, sizeof(D3DMATERIAL9));
+
+			tMtrl.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+			tMtrl.Specular = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+			tMtrl.Ambient = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+			tMtrl.Emissive = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+			tMtrl.Power = 0.f;
+
+			m_pGraphicDev->SetMaterial(&tMtrl);
+		}
+		else
+		{
+			D3DMATERIAL9		tMtrl;
+			ZeroMemory(&tMtrl, sizeof(D3DMATERIAL9));
+
+			tMtrl.Diffuse = D3DXCOLOR(0.5f, 0.5f, 0.5f, 0.5f);
+			tMtrl.Specular = D3DXCOLOR(0.5f, 0.5f, 0.5f, 0.5f);
+			tMtrl.Ambient = D3DXCOLOR(0.5f, 0.5f, 0.5f, 0.5f);
+			tMtrl.Emissive = D3DXCOLOR(0.5f, 0.5f, 0.5f, 0.5f);
+			tMtrl.Power = 0.f;
+
+			m_pGraphicDev->SetMaterial(&tMtrl);
+		}
 	}
 
 

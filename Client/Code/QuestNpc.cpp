@@ -119,7 +119,7 @@ void CQuestNpc::Collision_Event()
 
 	if (m_pColliderCom->Check_Collision(this, pGameObject, 4, 4))
 	{
-		if (Key_Down(DIK_F))
+		if (Key_Down(DIK_C))
 		{
 			pLayer = pScene->GetLayer(L"Layer_UI");
 			if (Quest_clear(pLayer))

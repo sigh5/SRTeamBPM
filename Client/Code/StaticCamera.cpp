@@ -2,6 +2,7 @@
 #include "..\Header\StaticCamera.h"
 
 #include "Export_Function.h"
+#include "MiniPlayer.h"
 
 CStaticCamera::CStaticCamera(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CCamera(pGraphicDev)
@@ -37,7 +38,7 @@ HRESULT CStaticCamera::Ready_Object(const _vec3* pEye,
 
 Engine::_int CStaticCamera::Update_Object(const _float& fTimeDelta)
 {
-	Key_Input(fTimeDelta);
+	
 
 	Target_Renewal();
 
@@ -64,26 +65,10 @@ CStaticCamera* CStaticCamera::Create(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3*
 	return pInstance;
 }
 
-void CStaticCamera::Key_Input(const _float& fTimeDelta)
-{
-	if (Get_DIKeyState(DIK_I) & 0x80)
-		m_fDistance -= fTimeDelta * m_fSpeed;
-	
-	if(Get_DIKeyState(DIK_O) & 0x80)
-		m_fDistance += fTimeDelta * m_fSpeed;
-	
-	if (Get_DIKeyState(DIK_D) & 0x80)
-		m_fAngle -= D3DXToRadian(180.f) * fTimeDelta;
-
-	if (Get_DIKeyState(DIK_A) & 0x80)
-		m_fAngle += D3DXToRadian(180.f) * fTimeDelta;
-
-	
-}
 
 void CStaticCamera::Target_Renewal(void)
 {
-	CTransform*	pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"TestPlayer", L"Proto_TransformCom", ID_DYNAMIC));
+	CTransform*	pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"MiniPlayer", L"Proto_DynamicTransformCom", ID_DYNAMIC));
 	NULL_CHECK(pPlayerTransform);
 
 	_vec3	vLook;

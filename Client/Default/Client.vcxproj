@@ -229,7 +229,9 @@
     <ClInclude Include="..\Header\MetronomeSmallUI.h" />
     <ClInclude Include="..\Header\MetronomeUI.h" />
     <ClInclude Include="..\Header\MiniGame3.h" />
+    <ClInclude Include="..\Header\MiniPlayer.h" />
     <ClInclude Include="..\Header\MiniStage1.h" />
+    <ClInclude Include="..\Header\MiniStage3PreHeader.h" />
     <ClInclude Include="..\Header\MiniTerrain.h" />
     <ClInclude Include="..\Header\MonsterBullet.h" />
     <ClInclude Include="..\Header\MonsterToolObject.h" />
@@ -275,6 +277,7 @@
     <ClInclude Include="..\Header\TapeWorm.h" />
     <ClInclude Include="..\Header\TeleCube.h" />
     <ClInclude Include="..\Header\Terrain.h" />
+    <ClInclude Include="..\Header\ThunderHand.h" />
     <ClInclude Include="..\Header\ToolTest.h" />
     <ClInclude Include="..\Header\UI_Effect.h" />
     <ClInclude Include="..\Header\UI_Frame.h" />
@@ -361,6 +364,7 @@
     <ClCompile Include="..\Code\MetronomeRect.cpp" />
     <ClCompile Include="..\Code\MetronomeSmallUI.cpp" />
     <ClCompile Include="..\Code\MiniGame3.cpp" />
+    <ClCompile Include="..\Code\MiniPlayer.cpp" />
     <ClCompile Include="..\Code\MiniStage1.cpp" />
     <ClCompile Include="..\Code\MiniTerrain.cpp" />
     <ClCompile Include="..\Code\MonsterBullet.cpp" />
@@ -407,6 +411,7 @@
     <ClCompile Include="..\Code\TapeWorm.cpp" />
     <ClCompile Include="..\Code\TeleCube.cpp" />
     <ClCompile Include="..\Code\Terrain.cpp" />
+    <ClCompile Include="..\Code\ThunderHand.cpp" />
     <ClCompile Include="..\Code\ToolTest.cpp" />
     <ClCompile Include="..\Code\UI_Effect.cpp" />
     <ClCompile Include="..\Code\UI_Frame.cpp" />
@@ -490,6 +495,7 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\ShaderFilesPath\ShaderRect.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFilesPath\Shader_Terrain.hlsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

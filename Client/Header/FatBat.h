@@ -15,7 +15,7 @@ public:
 	virtual void		Render_Obejct(void) override;
 	virtual void		Collision_Event()override;
 	virtual bool		Dead_Judge(const _float& fTimeDelta);
-
+	virtual void		Excution_Event(_bool bAOE = false)override;
 	virtual void NoHit_Loop(const _float& fTimeDelta);
 	virtual void Hit_Loop(const _float& fTimeDelta);
 public:

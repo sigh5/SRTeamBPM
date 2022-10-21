@@ -56,3 +56,5 @@
 
 #include "Gacha_Machine.h"
 #include "DefBar.h"
+
+#include "ThunderHand.h"

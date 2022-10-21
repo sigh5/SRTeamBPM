@@ -207,9 +207,6 @@ void CTapeWorm::Collision_Event()
 	}
 }
 
-void CTapeWorm::Excution_Event()
-{
-}
 
 bool CTapeWorm::Dead_Judge(const _float & fTimeDelta)
 {

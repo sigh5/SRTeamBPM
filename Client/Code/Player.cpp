@@ -16,8 +16,8 @@
 #include "AttackEffect.h"
 #include "UI_Effect.h"
 #include "FireWorks.h"
-#include "HpBar.h"
-#include "Helmet.h"
+#include "ThunderHand.h"
+#include "ControlRoom.h"
 
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -39,7 +39,7 @@ HRESULT CPlayer::Ready_Object(void)
 	
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
+	m_pInfoCom->Ready_CharacterInfo(10, 10, 5.f);
 	m_pInfoCom->Get_InfoRef()._iCoin = 10;
 
 
@@ -57,7 +57,6 @@ HRESULT CPlayer::Ready_Object(void)
 	m_pColliderCom->Set_HitBoxMatrix(&(m_pDynamicTransCom->m_matWorld));
 	m_iOriginHP = m_pInfoCom->Get_Hp();
 	m_iOriginDef = m_pInfoCom->Get_InfoRef()._iDefense;
-	
 	return S_OK;
 }
 
@@ -66,14 +65,14 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 	CHelmet* pHelmet = static_cast<CHelmet*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Helmet1"));
 	CAnimation* pHpBarAnimation = dynamic_cast<CAnimation*>(Engine::Get_Component(L"Layer_Icon", L"HpBar", L"Proto_AnimationCom", ID_DYNAMIC));
 
-	cout << m_bDefenseToHp << endl;
 
 	if (m_bDead)
 		m_bDeadTimer += 1.0f* fTimeDelta;
 	
-	if (m_bDeadTimer >= 7.f)
+	if (m_bDeadTimer >= 5.f)
 	{
-		Random_ResurrectionRoom();
+		//Random_ResurrectionRoom();
+		
 		m_bDeadTimer = 0.f;
 		m_bDead = false;
 	}
@@ -160,7 +159,7 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 		pGameObject->Set_Active(false);
 	}
 
-	//	cout << m_pInfoCom->Get_InfoRef()._iHp << endl;
+
 
 
 
@@ -232,7 +231,7 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 
 	if (Get_DIKeyState(DIK_L) & 0X80)
 	{
-		//cout << m_pInfoCom->Get_Hp() << endl;
+		cout << m_pInfoCom->Get_Hp() << endl;
 	}
 
 	if (Get_DIKeyState(DIK_W) & 0X80)
@@ -286,32 +285,28 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 	if (Key_Down(DIK_T))
 	{
 		// Test -> Shop 추후수정
-		m_pDynamicTransCom->Set_Pos(340.f, 2.f, 325.f);
+		//m_pDynamicTransCom->Set_Pos(340.f, 2.f, 325.f);
 		//
 		Excution_Motion();
 
 		Engine::PlaySoundW(L"Axe_Swing.mp3", SOUND_EFFECT, 1.f);
 
 		CScene* pScene = Get_Scene();
-		CLayer* PLayer = pScene->GetLayer(L"Layer_GameLogic");
+		CLayer* pLayer = pScene->GetLayer(L"Layer_Room");
 		
-		for (auto iter : PLayer->Get_GameObjectMap())
+		for (auto iter : pLayer->Get_ControlRoomList())
+		{
+			static_cast<CControlRoom*>(iter)->Area_of_Effect(true);
+		}
+
+		/*for (auto iter : PLayer->Get_GameObjectMap())
 		{
 			CMonsterBase* pMonster = dynamic_cast<CMonsterBase*>(iter.second);
 
 			if(pMonster!= nullptr)
 				static_cast<CMonsterBase*>(iter.second)->Excution_Event();
-		}
+		}*/
 
-
-
-	/*	NULL_CHECK_RETURN(pScene, );
-		CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
-		NULL_CHECK_RETURN(pLayer, );
-		CGameObject *pGameObject = nullptr;
-		_vec3	vPos;
-		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);*/
-	
 
 	}
 
@@ -322,7 +317,7 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		_vec3	vPos;
 		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
 
-		//cout << vPos.x << " " << vPos.z << endl;
+		cout << vPos.x << " " << vPos.z << endl;
 
 	}
 		if (::Key_Down(DIK_LSHIFT))
@@ -349,13 +344,23 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 	}
 	if (::Mouse_Down(DIM_RB)) // Picking
 	{
-		CScene  *pScene = ::Get_Scene();
+		/*CScene  *pScene = ::Get_Scene();
 		CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
 		_vec3 vPos;
 		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
 		vPos.y += 40.f;
 		CGameObject* pFireworks = CFireWorks::Create(m_pGraphicDev, vPos);
-		pLayer->Add_GameObjectList(pFireworks);
+		pLayer->Add_GameObjectList(pFireworks);*/
+
+		CScene  *pScene = ::Get_Scene();
+		CLayer * pLayer = pScene->GetLayer(L"Layer_UI");
+		CThunderHand* pThunderHand = dynamic_cast<CThunderHand*>(pLayer->Get_GameObject(L"SkillHand"));
+	
+		if (pThunderHand == nullptr) //|| !pThunderHand->Player_BuySkill())
+			return;
+
+		pThunderHand->Set_Active(true);
+
 	}
 	
 	if (Get_DIKeyState(DIK_R) & 0X80)
@@ -379,9 +384,11 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		m_pDynamicTransCom->Get_Info(INFO_POS, &vcurrentPos);
 	}
 
-	if (Engine::Key_Down(DIK_C))
+	if (Engine::Key_Down(DIK_L))
 	{
-		Player_Dead(fTimeDelta);
+		m_pInfoCom->Get_InfoRef()._iHp += 10000;
+
+		//Player_Dead(fTimeDelta);
 		//m_pInfoCom->Get_InfoRef()._iHp -= 25;
 	}
 	Engine::Key_InputReset();
@@ -429,7 +436,7 @@ void CPlayer::EquipItem_Add_Stat(_int _iAttack , _int _iHp , _int iCoin, _int _i
 {
 	m_pInfoCom->Get_InfoRef()._iAttackPower = _iAttack + 10;		// iOrginAttack =10
 	m_pInfoCom->Get_InfoRef()._iHp += _iHp ;		// iOrginAttack =10
-
+	
 	m_pInfoCom->Get_InfoRef()._iDefense += iDefense;
 	//_int iHp = _iArmor + m_pInfoCom->Get_InfoRef()._iAttackPower;
 	//m_pInfoCom->Get_InfoRef()._iHp = iHp;
@@ -474,15 +481,23 @@ void CPlayer::Random_ResurrectionRoom()
 
 	_vec3 vFirstCubePos;
 	pFirstCubeTransform->Get_Info(INFO_POS, &vFirstCubePos);
+	
+	_vec3  vAngle;
+	vAngle = pFirstCubeTransform->Get_Angle();
+	m_pDynamicTransCom->Rotation(ROT_Y, vAngle.y);
 
-	m_pDynamicTransCom->Set_Pos(vFirstCubePos.x + 5.f, vFirstCubePos.y, vFirstCubePos.z + 5.f);
+	m_pDynamicTransCom->Set_Pos(vFirstCubePos.x , vFirstCubePos.y, vFirstCubePos.z );
+
 	// Player HpBar Reset
 	CAnimation* pHpBarAnimation = dynamic_cast<CAnimation*>(Engine::Get_Component(L"Layer_Icon", L"HpBar", L"Proto_AnimationCom", ID_DYNAMIC));
 
 	pHpBarAnimation->m_iMotion = 0;
 	pHpBarAnimation->Set_Motion(10);
 	// ~Player HpBar Reset
+
 	pLayer->Reset_Monster();
+	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
+	m_iComboCount = 0;
 	m_pDynamicTransCom->Update_Component(1.f);
 }
 
@@ -504,7 +519,7 @@ void CPlayer::Player_Dead(const _float& fTimeDelta)
 	pDead_UI->Set_BGM(false);
 
 	Player_Dead_CaemraAction();
-	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
+
 
 	m_bDead = true;
 }

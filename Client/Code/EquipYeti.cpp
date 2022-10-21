@@ -208,8 +208,6 @@ void CEquipYeti::Change_Equip()
 	if (m_EquipState == EquipState_Equip_Pet)
 		return;
 
-
-
 	CInventory_UI* pInven = static_cast<CInventory_UI*>(Get_GameObject(L"Layer_UI", L"InventoryUI"));
 	pInven->Set_CurrentEquipPet(this);
 
@@ -250,7 +248,7 @@ void CEquipYeti::PickingMouseUp()
 			RECT Rc{};
 			if (m_EquipState == EquipState_Equip_Pet)
 			{
-				memcpy(&Rc, &pInven->Get_EquipSlot()[m_iInvenSlotIndex].rcInvenSlot, sizeof(RECT));
+				memcpy(&Rc, &pInven->Get_EquipSlot()[3].rcInvenSlot, sizeof(RECT));
 				m_fX = (Rc.left + Rc.right) / 2.f;
 				m_fY = (Rc.top + Rc.bottom) / 2.f;
 				m_pTransCom->Set_Pos(m_fX - WINCX * 0.5f,
@@ -286,16 +284,14 @@ void CEquipYeti::SearchInventorySlot(CInventory_UI ** pInven)
 	RECT rcMouse = { (LONG)(ptMouse.x - 30.f) ,(LONG)(ptMouse.y - 35.f) ,(LONG)(ptMouse.x + 30.f) ,(LONG)(ptMouse.y + 30.f) };
 	RECT Rc{};
 
-
-
 	if (m_EquipState != EquipState_Equip_Pet)
 	{
 		memcpy(&Rc, &(*pInven)->Get_EquipSlot()[3].rcInvenSlot, sizeof(RECT));
 		if (PtInRect(&Rc, ptMouse))
 		{
 			Change_Equip();
-
 			m_iMouseUpEnd = true;
+
 			if ((*pInven)->Get_CurrentEquipHelmet() == nullptr)
 			{
 				Change_Equip();

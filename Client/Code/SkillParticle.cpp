@@ -3,6 +3,11 @@
 
 #include "Export_Function.h"
 #include "AbstractFactory.h"
+#include "MyCamera.h"
+#include "Player.h"
+#include "Gun_Screen.h"
+
+
 
 CSkillParticle::CSkillParticle(LPDIRECT3DDEVICE9 pGraphicDev, BDBOX * boundingBox, int numParticles, _vec3 vPos)
 	:CPSystem(pGraphicDev)
@@ -20,6 +25,7 @@ CSkillParticle::CSkillParticle(LPDIRECT3DDEVICE9 pGraphicDev, BDBOX * boundingBo
 	{
 		addParticle();
 	}
+	
 	m_pTransform->Set_Pos(vPos.x, vPos.y, vPos.z);
 
 
@@ -32,6 +38,32 @@ CSkillParticle::~CSkillParticle()
 
 _int CSkillParticle::Update_Object(const _float & fTimeDelta)
 {
+	if (m_bActive)
+	{
+		m_fFrame += 1.f*fTimeDelta;
+
+		CMyCamera* pCamera = dynamic_cast<CMyCamera*>(::Get_GameObject(L"Layer_Environment", L"CMyCamera"));
+		CPlayer* pPlayer = dynamic_cast<CPlayer*>(::Get_GameObject(L"Layer_GameLogic",L"Player"));
+		CTransform* pPlayerTransform = static_cast<CTransform*>(pPlayer->Get_Component(L"Proto_DynamicTransformCom", ID_DYNAMIC));
+	
+		_float	fAngleY = 10.5f;
+		_vec3 vPos;
+		pPlayerTransform->Get_Info(INFO_POS, &vPos);
+		m_pTransform->Set_Pos((vPos.x+ pCamera->m_vEye.x) /2, 2.f, (vPos.z + pCamera->m_vEye.z)/2);
+		m_pTransform->Rotation(ROT_Y, fAngleY);
+		
+		CGun_Screen* pGunScreen = dynamic_cast<CGun_Screen*>(::Get_GameObject(L"Layer_UI", L"Gun"));
+		pGunScreen->Set_Active(true);
+
+	}
+
+	if (m_fFrame >= 1.f)
+	{
+		m_bActive = false;
+		m_fFrame = 0.f;
+		m_fOnce = true;
+
+	}
 	update(fTimeDelta);
 
 
@@ -68,9 +100,15 @@ void CSkillParticle::update(_float fTimeDelta)
 
 void CSkillParticle::Render_Obejct(void)
 {
+	if (!m_bActive)
+		return;
+
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransform->Get_WorldMatrixPointer());
 	m_pTextureCom->Set_Texture(0);
 	render();
+
+	
+
 }
 
 void CSkillParticle::resetParticle(Attribute* attribute)

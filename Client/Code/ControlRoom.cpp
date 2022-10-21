@@ -50,7 +50,7 @@ _int CControlRoom::Update_Object(const _float & fTimeDelta)
 		m_fCollisionTimer += 1.f*fTimeDelta;
 	}
 
-	if (m_fCollisionTimer >= 7.f)
+	if (m_fCollisionTimer >= 5.f)
 	{
 		pSkyBox->Set_ControlCubeCheck(false);
 		m_fCollisionTimer = 0;
@@ -87,6 +87,7 @@ void CControlRoom::LateUpdate_Object()
 		
 	}
 	m_iRestMonsterNum = 0;
+	m_pCurrentRoomMonster.clear();
 	Set_Light_Obj();
 }
 
@@ -128,9 +129,13 @@ void CControlRoom::Collision_Event()
 			if (m_pColliderCom->Check_CollisonUseCollider(m_pColliderCom, pCollider))
 			{
 				++m_iRestMonsterNum;
-
+				
 				if (static_cast<CMonsterBase*>(iter)->Get_InfoRef()._iHp <= 0)
 					--m_iRestMonsterNum;
+				else
+				{
+					m_pCurrentRoomMonster.push_back(iter);
+				}
 			}
 		}
 		
@@ -154,6 +159,10 @@ void CControlRoom::Collision_Event()
 
 				if (static_cast<CMonsterBase*>(iter.second)->Get_InfoRef()._iHp <= 0)
 					--m_iRestMonsterNum;
+				else
+				{
+					m_pCurrentRoomMonster.push_back(iter.second);
+				}
 			}
 
 		}
@@ -170,6 +179,7 @@ void CControlRoom::Collision_Event()
 				{
 					--m_iRestMonsterNum;
 				}
+				
 			}
 		}
 
@@ -177,6 +187,31 @@ void CControlRoom::Collision_Event()
 	}
 
 
+}
+
+void CControlRoom::Area_of_Effect(_bool bAX)
+{
+		
+	if (m_bPlayerInTerrain)
+	{
+		if (bAX)
+		{
+			for (auto iter : m_pCurrentRoomMonster)
+			{
+				dynamic_cast<CMonsterBase*>(iter)->Excution_Event(false);
+			}
+			return;
+		}
+
+		for (auto iter : m_pCurrentRoomMonster)
+		{
+			dynamic_cast<CMonsterBase*>(iter)->Excution_Event(true);
+
+
+		}
+
+		
+	}
 }
 
 HRESULT CControlRoom::Add_Component(void)
@@ -196,40 +231,44 @@ HRESULT CControlRoom::SetUp_Material(void)
 	return E_NOTIMPL;
 }
 
-void CControlRoom::Set_Light_Obj()
+_bool CControlRoom::Set_Light_Obj()
 {
 	if (m_bPlayerInTerrain)
 	{
 		_vec3 vPos;
 		m_pTransCom->Get_Info(INFO_POS, &vPos);
-		vPos.y += 7.f;
 
+		
 		D3DLIGHT9		tLightInfo;
 		ZeroMemory(&tLightInfo, sizeof(D3DLIGHT9));
 
 		tLightInfo.Type = D3DLIGHT_DIRECTIONAL;
-		tLightInfo.Diffuse = D3DXCOLOR(0.6f, 0.5f, 0.5f, 0.5f);
-		tLightInfo.Specular = D3DXCOLOR(0.6f, 0.5f, 0.5f, 0.5f);
-		tLightInfo.Ambient = D3DXCOLOR(0.6f, 0.5f, 0.5f, 0.5f);
+		tLightInfo.Diffuse = D3DXCOLOR(0.8f, 0.8f, 0.8f, 0.8f);
+		tLightInfo.Specular = D3DXCOLOR(0.8f, 0.8f, 0.8f, 0.8f);
+		tLightInfo.Ambient = D3DXCOLOR(0.8f, 0.8f, 0.8f, 0.8f);
 		tLightInfo.Direction = _vec3(1.f, 0.f, -1.f);
 		tLightInfo.Position = vPos;
-		FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &tLightInfo, 0), );
-
+		
+		FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &tLightInfo, 0),false );
+		
+		
 		D3DLIGHT9		tLightInfo1;
 		ZeroMemory(&tLightInfo1, sizeof(D3DLIGHT9));
 
 		tLightInfo1.Type = D3DLIGHT_DIRECTIONAL;
-		tLightInfo1.Diffuse = D3DXCOLOR(0.6f, 0.5f, 0.5f, 0.5f);
-		tLightInfo1.Specular = D3DXCOLOR(0.6f, 0.5f, 0.5f, 0.5f);
-		tLightInfo1.Ambient = D3DXCOLOR(0.6f, 0.5f, 0.5f, 0.5f);
+		tLightInfo1.Diffuse = D3DXCOLOR(0.8f, 0.8f, 0.8f, 0.8f);
+		tLightInfo1.Specular = D3DXCOLOR(0.8f, 0.8f, 0.8f, 0.8f);
+		tLightInfo1.Ambient = D3DXCOLOR(0.8f, 0.8f, 0.8f, 0.8f);
 		tLightInfo1.Direction = _vec3(-1.f, 0.f, 1.f);
-		tLightInfo.Position = vPos;
-		FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &tLightInfo1, 1), );
+		tLightInfo1.Position = vPos;
+	
+		FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &tLightInfo1, 1), false);
 
+		return true;
 	}
 
 
-
+	return false;
 
 }
 

@@ -133,6 +133,9 @@ _uint CLoading::Loading_ForStage(void)
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Shop_UI_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Shop_UI.png", TEX_NORMAL)), E_FAIL);
 
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Chim_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Chim_Binpole.png", TEX_NORMAL)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Skill_ScreenTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Gun_Output/Skill_Screen/spellhand_storm_%d.png", TEX_NORMAL, 5)), E_FAIL);
+
+	
 	// \Bin\Resource\Texture\UI
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UI_Frame_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/UI_Frame.png", TEX_NORMAL)), E_FAIL);
 
@@ -221,6 +224,11 @@ _uint CLoading::Loading_ForStage(void)
 	
 	// 
 
+	//Shader
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ShaderTerrain", CShader::Create(m_pGraphicDev, TEXT("../Bin/ShaderFilesPath/Shader_Terrain.hlsl"))), E_FAIL);
+
+
+
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_fetrues_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/features/features_%d.png", TEX_NORMAL, 24)), E_FAIL);
 
 	// NPC
@@ -280,6 +288,8 @@ _uint CLoading::Loading_ForPlayer_UI(void)
 
 	// Bin\Resource\Texture\Gun_Output
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Gun_ScreenTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Gun_Output/Magnum%d.png", TEX_NORMAL, 5)), E_FAIL);
+	
+
 
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ShotGun_ScreenTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Gun_Output/Shotgun/Shotgun%d.png", TEX_NORMAL, 16)), E_FAIL);
 
@@ -409,6 +419,11 @@ unsigned int CLoading::Thread_Main(void * pArg)
 	case LOADING_TEST:
 
 		break;
+
+	case LOADING_MINISTAGE3:
+		iFlag = pLoading->Loading_ForStage();
+		break;
+
 
 	case LOADING_PLAYER_UI:
 		iFlag = pLoading->Loading_ForPlayer_UI();

@@ -76,6 +76,7 @@ public:
 
 	void				Set_DefenseToHp(_bool _bDefenseToHp) { m_bDefenseToHp = _bDefenseToHp; }
 
+
 private:
 	void				Random_ResurrectionRoom();
 	void				Player_Dead_CaemraAction();

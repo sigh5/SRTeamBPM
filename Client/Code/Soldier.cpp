@@ -246,8 +246,16 @@ void CSoldier::Collision_Event()
 	}
 }
 
-void CSoldier::Excution_Event()
+void CSoldier::Excution_Event(_bool bAOE)
 {
+
+	if (bAOE)
+	{
+		m_pInfoCom->Receive_Damage(1);
+		return;
+	}
+
+
 	if (!m_bDead && 1 >= m_pInfoCom->Get_Hp())
 	{
 		m_pInfoCom->Receive_Damage(1);
