@@ -75,10 +75,10 @@ public:
 	const _bool&		Get_ShopUIActive() { return m_bShopUIActive; }
 
 	void				Set_DefenseToHp(_bool _bDefenseToHp) { m_bDefenseToHp = _bDefenseToHp; }
-
+	
+	void				Random_ResurrectionRoom();
 
 private:
-	void				Random_ResurrectionRoom();
 	void				Player_Dead_CaemraAction();
 	void				Player_Dead(const _float& fTimeDelta);
 

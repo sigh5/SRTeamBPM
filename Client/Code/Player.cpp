@@ -40,7 +40,7 @@ HRESULT CPlayer::Ready_Object(void)
 	
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pInfoCom->Ready_CharacterInfo(10, 10, 5.f);
+	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
 	m_pInfoCom->Get_InfoRef()._iCoin = 10;
 
 
