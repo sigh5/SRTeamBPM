@@ -414,6 +414,11 @@ unsigned int CLoading::Thread_Main(void * pArg)
 
 		break;
 
+	case LOADING_MINISTAGE3:
+		iFlag = pLoading->Loading_ForStage();
+		break;
+
+
 	case LOADING_PLAYER_UI:
 		iFlag = pLoading->Loading_ForPlayer_UI();
 		break;

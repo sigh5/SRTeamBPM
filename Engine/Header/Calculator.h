@@ -9,6 +9,7 @@ class CCubeTex;
 class CRcTex;
 class CCubeNormalTex;
 class CEquipmentBase;
+class CTerrainMoveTex;
 
 class ENGINE_DLL CCalculator :	public CComponent
 {
@@ -28,6 +29,8 @@ public:
 
 	_vec3		PickingOnTerrain(HWND hWnd, const CTerrainTex* pTerrainBufferCom, const CTransform* pTerrainTransformCom);
 
+
+	
 	//Cal cubePositon
 	_vec3		PickingOnTerrainCube(HWND hWnd, const CTerrainTex* pTerrainBufferCom, const CTransform* pTerrainTransformCom);
 	// Cal CubeRayHit

@@ -401,6 +401,7 @@
     <ClCompile Include="..\Code\ThunderHand.cpp">
       <Filter>02. GameObject\01. For_Stage\13. Gun_Screen\Magic</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\MiniPlayer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -829,6 +830,10 @@
     <ClInclude Include="..\Header\ThunderHand.h">
       <Filter>02. GameObject\01. For_Stage\13. Gun_Screen\Magic</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\MiniPlayer.h" />
+    <ClInclude Include="..\Header\MiniStage3PreHeader.h">
+      <Filter>99. Default\PreSceneHeader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1195,6 +1200,9 @@
     </Filter>
     <Filter Include="Shader">
       <UniqueIdentifier>{bfd05942-66b2-4a91-94d6-611833d6a014}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\00. Player\MiniGamePlayer">
+      <UniqueIdentifier>{5731dc14-c3fb-4a6c-85da-c13222f17c87}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
