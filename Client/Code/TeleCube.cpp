@@ -32,15 +32,24 @@ _int CTeleCube::Update_Object(const _float & fTimeDelta)
 {
 	m_pColliderCom->Set_HitBoxMatrix(&(m_pTransCom->m_matWorld));
 
+
 	if (m_bCollisionCheck)
 	{
-		m_bSetActive = true;
+		CScene* pScene = Get_Scene();
+		CLayer* pLayer = pScene->GetLayer(L"Layer_CubeCollsion");
+		for (int i = 0; i < TELEPORT_CUBE_LIST_END; ++i)
+		{
+			for (auto iter : *(pLayer->Get_TeleCubeList(i)))
+				dynamic_cast<CTeleCube*>(iter)->Set_Active(true);
+		}
+
 		m_fActiveTimer += 1.f*fTimeDelta;
 	}
 
-	if (m_fActiveTimer >= 10.f)
+
+	if (m_fActiveTimer >= 5.f)
 	{
-		m_bSetActive = false;
+		//m_bSetActive = false;
 		m_bCollisionCheck = false;
 		m_fActiveTimer = 0.f;
 	}
@@ -196,6 +205,13 @@ void CTeleCube::Collision_Event()
 					dynamic_cast<CTeleCube*>(iter)->Set_Active(true);
 			}
 			m_bCollisionCheck = true;
+
+			if (pLayer->m_iRestRoom == 0)
+			{
+				pTransform->Set_Pos(30.f, 0.f, 30.f);
+			}
+
+
 		}
 	}
 

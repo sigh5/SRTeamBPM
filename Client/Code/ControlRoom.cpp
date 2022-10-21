@@ -50,7 +50,7 @@ _int CControlRoom::Update_Object(const _float & fTimeDelta)
 		m_fCollisionTimer += 1.f*fTimeDelta;
 	}
 
-	if (m_fCollisionTimer >= 7.f)
+	if (m_fCollisionTimer >= 5.f)
 	{
 		pSkyBox->Set_ControlCubeCheck(false);
 		m_fCollisionTimer = 0;
@@ -189,17 +189,29 @@ void CControlRoom::Collision_Event()
 
 }
 
-void CControlRoom::Area_of_Effect()
+void CControlRoom::Area_of_Effect(_bool bAX)
 {
+		
 	if (m_bPlayerInTerrain)
 	{
+		if (bAX)
+		{
+			for (auto iter : m_pCurrentRoomMonster)
+			{
+				dynamic_cast<CMonsterBase*>(iter)->Excution_Event(false);
+			}
+			return;
+		}
+
 		for (auto iter : m_pCurrentRoomMonster)
 		{
 			dynamic_cast<CMonsterBase*>(iter)->Excution_Event(true);
+
+
 		}
+
+		
 	}
-
-
 }
 
 HRESULT CControlRoom::Add_Component(void)
@@ -251,20 +263,6 @@ _bool CControlRoom::Set_Light_Obj()
 		tLightInfo1.Position = vPos;
 	
 		FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &tLightInfo1, 1), );
-		
-
-		//D3DLIGHT9		tLightInfo2;
-		//ZeroMemory(&tLightInfo1, sizeof(D3DLIGHT9));
-
-		//tLightInfo2.Type = D3DLIGHT_DIRECTIONAL;
-		//tLightInfo2.Diffuse = D3DXCOLOR(0.8f, 0.8f, 0.8f, 0.8f);
-		//tLightInfo2.Specular = D3DXCOLOR(0.8f, 0.8f, 0.8f, 0.8f);
-		//tLightInfo2.Ambient = D3DXCOLOR(0.8f, 0.8f, 0.8f, 0.8f);
-		///*tLightInfo2.Direction = _vec3(0.f, -1.f, 0.f);
-		//tLightInfo2.Position = vPos;*/
-
-		//FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &tLightInfo2, 2), );
-
 
 		return true;
 	}

@@ -30,7 +30,7 @@ public:
 	const _bool&		Get_Active() { return m_bSetActive; }
 
 
-	void				Area_of_Effect();
+	void				Area_of_Effect(_bool bAX=false);
 
 
 

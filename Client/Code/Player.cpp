@@ -17,6 +17,8 @@
 #include "UI_Effect.h"
 #include "FireWorks.h"
 #include "ThunderHand.h"
+#include "ControlRoom.h"
+
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -37,7 +39,7 @@ HRESULT CPlayer::Ready_Object(void)
 	
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pInfoCom->Ready_CharacterInfo(10000, 10, 5.f);
+	m_pInfoCom->Ready_CharacterInfo(10, 10, 5.f);
 	m_pInfoCom->Get_InfoRef()._iCoin = 10;
 
 
@@ -65,7 +67,7 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 	
 	if (m_bDeadTimer >= 5.f)
 	{
-		Random_ResurrectionRoom();
+		//Random_ResurrectionRoom();
 		
 		m_bDeadTimer = 0.f;
 		m_bDead = false;
@@ -256,32 +258,28 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 	if (Key_Down(DIK_T))
 	{
 		// Test -> Shop 추후수정
-		m_pDynamicTransCom->Set_Pos(340.f, 2.f, 325.f);
+		//m_pDynamicTransCom->Set_Pos(340.f, 2.f, 325.f);
 		//
 		Excution_Motion();
 
 		Engine::PlaySoundW(L"Axe_Swing.mp3", SOUND_EFFECT, 1.f);
 
 		CScene* pScene = Get_Scene();
-		CLayer* PLayer = pScene->GetLayer(L"Layer_GameLogic");
+		CLayer* pLayer = pScene->GetLayer(L"Layer_Room");
 		
-		for (auto iter : PLayer->Get_GameObjectMap())
+		for (auto iter : pLayer->Get_ControlRoomList())
+		{
+			static_cast<CControlRoom*>(iter)->Area_of_Effect(true);
+		}
+
+		/*for (auto iter : PLayer->Get_GameObjectMap())
 		{
 			CMonsterBase* pMonster = dynamic_cast<CMonsterBase*>(iter.second);
 
 			if(pMonster!= nullptr)
 				static_cast<CMonsterBase*>(iter.second)->Excution_Event();
-		}
+		}*/
 
-
-
-	/*	NULL_CHECK_RETURN(pScene, );
-		CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
-		NULL_CHECK_RETURN(pLayer, );
-		CGameObject *pGameObject = nullptr;
-		_vec3	vPos;
-		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);*/
-	
 
 	}
 
