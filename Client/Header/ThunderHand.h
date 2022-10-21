@@ -30,8 +30,8 @@ private:
 
 public:
 	void				Set_Active(_bool bEvent) { m_bActive = bEvent; }
+	
 	const _bool			Player_BuySkill() { return m_bBuySkill; }
-
 	void				Set_BuySkill(_bool bEvent) { m_bBuySkill = bEvent; }
 
 
@@ -49,6 +49,10 @@ private:
 	_vec3				m_vecScale;
 	CSkillParticle*		m_pParicle = nullptr;
 	_bool				m_bOnce = true;
+
+
+
+
 
 public:
 	static CThunderHand*	Create(LPDIRECT3DDEVICE9 pGraphicDev);

@@ -10,6 +10,8 @@
 #include "Helmet.h"
 #include "EquipYeti.h"
 #include "QuestProcessing_UI.h"
+#include "ThunderHand.h"
+
 
 CShopUI::CShopUI(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CUI_Base(pGraphicDev)
@@ -143,10 +145,13 @@ void CShopUI::Picking_Rect_Index()
 
 			if (PtInRect(&Rc, ptMouse))
 			{
-				if (i == 0)
+				if (i == 0 && !m_bShopingEnd[0])
 				{
-					// 스킬 구입
-					// 생성만하고 
+					CThunderHand* pHand = dynamic_cast<CThunderHand*>(::Get_GameObject(L"Layer_UI", L"SkillHand"));
+					pHand->Set_BuySkill(true);
+					m_bShopingEnd[0] = true;
+
+
 				}
 				else if (i == 1)
 				{

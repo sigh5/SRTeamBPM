@@ -36,6 +36,7 @@ private:
 
 	_matrix				m_ProjMatrix;
 
+	_bool			m_fOnce = true;
 
 };
 

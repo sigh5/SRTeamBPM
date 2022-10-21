@@ -5,6 +5,7 @@
 #include "AbstractFactory.h"
 #include "Player.h"
 #include "SkillParticle.h"
+#include "ControlRoom.h"
 
 CThunderHand::CThunderHand(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CUI_Base(pGraphicDev)
@@ -25,7 +26,7 @@ HRESULT CThunderHand::Ready_Object()
 	m_pTransCom->Set_Scale(&m_vecScale);
 	m_pTransCom->Set_Pos(m_fX + 174.f, m_fY - 300.f, 0.1f);
 
-	m_pAnimationCom->Ready_Animation(4, 0, 0.11f);
+	m_pAnimationCom->Ready_Animation(4, 0, 0.25f);
 
 
 
@@ -35,6 +36,9 @@ HRESULT CThunderHand::Ready_Object()
 
 _int CThunderHand::Update_Object(const _float & fTimeDelta)
 {
+	if (!m_bBuySkill)
+		return 0;
+
 	if (m_bOnce)
 	{
 		CScene* pScene = Get_Scene();
@@ -61,6 +65,14 @@ _int CThunderHand::Update_Object(const _float & fTimeDelta)
 	{
 		m_bActive = false;
 		m_fActiveTimer = 0.f;
+
+		CScene* pScene = Get_Scene();
+		CLayer* pLayer = pScene->GetLayer(L"Layer_Room");
+
+		for (auto iter : pLayer->Get_ControlRoomList())
+		{
+			static_cast<CControlRoom*>(iter)->Area_of_Effect();
+		}
 	}
 
 	Engine::CGameObject::Update_Object(fTimeDelta);
@@ -71,11 +83,15 @@ _int CThunderHand::Update_Object(const _float & fTimeDelta)
 
 void CThunderHand::LateUpdate_Object(void)
 {
+	if (!m_bBuySkill)
+		return;
 	CGameObject::LateUpdate_Object();
 }
 
 void CThunderHand::Render_Obejct(void)
 {
+	if (!m_bBuySkill)
+		return;
 	if (!m_bActive)
 		return;
 	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
@@ -118,7 +134,7 @@ HRESULT CThunderHand::Add_Component(void)
 	m_pTransCom = CAbstractFactory<COrthoTransform>::Clone_Proto_Component(L"Proto_OrthoTransformCom", m_mapComponent, ID_DYNAMIC);
 	m_pCalculatorCom = CAbstractFactory<CCalculator>::Clone_Proto_Component(L"Proto_CalculatorCom", m_mapComponent, ID_STATIC);
 	m_pAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_STATIC);
-	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Gun_ScreenTexture", m_mapComponent, ID_STATIC);
+	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Skill_ScreenTexture", m_mapComponent, ID_STATIC);
 	return S_OK;
 }
 

@@ -122,6 +122,32 @@ bool	CFatBat::Dead_Judge(const _float& fTimeDelta)
 	}
 }
 
+void CFatBat::Excution_Event(_bool bAOE )
+{
+
+	if (bAOE)
+	{
+		m_pInfoCom->Receive_Damage(1);
+		return;
+	}
+
+
+	if(!m_bDead && 1 >= m_pInfoCom->Get_Hp())
+	{
+		m_pInfoCom->Receive_Damage(1);
+		_vec3	vPos;
+		CGameObject *pGameObject = nullptr;
+		CScene* pScene = Get_Scene();
+		CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+		READY_CREATE_EFFECT_VECTOR(pGameObject, CSpecial_Effect, pLayer, m_pGraphicDev, vPos);
+		static_cast<CSpecial_Effect*>(pGameObject)->Set_Effect_INFO(OWNER_PALYER, 0, 17, 0.2f);
+
+		::PlaySoundW(L"explosion_1.wav", SOUND_EFFECT, 0.05f); // BGM
+
+	}
+}
+
 
 _int CFatBat::Update_Object(const _float & fTimeDelta)
 {

@@ -87,7 +87,7 @@ void CControlRoom::LateUpdate_Object()
 		
 	}
 	m_iRestMonsterNum = 0;
-
+	m_pCurrentRoomMonster.clear();
 	Set_Light_Obj();
 }
 
@@ -129,9 +129,13 @@ void CControlRoom::Collision_Event()
 			if (m_pColliderCom->Check_CollisonUseCollider(m_pColliderCom, pCollider))
 			{
 				++m_iRestMonsterNum;
-
+				
 				if (static_cast<CMonsterBase*>(iter)->Get_InfoRef()._iHp <= 0)
 					--m_iRestMonsterNum;
+				else
+				{
+					m_pCurrentRoomMonster.push_back(iter);
+				}
 			}
 		}
 		
@@ -155,6 +159,10 @@ void CControlRoom::Collision_Event()
 
 				if (static_cast<CMonsterBase*>(iter.second)->Get_InfoRef()._iHp <= 0)
 					--m_iRestMonsterNum;
+				else
+				{
+					m_pCurrentRoomMonster.push_back(iter.second);
+				}
 			}
 
 		}
@@ -171,10 +179,24 @@ void CControlRoom::Collision_Event()
 				{
 					--m_iRestMonsterNum;
 				}
+				
 			}
 		}
 
 		
+	}
+
+
+}
+
+void CControlRoom::Area_of_Effect()
+{
+	if (m_bPlayerInTerrain)
+	{
+		for (auto iter : m_pCurrentRoomMonster)
+		{
+			dynamic_cast<CMonsterBase*>(iter)->Excution_Event(true);
+		}
 	}
 
 

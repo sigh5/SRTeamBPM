@@ -398,7 +398,9 @@
     <ClCompile Include="..\Code\Click_Particle.cpp">
       <Filter>02. GameObject\02. For_public\07. SkillParticle</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\ThunderHand.cpp" />
+    <ClCompile Include="..\Code\ThunderHand.cpp">
+      <Filter>02. GameObject\01. For_Stage\13. Gun_Screen\Magic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -824,7 +826,9 @@
     <ClInclude Include="..\Header\Click_Particle.h">
       <Filter>02. GameObject\02. For_public\07. SkillParticle</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\ThunderHand.h" />
+    <ClInclude Include="..\Header\ThunderHand.h">
+      <Filter>02. GameObject\01. For_Stage\13. Gun_Screen\Magic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
