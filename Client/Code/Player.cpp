@@ -474,7 +474,7 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 
 	if (Engine::Key_Down(DIK_V))
 	{		
-		m_pInfoCom->Get_InfoRef()._iHp -= 10;
+		m_pInfoCom->Get_InfoRef()._iCoin += 10;
 	}
 	Engine::Key_InputReset();
 }

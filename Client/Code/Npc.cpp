@@ -6,9 +6,11 @@
 #include "ShopUI.h"
 #include "Player.h"
 #include "ThunderPic.h"
+#include "MiniGame1Pic.h"
 
 #include "ObjectMgr.h"
 #include "Stage.h"
+
 CNpc::CNpc(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
 {
@@ -138,6 +140,7 @@ void CNpc::Collision_Event()
 			dynamic_cast<CMyCamera*>(Engine::Get_GameObject(L"Layer_Environment", L"CMyCamera"))->Set_ShopActive(m_fShopUICheck);
 			dynamic_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"))->Set_ShopUIActive(m_fShopUICheck);
 			dynamic_cast<CThunderPic*>(Engine::Get_GameObject(L"Layer_Icon", L"ThunderPic"))->Set_PicRender(m_fShopUICheck);
+			dynamic_cast<CMiniGame1Pic*>(Engine::Get_GameObject(L"Layer_Icon", L"Minigame1"))->Set_PicRender(m_fShopUICheck);
 		}
 	}
 }

@@ -130,7 +130,7 @@ _uint CLoading::Loading_ForStage(void)
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Dash_UI_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Dash_Icon1.png", TEX_NORMAL)), E_FAIL);
 	
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Inventory_UI_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Inventory_UI.png", TEX_NORMAL)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Shop_UI_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Shop_UI.png", TEX_NORMAL)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Shop_UI_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Shop_UI1.png", TEX_NORMAL)), E_FAIL);
 
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Chim_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Chim_Binpole.png", TEX_NORMAL)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Skill_ScreenTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Gun_Output/Skill_Screen/spellhand_storm_%d.png", TEX_NORMAL, 5)), E_FAIL);
@@ -167,6 +167,8 @@ _uint CLoading::Loading_ForStage(void)
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_BloodScreen_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Blood_Screen1.png", TEX_NORMAL)), E_FAIL);
 																												// \Bin\Resource\Texture\UI\Shop_Helmet
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Helmet_Sold_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Shop_Helmet/Helmet_Sold%d.png", TEX_NORMAL, 2)), E_FAIL);
+	
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Minigame1Pic_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Shop_Chim/Chim_Icon%d.png", TEX_NORMAL, 2)), E_FAIL);
 	// ~UI
 
 	// Box

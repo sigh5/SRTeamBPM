@@ -13,6 +13,7 @@
 #include "ThunderHand.h"
 #include "Skill_UI.h"
 #include "ThunderPic.h"
+#include "MiniGame1Pic.h"
 
 
 CShopUI::CShopUI(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -149,19 +150,30 @@ void CShopUI::Picking_Rect_Index()
 			{
 				if (i == 0 && !m_bShopingEnd[0])
 				{
-					CThunderHand* pHand = dynamic_cast<CThunderHand*>(::Get_GameObject(L"Layer_UI", L"SkillHand"));
-					pHand->Set_BuySkill(true);
+					CCharacterInfo* pInfo = dynamic_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
+					// 구매 제한
+					if (pInfo->Get_InfoRef()._iCoin < 40)
+					{
+						return;
+					}
 
-					CSkill_UI* pSkill_UI = dynamic_cast<CSkill_UI*>(Engine::Get_GameObject(L"Layer_Icon", L"Skill_UI"));
-					pSkill_UI->Set_m_bRB(true);
+					else
+					{
+						CThunderHand* pHand = dynamic_cast<CThunderHand*>(::Get_GameObject(L"Layer_UI", L"SkillHand"));
+						pHand->Set_BuySkill(true);
 
-					CThunderPic* pThunderPic = dynamic_cast<CThunderPic*>(Engine::Get_GameObject(L"Layer_Icon", L"ThunderPic"));
-					pThunderPic->Set_SoldOut(false);
+						CSkill_UI* pSkill_UI = dynamic_cast<CSkill_UI*>(Engine::Get_GameObject(L"Layer_Icon", L"Skill_UI"));
+						pSkill_UI->Set_m_bRB(true);
+
+						CThunderPic* pThunderPic = dynamic_cast<CThunderPic*>(Engine::Get_GameObject(L"Layer_Icon", L"ThunderPic"));
+						pThunderPic->Set_SoldOut(false);
+
+						pInfo->Get_InfoRef()._iCoin -= 40;
+					}					
 
 					m_bShopingEnd[0] = true;
-
-
 				}
+
 				else if (i == 1)
 				{
 					CScene*pScene = ::Get_Scene();

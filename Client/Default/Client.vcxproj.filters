@@ -394,6 +394,9 @@
     <ClCompile Include="..\Code\Hit_Screen.cpp">
       <Filter>02. GameObject\01. For_Stage\10. UI\51. Hit_Screen</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\MiniGame1Pic.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\95. ShopUI\01. MiniGame1Pic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -810,6 +813,9 @@
     <ClInclude Include="..\Header\Hit_Screen.h">
       <Filter>02. GameObject\01. For_Stage\10. UI\51. Hit_Screen</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\MiniGame1Pic.h">
+      <Filter>02. GameObject\01. For_Stage\10. UI\95. ShopUI\01. MiniGame1Pic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1164,6 +1170,9 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\10. UI\51. Hit_Screen">
       <UniqueIdentifier>{06021c40-9659-4723-bb82-e6558b1eaf4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\95. ShopUI\01. MiniGame1Pic">
+      <UniqueIdentifier>{1ae0c2fe-7017-47e9-ae6e-5c4bc40212b8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

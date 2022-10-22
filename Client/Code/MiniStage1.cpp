@@ -11,6 +11,7 @@
 #include "Setting_Stage.h"
 #include "ShopUI.h"
 #include "WrongPicFind.h"
+#include "MiniGame1Pic.h"
 
 
 
@@ -55,6 +56,9 @@ _int CMiniStage1::Update_Scene(const _float & fTimeDelta)
 			CShopUI* pShopUI = dynamic_cast<CShopUI*>(pLayer->Get_GameObject(L"ShopUI"));
 			pShopUI->Set_ForceScene(0);
 			pStage1->Set_SceneChane(false);
+
+			CMiniGame1Pic* pMinigamePic = dynamic_cast<CMiniGame1Pic*>(Engine::Get_GameObject(L"Layer_Icon", L"Minigame1"));
+			pMinigamePic->Set_GameClear(false);
 
 			Load_SaveScene(this);
 			return -1;
