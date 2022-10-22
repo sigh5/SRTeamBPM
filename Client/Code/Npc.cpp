@@ -193,6 +193,8 @@ HRESULT CNpc::SetUp_Material(void)
 
 
 	m_pGraphicDev->SetMaterial(&tMtrl);
+
+	return S_OK;
 }
 
 void CNpc::Set_Light_Obj()

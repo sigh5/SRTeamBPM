@@ -61,6 +61,7 @@ HRESULT CShader::Set_Texture(D3DXHANDLE hHandle, IDirect3DBaseTexture9 * pTextur
 	if (m_pEffect == nullptr)
 		return E_FAIL;
 
+
 	return m_pEffect->SetTexture(hHandle, pTexture);
 }
 
@@ -70,6 +71,18 @@ HRESULT CShader::Set_Bool(D3DXHANDLE hHandle, const _bool & bEvent)
 		return E_FAIL;
 
 	return m_pEffect->SetBool(hHandle,bEvent);
+}
+
+HRESULT CShader::Set_ArrayRange(D3DXHANDLE hHandle, int* pData, _uint iLength)
+{
+
+	if (m_pEffect == nullptr)
+		return E_FAIL;
+
+	m_pEffect->SetIntArray(hHandle, pData, iLength);
+
+
+	return E_NOTIMPL;
 }
 
 CShader * CShader::Create(LPDIRECT3DDEVICE9 pGraphicDev, const _tchar* pShaderFilePath)

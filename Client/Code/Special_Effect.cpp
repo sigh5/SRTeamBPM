@@ -3,7 +3,7 @@
 
 #include "Export_Function.h"
 #include "MyCamera.h"
-
+#include "StaticCamera.h"
 
 
 CSpecial_Effect::CSpecial_Effect(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -41,9 +41,20 @@ _int CSpecial_Effect::Update_Object(const _float & fTimeDelta)
 
 void CSpecial_Effect::LateUpdate_Object(void)
 {
-	CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
-	NULL_CHECK(pCamera);
-
+	CScene* pScene = Get_Scene();
+	CCamera *pCamera = nullptr;
+	
+	if (pScene->Get_SceneType() == SCENE_STAGE)
+	{
+		pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
+	}
+	else if (pScene->Get_SceneType() == SCENE_MINISTAGE3)
+	{
+		pCamera = static_cast<CStaticCamera*>(Get_GameObject(L"Layer_Environment", L"StaticCamera"));
+		NULL_CHECK(pCamera);
+	}
+	
+	
 	_matrix		matWorld, matView, matBill;
 
 	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
@@ -72,6 +83,10 @@ void CSpecial_Effect::LateUpdate_Object(void)
 	m_pTransCom->Set_WorldMatrix(&(matWorld));
 
 	Engine::CBase_Effect::LateUpdate_Object();
+
+	
+
+	
 }
 
 void CSpecial_Effect::Render_Obejct(void)

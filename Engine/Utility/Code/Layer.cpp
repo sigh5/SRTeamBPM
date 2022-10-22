@@ -140,7 +140,6 @@ _int CLayer::Update_Layer(const _float & fTimeDelta)
 	for (auto iter = m_GhulList.begin(); iter != m_GhulList.end(); ++iter)
 	{
 		(*iter)->Update_Object(fTimeDelta);
-
 	}
 
 	for (auto iter = m_EffectList.begin(); iter != m_EffectList.end(); )

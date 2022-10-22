@@ -72,12 +72,17 @@ void CTerrain::LateUpdate_Object(void)
 
 void CTerrain::Render_Obejct(void)
 {
+	CScene *pScene = Get_Scene();
+
 	_vec3 vPos;
-	CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
-	NULL_CHECK(pPlayerTransformCom);
+	if(pScene->Get_SceneType() != SCENE_TOOLTEST)
+	{ 
+		
+		CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
+		NULL_CHECK(pPlayerTransformCom);
 
-	pPlayerTransformCom->Get_Info(INFO_POS, &vPos);
-
+		pPlayerTransformCom->Get_Info(INFO_POS, &vPos);
+	}
 	_matrix			WorldMatrix, ViewMatrix, ViewMatrixInv, ProjMatrix;
 
 	m_pTransCom->Get_WorldMatrix(&WorldMatrix);
@@ -88,7 +93,13 @@ void CTerrain::Render_Obejct(void)
 	m_pShaderCom->Set_Raw_Value("g_WorldMatrix", D3DXMatrixTranspose(&WorldMatrix, &WorldMatrix), sizeof(_matrix));
 	m_pShaderCom->Set_Raw_Value("g_ViewMatrix", D3DXMatrixTranspose(&ViewMatrix, &ViewMatrix), sizeof(_matrix));
 	m_pShaderCom->Set_Raw_Value("g_ProjMatrix", D3DXMatrixTranspose(&ProjMatrix, &ProjMatrix), sizeof(_matrix));
-	m_pShaderCom->Set_Raw_Value("g_vCamPosition", &vPos, sizeof(_vec3));
+	
+	
+	if (pScene->Get_SceneType() != SCENE_TOOLTEST)
+		m_pShaderCom->Set_Raw_Value("g_vCamPosition", &vPos, sizeof(_vec3));
+	else
+		m_pShaderCom->Set_Raw_Value("g_vCamPosition", &(ViewMatrixInv.m[3][0]), sizeof(_vec3));
+
 
 	m_pTextureCom->Set_Texture(m_pShaderCom, "g_DefaultTexture", m_iTexIndex);
 

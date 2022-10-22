@@ -4,8 +4,8 @@
 #include "Export_Function.h"
 
 #include "MiniStage3PreHeader.h"
-
-
+#include "FileIOMgr.h"
+#include "UI_Timer.h"
 
 CMiniGame3::CMiniGame3(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -26,10 +26,9 @@ HRESULT CMiniGame3::Ready_Scene(void)
 
 	FAILED_CHECK_RETURN(Ready_Layer_GameLogic(L"Layer_GameLogic"), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(L"Layer_Environment"), E_FAIL);
-	
 	FAILED_CHECK_RETURN(Ready_Layer_UI(L"Layer_UI"), E_FAIL);
-
-
+	FAILED_CHECK_RETURN(Ready_Layer_Monster(L"Layer_Monster"), E_FAIL);
+	FAILED_CHECK_RETURN(Ready_Layer_CubeMap(L"Layer_CubeMap"), E_FAIL);
 	
 
 
@@ -38,7 +37,11 @@ HRESULT CMiniGame3::Ready_Scene(void)
 
 _int CMiniGame3::Update_Scene(const _float & fTimeDelta)
 {
-	/*if (Key_Down(DIK_Q))
+
+	CLayer* pLayer = GetLayer(L"Layer_UI");
+	CUI_Timer* pTimer = static_cast<CUI_Timer*>(pLayer->Get_GameObject(L"Timer"));
+
+	if (pTimer->Get_Time() >= 120.f)
 	{
 		CScene* pStage1 = ::Get_SaveScene();
 		CLayer* pLayer = pStage1->GetLayer(L"Layer_GameLogic");
@@ -48,7 +51,31 @@ _int CMiniGame3::Update_Scene(const _float & fTimeDelta)
 
 		Load_SaveScene(this);
 		return -1;
-	}*/
+	}
+
+
+
+
+	m_fFrame += fTimeDelta*1.f;
+
+	if (m_fFrame >= 1.f)
+	{
+		for (int i = 0; i < 3; ++i)
+		{
+			CLayer* pLayer = GetLayer(L"Layer_GameLogic");
+
+			
+
+		}
+
+
+
+		m_fFrame = 0;
+	}
+
+
+
+
 	// 브금 바꾸기
 	Engine::PlaySoundW(L"Paradox.mp3", SOUND_BGM, 0.1f);
 
@@ -60,6 +87,39 @@ _int CMiniGame3::Update_Scene(const _float & fTimeDelta)
 
 void CMiniGame3::LateUpdate_Scene(void)
 {
+	CLayer *pLayer = GetLayer(L"Layer_GameLogic");
+
+	for (auto iter = pLayer->Get_GameObjectMap().begin(); iter != pLayer->Get_GameObjectMap().end(); ++iter)
+	{
+		iter->second->Collision_Event();	
+	}
+
+	for (auto iter : pLayer->Get_ControlRoomList())
+	{
+		iter->Collision_Event();
+	}
+	for (auto iter : pLayer->Get_EffectList())
+	{
+		(iter)->Collision_Event();
+	}
+
+
+	pLayer = GetLayer(L"Layer_CubeMap");
+
+	for (auto iter = pLayer->Get_GameObjectMap().begin(); iter != pLayer->Get_GameObjectMap().end(); ++iter)
+	{
+		iter->second->Collision_Event();
+	}
+
+	pLayer = GetLayer(L"Layer_Monster");
+
+	for (auto iter = pLayer->Get_EffectList().begin(); iter != pLayer->Get_EffectList().end(); ++iter)
+	{
+		(*iter)->Collision_Event();
+	}
+
+
+
 	Engine::CScene::LateUpdate_Scene();
 }
 
@@ -83,9 +143,14 @@ HRESULT CMiniGame3::Ready_Layer_Environment(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"SkyBox2", pGameObject), E_FAIL);
 
-	pGameObject = CMiniTerrain::Create(m_pGraphicDev);
+	
+
+	pGameObject = CStageTerrain::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"MiniTerrain3", pGameObject), E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"MiniTerrain4", pGameObject), E_FAIL);
+
+	
+
 
 	m_mapLayer.insert({ pLayerTag, pLayer });
 
@@ -102,8 +167,9 @@ HRESULT CMiniGame3::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 
 	pGameObject = CMiniPlayer::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"MiniPlayer", pGameObject), E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Player", pGameObject), E_FAIL);
 
+	
 
 	m_mapLayer.insert({ pLayerTag, pLayer });
 
@@ -111,10 +177,50 @@ HRESULT CMiniGame3::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 
 }
 
+HRESULT CMiniGame3::Ready_Layer_CubeMap(const _tchar * pLayerTag)
+{
+	Engine::CLayer*		pLayer = Engine::CLayer::Create();
+	NULL_CHECK_RETURN(pLayer, E_FAIL);
+	m_mapLayer.insert({ pLayerTag, pLayer });
+
+	CFileIOMgr::GetInstance()->Load_FileData(m_pGraphicDev, this,
+		const_cast<_tchar*>(pLayerTag),
+		L"../../Data/",
+		L"MiniStage2.dat",
+		L"Wall",
+		OBJ_CUBE);
+
+	return S_OK;
+}
+
+HRESULT CMiniGame3::Ready_Layer_Monster(const _tchar * pLayerTag)
+{
+	Engine::CLayer*		pLayer = Engine::CLayer::Create();
+	NULL_CHECK_RETURN(pLayer, E_FAIL);
+
+	CGameObject*		pGameObject = nullptr;
+	
+	/*pGameObject = CMonsterMini::Create(m_pGraphicDev);*/
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Monster", pGameObject), E_FAIL);
+
+	//pLayer->Add_GhulList(pGameObject);
+
+	m_mapLayer.insert({ pLayerTag, pLayer });
+	return S_OK;
+}
+
 HRESULT CMiniGame3::Ready_Layer_UI(const _tchar * pLayerTag)
 {
 	Engine::CLayer*		pLayer = Engine::CLayer::Create();
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
+	CGameObject*		pGameObject = nullptr;
+
+	pGameObject = CUI_Timer::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Timer", pGameObject), E_FAIL);
+
+
 
 
 	m_mapLayer.insert({ pLayerTag, pLayer });

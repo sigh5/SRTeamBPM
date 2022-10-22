@@ -115,7 +115,7 @@ void CQuestProcessing_UI::Render_Obejct(void)
 	//m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 }
 
-const _bool & CQuestProcessing_UI::MiniGameCheck()
+ _bool  CQuestProcessing_UI::MiniGameCheck()
 {
 	if (m_bMini_Game_Clear_Check[0] && m_bMini_Game_Clear_Check[1] && m_bMini_Game_Clear_Check[2])
 		return true;

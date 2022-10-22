@@ -18,11 +18,19 @@ public:
 private:
 	HRESULT			Ready_Layer_Environment(const _tchar* pLayerTag);
 	HRESULT			Ready_Layer_GameLogic(const _tchar* pLayerTag);
+	HRESULT			Ready_Layer_CubeMap(const _tchar* pLayerTag);
+
+
+	HRESULT			Ready_Layer_Monster(const _tchar* pLayerTag);
 	HRESULT			Ready_Layer_UI(const _tchar* pLayerTag);
 	HRESULT			Ready_Proto(void);
 
 private:
 	_bool				m_bRender = false;
+
+	_float				m_fFrame = 0.f;
+
+	
 
 public:
 	static CMiniGame3*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
