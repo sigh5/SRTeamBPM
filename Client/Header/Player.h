@@ -50,10 +50,11 @@ public:
 	void				ComboCheck();
 
 
-	void				EquipItem_Add_Stat(_int iAttack = 0, _int _iHp = 0,	_int iCoin =0,_int _iKey=0,float _fSpeed=0.f);
+	void				EquipItem_Add_Stat(_int iAttack = 0, _int _iHp = 0,	_int iCoin =0,_int _iKey=0,float _fSpeed=0.f, _uint iDefense = 0);
 
 public:					// ★ m_pInfoCom->Get_InfoRef()._iHp를 return 해주면 실전 OK
 	_uint				Get_HpChange(void) { return m_iOriginHP; }
+	_uint				Get_DefChange(void) { return m_iOriginDef; }
 	_uint				Get_Skill(void) { return m_iSkillPower; }
 	
 	//탄피 생성하려고 방향이 필요해서 만들었음
@@ -73,10 +74,11 @@ public:
 	void				Set_ShopUIActive(_bool bShopctive) { m_bShopUIActive = bShopctive; }
 	const _bool&		Get_ShopUIActive() { return m_bShopUIActive; }
 
-
+	void				Set_DefenseToHp(_bool _bDefenseToHp) { m_bDefenseToHp = _bDefenseToHp; }
+	
+	void				Random_ResurrectionRoom();
 
 private:
-	void				Random_ResurrectionRoom();
 	void				Player_Dead_CaemraAction();
 	void				Player_Dead(const _float& fTimeDelta);
 
@@ -128,6 +130,7 @@ private:		// Jw
 	
 	_float				m_fTimeDelta = 0.f;
 	_int				m_iOriginHP = 0;
+	_int				m_iOriginDef = 0;
 
 
 	// Gun
@@ -146,7 +149,9 @@ private:		// Jw
 	// ~InventroyActive 
 
 	_bool				m_bShopUIActive = false;
-	
+
+	_bool				m_bDefenseOn = false;
+	_bool				m_bDefenseToHp = false;
 
 public:
 	static CPlayer*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

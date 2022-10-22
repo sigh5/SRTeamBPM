@@ -3,14 +3,13 @@
 
 #include "Export_Function.h"
 #include "ControlRoom.h"
-
+#include "Player.h"
 
 CTerrain::CTerrain(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev), m_vDirection({ 0.f, 0.f, 1.f })
 {
 	
 }
-//주석지우셈
 
 CTerrain::~CTerrain()
 {
@@ -44,8 +43,6 @@ _int CTerrain::Update_Object(const _float & fTimeDelta)
 			CLayer* pLayer = pScene->GetLayer(L"Layer_Room");
 
 			CGameObject* pGameObject = nullptr;
-
-
 			pGameObject = CControlRoom::Create(m_pGraphicDev, m_vCenter);
 			NULL_CHECK_RETURN(pGameObject, E_FAIL);
 
@@ -61,7 +58,7 @@ _int CTerrain::Update_Object(const _float & fTimeDelta)
 
 	
 
-	Add_RenderGroup(RENDER_NONALPHA, this);
+	::Add_RenderGroup(RENDER_NONALPHA, this);
 
 	return 0;
 }
@@ -75,18 +72,35 @@ void CTerrain::LateUpdate_Object(void)
 
 void CTerrain::Render_Obejct(void)
 {
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
-	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	_vec3 vPos;
+	CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
+	NULL_CHECK(pPlayerTransformCom);
 
-	if (m_bWireFrame)
-		m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	pPlayerTransformCom->Get_Info(INFO_POS, &vPos);
 
-	m_pTextureCom->Set_Texture(m_iTexIndex);	// 텍스처 정보 세팅을 우선적으로 한다.
+	_matrix			WorldMatrix, ViewMatrix, ViewMatrixInv, ProjMatrix;
+
+	m_pTransCom->Get_WorldMatrix(&WorldMatrix);
+	m_pGraphicDev->GetTransform(D3DTS_VIEW, &ViewMatrix);
+	D3DXMatrixInverse(&ViewMatrixInv, nullptr, &ViewMatrix);
+	m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &ProjMatrix);
+
+	m_pShaderCom->Set_Raw_Value("g_WorldMatrix", D3DXMatrixTranspose(&WorldMatrix, &WorldMatrix), sizeof(_matrix));
+	m_pShaderCom->Set_Raw_Value("g_ViewMatrix", D3DXMatrixTranspose(&ViewMatrix, &ViewMatrix), sizeof(_matrix));
+	m_pShaderCom->Set_Raw_Value("g_ProjMatrix", D3DXMatrixTranspose(&ProjMatrix, &ProjMatrix), sizeof(_matrix));
+	m_pShaderCom->Set_Raw_Value("g_vCamPosition", &vPos, sizeof(_vec3));
+
+	m_pTextureCom->Set_Texture(m_pShaderCom, "g_DefaultTexture", m_iTexIndex);
+
+	m_pShaderCom->Begin_Shader(0);
 
 	m_pBufferCom->Render_Buffer();
 
-	if (m_bWireFrame)
-		m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	m_pShaderCom->End_Shader();
+
+
+
+	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
 
 }
 
@@ -99,46 +113,30 @@ HRESULT CTerrain::Add_Component(void)
 {
 	CComponent* pComponent = nullptr;
 
-	pComponent = m_pBufferCom = dynamic_cast<CTerrainTex*>(Clone_Proto(L"Proto_TerrainTexCom"));
+	pComponent = m_pBufferCom = dynamic_cast<CTerrainTex*>(::Clone_Proto(L"Proto_TerrainTexCom"));
 	NULL_CHECK_RETURN(m_pBufferCom, E_FAIL);
 	m_mapComponent[ID_STATIC].insert({ L"Proto_TerrainTexCom", pComponent });
 
-	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(Clone_Proto(L"Proto_TerrainTexture2"));
+	pComponent = m_pTextureCom = dynamic_cast<CTexture*>(::Clone_Proto(L"Proto_TerrainTexture2"));
 	NULL_CHECK_RETURN(m_pTextureCom, E_FAIL);
 	m_mapComponent[ID_STATIC].insert({ L"Proto_TerrainTexture2", pComponent });
 
-	pComponent = m_pTransCom = dynamic_cast<CTransform*>(Clone_Proto(L"Proto_TransformCom"));
+	pComponent = m_pTransCom = dynamic_cast<CTransform*>(::Clone_Proto(L"Proto_TransformCom"));
 	NULL_CHECK_RETURN(m_pTransCom, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].insert({ L"Proto_TransformCom", pComponent });
 
-	pComponent = m_pCalculatorCom = dynamic_cast<CCalculator*>(Clone_Proto(L"Proto_CalculatorCom"));
+	pComponent = m_pCalculatorCom = dynamic_cast<CCalculator*>(::Clone_Proto(L"Proto_CalculatorCom"));
 	NULL_CHECK_RETURN(m_pCalculatorCom, E_FAIL);
 	m_mapComponent[ID_STATIC].insert({ L"Proto_CalculatorCom", pComponent });
 
-
-	return S_OK;
-}
-
-
-HRESULT CTerrain::SetUp_Material(void)
-{
-	D3DMATERIAL9		tMtrl;
-	ZeroMemory(&tMtrl, sizeof(D3DMATERIAL9));
-
-	tMtrl.Diffuse = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
-	tMtrl.Specular = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
-	tMtrl.Ambient = D3DXCOLOR(0.2f, 0.2f, 0.2f, 1.f);
-	tMtrl.Emissive = D3DXCOLOR(0.f, 0.f, 0.f, 1.f);
-	tMtrl.Power = 0.f;
-
-	m_pGraphicDev->SetMaterial(&tMtrl);
-
-	// 램버트 확산 조명 공식
-	// 명도의 세기 * (L.D * M.D) + L.A * M.A
+	pComponent = m_pShaderCom = dynamic_cast<CShader*>(::Clone_Proto(L"Proto_ShaderTerrain"));
+	NULL_CHECK_RETURN(m_pShaderCom, E_FAIL);
+	m_mapComponent[ID_DYNAMIC].insert({ L"Proto_ShaderTerrain", pComponent });
 
 
 	return S_OK;
 }
+
 
 CTerrain * CTerrain::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 {

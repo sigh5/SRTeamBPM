@@ -30,7 +30,7 @@ public:
 	MONSTER_INDEX&				 Get_MonsterType() { return m_iMonsterIndex; }
 	CharacterInfo&	     Get_InfoRef();
 	void			     Get_MonsterToPlayer_Distance(float* _Distance);		// 몬스터 길이 구하는것
-	virtual void		 Excution_Event() {};
+	virtual void		 Excution_Event(_bool bAOE = false) {};
 	virtual bool		 Dead_Judge(const _float& fTimeDelta) { return 0; }
 	virtual void		Hit_Delay_toZero(void);
 
@@ -49,6 +49,8 @@ public:
 public:
 	const _bool&		 Get_Hit()const { return m_bHit; }
 	const _bool&		Get_Dead()const { return m_bDead; }
+
+	const _float&		Get_Distance()const { return fMtoPDistance; }
 
 
 protected:

@@ -8,7 +8,7 @@ class CSphereTex;
 class CTransform;
 class CCalculator;
 class CCollider;
-
+class CMonsterBase;
 END
 
 
@@ -30,8 +30,17 @@ public:
 	const _bool&		Get_Active() { return m_bSetActive; }
 
 
+	void				Area_of_Effect(_bool bAX=false);
+
+
+
 private:
 	HRESULT				Add_Component(void);
+
+public:
+	HRESULT				SetUp_Material(void);
+	_bool				Set_Light_Obj();
+
 
 public:
 	CSphereTex*			m_pBufferCom = nullptr;
@@ -39,6 +48,13 @@ public:
 	CCalculator*		m_pCalculatorCom = nullptr;
 	CCollider*			m_pColliderCom = nullptr;
 	
+
+
+private:
+	vector<CGameObject*> m_pCurrentRoomMonster;
+
+
+
 private:
 	_bool				m_bSetActive = false;
 

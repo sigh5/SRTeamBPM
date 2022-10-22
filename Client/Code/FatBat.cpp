@@ -123,6 +123,32 @@ bool	CFatBat::Dead_Judge(const _float& fTimeDelta)
 	}
 }
 
+void CFatBat::Excution_Event(_bool bAOE )
+{
+
+	if (bAOE)
+	{
+		m_pInfoCom->Receive_Damage(1);
+		return;
+	}
+
+
+	if(!m_bDead && 1 >= m_pInfoCom->Get_Hp())
+	{
+		m_pInfoCom->Receive_Damage(1);
+		_vec3	vPos;
+		CGameObject *pGameObject = nullptr;
+		CScene* pScene = Get_Scene();
+		CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+		READY_CREATE_EFFECT_VECTOR(pGameObject, CSpecial_Effect, pLayer, m_pGraphicDev, vPos);
+		static_cast<CSpecial_Effect*>(pGameObject)->Set_Effect_INFO(OWNER_PALYER, 0, 17, 0.2f);
+
+		::PlaySoundW(L"explosion_1.wav", SOUND_EFFECT, 0.05f); // BGM
+
+	}
+}
+
 
 _int CFatBat::Update_Object(const _float & fTimeDelta)
 {
@@ -168,7 +194,7 @@ _int CFatBat::Update_Object(const _float & fTimeDelta)
 	}
 
 
-	
+
 	CMonsterBase::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
 
@@ -265,9 +291,84 @@ void CFatBat::Hit_Loop(const _float& fTimeDelta)
 	}
 }
 
+HRESULT CFatBat::SetUp_Material(void)
+{
+
+	if (Get_Distance() < 30.f)
+	{
+		_float fDistance = ((1.f - Get_Distance() / 30.f)) * 2;
+		max(fDistance, 0.1f);
+		D3DMATERIAL9		tMtrl;
+		ZeroMemory(&tMtrl, sizeof(D3DMATERIAL9));
+
+		tMtrl.Diffuse = D3DXCOLOR(fDistance, fDistance, fDistance, fDistance);
+		tMtrl.Specular = D3DXCOLOR(fDistance, fDistance, fDistance, fDistance);
+		tMtrl.Ambient = D3DXCOLOR(fDistance, fDistance, fDistance, fDistance);
+		tMtrl.Emissive = D3DXCOLOR(fDistance, fDistance, fDistance, fDistance);
+		tMtrl.Power = 0.f;
+
+		m_pGraphicDev->SetMaterial(&tMtrl);
+
+	}
+	else
+	{
+		D3DMATERIAL9		tMtrl;
+		ZeroMemory(&tMtrl, sizeof(D3DMATERIAL9));
+
+		tMtrl.Diffuse = D3DXCOLOR(0.1f, 0.1f, 0.1f, 0.1f);
+		tMtrl.Specular = D3DXCOLOR(0.1f, 0.1f, 0.1f, 0.1f);
+		tMtrl.Ambient = D3DXCOLOR(0.1f, 0.1f, 0.1f, 0.1f);
+		tMtrl.Emissive = D3DXCOLOR(0.1f, 0.1f, 0.1f, 0.1f);
+		tMtrl.Power = 0.f;
+
+		m_pGraphicDev->SetMaterial(&tMtrl);
+	}
+
+
+	return S_OK;
+}
+
+void CFatBat::Set_Light_Obj()
+{
+	if (Get_Distance() >= 31.f)
+	{
+		D3DLIGHT9		tLightInfo4;
+		ZeroMemory(&tLightInfo4, sizeof(D3DLIGHT9));
+		FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &tLightInfo4, 3), );
+		return;
+	}
+
+	if (Get_Distance() < 30.f)
+	{
+		_float fDistance = ((1.f - Get_Distance() / 30.f) )*2.f;;
+		max(fDistance, 0.1f);
+		D3DLIGHT9		tLightInfo4;
+		ZeroMemory(&tLightInfo4, sizeof(D3DLIGHT9));
+		_vec3 vPos;
+		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+		tLightInfo4.Type = D3DLIGHT_SPOT;
+		tLightInfo4.Diffuse = D3DXCOLOR(fDistance, fDistance, fDistance, fDistance);
+		tLightInfo4.Specular = D3DXCOLOR(fDistance, fDistance, fDistance, fDistance);
+		tLightInfo4.Ambient = D3DXCOLOR(fDistance, fDistance, fDistance, fDistance);
+
+		tLightInfo4.Position = vPos;
+		FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &tLightInfo4, 3), );
+
+	}
+
+}
+
 void CFatBat::Render_Obejct(void)
 {
+	
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pDynamicTransCom->Get_WorldMatrixPointer());
+	Set_Light_Obj();
+	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, TRUE);
+	m_pGraphicDev->LightEnable(0, FALSE);
+	m_pGraphicDev->LightEnable(1, FALSE);
+	m_pGraphicDev->LightEnable(2, FALSE);
+	m_pGraphicDev->LightEnable(3, TRUE);
+	
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0x10);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
@@ -284,9 +385,17 @@ void CFatBat::Render_Obejct(void)
 	{
 		m_pDeadTextureCom->Set_Texture(m_pDeadAnimationCom->m_iMotion);
 	}
+	SetUp_Material();
 	m_pBufferCom->Render_Buffer();
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+
+	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
+	m_pGraphicDev->LightEnable(0, TRUE);
+	m_pGraphicDev->LightEnable(1, TRUE);
+	m_pGraphicDev->LightEnable(2, TRUE);
+	m_pGraphicDev->LightEnable(3, FALSE);
+
 }
 
 void CFatBat::Collision_Event()
@@ -343,23 +452,6 @@ void CFatBat::Collision_Event()
 
 }
 
-void CFatBat::Excution_Event()
-{
-	if (!m_bDead && 1 >= m_pInfoCom->Get_Hp())
-	{
-		m_pInfoCom->Receive_Damage(1);
-		_vec3	vPos;
-		CGameObject *pGameObject = nullptr;
-		CScene* pScene = Get_Scene();
-		CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
-		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
-		READY_CREATE_EFFECT_VECTOR(pGameObject, CSpecial_Effect, pLayer, m_pGraphicDev, vPos);
-		static_cast<CSpecial_Effect*>(pGameObject)->Set_Effect_INFO(OWNER_PALYER, 0, 17, 0.2f);
-
-		::PlaySoundW(L"explosion_1.wav", SOUND_EFFECT, 0.05f); // BGM
-
-	}
-}
 
 void	CFatBat::FatBat_Fly(const _float& fTimeDelta)
 {
@@ -520,6 +612,7 @@ void		CFatBat::Dead_Action(const _float& fTimeDelta)
 		}
 	}
 }
+
 void	CFatBat::Drop_Item(int ItemType)
 {
 	CScene  *pScene = ::Get_Scene();
@@ -528,12 +621,12 @@ void	CFatBat::Drop_Item(int ItemType)
 	switch (ItemType)
 	{
 	case 0:
-		pItem = CCoin::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS].x, m_pDynamicTransCom->m_vInfo[INFO_POS].z);
+		pItem = CCoin::Create(m_pGraphicDev, (_uint)m_pDynamicTransCom->m_vInfo[INFO_POS].x, (_uint)m_pDynamicTransCom->m_vInfo[INFO_POS].z);
 		pLayer->Add_DropItemList(pItem);
 		break;
 
 	case 1:
-		pItem = CKey::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS].x, m_pDynamicTransCom->m_vInfo[INFO_POS].z);
+		pItem = CKey::Create(m_pGraphicDev, (_uint)m_pDynamicTransCom->m_vInfo[INFO_POS].x, (_uint)m_pDynamicTransCom->m_vInfo[INFO_POS].z);
 		pLayer->Add_DropItemList(pItem);
 		break;
 

@@ -11,12 +11,32 @@ private:
 	virtual void		Render_Obejct(void);
 
 public:
+	void			Set_Active(_bool bEvnet) { m_bActive = bEvnet; }
+	const	_bool	Get_Active()const { return m_bActive; }
+
+
+
+public:
 	static CSkillParticle*		Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos);
 	virtual void	Free(void);
+
+
 
 private:
 	CTexture* m_pTextureCom = nullptr;
 	CTransform* m_pTransform = nullptr;
+
+private:
+	_bool			m_bActive = false;
+	_float			m_fTimedelta = 0.f;
+	_float			m_fFrame = 0.f;
+
+	_int			m_iTemp = -1;
+
+
+	_matrix				m_ProjMatrix;
+
+	_bool			m_fOnce = true;
 
 };
 

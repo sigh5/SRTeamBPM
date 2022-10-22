@@ -8,7 +8,7 @@
 
 #include "Change_Stage.h"
 #include "Setting_Stage.h"
-
+#include "MiniGame3.h"
 
 
 
@@ -31,7 +31,7 @@ HRESULT CLogo::Ready_Scene(void)
 	FAILED_CHECK_RETURN(Ready_Proto(), E_FAIL);
 	
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(L"Ready_Layer_Environment"), E_FAIL);
-											// LOADING_STAGE  LOADING_TOOL
+											// LOADING_STAGE  LOADING_TOOL ,SCENE_MINISTAGE3
 	m_pLoading = CLoading::Create(m_pGraphicDev, LOADING_STAGE);
 	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
 	
@@ -58,7 +58,7 @@ Engine::_int CLogo::Update_Scene(const _float& fTimeDelta)
 	if (m_pLoading->Get_Finish())
 	{
 		if (m_pStartButton->Get_Click())
-		{						// CChange_Stage  CToolTest
+		{						// CChange_Stage  CToolTest CMiniGame3
 			m_pStartButton->Set_Click(false);
 			CScene*		pScene = CChange_Stage::Create(m_pGraphicDev);
 			NULL_CHECK_RETURN(pScene, E_FAIL);

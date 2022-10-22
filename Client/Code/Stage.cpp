@@ -4,10 +4,7 @@
 #include "Export_Function.h"
 
 #include "Stage1PreHeader.h"
-#include "SkillParticle.h"
-#include "FireWorks.h"
-#include "PetYeti.h"
-#include "EquipYeti.h"
+
 
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -205,6 +202,11 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	pGameObject = CBox::Create(m_pGraphicDev, 327, 330);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Box3", pGameObject), E_FAIL);
+
+	pGameObject = CGacha_Machine::Create(m_pGraphicDev, 333, 308);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"CoinSlot", pGameObject), E_FAIL);
+
 	
 	pGameObject = CNpc::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -231,10 +233,6 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Helmet2", pGameObject), E_FAIL);
 
-	pGameObject = CSkillParticle::Create(m_pGraphicDev, _vec3(330.f, 2.f, 330.f));
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"testparticle1", pGameObject), E_FAIL);
-
 	pGameObject = CPetYeti::Create(m_pGraphicDev, 330.f, 330.f);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Yeti", pGameObject), E_FAIL);
@@ -242,6 +240,12 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	pGameObject = CEquipYeti::Create(m_pGraphicDev, 310, 345);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EquipYeti", pGameObject), E_FAIL);
+
+
+	//pGameObject = CSkillParticle::Create(m_pGraphicDev, _vec3(330.f, 2.f, 330.f));
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"testparticle1", pGameObject), E_FAIL);
+
 
 	CFileIOMgr::GetInstance()->Load_FileData(m_pGraphicDev,
 		this,
@@ -286,6 +290,8 @@ HRESULT CStage::Ready_Layer_UI(const _tchar * pLayerTag)
 
 	m_mapLayer.insert({ pLayerTag, pLayer });
 
+	READY_LAYER(pGameObject, CThunderHand, pLayer, m_pGraphicDev, L"SkillHand");
+
 
 	return S_OK;
 }
@@ -310,6 +316,10 @@ HRESULT CStage::Ready_Layer_Icon(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"HpBar", pGameObject), E_FAIL);
 
+	pGameObject = CDefBar::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"DefBar", pGameObject), E_FAIL);
+
 	pGameObject = CCoinKeyUI::Create(m_pGraphicDev, pPlayer);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"CoinKey_UI", pGameObject), E_FAIL);
@@ -317,6 +327,10 @@ HRESULT CStage::Ready_Layer_Icon(const _tchar * pLayerTag)
 	pGameObject = CDashUI::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"DashUI", pGameObject), E_FAIL);
+
+	pGameObject = CSkill_UI::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Skill_UI", pGameObject), E_FAIL);
 
 	m_mapLayer.insert({ pLayerTag, pLayer });
 
@@ -397,16 +411,42 @@ void CStage::Free(void)
 
 HRESULT CStage::Ready_Light(void)
 {
-	D3DLIGHT9		tLightInfo;
+	/*D3DLIGHT9		tLightInfo;
 	ZeroMemory(&tLightInfo, sizeof(D3DLIGHT9));
 
 	tLightInfo.Type		= D3DLIGHT_DIRECTIONAL;
-	tLightInfo.Diffuse	= D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
-	tLightInfo.Specular	= D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
-	tLightInfo.Ambient	= D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
-	tLightInfo.Direction  = _vec3(0.f, -1.f, 1.f);
-
+	tLightInfo.Diffuse	= D3DXCOLOR(0.5f, 0.5f, 0.5f, 0.5f);
+	tLightInfo.Specular = D3DXCOLOR(0.5f, 0.5f, 0.5f, 0.5f);
+	tLightInfo.Ambient = D3DXCOLOR(0.5f, 0.5f, 0.5f, 0.5f);
+	tLightInfo.Direction  = _vec3(1.f, 0.f, -1.f);
+	tLightInfo.Position = _vec3(100.f, 10.f, 100.f);
 	FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &tLightInfo, 0), E_FAIL);
+
+	D3DLIGHT9		tLightInfo1;
+	ZeroMemory(&tLightInfo1, sizeof(D3DLIGHT9));
+
+	tLightInfo1.Type = D3DLIGHT_DIRECTIONAL;
+	tLightInfo1.Diffuse =	 D3DXCOLOR(0.5f, 0.5f, 0.5f, 0.5f);
+	tLightInfo1.Specular =	 D3DXCOLOR(0.5f, 0.5f, 0.5f, 0.5f);
+	tLightInfo1.Ambient =	 D3DXCOLOR(0.5f, 0.5f, 0.5f, 0.5f);
+	tLightInfo1.Direction = _vec3(-1.f, 0.f, 1.f);
+	tLightInfo1.Position = _vec3(100.f, 10.f, 100.f);
+	FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &tLightInfo1, 1), E_FAIL);
+
+
+	D3DLIGHT9		tLightInfo2;
+	ZeroMemory(&tLightInfo2, sizeof(D3DLIGHT9));
+
+	tLightInfo2.Type = D3DLIGHT_DIRECTIONAL;
+	tLightInfo2.Diffuse =	D3DXCOLOR(0.5f, 0.5f, 0.5f, 0.5f);
+	tLightInfo2.Specular =	D3DXCOLOR(0.5f, 0.5f, 0.5f, 0.5f);
+	tLightInfo2.Ambient =	D3DXCOLOR(0.5f, 0.5f, 0.5f, 0.5f);
+	tLightInfo2.Direction = _vec3(0.f, 0.f, 1.f);
+	tLightInfo2.Position = _vec3(200.f, 10.f, 200.f);
+	FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &tLightInfo2, 2), E_FAIL);
+*/
+
+
 
 	return S_OK;
 }

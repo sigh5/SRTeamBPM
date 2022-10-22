@@ -57,6 +57,7 @@ private:
 	_bool			m_bSoundCheck = false;
 	_bool			m_bPlayerHit = false;
 	
+	_float			m_fPlayerDeadRotation = 0.f;
 private:
 	_float			m_fDistance = 1.f;
 	_float			m_fSpeed = 5.f;
@@ -83,6 +84,11 @@ private:
 	// Ãß°¡
 	//_bool         m_bInventroyActive = false;
 
+
+	_bool			m_bOnceAngle = false;
+	
+public:
+	void			CameraReset();
 
 public:
 	static CMyCamera*		Create(LPDIRECT3DDEVICE9 pGraphicDev,

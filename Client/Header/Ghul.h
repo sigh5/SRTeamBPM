@@ -13,7 +13,7 @@ public:
 	virtual void		LateUpdate_Object(void) override;
 	virtual void		Render_Obejct(void) override;
 	virtual void		Collision_Event()override;
-	virtual void		Excution_Event();
+	virtual void		Excution_Event(_bool bAOE = false)override;
 
 	virtual bool		Dead_Judge(const _float& fTimeDelta);
 
@@ -26,7 +26,10 @@ public:
 	
 	void DigOut(const _float& fTimeDelta);
 
-	
+
+	HRESULT				SetUp_Material(void);
+	void				Set_Light_Obj();
+
 
 public:
 	static CGhul*		Create(LPDIRECT3DDEVICE9 pGraphicDev, float Posx = 0, float Posy = 0);

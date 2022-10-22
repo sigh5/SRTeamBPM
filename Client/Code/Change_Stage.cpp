@@ -6,6 +6,7 @@
 #include "LoadingBackFont.h"
 #include "Stage.h"
 #include "MiniStage1.h"
+#include "MiniGame3.h"
 
 CChange_Stage::CChange_Stage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -66,6 +67,38 @@ _int CChange_Stage::Update_Scene(const _float & fTimeDelta)
 		return iResult;
 	}
 	
+	else if (m_iStageIndex == 2)
+	{
+		/*if (m_iLoadingCount > 100)
+		{
+			CScene*		pScene = CMiniStage1::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pScene, E_FAIL);
+
+			FAILED_CHECK_RETURN(Engine::Set_Scene(pScene), E_FAIL);
+
+			return 0;
+		}
+		return iResult;*/
+	}
+
+	else if (m_iStageIndex == 3)
+	{
+		if (m_iLoadingCount > 100)
+		{
+		
+			CScene*		pScene = CMiniGame3::Create(m_pGraphicDev);
+			NULL_CHECK_RETURN(pScene, E_FAIL);
+
+			FAILED_CHECK_RETURN(Engine::Set_Scene(pScene), E_FAIL);
+
+			return 0;
+		}
+		return iResult;
+	}
+
+
+
+
 	return iResult;
 }
 
@@ -101,6 +134,14 @@ HRESULT CChange_Stage::Ready_Layer_Environment(const _tchar * pLayerTag)
 
 HRESULT CChange_Stage::Ready_Proto(void)
 {	
+	return S_OK;
+}
+
+HRESULT CChange_Stage::Ready_MiniStage3()
+{
+	
+
+
 	return S_OK;
 }
 

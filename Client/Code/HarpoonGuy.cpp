@@ -226,8 +226,16 @@ void CHarpoonGuy::Collision_Event()
 	}
 }
 
-void CHarpoonGuy::Excution_Event()
+void CHarpoonGuy::Excution_Event(_bool bAOE)
 {
+
+	if (bAOE)
+	{
+		m_pInfoCom->Receive_Damage(1);
+		return;
+	}
+
+
 	if (!m_bDead && 1 >= m_pInfoCom->Get_Hp())
 	{
 		m_pInfoCom->Receive_Damage(1);
@@ -375,12 +383,12 @@ void CHarpoonGuy::Drop_Item(int ItemType)
 	switch (ItemType)
 	{
 	case 0:
-		pItem = CCoin::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS].x, m_pDynamicTransCom->m_vInfo[INFO_POS].z);
+		pItem = CCoin::Create(m_pGraphicDev, (_uint)m_pDynamicTransCom->m_vInfo[INFO_POS].x, (_uint)m_pDynamicTransCom->m_vInfo[INFO_POS].z);
 		pLayer->Add_DropItemList(pItem);
 		break;
 
 	case 1:
-		pItem = CKey::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS].x, m_pDynamicTransCom->m_vInfo[INFO_POS].z);
+		pItem = CKey::Create(m_pGraphicDev, (_uint)m_pDynamicTransCom->m_vInfo[INFO_POS].x, (_uint)m_pDynamicTransCom->m_vInfo[INFO_POS].z);
 		pLayer->Add_DropItemList(pItem);
 		break;
 

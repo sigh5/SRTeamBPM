@@ -16,7 +16,12 @@
 #include "AttackEffect.h"
 #include "UI_Effect.h"
 #include "FireWorks.h"
-#include "Flare.h"
+#include "ThunderHand.h"
+#include "ControlRoom.h"
+#include "Helmet.h"
+
+#include "DashUI.h"
+#include "Skill_UI.h"
 
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -38,7 +43,7 @@ HRESULT CPlayer::Ready_Object(void)
 	
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pInfoCom->Ready_CharacterInfo(10000, 10, 5.f);
+	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
 	m_pInfoCom->Get_InfoRef()._iCoin = 10;
 
 
@@ -55,18 +60,23 @@ HRESULT CPlayer::Ready_Object(void)
 	m_pDynamicTransCom->Update_Component(1.0f);
 	m_pColliderCom->Set_HitBoxMatrix(&(m_pDynamicTransCom->m_matWorld));
 	m_iOriginHP = m_pInfoCom->Get_Hp();
-
+	m_iOriginDef = m_pInfoCom->Get_InfoRef()._iDefense;
 	return S_OK;
 }
 
 _int CPlayer::Update_Object(const _float & fTimeDelta)
 {
+	CHelmet* pHelmet = static_cast<CHelmet*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Helmet1"));
+	CAnimation* pHpBarAnimation = dynamic_cast<CAnimation*>(Engine::Get_Component(L"Layer_Icon", L"HpBar", L"Proto_AnimationCom", ID_DYNAMIC));
+
+
 	if (m_bDead)
 		m_bDeadTimer += 1.0f* fTimeDelta;
 	
 	if (m_bDeadTimer >= 5.f)
 	{
-		Random_ResurrectionRoom();
+		//Random_ResurrectionRoom();
+		
 		m_bDeadTimer = 0.f;
 		m_bDead = false;
 	}
@@ -82,6 +92,29 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 	pEquipItem = dynamic_cast<CGun_Screen*>(Get_GameObject(L"Layer_UI", L"Gun"));
 	NULL_CHECK_RETURN(pEquipItem, -1);
 	m_iOriginHP = m_pInfoCom->Get_Hp();
+	m_iOriginDef = m_pInfoCom->Get_InfoRef()._iDefense;
+
+	if (pHelmet->Get_EquipCheck() == true)
+	{
+		//m_bDefenseOn = true;
+
+		if (!m_bDefenseOn)
+		{
+			if (m_bDefenseToHp)
+			{
+				m_pInfoCom->Add_Hp(10);
+				m_pInfoCom->Receive_DefenseCount(10);
+
+				pHpBarAnimation->Eliminate_Motion(1);
+				pHpBarAnimation->Add_Origin(1);
+
+				m_bDefenseToHp = false;
+			}
+
+			if (m_pInfoCom->Get_InfoRef()._iDefense == 0)
+				m_bDefenseOn = true;
+		}
+	}
 
 	if (m_pInfoCom->Get_Hp() <= 0)
 	{
@@ -163,19 +196,19 @@ void CPlayer::LateUpdate_Object(void)
 
 void CPlayer::Render_Obejct(void)
 {
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pDynamicTransCom->Get_WorldMatrixPointer());
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-
-	//m_pTextureCom->Set_Texture(m_iTexIndex);
-	m_pBufferCom->Render_Buffer();
+	//m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pDynamicTransCom->Get_WorldMatrixPointer());
+	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pColliderCom->HitBoxWolrdmat());
-	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-	
-	m_pColliderCom->Render_Buffer();
-	
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	////m_pTextureCom->Set_Texture(m_iTexIndex);
+	//m_pBufferCom->Render_Buffer();
+	//
+	//m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pColliderCom->HitBoxWolrdmat());
+	//m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	//
+	//m_pColliderCom->Render_Buffer();
+	//
+	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	//m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 	
 }
 
@@ -256,43 +289,36 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 	if (Key_Down(DIK_T))
 	{
 		// Test -> Shop 추후수정
-		m_pDynamicTransCom->Set_Pos(340.f, 2.f, 325.f);
+		//m_pDynamicTransCom->Set_Pos(340.f, 2.f, 325.f);
 		//
 		Excution_Motion();
 
+		Engine::PlaySoundW(L"Axe_Swing.mp3", SOUND_EFFECT, 1.f);
+
 		CScene* pScene = Get_Scene();
-		CLayer* PLayer = pScene->GetLayer(L"Layer_GameLogic");
+		CLayer* pLayer = pScene->GetLayer(L"Layer_Room");
 		
-		for (auto iter : PLayer->Get_GameObjectMap())
+		for (auto iter : pLayer->Get_ControlRoomList())
+		{
+			static_cast<CControlRoom*>(iter)->Area_of_Effect(true);
+		}
+		
+		/*for (auto iter : PLayer->Get_GameObjectMap())
 		{
 			CMonsterBase* pMonster = dynamic_cast<CMonsterBase*>(iter.second);
 
 			if(pMonster!= nullptr)
 				static_cast<CMonsterBase*>(iter.second)->Excution_Event();
+		}*/
 		}
-
-
-
-	/*	NULL_CHECK_RETURN(pScene, );
-		CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
-		NULL_CHECK_RETURN(pLayer, );
-		CGameObject *pGameObject = nullptr;
-		_vec3	vPos;
-		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);*/
-	
-
-	}
 
 	if (Get_DIKeyState(DIK_SPACE) & 0X80)
 	{//m_bJump = TRUE;
-
-
 		_vec3	vPos;
 		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
 
-		cout << vPos.x << " " << vPos.z << endl;
-
 	}
+	
 		if (::Key_Down(DIK_LSHIFT))
 	{
 		m_bDash = true;
@@ -302,11 +328,18 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		CLayer* pLayer = pScene->GetLayer(L"Layer_UI");
 		NULL_CHECK_RETURN(pLayer, );
 		CUI_Effect* pGameObject = nullptr;
-
 		pGameObject =dynamic_cast<CUI_Effect*>(pLayer->Get_GameObject(L"Dash_Effect"));
 		pGameObject->Set_Active(true);
 
+		/*CScene* pMyScene = ::Get_Scene();
+		NULL_CHECK_RETURN(pMyScene, );*/
+		CLayer* pMyLayer = pScene->GetLayer(L"Layer_Icon");
+		NULL_CHECK_RETURN(pMyLayer, );
+		CDashUI* pDashUI = nullptr;		
+		pDashUI = dynamic_cast<CDashUI*>(pMyLayer->Get_GameObject(L"DashUI"));		
+		pDashUI->Set_Lshift(true);		
 	}
+	::Key_InputReset();
 
 	if (::Mouse_Down(DIM_LB)) // Picking
 	{
@@ -315,19 +348,47 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 
 		Ready_MonsterShotPicking();
 	}
+
 	if (::Mouse_Down(DIM_RB)) // Picking
 	{
-		CScene  *pScene = ::Get_Scene();
+		/*CScene  *pScene = ::Get_Scene();
 		CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
 		_vec3 vPos;
 		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
-		CGameObject* pFireworks = CFlare::Create(m_pGraphicDev, vPos);
-		pLayer->Add_EffectList(pFireworks);
+		vPos.y += 40.f;
+		CGameObject* pFireworks = CFireWorks::Create(m_pGraphicDev, vPos);
+		pLayer->Add_GameObjectList(pFireworks);*/
+
+		CScene  *pScene = ::Get_Scene();
+		CLayer * pLayer = pScene->GetLayer(L"Layer_UI");
+		CThunderHand* pThunderHand = dynamic_cast<CThunderHand*>(pLayer->Get_GameObject(L"SkillHand"));
+	
+		if (pThunderHand == nullptr) //|| !pThunderHand->Player_BuySkill())
+			return;
+
+		pThunderHand->Set_Active(true);
+
+		CLayer* pMyLayer = pScene->GetLayer(L"Layer_Icon");
+		NULL_CHECK_RETURN(pMyLayer, );
+		CSkill_UI* pSkill_UI = nullptr;
+		pSkill_UI = dynamic_cast<CSkill_UI*>(pMyLayer->Get_GameObject(L"Skill_UI"));
+		pSkill_UI->Set_mbRshift(true);
+
 	}
 	
 	if (Get_DIKeyState(DIK_R) & 0X80)
 	{
+		if (pEquipItem->Get_miID() == ID_MAGNUM)
+		{
 		pEquipItem->Set_Magazine(8);
+			Engine::PlaySoundW(L"Magnum_Reload.mp3", SOUND_GUNREROAD, 0.4f);
+		}
+
+		else if (pEquipItem->Get_miID() == ID_SHOT_GUN)
+		{
+			pEquipItem->Set_Magazine(6);
+			Engine::PlaySoundW(L"Shotgun_Reload.mp3", SOUND_GUNREROAD, 0.4f);
+		}
 	}
 
 	if (Get_DIKeyState(DIK_P) & 0X80)
@@ -336,9 +397,11 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		m_pDynamicTransCom->Get_Info(INFO_POS, &vcurrentPos);
 	}
 
-	if (Engine::Key_Down(DIK_C))
+	if (Engine::Key_Down(DIK_L))
 	{
-		Player_Dead(fTimeDelta);
+		m_pInfoCom->Get_InfoRef()._iHp += 10000;
+
+		//Player_Dead(fTimeDelta);
 		//m_pInfoCom->Get_InfoRef()._iHp -= 25;
 	}
 	Engine::Key_InputReset();
@@ -382,10 +445,12 @@ void CPlayer::ComboCheck()
 		m_iComboCount = 0;
 }
 
-void CPlayer::EquipItem_Add_Stat(_int _iAttack , _int _iHp , _int iCoin, _int _iKey, float _fSpeed)  // 현재 각 아이템들 충돌처리 부분이 애매해서 F 누르면 스탯이 다 증가할 거임. 충돌처리를 고치던지 날 잡고 한 번 뜯어봐야 함.
+void CPlayer::EquipItem_Add_Stat(_int _iAttack , _int _iHp , _int iCoin, _int _iKey, float _fSpeed, _uint iDefense)  // 현재 각 아이템들 충돌처리 부분이 애매해서 F 누르면 스탯이 다 증가할 거임. 충돌처리를 고치던지 날 잡고 한 번 뜯어봐야 함.
 {
 	m_pInfoCom->Get_InfoRef()._iAttackPower = _iAttack + 10;		// iOrginAttack =10
 	m_pInfoCom->Get_InfoRef()._iHp += _iHp ;		// iOrginAttack =10
+	
+	m_pInfoCom->Get_InfoRef()._iDefense += iDefense;
 	//_int iHp = _iArmor + m_pInfoCom->Get_InfoRef()._iAttackPower;
 	//m_pInfoCom->Get_InfoRef()._iHp = iHp;
 
@@ -430,9 +495,22 @@ void CPlayer::Random_ResurrectionRoom()
 	_vec3 vFirstCubePos;
 	pFirstCubeTransform->Get_Info(INFO_POS, &vFirstCubePos);
 
-	m_pDynamicTransCom->Set_Pos(vFirstCubePos.x + 5.f, vFirstCubePos.y, vFirstCubePos.z + 5.f);
+	_vec3  vAngle;
+	vAngle = pFirstCubeTransform->Get_Angle();
+	m_pDynamicTransCom->Rotation(ROT_Y, vAngle.y);
+
+	m_pDynamicTransCom->Set_Pos(vFirstCubePos.x , vFirstCubePos.y, vFirstCubePos.z );
+
+	// Player HpBar Reset
+	CAnimation* pHpBarAnimation = dynamic_cast<CAnimation*>(Engine::Get_Component(L"Layer_Icon", L"HpBar", L"Proto_AnimationCom", ID_DYNAMIC));
+
+	pHpBarAnimation->m_iMotion = 0;
+	pHpBarAnimation->Set_Motion(10);
+	// ~Player HpBar Reset
 
 	pLayer->Reset_Monster();
+	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
+	m_iComboCount = 0;
 	m_pDynamicTransCom->Update_Component(1.f);
 }
 
@@ -451,9 +529,10 @@ void CPlayer::Player_Dead(const _float& fTimeDelta)
 
 	CPlayer_Dead_UI* pDead_UI = static_cast<CPlayer_Dead_UI*>(Engine::Get_GameObject(L"Layer_UI", L"Dead_UI"));
 	pDead_UI->Set_Render(true);
+	pDead_UI->Set_BGM(false);
 
 	Player_Dead_CaemraAction();
-	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
+
 
 	m_bDead = true;
 }

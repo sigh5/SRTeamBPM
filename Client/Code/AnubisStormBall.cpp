@@ -121,6 +121,12 @@ void CAnubisStormBall::Render_Obejct(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
 
+	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, TRUE);
+	m_pGraphicDev->LightEnable(0, FALSE);
+	m_pGraphicDev->LightEnable(1, FALSE);
+	m_pGraphicDev->LightEnable(2, FALSE);
+	m_pGraphicDev->LightEnable(3, TRUE);
+
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0x10);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
@@ -134,6 +140,13 @@ void CAnubisStormBall::Render_Obejct(void)
 	m_pBufferCom->Render_Buffer();
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+
+	m_pGraphicDev->LightEnable(0, TRUE);
+	m_pGraphicDev->LightEnable(1, TRUE);
+	m_pGraphicDev->LightEnable(2, TRUE);
+	m_pGraphicDev->LightEnable(3, FALSE);
+	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
+
 }
 
 HRESULT CAnubisStormBall::Add_Component(void)

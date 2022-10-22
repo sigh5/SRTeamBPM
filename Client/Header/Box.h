@@ -36,7 +36,9 @@ public:
 	void				Set_Open(_bool pOpen) { m_bBoxOpen = pOpen; }
 	
 
-
+public:
+	HRESULT				SetUp_Material(void);
+	void				Set_Light_Obj();
 
 
 private:

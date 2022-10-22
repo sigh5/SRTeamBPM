@@ -32,6 +32,22 @@ namespace Engine
 
 	const _ulong		FVF_CUBE = D3DFVF_XYZ | D3DFVF_TEX1 | D3DFVF_TEXCOORDSIZE3(0);		// D3DFVF_TEXCOORDSIZE3 : �ؽ�ó�� UV���� FLOAT �� 3���� ũ�⸸ŭ�̸�, ��ȣ���� ���� 0�� �ǹ̴� ���� ���ؽ��� �ؽ�ó UV ���� �������� �� �� �ִµ� ���� 0��° ���� ���� �����ϰڴٴ� �ǹ��̴�.
 
+
+	typedef struct tagVertexCubeNormalTex
+	{
+		_vec3		vPos;
+		_vec3		vNormal;
+		_vec3		vTexUV;
+
+	}VTXNORMALCUBE;
+
+	const _ulong		FVF_CUBE_NORMAL = D3DFVF_XYZ| D3DFVF_NORMAL | D3DFVF_TEX1 | D3DFVF_TEXCOORDSIZE3(0);		// D3DFVF_TEXCOORDSIZE3 : �ؽ�ó�� UV���� FLOAT �� 3���� ũ�⸸ŭ�̸�, ��ȣ���� ���� 0�� �ǹ̴� ���� ���ؽ��� �ؽ�ó UV ���� �������� �� �� �ִµ� ���� 0��° ���� ���� �����ϰڴٴ� �ǹ��̴�.
+
+
+
+
+
+
 	typedef	struct tagIndex16
 	{
 		_ushort			_0;
@@ -57,6 +73,8 @@ namespace Engine
 		int _iCoin;
 		int _iKey;
 		float _fSpeed;
+
+		int _iDefense;
 	}CharacterInfo;
 
 

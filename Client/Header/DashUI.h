@@ -26,6 +26,8 @@ public:
 	virtual	void		LateUpdate_Object(void);
 	virtual void		Render_Obejct(void) override;
 
+	void				Set_Lshift(_bool _bSwitch) { m_bLshift = _bSwitch; }
+
 private:
 	HRESULT				Add_Component(void);
 
@@ -45,6 +47,8 @@ private:
 	_float				m_fDelayTime = 0.f;
 
 	_bool				m_bSize = false;
+
+	_bool				m_bLshift = false;
 
 public:
 	static CDashUI*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

@@ -28,7 +28,7 @@ public:
 	virtual void		Collision_Event()override;
 	virtual void		Change_Equip()override;
 
-
+	_bool				Get_EquipCheck(void) { return m_bEquip; }
 
 public:
 	void	Shop_Goods();
@@ -53,9 +53,11 @@ private:
 private:
 	HRESULT					Add_Component(void);
 
-	_matrix				m_ProjMatrix;
-	_bool			m_bOnce = false;
-	_float			m_fTimedelta = 0.f;
+	_matrix					m_ProjMatrix;
+	_bool					m_bOnce = false;
+	_float					m_fTimedelta = 0.f;
+
+	_bool					m_bEquip = false;
 
 public:
 	static	CHelmet*		Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint iX, _uint iZ);

@@ -43,7 +43,7 @@ public:
 	CCalculator*		m_pCalculatorCom = nullptr;
 	CAnimation*			m_pAnimationCom = nullptr;
 
-	CGun_Screen*		m_pGun=nullptr;
+	CTexture*			m_pSG_TextureCom = nullptr;
 
 private:
 	wstring				m_szMagazine = L"";		   // 탄창 수 실시간
@@ -51,6 +51,9 @@ private:
 	wstring				m_szOriginMagazine = L"";  // 원래 탄창 수를 표시하기 위한 함수
 
 	_vec3				m_vecScale;
+
+	_bool				m_bMagnum = false;
+	_bool				m_bShotgun = false;
 
 public:
 	static CBullet_UI*		Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* pPlayer);

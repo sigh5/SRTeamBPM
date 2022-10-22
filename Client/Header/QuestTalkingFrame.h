@@ -31,6 +31,10 @@ private:
 	void				Create_Quest();
 
 public:
+	void				Quest_Clear();
+
+
+public:
 	void				Set_Active(_bool bEvent) { m_bActive = bEvent; }
 
 
@@ -47,6 +51,11 @@ private:
 	_tchar*				pString = L"";
 
 	_int				m_iTalkNum = 0;
+
+	_float				m_fClearTimer = 0.f;
+	_bool				m_bClearcheck = false;
+
+
 public:
 	static CQuestTalkingFrame*	Create(LPDIRECT3DDEVICE9 pGraphicDev);
 	virtual void				Free(void);

@@ -24,6 +24,9 @@ public:
 	virtual void Free() override;
 	static CToolTest* Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
+
+	HRESULT Ready_Light(void);
+
 	// Tool 마다 매개 변수로써 저장경로를 잡아주기 위해 멤버 변수로 하나씩 추가
 private:
 	wstring m_PpDirectory = L"../../Data/PlayerPos.dat";

@@ -29,6 +29,8 @@ public:
 private:
 	HRESULT						 Add_Component(void);
 
+	HRESULT						 Create_CurrectMark(_float fX, _float fY);
+
 private:
 	CRcTex*					     m_pBufferCom = nullptr;
 	CTransform*					 m_pTransCom = nullptr;
@@ -43,6 +45,9 @@ private:
 	_bool						m_bSuccess2 = false;
 	
 	_bool						m_bFinalSuccess = false;
+
+	wstring						m_szCurrect = L"";
+	_uint						m_iCurrect = 0;
 
 public:
 	static CWrongPicFind*		 Create(LPDIRECT3DDEVICE9 pGrhaphicDev);

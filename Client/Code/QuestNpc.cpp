@@ -5,6 +5,7 @@
 #include "MyCamera.h"
 #include "Player.h"
 #include "QuestTalkingFrame.h"
+#include "QuestProcessing_UI.h"
 
 CQuestNpc::CQuestNpc(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -31,7 +32,6 @@ _int CQuestNpc::Update_Object(const _float & fTimeDelta)
 {
 	m_pAnimationCom->Move_Animation(fTimeDelta);
 
-	
 	_uint iResult = Engine::CGameObject::Update_Object(fTimeDelta);
 
 	Add_RenderGroup(RENDER_ALPHA, this);
@@ -74,6 +74,14 @@ void CQuestNpc::LateUpdate_Object(void)
 void CQuestNpc::Render_Obejct(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
+	
+	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, TRUE);
+	m_pGraphicDev->LightEnable(0, FALSE);
+	m_pGraphicDev->LightEnable(1, FALSE);
+	m_pGraphicDev->LightEnable(2, FALSE);
+	m_pGraphicDev->LightEnable(3, FALSE);
+	m_pGraphicDev->LightEnable(4, TRUE);
+
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0x10);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
@@ -84,10 +92,17 @@ void CQuestNpc::Render_Obejct(void)
 	
 
 	m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);	// 텍스처 정보 세팅을 우선적으로 한다.
-
+	SetUp_Material();
 	m_pBufferCom->Render_Buffer();
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+
+
+	m_pGraphicDev->LightEnable(0, TRUE);
+	m_pGraphicDev->LightEnable(1, TRUE);
+	m_pGraphicDev->LightEnable(2, TRUE);
+	m_pGraphicDev->LightEnable(3, TRUE);
+	m_pGraphicDev->LightEnable(4, FALSE);
 }
 
 void CQuestNpc::Collision_Event()
@@ -102,20 +117,125 @@ void CQuestNpc::Collision_Event()
 	NULL_CHECK_RETURN(pGameObject, );
 	CTransform *pTransform = dynamic_cast<CTransform*>(pGameObject->Get_Component(L"Proto_DynamicTransformCom", ID_DYNAMIC));
 
-	if (m_pColliderCom->Check_Collision(this, pGameObject, 2, 2))
+	if (m_pColliderCom->Check_Collision(this, pGameObject, 4, 4))
 	{
-		if (Key_Down(DIK_F))
+		if (Key_Down(DIK_C))
 		{
-			m_bPlayerInterection = !m_bPlayerInterection;	
-
 			pLayer = pScene->GetLayer(L"Layer_UI");
-			
+			if (Quest_clear(pLayer))
+				return;
+
+			m_bPlayerInterection = !m_bPlayerInterection;
 			CQuestTalkingFrame *pFrame = dynamic_cast<CQuestTalkingFrame*>(pLayer->Get_GameObject(L"QuestUIFrame"));
 			pFrame->Set_Active(m_bPlayerInterection);
-
 		}
 	}
 }
+
+HRESULT CQuestNpc::SetUp_Material(void)
+{
+	_vec3 vPlayerPos, vPos;
+
+	CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
+	NULL_CHECK(pPlayerTransformCom,E_FAIL);
+
+	pPlayerTransformCom->Get_Info(INFO_POS, &vPlayerPos);
+	m_pTransCom->Get_Info(INFO_POS, &vPos);
+
+	_float fMtoPDistance = sqrtf((powf(vPlayerPos.x - vPos.x, 2)
+		+ powf(vPlayerPos.y - vPos.y, 2)
+		+ powf(vPlayerPos.z - vPos.z, 2)));
+
+
+	D3DMATERIAL9		tMtrl;
+	if (fMtoPDistance < 30.f)
+	{
+		_float fDistance = ((1.f - fMtoPDistance / 30.f)) + 0.5f;
+		max(fDistance, 0.5f);
+		ZeroMemory(&tMtrl, sizeof(D3DMATERIAL9));
+		tMtrl.Diffuse = D3DXCOLOR(fDistance, fDistance, fDistance, fDistance);
+		tMtrl.Specular = D3DXCOLOR(fDistance, fDistance, fDistance, fDistance);
+		tMtrl.Ambient = D3DXCOLOR(fDistance, fDistance, fDistance, fDistance);
+		tMtrl.Emissive = D3DXCOLOR(fDistance, fDistance, fDistance, fDistance);
+		tMtrl.Power = 0.f;
+	}
+	else
+	{
+		_float fDistance = 0.4f;
+		ZeroMemory(&tMtrl, sizeof(D3DMATERIAL9));
+		tMtrl.Diffuse = D3DXCOLOR(fDistance, fDistance, fDistance, fDistance);
+		tMtrl.Specular = D3DXCOLOR(fDistance, fDistance, fDistance, fDistance);
+		tMtrl.Ambient = D3DXCOLOR(fDistance, fDistance, fDistance, fDistance);
+		tMtrl.Emissive = D3DXCOLOR(fDistance, fDistance, fDistance, fDistance);
+		tMtrl.Power = 0.f;
+	}
+
+
+	m_pGraphicDev->SetMaterial(&tMtrl);
+
+	return S_OK;
+}
+
+void CQuestNpc::Set_Light_Obj()
+{
+	_vec3 vPlayerPos, vPos;
+
+	CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
+	if (pPlayerTransformCom == nullptr)
+		return;
+
+	pPlayerTransformCom->Get_Info(INFO_POS, &vPlayerPos);
+	m_pTransCom->Get_Info(INFO_POS, &vPos);
+
+	_float fMtoPDistance = sqrtf((powf(vPlayerPos.x - vPos.x, 2)
+		+ powf(vPlayerPos.y - vPos.y, 2)
+		+ powf(vPlayerPos.z - vPos.z, 2)));
+
+	if (fMtoPDistance < 30.f)
+	{
+		_float fDistance = ((1.f - fMtoPDistance / 30.f)) * 2;
+		max(fDistance, 0.1f);
+
+		D3DLIGHT9		tLightInfo4;
+		ZeroMemory(&tLightInfo4, sizeof(D3DLIGHT9));
+		_vec3 vPos;
+		m_pTransCom->Get_Info(INFO_POS, &vPos);
+		tLightInfo4.Type = D3DLIGHT_SPOT;
+		tLightInfo4.Diffuse = D3DXCOLOR(fDistance, fDistance, fDistance, fDistance);
+		tLightInfo4.Specular = D3DXCOLOR(fDistance, fDistance, fDistance, fDistance);
+		tLightInfo4.Ambient = D3DXCOLOR(fDistance, fDistance, fDistance, fDistance);
+		tLightInfo4.Position = vPos;
+		FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &tLightInfo4, 4), );
+	}
+	else
+	{
+		return;
+	}
+}
+
+bool CQuestNpc::Quest_clear(CLayer* pLayer)
+{
+	
+	CQuestProcessing_UI* pQuestProcessing_UI =
+		dynamic_cast<CQuestProcessing_UI*>(pLayer->Get_GameObject(L"QuestProcessing_UI"));
+
+	if (pQuestProcessing_UI == nullptr)
+		return false;
+
+	if (pQuestProcessing_UI->MiniGameCheck())
+	{
+		pQuestProcessing_UI->Set_Active(true);
+		CQuestTalkingFrame *pFrame = dynamic_cast<CQuestTalkingFrame*>(pLayer->Get_GameObject(L"QuestUIFrame"));
+		pFrame->Set_Active(true);
+		pFrame->Quest_Clear();
+		return true;
+	}
+
+
+
+	return false;
+}
+
 
 
 

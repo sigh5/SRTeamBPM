@@ -28,6 +28,10 @@ public:
 	static CEarthShaker*		Create(LPDIRECT3DDEVICE9 pGraphicDev, float Posx = 0, float Posy = 0);
 	virtual void	Free(void);
 
+
+	HRESULT				SetUp_Material(void);
+	void				Set_Light_Obj();
+
 private:
 	CRcTex*			m_pBufferCom = nullptr;
 	CTexture*		m_pTextureCom = nullptr;

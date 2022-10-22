@@ -9,6 +9,10 @@
 #include "Change_Stage.h"
 #include "Helmet.h"
 #include "EquipYeti.h"
+#include "QuestProcessing_UI.h"
+#include "ThunderHand.h"
+#include "Skill_UI.h"
+
 
 CShopUI::CShopUI(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CUI_Base(pGraphicDev)
@@ -142,31 +146,79 @@ void CShopUI::Picking_Rect_Index()
 
 			if (PtInRect(&Rc, ptMouse))
 			{
-				if (i == 2)
+				if (i == 0 && !m_bShopingEnd[0])
+				{
+					CThunderHand* pHand = dynamic_cast<CThunderHand*>(::Get_GameObject(L"Layer_UI", L"SkillHand"));
+					pHand->Set_BuySkill(true);
+
+					CSkill_UI* pSkill_UI = dynamic_cast<CSkill_UI*>(Engine::Get_GameObject(L"Layer_Icon", L"Skill_UI"));
+					pSkill_UI->Set_m_bRB(true);
+
+					m_bShopingEnd[0] = true;
+
+
+				}
+				else if (i == 1)
 				{
 					CScene*pScene = ::Get_Scene();
 					pScene->Set_SceneChane(true);
 					::Set_SaveScene(pScene);
 
-					//CScene*		pMiniStage1 = CMiniStage1::Create(m_pGraphicDev);
-					//Change_Scene(pScene, pMiniStage1);
-
-					CScene*		pChangeScene = CChange_Stage::Create(m_pGraphicDev,1);
+					CScene*		pChangeScene = CChange_Stage::Create(m_pGraphicDev, 1);
 					NULL_CHECK_RETURN(pScene, );
 
 					::Change_Scene(pScene, pChangeScene);
-
 					m_iForceSceneReturn = SCENE_CHANGE_RETRURN;
+
+					CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+					NULL_CHECK_RETURN(pLayer, );
+					pLayer = pScene->GetLayer(L"Layer_UI");
+
+					CQuestProcessing_UI* pQuestProcessing_UI =
+						static_cast<CQuestProcessing_UI*>(pLayer->Get_GameObject(L"QuestProcessing_UI"));
+					pQuestProcessing_UI->Set_Quest_Claer(Quest_Index_ONE, true);
+
 					return;
+				}
+
+				else if (i == 2)
+				{
+					CScene*pScene = ::Get_Scene();
+					CLayer * pLayer = pScene->GetLayer(L"Layer_UI");
+					NULL_CHECK_RETURN(pLayer, );
+					/*pLayer = pScene->GetLayer(L"Layer_UI");*/
+
+
+					CQuestProcessing_UI* pQuestProcessing_UI =
+						dynamic_cast<CQuestProcessing_UI*>(pLayer->Get_GameObject(L"QuestProcessing_UI"));
+					if (pQuestProcessing_UI != nullptr)
+						pQuestProcessing_UI->Set_Quest_Claer(Quest_Index_TWO, true);
 
 				}
 				else if (i == 3)
 				{
-					_bool b = false;
+					CScene*pScene = ::Get_Scene();
+					pScene->Set_SceneChane(true);
+					::Set_SaveScene(pScene);
+					CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+					NULL_CHECK_RETURN(pLayer, );
+					pLayer = pScene->GetLayer(L"Layer_UI");
+					CQuestProcessing_UI* pQuestProcessing_UI =
+						dynamic_cast<CQuestProcessing_UI*>(pLayer->Get_GameObject(L"QuestProcessing_UI"));
+					if (pQuestProcessing_UI != nullptr)
+						pQuestProcessing_UI->Set_Quest_Claer(Quest_Index_THREE, true);
+					CScene*		pChangeScene = CChange_Stage::Create(m_pGraphicDev, 3);
+					NULL_CHECK_RETURN(pScene, );
+
+					::Change_Scene(pScene, pChangeScene);
+					m_iForceSceneReturn = SCENE_CHANGE_RETRURN;
+					return;				
 				}
-				else if (i == 4)
+				else if (i == 4 && !m_bSelect[4] )
 				{
-					_bool b = false;
+					m_iEquipIndex = 4;
+					m_bSelect[4] = true;
+					return;
 				}
 				else if (i == 5 && !m_bSelect[5])
 				{
@@ -188,13 +240,23 @@ void CShopUI::Picking_Rect_Index()
 
 		m_bShopingEnd[5] = true;
 
-		CHelmet* pHelmet = static_cast<CHelmet*>(Get_GameObject(L"Layer_GameLogic", L"Helmet1"));
-		pHelmet->Shop_Goods();
-		
 		CEquipYeti* pYeti = static_cast<CEquipYeti*>(Get_GameObject(L"Layer_GameLogic", L"EquipYeti"));
 		pYeti->Shop_Goods();
 
 	}
+
+	if (m_bSelect[4] && !m_bShopingEnd[4])
+	{
+		CPlayer* pPlayer = static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"));
+		CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(pPlayer->Get_Component(L"Proto_CharacterInfoCom", ID_STATIC));
+		_int iCoin = pPlayerInfo->Get_InfoRef()._iCoin -= 3;		// 나중에 가격적으면됌
+
+		m_bShopingEnd[4] = true;
+
+		CHelmet* pHelmet = static_cast<CHelmet*>(Get_GameObject(L"Layer_GameLogic", L"Helmet1"));
+		pHelmet->Shop_Goods();
+	}
+
 
 
 

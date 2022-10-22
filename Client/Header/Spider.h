@@ -17,7 +17,7 @@ public:
 	virtual void		LateUpdate_Object(void) override;
 	virtual void		Render_Obejct(void) override;
 	virtual void		Collision_Event();
-	virtual void		Excution_Event();
+	virtual void		Excution_Event(_bool bAOE = false)override;
 	virtual bool		Dead_Judge(const _float& fTimeDelta);
 
 	virtual void NoHit_Loop(const _float& fTimeDelta);
@@ -30,6 +30,10 @@ private:
 	void		Attack(const _float& fTimeDelta);
 	void			Drop_Item(int ItemType);
 	//~
+
+public:
+	HRESULT				SetUp_Material(void);
+	void				Set_Light_Obj();
 
 	//»ý¼º ¼Ò¸ê
 public:

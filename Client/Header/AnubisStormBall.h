@@ -23,8 +23,9 @@ public:
 	virtual void		Render_Obejct(void) override;
 
 private:
-		HRESULT				Add_Component(void);
-
+	HRESULT				Add_Component(void);
+	HRESULT				SetUp_Material(void);
+	void				Set_Light_Obj();
 
 private:
 	CTransform*			m_pTransCom = nullptr;

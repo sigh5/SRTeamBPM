@@ -5,6 +5,7 @@
 #include "Coin.h"
 #include "Player.h"
 #include "CharacterInfo.h"
+#include "Click_Particle.h"
 
 
 CWrongPicFind::CWrongPicFind(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -33,7 +34,7 @@ HRESULT CWrongPicFind::Ready_Object()
 	_vec3	vScale = { m_fSizeX, m_fSizeY, 1.f };
 	m_pTransCom->Set_Scale(&vScale);
 
-	m_pTransCom->Set_Pos(m_fX- WINCX * 0.5f, (-m_fY + WINCY * 0.5f), 0.f);
+	m_pTransCom->Set_Pos(m_fX- WINCX * 0.5f, (-m_fY + WINCY * 0.5f), 0.1f);
 	//m_pTransCom->Update_Component(1.f);
 
 	return S_OK;
@@ -68,6 +69,7 @@ void CWrongPicFind::LateUpdate_Object(void)
 
 void CWrongPicFind::Render_Obejct(void)
 {
+	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
 
 	_matrix		OldViewMatrix, OldProjMatrix;
@@ -90,6 +92,13 @@ void CWrongPicFind::Render_Obejct(void)
 	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
+	_tchar	tCurrect[MAX_PATH];
+	swprintf_s(tCurrect, L"정답 : %d / 3", m_iCurrect);
+	m_szCurrect = L"";
+	m_szCurrect += tCurrect;
+
+	Render_Font(L"DalseoHealingBold", m_szCurrect.c_str(), &_vec2(667.f, 48.f), D3DXCOLOR(0.f, 0.f, 0.f, 1.f));
+
 	m_pTextureCom->Set_Texture(0);
 
 	m_pBufferCom->Render_Buffer();
@@ -102,7 +111,7 @@ void CWrongPicFind::Render_Obejct(void)
 
 void CWrongPicFind::Picking_WrongPoint(void)
 {
-	if (Get_DIMouseState(DIM_LB) & 0x80)
+	if (Engine::Mouse_Down(DIM_LB))
 	{
 		POINT	ptMouse{};
 		GetCursorPos(&ptMouse);
@@ -111,6 +120,8 @@ void CWrongPicFind::Picking_WrongPoint(void)
 		_vec3	vPoint;
 		m_fX = (_float)ptMouse.x;
 		m_fY = (_float)ptMouse.y;
+		
+		//cout << m_fX << ": o :" << m_fY << endl;
 
 		RECT RcFind{};
 
@@ -124,21 +135,28 @@ void CWrongPicFind::Picking_WrongPoint(void)
 				{
 					// Event
 
-					MSG_BOX("8bit");
-					m_bSuccess0 = true;					
+					//MSG_BOX("8bit");
+					m_iCurrect += 1;
+					Engine::PlaySoundW(L"Currect_Mark.wav", SOUND_EFFECT, 1.f);		
+					//Create_CurrectMark(m_fX, m_fY);
+					m_bSuccess0 = true;	
 				}		
 
 				if (i == 1)
 				{
 					// Event
 
-					MSG_BOX("상남자");
+					//MSG_BOX("상남자");
+					m_iCurrect += 1;
+					Engine::PlaySoundW(L"Currect_Mark.wav", SOUND_EFFECT, 1.f);
 					m_bSuccess1 = true;
 				}
 
 				if (i == 2)
 				{
-					MSG_BOX("나만의 작은 침");
+					//MSG_BOX("나만의 작은 침");
+					m_iCurrect += 1;
+					Engine::PlaySoundW(L"Currect_Mark.wav", SOUND_EFFECT, 1.f);
 					m_bSuccess2 = true;
 				}				
 			}
@@ -165,6 +183,19 @@ HRESULT CWrongPicFind::Add_Component(void)
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
 	m_pTransCom = CAbstractFactory<CTransform>::Clone_Proto_Component(L"Proto_TransformCom", m_mapComponent, ID_DYNAMIC);
 	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Chim_Texture", m_mapComponent, ID_STATIC);
+
+	return S_OK;
+}
+
+HRESULT CWrongPicFind::Create_CurrectMark(_float fX, _float fY)
+{
+	CScene*			pScene = Engine::Get_Scene();
+	CLayer*			pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+
+	CGameObject*	pGameObject = nullptr;
+	pGameObject = CClick_Particle::Create(m_pGraphicDev, _vec3(fX, 0.f, fY));
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(L"ClickParticle", pGameObject), E_FAIL);
 
 	return S_OK;
 }

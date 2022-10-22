@@ -4,6 +4,8 @@
 #include "AbstractFactory.h"
 
 #include "Player_Dead_UI.h"
+#include "Player.h"
+#include "MyCamera.h"
 
 CQuizBox::CQuizBox(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CUI_Base(pGraphicDev)
@@ -43,9 +45,14 @@ _int CQuizBox::Update_Object(const _float & fTimeDelta)
 	
 	if (!m_bRandom)
 	{
-		m_iRandom = rand() % 3;
+		m_iRandom = rand() % 4;
 		m_bRandom = true;
 	}	
+
+
+	if (m_bDead)
+		return OBJ_DEAD;
+
 
 	Add_RenderGroup(RENDER_UI, this);
 
@@ -170,6 +177,16 @@ void CQuizBox::Quiz_Answer(void)
 		pPlayerDead->Set_Render(false);
 		pPlayerDead->Set_RenderIn(true);
 		pPlayerDead->Set_BGM(false);
+
+		CMyCamera *pCam = dynamic_cast<CMyCamera*>(::Get_GameObject(L"Layer_Environment", L"CMyCamera"));
+		pCam->CameraReset();
+
+		CPlayer *pPlayer = dynamic_cast<CPlayer*>(::Get_GameObject(L"Layer_GameLogic",L"Player"));
+		pPlayer->Random_ResurrectionRoom();
+
+
+		pPlayerDead->Set_Quiz(false);
+		m_bDead = true;
 	}		
 	Engine::Key_InputReset();
 		

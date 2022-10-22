@@ -117,9 +117,12 @@ void CShotGun::Render_Obejct(void)
 	}
 	else if (m_bIsInventory)
 	{
-		CInventory_UI* pInven = static_cast<CInventory_UI*>(Get_GameObject(L"Layer_UI", L"InventoryUI"));
+		CInventory_UI* pInven = dynamic_cast<CInventory_UI*>(Get_GameObject(L"Layer_UI", L"InventoryUI"));
+				
+		if (pInven == nullptr)
+			return;
 
-		if (!pInven->Get_InvenSwitch())
+		if (!pInven->Get_InvenSwitch())  
 			return;
 
 		m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
@@ -165,6 +168,7 @@ void CShotGun::Collision_Event()
 	{
 		if (Key_Down(DIK_F))//Engine::Key_Down(DIK_F))
 		{
+			Engine::PlaySoundW(L"Drop_Gun.mp3", SOUND_OBJECT, 1.f);
 			// 인벤토리에 들어감
 			CInventory_UI* pInven = static_cast<CInventory_UI*>(Get_GameObject(L"Layer_UI", L"InventoryUI"));
 			pInven->Get_WeaponType()->push_back(this);
@@ -223,7 +227,7 @@ void CShotGun::Change_Equip()
 	CPlayer* pPlayer = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
 	pPlayer->EquipItem_Add_Stat(m_EquipInfo._iAddAttack);
 
-
+	g_fRange += 10.f;
 
 }
 
@@ -372,6 +376,7 @@ _bool CShotGun::EquipIconPicking()
 		//cout << ptMouse.x << " " << ptMouse.y << endl;
 		if (PtInRect(&rcUI2, ptMouse))
 		{
+			Engine::PlaySoundW(L"Item_Picking.mp3", SOUND_OBJECT, 1.f);
 			pInven->Set__Current_Picking_ItemID(ID_SHOT_GUN);
 			m_bPickingEnd = false;
 			m_bisPicking = true;

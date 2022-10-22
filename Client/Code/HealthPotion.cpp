@@ -4,6 +4,7 @@
 
 #include "AbstractFactory.h"
 #include "MyCamera.h"
+#include "HpBar.h"
 
 USING(Engine)
 
@@ -133,11 +134,33 @@ void CHealthPotion::Collision_Event()
 	if (m_pColliderCom->Check_Collision(this,pGameObject,1,1))
 	{
 		CCharacterInfo* pInfo   = dynamic_cast<CCharacterInfo*>(pGameObject->Get_Component(L"Proto_CharacterInfoCom", ID_STATIC));
-		pInfo->Add_Hp(25);
-		m_bDead = true;
+		CAnimation* pHpBarAnimation = dynamic_cast<CAnimation*>(Engine::Get_Component(L"Layer_Icon", L"HpBar", L"Proto_AnimationCom", ID_DYNAMIC));
+
+		if (pInfo->Get_InfoRef()._iHp == 100)
+		{
+			pHpBarAnimation->Eliminate_Motion(0);
+			pHpBarAnimation->Add_Origin(0);
+			m_bDead = false;
+		}
+
+		else if (pInfo->Get_InfoRef()._iHp >= 90)
+		{
+			pInfo->Add_Hp(10);
+			m_bDead = true;
+
+			pHpBarAnimation->Eliminate_Motion(1);
+			pHpBarAnimation->Add_Origin(1);
+		}
+		
+		else
+		{
+			pInfo->Add_Hp(20);
+			m_bDead = true;
+
+			pHpBarAnimation->Eliminate_Motion(2);
+			pHpBarAnimation->Add_Origin(2);
+		}				
 	}
-
-
 }
 
 HRESULT CHealthPotion::Add_Component(void)

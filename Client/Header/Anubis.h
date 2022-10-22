@@ -32,8 +32,8 @@ public:
 	void				Clear_Blood(const _float& fTimeDelta);
 	void				Drop_Item(int ItemType);
 public:
-	// 처형 판독
-	virtual void		Excution_Event();
+	HRESULT				SetUp_Material(void);
+	void				Set_Light_Obj();
 
 	void AttackJudge(const _float& fTimeDelta);
 	// 공격

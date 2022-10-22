@@ -19,12 +19,20 @@ public:
 
 	void	Control_Event_Animation(_bool bEvent);
 	//ÁÖ¼®Áö¿ì¼À
-
+	
 	void	Open_Box_Animation(_bool bOpen);
 
 	// Gun_Screen
 	bool	Gun_Animation(const _float& fTimeDelta);
 	// ~Gun_Screen
+
+	void	Set_Motion(int _iMotion) { m_iOrigin = _iMotion; }
+
+	void	Set_MaxMotion(int _iMaxMotion) { m_iMaxMotion = _iMaxMotion; }
+
+	void	Add_Origin(_uint _iOrigin) { m_iOrigin += _iOrigin; }
+
+	void	Eliminate_Motion(_uint _iMinusMotion) { m_iMotion -= _iMinusMotion; }
 
 public:
 	

@@ -32,7 +32,9 @@ public:
 	void		AttackPettern3(const _float& fTimeDelta);
 	void		AttackPettern4(const _float& fTimeDelta);
 
-
+public:
+	HRESULT				SetUp_Material(void);
+	void				Set_Light_Obj();
 public:
 	static CFinalBoss*		Create(LPDIRECT3DDEVICE9 pGraphicDev, float Posx = 0, float Posy = 0);
 	virtual void	Free(void);

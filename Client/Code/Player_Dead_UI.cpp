@@ -23,7 +23,7 @@ HRESULT CPlayer_Dead_UI::Ready_Object(_uint _iAlpha)
 
 	Set_OrthoMatrix(WINCX, WINCY, 0.f, 0.f);
 
-	m_vecScale = { m_fSizeX, m_fSizeY, 1.f };
+	m_vecScale = { m_fSizeX * 1.1f, m_fSizeY * 1.1f, 1.f };
 
 	m_pTransCom->Set_Scale(&m_vecScale);
 
@@ -63,6 +63,9 @@ _int CPlayer_Dead_UI::Update_Object(const _float & fTimeDelta)
 			_uint iB = 0;
 
 		}
+
+		if (m_bBGM)
+			Engine::StopSound(SOUND_EFFECT);
 	
 	return iResult;
 }
@@ -118,7 +121,7 @@ void CPlayer_Dead_UI::Render_Obejct(void)
 			{
 				m_bEvent = true;	
 				
-				if (!m_bQuiz)
+				if (!m_bQuiz)  // false 만들어 줄 것
 				{
 					_tchar szReStart[128] = L"다시 시작하시겠습니까? M키";
 
@@ -229,46 +232,20 @@ HRESULT CPlayer_Dead_UI::Add_Component(void)
 
 HRESULT CPlayer_Dead_UI::Create_Quiz(void)
 {
+	_tchar*			tQuizBox = L"QuizBox%d";
+
 	CScene*			pScene = Engine::Get_Scene();
 	CLayer*			pMyLayer = pScene->GetLayer(L"Layer_UI");
 
 	CGameObject*	pGameObject = nullptr;
 	pGameObject = CQuizBox::Create(m_pGraphicDev, true);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(L"QuizBox1", pGameObject), E_FAIL);
-
+	FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(tQuizBox, pGameObject), E_FAIL);
+	// 사망하여 생성될때마다 키값 변경
 	m_bQuiz = true;
 
 	return S_OK;
 }
-
-/*
-
-HRESULT CTestPlayer::Create_Bullet(_vec3 vPos)
-{
-++m_iCoolTime;
-
-if (m_bOneShot && m_iCoolTime > 10)
-{
-m_bOneShot = FALSE;
-
-m_iCoolTime = 0;
-
-CScene* pScene = ::Get_Scene();
-CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
-
-CGameObject* pGameObject = nullptr;  // Reuse_PlayerBulltObj
-pGameObject = CObjectMgr::GetInstance()->Reuse_PlayerBulltObj(m_pGraphicDev, vPos);
-NULL_CHECK_RETURN(pGameObject, E_FAIL);
-pMyLayer->Add_GameObjectList(pGameObject);
-
-m_iMagazine -= 1;
-
-}
-return S_OK;
-}
-
-*/
 
 CPlayer_Dead_UI * CPlayer_Dead_UI::Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint _iAlpha)
 {

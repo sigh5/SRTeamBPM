@@ -9,6 +9,7 @@ namespace Engine
 	class CTerrainTex;
 	class CTexture;
 	class CCalculator;
+	class CShader;
 }
 //ÁÖ¼®Áö¿ì¼À
 class CTerrain : public CGameObject
@@ -33,13 +34,14 @@ public:
 
 private:
 	HRESULT				Add_Component(void);
-	HRESULT				SetUp_Material(void);
-
+	
 public:
 	CTerrainTex*		m_pBufferCom = nullptr;
 	CTransform*			m_pTransCom = nullptr;
 	CTexture*			m_pTextureCom = nullptr;
-	CCalculator*	   m_pCalculatorCom = nullptr;
+	CCalculator*		 m_pCalculatorCom = nullptr;
+	CShader*			m_pShaderCom = nullptr;
+
 
 	_bool				m_pCreateControlSphere = false;
 	_bool				m_bWireFrame = false;

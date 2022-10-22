@@ -38,7 +38,7 @@ HRESULT CBulletShell::Ready_Object(_vec3 vPos, _vec3 vDir, int shelltype)
 	m_pTransCom->Set_Pos(vPos.x, vPos.y, vPos.z);
 	m_pTransCom->Set_Scale(&_vec3(0.5f, 0.5f, 0.5f));
 	m_vUpDown = _vec3(0.f, 1.f, 0.f);
-	m_fSpin = rand() % 30;
+	m_fSpin = _float(rand() % 30);
 	return S_OK;
 }
 

@@ -188,7 +188,7 @@ void CMagnum::Change_Equip()
 	CInventory_UI* pInven = static_cast<CInventory_UI*>(Get_GameObject(L"Layer_UI", L"InventoryUI"));
 	pInven->Set_CurrentEquipWeapon(this);
 
-
+	g_fRange = 0.f;
 }
 
 void CMagnum::Set_MouseToInventory() // 누르면 걍 따라오는 함수
@@ -334,6 +334,7 @@ _bool CMagnum::EquipIconPicking()
 		cout << ptMouse.x << " " << ptMouse.y << endl;
 		if (PtInRect(&rcUI2, ptMouse))
 		{
+			Engine::PlaySoundW(L"Item_Picking.mp3", SOUND_OBJECT, 1.f);
 			pInven->Set__Current_Picking_ItemID(ID_MAGNUM);
 			m_bPickingEnd = false;
 			m_bisPicking = true;
