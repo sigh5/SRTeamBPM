@@ -210,7 +210,7 @@ void CSoldier::Collision_Event()
 	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
 
 	if (static_cast<CGun_Screen*>(pGameObject)->Get_Shoot() &&
-		fMtoPDistance < MAX_CROSSROAD  &&
+		fMtoPDistance < MAX_CROSSROAD + g_fRange  &&
 		m_pColliderCom->Check_Lay_InterSect(m_pBufferCom, m_pDynamicTransCom, g_hWnd))
 	{
 		m_bHit = true;
