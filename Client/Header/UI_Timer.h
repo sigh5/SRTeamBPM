@@ -46,6 +46,7 @@ private:
 	_bool				m_bActive = false;
 	wstring				pString = L"남은시간";
 	wstring				pString2 = L"남은시간";
+	wstring				pString3 = L"남은시간";
 	_int				m_iTalkNum = 0;
 
 	_float				m_fFrame = 0.f;

@@ -27,7 +27,7 @@ private:
 	void		Key_Input(const _float& fTimeDelta);
 	void		Target_Renewal(void);
 	void		Mouse_Move(const _float& fTimeDelta);
-
+	void		Mouse_Fix();
 
 private:
 	_float			m_fDistance = 4.f;

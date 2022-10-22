@@ -3,7 +3,7 @@
 
 #include "Export_Function.h"
 #include "QuestProcessing_UI.h"
-
+#include "MiniPlayer.h"
 
 CUI_Timer::CUI_Timer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CUI_Base(pGraphicDev)
@@ -56,6 +56,11 @@ _int CUI_Timer::Update_Object(const _float & fTimeDelta)
 		Time_Over();
 
 
+	CMiniPlayer*pPlayer = dynamic_cast<CMiniPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"));
+
+	pString3 = std::to_wstring(pPlayer->Get_MonsterKillCount());
+
+
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
 	Add_RenderGroup(RENDER_UI, this);
@@ -104,6 +109,10 @@ void CUI_Timer::Render_Obejct(void)
 	}
 	Render_Font(L"DalseoHealingBold", pString.c_str(), &_vec2(WINCX - 100.f, 80.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 	Render_Font(L"DalseoHealingBold", L"초 ", &_vec2(WINCX - 70.f, 80.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+	
+	Render_Font(L"DalseoHealingBold", L"잡은 수 ", &_vec2(WINCX - 230.f, 120.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+	Render_Font(L"DalseoHealingBold", pString3.c_str() , &_vec2(WINCX - 100.f, 120.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+	
 	m_pGraphicDev->SetTransform(D3DTS_VIEW, &OldViewMatrix);
 	m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &OldProjMatrix);
 

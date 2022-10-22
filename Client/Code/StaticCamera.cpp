@@ -61,7 +61,7 @@ Engine::_int CStaticCamera::Update_Object(const _float& fTimeDelta)
 	}
 
 	Mouse_Move(fTimeDelta);
-
+	Mouse_Fix();
 
 	return iExit;
 }
@@ -133,6 +133,19 @@ void CStaticCamera::Mouse_Move(const _float & fTimeDelta)
 		pPlayerTransform->Rotation(ROT_X, m_fAngle);
 	}
 
+}
+
+void CStaticCamera::Mouse_Fix()
+{
+	POINT	pt{};
+	GetCursorPos(&pt);
+	ScreenToClient(g_hWnd, &pt);
+
+
+	POINT	pt2{ (WINCX >> 1) - 16 , (WINCY >> 1) - 14 };
+
+	ClientToScreen(g_hWnd, &pt2);
+	SetCursorPos(pt2.x, pt2.y);
 }
 
 void CStaticCamera::Free(void)

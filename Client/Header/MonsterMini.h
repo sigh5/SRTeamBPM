@@ -13,14 +13,12 @@ namespace Engine
 	class CCharacterInfo;
 	class CTransform;
 	class CCollider;
-	
-	
 }
 
 
 class CMonsterMini  : public CGameObject
 {
-public:
+private:
 	explicit CMonsterMini(LPDIRECT3DDEVICE9 pGraphicDev);
 	virtual ~CMonsterMini();
 

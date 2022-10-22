@@ -53,9 +53,8 @@ _int CMagneticField::Update_Object(const _float & fTimeDelta)
 			m_bPlayerInTerrain = false;
 
 			m_bSetActive = false;
-
-
 		}
+
 	}
 	else
 	{

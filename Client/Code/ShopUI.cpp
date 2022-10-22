@@ -153,7 +153,7 @@ void CShopUI::Picking_Rect_Index()
 
 
 				}
-				else if (i == 1)
+				else if (i == 1 && !m_bSelect[1])
 				{
 					CScene*pScene = ::Get_Scene();
 					pScene->Set_SceneChane(true);
@@ -173,10 +173,11 @@ void CShopUI::Picking_Rect_Index()
 						static_cast<CQuestProcessing_UI*>(pLayer->Get_GameObject(L"QuestProcessing_UI"));
 					pQuestProcessing_UI->Set_Quest_Claer(Quest_Index_ONE, true);
 
+					m_bSelect[1] = true;
 					return;
 				}
 
-				else if (i == 2)
+				else if (i == 2 && !m_bSelect[2])
 				{
 					CScene*pScene = ::Get_Scene();
 					CLayer * pLayer = pScene->GetLayer(L"Layer_UI");
@@ -189,8 +190,10 @@ void CShopUI::Picking_Rect_Index()
 					if (pQuestProcessing_UI != nullptr)
 						pQuestProcessing_UI->Set_Quest_Claer(Quest_Index_TWO, true);
 
+					m_bSelect[2] = true;
+
 				}
-				else if (i == 3)
+				else if (i == 3 && !m_bSelect[3])
 				{
 					CScene*pScene = ::Get_Scene();
 					pScene->Set_SceneChane(true);
@@ -207,6 +210,7 @@ void CShopUI::Picking_Rect_Index()
 
 					::Change_Scene(pScene, pChangeScene);
 					m_iForceSceneReturn = SCENE_CHANGE_RETRURN;
+					m_bSelect[3] = true;
 					return;				
 				}
 				else if (i == 4 && !m_bSelect[4] )
@@ -227,6 +231,18 @@ void CShopUI::Picking_Rect_Index()
 		}
 	}
 	
+	if (m_bSelect[3] && !m_bShopingEnd[3])
+	{
+		CPlayer* pPlayer = static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"));
+		CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(pPlayer->Get_Component(L"Proto_CharacterInfoCom", ID_STATIC));
+		_int iCoin = pPlayerInfo->Get_InfoRef()._iCoin += 50;		// 나중에 가격적으면됌
+
+		m_bShopingEnd[3] = true;
+	}
+
+
+
+
 	if (m_bSelect[5] && !m_bShopingEnd[5])
 	{
 		CPlayer* pPlayer = static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"));
