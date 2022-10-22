@@ -12,6 +12,7 @@
 #include "QuestProcessing_UI.h"
 #include "ThunderHand.h"
 #include "Skill_UI.h"
+#include "ThunderPic.h"
 
 
 CShopUI::CShopUI(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -45,7 +46,7 @@ HRESULT CShopUI::Ready_Object()
 	m_pTransCom->Set_Scale(&vScale);
 
 	m_pTransCom->Set_Pos(m_fX - WINCX * 0.5f,
-		(-m_fY + WINCY * 0.5f), 0.0f);
+		(-m_fY + WINCY * 0.5f), 0.08f);
 	m_pTransCom->Update_Component(1.f);
 
 	return S_OK;
@@ -153,6 +154,9 @@ void CShopUI::Picking_Rect_Index()
 
 					CSkill_UI* pSkill_UI = dynamic_cast<CSkill_UI*>(Engine::Get_GameObject(L"Layer_Icon", L"Skill_UI"));
 					pSkill_UI->Set_m_bRB(true);
+
+					CThunderPic* pThunderPic = dynamic_cast<CThunderPic*>(Engine::Get_GameObject(L"Layer_Icon", L"ThunderPic"));
+					pThunderPic->Set_SoldOut(false);
 
 					m_bShopingEnd[0] = true;
 

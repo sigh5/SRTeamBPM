@@ -76,6 +76,8 @@ public:
 
 	void				Set_DefenseToHp(_bool _bDefenseToHp) { m_bDefenseToHp = _bDefenseToHp; }
 	
+	void				Set_Skill_CoolTime(_bool _bSkillCool) { m_bSkillCool = _bSkillCool; }
+
 	void				Random_ResurrectionRoom();
 
 private:
@@ -152,9 +154,26 @@ private:		// Jw
 
 	_bool				m_bDefenseOn = false;
 	_bool				m_bDefenseToHp = false;
+	
+	// Walk, Dash Sound
+	_bool				m_bWalkW = false;
+	_bool				m_bWalkA = false;
+	_bool				m_bWalkS = false;
+	_bool				m_bWalkD = false;
 
+	_bool				m_bDashSound = false;
+	// ~Walk, Dash Sound
+	
+	// Skill_CollTime
+	_bool				m_bSkillCool = true;
+	// ~Skill_CollTime
+
+	// HitScreen
+	_float				m_fHealing = 0.f;
+	_float				m_fTimeD = 0.f;
+	// ~HitScreen
 public:
 	static CPlayer*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
-	virtual void	Free(void);
+	virtual void		Free(void);
 };
 

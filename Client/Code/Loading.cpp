@@ -137,7 +137,7 @@ _uint CLoading::Loading_ForStage(void)
 
 	
 	// \Bin\Resource\Texture\UI
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UI_Frame_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/UI_Frame.png", TEX_NORMAL)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UI_Frame_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/UI_Frame1.png", TEX_NORMAL)), E_FAIL);
 
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ChangeScene_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Logo/Change_Scene/Change_Scene%d.png", TEX_NORMAL, 7)), E_FAIL);
 	// \Bin\Resource\Texture\UI
@@ -161,6 +161,10 @@ _uint CLoading::Loading_ForStage(void)
 	
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Skill_Icon_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Skill_Icon.png", TEX_NORMAL)), E_FAIL);
 
+																										// \Bin\Resource\Texture\UI\Shop_Thunder
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Shop_Sold_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Shop_Thunder/Thunder_Sold%d.png", TEX_NORMAL, 2)), E_FAIL);
+	
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_BloodScreen_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Blood_Screen.png", TEX_NORMAL)), E_FAIL);
 	// ~UI
 
 	// Box

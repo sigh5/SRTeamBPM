@@ -388,6 +388,12 @@
     </ClCompile>
     <ClCompile Include="..\Code\MiniPlayer.cpp" />
     <ClCompile Include="..\Code\ThunderHand.cpp" />
+    <ClCompile Include="..\Code\ThunderPic.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\95. ShopUI\00. ThunderPic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Hit_Screen.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\51. Hit_Screen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -798,6 +804,12 @@
     <ClInclude Include="..\Header\MiniPlayer.h" />
     <ClInclude Include="..\Header\MiniStage3PreHeader.h" />
     <ClInclude Include="..\Header\ThunderHand.h" />
+    <ClInclude Include="..\Header\ThunderPic.h">
+      <Filter>02. GameObject\01. For_Stage\10. UI\95. ShopUI\00. ThunderPic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Hit_Screen.h">
+      <Filter>02. GameObject\01. For_Stage\10. UI\51. Hit_Screen</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1146,6 +1158,12 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\10. UI\50. Skill_UI">
       <UniqueIdentifier>{7500e8c5-8ae7-46c2-8cb1-7b4e71aecf82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\95. ShopUI\00. ThunderPic">
+      <UniqueIdentifier>{cc14088e-50e9-4a50-8a9d-61f2985cd0f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\51. Hit_Screen">
+      <UniqueIdentifier>{06021c40-9659-4723-bb82-e6558b1eaf4f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

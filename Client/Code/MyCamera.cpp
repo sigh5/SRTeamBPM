@@ -155,7 +155,7 @@ void CMyCamera::Mouse_Move(const _float& fTimeDelta)
 		m_fAngle = D3DXToRadian(dwMouseMove / 10.f) * fTimeDelta;
 		pPlayerTransform->Rotation(ROT_X, D3DXToRadian(dwMouseMove / 10.f)*fTimeDelta);
 	}
-
+	
 }
 
 void CMyCamera::Mouse_Fix(void)

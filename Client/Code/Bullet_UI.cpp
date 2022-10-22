@@ -135,8 +135,8 @@ void CBullet_UI::Render_Obejct(void)
 			swprintf_s(tCobmoCount, L"%d", iComboCount);
 			m_szComboCount = L"";
 			m_szComboCount += tCobmoCount;
-			Render_Font(L"BMYEONSUNG", L"COMBO", &_vec2(660.f, 50.f), D3DXCOLOR(1.f, 255.f, 1.f, 1.f));
-			Render_Font(L"BMYEONSUNG", m_szComboCount.c_str(), &_vec2(660.f, 100.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+			Render_Font(L"BMYEONSUNG", L"COMBO", &_vec2(1080.f, 50.f), D3DXCOLOR(1.f, 255.f, 1.f, 1.f));
+			Render_Font(L"LeeSoonSin", m_szComboCount.c_str(), &_vec2(1120.f, 90.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 
 
 		}

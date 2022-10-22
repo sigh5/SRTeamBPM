@@ -22,6 +22,7 @@
 
 #include "DashUI.h"
 #include "Skill_UI.h"
+#include "Hit_Screen.h"
 
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -40,7 +41,7 @@ CPlayer::~CPlayer()
 
 HRESULT CPlayer::Ready_Object(void)
 {
-	
+
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
@@ -52,7 +53,7 @@ HRESULT CPlayer::Ready_Object(void)
 	m_pDynamicTransCom->Set_Pos(vPos.x, vPos.y, vPos.z);
 	_vec3 vScale = { 0.1f, 0.1f, 0.1f };
 	m_pDynamicTransCom->Set_Scale(&vScale);
-	
+
 	m_pColliderCom->Set_HitRadiuos(1.1f);
 	m_pColliderCom->Set_vCenter(&vPos, &vScale);
 
@@ -68,15 +69,14 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 {
 	CHelmet* pHelmet = static_cast<CHelmet*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Helmet1"));
 	CAnimation* pHpBarAnimation = dynamic_cast<CAnimation*>(Engine::Get_Component(L"Layer_Icon", L"HpBar", L"Proto_AnimationCom", ID_DYNAMIC));
-
-
+	
 	if (m_bDead)
 		m_bDeadTimer += 1.0f* fTimeDelta;
-	
+
 	if (m_bDeadTimer >= 5.f)
 	{
 		//Random_ResurrectionRoom();
-		
+
 		m_bDeadTimer = 0.f;
 		m_bDead = false;
 	}
@@ -163,34 +163,32 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 		pGameObject->Set_Active(false);
 	}
 
-
-
-
-
 	m_pDynamicTransCom->Set_Y(2.f);
 	m_pColliderCom->Set_HitBoxMatrix(&(m_pDynamicTransCom->m_matWorld));
 	Engine::CGameObject::Update_Object(fTimeDelta);
-
+	
 	Add_RenderGroup(RENDER_ALPHA, this);
-
+	
 	return 0;
 }
 
 void CPlayer::LateUpdate_Object(void)
 {
+	
 	if (m_iOriginHP > m_pInfoCom->Get_Hp())
 	{
 		CScene* pScene = Get_Scene();
 		CLayer* pLayer = pScene->GetLayer(L"Layer_Environment");
 
 		CMyCamera *pCam = dynamic_cast<CMyCamera*> (pLayer->Get_GameObject(L"CMyCamera"));
-		
+
 		if (pCam != nullptr)
-			 pCam->Set_PlayerHit(true);	
-		
-	
+			pCam->Set_PlayerHit(true);		
+
+		CHit_Screen* pHitScreen = static_cast<CHit_Screen*>(Engine::Get_GameObject(L"Layer_UI", L"HitScreen"));
+		pHitScreen->Set_Render(true);		
 	}
-	
+
 	CGameObject::LateUpdate_Object();
 }
 
@@ -209,7 +207,7 @@ void CPlayer::Render_Obejct(void)
 	//
 	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	//m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-	
+
 }
 
 HRESULT CPlayer::Add_Component(void)
@@ -245,6 +243,13 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		m_tpType = TYPING_W;
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
 		m_pDynamicTransCom->Move_Pos(&(m_vDirection * 5.f * fTimeDelta));
+		m_bWalkW = true;
+		m_bWalkA = false;
+		m_bWalkS = false;
+		m_bWalkD = false;
+
+		if (m_bWalkW)
+			Engine::PlaySoundW(L"Walk.mp3", SOUND_WALK, 1.f);
 
 	}
 
@@ -255,8 +260,14 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		m_tpType = TYPING_S;
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
 		m_pDynamicTransCom->Move_Pos(&(m_vDirection * -5.f * fTimeDelta));
+		m_bWalkS = true;
+		m_bWalkA = false;
+		m_bWalkW = false;
+		m_bWalkD = false;
 
-		
+		if (m_bWalkS)
+			Engine::PlaySoundW(L"Walk.mp3", SOUND_WALK, 1.f);
+
 	}
 
 	if (Get_DIKeyState(DIK_A) & 0X80)
@@ -269,7 +280,13 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		D3DXVec3Normalize(&m_vUp, &m_vUp);
 		D3DXVec3Cross(&vRight, &m_vDirection, &m_vUp);
 		m_pDynamicTransCom->Move_Pos(&(vRight * 5.f * fTimeDelta));
+		m_bWalkA = true;
+		m_bWalkS = false;
+		m_bWalkW = false;
+		m_bWalkD = false;
 
+		if (m_bWalkA)
+			Engine::PlaySoundW(L"Walk.mp3", SOUND_WALK, 1.f);
 	}
 
 	if (Get_DIKeyState(DIK_D) & 0X80)
@@ -282,8 +299,14 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		D3DXVec3Normalize(&m_vUp, &m_vUp);
 		D3DXVec3Cross(&vRight, &m_vDirection, &m_vUp);
 		m_pDynamicTransCom->Move_Pos(&(vRight * -5.f * fTimeDelta));
+		m_bWalkD = true;
+		m_bWalkS = false;
+		m_bWalkW = false;
+		m_bWalkA = false;
 
-		
+		if (m_bWalkD)
+			Engine::PlaySoundW(L"Walk.mp3", SOUND_WALK, 1.f);
+
 	}
 
 	if (Key_Down(DIK_T))
@@ -297,7 +320,7 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 
 		CScene* pScene = Get_Scene();
 		CLayer* pLayer = pScene->GetLayer(L"Layer_Room");
-		
+
 		for (auto iter : pLayer->Get_ControlRoomList())
 		{
 			static_cast<CControlRoom*>(iter)->Area_of_Effect(true);
@@ -318,26 +341,60 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
 
 	}
-	
+
 	if (::Key_Down(DIK_LSHIFT))
 	{
+		Engine::StopSound(SOUND_WALK);
+
+		m_bWalkW = false;
+		m_bWalkA = false;
+		m_bWalkS = false;
+		m_bWalkD = false;
+
 		m_bDash = true;
-		
+		m_bDashSound = true;
+
+		_uint iToggle = rand() % 3;
+
 		CScene* pScene = ::Get_Scene();
 		NULL_CHECK_RETURN(pScene, );
 		CLayer* pLayer = pScene->GetLayer(L"Layer_UI");
 		NULL_CHECK_RETURN(pLayer, );
 		CUI_Effect* pGameObject = nullptr;
-		pGameObject =dynamic_cast<CUI_Effect*>(pLayer->Get_GameObject(L"Dash_Effect"));
+		pGameObject = dynamic_cast<CUI_Effect*>(pLayer->Get_GameObject(L"Dash_Effect"));
 		pGameObject->Set_Active(true);
-		
+
 		/*CScene* pMyScene = ::Get_Scene();
 		NULL_CHECK_RETURN(pMyScene, );*/
 		CLayer* pMyLayer = pScene->GetLayer(L"Layer_Icon");
 		NULL_CHECK_RETURN(pMyLayer, );
-		CDashUI* pDashUI = nullptr;		
-		pDashUI = dynamic_cast<CDashUI*>(pMyLayer->Get_GameObject(L"DashUI"));		
-		pDashUI->Set_Lshift(true);		
+		CDashUI* pDashUI = nullptr;
+		pDashUI = dynamic_cast<CDashUI*>(pMyLayer->Get_GameObject(L"DashUI"));
+		pDashUI->Set_Lshift(true);
+
+		if (m_bDashSound)
+		{
+			switch (iToggle)
+			{
+			case 0:
+			{
+				Engine::PlaySoundW(L"Dash1.mp3", SOUND_DASH, 1.f);
+				break;
+			}
+
+			case 1:
+			{
+				Engine::PlaySoundW(L"Dash2.mp3", SOUND_DASH, 1.f);
+				break;
+			}
+
+			case 2:
+			{
+				Engine::PlaySoundW(L"Dash3.mp3", SOUND_DASH, 1.f);
+				break;
+			}
+			}
+		}
 	}
 	::Key_InputReset();
 
@@ -349,33 +406,35 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		Ready_MonsterShotPicking();
 	}
 
-	if (::Mouse_Down(DIM_RB)) // Picking
+	if (m_bSkillCool)
 	{
-		/*CScene  *pScene = ::Get_Scene();
-		CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
-		_vec3 vPos;
-		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
-		vPos.y += 40.f;
-		CGameObject* pFireworks = CFireWorks::Create(m_pGraphicDev, vPos);
-		pLayer->Add_GameObjectList(pFireworks);*/
+		if (::Mouse_Down(DIM_RB)) // Picking
+		{
+			/*CScene  *pScene = ::Get_Scene();
+			CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+			_vec3 vPos;
+			m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+			vPos.y += 40.f;
+			CGameObject* pFireworks = CFireWorks::Create(m_pGraphicDev, vPos);
+			pLayer->Add_GameObjectList(pFireworks);*/
 
-		CScene  *pScene = ::Get_Scene();
-		CLayer * pLayer = pScene->GetLayer(L"Layer_UI");
-		CThunderHand* pThunderHand = dynamic_cast<CThunderHand*>(pLayer->Get_GameObject(L"SkillHand"));
-	
-		if (pThunderHand == nullptr) //|| !pThunderHand->Player_BuySkill())
-			return;
+			CScene  *pScene = ::Get_Scene();
+			CLayer * pLayer = pScene->GetLayer(L"Layer_UI");
+			CThunderHand* pThunderHand = dynamic_cast<CThunderHand*>(pLayer->Get_GameObject(L"SkillHand"));
 
-		pThunderHand->Set_Active(true);
+			if (pThunderHand == nullptr) //|| !pThunderHand->Player_BuySkill())
+				return;
 
-		CLayer* pMyLayer = pScene->GetLayer(L"Layer_Icon");
-		NULL_CHECK_RETURN(pMyLayer, );
-		CSkill_UI* pSkill_UI = nullptr;
-		pSkill_UI = dynamic_cast<CSkill_UI*>(pMyLayer->Get_GameObject(L"Skill_UI"));
-		pSkill_UI->Set_mbRshift(true);
+			pThunderHand->Set_Active(true);
 
+			CLayer* pMyLayer = pScene->GetLayer(L"Layer_Icon");
+			NULL_CHECK_RETURN(pMyLayer, );
+			CSkill_UI* pSkill_UI = nullptr;
+			pSkill_UI = dynamic_cast<CSkill_UI*>(pMyLayer->Get_GameObject(L"Skill_UI"));
+			pSkill_UI->Set_mbRshift(true);
+			m_bSkillCool = false;
+		}
 	}
-	
 	if (Get_DIKeyState(DIK_R) & 0X80)
 	{
 		if (pEquipItem->Get_miID() == ID_MAGNUM)
@@ -403,6 +462,19 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 
 		//Player_Dead(fTimeDelta);
 		//m_pInfoCom->Get_InfoRef()._iHp -= 25;
+	}
+
+	if (Engine::Key_Down(DIK_N))
+	{
+		// Test -> Shop 추후수정
+		m_pDynamicTransCom->Set_Pos(340.f, 2.f, 325.f);
+	}
+
+	Engine::Key_InputReset();
+
+	if (Engine::Key_Down(DIK_V))
+	{		
+		m_pInfoCom->Get_InfoRef()._iHp -= 10;
 	}
 	Engine::Key_InputReset();
 }
@@ -445,11 +517,11 @@ void CPlayer::ComboCheck()
 		m_iComboCount = 0;
 }
 
-void CPlayer::EquipItem_Add_Stat(_int _iAttack , _int _iHp , _int iCoin, _int _iKey, float _fSpeed, _uint iDefense)  // 현재 각 아이템들 충돌처리 부분이 애매해서 F 누르면 스탯이 다 증가할 거임. 충돌처리를 고치던지 날 잡고 한 번 뜯어봐야 함.
+void CPlayer::EquipItem_Add_Stat(_int _iAttack, _int _iHp, _int iCoin, _int _iKey, float _fSpeed, _uint iDefense)  // 현재 각 아이템들 충돌처리 부분이 애매해서 F 누르면 스탯이 다 증가할 거임. 충돌처리를 고치던지 날 잡고 한 번 뜯어봐야 함.
 {
 	m_pInfoCom->Get_InfoRef()._iAttackPower = _iAttack + 10;		// iOrginAttack =10
-	m_pInfoCom->Get_InfoRef()._iHp += _iHp ;		// iOrginAttack =10
-	
+	m_pInfoCom->Get_InfoRef()._iHp += _iHp;		// iOrginAttack =10
+
 	m_pInfoCom->Get_InfoRef()._iDefense += iDefense;
 	//_int iHp = _iArmor + m_pInfoCom->Get_InfoRef()._iAttackPower;
 	//m_pInfoCom->Get_InfoRef()._iHp = iHp;
@@ -469,7 +541,7 @@ void CPlayer::Excution_Motion()
 {
 	static_cast<CMyCamera*>(::Get_GameObject(L"Layer_Environment", L"CMyCamera"))->Set_Excution(true);
 	static_cast<CGun_Screen*>(pEquipItem)->Set_Active(true);
-	
+
 	static_cast<CAx*>(::Get_GameObject(L"Layer_UI", L"AX"))->Set_Active(true);
 }
 
@@ -494,12 +566,12 @@ void CPlayer::Random_ResurrectionRoom()
 
 	_vec3 vFirstCubePos;
 	pFirstCubeTransform->Get_Info(INFO_POS, &vFirstCubePos);
-	
+
 	_vec3  vAngle;
 	vAngle = pFirstCubeTransform->Get_Angle();
 	m_pDynamicTransCom->Rotation(ROT_Y, vAngle.y);
 
-	m_pDynamicTransCom->Set_Pos(vFirstCubePos.x , vFirstCubePos.y, vFirstCubePos.z );
+	m_pDynamicTransCom->Set_Pos(vFirstCubePos.x, vFirstCubePos.y, vFirstCubePos.z);
 
 	// Player HpBar Reset
 	CAnimation* pHpBarAnimation = dynamic_cast<CAnimation*>(Engine::Get_Component(L"Layer_Icon", L"HpBar", L"Proto_AnimationCom", ID_DYNAMIC));

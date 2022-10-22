@@ -59,6 +59,7 @@
 
 #include "ThunderHand.h"
 
-
-
 #include "Skill_UI.h"
+
+#include "ThunderPic.h"
+#include "Hit_Screen.h"

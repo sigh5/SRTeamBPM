@@ -215,6 +215,7 @@
     <ClInclude Include="..\Header\Helmet2.h" />
     <ClInclude Include="..\Header\HitBlood.h" />
     <ClInclude Include="..\Header\HitEffect.h" />
+    <ClInclude Include="..\Header\Hit_Screen.h" />
     <ClInclude Include="..\Header\HpBar.h" />
     <ClInclude Include="..\Header\ImGuiMgr.h" />
     <ClInclude Include="..\Header\Inventory_UI.h" />
@@ -278,6 +279,7 @@
     <ClInclude Include="..\Header\TeleCube.h" />
     <ClInclude Include="..\Header\Terrain.h" />
     <ClInclude Include="..\Header\ThunderHand.h" />
+    <ClInclude Include="..\Header\ThunderPic.h" />
     <ClInclude Include="..\Header\ToolTest.h" />
     <ClInclude Include="..\Header\UI_Effect.h" />
     <ClInclude Include="..\Header\UI_Frame.h" />
@@ -351,6 +353,7 @@
     <ClCompile Include="..\Code\Helmet2.cpp" />
     <ClCompile Include="..\Code\HitBlood.cpp" />
     <ClCompile Include="..\Code\HitEffect.cpp" />
+    <ClCompile Include="..\Code\Hit_Screen.cpp" />
     <ClCompile Include="..\Code\HpBar.cpp" />
     <ClCompile Include="..\Code\ImGuiMgr.cpp" />
     <ClCompile Include="..\Code\Inventory_UI.cpp" />
@@ -412,6 +415,7 @@
     <ClCompile Include="..\Code\TeleCube.cpp" />
     <ClCompile Include="..\Code\Terrain.cpp" />
     <ClCompile Include="..\Code\ThunderHand.cpp" />
+    <ClCompile Include="..\Code\ThunderPic.cpp" />
     <ClCompile Include="..\Code\ToolTest.cpp" />
     <ClCompile Include="..\Code\UI_Effect.cpp" />
     <ClCompile Include="..\Code\UI_Frame.cpp" />

@@ -115,8 +115,6 @@ void CLogo::Render_Scene(void)
 		m_bRender = false;
 		m_iCount = 0;
 	}
-	
-
 }
 
 HRESULT CLogo::Ready_Layer_Environment(const _tchar * pLayerTag)
