@@ -71,6 +71,7 @@ void CBaseBullet::Set_MoveDir(const wstring& LayerName , const wstring& GameObje
 		_vec3 vPlayerPos;
 		pTargetTransformCom->Get_Info(INFO_POS, &vPlayerPos);
 		m_MoveDir = vPlayerPos - (*vPos);
+		D3DXVec3Normalize(&m_MoveDir, &m_MoveDir);
 	}
 
 }

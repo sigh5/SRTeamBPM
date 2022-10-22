@@ -517,6 +517,17 @@ void CEarthShaker::NoHit_Loop(const _float& fTimeDelta)
 	}
 }
 
+void CEarthShaker::Hit_Loop(const _float & fTimeDelta)
+{
+	m_pAnimationCom->m_iMotion = 7;
+	m_fHitDelay += fTimeDelta;
+	if (m_fHitDelay > 1.5f)
+	{
+		m_bHit = false;
+		m_fHitDelay = 0.f;
+	}
+}
+
 void CEarthShaker::Excution_Event()
 {
 	if (!m_bDead && 1 >= m_pInfoCom->Get_Hp())
@@ -555,10 +566,9 @@ void	CEarthShaker::SpikeUpdateLoop(const _float& fTimeDelta)
 			if (fDistance > (*iter)->Get_Distance())
 			{
 				fDistance = (*iter)->Get_Distance();
-	}
+			}
 			++iter;
 		}
-
 	}
 	if (0 != m_Spikelist.size())
 	{

@@ -6,6 +6,7 @@
 #include "MyCamera.h"
 #include "Player.h"
 #include "Gun_Screen.h"
+#include "Flare.h"
 
 CSphinxFlyHead::CSphinxFlyHead(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -728,6 +729,22 @@ void		CSphinxFlyHead::Dead_Action(const _float& fTimeDelta)
 		m_pDeadAnimationCom->Move_Animation(fTimeDelta);
 
 	}
+	else if (m_bShootFlare == false)
+	{
+		CScene* pScene = ::Get_Scene();
+		CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+
+		CGameObject* pGameObject = nullptr;
+		pGameObject = CFlare::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS]);
+		pMyLayer->Add_EffectList(pGameObject);
+		pGameObject = CFlare::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS] + _vec3(-3.f, 0.f, -3.f));
+
+		pMyLayer->Add_EffectList(pGameObject);
+		pGameObject = CFlare::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS] + _vec3(5.f, 0.f, -5.f));
+
+		pMyLayer->Add_EffectList(pGameObject);
+		m_bShootFlare = true;
+	}
 	if (12 == m_pDeadAnimationCom->m_iMotion)
 	{
 		if (false == m_bArrFalldown[0])
@@ -761,6 +778,8 @@ void		CSphinxFlyHead::Dead_Action(const _float& fTimeDelta)
 			//m_pDynamicTransCom->Set_Y(5.f);
 			m_bArrFalldown[3] = true;
 		}
+		//폭죽 올라가서 터지는 효과
+		
 	}
 }
 

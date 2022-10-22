@@ -369,6 +369,14 @@
     <ClCompile Include="..\Code\PetYeti.cpp" />
     <ClCompile Include="..\Code\YetiTalk.cpp" />
     <ClCompile Include="..\Code\EquipYeti.cpp" />
+    <ClCompile Include="..\Code\Tentacle.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. Monster\10. FinalBos</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ThingySpike.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. Monster\10. FinalBos</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FinalBossBullet.cpp" />
+    <ClCompile Include="..\Code\Flare.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -758,6 +766,14 @@
     <ClInclude Include="..\Header\PetYeti.h" />
     <ClInclude Include="..\Header\YetiTalk.h" />
     <ClInclude Include="..\Header\EquipYeti.h" />
+    <ClInclude Include="..\Header\Tentacle.h">
+      <Filter>02. GameObject\01. For_Stage\02. Monster\10. FinalBos</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\ThingySpike.h">
+      <Filter>02. GameObject\01. For_Stage\02. Monster\10. FinalBos</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\FinalBossBullet.h" />
+    <ClInclude Include="..\Header\Flare.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">

@@ -51,8 +51,8 @@ HRESULT CFatBat::Ready_Object(int Posx, int Posy)
 		m_pDynamicTransCom->Set_Pos((float)Posx, 2.f, (float)Posy);
 	}
 
-	m_iDodgeDir = 0;
-	m_fActionDelay = 2.f;
+	m_iDodgeDir = rand() % 3;
+	m_fActionDelay = 3.5f;
 	m_fMaxY = 3.f;
 	m_fFlyDelayCount = 0.f;
 	m_fDodgeDelayCount = 0.f;
@@ -64,6 +64,7 @@ HRESULT CFatBat::Ready_Object(int Posx, int Posy)
 	m_fHitDelay = 0.f;
 	m_fDeadY = 0.f;
 	m_fFrame = rand() % 200 * 0.01f;
+	m_vDodgeVector = _vec3(0.f, 0.f, 0.f);
 	Save_OriginPos();
 
 	m_pDynamicTransCom->Set_Info(INFO_POS, &_vec3((float)Posx, 2.f, (float)Posy));
@@ -228,12 +229,27 @@ void CFatBat::NoHit_Loop(const _float& fTimeDelta)
 
 	if (fMtoPDistance > 13.f)
 	{
-		m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
+		//m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
+		_vec3 vDir, vMyPos;
+		m_pDynamicTransCom->Get_Info(INFO_POS, &vMyPos);
+		vDir = m_vPlayerPos - vMyPos;
+		D3DXVec3Normalize(&vDir, &vDir);
 
+		m_pDynamicTransCom->Move_Pos(&(vDir * m_pInfoCom->Get_InfoRef()._fSpeed * fTimeDelta + m_vDodgeVector));
 	}
 	else if (fMtoPDistance < 10.f)
 	{
-		m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, -m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
+		//m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, -m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
+		_vec3 vDir, vMyPos;
+		m_pDynamicTransCom->Get_Info(INFO_POS, &vMyPos);
+		vDir = m_vPlayerPos - vMyPos;
+		D3DXVec3Normalize(&vDir, &vDir);
+
+		m_pDynamicTransCom->Move_Pos(&(vDir * -m_pInfoCom->Get_InfoRef()._fSpeed * fTimeDelta + m_vDodgeVector));
+	}
+	else
+	{
+		m_pDynamicTransCom->Move_Pos(&(m_vDodgeVector));
 	}
 	m_pAnimationCom->Move_Animation(fTimeDelta);
 }
@@ -446,16 +462,17 @@ void CFatBat::FatBat_Dodge(const _float& fTimeDelta, _vec3* _vPlayerPos, _vec3* 
 	{
 	case 0:
 		if(0<m_fDodgeSpeed-m_fDodgeStopper)
-		m_pDynamicTransCom->Move_Pos(&(vRight * (m_fDodgeSpeed - m_fDodgeStopper) * 0.1f));
+			m_vDodgeVector = (vRight * (m_fDodgeSpeed - m_fDodgeStopper) * 0.1f);
 		break;
 
 	case 1:
+		m_vDodgeVector = _vec3(0.f, 0.f, 0.f);
 		break;
 
 	case 2:
 		
 		if (0<m_fDodgeSpeed - m_fDodgeStopper)
-		m_pDynamicTransCom->Move_Pos(&(vRight * -(m_fDodgeSpeed - m_fDodgeStopper) * 0.1f));
+			m_vDodgeVector = (vRight * -(m_fDodgeSpeed - m_fDodgeStopper) * 0.1f);
 		break;
 
 	}
@@ -523,6 +540,11 @@ void	CFatBat::Drop_Item(int ItemType)
 	default:
 		break;
 	}
+}
+
+float	CFatBat::Get_Radius(void)
+{
+	return m_pDynamicTransCom->m_vScale.x * 0.25f;
 }
 
 CFatBat * CFatBat::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)

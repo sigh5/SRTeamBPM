@@ -39,7 +39,7 @@ HRESULT CSoldier::Ready_Object(float Posx, float Posz)
 	m_pAttackAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_STATIC);
 
 	m_iMonsterIndex = MONSTER_SOLDIER;
-	m_fAttackDelay = 0.4f;
+	m_fAttackDelay = 1.f;
 	m_pInfoCom->Ready_CharacterInfo(1, 10, 4.f);
 	m_pAnimationCom->Ready_Animation(6, 1, 0.3f);
 	m_pAttackAnimationCom->Ready_Animation(11, 0, 0.2f);
@@ -362,6 +362,12 @@ void CSoldier::Attack(const _float & fTimeDelta)
 
 		::StopSound(SOUND_EFFECT2);
 		::PlaySoundW(L"LaserGun.wav", SOUND_EFFECT2, 0.4f);
+	}
+	if (7 == m_pAttackAnimationCom->m_iMotion && m_iRepeatAttack < 3)
+	{
+		m_iRepeatAttack++;
+		m_pAttackAnimationCom->m_iMotion = 4;
+		m_bShotBullet = false;
 	}
 	if (m_pAttackAnimationCom->m_iMotion >= m_pAttackAnimationCom->m_iMaxMotion)
 	{

@@ -46,7 +46,7 @@ _int CSoldierBullet::Update_Object(const _float & fTimeDelta)
 	m_pTransCom->Set_Scale(&vScale);
 
 
-	if (m_fFrame > 2.f)
+	if (m_fFrame > 8.f)
 	{
 		m_bHitPlayer = false;
 		m_fFrame = 0.f;
@@ -56,7 +56,7 @@ _int CSoldierBullet::Update_Object(const _float & fTimeDelta)
 
 	m_pAnimationCom->Move_Animation(fTimeDelta);
 
-	m_pTransCom->Move_Pos(&(m_MoveDir * 1.5f * fTimeDelta));
+	m_pTransCom->Move_Pos(&(m_MoveDir * 12.f * fTimeDelta));
 
 	_vec3 vThunderPos = m_pTransCom->m_vInfo[INFO_POS];
 	CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));

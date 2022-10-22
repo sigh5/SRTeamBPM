@@ -51,7 +51,7 @@ public:
 
 
 private:
-	_bool		Check_Collsion_AABB(CCollider* CWallCollider, CCollider* pDest);
+	_bool		Check_Collsion_AABB(CCollider* CWallCollider, CCollider* pDest, _vec3* _vReturnvec);
 
 public:
 	virtual CComponent* Clone(void) override;
@@ -62,7 +62,7 @@ public:
 
 
 
-private:
+public:
 	_matrix		m_HitBoxWolrdmat;
 
 	bool		m_bClone;

@@ -47,7 +47,7 @@ _int CSphinxBullet::Update_Object(const _float & fTimeDelta)
 	_vec3 vPos = m_pTransCom->m_vInfo[INFO_POS];
 	m_fFrame += fTimeDelta;
 
-	if (m_fFrame > 3.f)
+	if (m_fFrame > 8.f)
 	{
 		m_bHitPlayer = false;
 		CObjectMgr::GetInstance()->Collect_SphinxBulletObj(this);
@@ -92,12 +92,12 @@ _int CSphinxBullet::Update_Object(const _float & fTimeDelta)
 	}
 	else
 	{
-		m_pTransCom->Move_Pos(&(m_MoveDir * 2.f * fTimeDelta));
+		m_pTransCom->Move_Pos(&(m_MoveDir * 18.f * fTimeDelta));
 	}
 
 	Engine::CBaseBullet::Update_Object(fTimeDelta);
 
-	Add_RenderGroup(RENDER_NONALPHA, this);
+	Add_RenderGroup(RENDER_ALPHA, this);
 
 	return 0;
 }

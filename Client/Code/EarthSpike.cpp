@@ -68,14 +68,7 @@ _int CEarthSpike::Update_Object(const _float & fTimeDelta)
 
 
 
-	if (4 < m_pAnimationCom->m_iMotion)
-	{
-		if (m_fToPlayerDistance < 1.5f && false == m_bHitPlayer)
-	{
-		pPlayerInfo->Receive_Damage(10);
-		m_bHitPlayer = true;
-	}
-	}
+
 	m_fSoundWait -= fTimeDelta;
 
 	/*if (5 < m_pAnimationCom->m_iMotion &&m_fSoundWait < 0.f && fDistance < 19)

@@ -18,6 +18,7 @@ public:
 
 	virtual void NoHit_Loop(const _float& fTimeDelta);
 	virtual void Hit_Loop(const _float& fTimeDelta);
+	virtual float		Get_Radius(void) override;
 public:
 	// 처형 판독
 	virtual void		Excution_Event();
@@ -50,6 +51,7 @@ private:
 	float m_fStopperDelayCount;
 	float m_fDeadY;
 	bool  m_bArrFalldown[4];
+	_vec3	m_vDodgeVector;
 
 	CTexture*		m_pTextureCom = nullptr;
 	CTexture*		m_pDeadTextureCom = nullptr;
