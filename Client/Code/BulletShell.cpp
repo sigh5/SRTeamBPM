@@ -74,15 +74,15 @@ _int CBulletShell::Update_Object(const _float & fTimeDelta)
 			{
 			case 0:
 				::StopSound(SOUND_OBJECT);
-				::PlaySoundW(L"case_pistol_1.wav", SOUND_OBJECT, g_fSound);
+				::PlaySoundW(L"case_pistol_1.wav", SOUND_OBJECT, g_fSound * 2.f);
 				break;
 			case 1:
 				::StopSound(SOUND_OBJECT);
-				::PlaySoundW(L"case_pistol_2.wav", SOUND_OBJECT, g_fSound);
+				::PlaySoundW(L"case_pistol_2.wav", SOUND_OBJECT, g_fSound * 2.f);
 				break;
 			case 2:
 				::StopSound(SOUND_OBJECT);
-				::PlaySoundW(L"case_pistol_3.wav", SOUND_OBJECT, g_fSound);
+				::PlaySoundW(L"case_pistol_3.wav", SOUND_OBJECT, g_fSound * 2.f);
 				break;
 			}
 		}
@@ -92,15 +92,15 @@ _int CBulletShell::Update_Object(const _float & fTimeDelta)
 			{
 			case 0:
 				::StopSound(SOUND_OBJECT);
-				::PlaySoundW(L"shell_shotgun_1.wav", SOUND_OBJECT, g_fSound);
+				::PlaySoundW(L"shell_shotgun_1.wav", SOUND_OBJECT, g_fSound * 2.f);
 				break;
 			case 1:
 				::StopSound(SOUND_OBJECT);
-				::PlaySoundW(L"shell_shotgun_2.wav", SOUND_OBJECT, g_fSound);
+				::PlaySoundW(L"shell_shotgun_2.wav", SOUND_OBJECT, g_fSound * 2.f);
 				break;
 			case 2:
 				::StopSound(SOUND_OBJECT);
-				::PlaySoundW(L"shell_shotgun_3.wav", SOUND_OBJECT, g_fSound);
+				::PlaySoundW(L"shell_shotgun_3.wav", SOUND_OBJECT, g_fSound * 2.f);
 				break;
 			}
 		}

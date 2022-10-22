@@ -78,7 +78,7 @@ _int CAnubisStormBall::Update_Object(const _float & fTimeDelta)
 
 	m_pTransCom->Update_Component(fTimeDelta);
 	Engine::CBaseBullet::Update_Object(fTimeDelta);
-	Add_RenderGroup(RENDER_NONALPHA, this);
+	Add_RenderGroup(RENDER_ALPHA, this);
 	LateUpdate_Object();
 	return 0;
 }
