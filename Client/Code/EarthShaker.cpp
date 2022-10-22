@@ -239,17 +239,17 @@ void CEarthShaker::Collision_Event()
 			{
 			case 0:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Croccman_pain_01.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Croccman_pain_01.wav", SOUND_MONSTER, g_fSound);
 				break;
 
 			case 1:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Croccman_pain_02.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Croccman_pain_02.wav", SOUND_MONSTER, g_fSound);
 				break;
 
 			case 2:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Croccman_pain_03.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Croccman_pain_03.wav", SOUND_MONSTER, g_fSound);
 				break;
 			}
 		}
@@ -268,16 +268,16 @@ bool CEarthShaker::Dead_Judge(const _float & fTimeDelta)
 			{
 			case 0:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Croccman_death_01.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Croccman_death_01.wav", SOUND_MONSTER, g_fSound);
 				break;
 			case 1:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Croccman_death_02.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Croccman_death_02.wav", SOUND_MONSTER, g_fSound);
 				break;
 
 			case 2:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Croccman_death_03.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Croccman_death_03.wav", SOUND_MONSTER, g_fSound);
 				break;
 			}
 			Drop_Item(rand() % 3);
@@ -333,17 +333,17 @@ void		CEarthShaker::Attack(const _float& fTimeDelta)
 			{
 			case 0:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Croccman_attack_01.wav", SOUND_MONSTER, 0.5f);
+				::PlaySoundW(L"Croccman_attack_01.wav", SOUND_MONSTER, g_fSound);
 				break;
 
 			case 1:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Croccman_attack_02.wav", SOUND_MONSTER, 0.5f);
+				::PlaySoundW(L"Croccman_attack_02.wav", SOUND_MONSTER, g_fSound);
 				break;
 
 			case 2:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Croccman_attack_02.wav", SOUND_MONSTER, 0.5f);
+				::PlaySoundW(L"Croccman_attack_02.wav", SOUND_MONSTER, g_fSound);
 				break;
 			}
 			m_bAttackSound = true;
@@ -378,7 +378,7 @@ void		CEarthShaker::Attack(const _float& fTimeDelta)
 		if (false == m_bQoongSound)
 		{
 			::StopSound(SOUND_MONSTER);
-			::PlaySoundW(L"Qoong.wav", SOUND_MONSTER, 0.4f);
+			::PlaySoundW(L"Qoong.wav", SOUND_MONSTER, g_fSound);
 			m_bQoongSound = true;
 		}
 	}

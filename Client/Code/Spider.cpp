@@ -69,15 +69,15 @@ bool	CSpider::Dead_Judge(const _float& fTimeDelta)
 			{
 			case 0:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Spider_death_01.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Spider_death_01.wav", SOUND_MONSTER, g_fSound);
 				break;
 			case 1:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Spider_death_02.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Spider_death_02.wav", SOUND_MONSTER, g_fSound);
 				break;
 			case 2:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Spider_death_03.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Spider_death_03.wav", SOUND_MONSTER, g_fSound);
 				break;
 			}
 			Drop_Item(rand() % 3);
@@ -271,17 +271,17 @@ void CSpider::Collision_Event()
 			{
 			case 0:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Spider_pain_01.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Spider_pain_01.wav", SOUND_MONSTER, g_fSound);
 				break;
 
 			case 1:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Spider_pain_02.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Spider_pain_02.wav", SOUND_MONSTER, g_fSound);
 				break;
 
 			case 2:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Spider_pain_03.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Spider_pain_03.wav", SOUND_MONSTER, g_fSound);
 				break;
 			}
 		}
@@ -309,13 +309,14 @@ void CSpider::Excution_Event(_bool bAOE)
 		READY_CREATE_EFFECT_VECTOR(pGameObject, CSpecial_Effect, pLayer, m_pGraphicDev, vPos);
 		static_cast<CSpecial_Effect*>(pGameObject)->Set_Effect_INFO(OWNER_PALYER, 0, 17, 0.2f);
 
-		::PlaySoundW(L"explosion_1.wav", SOUND_EFFECT, 0.05f); // BGM
+		::PlaySoundW(L"explosion_1.wav", SOUND_EFFECT, g_fSound); // BGM
 
 	}
 }
 
 void		CSpider::Attack(const _float& fTimeDelta)
 {
+	CPlayer* pPlayer = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
 	m_pAttackAnimationCom->Move_Animation(fTimeDelta);
 
 	if (false == m_bReadyAttackSound)
@@ -325,15 +326,15 @@ void		CSpider::Attack(const _float& fTimeDelta)
 		{
 		case 0:
 			::StopSound(SOUND_MONSTER);
-			::PlaySoundW(L"Spider_detect_01.wav", SOUND_MONSTER, 0.4f);
+			::PlaySoundW(L"Spider_detect_01.wav", SOUND_MONSTER, g_fSound);
 			break;
 		case 1:
 			::StopSound(SOUND_MONSTER);
-			::PlaySoundW(L"Spider_detect_02.wav", SOUND_MONSTER, 0.4f);
+			::PlaySoundW(L"Spider_detect_02.wav", SOUND_MONSTER, g_fSound);
 			break;
 		case 2:
 			::StopSound(SOUND_MONSTER);
-			::PlaySoundW(L"Spider_detect_03.wav", SOUND_MONSTER, 0.4f);
+			::PlaySoundW(L"Spider_detect_03.wav", SOUND_MONSTER, g_fSound);
 			break;
 		}
 		m_bReadyAttackSound = true;
@@ -347,6 +348,7 @@ void		CSpider::Attack(const _float& fTimeDelta)
 		if (7.f > Distance && m_bHitDamage)
 		{
 			pPlayerInfo->Receive_Damage(m_pInfoCom->Get_AttackPower());
+			pPlayer->Set_DefenseToHp(true);
 			m_bHitDamage = false;
 		}
 		if (false == m_bAttackSound)
@@ -356,15 +358,15 @@ void		CSpider::Attack(const _float& fTimeDelta)
 			{
 			case 0:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Spider_attack_01.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Spider_attack_01.wav", SOUND_MONSTER, g_fSound);
 				break;
 			case 1:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Spider_attack_02.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Spider_attack_02.wav", SOUND_MONSTER, g_fSound);
 				break;
 			case 2:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Spider_attack_03.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Spider_attack_03.wav", SOUND_MONSTER, g_fSound);
 				break;
 			}
 			m_bAttackSound = true;
@@ -376,6 +378,7 @@ void		CSpider::Attack(const _float& fTimeDelta)
 		if (7.f > Distance && m_bHitDamage)
 		{
 			pPlayerInfo->Receive_Damage(m_pInfoCom->Get_AttackPower());
+			pPlayer->Set_DefenseToHp(true);
 			m_bHitDamage = false;
 		}
 		if (false == m_bAttackSound2)
@@ -385,15 +388,15 @@ void		CSpider::Attack(const _float& fTimeDelta)
 			{
 			case 0:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Spider_attack_01.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Spider_attack_01.wav", SOUND_MONSTER, g_fSound);
 				break;
 			case 1:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Spider_attack_02.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Spider_attack_02.wav", SOUND_MONSTER, g_fSound);
 				break;
 			case 2:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Spider_attack_03.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Spider_attack_03.wav", SOUND_MONSTER, g_fSound);
 				break;
 			}
 			m_bAttackSound2 = true;

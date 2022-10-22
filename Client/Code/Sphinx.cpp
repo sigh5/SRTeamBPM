@@ -201,7 +201,7 @@ void		CSphinx::Collision_Event()
 		if (false == m_bTransform)
 		{
 			::StopSound(SOUND_MONSTER);
-			::PlaySoundW(L"Satan_pain_01.wav", SOUND_MONSTER, 0.4f);
+			::PlaySoundW(L"Satan_pain_01.wav", SOUND_MONSTER, g_fSound);
 		}
 	}
 }
@@ -259,7 +259,7 @@ void CSphinx::Attack(const _float & fTimeDelta)
 	if (false == m_bAttackSound)
 	{
 		::StopSound(SOUND_MONSTER);
-		::PlaySoundW(L"Sphynx_attack_01.wav", SOUND_MONSTER, 0.5f);
+		::PlaySoundW(L"Sphynx_attack_01.wav", SOUND_MONSTER, g_fSound);
 		m_bAttackSound = true;
 	}
 
@@ -291,7 +291,7 @@ void CSphinx::Attack(const _float & fTimeDelta)
 			++m_iShootLeftRight;
 
 			::StopSound(SOUND_EFFECT);
-			::PlaySoundW(L"staff_basic_shot.wav", SOUND_EFFECT, 0.25f);
+			::PlaySoundW(L"staff_basic_shot.wav", SOUND_EFFECT, g_fSound);
 		}
 		else if (1 == m_iShootLeftRight)
 		{
@@ -348,7 +348,7 @@ void CSphinx::HeadOff_Animation(const _float& fTimeDelta)
 	if (false == m_bTransform)
 	{
 		::StopSound(SOUND_MONSTER);
-		::PlaySoundW(L"satan_transform_1to2.wav", SOUND_MONSTER, 0.4f);
+		::PlaySoundW(L"satan_transform_1to2.wav", SOUND_MONSTER, g_fSound);
 		m_bTransform = true;
 	}
 	if (m_pHeadOffAnimationCom->m_iMotion >= m_pHeadOffAnimationCom->m_iMaxMotion)

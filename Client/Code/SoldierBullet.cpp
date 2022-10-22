@@ -4,6 +4,7 @@
 #include "Export_Function.h"
 #include "AbstractFactory.h"
 #include "MyCamera.h"
+#include "Player.h"
 
 CSoldierBullet::CSoldierBullet(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CBaseBullet(pGraphicDev)
@@ -62,12 +63,14 @@ _int CSoldierBullet::Update_Object(const _float & fTimeDelta)
 	CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
 	CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
 	_vec3 vPlayerPos = pPlayerTransformCom->m_vInfo[INFO_POS];
+	CPlayer* pPlayer = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
 
 	float fDistance = sqrtf((powf(vThunderPos.x - vPlayerPos.x, 2) + powf(vThunderPos.y - vPlayerPos.y, 2) + powf(vThunderPos.z - vPlayerPos.z, 2)));
 
 	if (fDistance < 1.5f && false == m_bHitPlayer)
 	{
 		pPlayerInfo->Receive_Damage(10);
+		pPlayer->Set_DefenseToHp(true);
 		m_bHitPlayer = true;
 	}
 

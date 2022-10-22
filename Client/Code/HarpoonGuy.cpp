@@ -209,17 +209,17 @@ void CHarpoonGuy::Collision_Event()
 			{
 			case 0:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Soldier_Pain_01.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Soldier_Pain_01.wav", SOUND_MONSTER, g_fSound);
 				break;
 
 			case 1:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Soldier_Pain_02.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Soldier_Pain_02.wav", SOUND_MONSTER, g_fSound);
 				break;
 
 			case 2:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Soldier_Pain_03.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Soldier_Pain_03.wav", SOUND_MONSTER, g_fSound);
 				break;
 			}
 		}
@@ -247,7 +247,7 @@ void CHarpoonGuy::Excution_Event(_bool bAOE)
 		READY_CREATE_EFFECT_VECTOR(pGameObject, CSpecial_Effect, pLayer, m_pGraphicDev, vPos);
 		static_cast<CSpecial_Effect*>(pGameObject)->Set_Effect_INFO(OWNER_PALYER, 0, 17, 0.2f);
 
-		::PlaySoundW(L"explosion_1.wav", SOUND_EFFECT, 0.05f); // BGM
+		::PlaySoundW(L"explosion_1.wav", SOUND_EFFECT, g_fSound); // BGM
 
 	}
 }
@@ -263,15 +263,15 @@ bool CHarpoonGuy::Dead_Judge(const _float & fTimeDelta)
 			{
 			case 0:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Soldier_Deth_01.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Soldier_Deth_01.wav", SOUND_MONSTER, g_fSound);
 				break;
 			case 1:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Soldier_Deth_02.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Soldier_Deth_02.wav", SOUND_MONSTER, g_fSound);
 				break;
 			case 2:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Soldier_Deth_03.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Soldier_Deth_03.wav", SOUND_MONSTER, g_fSound);
 				break;
 			}
 			Drop_Item(rand() % 3);
@@ -364,7 +364,7 @@ void CHarpoonGuy::Attack(const _float & fTimeDelta)
 		m_bShotBullet = true;
 
 		::StopSound(SOUND_EFFECT2);
-		::PlaySoundW(L"LaserGun.wav", SOUND_EFFECT2, 0.4f);
+		::PlaySoundW(L"LaserGun.wav", SOUND_EFFECT2, g_fSound);
 	}
 	if (m_pAttackAnimationCom->m_iMotion >= m_pAttackAnimationCom->m_iMaxMotion)
 	{

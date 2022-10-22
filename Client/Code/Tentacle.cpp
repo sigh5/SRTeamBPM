@@ -5,6 +5,7 @@
 #include "AbstractFactory.h"
 #include "MyCamera.h"
 #include "FinalBoss.h"
+#include "Player.h"
 
 CTentacle::CTentacle(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CGameObject(pGraphicDev)
@@ -64,6 +65,7 @@ _int CTentacle::Update_Object(const _float & fTimeDelta)
 	CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
 	CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
 	_vec3 vPlayerPos = pPlayerTransformCom->m_vInfo[INFO_POS];
+	CPlayer* pPlayer = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
 	m_fToPlayerDistance = sqrtf((powf(vThunderPos.x - vPlayerPos.x, 2) + powf(vThunderPos.y - vPlayerPos.y, 2) + powf(vThunderPos.z - vPlayerPos.z, 2)));
 	if (17 < m_pAnimationCom->m_iMotion && false == m_bAttackFinish)
 	{
@@ -78,6 +80,7 @@ _int CTentacle::Update_Object(const _float & fTimeDelta)
 		if (m_fToPlayerDistance < 1.5f && false == m_bHitPlayer)
 		{
 			pPlayerInfo->Receive_Damage(10);
+			pPlayer->Set_DefenseToHp(true);
 			m_bHitPlayer = true;
 			m_bOneTime = true;
 		}

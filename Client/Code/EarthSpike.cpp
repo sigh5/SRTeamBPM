@@ -4,6 +4,7 @@
 #include "Export_Function.h"
 #include "AbstractFactory.h"
 #include "MyCamera.h"
+#include "Player.h"
 
 CEarthSpike::CEarthSpike(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CGameObject(pGraphicDev)
@@ -45,6 +46,7 @@ _int CEarthSpike::Update_Object(const _float & fTimeDelta)
 	CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
 	CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
 	_vec3 vPlayerPos = pPlayerTransformCom->m_vInfo[INFO_POS];
+	CPlayer* pPlayer = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
 	if (m_pAnimationCom->m_iMotion < 4 || m_pAnimationCom->m_iMotion > 7)
 	{
 		m_fToPlayerDistance = 100;
@@ -55,6 +57,12 @@ _int CEarthSpike::Update_Object(const _float & fTimeDelta)
 	}
 	m_pTransform->Set_Y(m_pTransform->m_vScale.y * 0.5f);
 	m_fWaitTimeCounter += fTimeDelta;
+	if (1.5f > m_fToPlayerDistance && m_bHitPlayer)
+	{
+		pPlayerInfo->Receive_Damage(5);
+		pPlayer->Set_DefenseToHp(true);
+		m_bHitPlayer = false;
+	}
 	if (m_fWaitTime > m_fWaitTimeCounter)
 	{
 		return 0;

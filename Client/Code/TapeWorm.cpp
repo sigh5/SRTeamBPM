@@ -189,17 +189,17 @@ void CTapeWorm::Collision_Event()
 				{
 				case 0:
 					::StopSound(SOUND_MONSTER);
-					::PlaySoundW(L"Soldier_Pain_01.wav", SOUND_MONSTER, 0.4f);
+					::PlaySoundW(L"Soldier_Pain_01.wav", SOUND_MONSTER, g_fSound);
 					break;
 
 				case 1:
 					::StopSound(SOUND_MONSTER);
-					::PlaySoundW(L"Soldier_Pain_02.wav", SOUND_MONSTER, 0.4f);
+					::PlaySoundW(L"Soldier_Pain_02.wav", SOUND_MONSTER, g_fSound);
 					break;
 
 				case 2:
 					::StopSound(SOUND_MONSTER);
-					::PlaySoundW(L"Soldier_Pain_03.wav", SOUND_MONSTER, 0.4f);
+					::PlaySoundW(L"Soldier_Pain_03.wav", SOUND_MONSTER, g_fSound);
 					break;
 				}
 			}
@@ -219,15 +219,15 @@ bool CTapeWorm::Dead_Judge(const _float & fTimeDelta)
 			{
 			case 0:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Soldier_Deth_01.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Soldier_Deth_01.wav", SOUND_MONSTER, g_fSound);
 				break;
 			case 1:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Soldier_Deth_02.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Soldier_Deth_02.wav", SOUND_MONSTER, g_fSound);
 				break;
 			case 2:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Soldier_Deth_03.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Soldier_Deth_03.wav", SOUND_MONSTER, g_fSound);
 				break;
 			}
 			m_bDead = true;
@@ -277,13 +277,14 @@ void CTapeWorm::AttackJudge(const _float & fTimeDelta)
 void CTapeWorm::Attack(const _float & fTimeDelta)
 {
 	CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
-
+	CPlayer* pPlayer = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
 	m_pAnimationCom->Move_Animation(fTimeDelta);
 	if (2 < m_pAnimationCom->m_iMotion && 14 > m_pAnimationCom->m_iMotion)
 	{
 		if (fMtoPDistance < 2.f && false == m_bHitPlayer)
 		{
 			pPlayerInfo->Receive_Damage(10);
+			pPlayer->Set_DefenseToHp(true);
 			m_bHitPlayer = true;
 		}
 	}

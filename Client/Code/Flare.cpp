@@ -39,7 +39,7 @@ _int CFlare::Update_Object(const _float & fTimeDelta)
 	if (false == m_bSound)
 	{
 		::StopSound(SOUND_EFFECT2);
-		::PlaySoundW(L"Flare.wav", SOUND_EFFECT2, 0.5f);
+		::PlaySoundW(L"Flare.wav", SOUND_EFFECT2, g_fSound);
 		m_bSound = true;
 	}
 	m_pAnimationCom->Move_Animation(fTimeDelta);

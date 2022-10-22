@@ -305,24 +305,9 @@ bool CFinalBoss::Dead_Judge(const _float & fTimeDelta)
 			if (false == m_bDead)
 			{
 				_int Hitsound = rand() % 3;
-				switch (Hitsound)
-				{
-				case 0:
-					::StopSound(SOUND_MONSTER);
-					::PlaySoundW(L".wav", SOUND_MONSTER, 0.4f);
-					break;
-				case 1:
-					::StopSound(SOUND_MONSTER);
-					::PlaySoundW(L".wav", SOUND_MONSTER, 0.4f);
-					break;
-				case 2:
-					::StopSound(SOUND_MONSTER);
-					::PlaySoundW(L".wav", SOUND_MONSTER, 0.4f);
-					break;
-				}
 				m_bState = Thingy_Death;
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Cthulhu_death_01.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Cthulhu_death_01.wav", SOUND_MONSTER, g_fSound);
 				m_bDead = true;
 			}
 		}
@@ -388,7 +373,7 @@ void CFinalBoss::Camouflage_Attack(const _float & fTimeDelta)
 		m_bShotBullet = true;
 
 		::StopSound(SOUND_EFFECT2);
-		::PlaySoundW(L"LaserGun.wav", SOUND_EFFECT2, 0.4f);
+		::PlaySoundW(L"LaserGun.wav", SOUND_EFFECT2, g_fSound);
 	}
 	if (m_pCamouAttackAnimationCom->m_iMaxMotion == m_pCamouAttackAnimationCom->m_iMotion)
 	{
@@ -407,7 +392,7 @@ void CFinalBoss::Camouflage_Cancle(const _float & fTimeDelta)
 	if (false == m_bMorphSound)
 	{
 		::StopSound(SOUND_MONSTER);
-		::PlaySoundW(L"Cthulhu_pain_01.wav", SOUND_MONSTER, 0.4f);
+		::PlaySoundW(L"Cthulhu_pain_01.wav", SOUND_MONSTER, g_fSound);
 	}
 	if (m_pMorphAnimationCom->m_iMaxMotion == m_pMorphAnimationCom->m_iMotion)
 	{
@@ -450,7 +435,7 @@ void CFinalBoss::Attack(const _float & fTimeDelta)
 	if (false == m_bAttackSound)
 	{
 		::StopSound(SOUND_MONSTER2);
-		::PlaySoundW(L"Cthulhu_attack_01.wav", SOUND_MONSTER2, 0.4f);
+		::PlaySoundW(L"Cthulhu_attack_01.wav", SOUND_MONSTER2, g_fSound);
 		m_bAttackSound = true;
 	}
 	switch (m_iAttackPattern)

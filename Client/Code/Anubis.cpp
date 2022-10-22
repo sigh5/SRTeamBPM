@@ -87,11 +87,11 @@ bool	CAnubis::Dead_Judge(const _float& fTimeDelta)
 			{
 			case 0:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Anubis_Death_01.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Anubis_Death_01.wav", SOUND_MONSTER, g_fSound);
 				break;
 			case 1:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Anubis_Death_02.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Anubis_Death_02.wav", SOUND_MONSTER, g_fSound);
 				break;
 			}
 			Drop_Item(rand() % 3);
@@ -316,17 +316,17 @@ void CAnubis::Collision_Event()
 		{
 		case 0:
 			::StopSound(SOUND_MONSTER);
-			::PlaySoundW(L"Anubis_pain_01.wav", SOUND_MONSTER, 0.4f);
+			::PlaySoundW(L"Anubis_pain_01.wav", SOUND_MONSTER, g_fSound);
 			break;
 
 		case 1:
 			::StopSound(SOUND_MONSTER);
-			::PlaySoundW(L"Anubis_pain_02.wav", SOUND_MONSTER, 0.4f);
+			::PlaySoundW(L"Anubis_pain_02.wav", SOUND_MONSTER, g_fSound);
 			break;
 
 		case 2:
 			::StopSound(SOUND_MONSTER);
-			::PlaySoundW(L"Anubis_pain_03.wav", SOUND_MONSTER, 0.4f);
+			::PlaySoundW(L"Anubis_pain_03.wav", SOUND_MONSTER, g_fSound);
 			break;
 		}
 		}
@@ -392,7 +392,7 @@ void CAnubis::Attack_Thunder(const _float& fTimeDelta)
 			CAnubisThunder* pThunder;
 			pThunder = CAnubisThunder::Create(m_pGraphicDev, AnubisInfo.x + (vDir.x* 1.2f), m_pDynamicTransCom->m_vScale.y * 0.85f, AnubisInfo.z + (vDir.z* 1.2f));
 			::StopSound(SOUND_EFFECT);
-			::PlaySoundW(L"thunder_spell_loop.wav", SOUND_EFFECT, 0.2f);
+			::PlaySoundW(L"thunder_spell_loop.wav", SOUND_EFFECT, g_fSound);
 
 			m_AnubisThunderlist.push_back(pThunder);
 			m_bCreateOneThunder = true;
@@ -407,7 +407,7 @@ void CAnubis::Attack_Thunder(const _float& fTimeDelta)
 			CAnubisThunder* pThunder;
 			pThunder = CAnubisThunder::Create(m_pGraphicDev, m_vPlayerPos.x - vDir.x * 0.5f, 1.0f, m_vPlayerPos.z - vDir.z * 0.5f);
 			::StopSound(SOUND_EFFECT);
-			::PlaySoundW(L"thunder_spell_cast.wav", SOUND_EFFECT, 0.2f);
+			::PlaySoundW(L"thunder_spell_cast.wav", SOUND_EFFECT, g_fSound);
 
 			m_AnubisThunderlist.push_back(pThunder);
 			m_bCreateTwoThunder = true;
@@ -437,7 +437,7 @@ void CAnubis::Attack_Stormball(const _float& fTimeDelta)
 			CAnubisThunder* pThunder;
 			pThunder = CAnubisThunder::Create(m_pGraphicDev, AnubisInfo.x + (vDir.x* 1.2f), m_pDynamicTransCom->m_vScale.y * 0.85f, AnubisInfo.z + (vDir.z* 1.2f));
 			//::StopSound(SOUND_EFFECT);
-			::PlaySoundW(L"thunder_spell_loop.wav", SOUND_EFFECT, 0.2f);
+			::PlaySoundW(L"thunder_spell_loop.wav", SOUND_EFFECT, g_fSound);
 
 			m_AnubisThunderlist.push_back(pThunder);
 			m_bCreateChargThunder = true;
@@ -466,17 +466,17 @@ void CAnubis::Attack_Stormball(const _float& fTimeDelta)
 			{
 			case 0:
 				::StopSound(SOUND_EFFECT);
-				::PlaySoundW(L"lightning_strike_1.wav", SOUND_EFFECT, 0.2f);
+				::PlaySoundW(L"lightning_strike_1.wav", SOUND_EFFECT, g_fSound);
 				break;
 
 			case 1:
 				::StopSound(SOUND_EFFECT);
-				::PlaySoundW(L"lightning_strike_2.wav", SOUND_EFFECT, 0.2f);
+				::PlaySoundW(L"lightning_strike_2.wav", SOUND_EFFECT, g_fSound);
 				break;
 
 			case 2:
 				::StopSound(SOUND_EFFECT);
-				::PlaySoundW(L"lightning_strike_3.wav", SOUND_EFFECT, 0.2f);
+				::PlaySoundW(L"lightning_strike_3.wav", SOUND_EFFECT, g_fSound);
 				break;
 			}
 
