@@ -652,7 +652,8 @@ void CFinalBoss::AttackPettern4(const _float & fTimeDelta)
 
 
 		CThingySpike* pTentacle = nullptr;
-
+		::StopSound(SOUND_MONSTER2);
+		::PlaySoundW(L"Qoong.wav", SOUND_MONSTER2, g_fSound);
 		if (m_bPettern4LR)
 		{
 			for (int i = 1; i < 20; ++i)

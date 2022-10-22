@@ -79,6 +79,8 @@ _int CTentacle::Update_Object(const _float & fTimeDelta)
 	{
 		if (m_fToPlayerDistance < 1.5f && false == m_bHitPlayer)
 		{
+			::StopSound(SOUND_MONSTER3);
+			::PlaySoundW(L"hangman_detect1.wav", SOUND_MONSTER3, g_fSound * 1.6f);
 			pPlayerInfo->Receive_Damage(10);
 			pPlayer->Set_DefenseToHp(true);
 			m_bHitPlayer = true;
