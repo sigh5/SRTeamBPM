@@ -39,8 +39,12 @@ HRESULT CHit_Screen::Ready_Object()
 
 _int CHit_Screen::Update_Object(const _float & fTimeDelta)
 {
+	++m_iCount;
+
 	if (m_bRender)
 	{
+		Engine::PlaySoundW(L"HitSound.mp3", SOUND_PLAYER, (g_fSound * 5.f));
+
 		m_fTime += 0.2f * fTimeDelta;
 
 		if (m_fTime >= 0.2f)
@@ -66,8 +70,13 @@ void CHit_Screen::Render_Obejct(void)
 {
 	CPlayer_Dead_UI* pDead_UI = static_cast<CPlayer_Dead_UI*>(Engine::Get_GameObject(L"Layer_UI", L"Dead_UI"));
 
-	if (pDead_UI->Get_Render() == false && m_bRender)
-	{		
+	if (m_iCount > 5)
+		m_bBlink = true;
+
+	if (m_bBlink)
+	{
+		if (pDead_UI->Get_Render() == false && m_bRender)
+		{
 			m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
 
 			_matrix		OldViewMatrix, OldProjMatrix;
@@ -110,8 +119,16 @@ void CHit_Screen::Render_Obejct(void)
 			m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &OldProjMatrix);
 
 			m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-			m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);		
+			m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+		}
+	}	
+
+	if (m_iCount > 10)
+	{
+		m_bBlink = false;
+		m_iCount = 0;
 	}
+	
 }
 
 HRESULT CHit_Screen::Add_Component(void)

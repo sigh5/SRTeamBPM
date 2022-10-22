@@ -42,6 +42,9 @@ private:
 
 	_float						m_fTime = 0.f;
 
+	_uint						m_iCount = 0;
+	_bool						m_bBlink = false;
+
 public:
 	static CHit_Screen*			Create(LPDIRECT3DDEVICE9 pGraphicDev);
 
