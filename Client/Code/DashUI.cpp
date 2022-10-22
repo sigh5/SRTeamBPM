@@ -50,25 +50,24 @@ _int CDashUI::Update_Object(const _float & fTimeDelta)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);	
 	
 
-	if (m_bLshift)//(Engine::Get_DIKeyState(DIK_LSHIFT) & 0x80)
+	if (m_bLshift) //(Engine::Get_DIKeyState(DIK_LSHIFT) & 0x80)
 	{
 		m_bSize = true;
 
 		_vec3	vecLSHIFT = { m_vecScale.x * 0.7f, m_vecScale.y * 0.7f, 0.1f };
 		m_pTransCom->Set_Scale(&vecLSHIFT);
+	}
 
 		if (m_bSize)
 			m_fDelayTime += 50.f * fTimeDelta;
-
+		
 		if (m_fDelay < m_fDelayTime)
 		{
 			m_pTransCom->Set_Scale(&m_vecScale);
 			m_fDelayTime = 0.f;
 			m_bSize = false;
-		}
-
-		m_bLshift = false;
-	}
+			m_bLshift = false;
+		}	
 
 	Engine::CGameObject::Update_Object(fTimeDelta);
 

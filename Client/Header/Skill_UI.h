@@ -24,6 +24,10 @@ public:
 	virtual	void		LateUpdate_Object(void);
 	virtual void		Render_Obejct(void) override;
 
+	void				Set_m_bRB(_bool _bRButton) { m_bRB = _bRButton; }
+
+	void				Set_mbRshift(_bool _bRBtn) { m_bRshift = _bRBtn; }
+
 private:
 	HRESULT				Add_Component(void);
 
@@ -34,6 +38,14 @@ public:
 
 private:
 	_vec3				m_vecScale;
+
+	_bool				m_bRB = false;
+
+	_bool				m_bSize = false;
+	_bool				m_bRshift = false;
+
+	_float				m_fDelayTime = 0.f;
+	_float				m_fDelay = 0.f;
 
 public:
 	static CSkill_UI*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

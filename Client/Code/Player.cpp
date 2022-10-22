@@ -314,12 +314,8 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 
 	if (Get_DIKeyState(DIK_SPACE) & 0X80)
 	{//m_bJump = TRUE;
-
-
 		_vec3	vPos;
 		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
-
-		cout << vPos.x << " " << vPos.z << endl;
 
 	}
 	
@@ -341,9 +337,9 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		NULL_CHECK_RETURN(pMyLayer, );
 		CDashUI* pDashUI = nullptr;		
 		pDashUI = dynamic_cast<CDashUI*>(pMyLayer->Get_GameObject(L"DashUI"));		
-		pDashUI->Set_Lshift(true);
-		
+		pDashUI->Set_Lshift(true);		
 	}
+	::Key_InputReset();
 
 	if (::Mouse_Down(DIM_LB)) // Picking
 	{
@@ -371,6 +367,12 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 			return;
 
 		pThunderHand->Set_Active(true);
+
+		CLayer* pMyLayer = pScene->GetLayer(L"Layer_Icon");
+		NULL_CHECK_RETURN(pMyLayer, );
+		CSkill_UI* pSkill_UI = nullptr;
+		pSkill_UI = dynamic_cast<CSkill_UI*>(pMyLayer->Get_GameObject(L"Skill_UI"));
+		pSkill_UI->Set_mbRshift(true);
 
 	}
 	

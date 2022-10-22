@@ -11,6 +11,7 @@
 #include "EquipYeti.h"
 #include "QuestProcessing_UI.h"
 #include "ThunderHand.h"
+#include "Skill_UI.h"
 
 
 CShopUI::CShopUI(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -149,6 +150,10 @@ void CShopUI::Picking_Rect_Index()
 				{
 					CThunderHand* pHand = dynamic_cast<CThunderHand*>(::Get_GameObject(L"Layer_UI", L"SkillHand"));
 					pHand->Set_BuySkill(true);
+
+					CSkill_UI* pSkill_UI = dynamic_cast<CSkill_UI*>(Engine::Get_GameObject(L"Layer_Icon", L"Skill_UI"));
+					pSkill_UI->Set_m_bRB(true);
+
 					m_bShopingEnd[0] = true;
 
 
