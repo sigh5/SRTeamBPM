@@ -173,8 +173,7 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 }
 
 void CPlayer::LateUpdate_Object(void)
-{
-	
+{	
 	if (m_iOriginHP > m_pInfoCom->Get_Hp())
 	{
 		CScene* pScene = Get_Scene();
@@ -187,7 +186,7 @@ void CPlayer::LateUpdate_Object(void)
 
 		CHit_Screen* pHitScreen = static_cast<CHit_Screen*>(Engine::Get_GameObject(L"Layer_UI", L"HitScreen"));
 		pHitScreen->Set_Render(true);		
-	}
+	}	
 
 	CGameObject::LateUpdate_Object();
 }
@@ -322,7 +321,7 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		{
 			static_cast<CControlRoom*>(iter)->Area_of_Effect(true);
 		}
-		
+
 		/*for (auto iter : PLayer->Get_GameObjectMap())
 		{
 			CMonsterBase* pMonster = dynamic_cast<CMonsterBase*>(iter.second);
@@ -330,7 +329,7 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 			if(pMonster!= nullptr)
 				static_cast<CMonsterBase*>(iter.second)->Excution_Event();
 		}*/
-		}
+	}
 
 	if (Get_DIKeyState(DIK_SPACE) & 0X80)
 	{//m_bJump = TRUE;
@@ -403,33 +402,37 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		Ready_MonsterShotPicking();
 	}
 
-	if (m_bSkillCool)
+	if (m_bSkill_Unlock)
 	{
-		if (::Mouse_Down(DIM_RB)) // Picking
+
+		if (m_bSkillCool)
 		{
-			/*CScene  *pScene = ::Get_Scene();
-			CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
-			_vec3 vPos;
-			m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
-			vPos.y += 40.f;
-			CGameObject* pFireworks = CFireWorks::Create(m_pGraphicDev, vPos);
-			pLayer->Add_GameObjectList(pFireworks);*/
+			if (::Mouse_Down(DIM_RB)) // Picking
+			{
+				/*CScene  *pScene = ::Get_Scene();
+				CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+				_vec3 vPos;
+				m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+				vPos.y += 40.f;
+				CGameObject* pFireworks = CFireWorks::Create(m_pGraphicDev, vPos);
+				pLayer->Add_GameObjectList(pFireworks);*/
+				Engine::PlaySoundW(L"Skill_Thunder.mp3", SOUND_EFFECT, (g_fSound * 3.f));
+				CScene  *pScene = ::Get_Scene();
+				CLayer * pLayer = pScene->GetLayer(L"Layer_UI");
+				CThunderHand* pThunderHand = dynamic_cast<CThunderHand*>(pLayer->Get_GameObject(L"SkillHand"));
 
-			CScene  *pScene = ::Get_Scene();
-			CLayer * pLayer = pScene->GetLayer(L"Layer_UI");
-			CThunderHand* pThunderHand = dynamic_cast<CThunderHand*>(pLayer->Get_GameObject(L"SkillHand"));
+				if (pThunderHand == nullptr) //|| !pThunderHand->Player_BuySkill())
+					return;
 
-			if (pThunderHand == nullptr) //|| !pThunderHand->Player_BuySkill())
-				return;
+				pThunderHand->Set_Active(true);
 
-			pThunderHand->Set_Active(true);
-
-			CLayer* pMyLayer = pScene->GetLayer(L"Layer_Icon");
-			NULL_CHECK_RETURN(pMyLayer, );
-			CSkill_UI* pSkill_UI = nullptr;
-			pSkill_UI = dynamic_cast<CSkill_UI*>(pMyLayer->Get_GameObject(L"Skill_UI"));
-			pSkill_UI->Set_mbRshift(true);
-			m_bSkillCool = false;
+				CLayer* pMyLayer = pScene->GetLayer(L"Layer_Icon");
+				NULL_CHECK_RETURN(pMyLayer, );
+				CSkill_UI* pSkill_UI = nullptr;
+				pSkill_UI = dynamic_cast<CSkill_UI*>(pMyLayer->Get_GameObject(L"Skill_UI"));
+				pSkill_UI->Set_mbRshift(true);
+				m_bSkillCool = false;
+			}
 		}
 	}
 	if (Get_DIKeyState(DIK_R) & 0X80)
@@ -467,7 +470,7 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 
 	Engine::Key_InputReset();
 
-	if (Engine::Key_Down(DIK_V))
+	if (Engine::Key_Down(DIK_V))  // ġƮŰ
 	{		
 		m_pInfoCom->Get_InfoRef()._iCoin += 10;
 	}

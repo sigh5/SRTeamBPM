@@ -134,7 +134,7 @@ _uint CLoading::Loading_ForStage(void)
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Dash_UI_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Dash_Icon1.png", TEX_NORMAL)), E_FAIL);
 	
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Inventory_UI_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Inventory_UI.png", TEX_NORMAL)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Shop_UI_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Shop_UI1.png", TEX_NORMAL)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Shop_UI_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Shop_UI2.png", TEX_NORMAL)), E_FAIL);
 
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Chim_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Chim_Binpole.png", TEX_NORMAL)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Skill_ScreenTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Gun_Output/Skill_Screen/spellhand_storm_%d.png", TEX_NORMAL, 5)), E_FAIL);
@@ -157,7 +157,7 @@ _uint CLoading::Loading_ForStage(void)
 																										// \Bin\Resource\Texture\Bullet_UI\Shotgun_Shell
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ShotGunShellUI_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Bullet_UI/Shotgun_Shell/Sg_Shell%d.png", TEX_NORMAL, 7)), E_FAIL);
 	
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_CurrectUI_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Currect/Currect%d.png", TEX_NORMAL, 6)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_CurrectUI_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Currect/Currect.png", TEX_NORMAL)), E_FAIL);
 	// AX 
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_AX_ScreenTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Weapon_UI/AX/AX_%d.png", TEX_NORMAL, 10)), E_FAIL);
 																										// \Bin\Resource\Texture\HpBar\DefBar
@@ -173,6 +173,8 @@ _uint CLoading::Loading_ForStage(void)
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Helmet_Sold_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Shop_Helmet/Helmet_Sold%d.png", TEX_NORMAL, 2)), E_FAIL);
 	
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Minigame1Pic_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Shop_Chim/Chim_Icon%d.png", TEX_NORMAL, 2)), E_FAIL);
+	
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Pet_Sold_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Shop_Pet/Pet_Sold%d.png", TEX_NORMAL, 2)), E_FAIL);
 	// ~UI
 
 	// Box
@@ -256,7 +258,7 @@ _uint CLoading::Loading_ForStage(void)
 	// Pet
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Yeti_TextureCom", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Pet/Yeti/yeti%d.png", TEX_NORMAL, 9)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Yeti_dance_TextureCom", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Pet/Yeti/yeti_dance%d.png", TEX_NORMAL, 5)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Yeti_talk_TextureCom", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Pet/Yeti/yeti_talk.png", TEX_NORMAL, 1)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Yeti_talk_TextureCom", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Pet/Yeti/yeti_talk1.png", TEX_NORMAL, 1)), E_FAIL);
 	//~pet
 
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_KeyTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Item/Key.png", TEX_NORMAL)), E_FAIL);

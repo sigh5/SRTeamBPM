@@ -27,6 +27,8 @@ public:
 	virtual	void		LateUpdate_Object(void);
 	virtual void		Render_Obejct(void) override;
 
+	void				Set_Weapon(_bool _bWeapon) { m_bWeapon = _bWeapon; }
+
 private:
 	HRESULT				Add_Component(void);
 
@@ -59,6 +61,9 @@ private: // Status 각 요소에 쓰는 폰트
 
 	_uint m_iPlayerDef = 0;
 
+	_uint m_iWeaponAtk = 0;
+
+	_bool		m_bWeapon = false;
 public:
 	static CStatus_UI*		Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* pPlayer);
 	virtual void			Free();

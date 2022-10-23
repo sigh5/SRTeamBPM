@@ -31,7 +31,7 @@ HRESULT CSkill_UI::Ready_Object()
 	m_pTransCom->Set_Scale(&m_vecScale);
 	m_pTransCom->Set_Pos(m_fX - 87.f, m_fY - 425.f, 0.1f);
 
-	m_fDelay = 100.f;
+	m_fDelay = 180.f;
 
 	return S_OK;
 }

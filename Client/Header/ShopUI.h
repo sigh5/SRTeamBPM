@@ -61,6 +61,11 @@ private:
 	_int				m_bSelect[6] = { false, };
 	_int				m_bShopingEnd[6] = { false, };
 
+	_bool				m_bBuyFalse = false;
+	_uint				m_iBFcount = 0;
+
+	_bool				m_bBuySuccess = false;
+
 public:
 	static CShopUI*			Create(LPDIRECT3DDEVICE9 pGraphicDev);
 	virtual void			Free();

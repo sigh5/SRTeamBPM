@@ -23,26 +23,22 @@ HRESULT CCurrect_Answer::Ready_Object(_float fX, _float fY)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pAnimationCom->Ready_Animation(6, 0, 0.2f, 6);
-
 	Set_OrthoMatrix(256.f, 256.f, fX, fY);
 
-	_vec3	vScale = { m_fSizeX * 0.4f, m_fSizeY * 0.4f, 1.f };
+	_vec3	vScale = { m_fSizeX * 0.7f, m_fSizeY * 0.7f, 1.f };
 	m_pTransCom->Set_Scale(&vScale);
 
-	m_pTransCom->Set_Pos(fX, fY, 0.f);
+	m_pTransCom->Set_Pos(fX, fY, 0.07f);
 
-	ffx = fX;
-	ffy = fY;
-	
 	return S_OK;
 }
 
 _int CCurrect_Answer::Update_Object(const _float & fTimeDelta)
 {
-	Engine::CGameObject::Update_Object(fTimeDelta);
-	
-//	cout << ffx << "¹º Â÷ÀÌÁö" << ffy << endl;
+	if (m_bDead)
+		return OBJ_DEAD;
+
+	Engine::CGameObject::Update_Object(fTimeDelta);	
 
 	Add_RenderGroup(RENDER_UI, this);
 
@@ -80,7 +76,7 @@ void CCurrect_Answer::Render_Obejct(void)
 		m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 		m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-		m_pTextureCom->Set_Texture(5);//m_pAnimationCom->m_iMotion);
+		m_pTextureCom->Set_Texture(0);
 
 		m_pBufferCom->Render_Buffer();
 
@@ -89,7 +85,6 @@ void CCurrect_Answer::Render_Obejct(void)
 
 		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 
-		//m_bRender = true;
 	}
 	
 }
@@ -99,7 +94,7 @@ HRESULT CCurrect_Answer::Add_Component(void)
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
 	m_pTransCom = CAbstractFactory<CTransform>::Clone_Proto_Component(L"Proto_TransformCom", m_mapComponent, ID_DYNAMIC);
 	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_CurrectUI_Texture", m_mapComponent, ID_STATIC);
-	m_pAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_STATIC);
+	
 
 	return S_OK;
 }

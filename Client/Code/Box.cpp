@@ -10,6 +10,7 @@
 #include "UI_Frame.h"
 #include "ShotGun.h"
 
+
 USING(Engine)
 
 CBox::CBox(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -186,7 +187,8 @@ HRESULT CBox::Open_Event(CGameObject * pGameObject)
 		else if ( !bWeaponOnce && rand() % 3 == 2)
 		{
 			//  무기가 들어가면되고
-			// 종욱이형 머지하면 하면됌
+			// 종욱이형 머지하면 하면됌		
+
 			pGameObj = READY_LAYER_POS(pGameObj, CShotGun, pMyLayer, m_pGraphicDev, L"ShotGun", (_uint)vPos.x+3, (_uint)vPos.z);
 			bWeaponOnce = true;
 		}

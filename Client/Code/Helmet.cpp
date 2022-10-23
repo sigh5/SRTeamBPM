@@ -208,7 +208,7 @@ void CHelmet::Collision_Event()
 void CHelmet::Change_Equip()
 {
 	if (m_EquipState == EquipState_Equip_HELMET)
-		return;
+		return;	
 
 	CInventory_UI* pInven = static_cast<CInventory_UI*>(Get_GameObject(L"Layer_UI", L"InventoryUI"));
 	pInven->Set_CurrentEquipHelmet(this);
@@ -242,7 +242,7 @@ void CHelmet::PickingMouseUp()
 	}
 
 	if (m_bPickingEnd == true) // 나중에 장비창에 있는지 슬롯창에있는지 확인하는 조건 필요
-	{
+	{		
 		CInventory_UI* pInven = static_cast<CInventory_UI*>(Get_GameObject(L"Layer_UI", L"InventoryUI"));
 		SearchInventorySlot(&pInven);
 
@@ -371,12 +371,13 @@ _bool CHelmet::EquipIconPicking()
 	{
 		//cout << ptMouse.x << " " << ptMouse.y << endl;
 		if (PtInRect(&rcUI2, ptMouse))
-		{
+		{			
 			pInven->Set__Current_Picking_ItemID(ID_HELMET1);
 			m_bPickingEnd = false;
 			m_bisPicking = true;
 			return true;
 		}
+
 		m_bisPicking = false;
 		return false;
 	}

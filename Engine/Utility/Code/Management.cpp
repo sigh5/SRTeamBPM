@@ -47,7 +47,7 @@ CGameObject * CManagement::Get_GameObject(const _tchar * pLayerTag, const _tchar
 		return nullptr;
 
 	return m_pScene->Get_GameObject(pLayerTag, pObjTag);
-}
+}										// Stage			Minigame
 										// Logo            Setting_Stage
 HRESULT CManagement::Change_Scene(CScene * pScene, CScene* pChangeScene)
 {

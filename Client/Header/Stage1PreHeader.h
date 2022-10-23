@@ -64,3 +64,5 @@
 #include "ThunderPic.h"
 #include "Hit_Screen.h"
 #include "MiniGame1Pic.h"
+#include "HelmetPic.h"
+#include "PetPic.h"

@@ -14,6 +14,8 @@
 #include "Skill_UI.h"
 #include "ThunderPic.h"
 #include "MiniGame1Pic.h"
+#include "HelmetPic.h"
+#include "PetPic.h"
 
 
 CShopUI::CShopUI(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -75,6 +77,8 @@ _int CShopUI::Update_Object(const _float & fTimeDelta)
 	if (m_iForceSceneReturn == SCENE_CHANGE_RETRURN)
 		return SCENE_CHANGE_RETRURN;
 
+	if (m_bBuyFalse == true || m_bBuySuccess == true)
+		++m_iBFcount;
 
 	return 0;
 }
@@ -106,6 +110,28 @@ void CShopUI::Render_Obejct(void)
 		m_pTextureCom->Set_Texture(0);
 		m_pBufferCom->Render_Buffer();
 		Render_Font(L"LeeSoonSin", pString.c_str(), &_vec2(_float(WINCX / 2 + 300), 30.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+
+		if (m_bBuyFalse)
+		{
+			Render_Font(L"LeeSoonSin", L"잔액이 부족합니다.", &_vec2(_float(WINCX / 2 - 400), 30.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+
+			if (m_iBFcount > 30)
+			{
+				m_iBFcount = 0;
+				m_bBuyFalse = false;
+			}
+		}
+
+		if (m_bBuySuccess)
+		{
+			Render_Font(L"LeeSoonSin", L"Buy해줘서 아리가또!", &_vec2(_float(WINCX / 2 - 400), 30.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+		
+			if (m_iBFcount > 30)
+			{
+				m_iBFcount = 0;
+				m_bBuySuccess = false;
+			}
+		}
 
 		m_pGraphicDev->SetTransform(D3DTS_VIEW, &OldViewMatrix);
 		m_pGraphicDev->SetTransform(D3DTS_PROJECTION, &OldProjMatrix);
@@ -154,11 +180,14 @@ void CShopUI::Picking_Rect_Index()
 					// 구매 제한
 					if (pInfo->Get_InfoRef()._iCoin < 40)
 					{
+						Engine::PlaySoundW(L"Moneyless.mp3", SOUND_EFFECT2, 1.f);
+						m_bBuyFalse = true;
 						return;
 					}
 
 					else
 					{
+						Engine::PlaySoundW(L"Get_ShopItem.mp3", SOUND_EFFECT2, (g_fSound * 3.f));
 						CThunderHand* pHand = dynamic_cast<CThunderHand*>(::Get_GameObject(L"Layer_UI", L"SkillHand"));
 						pHand->Set_BuySkill(true);
 
@@ -167,6 +196,11 @@ void CShopUI::Picking_Rect_Index()
 
 						CThunderPic* pThunderPic = dynamic_cast<CThunderPic*>(Engine::Get_GameObject(L"Layer_Icon", L"ThunderPic"));
 						pThunderPic->Set_SoldOut(false);
+
+						CPlayer* pPlayer = dynamic_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
+						pPlayer->Set_Skill_Unlock(true);
+
+						m_bBuySuccess = true;
 
 						pInfo->Get_InfoRef()._iCoin -= 40;
 					}					
@@ -249,13 +283,23 @@ void CShopUI::Picking_Rect_Index()
 				{
 					CCharacterInfo* pInfo = dynamic_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
 					// 구매 제한
-					if (pInfo->Get_InfoRef()._iCoin < 40)					
+					if (pInfo->Get_InfoRef()._iCoin < 40)
+					{
+						Engine::PlaySoundW(L"Moneyless.mp3", SOUND_EFFECT2, 1.f);
+						m_bBuyFalse = true;
 						return;				
+					}
 
 					else
 					{
+						Engine::PlaySoundW(L"Get_ShopItem.mp3", SOUND_EFFECT2, (g_fSound * 3.f));
 						CHelmet* pHelmet = static_cast<CHelmet*>(Get_GameObject(L"Layer_GameLogic", L"Helmet1"));
 						pHelmet->Shop_Goods();
+
+						CHelmetPic* pHelmetPic = dynamic_cast<CHelmetPic*>(Engine::Get_GameObject(L"Layer_Icon", L"HelmetPic"));
+						pHelmetPic->Set_SoldOut(false);
+
+						m_bBuySuccess = true;
 
 						pInfo->Get_InfoRef()._iCoin -= 40;
 					}
@@ -268,12 +312,22 @@ void CShopUI::Picking_Rect_Index()
 					// 구매 제한
 
 					if (pInfo->Get_InfoRef()._iCoin < 20)
+					{
+						Engine::PlaySoundW(L"Moneyless.mp3", SOUND_EFFECT2, 1.f);
+						m_bBuyFalse = true;
 						return;
+					}
 
 					else
 					{
+						Engine::PlaySoundW(L"Get_ShopItem.mp3", SOUND_EFFECT2, (g_fSound * 3.f));
 						CEquipYeti* pYeti = static_cast<CEquipYeti*>(Get_GameObject(L"Layer_GameLogic", L"EquipYeti"));
 						pYeti->Shop_Goods();
+
+						CPetPic* pPetPic = dynamic_cast<CPetPic*>(Engine::Get_GameObject(L"Layer_Icon", L"PetPic"));
+						pPetPic->Set_SoldOut(false);
+
+						m_bBuySuccess = true;
 
 						pInfo->Get_InfoRef()._iCoin -= 20;
 					}

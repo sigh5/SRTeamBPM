@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "CharacterInfo.h"
 #include "Click_Particle.h"
+#include "Currect_Answer.h"
 
 
 CWrongPicFind::CWrongPicFind(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -44,17 +45,7 @@ _int CWrongPicFind::Update_Object(const _float & fTimeDelta)
 {		
 	Picking_WrongPoint();
 
-	//if (m_bFinalSuccess)
-	//{
-	//	++iChange;
-
-	//	if (iChange > 30)
-	//	{
-	//		CScene* pScene = ::Get_Scene();
-	//
-	//	}
-	//}
-
+	
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
 	Add_RenderGroup(RENDER_UI, this);
@@ -131,32 +122,34 @@ void CWrongPicFind::Picking_WrongPoint(void)
 
 			if (PtInRect(&RcFind, ptMouse))
 			{
-				if (i == 0)
+				if (i == 0 && !m_bSuccess0)
 				{
 					// Event
 
 					//MSG_BOX("8bit");
 					m_iCurrect += 1;
 					Engine::PlaySoundW(L"Currect_Mark.wav", SOUND_EFFECT, 1.f);		
-					//Create_CurrectMark(m_fX, m_fY);
-					m_bSuccess0 = true;	
+					
+					m_bSuccess0 = true;						
 				}		
 
-				if (i == 1)
+				if (i == 1 && !m_bSuccess1)
 				{
 					// Event
 
 					//MSG_BOX("상남자");
 					m_iCurrect += 1;
 					Engine::PlaySoundW(L"Currect_Mark.wav", SOUND_EFFECT, 1.f);
+					
 					m_bSuccess1 = true;
 				}
 
-				if (i == 2)
+				if (i == 2 && !m_bSuccess2)
 				{
 					//MSG_BOX("나만의 작은 침");
 					m_iCurrect += 1;
 					Engine::PlaySoundW(L"Currect_Mark.wav", SOUND_EFFECT, 1.f);
+					
 					m_bSuccess2 = true;
 				}				
 			}
@@ -170,7 +163,7 @@ void CWrongPicFind::Picking_WrongPoint(void)
 
 				pPlayerInfo->Get_InfoRef()._iCoin += 50;
 				m_bFinalSuccess = true;
-				m_bSuccess0 = false;
+				
 			}
 		}
 	
@@ -187,15 +180,19 @@ HRESULT CWrongPicFind::Add_Component(void)
 	return S_OK;
 }
 
-HRESULT CWrongPicFind::Create_CurrectMark(_float fX, _float fY)
+HRESULT CWrongPicFind::Create_CurrectMark(_float fX, _float fY) // 폐기
 {
-	CScene*			pScene = Engine::Get_Scene();
-	CLayer*			pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+	_tchar*			tCurrent = L"Currect_Answer%d";
 
+	CScene*			pScene = Engine::Get_Scene();	
+	CLayer*			pMyLayer = pScene->GetLayer(L"Ready_Layer_Environment");
+	NULL_CHECK_RETURN(pMyLayer, );
+	
 	CGameObject*	pGameObject = nullptr;
-	pGameObject = CClick_Particle::Create(m_pGraphicDev, _vec3(fX, 0.f, fY));
+	pGameObject = CCurrect_Answer::Create(m_pGraphicDev, fX, fY);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(L"ClickParticle", pGameObject), E_FAIL);
+	FAILED_CHECK_RETURN(pMyLayer->Add_GameObject(tCurrent, pGameObject), E_FAIL);
+	// 사망하여 생성될때마다 키값 변경
 
 	return S_OK;
 }
