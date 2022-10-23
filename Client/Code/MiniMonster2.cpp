@@ -46,7 +46,8 @@ _int CMiniMonster2::Update_Object(const _float & fTimeDelta)
 
 		pLayer->Add_EffectList(pGameObject);
 		static_cast<CSpecial_Effect*>(pGameObject)->Set_Effect_INFO(OWNER_PALYER, 0, 17, 0.2f);
-
+		::StopSound(SOUND_MONSTER);
+		::PlaySoundW(L"Spider_death_01.wav", SOUND_MONSTER, g_fSound * 1.5f);
 		return OBJ_DEAD;
 	}
 	m_fFrame = fTimeDelta;
