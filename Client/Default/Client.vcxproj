@@ -225,6 +225,7 @@
     <ClInclude Include="..\Header\LoadingBackFont.h" />
     <ClInclude Include="..\Header\Loading_Image.h" />
     <ClInclude Include="..\Header\Logo.h" />
+    <ClInclude Include="..\Header\MagneticField.h" />
     <ClInclude Include="..\Header\Magnum.h" />
     <ClInclude Include="..\Header\MainApp.h" />
     <ClInclude Include="..\Header\MetronomeRect.h" />
@@ -236,6 +237,7 @@
     <ClInclude Include="..\Header\MiniStage3PreHeader.h" />
     <ClInclude Include="..\Header\MiniTerrain.h" />
     <ClInclude Include="..\Header\MonsterBullet.h" />
+    <ClInclude Include="..\Header\MonsterMini.h" />
     <ClInclude Include="..\Header\MonsterToolObject.h" />
     <ClInclude Include="..\Header\MouseMgr.h" />
     <ClInclude Include="..\Header\MyCamera.h" />
@@ -273,6 +275,7 @@
     <ClInclude Include="..\Header\Spider.h" />
     <ClInclude Include="..\Header\Stage.h" />
     <ClInclude Include="..\Header\Stage1PreHeader.h" />
+    <ClInclude Include="..\Header\StageTerrain.h" />
     <ClInclude Include="..\Header\Start_Button.h" />
     <ClInclude Include="..\Header\StaticCamera.h" />
     <ClInclude Include="..\Header\Status_UI.h" />
@@ -285,6 +288,7 @@
     <ClInclude Include="..\Header\ToolTest.h" />
     <ClInclude Include="..\Header\UI_Effect.h" />
     <ClInclude Include="..\Header\UI_Frame.h" />
+    <ClInclude Include="..\Header\UI_Timer.h" />
     <ClInclude Include="..\Header\WallCube.h" />
     <ClInclude Include="..\Header\Weapon_UI.h" />
     <ClInclude Include="..\Header\WrongPicFind.h" />
@@ -365,6 +369,7 @@
     <ClCompile Include="..\Code\LoadingBackFont.cpp" />
     <ClCompile Include="..\Code\Loading_Image.cpp" />
     <ClCompile Include="..\Code\Logo.cpp" />
+    <ClCompile Include="..\Code\MagneticField.cpp" />
     <ClCompile Include="..\Code\Magnum.cpp" />
     <ClCompile Include="..\Code\MainApp.cpp" />
     <ClCompile Include="..\Code\MetronomeRect.cpp" />
@@ -375,6 +380,7 @@
     <ClCompile Include="..\Code\MiniTerrain.cpp" />
     <ClCompile Include="..\Code\MonsterBullet.cpp" />
     <ClCompile Include="..\Code\MetronomeUI.cpp" />
+    <ClCompile Include="..\Code\MonsterMini.cpp" />
     <ClCompile Include="..\Code\MonsterToolObject.cpp" />
     <ClCompile Include="..\Code\MouseMgr.cpp" />
     <ClCompile Include="..\Code\MyCamera.cpp" />
@@ -411,6 +417,7 @@
     <ClCompile Include="..\Code\SphinxHole.cpp" />
     <ClCompile Include="..\Code\Spider.cpp" />
     <ClCompile Include="..\Code\Stage.cpp" />
+    <ClCompile Include="..\Code\StageTerrain.cpp" />
     <ClCompile Include="..\Code\Start_Button.cpp" />
     <ClCompile Include="..\Code\StaticCamera.cpp" />
     <ClCompile Include="..\Code\Status_UI.cpp" />
@@ -423,6 +430,7 @@
     <ClCompile Include="..\Code\ToolTest.cpp" />
     <ClCompile Include="..\Code\UI_Effect.cpp" />
     <ClCompile Include="..\Code\UI_Frame.cpp" />
+    <ClCompile Include="..\Code\UI_Timer.cpp" />
     <ClCompile Include="..\Code\WallCube.cpp" />
     <ClCompile Include="..\Code\Weapon_UI.cpp" />
     <ClCompile Include="..\Code\WrongPicFind.cpp" />

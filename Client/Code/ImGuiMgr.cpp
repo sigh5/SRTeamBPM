@@ -757,7 +757,10 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 	}
 
 
-
+	if ((Get_DIKeyState(DIK_Z) & 0x80))
+	{
+		m_fMinDistance = 999999.f;
+	}
 
 
 
@@ -905,10 +908,7 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 		MultipleTransformEdit(pCam, m_SelecteObjectlist, Show_Cube_Tool);
 
 
-		if ((Get_DIKeyState(DIK_Z) & 0x80))
-		{
-			m_fMinDistance = 999999.f;
-		}
+		
 	}
 	else
 	{
@@ -945,13 +945,13 @@ void CImGuiMgr::TerrainTool(LPDIRECT3DDEVICE9 pGrahicDev, CCamera* pCam, CScene*
 
 	if (ImGui::Button("Load"))
 	{
-		CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev,
+	/*	CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev,
 			pScene,
 			L"TerrainLayer",
 			L"../../Data/",
 			L"Stage1Room.dat",
 			L"StageRoom",
-			OBJ_ROOM);
+			OBJ_ROOM);*/
 	}
 
 	if ((Get_DIKeyState(DIK_Z) & 0x80))
@@ -1466,7 +1466,7 @@ void CImGuiMgr::Load_CubeMap(LPDIRECT3DDEVICE9 pGrahicDev, CScene *pScene)
 			pScene,
 			L"MapCubeLayer",
 			L"../../Data/",
-			L"Stage1Map.dat",
+			L"MiniStage2.dat",
 			L"TestCube",
 			OBJ_CUBE);
 
@@ -1541,7 +1541,7 @@ void CImGuiMgr::Save_CubeMap(CScene *pScene)
 	case USER_HHW:
 		CFileIOMgr::GetInstance()->Save_FileData(pScene, L"MapCubeLayer",
 			L"../../Data/",
-			L"Stage1Map.dat", OBJ_CUBE);
+			L"MiniStage2.dat", OBJ_CUBE);
 		break;
 
 	case USER_BIH:

@@ -11,6 +11,9 @@ CTerrainMoveTex::CTerrainMoveTex(LPDIRECT3DDEVICE9 pGraphicDev)
 	ZeroMemory(&m_fH, sizeof(BITMAPFILEHEADER));
 	ZeroMemory(&m_iH, sizeof(BITMAPINFOHEADER));
 	ZeroMemory(&m_vCenter, sizeof(_vec3));
+	
+	m_iOptionArray = nullptr;
+
 }
 
 CTerrainMoveTex::CTerrainMoveTex(const CTerrainMoveTex & rhs)
@@ -18,10 +21,12 @@ CTerrainMoveTex::CTerrainMoveTex(const CTerrainMoveTex & rhs)
 	, m_hFile(rhs.m_hFile)
 	, m_bClone(true)
 	, m_pPos(rhs.m_pPos)
+	
 {
 	memcpy(&m_fH, &rhs.m_fH, sizeof(BITMAPFILEHEADER));
 	memcpy(&m_iH, &rhs.m_iH, sizeof(BITMAPINFOHEADER));
 	memcpy(&m_vCenter, &rhs.m_vCenter, sizeof(_vec3));
+	memcpy(&m_iOptionArray, &rhs.m_iOptionArray, sizeof(rhs.m_iOptionArray));
 }
 
 CTerrainMoveTex::~CTerrainMoveTex()
@@ -32,6 +37,7 @@ HRESULT CTerrainMoveTex::Ready_Buffer(const _ulong & dwCntX, const _ulong & dwCn
 {
 	m_dwVtxCnt = dwCntX * dwCntZ;
 	m_pPos = new _vec3[m_dwVtxCnt];
+	m_iOptionArray = new _int[m_dwVtxCnt];
 	m_dwTriCnt = (dwCntX - 1) * (dwCntZ - 1) * 2;
 	m_dwVtxSize = sizeof(VTXTEX);
 	m_dwFVF = FVF_TEX;
@@ -76,6 +82,18 @@ HRESULT CTerrainMoveTex::Ready_Buffer(const _ulong & dwCntX, const _ulong & dwCn
 
 			pVertex[dwIndex].vTexUV = { _float(j) / (dwCntX - 1) * 30.f,
 				_float(i) / (dwCntZ - 1) * 30.f };
+
+			if (dwIndex % 2 == 0)
+			{
+				m_iOptionArray[dwIndex]= 1;
+			}
+			else
+			{
+				m_iOptionArray[dwIndex] = 0;
+			}
+
+
+
 		}
 	}
 
@@ -248,5 +266,6 @@ void CTerrainMoveTex::Free(void)
 	if (false == m_bClone) // 원본 컴포넌트를 삭제할 때 메모리 해제
 	{
 		Safe_Delete_Array(m_pPos);
+		Safe_Delete_Array(m_iOptionArray);
 	}
 }

@@ -31,7 +31,7 @@ HRESULT CLogo::Ready_Scene(void)
 	FAILED_CHECK_RETURN(Ready_Proto(), E_FAIL);
 	
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(L"Ready_Layer_Environment"), E_FAIL);
-											// LOADING_STAGE  LOADING_TOOL ,SCENE_MINISTAGE3
+											// LOADING_STAGE  LOADING_TOOL ,LOADING_MINISTAGE3
 	m_pLoading = CLoading::Create(m_pGraphicDev, LOADING_STAGE);
 	NULL_CHECK_RETURN(m_pLoading, E_FAIL);
 	

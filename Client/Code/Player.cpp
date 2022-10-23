@@ -233,10 +233,7 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 	m_pDynamicTransCom->Get_Info(INFO_UP, &m_vUp);
 	m_pDynamicTransCom->Get_Info(INFO_POS, &m_vPos);
 
-	if (Get_DIKeyState(DIK_L) & 0X80)
-	{
-		cout << m_pInfoCom->Get_Hp() << endl;
-	}
+
 
 	if (Get_DIKeyState(DIK_W) & 0X80)
 	{
@@ -401,8 +398,6 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 	{
 		m_pInfoCom->Get_InfoRef()._iHp += 10000;
 
-		//Player_Dead(fTimeDelta);
-		//m_pInfoCom->Get_InfoRef()._iHp -= 25;
 	}
 	Engine::Key_InputReset();
 }

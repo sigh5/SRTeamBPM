@@ -208,7 +208,7 @@ HRESULT CBox::SetUp_Material(void)
 	_vec3 vPlayerPos, vPos;
 
 	CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
-	NULL_CHECK(pPlayerTransformCom);
+	NULL_CHECK_RETURN(pPlayerTransformCom,E_FAIL);
 
 	pPlayerTransformCom->Get_Info(INFO_POS, &vPlayerPos);
 	m_pTransCom->Get_Info(INFO_POS, &vPos);
@@ -243,6 +243,8 @@ HRESULT CBox::SetUp_Material(void)
 
 
 	m_pGraphicDev->SetMaterial(&tMtrl);
+
+	return S_OK;
 }
 
 void CBox::Set_Light_Obj()

@@ -65,7 +65,10 @@ public:
 	void					Add_ControlRoomList(CGameObject* pControlRoom) { m_ControlRoomList.push_back(pControlRoom); }
 	void					Add_EffectList(CGameObject* pEffectObject) { m_EffectList.push_back(pEffectObject); }
 
-public:
+
+
+
+
 	
 private:
 	map<const _tchar*, CGameObject*>			m_mapObject;
