@@ -316,7 +316,6 @@
       <Filter>02. GameObject\01. For_Stage\10. UI\14. QuizBox</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Helmet.cpp" />
-    <ClCompile Include="..\Code\MiniStage1.cpp" />
     <ClCompile Include="..\Code\BackButton.cpp">
       <Filter>02. GameObject\00. For_Logo\01. Button\03. BackButton</Filter>
     </ClCompile>
@@ -374,9 +373,6 @@
     <ClCompile Include="..\Code\Currect_Answer.cpp" />
     <ClCompile Include="..\Code\DefBar.cpp" />
     <ClCompile Include="..\Code\Gacha_Machine.cpp" />
-    <ClCompile Include="..\Code\MiniGame3.cpp" />
-    <ClCompile Include="..\Code\MiniPlayer.cpp" />
-    <ClCompile Include="..\Code\MiniTerrain.cpp" />
     <ClCompile Include="..\Code\QuestProcessing_UI.cpp" />
     <ClCompile Include="..\Code\Skill_UI.cpp" />
     <ClCompile Include="..\Code\ThunderHand.cpp" />
@@ -400,6 +396,31 @@
     </ClCompile>
     <ClCompile Include="..\Code\FinalBossBullet.cpp">
       <Filter>02. GameObject\01. For_Stage\02. Monster\10. FinalBos</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Hit_Screen.cpp" />
+    <ClCompile Include="..\Code\StageTerrain.cpp" />
+    <ClCompile Include="..\Code\ThunderPic.cpp" />
+    <ClCompile Include="..\Code\UI_Timer.cpp" />
+    <ClCompile Include="..\Code\MiniGame1Pic.cpp">
+      <Filter>01. Scene\02. MiniStage\Mini1</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MiniGame3.cpp">
+      <Filter>01. Scene\02. MiniStage\Mini3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MiniPlayer.cpp">
+      <Filter>01. Scene\02. MiniStage\Mini3\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MiniStage1.cpp">
+      <Filter>01. Scene\02. MiniStage\Mini1</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MagneticField.cpp">
+      <Filter>01. Scene\02. MiniStage\Mini3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MiniTerrain.cpp">
+      <Filter>01. Scene\02. MiniStage\Mini3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MonsterMini.cpp">
+      <Filter>01. Scene\02. MiniStage\Mini3</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -737,7 +758,6 @@
       <Filter>02. GameObject\01. For_Stage\10. UI\14. QuizBox</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Helmet.h" />
-    <ClInclude Include="..\Header\MiniStage1.h" />
     <ClInclude Include="..\Header\BackButton.h">
       <Filter>02. GameObject\00. For_Logo\01. Button\03. BackButton</Filter>
     </ClInclude>
@@ -795,10 +815,7 @@
     <ClInclude Include="..\Header\Currect_Answer.h" />
     <ClInclude Include="..\Header\DefBar.h" />
     <ClInclude Include="..\Header\Gacha_Machine.h" />
-    <ClInclude Include="..\Header\MiniGame3.h" />
-    <ClInclude Include="..\Header\MiniPlayer.h" />
     <ClInclude Include="..\Header\MiniStage3PreHeader.h" />
-    <ClInclude Include="..\Header\MiniTerrain.h" />
     <ClInclude Include="..\Header\QuestProcessing_UI.h" />
     <ClInclude Include="..\Header\Skill_UI.h" />
     <ClInclude Include="..\Header\ThunderHand.h" />
@@ -822,6 +839,31 @@
     </ClInclude>
     <ClInclude Include="..\Header\FinalBossBullet.h">
       <Filter>02. GameObject\01. For_Stage\02. Monster\10. FinalBos</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Hit_Screen.h" />
+    <ClInclude Include="..\Header\StageTerrain.h" />
+    <ClInclude Include="..\Header\ThunderPic.h" />
+    <ClInclude Include="..\Header\UI_Timer.h" />
+    <ClInclude Include="..\Header\MiniGame1Pic.h">
+      <Filter>01. Scene\02. MiniStage\Mini1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\MiniGame3.h">
+      <Filter>01. Scene\02. MiniStage\Mini3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\MiniPlayer.h">
+      <Filter>01. Scene\02. MiniStage\Mini3\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\MiniStage1.h">
+      <Filter>01. Scene\02. MiniStage\Mini1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\MagneticField.h">
+      <Filter>01. Scene\02. MiniStage\Mini3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\MiniTerrain.h">
+      <Filter>01. Scene\02. MiniStage\Mini3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\MonsterMini.h">
+      <Filter>01. Scene\02. MiniStage\Mini3</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1159,6 +1201,18 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\14. Equipment\02. Pet">
       <UniqueIdentifier>{ce2111e0-7f46-414f-9ae3-1fb08de0345f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\02. MiniStage">
+      <UniqueIdentifier>{2182419e-95b5-406c-afd1-627db9732430}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\02. MiniStage\Mini1">
+      <UniqueIdentifier>{0e7939ba-ba2f-4e04-896f-1abe3eaad24d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\02. MiniStage\Mini3">
+      <UniqueIdentifier>{37661319-2ff3-4e85-9040-eefe7064cc10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\02. MiniStage\Mini3\Player">
+      <UniqueIdentifier>{c1dbb3c7-8d0c-4076-b707-2e313906f92d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
