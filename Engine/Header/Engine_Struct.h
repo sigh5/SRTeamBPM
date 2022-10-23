@@ -68,6 +68,8 @@ namespace Engine
 		int _iCoin;
 		int _iKey;
 		float _fSpeed;
+
+		int _iDefense;
 	}CharacterInfo;
 
 
@@ -108,6 +110,8 @@ namespace Engine
 		_vec3 vMin;
 		_vec3 vMax;
 	};
+
+
 }
 
 

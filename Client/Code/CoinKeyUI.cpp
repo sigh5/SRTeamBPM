@@ -95,7 +95,7 @@ void CCoinKeyUI::Render_Obejct(void)
 		m_szCoin += tBCoin;
 
 		if (pShopUI->Get_Active() == false)
-		Render_Font(L"HoengseongHanu", m_szCoin.c_str(), &_vec2(133.f, 680.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+		Render_Font(L"HoengseongHanu", m_szCoin.c_str(), &_vec2(125.f, 680.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 		// ~Coin
 
 		// Key

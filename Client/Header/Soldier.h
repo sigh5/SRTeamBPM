@@ -42,5 +42,7 @@ private:
 	bool	m_bReadyAttackSound = false;
 	bool	m_bAttackSound = false;
 	bool	m_bAttackSound2 = false;
+
+	int		m_iRepeatAttack = 0;
 };
 

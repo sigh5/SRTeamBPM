@@ -43,7 +43,9 @@ _int CStatus_UI::Update_Object(const _float & fTimeDelta)
 
 	m_iPlayerSpeed = (_uint)static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._fSpeed;
 
+	m_iPlayerRange = MAX_CROSSROAD + (_uint)g_fRange;
 
+	m_iPlayerDef = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._iDefense;
 
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
@@ -117,15 +119,30 @@ void CStatus_UI::Render_Obejct(void)
 
 
 		// Player's Luck
+		
+		_tchar	tDef[MAX_PATH];
+		swprintf_s(tDef, L"%d", m_iPlayerDef);
+		m_szDefense = L"";
+		m_szDefense += tDef;
 
-		_tchar szLuck[128] = L"青款";
+		Render_Font(L"BMYEONSUNG", m_szDefense.c_str(), &_vec2(376.f, 670.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 
-		Render_Font(L"DalseoHealingBold", szLuck, &_vec2(378.f, 620.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+
+		_tchar szLuck[128] = L"规绢仿";
+
+		Render_Font(L"DalseoHealingBold", szLuck, &_vec2(364.f, 620.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 
 		// ~Player's Luck
 
 
 		// Player's Gun Range
+
+		_tchar	tRange[MAX_PATH];
+		swprintf_s(tRange, L"%d", m_iPlayerRange);
+		m_szRange = L"";
+		m_szRange += tRange;
+
+		Render_Font(L"BMYEONSUNG", m_szRange.c_str(), &_vec2(296.f, 500.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 
 		_tchar szRange[128] = L"荤芭府";
 

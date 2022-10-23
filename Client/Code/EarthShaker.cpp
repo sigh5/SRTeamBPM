@@ -220,7 +220,7 @@ void CEarthShaker::Collision_Event()
 	_vec3 PickPos;
 
 	if (static_cast<CGun_Screen*>(pGameObject)->Get_Shoot() == true &&
-		fMtoPDistance < MAX_CROSSROAD &&
+		fMtoPDistance < MAX_CROSSROAD + g_fRange &&
 		m_pColliderCom->Check_Lay_InterSect(m_pBufferCom, m_pDynamicTransCom, g_hWnd))
 	{
 		m_bHit = true;
@@ -239,17 +239,17 @@ void CEarthShaker::Collision_Event()
 			{
 			case 0:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Croccman_pain_01.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Croccman_pain_01.wav", SOUND_MONSTER, g_fSound);
 				break;
 
 			case 1:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Croccman_pain_02.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Croccman_pain_02.wav", SOUND_MONSTER, g_fSound);
 				break;
 
 			case 2:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Croccman_pain_03.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Croccman_pain_03.wav", SOUND_MONSTER, g_fSound);
 				break;
 			}
 		}
@@ -268,16 +268,16 @@ bool CEarthShaker::Dead_Judge(const _float & fTimeDelta)
 			{
 			case 0:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Croccman_death_01.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Croccman_death_01.wav", SOUND_MONSTER, g_fSound);
 				break;
 			case 1:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Croccman_death_02.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Croccman_death_02.wav", SOUND_MONSTER, g_fSound);
 				break;
 
 			case 2:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Croccman_death_03.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Croccman_death_03.wav", SOUND_MONSTER, g_fSound);
 				break;
 			}
 			Drop_Item(rand() % 3);
@@ -333,17 +333,17 @@ void		CEarthShaker::Attack(const _float& fTimeDelta)
 			{
 			case 0:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Croccman_attack_01.wav", SOUND_MONSTER, 0.5f);
+				::PlaySoundW(L"Croccman_attack_01.wav", SOUND_MONSTER, g_fSound);
 				break;
 
 			case 1:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Croccman_attack_02.wav", SOUND_MONSTER, 0.5f);
+				::PlaySoundW(L"Croccman_attack_02.wav", SOUND_MONSTER, g_fSound);
 				break;
 
 			case 2:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Croccman_attack_02.wav", SOUND_MONSTER, 0.5f);
+				::PlaySoundW(L"Croccman_attack_02.wav", SOUND_MONSTER, g_fSound);
 				break;
 			}
 			m_bAttackSound = true;
@@ -378,7 +378,7 @@ void		CEarthShaker::Attack(const _float& fTimeDelta)
 		if (false == m_bQoongSound)
 		{
 			::StopSound(SOUND_MONSTER);
-			::PlaySoundW(L"Qoong.wav", SOUND_MONSTER, 0.4f);
+			::PlaySoundW(L"Qoong.wav", SOUND_MONSTER, g_fSound);
 			m_bQoongSound = true;
 		}
 	}
@@ -531,6 +531,17 @@ void CEarthShaker::NoHit_Loop(const _float& fTimeDelta)
 	}
 }
 
+void CEarthShaker::Hit_Loop(const _float & fTimeDelta)
+{
+	m_pAnimationCom->m_iMotion = 7;
+	m_fHitDelay += fTimeDelta;
+	if (m_fHitDelay > 1.5f)
+	{
+		m_bHit = false;
+		m_fHitDelay = 0.f;
+	}
+}
+
 void CEarthShaker::Excution_Event()
 {
 	if (!m_bDead && 1 >= m_pInfoCom->Get_Hp())
@@ -569,10 +580,9 @@ void	CEarthShaker::SpikeUpdateLoop(const _float& fTimeDelta)
 			if (fDistance > (*iter)->Get_Distance())
 			{
 				fDistance = (*iter)->Get_Distance();
-	}
+			}
 			++iter;
 		}
-
 	}
 	if (0 != m_Spikelist.size())
 	{

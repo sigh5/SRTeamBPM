@@ -39,7 +39,7 @@ HRESULT CSoldier::Ready_Object(float Posx, float Posz)
 	m_pAttackAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_STATIC);
 
 	m_iMonsterIndex = MONSTER_SOLDIER;
-	m_fAttackDelay = 0.4f;
+	m_fAttackDelay = 1.f;
 	m_pInfoCom->Ready_CharacterInfo(1, 10, 4.f);
 	m_pAnimationCom->Ready_Animation(6, 1, 0.3f);
 	m_pAttackAnimationCom->Ready_Animation(11, 0, 0.2f);
@@ -210,7 +210,7 @@ void CSoldier::Collision_Event()
 	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
 
 	if (static_cast<CGun_Screen*>(pGameObject)->Get_Shoot() &&
-		fMtoPDistance < MAX_CROSSROAD  &&
+		fMtoPDistance < MAX_CROSSROAD + g_fRange  &&
 		m_pColliderCom->Check_Lay_InterSect(m_pBufferCom, m_pDynamicTransCom, g_hWnd))
 	{
 		m_bHit = true;
@@ -229,17 +229,17 @@ void CSoldier::Collision_Event()
 			{
 			case 0:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Soldier_Pain_01.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Soldier_Pain_01.wav", SOUND_MONSTER, g_fSound);
 				break;
 
 			case 1:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Soldier_Pain_02.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Soldier_Pain_02.wav", SOUND_MONSTER, g_fSound);
 				break;
 
 			case 2:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Soldier_Pain_03.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Soldier_Pain_03.wav", SOUND_MONSTER, g_fSound);
 				break;
 			}
 		}
@@ -267,7 +267,7 @@ void CSoldier::Excution_Event(_bool bAOE)
 		READY_CREATE_EFFECT_VECTOR(pGameObject, CSpecial_Effect, pLayer, m_pGraphicDev, vPos);
 		static_cast<CSpecial_Effect*>(pGameObject)->Set_Effect_INFO(OWNER_PALYER, 0, 17, 0.2f);
 
-		::PlaySoundW(L"explosion_1.wav", SOUND_EFFECT, 0.05f); // BGM
+		::PlaySoundW(L"explosion_1.wav", SOUND_EFFECT, g_fSound); // BGM
 
 	}
 }
@@ -283,15 +283,15 @@ bool CSoldier::Dead_Judge(const _float & fTimeDelta)
 			{
 			case 0:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Soldier_Deth_01.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Soldier_Deth_01.wav", SOUND_MONSTER, g_fSound);
 				break;
 			case 1:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Soldier_Deth_02.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Soldier_Deth_02.wav", SOUND_MONSTER, g_fSound);
 				break;
 			case 2:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Soldier_Deth_03.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Soldier_Deth_03.wav", SOUND_MONSTER, g_fSound);
 				break;
 			}
 			Drop_Item(rand() % 3);
@@ -384,7 +384,13 @@ void CSoldier::Attack(const _float & fTimeDelta)
 		m_bShotBullet = true;
 
 		::StopSound(SOUND_EFFECT2);
-		::PlaySoundW(L"LaserGun.wav", SOUND_EFFECT2, 0.4f);
+		::PlaySoundW(L"LaserGun.wav", SOUND_EFFECT2, g_fSound);
+	}
+	if (7 == m_pAttackAnimationCom->m_iMotion && m_iRepeatAttack < 3)
+	{
+		m_iRepeatAttack++;
+		m_pAttackAnimationCom->m_iMotion = 4;
+		m_bShotBullet = false;
 	}
 	if (m_pAttackAnimationCom->m_iMotion >= m_pAttackAnimationCom->m_iMaxMotion)
 	{

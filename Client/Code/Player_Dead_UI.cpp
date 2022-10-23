@@ -63,6 +63,9 @@ _int CPlayer_Dead_UI::Update_Object(const _float & fTimeDelta)
 			_uint iB = 0;
 
 		}
+
+		if (m_bBGM)
+			Engine::StopSound(SOUND_EFFECT);
 	
 	return iResult;
 }

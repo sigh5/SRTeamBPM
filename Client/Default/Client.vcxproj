@@ -192,6 +192,7 @@
     <ClInclude Include="..\Header\ControlRoom.h" />
     <ClInclude Include="..\Header\Currect_Answer.h" />
     <ClInclude Include="..\Header\DashUI.h" />
+    <ClInclude Include="..\Header\DefBar.h" />
     <ClInclude Include="..\Header\DynamicCamera.h" />
     <ClInclude Include="..\Header\EarthShaker.h" />
     <ClInclude Include="..\Header\EarthSpike.h" />
@@ -201,10 +202,12 @@
     <ClInclude Include="..\Header\FatBat.h" />
     <ClInclude Include="..\Header\FileIOMgr.h" />
     <ClInclude Include="..\Header\FinalBoss.h" />
+    <ClInclude Include="..\Header\FinalBossBullet.h" />
     <ClInclude Include="..\Header\FirePillar.h" />
     <ClInclude Include="..\Header\FireTrap.h" />
     <ClInclude Include="..\Header\FireWorks.h" />
     <ClInclude Include="..\Header\Gacha_Machine.h" />
+    <ClInclude Include="..\Header\Flare.h" />
     <ClInclude Include="..\Header\Ghul.h" />
     <ClInclude Include="..\Header\Gun_Screen.h" />
     <ClInclude Include="..\Header\HarpoonBullet.h" />
@@ -258,6 +261,7 @@
     <ClInclude Include="..\Header\ShotGun.h" />
     <ClInclude Include="..\Header\SkillEffct.h" />
     <ClInclude Include="..\Header\SkillParticle.h" />
+    <ClInclude Include="..\Header\Skill_UI.h" />
     <ClInclude Include="..\Header\SkyBox.h" />
     <ClInclude Include="..\Header\Snowfall.h" />
     <ClInclude Include="..\Header\Soldier.h" />
@@ -277,8 +281,10 @@
     <ClInclude Include="..\Header\Status_UI.h" />
     <ClInclude Include="..\Header\TapeWorm.h" />
     <ClInclude Include="..\Header\TeleCube.h" />
+    <ClInclude Include="..\Header\Tentacle.h" />
     <ClInclude Include="..\Header\Terrain.h" />
     <ClInclude Include="..\Header\ThunderHand.h" />
+    <ClInclude Include="..\Header\ThingySpike.h" />
     <ClInclude Include="..\Header\ToolTest.h" />
     <ClInclude Include="..\Header\UI_Effect.h" />
     <ClInclude Include="..\Header\UI_Frame.h" />
@@ -330,6 +336,7 @@
     <ClCompile Include="..\Code\ControlRoom.cpp" />
     <ClCompile Include="..\Code\Currect_Answer.cpp" />
     <ClCompile Include="..\Code\DashUI.cpp" />
+    <ClCompile Include="..\Code\DefBar.cpp" />
     <ClCompile Include="..\Code\DynamicCamera.cpp" />
     <ClCompile Include="..\Code\EarthShaker.cpp" />
     <ClCompile Include="..\Code\EarthSpike.cpp" />
@@ -339,10 +346,12 @@
     <ClCompile Include="..\Code\FatBat.cpp" />
     <ClCompile Include="..\Code\FileIOMgr.cpp" />
     <ClCompile Include="..\Code\FinalBoss.cpp" />
+    <ClCompile Include="..\Code\FinalBossBullet.cpp" />
     <ClCompile Include="..\Code\FirePillar.cpp" />
     <ClCompile Include="..\Code\FireTrap.cpp" />
     <ClCompile Include="..\Code\FireWorks.cpp" />
     <ClCompile Include="..\Code\Gacha_Machine.cpp" />
+    <ClCompile Include="..\Code\Flare.cpp" />
     <ClCompile Include="..\Code\Ghul.cpp" />
     <ClCompile Include="..\Code\Gun_Screen.cpp" />
     <ClCompile Include="..\Code\HarpoonBullet.cpp" />
@@ -395,6 +404,7 @@
     <ClCompile Include="..\Code\ShotGun.cpp" />
     <ClCompile Include="..\Code\SkillEffct.cpp" />
     <ClCompile Include="..\Code\SkillParticle.cpp" />
+    <ClCompile Include="..\Code\Skill_UI.cpp" />
     <ClCompile Include="..\Code\SkyBox.cpp" />
     <ClCompile Include="..\Code\Snowfall.cpp" />
     <ClCompile Include="..\Code\Soldier.cpp" />
@@ -413,8 +423,10 @@
     <ClCompile Include="..\Code\Status_UI.cpp" />
     <ClCompile Include="..\Code\TapeWorm.cpp" />
     <ClCompile Include="..\Code\TeleCube.cpp" />
+    <ClCompile Include="..\Code\Tentacle.cpp" />
     <ClCompile Include="..\Code\Terrain.cpp" />
     <ClCompile Include="..\Code\ThunderHand.cpp" />
+    <ClCompile Include="..\Code\ThingySpike.cpp" />
     <ClCompile Include="..\Code\ToolTest.cpp" />
     <ClCompile Include="..\Code\UI_Effect.cpp" />
     <ClCompile Include="..\Code\UI_Frame.cpp" />

@@ -5,6 +5,7 @@
 #include "AbstractFactory.h"
 #include "ObjectMgr.h"
 #include "MyCamera.h"
+#include "Player.h"
 
 CSphinxBullet::CSphinxBullet(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CBaseBullet(pGraphicDev)
@@ -47,7 +48,7 @@ _int CSphinxBullet::Update_Object(const _float & fTimeDelta)
 	_vec3 vPos = m_pTransCom->m_vInfo[INFO_POS];
 	m_fFrame += fTimeDelta;
 
-	if (m_fFrame > 3.f)
+	if (m_fFrame > 8.f)
 	{
 		m_bHitPlayer = false;
 		CObjectMgr::GetInstance()->Collect_SphinxBulletObj(this);
@@ -61,12 +62,14 @@ _int CSphinxBullet::Update_Object(const _float & fTimeDelta)
 	CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
 	CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
 	_vec3 vPlayerPos = pPlayerTransformCom->m_vInfo[INFO_POS];
+	CPlayer* pPlayer = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
 
 	float fDistance = sqrtf((powf(vPos.x - vPlayerPos.x, 2) + powf(vPos.y - vPlayerPos.y, 2) + powf(vPos.z - vPlayerPos.z, 2)));
 
 	if (fDistance < 1.5f && false == m_bHitPlayer)
 	{
 		pPlayerInfo->Receive_Damage(10);
+		pPlayer->Set_DefenseToHp(true);
 		m_bHitPlayer = true;
 	}
 	if (vPos.y <= 0.f)
@@ -76,7 +79,7 @@ _int CSphinxBullet::Update_Object(const _float & fTimeDelta)
 		if (false == m_bExplosionSound)
 		{
 			::StopSound(SOUND_EXPLOSION);
-			::PlaySoundW(L"explosion_2.wav", SOUND_EXPLOSION, 0.3f);
+			::PlaySoundW(L"explosion_2.wav", SOUND_EXPLOSION, g_fSound);
 			m_bExplosionSound = true;
 		}
 		if (m_pDeadAnimationCom->m_iMotion == m_pDeadAnimationCom->m_iMaxMotion)
@@ -92,12 +95,12 @@ _int CSphinxBullet::Update_Object(const _float & fTimeDelta)
 	}
 	else
 	{
-		m_pTransCom->Move_Pos(&(m_MoveDir * 2.f * fTimeDelta));
+		m_pTransCom->Move_Pos(&(m_MoveDir * 18.f * fTimeDelta));
 	}
 
 	Engine::CBaseBullet::Update_Object(fTimeDelta);
 
-	Add_RenderGroup(RENDER_NONALPHA, this);
+	Add_RenderGroup(RENDER_ALPHA, this);
 
 	return 0;
 }

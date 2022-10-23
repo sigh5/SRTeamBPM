@@ -188,7 +188,7 @@ void CMagnum::Change_Equip()
 	CInventory_UI* pInven = static_cast<CInventory_UI*>(Get_GameObject(L"Layer_UI", L"InventoryUI"));
 	pInven->Set_CurrentEquipWeapon(this);
 
-
+	g_fRange = 0.f;
 }
 
 void CMagnum::Set_MouseToInventory() // 누르면 걍 따라오는 함수

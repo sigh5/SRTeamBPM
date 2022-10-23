@@ -114,6 +114,10 @@ _uint CLoading::Loading_ForStage(void)
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Thingy_AttackC_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Thingy/thingyattackC%d.png", TEX_NORMAL, 14)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Thingy_Morph_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Thingy/thingy_morph%d.png", TEX_NORMAL, 18)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Thingy_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Thingy/thingy%d.png", TEX_NORMAL, 7)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Thingy_spike_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Thingy/thingy_spike%d.png", TEX_NORMAL, 20)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Thingy_tentacle_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Thingy/thingy_tentacle%d.png", TEX_NORMAL, 18)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Thingy_Onekiok_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Thingy/Onekiok/Onekiok%d.png", TEX_NORMAL, 13)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Thingy_Death_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Thingy/thingy_death%d.png", TEX_NORMAL, 10)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_TapeWorm_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/TapeWorm/tapeworm%d.png", TEX_NORMAL, 28)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_TapeWorm_death_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/TapeWorm/tapeworm_death%d.png", TEX_NORMAL, 6)), E_FAIL);
 	
@@ -122,7 +126,7 @@ _uint CLoading::Loading_ForStage(void)
 	// _UI																								
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_BulletUI_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Bullet_UI/Bullet_UI%d.png", TEX_NORMAL, 9)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_WeaponUI_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Weapon_UI/Weapon%d.png", TEX_NORMAL, 2)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_HpBar_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/HpBar/HpBar%d.png", TEX_NORMAL, 5)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_HpBar_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/HpBar/HpBar%d.png", TEX_NORMAL, 11)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_StatusUI_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Status/Status_UI1.png", TEX_NORMAL)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Coin_KeyUI_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Status/Key_Coin_UI.png", TEX_NORMAL)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ArrowTexCom", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Arrow/Arrow%d.png", TEX_NORMAL, 6)), E_FAIL);
@@ -156,8 +160,11 @@ _uint CLoading::Loading_ForStage(void)
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_CurrectUI_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Currect/Currect%d.png", TEX_NORMAL, 6)), E_FAIL);
 	// AX 
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_AX_ScreenTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Weapon_UI/AX/AX_%d.png", TEX_NORMAL, 10)), E_FAIL);
-
+																										// \Bin\Resource\Texture\HpBar\DefBar
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_DefBar_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/HpBar/DefBar/DefBar%d.png", TEX_NORMAL, 11)), E_FAIL);
 	
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Skill_Icon_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Skill_Icon.png", TEX_NORMAL)), E_FAIL);
+
 	// ~UI
 
 	// Box
@@ -171,6 +178,7 @@ _uint CLoading::Loading_ForStage(void)
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_RainTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Rain/Droplet.png", TEX_NORMAL, 1)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Eletric_Particle_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Electric/Electric_Particle.png", TEX_NORMAL)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_FireworksTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Effect/Fireworks%d.png", TEX_NORMAL, 7)), E_FAIL);
+	
 	// ~particle
 
 
@@ -218,7 +226,7 @@ _uint CLoading::Loading_ForStage(void)
 	
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_OverKillTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Overkill/overkill_%d.png", TEX_NORMAL,18)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_DashingEffectTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Dashing/Dashing_%d.png", TEX_NORMAL,5)), E_FAIL);
-	
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Flaretexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Effect/flare%d.png", TEX_NORMAL, 6)), E_FAIL);
 	// 
 
 	//Shader
@@ -244,6 +252,9 @@ _uint CLoading::Loading_ForStage(void)
 	//~pet
 
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_KeyTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Item/Key.png", TEX_NORMAL)), E_FAIL);
+	
+	// CoinSlot																						// \Bin\Resource\Texture\CoinSlot
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_CoinSlotTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/CoinSlot/CoinSlot%d.png", TEX_NORMAL, 2)), E_FAIL);
 
 	m_bFinish = true;
 

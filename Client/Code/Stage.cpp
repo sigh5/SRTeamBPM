@@ -4,10 +4,7 @@
 #include "Export_Function.h"
 
 #include "Stage1PreHeader.h"
-#include "SkillParticle.h"
-#include "FireWorks.h"
-#include "PetYeti.h"
-#include "EquipYeti.h"
+
 
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -205,6 +202,11 @@ HRESULT CStage::Ready_Layer_GameLogic(const _tchar * pLayerTag)
 	pGameObject = CBox::Create(m_pGraphicDev, 327, 330);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Box3", pGameObject), E_FAIL);
+
+	pGameObject = CGacha_Machine::Create(m_pGraphicDev, 333, 308);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"CoinSlot", pGameObject), E_FAIL);
+
 	
 	pGameObject = CNpc::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
@@ -314,6 +316,10 @@ HRESULT CStage::Ready_Layer_Icon(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"HpBar", pGameObject), E_FAIL);
 
+	pGameObject = CDefBar::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"DefBar", pGameObject), E_FAIL);
+
 	pGameObject = CCoinKeyUI::Create(m_pGraphicDev, pPlayer);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"CoinKey_UI", pGameObject), E_FAIL);
@@ -321,6 +327,10 @@ HRESULT CStage::Ready_Layer_Icon(const _tchar * pLayerTag)
 	pGameObject = CDashUI::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"DashUI", pGameObject), E_FAIL);
+
+	pGameObject = CSkill_UI::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Skill_UI", pGameObject), E_FAIL);
 
 	m_mapLayer.insert({ pLayerTag, pLayer });
 

@@ -44,7 +44,7 @@ private: // Status 각 요소에 쓰는 폰트
 	wstring				m_szPower = L"";		  // Player's Bullet Power
 	wstring				m_szSkillPower = L"";	  // Player's Acquired Skill's Power (if Library Open, Get Random Skill Book. Skill is a Click to DIK_LB)
 	wstring				m_szSPeed = L"";		  // Player's Speed (Boots Item Acquired -> Speed Increase)
-	wstring				m_szLuck = L"";			  // Item's Drop Percentage Increase
+	wstring				m_szDefense = L"";			  // Item's Drop Percentage Increase
 	wstring				m_szCritical = L"";		  // empty 
 	wstring				m_szRange = L"";		  // Gun's Max Range 
 
@@ -55,6 +55,9 @@ private: // Status 각 요소에 쓰는 폰트
 
 	_uint m_iPlayerSpeed = 0;
 
+	_uint m_iPlayerRange = 0;
+
+	_uint m_iPlayerDef = 0;
 
 public:
 	static CStatus_UI*		Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* pPlayer);

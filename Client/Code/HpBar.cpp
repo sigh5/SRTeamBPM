@@ -32,10 +32,10 @@ HRESULT CHpBar::Ready_Object(CGameObject * pPlayer)
 
 	Set_OrthoMatrix(300.f, 300.f, 0.f, 0.f);
 
-	m_vecScale = { m_fSizeX * 0.85f, m_fSizeY * 1.f, 1.f };
+	m_vecScale = { m_fSizeX * 0.85f, m_fSizeY * 0.9f, 1.f };
 
 	m_pTransCom->Set_Scale(&m_vecScale);
-	m_pTransCom->Set_Pos(m_fX - 365.f, m_fY - 385.f, 0.1f);
+	m_pTransCom->Set_Pos(m_fX - 375.f, m_fY - 345.f, 0.1f);
 
 	m_pPlayer = pPlayer;
 
@@ -43,7 +43,7 @@ HRESULT CHpBar::Ready_Object(CGameObject * pPlayer)
 
 	m_iHpFont = 0;
 
-	m_pAnimationCom->Ready_Animation(5, 0, 0.2f, 4);
+	m_pAnimationCom->Ready_Animation(10, 0, 0.2f, 10);
 
 	return S_OK;
 }
@@ -52,19 +52,19 @@ _int CHpBar::Update_Object(const _float & fTimeDelta)
 {
 	CPlayer* pPlayer = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
 	
-	m_iPlayerHp = (pPlayer->Get_HpChange()) / 25;
+	m_iPlayerHp = (pPlayer->Get_HpChange()) / 10;
 				// 24/25 = 0.96 // 0/25 = 0
 
 	//m_iHpFont = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._iHp;
 
-	if (m_pAnimationCom->m_iMotion == 4)
+	/*if (m_pAnimationCom->m_iMotion == 4)
 	{
 		if (Engine::Key_Down(DIK_M)) 
 		{
 			m_pAnimationCom->m_iMotion = 0;
 		}
 		Engine::Key_InputReset();
-	}
+	}*/ 
 
 	m_pAnimationCom->Control_Animation(m_iPlayerHp);
 	
@@ -114,7 +114,9 @@ void CHpBar::Render_Obejct(void)
 		m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 		m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-		_uint iHpFont = dynamic_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC))->Get_Hp();
+		_uint iHpFont = dynamic_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._iHp;
+
+		//cout << "ÆùÆ® : " << iHpFont << endl;
 
 		_tchar	tPlayerHp[MAX_PATH];
 		swprintf_s(tPlayerHp, L"%d / 100", iHpFont);
@@ -122,9 +124,11 @@ void CHpBar::Render_Obejct(void)
 		m_szPlayerHp += tPlayerHp;
 
 		if (pShopUI->Get_Active() == false)
-		Render_Font(L"DalseoHealingBold", m_szPlayerHp.c_str(), &_vec2(190.f, 940.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+		Render_Font(L"DalseoHealingBold", m_szPlayerHp.c_str(), &_vec2(190.f, 950.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 		
 		m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);
+
+		//cout << m_pAnimationCom->m_iMotion << endl;
 
 		m_pBufferCom->Render_Buffer();
 

@@ -24,5 +24,7 @@ private:
 	CTexture* m_pTextureCom = nullptr;
 	CTransform* m_pTransform = nullptr;
 	CAnimation* m_pAnimationCom = nullptr;
+
+	bool		m_bSound = false;
 };
 

@@ -447,16 +447,41 @@ _bool CCollider::Check_Collsion_CubeAABB(CCollider * CWallCollider, CGameObject 
 	CDynamic_Transform* pTrasform = dynamic_cast<CDynamic_Transform*>(pPlayer->Get_Component(L"Proto_DynamicTransformCom", ID_DYNAMIC));
 	if (pPlayerColider == nullptr)
 		return false;
+	_vec3 vIntersect{ 0.f,0.f,0.f };
 
-	if (Check_Collsion_AABB(CWallCollider, pPlayerColider))
+	if (Check_Collsion_AABB(CWallCollider, pPlayerColider, &vIntersect))
 	{
 		_vec3 vDirection, vUp, vPos, vRight;
 
 		pTrasform->Get_Info(INFO_LOOK, &vDirection);
 		pTrasform->Get_Info(INFO_UP, &vUp);
 		pTrasform->Get_Info(INFO_POS, &vPos);
-
-		pTrasform->Move_Pos(&pTrasform->Get_CounterMovePos());
+		_vec3 vDir;
+		
+		//x y z 를 비교해서 겹치는 만큼만 밀어내야함
+		if (vIntersect.x > vIntersect.z) //x가 더 큼 = z부분으로 부딪혔을 가능성이 큼
+		{
+			if (pPlayerColider->m_vCenter.z > CWallCollider->m_vCenter.z)
+			{
+				pTrasform->Move_Pos(&_vec3(0.f, 0.f, vIntersect.z));
+			}
+			else
+			{
+				pTrasform->Move_Pos(&_vec3(0.f, 0.f, -vIntersect.z));
+			}
+		}
+		else
+		{
+			if (pPlayerColider->m_vCenter.x > CWallCollider->m_vCenter.x)
+			{
+				pTrasform->Move_Pos(&_vec3(vIntersect.x, 0.f, 0.f));
+			}
+			else
+			{
+				pTrasform->Move_Pos(&_vec3(-vIntersect.x, 0.f, 0.f));
+			}
+		}
+		//pTrasform->Move_Pos(&vIntersect);
 
 		pTrasform->Update_Component(1.f);
 
@@ -467,32 +492,52 @@ _bool CCollider::Check_Collsion_CubeAABB(CCollider * CWallCollider, CGameObject 
 	return false;
 }
 
-_bool CCollider::Check_Collsion_AABB(CCollider * CWallCollider, CCollider * pDest)
+_bool CCollider::Check_Collsion_AABB(CCollider * CWallCollider, CCollider * pDest, _vec3* _vReturnvec)
 {
-	_vec3 vWallPos,pDestPos;
-	memcpy(&vWallPos , &CWallCollider->m_HitBoxWolrdmat._41,sizeof(_vec3));
-	memcpy(&pDestPos, &pDest->m_HitBoxWolrdmat._41, sizeof(_vec3));
-	
+//	_vec3 vWallPos,pDestPos;
+//	memcpy(&vWallPos , &CWallCollider->m_HitBoxWolrdmat._41,sizeof(_vec3));
+//	memcpy(&pDestPos, &pDest->m_HitBoxWolrdmat._41, sizeof(_vec3));
+//	
+//
+//
+//	/*_vec3 vMinWall = CWallCollider->m_vMin;
+//	_vec3 vMinDest = pDest->m_vMin;
+//	_vec3 vMaxWall = CWallCollider->m_vMax;
+//	_vec3 vMaxDest = pDest->m_vMax;
+//*/
+//	_vec3 vMinWall = { vWallPos.x - (1 * CWallCollider->m_HitBoxWolrdmat._11), vWallPos.y - (1 * CWallCollider->m_HitBoxWolrdmat._22) ,vWallPos.z - (1 * CWallCollider->m_HitBoxWolrdmat._33) };
+//	_vec3 vMinDest = { pDestPos.x - (1 * pDest->m_HitBoxWolrdmat._11), pDestPos.y - (1 * pDest->m_HitBoxWolrdmat._22) ,pDestPos.z - (1 * pDest->m_HitBoxWolrdmat._33) };
+//	_vec3 vMaxWall = { vWallPos.x + (1 * CWallCollider->m_HitBoxWolrdmat._11), vWallPos.y + (1 * CWallCollider->m_HitBoxWolrdmat._22) ,vWallPos.z + (1 * CWallCollider->m_HitBoxWolrdmat._33) };
+//	_vec3 vMaxDest = { pDestPos.x + (1 * pDest->m_HitBoxWolrdmat._11), pDestPos.y + (1 * pDest->m_HitBoxWolrdmat._22) ,pDestPos.z + (1 * pDest->m_HitBoxWolrdmat._33) };
+//
+//
+//
+//	if (vMinWall.x <= vMaxDest.x  && vMaxWall.x >= vMinDest.x &&
+//		vMinWall.y <= vMaxDest.y && vMaxWall.y >= vMinDest.y &&
+//		vMinWall.z <= vMaxDest.z && vMaxWall.z >= vMinDest.z)
+//	{
+//		_vReturnvec = 
+//	}
+//			return true;
+	//CWallCollider->m_vCenter.x
 
+	float fWidth = fabs(CWallCollider->m_vCenter.x - pDest->m_vCenter.x);
+	float fHeight = fabs(CWallCollider->m_vCenter.z - pDest->m_vCenter.z);
 
-	/*_vec3 vMinWall = CWallCollider->m_vMin;
-	_vec3 vMinDest = pDest->m_vMin;
-	_vec3 vMaxWall = CWallCollider->m_vMax;
-	_vec3 vMaxDest = pDest->m_vMax;
-*/
-	_vec3 vMinWall = { vWallPos.x - (1 * CWallCollider->m_HitBoxWolrdmat._11), vWallPos.y - (1 * CWallCollider->m_HitBoxWolrdmat._22) ,vWallPos.z - (1 * CWallCollider->m_HitBoxWolrdmat._33) };
-	_vec3 vMinDest = { pDestPos.x - (1 * pDest->m_HitBoxWolrdmat._11), pDestPos.y - (1 * pDest->m_HitBoxWolrdmat._22) ,pDestPos.z - (1 * pDest->m_HitBoxWolrdmat._33) };
-	_vec3 vMaxWall = { vWallPos.x + (1 * CWallCollider->m_HitBoxWolrdmat._11), vWallPos.y + (1 * CWallCollider->m_HitBoxWolrdmat._22) ,vWallPos.z + (1 * CWallCollider->m_HitBoxWolrdmat._33) };
-	_vec3 vMaxDest = { pDestPos.x + (1 * pDest->m_HitBoxWolrdmat._11), pDestPos.y + (1 * pDest->m_HitBoxWolrdmat._22) ,pDestPos.z + (1 * pDest->m_HitBoxWolrdmat._33) };
+	float fWallRadiusx = (CWallCollider->m_vMax.x - CWallCollider->m_vMin.x) * 0.5f;
+	float fWallRadiusz = (CWallCollider->m_vMax.z - CWallCollider->m_vMin.z) * 0.5f;
 
+	float fDestRadiusx = (pDest->m_vMax.x - pDest->m_vMin.x) * 0.5f;
+	float fDestRadiusz = (pDest->m_vMax.z - pDest->m_vMin.z) * 0.5f;
 
-
-	if (vMinWall.x <= vMaxDest.x  && vMaxWall.x >= vMinDest.x &&
-		vMinWall.y <= vMaxDest.y && vMaxWall.y >= vMinDest.y &&
-		vMinWall.z <= vMaxDest.z && vMaxWall.z >= vMinDest.z)
-			return true;
-	
-
+	if ((fWidth < fWallRadiusx + fDestRadiusx) && (fHeight < fWallRadiusz + fDestRadiusz))
+	{
+		float fboxx = fWallRadiusx + fDestRadiusx - fWidth;
+		float fboxz = fWallRadiusz + fDestRadiusz - fHeight;
+		_vec3 returnvec = { fboxx, 0.f, fboxz };
+		memcpy(_vReturnvec, &returnvec, sizeof(_vec3));
+		return true;
+	}
 
 	return false;
 }

@@ -5,6 +5,7 @@
 #include "AbstractFactory.h"
 #include "ObjectMgr.h"
 #include "MyCamera.h"
+#include "Player.h"
 
 CMonsterBullet::CMonsterBullet(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CBaseBullet(pGraphicDev)
@@ -48,7 +49,7 @@ _int CMonsterBullet::Update_Object(const _float & fTimeDelta)
 	m_pTransCom->Set_Scale(&vScale);
 
 
-	if (m_fFrame > 2.f)
+	if (m_fFrame > 8.f)
 	{
 		m_bHitPlayer = false;
 		CObjectMgr::GetInstance()->Collect_MonsterBulletObj(this);
@@ -58,24 +59,26 @@ _int CMonsterBullet::Update_Object(const _float & fTimeDelta)
 
 	m_pAnimationCom->Move_Animation(fTimeDelta);
 
-	m_pTransCom->Move_Pos(&(m_MoveDir * 2.f * fTimeDelta));
+	m_pTransCom->Move_Pos(&(m_MoveDir * 12.f * fTimeDelta));
 
 	_vec3 vThunderPos = m_pTransCom->m_vInfo[INFO_POS];
 	CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
 	CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
 	_vec3 vPlayerPos = pPlayerTransformCom->m_vInfo[INFO_POS];
+	CPlayer* pPlayer = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
 
 	float fDistance = sqrtf((powf(vThunderPos.x - vPlayerPos.x, 2) + powf(vThunderPos.y - vPlayerPos.y, 2) + powf(vThunderPos.z - vPlayerPos.z, 2)));
 
 	if (fDistance < 1.5f && false == m_bHitPlayer)
 	{
 		pPlayerInfo->Receive_Damage(10);
+		pPlayer->Set_DefenseToHp(true);
 		m_bHitPlayer = true;
 	}
 
 	Engine::CBaseBullet::Update_Object(fTimeDelta);
 
-	Add_RenderGroup(RENDER_NONALPHA, this);
+	Add_RenderGroup(RENDER_ALPHA, this);
 
 	return 0;
 }
