@@ -23,7 +23,7 @@ HRESULT CFlare::Ready_Object(_vec3 vPos)
 	m_pAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_STATIC);
 
 	m_pTransCom->Set_Pos(vPos.x, vPos.y, vPos.z);
-	m_pAnimationCom->Ready_Animation(5, 0, 1.5f);
+	m_pAnimationCom->Ready_Animation(5, 0, 0.4f);
 
 	_vec3 vScale = {0.7f, 0.7f, 0.7f };
 	m_pTransCom->Set_Scale(&vScale);

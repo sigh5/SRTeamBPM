@@ -87,15 +87,15 @@ bool	CFatBat::Dead_Judge(const _float& fTimeDelta)
 			{
 			case 0:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Bat_death_01.wav", SOUND_MONSTER, g_fSound);
+				::PlaySoundW(L"Bat_death_01.wav", SOUND_MONSTER, g_fSound * 1.5f);
 				break;
 			case 1:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Bat_death_02.wav", SOUND_MONSTER, g_fSound);
+				::PlaySoundW(L"Bat_death_02.wav", SOUND_MONSTER, g_fSound * 1.5f);
 				break;
 			case 2:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Bat_death_03.wav", SOUND_MONSTER, g_fSound);
+				::PlaySoundW(L"Bat_death_03.wav", SOUND_MONSTER, g_fSound * 1.5f);
 				break;
 			}
 			Drop_Item(rand() % 3);
@@ -431,17 +431,17 @@ void CFatBat::Collision_Event()
 			{
 			case 0:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Bat_pain_01.wav", SOUND_MONSTER, g_fSound);
+				::PlaySoundW(L"Bat_pain_01.wav", SOUND_MONSTER, g_fSound * 1.5f);
 				break;
 
 			case 1:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Bat_pain_02.wav", SOUND_MONSTER, g_fSound);
+				::PlaySoundW(L"Bat_pain_02.wav", SOUND_MONSTER, g_fSound * 1.5f);
 				break;
 
 			case 2:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Bat_pain_03.wav", SOUND_MONSTER, g_fSound);
+				::PlaySoundW(L"Bat_pain_03.wav", SOUND_MONSTER, g_fSound * 1.5f);
 				break;
 			}
 		}
@@ -510,15 +510,15 @@ void CFatBat::FatBat_Shoot(void)
 	{
 	case 0:
 		::StopSound(SOUND_MONSTER);
-		::PlaySoundW(L"Bat_attack_01.wav", SOUND_MONSTER, g_fSound);
+		::PlaySoundW(L"Bat_attack_01.wav", SOUND_MONSTER, g_fSound * 1.5f);
 		break;
 	case 1:
 		::StopSound(SOUND_MONSTER);
-		::PlaySoundW(L"Bat_attack_02.wav", SOUND_MONSTER, g_fSound);
+		::PlaySoundW(L"Bat_attack_02.wav", SOUND_MONSTER, g_fSound * 1.5f);
 		break;
 	case 2:
 		::StopSound(SOUND_MONSTER);
-		::PlaySoundW(L"Bat_attack_03.wav", SOUND_MONSTER, g_fSound);
+		::PlaySoundW(L"Bat_attack_03.wav", SOUND_MONSTER, g_fSound * 1.5f);
 		break;
 	}
 

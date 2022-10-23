@@ -60,7 +60,7 @@ private:
 	CAnimation*		m_pThingy_AnimatiionCom = nullptr;
 
 	bool			m_bCamouflage = true;
-	float			m_fCamouAttackDelay = 1.f;
+	float			m_fCamouAttackDelay = 1.5f;
 	float			m_fCamouMoveSpeed = 4.f;
 	bool			m_bMorphFinish = false;
 	bool			m_bMorphSound = false;
@@ -100,5 +100,9 @@ private:
 
 	bool			m_bShootFlare = false;
 	int				m_iRepeatShot = 0;
+
+
+	float			m_fFlareTimeCount = 0.f;
+	int				m_iFlareCount = 0;
 };
 

@@ -243,7 +243,7 @@ _uint CLoading::Loading_ForStage(void)
 
 	//Shader
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ShaderTerrain", CShader::Create(m_pGraphicDev, TEXT("../Bin/ShaderFilesPath/Shader_Terrain.hlsl"))), E_FAIL);
-
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ShaderCube", CShader::Create(m_pGraphicDev, TEXT("../Bin/ShaderFilesPath/ShaderCube.hlsl"))), E_FAIL);
 
 
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_fetrues_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/features/features_%d.png", TEX_NORMAL, 29)), E_FAIL);

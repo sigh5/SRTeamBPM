@@ -77,6 +77,8 @@ HRESULT CSphinxFlyHead::Ready_Object(float Posx, float Posy, float Size)
 	m_pDynamicTransCom->Set_Scale(&_vec3{ Size, Size, 1.f });
 	m_fLimitY = m_pDynamicTransCom->m_vScale.y * 0.2f;
 
+
+
 	Save_OriginPos();
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 	_vec3 MonsterPos;
@@ -100,7 +102,7 @@ _int CSphinxFlyHead::Update_Object(const _float & fTimeDelta)
 	// 맨위에있어야됌 리턴되면 안됌
 
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
-	m_fVolume = (100 - fMtoPDistance) * 0.01f * g_fSound;
+	m_fVolume = (100 - fMtoPDistance) * 0.01f * (g_fSound * 2.f);
 	if (Distance_Over())
 	{
 		Engine::CMonsterBase::Update_Object(fTimeDelta);
@@ -731,22 +733,9 @@ void		CSphinxFlyHead::Dead_Action(const _float& fTimeDelta)
 		m_pDeadAnimationCom->Move_Animation(fTimeDelta);
 
 	}
-	else if (m_bShootFlare == false)
-	{
-		CScene* pScene = ::Get_Scene();
-		CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
-
-		CGameObject* pGameObject = nullptr;
-		pGameObject = CFlare::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS]);
-		pMyLayer->Add_EffectList(pGameObject);
-		pGameObject = CFlare::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS] + _vec3(-3.f, 0.f, -3.f));
-
-		pMyLayer->Add_EffectList(pGameObject);
-		pGameObject = CFlare::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS] + _vec3(5.f, 0.f, -5.f));
-
-		pMyLayer->Add_EffectList(pGameObject);
-		m_bShootFlare = true;
-	}
+	//23
+	//17 20 23
+	
 	if (12 == m_pDeadAnimationCom->m_iMotion)
 	{
 		if (false == m_bArrFalldown[0])
@@ -780,8 +769,56 @@ void		CSphinxFlyHead::Dead_Action(const _float& fTimeDelta)
 			//m_pDynamicTransCom->Set_Y(5.f);
 			m_bArrFalldown[3] = true;
 		}
-		//폭죽 올라가서 터지는 효과
 		
+		//폭죽 올라가서 터지는 효과
+	}
+	if (23 == m_pDeadAnimationCom->m_iMotion)
+	{
+	m_fFlareTimeCount -= fTimeDelta;
+	if (m_fFlareTimeCount < 0 && m_iFlareCount < 4)
+	{
+		
+			CScene* pScene = ::Get_Scene();
+			CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+
+			CGameObject* pGameObject = nullptr;
+			switch (m_iFlareCount)
+			{
+			case 0:
+				pGameObject = CFlare::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS]);
+
+
+				pMyLayer->Add_EffectList(pGameObject);
+				m_iFlareCount++;
+				m_fFlareTimeCount = 0.7f;
+				break;
+			case 1:
+				pGameObject = CFlare::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS] + _vec3(-4.f, 0.f, -4.f));
+
+
+				pMyLayer->Add_EffectList(pGameObject);
+				m_iFlareCount++;
+				m_fFlareTimeCount = 0.7f;
+				break;
+			case 2:
+				pGameObject = CFlare::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS] + _vec3(4.f, 0.f, 4.f));
+
+
+				pMyLayer->Add_EffectList(pGameObject);
+				m_iFlareCount++;
+				m_fFlareTimeCount = 0.7f;
+				break;
+			default:
+				pGameObject = CFlare::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS]);
+
+
+				pMyLayer->Add_EffectList(pGameObject);
+				m_iFlareCount++;
+				m_fFlareTimeCount = 0.7f;
+				break;
+			}
+			
+		}
 	}
 }
 

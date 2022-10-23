@@ -43,7 +43,7 @@ _int CMiniGame3::Update_Scene(const _float & fTimeDelta)
 	CLayer* pLayer = GetLayer(L"Layer_UI");
 	CUI_Timer* pTimer = static_cast<CUI_Timer*>(pLayer->Get_GameObject(L"Timer"));
 
-	if (pTimer->Get_Time() >= 10.f) //120초로 바꾸기
+	if (pTimer->Get_Time() >= 2000.f) //120초로 바꾸기
 	{
 		CScene* pStage1 = ::Get_SaveScene(); 
 		CLayer* pMyLayer = pStage1->GetLayer(L"Layer_Icon");

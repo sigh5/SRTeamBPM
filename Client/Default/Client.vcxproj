@@ -235,7 +235,6 @@
     <ClInclude Include="..\Header\MetronomeSmallUI.h" />
     <ClInclude Include="..\Header\MetronomeUI.h" />
     <ClInclude Include="..\Header\MiniGame1Pic.h" />
-    <ClInclude Include="..\Header\MiniGame2Pic.h" />
     <ClInclude Include="..\Header\MiniGame3.h" />
     <ClInclude Include="..\Header\MiniMonster2.h" />
     <ClInclude Include="..\Header\MiniMonster3.h" />
@@ -388,7 +387,6 @@
     <ClCompile Include="..\Code\MetronomeRect.cpp" />
     <ClCompile Include="..\Code\MetronomeSmallUI.cpp" />
     <ClCompile Include="..\Code\MiniGame1Pic.cpp" />
-    <ClCompile Include="..\Code\MiniGame2Pic.cpp" />
     <ClCompile Include="..\Code\MiniGame3.cpp" />
     <ClCompile Include="..\Code\MiniMonster2.cpp" />
     <ClCompile Include="..\Code\MiniMonster3.cpp" />
@@ -530,7 +528,7 @@
     <None Include="Imgui\imgui.ini" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="..\..\..\..\..\문서\카카오톡 받은 파일\ShaderCube.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFilesPath\ShaderCube.hlsl" />
     <FxCompile Include="..\Bin\ShaderFilesPath\ShaderRect.hlsl" />
     <FxCompile Include="..\Bin\ShaderFilesPath\Shader_Terrain.hlsl" />
   </ItemGroup>

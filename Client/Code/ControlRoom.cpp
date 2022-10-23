@@ -84,7 +84,6 @@ void CControlRoom::LateUpdate_Object()
 			m_bPlayerInTerrain = false;
 			pSkyBox->Set_ControlCubeCheck(true);
 		}
-		
 	}
 	m_iRestMonsterNum = 0;
 	m_pCurrentRoomMonster.clear();
@@ -182,6 +181,9 @@ void CControlRoom::Collision_Event()
 				
 			}
 		}
+
+
+
 
 		
 	}

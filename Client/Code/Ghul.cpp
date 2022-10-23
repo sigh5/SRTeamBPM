@@ -247,17 +247,17 @@ void CGhul::Collision_Event()
 			{
 			case 0:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"zombie_pain_01.wav", SOUND_MONSTER, g_fSound);
+				::PlaySoundW(L"zombie_pain_01.wav", SOUND_MONSTER, g_fSound * 2.f);
 				break;
 
 			case 1:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"zombie_pain_02.wav", SOUND_MONSTER, g_fSound);
+				::PlaySoundW(L"zombie_pain_02.wav", SOUND_MONSTER, g_fSound * 2.f);
 				break;
 
 			case 2:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"zombie_pain_03.wav", SOUND_MONSTER, g_fSound);
+				::PlaySoundW(L"zombie_pain_03.wav", SOUND_MONSTER, g_fSound * 2.f);
 				break;
 			}
 		}
@@ -300,15 +300,15 @@ bool CGhul::Dead_Judge(const _float & fTimeDelta)
 			{
 			case 0:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"zombie_death_01.wav", SOUND_MONSTER, g_fSound);
+				::PlaySoundW(L"zombie_death_01.wav", SOUND_MONSTER, g_fSound * 2.f);
 				break;
 			case 1:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"zombie_death_02.wav", SOUND_MONSTER, g_fSound);
+				::PlaySoundW(L"zombie_death_02.wav", SOUND_MONSTER, g_fSound * 2.f);
 				break;
 			case 2:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"zombie_death_03.wav", SOUND_MONSTER, g_fSound);
+				::PlaySoundW(L"zombie_death_03.wav", SOUND_MONSTER, g_fSound * 2.f);
 				break;
 			}
 			m_bDead = true;
@@ -407,15 +407,15 @@ void CGhul::Attack(const _float & fTimeDelta)
 			{
 			case 0:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"zombie_attack_01.wav", SOUND_MONSTER, g_fSound);
+				::PlaySoundW(L"zombie_attack_01.wav", SOUND_MONSTER, g_fSound * 2.f);
 				break;
 			case 1:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"zombie_attack_02.wav", SOUND_MONSTER, g_fSound);
+				::PlaySoundW(L"zombie_attack_02.wav", SOUND_MONSTER, g_fSound * 2.f);
 				break;
 			case 2:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"zombie_attack_03.wav", SOUND_MONSTER, g_fSound);
+				::PlaySoundW(L"zombie_attack_03.wav", SOUND_MONSTER, g_fSound * 2.f);
 				break;
 			}
 		}
@@ -453,15 +453,15 @@ void CGhul::DigOut(const _float& fTimeDelta)
 		{
 		case 0:
 			::StopSound(SOUND_MONSTER);
-			::PlaySoundW(L"zombie_detect_01.wav", SOUND_MONSTER, g_fSound);
+			::PlaySoundW(L"zombie_detect_01.wav", SOUND_MONSTER, g_fSound * 2.f);
 			break;
 		case 1:
 			::StopSound(SOUND_MONSTER);
-			::PlaySoundW(L"zombie_detect_02.wav", SOUND_MONSTER, g_fSound);
+			::PlaySoundW(L"zombie_detect_02.wav", SOUND_MONSTER, g_fSound * 2.f);
 			break;
 		case 2:
 			::StopSound(SOUND_MONSTER);
-			::PlaySoundW(L"zombie_detect_03.wav", SOUND_MONSTER, g_fSound);
+			::PlaySoundW(L"zombie_detect_03.wav", SOUND_MONSTER, g_fSound * 2.f);
 			break;
 		}
 		m_bDigOutSound = true;

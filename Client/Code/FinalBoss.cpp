@@ -308,7 +308,7 @@ bool CFinalBoss::Dead_Judge(const _float & fTimeDelta)
 				_int Hitsound = rand() % 3;
 				m_bState = Thingy_Death;
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Cthulhu_death_01.wav", SOUND_MONSTER, g_fSound);
+				::PlaySoundW(L"Cthulhu_death_01.wav", SOUND_MONSTER, g_fSound * 2.f);
 				m_bDead = true;
 			}
 		}
@@ -321,30 +321,49 @@ bool CFinalBoss::Dead_Judge(const _float & fTimeDelta)
 
 		if (m_pDeadAnimationCom->m_iMaxMotion == m_pDeadAnimationCom->m_iMotion)
 		{
-			if (false == m_bShootFlare)
+			m_fFlareTimeCount -= fTimeDelta;
+			if (m_fFlareTimeCount < 0 && m_iFlareCount < 4)
 			{
+
 				CScene* pScene = ::Get_Scene();
 				CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
-				CGameObject* pFlare = nullptr;
-				pFlare = CFlare::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS]);
-				
-				pMyLayer->Add_EffectList(pFlare);
-				pFlare = CFlare::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS] + _vec3(3.f, 0.f, 3.f));
 
-				pMyLayer->Add_EffectList(pFlare);
+				CGameObject* pGameObject = nullptr;
+				switch (m_iFlareCount)
+				{
+				case 0:
+					pGameObject = CFlare::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS]);
 
-				pFlare = CFlare::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS] + _vec3(-7.f, 0.f, -3.f));
 
-				pMyLayer->Add_EffectList(pFlare);
+					pMyLayer->Add_EffectList(pGameObject);
+					m_iFlareCount++;
+					m_fFlareTimeCount = 0.7f;
+					break;
+				case 1:
+					pGameObject = CFlare::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS] + _vec3(-4.f, 0.f, -4.f));
 
-				pFlare = CFlare::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS] + _vec3(-6.f, 0.f, 3.f));
 
-				pMyLayer->Add_EffectList(pFlare);
-				pFlare = CFlare::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS] + _vec3(1.5f, 0.f, -6.5f));
+					pMyLayer->Add_EffectList(pGameObject);
+					m_iFlareCount++;
+					m_fFlareTimeCount = 0.7f;
+					break;
+				case 2:
+					pGameObject = CFlare::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS] + _vec3(4.f, 0.f, 4.f));
 
-				pMyLayer->Add_EffectList(pFlare);
-				// ¸î°³ ´õ
-				m_bShootFlare = true;
+
+					pMyLayer->Add_EffectList(pGameObject);
+					m_iFlareCount++;
+					m_fFlareTimeCount = 0.7f;
+					break;
+				default:
+					pGameObject = CFlare::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS]);
+
+					pMyLayer->Add_EffectList(pGameObject);
+					m_iFlareCount++;
+					m_fFlareTimeCount = 0.7f;
+					break;
+				}
+
 			}
 		}
 		Engine::CMonsterBase::Update_Object(fTimeDelta);
@@ -374,12 +393,13 @@ void CFinalBoss::Camouflage_Attack(const _float & fTimeDelta)
 		m_bShotBullet = true;
 
 		::StopSound(SOUND_EFFECT2);
-		::PlaySoundW(L"LaserGun.wav", SOUND_EFFECT2, g_fSound);
+		::PlaySoundW(L"LaserGun.wav", SOUND_EFFECT2, g_fSound * 2.f);
 	}
 	if (6 == m_pCamouAttackAnimationCom->m_iMotion && 1> m_iRepeatShot)
 	{
 		m_iRepeatShot++;
 		m_pCamouAttackAnimationCom->m_iMotion = 3;
+		m_bShotBullet = false;
 	}
 	if (m_pCamouAttackAnimationCom->m_iMaxMotion == m_pCamouAttackAnimationCom->m_iMotion)
 	{
@@ -398,7 +418,7 @@ void CFinalBoss::Camouflage_Cancle(const _float & fTimeDelta)
 	if (false == m_bMorphSound)
 	{
 		::StopSound(SOUND_MONSTER);
-		::PlaySoundW(L"Cthulhu_pain_01.wav", SOUND_MONSTER, g_fSound);
+		::PlaySoundW(L"Cthulhu_pain_01.wav", SOUND_MONSTER, g_fSound * 2.f);
 	}
 	if (m_pMorphAnimationCom->m_iMaxMotion == m_pMorphAnimationCom->m_iMotion)
 	{
@@ -454,7 +474,7 @@ void CFinalBoss::Attack(const _float & fTimeDelta)
 	if (false == m_bAttackSound)
 	{
 		::StopSound(SOUND_MONSTER2);
-		::PlaySoundW(L"Cthulhu_attack_01.wav", SOUND_MONSTER2, g_fSound);
+		::PlaySoundW(L"Cthulhu_attack_01.wav", SOUND_MONSTER2, g_fSound * 2.f);
 		m_bAttackSound = true;
 	}
 	switch (m_iAttackPattern)
@@ -672,7 +692,7 @@ void CFinalBoss::AttackPettern4(const _float & fTimeDelta)
 
 		CThingySpike* pTentacle = nullptr;
 		::StopSound(SOUND_MONSTER2);
-		::PlaySoundW(L"Qoong.wav", SOUND_MONSTER2, g_fSound);
+		::PlaySoundW(L"Qoong.wav", SOUND_MONSTER2, g_fSound * 2.f);
 		if (m_bPettern4LR)
 		{
 			for (int i = 1; i < 20; ++i)

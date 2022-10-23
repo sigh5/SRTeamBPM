@@ -225,6 +225,21 @@ void CShopUI::Picking_Rect_Index()
 				else if (i == 2)
 				{
 					CScene*pScene = ::Get_Scene();
+					CLayer * pLayer = pScene->GetLayer(L"Layer_UI");
+					CQuestProcessing_UI* pQuestProcessing_UI =
+						dynamic_cast<CQuestProcessing_UI*>(pLayer->Get_GameObject(L"QuestProcessing_UI"));
+				
+					if (pQuestProcessing_UI == nullptr)
+					{
+						MSG_BOX("퀘스트를 받으세요!!");
+						return;
+					}
+					
+					pQuestProcessing_UI->Set_Quest_Claer(Quest_Index_ONE, true);
+
+					
+
+					
 					pScene->Set_SceneChane(true);
 					::Set_SaveScene(pScene);
 
@@ -234,17 +249,14 @@ void CShopUI::Picking_Rect_Index()
 					::Change_Scene(pScene, pChangeScene);
 					m_iForceSceneReturn = SCENE_CHANGE_RETRURN;
 
-					CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+					 pLayer = pScene->GetLayer(L"Layer_GameLogic");
 					NULL_CHECK_RETURN(pLayer, );
-					pLayer = pScene->GetLayer(L"Layer_UI");
-
-					CQuestProcessing_UI* pQuestProcessing_UI =
-						static_cast<CQuestProcessing_UI*>(pLayer->Get_GameObject(L"QuestProcessing_UI"));
-					pQuestProcessing_UI->Set_Quest_Claer(Quest_Index_ONE, true);
+					
+					m_bSelect[2] = true;
 
 					return;	
 
-					m_bSelect[2] = true;
+				
 
 				}
 				else if (i == 3 && !m_bSelect[3])
