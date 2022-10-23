@@ -38,7 +38,7 @@ HRESULT CTapeWorm::Ready_Object(float Posx, float Posz)
 	}
 	Save_OriginPos();
 
-	m_pInfoCom->Ready_CharacterInfo(2, 10, 2.5f);
+	m_pInfoCom->Ready_CharacterInfo(1, 10, 2.5f);
 
 	m_fAttackDelay = 0.7f;
 

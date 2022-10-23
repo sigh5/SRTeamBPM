@@ -100,5 +100,9 @@ private:
 
 	bool			m_bShootFlare = false;
 	int				m_iRepeatShot = 0;
+
+
+	float			m_fFlareTimeCount = 0.f;
+	int				m_iFlareCount = 0;
 };
 

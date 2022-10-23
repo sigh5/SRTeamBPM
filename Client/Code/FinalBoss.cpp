@@ -321,30 +321,49 @@ bool CFinalBoss::Dead_Judge(const _float & fTimeDelta)
 
 		if (m_pDeadAnimationCom->m_iMaxMotion == m_pDeadAnimationCom->m_iMotion)
 		{
-			if (false == m_bShootFlare)
+			m_fFlareTimeCount -= fTimeDelta;
+			if (m_fFlareTimeCount < 0 && m_iFlareCount < 4)
 			{
+
 				CScene* pScene = ::Get_Scene();
 				CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
-				CGameObject* pFlare = nullptr;
-				pFlare = CFlare::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS]);
-				
-				pMyLayer->Add_EffectList(pFlare);
-				pFlare = CFlare::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS] + _vec3(3.f, 0.f, 3.f));
 
-				pMyLayer->Add_EffectList(pFlare);
+				CGameObject* pGameObject = nullptr;
+				switch (m_iFlareCount)
+				{
+				case 0:
+					pGameObject = CFlare::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS]);
 
-				pFlare = CFlare::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS] + _vec3(-7.f, 0.f, -3.f));
 
-				pMyLayer->Add_EffectList(pFlare);
+					pMyLayer->Add_EffectList(pGameObject);
+					m_iFlareCount++;
+					m_fFlareTimeCount = 0.7f;
+					break;
+				case 1:
+					pGameObject = CFlare::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS] + _vec3(-4.f, 0.f, -4.f));
 
-				pFlare = CFlare::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS] + _vec3(-6.f, 0.f, 3.f));
 
-				pMyLayer->Add_EffectList(pFlare);
-				pFlare = CFlare::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS] + _vec3(1.5f, 0.f, -6.5f));
+					pMyLayer->Add_EffectList(pGameObject);
+					m_iFlareCount++;
+					m_fFlareTimeCount = 0.7f;
+					break;
+				case 2:
+					pGameObject = CFlare::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS] + _vec3(4.f, 0.f, 4.f));
 
-				pMyLayer->Add_EffectList(pFlare);
-				// ¸î°³ ´õ
-				m_bShootFlare = true;
+
+					pMyLayer->Add_EffectList(pGameObject);
+					m_iFlareCount++;
+					m_fFlareTimeCount = 0.7f;
+					break;
+				default:
+					pGameObject = CFlare::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS]);
+
+					pMyLayer->Add_EffectList(pGameObject);
+					m_iFlareCount++;
+					m_fFlareTimeCount = 0.7f;
+					break;
+				}
+
 			}
 		}
 		Engine::CMonsterBase::Update_Object(fTimeDelta);
