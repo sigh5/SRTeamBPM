@@ -96,6 +96,7 @@ HRESULT CFinalBoss::Ready_Object(float Posx, float Posy)
 	m_pDynamicTransCom->Set_Scale(&_vec3(3.f, 3.f, 3.f));
 	m_pInfoCom->Ready_CharacterInfo(5, 10, 0.7f);
 	m_iPreHp = m_pInfoCom->Get_Hp();
+	
 	m_fAttackDelay = 3.f;
 
 	m_vPlayerOriginPos = { 0.f,0.f,0.f };
@@ -375,11 +376,16 @@ void CFinalBoss::Camouflage_Attack(const _float & fTimeDelta)
 		::StopSound(SOUND_EFFECT2);
 		::PlaySoundW(L"LaserGun.wav", SOUND_EFFECT2, g_fSound);
 	}
+	if (6 == m_pCamouAttackAnimationCom->m_iMotion && 1> m_iRepeatShot)
+	{
+		m_iRepeatShot++;
+		m_pCamouAttackAnimationCom->m_iMotion = 3;
+	}
 	if (m_pCamouAttackAnimationCom->m_iMaxMotion == m_pCamouAttackAnimationCom->m_iMotion)
 	{
 		m_bAttack = false;
 		m_bState = Camouflage_Walk;
-
+		m_iRepeatShot = 0;
 		m_bShotBullet = false;
 	}
 }

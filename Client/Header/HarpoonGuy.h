@@ -37,5 +37,6 @@ private:
 	bool m_bAttackSound = false;
 	bool m_bAttackSound2 = false;
 	bool m_bShotBullet = false;
+	int		m_iRepeatShot = 0;
 };
 
