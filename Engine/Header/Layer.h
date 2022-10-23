@@ -58,6 +58,8 @@ public:
 
 	
 	void					Clear_ColliderMonster(void);
+	void					Reset_DropItemList(void);
+
 	//구울 리스트 가져오기
 	list<CGameObject*>&		Get_GhulList() { return m_GhulList; }
 	list<CGameObject*>&		Get_ObeliskList() { return m_ObeliskList; }

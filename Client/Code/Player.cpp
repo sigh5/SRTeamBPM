@@ -576,7 +576,9 @@ void CPlayer::Random_ResurrectionRoom()
 	// ~Player HpBar Reset
 
 	pLayer->Reset_Monster();
+	pLayer->Reset_DropItemList();
 	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
+
 	m_iComboCount = 0;
 	m_pDynamicTransCom->Update_Component(1.f);
 }
@@ -606,6 +608,7 @@ void CPlayer::Player_Dead(const _float& fTimeDelta)
 
 void CPlayer::Collision_Event()
 {
+
 }
 
 CPlayer * CPlayer::Create(LPDIRECT3DDEVICE9 pGraphicDev)

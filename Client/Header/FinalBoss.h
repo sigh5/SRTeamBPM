@@ -97,5 +97,6 @@ private:
 	bool			m_bPettern4LR = false;
 
 	bool			m_bShootFlare = false;
+	int				m_iRepeatShot = 0;
 };
 

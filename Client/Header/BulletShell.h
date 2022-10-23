@@ -33,6 +33,8 @@ private:
 	float			m_fSpinTime = 0.f;
 	float			m_fSpinTimeCount = 0.f;
 	int				m_iShellType = 0;
+
+	
 public:
 	static CBulletShell*		Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos, _vec3 vRight, int shelltype = 0);
 	virtual void		Free(void);
