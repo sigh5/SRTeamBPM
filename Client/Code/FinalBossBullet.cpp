@@ -52,7 +52,8 @@ _int CFinalBossBullet::Update_Object(const _float & fTimeDelta)
 	if (false == m_bChargeSound)
 	{
 		::StopSound(SOUND_EXPLOSION);
-		::PlaySoundW(L"Teleporter_Staticloop.wav", SOUND_EXPLOSION, 0.4f);
+		::PlaySoundW(L"Teleporter_Staticloop.wav", SOUND_EXPLOSION, g_fSound);
+		m_bChargeSound = true;
 	}
 	if (false == m_bStopGo)
 	{

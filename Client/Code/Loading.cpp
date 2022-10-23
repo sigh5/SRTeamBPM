@@ -182,7 +182,7 @@ _uint CLoading::Loading_ForStage(void)
 	// ~Box
 
 	// Particle
-
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_SnowTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Snow/snow.png", TEX_NORMAL, 1)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_RainTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Rain/Droplet.png", TEX_NORMAL, 1)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Eletric_Particle_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Electric/Electric_Particle.png", TEX_NORMAL)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_FireworksTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Effect/Fireworks%d.png", TEX_NORMAL, 7)), E_FAIL);
@@ -242,7 +242,7 @@ _uint CLoading::Loading_ForStage(void)
 
 
 
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_fetrues_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/features/features_%d.png", TEX_NORMAL, 24)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_fetrues_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/features/features_%d.png", TEX_NORMAL, 29)), E_FAIL);
 
 	// NPC
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_NPCTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/NPC/ShopNPC/NPC_%d.png", TEX_NORMAL, 17)), E_FAIL);
@@ -396,7 +396,7 @@ _uint CLoading::Loading_For_ToolScene()
 
 	//~
 
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_fetrues_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/features/features_%d.png", TEX_NORMAL, 24)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_fetrues_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/features/features_%d.png", TEX_NORMAL, 29)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_CubeNormalTexCom", CCubeNormalTex::Create(m_pGraphicDev)), E_FAIL);
 	// しいけかい
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ShaderTerrain", CShader::Create(m_pGraphicDev, TEXT("../Bin/ShaderFilesPath/Shader_Terrain.hlsl"))), E_FAIL);

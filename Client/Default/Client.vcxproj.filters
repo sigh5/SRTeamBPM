@@ -435,6 +435,9 @@
       <Filter>01. Scene\02. MiniStage\Mini3\Monster\Monster3</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\BossStage.cpp" />
+    <ClCompile Include="..\Code\RealSnowFall.cpp">
+      <Filter>02. GameObject\02. For_public\04. SnowFall</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -891,6 +894,9 @@
       <Filter>01. Scene\02. MiniStage\Mini3\Monster\Monster3</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\BossStage.h" />
+    <ClInclude Include="..\Header\RealSnowFall.h">
+      <Filter>02. GameObject\02. For_public\04. SnowFall</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
