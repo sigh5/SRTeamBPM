@@ -182,7 +182,6 @@ void CTeleCube::Collision_Event()
 			{
 				// 여기서 최종맵으로 가는 코드 넣으면됀다
 				//pTransform->Set_Pos(30.f, 0.f, 30.f);
-				
 				return;
 			}
 			vector<CGameObject*> temp = *pLayer->GetRestCube();
