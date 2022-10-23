@@ -8,6 +8,7 @@ class CCubeTex;
 class CTransform;
 class CCalculator;
 class CCollider;
+class CShader;
 END
 
 //ÁÖ¼®Áö¿ì¼À
@@ -20,6 +21,7 @@ private:
 public:
 	HRESULT				Ready_Object();
 	virtual _int		Update_Object(const _float& fTimeDelta) override;
+	virtual void		LateUpdate_Object();
 	virtual void		Render_Obejct(void) override;
 	virtual void		Collision_Event() override;
 
@@ -43,7 +45,9 @@ public:
 	CTexture*			m_pTextureCom = nullptr;
 	CCalculator*		m_pCalculatorCom = nullptr;
 	CCollider*			m_pColliderCom = nullptr;
+	CShader*			m_pShaderCom = nullptr;
 
+	_bool				m_bOnce = false;
 	_int				m_iOption = 0;					// 0: Wall 1: Obstacle 2: TeleportStart 3: TelePortEnd
 
 private:
