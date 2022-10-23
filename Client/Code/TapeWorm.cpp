@@ -187,7 +187,7 @@ void CTapeWorm::Collision_Event()
 				_int Hitsound = rand() % 3;
 				switch (Hitsound)
 				{
-				case 0:
+			/*	case 0:
 					::StopSound(SOUND_MONSTER);
 					::PlaySoundW(L"Soldier_Pain_01.wav", SOUND_MONSTER, g_fSound);
 					break;
@@ -200,7 +200,7 @@ void CTapeWorm::Collision_Event()
 				case 2:
 					::StopSound(SOUND_MONSTER);
 					::PlaySoundW(L"Soldier_Pain_03.wav", SOUND_MONSTER, g_fSound);
-					break;
+					break;*/
 				}
 			}
 		}
@@ -215,7 +215,7 @@ bool CTapeWorm::Dead_Judge(const _float & fTimeDelta)
 		if (false == m_bDead)
 		{
 			_int Hitsound = rand() % 3;
-			switch (Hitsound)
+		/*	switch (Hitsound)
 			{
 			case 0:
 				::StopSound(SOUND_MONSTER);
@@ -229,7 +229,7 @@ bool CTapeWorm::Dead_Judge(const _float & fTimeDelta)
 				::StopSound(SOUND_MONSTER);
 				::PlaySoundW(L"Soldier_Deth_03.wav", SOUND_MONSTER, g_fSound);
 				break;
-			}
+			}*/
 			m_bDead = true;
 		}
 	}

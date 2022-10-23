@@ -100,7 +100,7 @@ _int CSphinxFlyHead::Update_Object(const _float & fTimeDelta)
 	// 맨위에있어야됌 리턴되면 안됌
 
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
-	m_fVolume = (100 - fMtoPDistance) * 0.01f * g_fSound;
+	m_fVolume = (100 - fMtoPDistance) * 0.01f * (g_fSound * 2.f);
 	if (Distance_Over())
 	{
 		Engine::CMonsterBase::Update_Object(fTimeDelta);
