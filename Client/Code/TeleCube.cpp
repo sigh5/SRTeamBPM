@@ -58,10 +58,10 @@ _int CTeleCube::Update_Object(const _float & fTimeDelta)
 
 	m_fAlphaTimer += 1.f*fTimeDelta;
 
-	if (m_fActiveTimer >= 1.f)
+	if (m_fAlphaTimer >= 1.f)
 	{
 		m_bAlpha = !m_bAlpha;
-		m_fActiveTimer = 0.f;
+		m_fAlphaTimer = 0.f;
 	}
 
 
@@ -92,23 +92,28 @@ void CTeleCube::Render_Obejct(void)
 
 	if (m_iOption == (_int)CUBE_START_TELE)
 	{
-		//m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
-		//m_pTextureCom->Set_Texture(m_iTexIndex);
-		//m_pBufferCom->Render_Buffer();
-		//// Hit Box 
-		//m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pColliderCom->HitBoxWolrdmat());
-		//m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-		//m_pColliderCom->Render_Buffer();
-		//m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-		m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
-		m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-		m_pTextureCom->Set_Texture(m_iTexIndex);
+		if (m_bAlpha)
+			return;
+		_matrix			WorldMatrix, ViewMatrix, ViewMatrixInv, ProjMatrix;
+		m_pTransCom->Get_WorldMatrix(&WorldMatrix);
+		m_pGraphicDev->GetTransform(D3DTS_VIEW, &ViewMatrix);
+		D3DXMatrixInverse(&ViewMatrixInv, nullptr, &ViewMatrix);
+		m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &ProjMatrix);
+
+		m_pShaderCom->Set_Raw_Value("g_WorldMatrix", D3DXMatrixTranspose(&WorldMatrix, &WorldMatrix), sizeof(_matrix));
+		m_pShaderCom->Set_Raw_Value("g_ViewMatrix", D3DXMatrixTranspose(&ViewMatrix, &ViewMatrix), sizeof(_matrix));
+		m_pShaderCom->Set_Raw_Value("g_ProjMatrix", D3DXMatrixTranspose(&ProjMatrix, &ProjMatrix), sizeof(_matrix));
+
+
+		m_pShaderCom->Set_Bool("g_RenderOn", false);
+
+		m_pTextureCom->Set_Texture(m_pShaderCom, "g_DefaultTexture", m_iTexIndex);
+
+		m_pShaderCom->Begin_Shader(0);
+
 		m_pBufferCom->Render_Buffer();
-		m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pColliderCom->HitBoxWolrdmat());
-		m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-		m_pColliderCom->Render_Buffer();
-		m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-		m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+
+		m_pShaderCom->End_Shader();
 
 
 		// ~Hit Box 
@@ -117,6 +122,8 @@ void CTeleCube::Render_Obejct(void)
 	else if (m_iOption == _int(CUBE_END_TELE))
 	{
 
+		if (m_bAlpha)
+			return;
 		_matrix			WorldMatrix, ViewMatrix, ViewMatrixInv, ProjMatrix;
 		m_pTransCom->Get_WorldMatrix(&WorldMatrix);
 		m_pGraphicDev->GetTransform(D3DTS_VIEW, &ViewMatrix);
@@ -128,7 +135,7 @@ void CTeleCube::Render_Obejct(void)
 		m_pShaderCom->Set_Raw_Value("g_ProjMatrix", D3DXMatrixTranspose(&ProjMatrix, &ProjMatrix), sizeof(_matrix));
 		
 		
-		m_pShaderCom->Set_Bool("g_RenderOn", m_bAlpha);
+		m_pShaderCom->Set_Bool("g_RenderOn", true);
 
 		m_pTextureCom->Set_Texture(m_pShaderCom, "g_DefaultTexture", m_iTexIndex);
 
