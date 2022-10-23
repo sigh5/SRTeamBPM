@@ -7,6 +7,7 @@
 #include "FileIOMgr.h"
 #include "UI_Timer.h"
 #include "Change_Stage.h"
+#include "MiniGame2Pic.h"
 
 CMiniGame3::CMiniGame3(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -44,6 +45,11 @@ _int CMiniGame3::Update_Scene(const _float & fTimeDelta)
 
 	if (pTimer->Get_Time() >= 10.f) //120초로 바꾸기
 	{
+		CScene* pStage1 = ::Get_SaveScene(); 
+		CLayer* pMyLayer = pStage1->GetLayer(L"Layer_Icon");
+		CMiniGame2Pic* pMinigamePic = dynamic_cast<CMiniGame2Pic*>(pMyLayer->Get_GameObject(L"Minigame2"));
+		pMinigamePic->Set_GameClear(false);
+
 		CScene*		pChangeScene = CChange_Stage::Create(m_pGraphicDev, 6);
 		NULL_CHECK_RETURN(pChangeScene, -1);
 

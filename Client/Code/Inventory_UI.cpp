@@ -85,7 +85,7 @@ _int CInventory_UI::Update_Object(const _float & fTimeDelta)
 	if (Key_Down(DIK_I))
 	{
 		m_bInvenSwitch = !m_bInvenSwitch;
-
+		Engine::PlaySoundW(L"Inventory_Open.mp3", SOUND_EFFECT, 1.f);
 		dynamic_cast<CMyCamera*>(Engine::Get_GameObject(L"Layer_Environment", L"CMyCamera"))->Set_inventroyActive(m_bInvenSwitch);
 		dynamic_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"))->Set_inventroyActive(m_bInvenSwitch);
 	}

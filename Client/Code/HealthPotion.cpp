@@ -133,7 +133,7 @@ void CHealthPotion::Collision_Event()
 
 	if (m_pColliderCom->Check_Collision(this,pGameObject,1,1))
 	{
-		Engine::PlaySoundW(L"Drink_Potion.mp3", SOUND_EFFECT, 1.f);
+		
 		CCharacterInfo* pInfo   = dynamic_cast<CCharacterInfo*>(pGameObject->Get_Component(L"Proto_CharacterInfoCom", ID_STATIC));
 		CAnimation* pHpBarAnimation = dynamic_cast<CAnimation*>(Engine::Get_Component(L"Layer_Icon", L"HpBar", L"Proto_AnimationCom", ID_DYNAMIC));
 
@@ -146,6 +146,7 @@ void CHealthPotion::Collision_Event()
 
 		else if (pInfo->Get_InfoRef()._iHp >= 90)
 		{
+			Engine::PlaySoundW(L"Drink_Potion.mp3", SOUND_EFFECT, 1.f);
 			pInfo->Add_Hp(10);
 			m_bDead = true;
 
@@ -155,6 +156,7 @@ void CHealthPotion::Collision_Event()
 		
 		else
 		{
+			Engine::PlaySoundW(L"Drink_Potion.mp3", SOUND_EFFECT, 1.f);
 			pInfo->Add_Hp(20);
 			m_bDead = true;
 
