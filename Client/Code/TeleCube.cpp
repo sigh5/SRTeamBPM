@@ -50,10 +50,21 @@ _int CTeleCube::Update_Object(const _float & fTimeDelta)
 
 	if (m_fActiveTimer >= 5.f)
 	{
-		//m_bSetActive = false;
 		m_bCollisionCheck = false;
 		m_fActiveTimer = 0.f;
 	}
+
+
+
+	m_fAlphaTimer += 1.f*fTimeDelta;
+
+	if (m_fActiveTimer >= 1.f)
+	{
+		m_bAlpha = !m_bAlpha;
+		m_fActiveTimer = 0.f;
+	}
+
+
 
 	CGameObject::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_PRIORITY, this);
@@ -64,11 +75,11 @@ _int CTeleCube::Update_Object(const _float & fTimeDelta)
 
 void CTeleCube::LateUpdate_Object()
 {
-	/*if (!m_bOnce)
+	if (!m_bOnce)
 	{
 		m_bSetActive = true;
 		m_bOnce = true;
-	}*/
+	}
 
 }
 
@@ -116,7 +127,8 @@ void CTeleCube::Render_Obejct(void)
 		m_pShaderCom->Set_Raw_Value("g_ViewMatrix", D3DXMatrixTranspose(&ViewMatrix, &ViewMatrix), sizeof(_matrix));
 		m_pShaderCom->Set_Raw_Value("g_ProjMatrix", D3DXMatrixTranspose(&ProjMatrix, &ProjMatrix), sizeof(_matrix));
 		
-		m_pShaderCom->Set_Bool("g_RenderOn", m_bSetActive);
+		
+		m_pShaderCom->Set_Bool("g_RenderOn", m_bAlpha);
 
 		m_pTextureCom->Set_Texture(m_pShaderCom, "g_DefaultTexture", m_iTexIndex);
 
@@ -126,14 +138,6 @@ void CTeleCube::Render_Obejct(void)
 
 		m_pShaderCom->End_Shader();
 
-		//m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
-		////m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-		//m_pTextureCom->Set_Texture(m_iTexIndex);
-		//m_pBufferCom->Render_Buffer();
-		// Hit Box 
-	/*	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pColliderCom->HitBoxWolrdmat());
-		m_pColliderCom->Render_Buffer();*/
-	//	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 	}
 
 

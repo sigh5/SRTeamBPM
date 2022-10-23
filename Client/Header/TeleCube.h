@@ -33,7 +33,8 @@ public:
 
 	void				Set_Active(_bool bActive) { m_bSetActive = bActive; }
 	const _bool&		Get_Active() { return m_bSetActive; }
-
+	
+	
 
 
 private:
@@ -49,11 +50,15 @@ public:
 
 	_bool				m_bOnce = false;
 	_int				m_iOption = 0;					// 0: Wall 1: Obstacle 2: TeleportStart 3: TelePortEnd
-
+	_bool				m_bAlpha = false;
 private:
 	_bool				m_bSetActive = false;
 	_float				m_fActiveTimer = 0;
 	_bool				m_bCollisionCheck = false;
+
+
+	_float				m_fAlphaTimer = 0.f;
+
 public:
 	static CTeleCube*	Create(LPDIRECT3DDEVICE9 pGraphicDev);
 	virtual void		Free()override;
