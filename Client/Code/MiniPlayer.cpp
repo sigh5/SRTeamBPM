@@ -77,6 +77,23 @@ _int CMiniPlayer::Update_Object(const _float & fTimeDelta)
 
 	if (m_fFrame >= m_iCreateBulletTime)
 	{
+		_int Hitsound = rand() % 3;
+		switch (Hitsound)
+		{
+		case 0:
+			::StopSound(SOUND_EFFECT2);
+			::PlaySoundW(L"Guitar1.wav", SOUND_EFFECT2, g_fSound * 2.f);
+			break;
+		case 1:
+			::StopSound(SOUND_EFFECT2);
+			::PlaySoundW(L"Guitar2.wav", SOUND_EFFECT2, g_fSound * 2.f);
+			break;
+
+		case 2:
+			::StopSound(SOUND_EFFECT2);
+			::PlaySoundW(L"Guitar3.wav", SOUND_EFFECT2, g_fSound * 2.f);
+			break;
+		}
 		_vec3 vPos;
 		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
 		CScene* pScene = Get_Scene();
@@ -85,6 +102,7 @@ _int CMiniPlayer::Update_Object(const _float & fTimeDelta)
 
 		pGameObject = CBullet::Create(m_pGraphicDev,vPos);
 		pLayer->Add_EffectList(pGameObject);
+
 		m_fFrame = 0.f;
 
 		int iBulletCreateNum = m_iKillMonster / 5;
