@@ -6,6 +6,7 @@
 #include "MyCamera.h"
 #include "Player.h"
 #include "Gun_Screen.h"
+#include "Flare.h"
 
 CSphinxFlyHead::CSphinxFlyHead(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -99,7 +100,7 @@ _int CSphinxFlyHead::Update_Object(const _float & fTimeDelta)
 	// 맨위에있어야됌 리턴되면 안됌
 
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
-	m_fVolume = (100 - fMtoPDistance) * 0.01f;
+	m_fVolume = (100 - fMtoPDistance) * 0.01f * g_fSound;
 	if (Distance_Over())
 	{
 		Engine::CMonsterBase::Update_Object(fTimeDelta);
@@ -135,7 +136,7 @@ _int CSphinxFlyHead::Update_Object(const _float & fTimeDelta)
 
 void CSphinxFlyHead::LateUpdate_Object(void)
 {
-	::SetChannelVolume(SOUND_EFFECT, m_fVolume);
+	::SetChannelVolume(SOUND_EFFECT2, m_fVolume);
 
 	CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
 	NULL_CHECK(pCamera);
@@ -226,7 +227,7 @@ void CSphinxFlyHead::Collision_Event()
 
 
 	if (static_cast<CGun_Screen*>(pGameObject)->Get_Shoot() &&
-		fMtoPDistance < MAX_CROSSROAD  &&
+		fMtoPDistance < MAX_CROSSROAD + g_fRange &&
 		m_pColliderCom->Check_Lay_InterSect(m_pBufferCom, m_pDynamicTransCom, g_hWnd))
 	{
 		m_bHit = true;
@@ -300,8 +301,8 @@ void		CSphinxFlyHead::AttackLeftRight(const _float& fTimeDelta)
 	{
 		if (false == m_bLRAttackSound)
 		{
-			::StopSound(SOUND_EFFECT);
-			::PlaySoundW(L"executor_spell_sound.wav", SOUND_EFFECT, m_fVolume);
+			::StopSound(SOUND_EFFECT2);
+			::PlaySoundW(L"executor_spell_sound.wav", SOUND_EFFECT2, m_fVolume);
 			m_bLRAttackSound = true;
 		}
 		LeftAttack(fTimeDelta);
@@ -311,8 +312,8 @@ void		CSphinxFlyHead::AttackLeftRight(const _float& fTimeDelta)
 	{
 		if (false == m_bLRAttackSound)
 		{
-			::StopSound(SOUND_EFFECT);
-			::PlaySoundW(L"executor_spell_sound.wav", SOUND_EFFECT, m_fVolume);
+			::StopSound(SOUND_EFFECT2);
+			::PlaySoundW(L"executor_spell_sound.wav", SOUND_EFFECT2, m_fVolume);
 			m_bLRAttackSound = true;
 		}
 		RightAttack(fTimeDelta);
@@ -335,8 +336,8 @@ void		CSphinxFlyHead::AttackLeftRight(const _float& fTimeDelta)
 		LeftRightJudge(fTimeDelta);
 		if (false == m_bLRChargeSound)
 		{
-			::StopSound(SOUND_EFFECT);
-			::PlaySoundW(L"curse_spell_loop_sound.wav", SOUND_EFFECT, m_fVolume);
+			::StopSound(SOUND_EFFECT2);
+			::PlaySoundW(L"curse_spell_loop_sound.wav", SOUND_EFFECT2, m_fVolume);
 			m_bLRChargeSound = true;
 		}
 	}
@@ -434,8 +435,8 @@ void	CSphinxFlyHead::BodyAttack(const _float& fTimeDelta)
 		//Ready level
 		if (false == m_bChargeSound)
 		{
-			::StopSound(SOUND_EFFECT);
-			::PlaySoundW(L"Energy_Shield_Looping_1.wav", SOUND_EFFECT, m_fVolume);
+			::StopSound(SOUND_EFFECT2);
+			::PlaySoundW(L"Energy_Shield_Looping_1.wav", SOUND_EFFECT2, m_fVolume);
 			m_bChargeSound = true;
 		}
 		m_bRenderBodyAttack = true;
@@ -501,12 +502,14 @@ void		CSphinxFlyHead::Tackle(const _float& fTimeDelta)
 	CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
 	CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
 	_vec3 vPlayerPos = pPlayerTransformCom->m_vInfo[INFO_POS];
+	CPlayer* pPlayer = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
 
 	float fDistance = sqrtf((powf(vThunderPos.x - vPlayerPos.x, 2) + powf(vThunderPos.y - vPlayerPos.y, 2) + powf(vThunderPos.z - vPlayerPos.z, 2)));
 
 	if (fDistance < 2.f && false == m_bHitPlayer)
 	{
 		pPlayerInfo->Receive_Damage(10);
+		pPlayer->Set_DefenseToHp(true);
 		m_bHitPlayer = true;
 	}
 
@@ -728,6 +731,22 @@ void		CSphinxFlyHead::Dead_Action(const _float& fTimeDelta)
 		m_pDeadAnimationCom->Move_Animation(fTimeDelta);
 
 	}
+	else if (m_bShootFlare == false)
+	{
+		CScene* pScene = ::Get_Scene();
+		CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+
+		CGameObject* pGameObject = nullptr;
+		pGameObject = CFlare::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS]);
+		pMyLayer->Add_EffectList(pGameObject);
+		pGameObject = CFlare::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS] + _vec3(-3.f, 0.f, -3.f));
+
+		pMyLayer->Add_EffectList(pGameObject);
+		pGameObject = CFlare::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS] + _vec3(5.f, 0.f, -5.f));
+
+		pMyLayer->Add_EffectList(pGameObject);
+		m_bShootFlare = true;
+	}
 	if (12 == m_pDeadAnimationCom->m_iMotion)
 	{
 		if (false == m_bArrFalldown[0])
@@ -761,6 +780,8 @@ void		CSphinxFlyHead::Dead_Action(const _float& fTimeDelta)
 			//m_pDynamicTransCom->Set_Y(5.f);
 			m_bArrFalldown[3] = true;
 		}
+		//폭죽 올라가서 터지는 효과
+		
 	}
 }
 

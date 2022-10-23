@@ -36,6 +36,8 @@ private:
 	CAnimation*			m_pDeadAnimationCom = nullptr;
 	bool				m_bExplosionSound = false;
 
+	
+
 public:
 	static CSphinxBullet*		Create(LPDIRECT3DDEVICE9 pGraphicDev, _vec3 vPos);
 	virtual void		Free(void);

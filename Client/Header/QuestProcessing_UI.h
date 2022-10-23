@@ -33,7 +33,7 @@ public:
 
 public:
 	void				Set_Quest_Claer(Quest_Index eIndex, _bool bEvent){m_bMini_Game_Clear_Check[eIndex] = bEvent;}
-	const	_bool&		MiniGameCheck();
+	_bool		MiniGameCheck();
 private:
 	HRESULT				Add_Component(void);
 

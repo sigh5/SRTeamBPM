@@ -30,6 +30,9 @@ HRESULT CYetiTalk::Ready_Object(float Posx, float Posz, CTransform* pMaster)
 
 	m_bLifetime = 3.f;
 
+	::StopSound(SOUND_MONSTER3);
+	::PlaySoundW(L"Meow.wav", SOUND_MONSTER3, g_fSound * 1.6f);
+
 	return S_OK;
 }
 

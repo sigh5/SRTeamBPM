@@ -28,6 +28,7 @@ HRESULT CHarpoonBullet::Ready_Object(_vec3 vPos)
 
 	Set_MoveDir(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC, &vPos, MONSTER_BULLET, &vScale);
 
+	D3DXVec3Normalize(&m_MoveDir, &m_MoveDir);
 
 	return S_OK;
 }
@@ -39,7 +40,7 @@ _int CHarpoonBullet::Update_Object(const _float & fTimeDelta)
 	m_pTransCom->Set_Scale(&vScale);
 
 
-	if (m_fFrame > 2.f)
+	if (m_fFrame > 8.f)
 	{
 		m_bHitPlayer = false;
 		m_fFrame = 0.f;
@@ -49,7 +50,7 @@ _int CHarpoonBullet::Update_Object(const _float & fTimeDelta)
 
 	m_pAnimationCom->Move_Animation(fTimeDelta);
 
-	m_pTransCom->Move_Pos(&(m_MoveDir * 1.5f * fTimeDelta));
+	m_pTransCom->Move_Pos(&(m_MoveDir * 13.f * fTimeDelta));
 
 	_vec3 vThunderPos = m_pTransCom->m_vInfo[INFO_POS];
 	CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
@@ -66,7 +67,7 @@ _int CHarpoonBullet::Update_Object(const _float & fTimeDelta)
 
 	Engine::CBaseBullet::Update_Object(fTimeDelta);
 
-	Add_RenderGroup(RENDER_NONALPHA, this);
+	Add_RenderGroup(RENDER_ALPHA, this);
 	return 0;
 }
 

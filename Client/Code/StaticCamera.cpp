@@ -4,6 +4,8 @@
 #include "Export_Function.h"
 #include "MiniPlayer.h"
 
+// 현욱 미니스테이지 전용 카메라
+
 CStaticCamera::CStaticCamera(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CCamera(pGraphicDev)
 {
@@ -38,11 +40,28 @@ HRESULT CStaticCamera::Ready_Object(const _vec3* pEye,
 
 Engine::_int CStaticCamera::Update_Object(const _float& fTimeDelta)
 {
-	
-
-	Target_Renewal();
-
 	_int iExit = CCamera::Update_Object(fTimeDelta);
+
+	if (m_bPlayerHit)
+	{
+		m_fFrame += 0.2f *fTimeDelta;
+		m_itemp *= -1;
+		Target_Renewal();
+		m_vEye.y = m_vEye.y + (_float(m_itemp)*0.1f* fTimeDelta);
+
+		if (m_fFrame >= 0.2f)
+		{
+			m_fFrame = 0.f;
+			m_bPlayerHit = false;
+		}
+	}
+	else
+	{
+		Target_Renewal();
+	}
+
+	Mouse_Move(fTimeDelta);
+	Mouse_Fix();
 
 	return iExit;
 }
@@ -50,6 +69,11 @@ Engine::_int CStaticCamera::Update_Object(const _float& fTimeDelta)
 void CStaticCamera::LateUpdate_Object(void)
 {
 	CCamera::LateUpdate_Object();
+}
+
+void CStaticCamera::Set_Shaking()
+{
+	m_bPlayerHit = true;
 }
 
 
@@ -68,7 +92,7 @@ CStaticCamera* CStaticCamera::Create(LPDIRECT3DDEVICE9 pGraphicDev, const _vec3*
 
 void CStaticCamera::Target_Renewal(void)
 {
-	CTransform*	pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"MiniPlayer", L"Proto_DynamicTransformCom", ID_DYNAMIC));
+	CTransform*	pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
 	NULL_CHECK(pPlayerTransform);
 
 	_vec3	vLook;
@@ -77,18 +101,51 @@ void CStaticCamera::Target_Renewal(void)
 	m_vEye = vLook * -1.f;	// 방향 벡터
 	D3DXVec3Normalize(&m_vEye, &m_vEye);
 
-	m_vEye.y = 1.f;
+	m_vEye.y = m_fCameraHeight;
 	m_vEye *= m_fDistance;	// 방향 벡터
-
-	_vec3		vRight;
-	memcpy(&vRight, &pPlayerTransform->m_matWorld.m[0][0], sizeof(_vec3));
-
-	_matrix		matRot;
-	D3DXMatrixRotationAxis(&matRot, &vRight, m_fAngle);
-	D3DXVec3TransformNormal(&m_vEye, &m_vEye, &matRot);
 
 	m_vEye += pPlayerTransform->m_vInfo[INFO_POS];
 	m_vAt = pPlayerTransform->m_vInfo[INFO_POS];
+
+	m_vAt = m_vEye + vLook;
+
+}
+
+void CStaticCamera::Mouse_Move(const _float & fTimeDelta)
+{
+	_matrix		matCamWorld;
+	D3DXMatrixInverse(&matCamWorld, nullptr, &m_matView);
+
+	CTransform*	pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
+	NULL_CHECK(pPlayerTransform);
+
+	_long		dwMouseMove = 0;
+
+	if (dwMouseMove = Engine::Get_DIMouseMove(DIMS_X))
+	{
+		pPlayerTransform->Rotation(ROT_Y, D3DXToRadian(dwMouseMove / 10.f));
+		m_iBillBoardDir = (_int)((dwMouseMove / 10.f) *fTimeDelta);
+	}
+
+	if (dwMouseMove = Engine::Get_DIMouseMove(DIMS_Y))
+	{
+		m_fAngle = D3DXToRadian(dwMouseMove / 10.f) * fTimeDelta;
+		pPlayerTransform->Rotation(ROT_X, m_fAngle);
+	}
+
+}
+
+void CStaticCamera::Mouse_Fix()
+{
+	POINT	pt{};
+	GetCursorPos(&pt);
+	ScreenToClient(g_hWnd, &pt);
+
+
+	POINT	pt2{ (WINCX >> 1) - 16 , (WINCY >> 1) - 14 };
+
+	ClientToScreen(g_hWnd, &pt2);
+	SetCursorPos(pt2.x, pt2.y);
 }
 
 void CStaticCamera::Free(void)

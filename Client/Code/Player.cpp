@@ -196,7 +196,7 @@ void CPlayer::Render_Obejct(void)
 {
 	//m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pDynamicTransCom->Get_WorldMatrixPointer());
 	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-
+	
 	////m_pTextureCom->Set_Texture(m_iTexIndex);
 	//m_pBufferCom->Render_Buffer();
 	//
@@ -231,10 +231,7 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 	m_pDynamicTransCom->Get_Info(INFO_UP, &m_vUp);
 	m_pDynamicTransCom->Get_Info(INFO_POS, &m_vPos);
 
-	if (Get_DIKeyState(DIK_L) & 0X80)
-	{
-		cout << m_pInfoCom->Get_Hp() << endl;
-	}
+
 
 	if (Get_DIKeyState(DIK_W) & 0X80)
 	{
@@ -325,7 +322,7 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		{
 			static_cast<CControlRoom*>(iter)->Area_of_Effect(true);
 		}
-
+		
 		/*for (auto iter : PLayer->Get_GameObjectMap())
 		{
 			CMonsterBase* pMonster = dynamic_cast<CMonsterBase*>(iter.second);
@@ -333,7 +330,7 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 			if(pMonster!= nullptr)
 				static_cast<CMonsterBase*>(iter.second)->Excution_Event();
 		}*/
-	}
+		}
 
 	if (Get_DIKeyState(DIK_SPACE) & 0X80)
 	{//m_bJump = TRUE;
@@ -439,7 +436,7 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 	{
 		if (pEquipItem->Get_miID() == ID_MAGNUM)
 		{
-			pEquipItem->Set_Magazine(8);
+		pEquipItem->Set_Magazine(8);
 			Engine::PlaySoundW(L"Magnum_Reload.mp3", SOUND_GUNREROAD, 0.4f);
 		}
 
@@ -460,8 +457,6 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 	{
 		m_pInfoCom->Get_InfoRef()._iHp += 10000;
 
-		//Player_Dead(fTimeDelta);
-		//m_pInfoCom->Get_InfoRef()._iHp -= 25;
 	}
 
 	if (Engine::Key_Down(DIK_N))

@@ -227,7 +227,7 @@ void CGhul::Collision_Event()
 
 
 	if (static_cast<CGun_Screen*>(pGameObject)->Get_Shoot() &&
-		fMtoPDistance < MAX_CROSSROAD  &&
+		fMtoPDistance < MAX_CROSSROAD + g_fRange  &&
 		m_pColliderCom->Check_Lay_InterSect(m_pBufferCom, m_pDynamicTransCom, g_hWnd))
 	{
 		m_bHit = true;
@@ -247,17 +247,17 @@ void CGhul::Collision_Event()
 			{
 			case 0:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"zombie_pain_01.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"zombie_pain_01.wav", SOUND_MONSTER, g_fSound);
 				break;
 
 			case 1:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"zombie_pain_02.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"zombie_pain_02.wav", SOUND_MONSTER, g_fSound);
 				break;
 
 			case 2:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"zombie_pain_03.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"zombie_pain_03.wav", SOUND_MONSTER, g_fSound);
 				break;
 			}
 		}
@@ -285,7 +285,7 @@ void CGhul::Excution_Event(_bool bAOE)
 		READY_CREATE_EFFECT_VECTOR(pGameObject, CSpecial_Effect, pLayer, m_pGraphicDev, vPos);
 		static_cast<CSpecial_Effect*>(pGameObject)->Set_Effect_INFO(OWNER_PALYER, 0, 17, 0.2f);
 		
-		::PlaySoundW(L"explosion_1.wav", SOUND_EFFECT, 0.05f); // BGM
+		::PlaySoundW(L"explosion_1.wav", SOUND_EFFECT, g_fSound); 
 	}
 }
 
@@ -300,15 +300,15 @@ bool CGhul::Dead_Judge(const _float & fTimeDelta)
 			{
 			case 0:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"zombie_death_01.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"zombie_death_01.wav", SOUND_MONSTER, g_fSound);
 				break;
 			case 1:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"zombie_death_02.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"zombie_death_02.wav", SOUND_MONSTER, g_fSound);
 				break;
 			case 2:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"zombie_death_03.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"zombie_death_03.wav", SOUND_MONSTER, g_fSound);
 				break;
 			}
 			m_bDead = true;
@@ -393,6 +393,7 @@ void CGhul::AttackJudge(const _float & fTimeDelta)
 void CGhul::Attack(const _float & fTimeDelta)
 {
 	m_pAttackAnimationCom->Move_Animation(fTimeDelta);
+	CPlayer* pPlayer = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
 
 	CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
 	float Distance;
@@ -406,15 +407,15 @@ void CGhul::Attack(const _float & fTimeDelta)
 			{
 			case 0:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"zombie_attack_01.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"zombie_attack_01.wav", SOUND_MONSTER, g_fSound);
 				break;
 			case 1:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"zombie_attack_02.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"zombie_attack_02.wav", SOUND_MONSTER, g_fSound);
 				break;
 			case 2:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"zombie_attack_03.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"zombie_attack_03.wav", SOUND_MONSTER, g_fSound);
 				break;
 			}
 		}
@@ -423,6 +424,7 @@ void CGhul::Attack(const _float & fTimeDelta)
 	{
 		if (7.f > Distance)
 		{
+			pPlayer->Set_DefenseToHp(true);
 			pPlayerInfo->Receive_Damage(m_pInfoCom->Get_AttackPower());
 		}
 	}
@@ -430,6 +432,7 @@ void CGhul::Attack(const _float & fTimeDelta)
 	{
 		if (7.f > Distance)
 		{
+			pPlayer->Set_DefenseToHp(true);
 			pPlayerInfo->Receive_Damage(m_pInfoCom->Get_AttackPower());
 		}
 	}
@@ -450,15 +453,15 @@ void CGhul::DigOut(const _float& fTimeDelta)
 		{
 		case 0:
 			::StopSound(SOUND_MONSTER);
-			::PlaySoundW(L"zombie_detect_01.wav", SOUND_MONSTER, 0.4f);
+			::PlaySoundW(L"zombie_detect_01.wav", SOUND_MONSTER, g_fSound);
 			break;
 		case 1:
 			::StopSound(SOUND_MONSTER);
-			::PlaySoundW(L"zombie_detect_02.wav", SOUND_MONSTER, 0.4f);
+			::PlaySoundW(L"zombie_detect_02.wav", SOUND_MONSTER, g_fSound);
 			break;
 		case 2:
 			::StopSound(SOUND_MONSTER);
-			::PlaySoundW(L"zombie_detect_03.wav", SOUND_MONSTER, 0.4f);
+			::PlaySoundW(L"zombie_detect_03.wav", SOUND_MONSTER, g_fSound);
 			break;
 		}
 		m_bDigOutSound = true;

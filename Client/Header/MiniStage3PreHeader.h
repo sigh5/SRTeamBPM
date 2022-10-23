@@ -5,3 +5,7 @@
 #include "SkyBox.h"
 #include "MiniTerrain.h"
 #include "MiniPlayer.h"
+#include "StageTerrain.h"
+#include "Player.h"
+
+#include "MonsterMini.h"

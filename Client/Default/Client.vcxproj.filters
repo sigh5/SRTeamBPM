@@ -360,34 +360,83 @@
     <ClCompile Include="..\Code\SkillParticle.cpp">
       <Filter>02. GameObject\02. For_public\07. SkillParticle</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\FireWorks.cpp" />
-    <ClCompile Include="..\Code\HarpoonBullet.cpp" />
     <ClCompile Include="..\Code\Helmet2.cpp" />
     <ClCompile Include="..\Code\QuestNpc.cpp" />
     <ClCompile Include="..\Code\QuestTalkingFrame.cpp" />
     <ClCompile Include="..\Code\WrongPicFind.cpp" />
-    <ClCompile Include="..\Code\PetYeti.cpp" />
-    <ClCompile Include="..\Code\YetiTalk.cpp" />
-    <ClCompile Include="..\Code\EquipYeti.cpp" />
-    <ClCompile Include="..\Code\Helmet2.cpp">
-      <Filter>02. GameObject\01. For_Stage\14. Equipment\01. Helmet\Helmet2</Filter>
+    <ClCompile Include="..\Code\Tentacle.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. Monster\10. FinalBos</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Currect_Answer.cpp" />
+    <ClCompile Include="..\Code\ThingySpike.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. Monster\10. FinalBos</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FinalBossBullet.cpp" />
     <ClCompile Include="..\Code\Click_Particle.cpp" />
-    <ClCompile Include="..\Code\Gacha_Machine.cpp">
-      <Filter>02. GameObject\01. For_Stage\50. Gacha_Machine</Filter>
-    </ClCompile>
+    <ClCompile Include="..\Code\Currect_Answer.cpp" />
+    <ClCompile Include="..\Code\DefBar.cpp" />
+    <ClCompile Include="..\Code\Gacha_Machine.cpp" />
     <ClCompile Include="..\Code\MiniGame3.cpp" />
+    <ClCompile Include="..\Code\MiniPlayer.cpp" />
     <ClCompile Include="..\Code\MiniTerrain.cpp" />
     <ClCompile Include="..\Code\QuestProcessing_UI.cpp" />
-    <ClCompile Include="..\Code\DefBar.cpp">
-      <Filter>02. GameObject\01. For_Stage\10. UI\03. HpBar\00. DefenseBar</Filter>
+    <ClCompile Include="..\Code\Skill_UI.cpp" />
+    <ClCompile Include="..\Code\ThunderHand.cpp" />
+    <ClCompile Include="..\Code\YetiTalk.cpp">
+      <Filter>02. GameObject\01. For_Stage\17. Pet</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Skill_UI.cpp">
-      <Filter>02. GameObject\01. For_Stage\10. UI\50. Skill_UI</Filter>
+    <ClCompile Include="..\Code\PetYeti.cpp">
+      <Filter>02. GameObject\01. For_Stage\17. Pet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EquipYeti.cpp">
+      <Filter>02. GameObject\01. For_Stage\14. Equipment\02. Pet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MiniTerrain.cpp">
+      <Filter>02. GameObject\01. For_Stage\03. Terrain\WaterTerrain</Filter>
+    <ClCompile Include="..\Code\HarpoonBullet.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. Monster\09. HarpoonGuy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FireWorks.cpp">
+      <Filter>02. GameObject\01. For_Stage\09. Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Flare.cpp">
+      <Filter>02. GameObject\01. For_Stage\09. Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\YetiTalk.cpp">
+      <Filter>02. GameObject\01. For_Stage\14. Equipment\02. Pet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\QuestProcessing_UI.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\20. Quest_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\QuestTalkingFrame.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\20. Quest_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Gacha_Machine.cpp" />
+    <ClCompile Include="..\Code\Helmet.cpp" />
+    <ClCompile Include="..\Code\Helmet2.cpp" />
+    <ClCompile Include="..\Code\Click_Particle.cpp">
+      <Filter>02. GameObject\02. For_public\07. SkillParticle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ThunderHand.cpp">
+      <Filter>02. GameObject\01. For_Stage\13. Gun_Screen\Magic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MonsterMini.cpp">
+      <Filter>01. Scene\02. MiniGame\02. MiniGame3\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MagneticField.cpp">
+      <Filter>01. Scene\02. MiniGame\02. MiniGame3\magnetic_field</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\StageTerrain.cpp">
+      <Filter>01. Scene\02. MiniGame\02. MiniGame3\StageTerrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MiniPlayer.cpp">
+      <Filter>01. Scene\02. MiniGame\02. MiniGame3\MiniGamePlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UI_Timer.cpp">
+      <Filter>01. Scene\02. MiniGame\02. MiniGame3\UI</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\MiniPlayer.cpp" />
-    <ClCompile Include="..\Code\ThunderHand.cpp" />
+     <Filter>01. Scene\02. MiniGame\02. MiniGame3\MiniGamePlayer</Filter>
+    </ClCompile>
     <ClCompile Include="..\Code\ThunderPic.cpp">
       <Filter>02. GameObject\01. For_Stage\10. UI\95. ShopUI\00. ThunderPic</Filter>
     </ClCompile>
@@ -564,8 +613,8 @@
     <ClInclude Include="..\Header\CoinKeyUI.h">
       <Filter>02. GameObject\01. For_Stage\10. UI\05. CoinUI</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\StaticCamera.h">
-      <Filter>02.GameObject\For_Public\StaticCamera</Filter>
+    <ClInclude Include="..\Header\Box.h">
+      <Filter>02. GameObject\01. For_Stage\11. Item\02. Box</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Player.h">
       <Filter>02. GameObject\01. For_Stage\00. Player</Filter>
@@ -633,8 +682,8 @@
     <ClInclude Include="..\Header\LoadingBackFont.h">
       <Filter>02. GameObject\01. For_Stage\10. UI\10. LoadingFont_BackGround</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\BackGround.h">
-      <Filter>02.GameObject\For_logo\BackGround</Filter>
+    <ClInclude Include="..\Header\TeleCube.h">
+      <Filter>02. GameObject\02. For_public\05. TeleCube</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\EarthShaker.h">
       <Filter>02. GameObject\01. For_Stage\02. Monster\06. EarthShaker</Filter>
@@ -777,32 +826,77 @@
     <ClInclude Include="..\Header\SkillParticle.h">
       <Filter>02. GameObject\02. For_public\07. SkillParticle</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\FireWorks.h" />
-    <ClInclude Include="..\Header\HarpoonBullet.h" />
     <ClInclude Include="..\Header\Helmet2.h" />
     <ClInclude Include="..\Header\QuestNpc.h" />
     <ClInclude Include="..\Header\QuestTalkingFrame.h" />
     <ClInclude Include="..\Header\WrongPicFind.h" />
-    <ClInclude Include="..\Header\PetYeti.h" />
-    <ClInclude Include="..\Header\YetiTalk.h" />
-    <ClInclude Include="..\Header\EquipYeti.h" />
-    <ClInclude Include="..\Header\Currect_Answer.h" />
-    <ClInclude Include="..\Header\Click_Particle.h" />
-    <ClInclude Include="..\Header\Gacha_Machine.h">
-      <Filter>02. GameObject\01. For_Stage\50. Gacha_Machine</Filter>
+    <ClInclude Include="..\Header\Tentacle.h">
+      <Filter>02. GameObject\01. For_Stage\02. Monster\10. FinalBos</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\ThingySpike.h">
+      <Filter>02. GameObject\01. For_Stage\02. Monster\10. FinalBos</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\FinalBossBullet.h" />
+    <ClInclude Include="..\Header\Click_Particle.h" />
+    <ClInclude Include="..\Header\Currect_Answer.h" />
+    <ClInclude Include="..\Header\DefBar.h" />
+    <ClInclude Include="..\Header\Gacha_Machine.h" />
     <ClInclude Include="..\Header\MiniGame3.h" />
+    <ClInclude Include="..\Header\MiniPlayer.h" />
+    <ClInclude Include="..\Header\MiniStage3PreHeader.h" />
     <ClInclude Include="..\Header\MiniTerrain.h" />
     <ClInclude Include="..\Header\QuestProcessing_UI.h" />
-    <ClInclude Include="..\Header\TeleCube.h" />
-    <ClInclude Include="..\Header\Box.h">
-      <Filter>02. GameObject\01. For_Stage\11. Item\02. Box</Filter>
+    <ClInclude Include="..\Header\Skill_UI.h" />
+    <ClInclude Include="..\Header\ThunderHand.h" />
+    <ClInclude Include="..\Header\YetiTalk.h">
+      <Filter>02. GameObject\01. For_Stage\17. Pet</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\DefBar.h">
-      <Filter>02. GameObject\01. For_Stage\10. UI\03. HpBar\00. DefenseBar</Filter>
+    <ClInclude Include="..\Header\PetYeti.h">
+      <Filter>02. GameObject\01. For_Stage\17. Pet</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Skill_UI.h">
-      <Filter>02. GameObject\01. For_Stage\10. UI\50. Skill_UI</Filter>
+    <ClInclude Include="..\Header\EquipYeti.h">
+      <Filter>02. GameObject\01. For_Stage\14. Equipment\02. Pet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\MiniTerrain.h">
+      <Filter>02. GameObject\01. For_Stage\03. Terrain\WaterTerrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Npc.h">
+      <Filter>02. GameObject\01. For_Stage\16. NPC\ShopNpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\QuestNpc.h">
+      <Filter>02. GameObject\01. For_Stage\16. NPC\QuestNpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\TeleCube.h">
+      <Filter>02. GameObject\02. For_public\05. TeleCube</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\YetiTalk.h">
+      <Filter>02. GameObject\01. For_Stage\14. Equipment\02. Pet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\HarpoonBullet.h">
+      <Filter>02. GameObject\01. For_Stage\02. Monster\09. HarpoonGuy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Flare.h">
+      <Filter>02. GameObject\01. For_Stage\09. Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\FireWorks.h">
+      <Filter>02. GameObject\01. For_Stage\09. Particle</Filter>
+    <ClInclude Include="..\Header\MiniStage3PreHeader.h">
+      <Filter>99. Default\PreSceneHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\MonsterMini.h">
+      <Filter>01. Scene\02. MiniGame\02. MiniGame3\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\MagneticField.h">
+      <Filter>01. Scene\02. MiniGame\02. MiniGame3\magnetic_field</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\StageTerrain.h">
+      <Filter>01. Scene\02. MiniGame\02. MiniGame3\StageTerrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\MiniPlayer.h">
+      <Filter>01. Scene\02. MiniGame\02. MiniGame3\MiniGamePlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UI_Timer.h">
+      <Filter>01. Scene\02. MiniGame\02. MiniGame3\UI</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\MiniPlayer.h" />
     <ClInclude Include="..\Header\MiniStage3PreHeader.h" />
@@ -1153,17 +1247,56 @@
     <Filter Include="02. GameObject\01. For_Stage\14. Equipment\02. Pet">
       <UniqueIdentifier>{ce2111e0-7f46-414f-9ae3-1fb08de0345f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. For_Stage\09. Particle\50. Click_Particle">
-      <UniqueIdentifier>{6b07cd91-aa99-4cc1-8ced-58e54cb13b9e}</UniqueIdentifier>
+    <Filter Include="02. GameObject\01. For_Stage\14. Equipment\01. HelMet">
+      <UniqueIdentifier>{c7ca6191-4c42-43b7-97d9-df67bf002352}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. For_Stage\50. Gacha_Machine">
-      <UniqueIdentifier>{3d53369c-c1e8-4acc-af1e-65c83ff5ba99}</UniqueIdentifier>
+    <Filter Include="01. Scene\02. MiniGame">
+      <UniqueIdentifier>{0d51eff5-ec59-491b-b7eb-12cae16a2436}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. For_Stage\10. UI\03. HpBar\00. DefenseBar">
-      <UniqueIdentifier>{df31ea24-520b-4d5b-8b47-f4c6b5cd3afb}</UniqueIdentifier>
+    <Filter Include="01. Scene\02. MiniGame\00. MiniGame1">
+      <UniqueIdentifier>{9b7ccfeb-ecf0-4e7c-96e7-c954babd2263}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. For_Stage\10. UI\50. Skill_UI">
-      <UniqueIdentifier>{7500e8c5-8ae7-46c2-8cb1-7b4e71aecf82}</UniqueIdentifier>
+    <Filter Include="01. Scene\02. MiniGame\02. MiniGame3">
+      <UniqueIdentifier>{9570bafb-bc80-4025-b4ab-da5affc3a3f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\16. NPC\QuestNpc">
+      <UniqueIdentifier>{fdc36c23-1799-4716-9a10-26ba9980747d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\16. NPC\ShopNpc">
+      <UniqueIdentifier>{bd575b18-2c78-4ed6-a533-982ce85a3b58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\20. Quest_UI">
+      <UniqueIdentifier>{adea0d0c-4cb8-4060-b5fc-ba3c60f66e1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\13. Gun_Screen\Magic">
+      <UniqueIdentifier>{2c522efa-e34d-4f34-9702-24a096ee9dce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{bfd05942-66b2-4a91-94d6-611833d6a014}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\03. Terrain\StageTerrain">
+      <UniqueIdentifier>{270e7cec-a82a-4b58-9576-ef908867d9c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\03. Terrain\WaterTerrain">
+      <UniqueIdentifier>{8c569dd5-6445-45f5-b819-7fff43a03d5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\02. MiniGame\02. MiniGame3\Monster">
+      <UniqueIdentifier>{d9bbb976-68c6-42d6-b339-c46fda74a60b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\02. MiniGame\02. MiniGame3\Wall">
+      <UniqueIdentifier>{ec9f1396-8e78-4db4-b786-4368a17eafb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\02. MiniGame\02. MiniGame3\magnetic_field">
+      <UniqueIdentifier>{63d3c3ce-7816-447b-ad11-3b5ce477a0dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\02. MiniGame\02. MiniGame3\StageTerrain">
+      <UniqueIdentifier>{bd40d270-fc22-4824-874c-984a13eb2f26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\02. MiniGame\02. MiniGame3\MiniGamePlayer">
+      <UniqueIdentifier>{5731dc14-c3fb-4a6c-85da-c13222f17c87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\02. MiniGame\02. MiniGame3\UI">
+      <UniqueIdentifier>{a1d6d74d-0259-4c05-b2b5-23f3fbae5c64}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\10. UI\95. ShopUI\00. ThunderPic">
       <UniqueIdentifier>{cc14088e-50e9-4a50-8a9d-61f2985cd0f2}</UniqueIdentifier>

@@ -28,6 +28,13 @@ public:
 
 	const _vec3&		Get_Center() { return m_vCenter; }
 
+
+	_int*	Get_OptionArray() { return m_iOptionArray; }
+
+
+
+
+
 private:
 	HANDLE				m_hFile;
 	BITMAPFILEHEADER	m_fH;
@@ -36,7 +43,9 @@ private:
 	_vec3*				m_pPos;
 	_bool				m_bClone;
 
-	_vec3				m_vCenter;
+	_vec3				m_vCenter;	
+	_int*				m_iOptionArray;
+
 
 public:
 	static CTerrainMoveTex*	Create(LPDIRECT3DDEVICE9 pGraphicDev, const _ulong& dwCntX, const _ulong& dwCntZ, const _ulong& dwVtxItv);

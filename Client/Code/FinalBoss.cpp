@@ -9,7 +9,10 @@
 #include "Gun_Screen.h"
 #include "TapeWorm.h"
 #include "HarpoonBullet.h"
-
+#include "Tentacle.h"
+#include "ThingySpike.h"
+#include "FinalBossBullet.h"
+#include "Flare.h"
 
 CFinalBoss::CFinalBoss(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -33,7 +36,13 @@ HRESULT CFinalBoss::Ready_Object(float Posx, float Posy)
 	m_pThingy_AttackBTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Thingy_AttackB_Texture", m_mapComponent, ID_STATIC);
 	m_pThingy_AttackCTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Thingy_AttackC_Texture", m_mapComponent, ID_STATIC);
 	m_pThingyTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Thingy_Texture", m_mapComponent, ID_STATIC);
+	m_pThingy_OnekiokTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Thingy_Onekiok_Texture", m_mapComponent, ID_STATIC);
+	m_pDeadTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Thingy_Death_Texture", m_mapComponent, ID_STATIC);
 	
+	m_pThingy_Onekiok_AnimationCom = dynamic_cast<CAnimation*>(Clone_Proto(L"Proto_AnimationCom"));
+	NULL_CHECK_RETURN(m_pThingy_Onekiok_AnimationCom, E_FAIL);
+	m_mapComponent[ID_STATIC].insert({ L"Proto_Onekiok_AnimationCom", m_pThingy_Onekiok_AnimationCom });
+
 	m_pCamouAttackAnimationCom = dynamic_cast<CAnimation*>(Clone_Proto(L"Proto_AnimationCom"));
 	NULL_CHECK_RETURN(m_pCamouAttackAnimationCom, E_FAIL);
 	m_mapComponent[ID_STATIC].insert({ L"Proto_CamouAttack_AnimationCom", m_pCamouAttackAnimationCom });
@@ -58,23 +67,41 @@ HRESULT CFinalBoss::Ready_Object(float Posx, float Posy)
 	NULL_CHECK_RETURN(m_pThingy_AnimatiionCom, E_FAIL);
 	m_mapComponent[ID_STATIC].insert({ L"Proto_Thingy_AnimationCom", m_pThingy_AnimatiionCom });
 
+	m_pDeadAnimationCom->Ready_Animation(9, 0, 0.7f);
+
 	m_pCamouAttackAnimationCom->Ready_Animation(12, 0, 0.2f); // 하푼가이 어택
 
 	m_pAnimationCom->Ready_Animation(6, 1, 0.2f); // 하푼가이 0번 아이들 7번 hit
 
-	m_pMorphAnimationCom->Ready_Animation(17, 0, 0.2f); //변신
+	m_pMorphAnimationCom->Ready_Animation(17, 0, 0.3f); //변신
+
+	m_pThingy_Onekiok_AnimationCom->Ready_Animation(12, 0, 0.4f);
 
 	m_pThingy_AttackA_AnimationCom->Ready_Animation(17, 0, 0.2f); //어택A
-	m_pThingy_AttackB_AnimationCom->Ready_Animation(27, 0, 0.2f); //B
-	m_pThingy_AttackC_AnimationCom->Ready_Animation(13, 0, 0.2f); //C
+	m_pThingy_AttackB_AnimationCom->Ready_Animation(27, 0, 0.25f); //B
+	m_pThingy_AttackC_AnimationCom->Ready_Animation(13, 0, 0.15f); //C
 
-	m_pThingy_AnimatiionCom->Ready_Animation(6, 1, 0.2f);
+	m_pThingy_AnimatiionCom->Ready_Animation(6, 1, 0.35f);
 
+	m_vMonsterRight = _vec3(0.f, 0.f, 0.f);
+	m_vMonsteFront = _vec3(0.f, 0.f, 0.f);
+	m_vMonsterLeft = _vec3(0.f, 0.f, 0.f);
+	m_vMonsterback = _vec3(0.f, 0.f, 0.f);
+	m_vPlayerOriginPos = _vec3(0.f, 0.f, 0.f);
+	m_fFront = 0.f;
+	m_fBack = 0.f;
+	m_fLeft = 0.f;
+	m_fRight = 1.f;
 	//m_iMonsterIndex
 	m_pDynamicTransCom->Set_Scale(&_vec3(3.f, 3.f, 3.f));
 	m_pInfoCom->Ready_CharacterInfo(5, 10, 0.7f);
 	m_iPreHp = m_pInfoCom->Get_Hp();
-	m_fAttackDelay = 1.f;
+	m_fAttackDelay = 3.f;
+
+	m_vPlayerOriginPos = { 0.f,0.f,0.f };
+
+
+	m_fWaitingTime = 0.35f;
 
 	m_pDynamicTransCom->Update_Component(1.f);
 	return S_OK; 
@@ -199,7 +226,7 @@ void CFinalBoss::Render_Obejct(void)
 		break;
 
 	case Attack_A:
-		m_pThingy_AttackATextureCom->Set_Texture(m_pThingy_AttackA_AnimationCom->m_iMotion);
+		m_pThingy_OnekiokTextureCom->Set_Texture(m_pThingy_Onekiok_AnimationCom->m_iMotion);
 		break;
 
 	case Attack_B:
@@ -207,10 +234,22 @@ void CFinalBoss::Render_Obejct(void)
 		break;
 
 	case Attack_C:
+		if ( false == m_bTentacleAnimation)
+		{
+			m_pThingy_AttackBTextureCom->Set_Texture(m_pThingy_AttackB_AnimationCom->m_iMotion);
+		}
+		else
+		{
+			m_pThingy_AttackATextureCom->Set_Texture(m_pThingy_AttackA_AnimationCom->m_iMotion);
+		}
+		break;
+
+	case Attack_D:
 		m_pThingy_AttackCTextureCom->Set_Texture(m_pThingy_AttackC_AnimationCom->m_iMotion);
 		break;
 
 	case Thingy_Death:
+		m_pDeadTextureCom->Set_Texture(m_pDeadAnimationCom->m_iMotion);
 		break;
 	}
 	SetUp_Material();
@@ -237,7 +276,7 @@ void CFinalBoss::Collision_Event()
 	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
 
 	if (static_cast<CGun_Screen*>(pGameObject)->Get_Shoot() &&
-		fMtoPDistance < MAX_CROSSROAD  &&
+		fMtoPDistance < MAX_CROSSROAD + g_fRange  &&
 		m_pColliderCom->Check_Lay_InterSect(m_pBufferCom, m_pDynamicTransCom, g_hWnd))
 	{
 		m_bHit = true;
@@ -249,27 +288,6 @@ void CFinalBoss::Collision_Event()
 		READY_CREATE_EFFECT_VECTOR(pGameObject, CHitEffect, pLayer, m_pGraphicDev, vPos);
 		static_cast<CHitEffect*>(pGameObject)->Set_Effect_INFO(OWNER_SPIDER, 0, 7, 0.2f);
 
-		if (false == m_bDead)
-		{
-			_int Hitsound = rand() % 3;
-			switch (Hitsound)
-			{
-			case 0:
-				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Soldier_Pain_01.wav", SOUND_MONSTER, 0.4f);
-				break;
-
-			case 1:
-				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Soldier_Pain_02.wav", SOUND_MONSTER, 0.4f);
-				break;
-
-			case 2:
-				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Soldier_Pain_03.wav", SOUND_MONSTER, 0.4f);
-				break;
-			}
-		}
 	}
 }
 
@@ -280,28 +298,16 @@ bool CFinalBoss::Dead_Judge(const _float & fTimeDelta)
 		if (m_bCamouflage)
 		{
 			m_bCamouflage = false;
-			m_pInfoCom->Add_Hp(50);
+			m_pInfoCom->Add_Hp(4);
 		}
 		else
 		{
 			if (false == m_bDead)
 			{
 				_int Hitsound = rand() % 3;
-				switch (Hitsound)
-				{
-				case 0:
-					::StopSound(SOUND_MONSTER);
-					::PlaySoundW(L".wav", SOUND_MONSTER, 0.4f);
-					break;
-				case 1:
-					::StopSound(SOUND_MONSTER);
-					::PlaySoundW(L".wav", SOUND_MONSTER, 0.4f);
-					break;
-				case 2:
-					::StopSound(SOUND_MONSTER);
-					::PlaySoundW(L".wav", SOUND_MONSTER, 0.4f);
-					break;
-				}
+				m_bState = Thingy_Death;
+				::StopSound(SOUND_MONSTER);
+				::PlaySoundW(L"Cthulhu_death_01.wav", SOUND_MONSTER, g_fSound);
 				m_bDead = true;
 			}
 		}
@@ -311,6 +317,35 @@ bool CFinalBoss::Dead_Judge(const _float & fTimeDelta)
 	{
 		if (m_pDeadAnimationCom->m_iMotion<m_pDeadAnimationCom->m_iMaxMotion)
 			m_pDeadAnimationCom->Move_Animation(fTimeDelta);
+
+		if (m_pDeadAnimationCom->m_iMaxMotion == m_pDeadAnimationCom->m_iMotion)
+		{
+			if (false == m_bShootFlare)
+			{
+				CScene* pScene = ::Get_Scene();
+				CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+				CGameObject* pFlare = nullptr;
+				pFlare = CFlare::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS]);
+				
+				pMyLayer->Add_EffectList(pFlare);
+				pFlare = CFlare::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS] + _vec3(3.f, 0.f, 3.f));
+
+				pMyLayer->Add_EffectList(pFlare);
+
+				pFlare = CFlare::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS] + _vec3(-7.f, 0.f, -3.f));
+
+				pMyLayer->Add_EffectList(pFlare);
+
+				pFlare = CFlare::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS] + _vec3(-6.f, 0.f, 3.f));
+
+				pMyLayer->Add_EffectList(pFlare);
+				pFlare = CFlare::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS] + _vec3(1.5f, 0.f, -6.5f));
+
+				pMyLayer->Add_EffectList(pFlare);
+				// 몇개 더
+				m_bShootFlare = true;
+			}
+		}
 		Engine::CMonsterBase::Update_Object(fTimeDelta);
 		Add_RenderGroup(RENDER_ALPHA, this);
 		return true;
@@ -330,7 +365,7 @@ void CFinalBoss::Camouflage_Attack(const _float & fTimeDelta)
 	m_bState = Camouflage_Shoot;
 	m_pCamouAttackAnimationCom->Move_Animation(fTimeDelta);
 
-	if (5 == m_pCamouAttackAnimationCom->m_iMotion)
+	if (5 == m_pCamouAttackAnimationCom->m_iMotion && false == m_bShotBullet)
 	{
 		CGameObject* pBullet;
 		pBullet = CHarpoonBullet::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS]);
@@ -338,7 +373,7 @@ void CFinalBoss::Camouflage_Attack(const _float & fTimeDelta)
 		m_bShotBullet = true;
 
 		::StopSound(SOUND_EFFECT2);
-		::PlaySoundW(L"LaserGun.wav", SOUND_EFFECT2, 0.4f);
+		::PlaySoundW(L"LaserGun.wav", SOUND_EFFECT2, g_fSound);
 	}
 	if (m_pCamouAttackAnimationCom->m_iMaxMotion == m_pCamouAttackAnimationCom->m_iMotion)
 	{
@@ -354,9 +389,15 @@ void CFinalBoss::Camouflage_Cancle(const _float & fTimeDelta)
 	m_pDynamicTransCom->Set_Scale(&_vec3(5.05f, 5.05f, 5.05f));
 	m_bState = Morph;
 	m_pMorphAnimationCom->Move_Animation(fTimeDelta);
+	if (false == m_bMorphSound)
+	{
+		::StopSound(SOUND_MONSTER);
+		::PlaySoundW(L"Cthulhu_pain_01.wav", SOUND_MONSTER, g_fSound);
+	}
 	if (m_pMorphAnimationCom->m_iMaxMotion == m_pMorphAnimationCom->m_iMotion)
 	{
 		m_bMorphFinish = true;
+		m_bState = Thingy_Walk;
 	}
 }
 
@@ -369,8 +410,8 @@ void CFinalBoss::AttackJudge(const _float & fTimeDelta)
 		if (m_fAttackDelay <= m_fAttackDelayTime)
 		{
 			m_bAttack = true;
-			//m_iAttackPattern = rand() % 2; //rand
-			m_iAttackPattern = 1;
+			m_iAttackPattern = rand() % 5; //rand
+			
 			m_fAttackDelayTime = 0.f;
 		}
 	}
@@ -386,14 +427,22 @@ void CFinalBoss::AttackJudge(const _float & fTimeDelta)
 			m_bAttacking = false;
 		}
 	}
+
 }
 
 void CFinalBoss::Attack(const _float & fTimeDelta)
 {
+	if (false == m_bAttackSound)
+	{
+		::StopSound(SOUND_MONSTER2);
+		::PlaySoundW(L"Cthulhu_attack_01.wav", SOUND_MONSTER2, g_fSound);
+		m_bAttackSound = true;
+	}
 	switch (m_iAttackPattern)
 	{
 	case 0:
 		m_bState = Attack_A;
+		AttackPettern1(fTimeDelta);
 		break;
 
 	case 1:
@@ -403,6 +452,12 @@ void CFinalBoss::Attack(const _float & fTimeDelta)
 
 	case 2:
 		m_bState = Attack_C;
+		AttackPettern3(fTimeDelta);
+		break;
+
+	case 3:
+		m_bState = Attack_D;
+		AttackPettern4(fTimeDelta);
 		break;
 	}
 }
@@ -434,9 +489,56 @@ void CFinalBoss::BattleLoop(const _float & fTimeDelta)
 	}
 	else if(true == m_bMorphFinish)
 	{
-		Attack(fTimeDelta);
+		if (fMtoPDistance > 10.f && Thingy_Walk == m_bState)
+		{
+			
+			m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
+
+			m_pThingy_AnimatiionCom->Move_Animation(fTimeDelta);
+		}
+		else
+		{
+			if (m_bAttack)
+			{
+				Attack(fTimeDelta);
+			}
+			else
+			{
+				m_pThingy_AnimatiionCom->m_iMotion = 0;
+				m_bState = Thingy_Walk;
+			}
+		}
 	}
 }
+void	CFinalBoss::AttackPettern1(const _float& fTimeDelta)
+{
+	CScene* pScene = ::Get_Scene();
+	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+	if (6 != m_pThingy_Onekiok_AnimationCom->m_iMotion || m_bOnekiokGo)
+	{
+		m_pThingy_Onekiok_AnimationCom->Move_Animation(fTimeDelta);
+	}
+	if (6 == m_pThingy_Onekiok_AnimationCom->m_iMotion && false == m_bCreatedOnekiok)
+	{
+		CGameObject* pBullet = nullptr;
+		pBullet = CFinalBossBullet::Create(m_pGraphicDev, m_pDynamicTransCom->m_vInfo[INFO_POS] + _vec3(0.f, 1.f, 0.f), this);
+			
+		m_bCreatedOnekiok = true;
+		pMyLayer->Add_EffectList(pBullet);
+
+	}
+	if (m_pThingy_Onekiok_AnimationCom->m_iMaxMotion == m_pThingy_Onekiok_AnimationCom->m_iMotion)
+	{
+		m_bAttack = false;
+		m_bOnekiokGo = false;
+		m_pThingy_Onekiok_AnimationCom->m_iMotion = 0;
+		m_bCreatedOnekiok = false;
+		m_bState = Thingy_Walk;
+		m_bAttackSound = false;
+	}
+
+}
+
 void	CFinalBoss::AttackPettern2(const _float& fTimeDelta)
 {
 
@@ -459,6 +561,216 @@ void	CFinalBoss::AttackPettern2(const _float& fTimeDelta)
 		m_bCreatedTapeWorm = false;
 		m_bAttack = false;
 		m_bState = Thingy_Walk;
+		m_bAttackSound = false;
+		m_pThingy_AttackB_AnimationCom->m_iMotion = 0;
+	}
+}
+void CFinalBoss::AttackPettern3(const _float & fTimeDelta)
+{
+	CScene* pScene = ::Get_Scene();
+	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+	if (false == m_bTentacleAnimation)
+	{
+		m_pThingy_AttackB_AnimationCom->Move_Animation(fTimeDelta);
+		if (11 == m_pThingy_AttackB_AnimationCom->m_iMotion)
+		{
+			//촉수 생성
+			if (false == m_bCreateTentacle)
+			{
+				CGameObject* pTentacle = nullptr;
+				pTentacle = CTentacle::Create(m_pGraphicDev, this, 0, m_vPlayerPos.x, m_vPlayerPos.z);
+				pMyLayer->Add_EffectList(pTentacle);
+				m_bCreateTentacle = true;
+			}
+		}
+		if (m_pThingy_AttackB_AnimationCom->m_iMaxMotion == m_pThingy_AttackB_AnimationCom->m_iMotion)
+		{
+			m_bTentacleAnimation = true;
+			m_pThingy_AttackB_AnimationCom->m_iMotion = 0;
+		}
+	}
+	if (m_bCreateTentacle)
+	{
+		//if (m_iPreHp > m_pInfoCom->Get_Hp())
+		//{
+		//	m_iHitNum++;
+		//	if (2 < m_iHitNum)
+		//		m_bPettern3Finish = true;
+		//}
+	}
+	if (true == m_bTentacleAnimation)
+	{
+		if (1.5f > fMtoPDistance && 7==m_pThingy_AttackA_AnimationCom->m_iMotion)
+		{
+			CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
+			
+			pPlayerInfo->Receive_Damage(10);
+			m_bPettern3Finish = true;
+		}
+		if( 7>m_pThingy_AttackA_AnimationCom->m_iMotion || m_bPettern3Finish)
+		m_pThingy_AttackA_AnimationCom->Move_Animation(fTimeDelta);
+
+		if (m_pThingy_AttackA_AnimationCom->m_iMaxMotion == m_pThingy_AttackA_AnimationCom->m_iMotion)
+		{
+
+			m_bAttack = false;
+			m_bTentacleAnimation = false;
+			m_bCreateTentacle = false;
+			m_bPettern3Finish = false;
+			m_iHitNum = 0;
+			m_pThingy_AttackA_AnimationCom->m_iMotion = 0;
+			m_bState = Thingy_Walk;
+			m_bAttackSound = false;
+		}
+	}
+
+	
+}
+void CFinalBoss::AttackPettern4(const _float & fTimeDelta)
+{
+	if (false == m_bSavePosition)
+	{
+		_vec3 ShakerPos, vDir, vMonsterRight;
+		m_pDynamicTransCom->Get_Info(INFO_POS, &ShakerPos);
+		vDir = m_vPlayerOriginPos - ShakerPos;
+		D3DXVec3Normalize(&vDir, &vDir);
+		D3DXVec3Cross(&vMonsterRight, &_vec3(0.f, 1.f, 0.f), &vDir);
+		m_vMonsteFront = vDir;
+		m_vMonsterRight = vMonsterRight;
+		m_vMonsterback = -vDir;
+		m_vMonsterLeft = -vMonsterRight;
+		m_bSavePosition = true;
+	}
+	CScene* pScene = ::Get_Scene();
+	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+	m_pThingy_AttackC_AnimationCom->Move_Animation(fTimeDelta);
+
+	if (4 == m_pThingy_AttackC_AnimationCom->m_iMotion && false== m_bCreateSpike)
+	{
+		
+		//촉ㄹ수촉촉수
+
+
+		CThingySpike* pTentacle = nullptr;
+		::StopSound(SOUND_MONSTER2);
+		::PlaySoundW(L"Qoong.wav", SOUND_MONSTER2, g_fSound);
+		if (m_bPettern4LR)
+		{
+			for (int i = 1; i < 20; ++i)
+			{
+				_vec3 ShakerPos;
+				m_pDynamicTransCom->Get_Info(INFO_POS, &ShakerPos);
+				_vec3 vTempDir = _vec3(0.f, 0.f, 0.f);
+				vTempDir = i * (m_vMonsteFront * m_fFront + m_vMonsterRight * m_fRight + m_vMonsterback * m_fBack + m_vMonsterLeft * m_fLeft);
+
+				
+				pTentacle = CThingySpike::Create(m_pGraphicDev, m_fWaitingTime * i, ShakerPos.x + vTempDir.x, ShakerPos.z + vTempDir.z);
+				pMyLayer->Add_EffectList(pTentacle);
+
+				pTentacle = CThingySpike::Create(m_pGraphicDev, m_fWaitingTime * i, ShakerPos.x + -vTempDir.x, ShakerPos.z + -vTempDir.z);
+				pMyLayer->Add_EffectList(pTentacle);
+
+			
+			}
+		}
+		else
+		{
+			for (int i = 1; i < 20; ++i)
+			{
+				_vec3 ShakerPos;
+				m_pDynamicTransCom->Get_Info(INFO_POS, &ShakerPos);
+				_vec3 vTempDir = _vec3(0.f, 0.f, 0.f);
+				vTempDir = i * (m_vMonsteFront * m_fFront + m_vMonsterRight * m_fRight + m_vMonsterback * m_fBack + m_vMonsterLeft * m_fLeft);
+
+
+				pTentacle = CThingySpike::Create(m_pGraphicDev, m_fWaitingTime * i, ShakerPos.x + vTempDir.z, ShakerPos.z + vTempDir.x);
+				pMyLayer->Add_EffectList(pTentacle);
+
+				pTentacle = CThingySpike::Create(m_pGraphicDev, m_fWaitingTime * i, ShakerPos.x + -vTempDir.z, ShakerPos.z + -vTempDir.x);
+				pMyLayer->Add_EffectList(pTentacle);
+
+
+			}
+		}
+		//m_fRight 를 front로
+		switch (m_iOneDirrection)
+		{
+		case 0:
+			m_fRight -= 0.1f;
+			m_fFront += 0.1f;
+			break;
+		case 1:
+			m_fFront -= 0.1f;
+			m_fLeft += 0.1f;
+			break;
+		case 2:
+			m_fLeft -= 0.1f;
+			m_fBack += 0.1f;
+			break;
+		case 3:
+			m_fBack -= 0.1f;
+			m_fRight += 0.1f;
+			break;
+		default:
+			m_iOneDirrection = 0;
+			break;
+		}
+		if (0.1f > m_fRight && 0.9f < m_fFront)
+		{
+			m_iOneDirrection = 1;
+		}
+		else if (0.1f > m_fFront && 0.9f < m_fLeft)
+		{
+			m_iOneDirrection = 2;
+		}
+		else if (0.1f > m_fLeft && 0.9f < m_fBack)
+		{
+			m_iOneDirrection = 3;
+		}
+		else if (0.1f > m_fBack && 0.9f < m_fRight)
+		{
+			m_iOneDirrection = 0;
+		}
+
+		//플레이어 Dir도 곱해서 더해주면 될듯
+		//for (int i = 1; i < 20; ++i)
+		//{
+		//	pTentacle = CThingySpike::Create(m_pGraphicDev, m_fWaitingTime * i, ShakerPos.x + vMonsterRight.x * i * 0.5f, ShakerPos.z + vMonsterRight.z * i * 0.5f);
+		//	pMyLayer->Add_EffectList(pTentacle);
+
+		//	pTentacle = CThingySpike::Create(m_pGraphicDev, m_fWaitingTime * i, ShakerPos.x - vMonsterRight.x * i * 0.5f, ShakerPos.z - vMonsterRight.z * i * 0.5f);
+		//	pMyLayer->Add_EffectList(pTentacle);
+		//	//m_Spikelist.push_back(pSpike);
+		//}
+		m_bCreateSpike = true;
+	}
+	if (9 == m_pThingy_AttackC_AnimationCom->m_iMotion && m_iPettern4RepeatNum <20)
+	{
+		m_iPettern4RepeatNum++;
+		m_pThingy_AttackC_AnimationCom->m_iMotion = 3;
+		m_bCreateSpike = false;
+	}
+	if (m_pThingy_AttackC_AnimationCom->m_iMaxMotion == m_pThingy_AttackC_AnimationCom->m_iMotion)
+	{
+		m_bAttack = false;
+		m_bState = Thingy_Walk;
+		m_bCreateSpike = false;
+		m_iPettern4RepeatNum = 0;
+		m_vPlayerOriginPos = _vec3(0.f, 0.f, 0.f);
+		m_bSavePosition = false;
+		m_bAttackSound = false;
+
+		m_fRight = 1.f;
+		m_fFront = 0.f;
+		m_fLeft = 0.f;
+		m_fBack = 0.f;
+		m_iOneDirrection = 0;
+		if (false == m_bPettern4LR)
+		{
+			m_bPettern4LR = true;
+		}
+		else
+			m_bPettern4LR = false;
 	}
 }
 HRESULT CFinalBoss::SetUp_Material(void)

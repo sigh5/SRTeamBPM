@@ -31,11 +31,11 @@ struct TexturePath
 class CImGuiMgr : public CBase
 {
 	DECLARE_SINGLETON(CImGuiMgr)
-	//지우셈
+	
 private:
 	explicit CImGuiMgr();
 	virtual ~CImGuiMgr();
-	//주석지우셈
+	
 public:
 	// 예시
 	static void TransformEdit(CCamera* pCamera, CTransform* pTransform, _bool& Window); // Gizmo

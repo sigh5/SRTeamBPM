@@ -96,6 +96,8 @@ private:
 	//~
 	float m_fRearrangementDelay = 0.f;
 	float m_fRearrangementDealyCount = 0.f;
+
+	bool	m_bShootFlare = false;
 	
 
 };

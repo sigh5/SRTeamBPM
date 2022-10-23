@@ -210,8 +210,10 @@ void CShopUI::Picking_Rect_Index()
 
 					return;	
 
+					m_bSelect[2] = true;
+
 				}
-				else if (i == 3)
+				else if (i == 3 && !m_bSelect[3])
 				{
 					CScene*pScene = ::Get_Scene();
 					pScene->Set_SceneChane(true);
@@ -228,6 +230,7 @@ void CShopUI::Picking_Rect_Index()
 
 					::Change_Scene(pScene, pChangeScene);
 					m_iForceSceneReturn = SCENE_CHANGE_RETRURN;
+					m_bSelect[3] = true;
 					return;				
 				}
 				/*else if (i == 4 && !m_bSelect[4] )

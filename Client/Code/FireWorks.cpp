@@ -62,6 +62,12 @@ _int CFireWorks::Update_Object(const _float & fTimeDelta)
 
 void CFireWorks::update(_float fTimeDelta)
 {
+	if (false == m_bSound)
+	{
+		::StopSound(SOUND_EFFECT2);
+		::PlaySoundW(L"Firework.wav", SOUND_EFFECT2, g_fSound);
+		m_bSound = true;
+	}
 	if(m_pAnimationCom->m_iMaxMotion != m_pAnimationCom->m_iMotion)
 	m_pAnimationCom->Move_Animation(fTimeDelta);
 	for (auto i = m_particles.begin(); i != m_particles.end(); ++i)

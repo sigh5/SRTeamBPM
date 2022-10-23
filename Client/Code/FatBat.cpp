@@ -51,8 +51,8 @@ HRESULT CFatBat::Ready_Object(int Posx, int Posy)
 		m_pDynamicTransCom->Set_Pos((float)Posx, 2.f, (float)Posy);
 	}
 
-	m_iDodgeDir = 0;
-	m_fActionDelay = 2.f;
+	m_iDodgeDir = rand() % 3;
+	m_fActionDelay = 3.5f;
 	m_fMaxY = 3.f;
 	m_fFlyDelayCount = 0.f;
 	m_fDodgeDelayCount = 0.f;
@@ -64,6 +64,7 @@ HRESULT CFatBat::Ready_Object(int Posx, int Posy)
 	m_fHitDelay = 0.f;
 	m_fDeadY = 0.f;
 	m_fFrame = rand() % 200 * 0.01f;
+	m_vDodgeVector = _vec3(0.f, 0.f, 0.f);
 	Save_OriginPos();
 
 	m_pDynamicTransCom->Set_Info(INFO_POS, &_vec3((float)Posx, 2.f, (float)Posy));
@@ -86,15 +87,15 @@ bool	CFatBat::Dead_Judge(const _float& fTimeDelta)
 			{
 			case 0:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Bat_death_01.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Bat_death_01.wav", SOUND_MONSTER, g_fSound);
 				break;
 			case 1:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Bat_death_02.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Bat_death_02.wav", SOUND_MONSTER, g_fSound);
 				break;
 			case 2:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Bat_death_03.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Bat_death_03.wav", SOUND_MONSTER, g_fSound);
 				break;
 			}
 			Drop_Item(rand() % 3);
@@ -143,7 +144,7 @@ void CFatBat::Excution_Event(_bool bAOE )
 		READY_CREATE_EFFECT_VECTOR(pGameObject, CSpecial_Effect, pLayer, m_pGraphicDev, vPos);
 		static_cast<CSpecial_Effect*>(pGameObject)->Set_Effect_INFO(OWNER_PALYER, 0, 17, 0.2f);
 
-		::PlaySoundW(L"explosion_1.wav", SOUND_EFFECT, 0.05f); // BGM
+		::PlaySoundW(L"explosion_1.wav", SOUND_EFFECT, g_fSound); // BGM
 
 	}
 }
@@ -254,12 +255,27 @@ void CFatBat::NoHit_Loop(const _float& fTimeDelta)
 
 	if (fMtoPDistance > 13.f)
 	{
-		m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
+		//m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
+		_vec3 vDir, vMyPos;
+		m_pDynamicTransCom->Get_Info(INFO_POS, &vMyPos);
+		vDir = m_vPlayerPos - vMyPos;
+		D3DXVec3Normalize(&vDir, &vDir);
 
+		m_pDynamicTransCom->Move_Pos(&(vDir * m_pInfoCom->Get_InfoRef()._fSpeed * fTimeDelta + m_vDodgeVector));
 	}
 	else if (fMtoPDistance < 10.f)
 	{
-		m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, -m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
+		//m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, -m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
+		_vec3 vDir, vMyPos;
+		m_pDynamicTransCom->Get_Info(INFO_POS, &vMyPos);
+		vDir = m_vPlayerPos - vMyPos;
+		D3DXVec3Normalize(&vDir, &vDir);
+
+		m_pDynamicTransCom->Move_Pos(&(vDir * -m_pInfoCom->Get_InfoRef()._fSpeed * fTimeDelta + m_vDodgeVector));
+	}
+	else
+	{
+		m_pDynamicTransCom->Move_Pos(&(m_vDodgeVector));
 	}
 	m_pAnimationCom->Move_Animation(fTimeDelta);
 }
@@ -396,7 +412,7 @@ void CFatBat::Collision_Event()
 	_vec3 PickPos;
 
 	if (static_cast<CGun_Screen*>(pGameObject)->Get_Shoot() == true &&
-		fMtoPDistance < MAX_CROSSROAD &&
+		fMtoPDistance < MAX_CROSSROAD + g_fRange &&
 		m_pColliderCom->Check_Lay_InterSect(m_pBufferCom, m_pDynamicTransCom, g_hWnd))
 	{
 		m_bHit = true;
@@ -415,17 +431,17 @@ void CFatBat::Collision_Event()
 			{
 			case 0:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Bat_pain_01.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Bat_pain_01.wav", SOUND_MONSTER, g_fSound);
 				break;
 
 			case 1:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Bat_pain_02.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Bat_pain_02.wav", SOUND_MONSTER, g_fSound);
 				break;
 
 			case 2:
 				::StopSound(SOUND_MONSTER);
-				::PlaySoundW(L"Bat_pain_03.wav", SOUND_MONSTER, 0.4f);
+				::PlaySoundW(L"Bat_pain_03.wav", SOUND_MONSTER, g_fSound);
 				break;
 			}
 		}
@@ -494,15 +510,15 @@ void CFatBat::FatBat_Shoot(void)
 	{
 	case 0:
 		::StopSound(SOUND_MONSTER);
-		::PlaySoundW(L"Bat_attack_01.wav", SOUND_MONSTER, 0.4f);
+		::PlaySoundW(L"Bat_attack_01.wav", SOUND_MONSTER, g_fSound);
 		break;
 	case 1:
 		::StopSound(SOUND_MONSTER);
-		::PlaySoundW(L"Bat_attack_02.wav", SOUND_MONSTER, 0.4f);
+		::PlaySoundW(L"Bat_attack_02.wav", SOUND_MONSTER, g_fSound);
 		break;
 	case 2:
 		::StopSound(SOUND_MONSTER);
-		::PlaySoundW(L"Bat_attack_03.wav", SOUND_MONSTER, 0.4f);
+		::PlaySoundW(L"Bat_attack_03.wav", SOUND_MONSTER, g_fSound);
 		break;
 	}
 
@@ -538,16 +554,17 @@ void CFatBat::FatBat_Dodge(const _float& fTimeDelta, _vec3* _vPlayerPos, _vec3* 
 	{
 	case 0:
 		if(0<m_fDodgeSpeed-m_fDodgeStopper)
-		m_pDynamicTransCom->Move_Pos(&(vRight * (m_fDodgeSpeed - m_fDodgeStopper) * 0.1f));
+			m_vDodgeVector = (vRight * (m_fDodgeSpeed - m_fDodgeStopper) * 0.1f);
 		break;
 
 	case 1:
+		m_vDodgeVector = _vec3(0.f, 0.f, 0.f);
 		break;
 
 	case 2:
 		
 		if (0<m_fDodgeSpeed - m_fDodgeStopper)
-		m_pDynamicTransCom->Move_Pos(&(vRight * -(m_fDodgeSpeed - m_fDodgeStopper) * 0.1f));
+			m_vDodgeVector = (vRight * -(m_fDodgeSpeed - m_fDodgeStopper) * 0.1f);
 		break;
 
 	}
@@ -616,6 +633,11 @@ void	CFatBat::Drop_Item(int ItemType)
 	default:
 		break;
 	}
+}
+
+float	CFatBat::Get_Radius(void)
+{
+	return m_pDynamicTransCom->m_vScale.x * 0.25f;
 }
 
 CFatBat * CFatBat::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)

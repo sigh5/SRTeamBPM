@@ -14,9 +14,10 @@ public:
 	virtual void		LateUpdate_Object(void) override;
 	virtual void		Render_Obejct(void) override;
 	virtual void		Collision_Event();
-	virtual bool		 Dead_Judge(const _float& fTimeDelta);
-	void			Ready_Attack(const _float& fTimeDelta);
-	virtual void NoHit_Loop(const _float& fTimeDelta);
+	virtual bool		Dead_Judge(const _float& fTimeDelta);
+	void				Ready_Attack(const _float& fTimeDelta);
+	virtual void		NoHit_Loop(const _float& fTimeDelta);
+	virtual void		Hit_Loop(const _float& fTimeDelta);
 	virtual void		Excution_Event();
 private:
 	void		AttackJudge(const _float& fTimeDelta);
