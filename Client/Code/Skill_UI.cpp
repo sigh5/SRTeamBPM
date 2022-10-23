@@ -31,13 +31,15 @@ HRESULT CSkill_UI::Ready_Object()
 	m_pTransCom->Set_Scale(&m_vecScale);
 	m_pTransCom->Set_Pos(m_fX - 87.f, m_fY - 425.f, 0.1f);
 
-	m_fDelay = 25.f;
+	m_fDelay = 100.f;
 
 	return S_OK;
 }
 
 _int CSkill_UI::Update_Object(const _float & fTimeDelta)
 {
+	CPlayer* pPlayer = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
+
 	if (m_bRshift)
 	{
 		m_bSize = true;
@@ -50,6 +52,7 @@ _int CSkill_UI::Update_Object(const _float & fTimeDelta)
 
 		if (m_fDelay < m_fDelayTime)
 		{
+			pPlayer->Set_Skill_CoolTime(true);
 			m_pTransCom->Set_Scale(&m_vecScale);
 			m_fDelayTime = 0.f;
 			m_bSize = false;

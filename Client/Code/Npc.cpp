@@ -5,9 +5,12 @@
 #include "MyCamera.h"
 #include "ShopUI.h"
 #include "Player.h"
+#include "ThunderPic.h"
+#include "MiniGame1Pic.h"
 
 #include "ObjectMgr.h"
 #include "Stage.h"
+
 CNpc::CNpc(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
 {
@@ -34,8 +37,6 @@ HRESULT CNpc::Ready_Object(void)
 
 _int CNpc::Update_Object(const _float & fTimeDelta)
 {
-	m_pAnimationCom->Move_Animation(fTimeDelta);
-
 	_uint iResult = Engine::CGameObject::Update_Object(fTimeDelta);
 
 	m_pAnimationCom->Move_Animation(fTimeDelta);
@@ -136,6 +137,8 @@ void CNpc::Collision_Event()
 			static_cast<CShopUI*>(pGameObject)->Set_Active(m_fShopUICheck);
 			dynamic_cast<CMyCamera*>(Engine::Get_GameObject(L"Layer_Environment", L"CMyCamera"))->Set_ShopActive(m_fShopUICheck);
 			dynamic_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"))->Set_ShopUIActive(m_fShopUICheck);
+			dynamic_cast<CThunderPic*>(Engine::Get_GameObject(L"Layer_Icon", L"ThunderPic"))->Set_PicRender(m_fShopUICheck);
+			dynamic_cast<CMiniGame1Pic*>(Engine::Get_GameObject(L"Layer_Icon", L"Minigame1"))->Set_PicRender(m_fShopUICheck);
 		}
 	}
 }
@@ -193,6 +196,8 @@ HRESULT CNpc::SetUp_Material(void)
 
 
 	m_pGraphicDev->SetMaterial(&tMtrl);
+
+	return S_OK;
 }
 
 void CNpc::Set_Light_Obj()

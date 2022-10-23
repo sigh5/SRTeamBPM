@@ -389,6 +389,8 @@
     <ClCompile Include="..\Code\EquipYeti.cpp">
       <Filter>02. GameObject\01. For_Stage\14. Equipment\02. Pet</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\MiniTerrain.cpp">
+      <Filter>02. GameObject\01. For_Stage\03. Terrain\WaterTerrain</Filter>
     <ClCompile Include="..\Code\HarpoonBullet.cpp">
       <Filter>02. GameObject\01. For_Stage\02. Monster\09. HarpoonGuy</Filter>
     </ClCompile>
@@ -811,6 +813,21 @@
     <ClInclude Include="..\Header\EquipYeti.h">
       <Filter>02. GameObject\01. For_Stage\14. Equipment\02. Pet</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\MiniTerrain.h">
+      <Filter>02. GameObject\01. For_Stage\03. Terrain\WaterTerrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Npc.h">
+      <Filter>02. GameObject\01. For_Stage\16. NPC\ShopNpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\QuestNpc.h">
+      <Filter>02. GameObject\01. For_Stage\16. NPC\QuestNpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\TeleCube.h">
+      <Filter>02. GameObject\02. For_public\05. TeleCube</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\YetiTalk.h">
+      <Filter>02. GameObject\01. For_Stage\14. Equipment\02. Pet</Filter>
+    </ClInclude>
     <ClInclude Include="..\Header\HarpoonBullet.h">
       <Filter>02. GameObject\01. For_Stage\02. Monster\09. HarpoonGuy</Filter>
     </ClInclude>
@@ -819,6 +836,23 @@
     </ClInclude>
     <ClInclude Include="..\Header\FireWorks.h">
       <Filter>02. GameObject\01. For_Stage\09. Particle</Filter>
+    <ClInclude Include="..\Header\MiniStage3PreHeader.h">
+      <Filter>99. Default\PreSceneHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\MonsterMini.h">
+      <Filter>01. Scene\02. MiniGame\02. MiniGame3\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\MagneticField.h">
+      <Filter>01. Scene\02. MiniGame\02. MiniGame3\magnetic_field</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\StageTerrain.h">
+      <Filter>01. Scene\02. MiniGame\02. MiniGame3\StageTerrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\MiniPlayer.h">
+      <Filter>01. Scene\02. MiniGame\02. MiniGame3\MiniGamePlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UI_Timer.h">
+      <Filter>01. Scene\02. MiniGame\02. MiniGame3\UI</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\FinalBossBullet.h">
       <Filter>02. GameObject\01. For_Stage\02. Monster\10. FinalBos</Filter>
@@ -1159,6 +1193,69 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\14. Equipment\02. Pet">
       <UniqueIdentifier>{ce2111e0-7f46-414f-9ae3-1fb08de0345f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\14. Equipment\01. HelMet">
+      <UniqueIdentifier>{c7ca6191-4c42-43b7-97d9-df67bf002352}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\02. MiniGame">
+      <UniqueIdentifier>{0d51eff5-ec59-491b-b7eb-12cae16a2436}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\02. MiniGame\00. MiniGame1">
+      <UniqueIdentifier>{9b7ccfeb-ecf0-4e7c-96e7-c954babd2263}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\02. MiniGame\02. MiniGame3">
+      <UniqueIdentifier>{9570bafb-bc80-4025-b4ab-da5affc3a3f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\16. NPC\QuestNpc">
+      <UniqueIdentifier>{fdc36c23-1799-4716-9a10-26ba9980747d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\16. NPC\ShopNpc">
+      <UniqueIdentifier>{bd575b18-2c78-4ed6-a533-982ce85a3b58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\20. Quest_UI">
+      <UniqueIdentifier>{adea0d0c-4cb8-4060-b5fc-ba3c60f66e1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\13. Gun_Screen\Magic">
+      <UniqueIdentifier>{2c522efa-e34d-4f34-9702-24a096ee9dce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{bfd05942-66b2-4a91-94d6-611833d6a014}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\03. Terrain\StageTerrain">
+      <UniqueIdentifier>{270e7cec-a82a-4b58-9576-ef908867d9c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\03. Terrain\WaterTerrain">
+      <UniqueIdentifier>{8c569dd5-6445-45f5-b819-7fff43a03d5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\02. MiniGame\02. MiniGame3\Monster">
+      <UniqueIdentifier>{d9bbb976-68c6-42d6-b339-c46fda74a60b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\02. MiniGame\02. MiniGame3\Wall">
+      <UniqueIdentifier>{ec9f1396-8e78-4db4-b786-4368a17eafb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\02. MiniGame\02. MiniGame3\magnetic_field">
+      <UniqueIdentifier>{63d3c3ce-7816-447b-ad11-3b5ce477a0dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\02. MiniGame\02. MiniGame3\StageTerrain">
+      <UniqueIdentifier>{bd40d270-fc22-4824-874c-984a13eb2f26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\02. MiniGame\02. MiniGame3\MiniGamePlayer">
+      <UniqueIdentifier>{5731dc14-c3fb-4a6c-85da-c13222f17c87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\02. MiniGame\02. MiniGame3\UI">
+      <UniqueIdentifier>{a1d6d74d-0259-4c05-b2b5-23f3fbae5c64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\95. ShopUI\00. ThunderPic">
+      <UniqueIdentifier>{cc14088e-50e9-4a50-8a9d-61f2985cd0f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\51. Hit_Screen">
+      <UniqueIdentifier>{06021c40-9659-4723-bb82-e6558b1eaf4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\95. ShopUI\01. MiniGame1Pic">
+      <UniqueIdentifier>{1ae0c2fe-7017-47e9-ae6e-5c4bc40212b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\95. ShopUI\02. HelmetPic">
+      <UniqueIdentifier>{556d317c-89df-4ddf-9262-db8de5242930}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

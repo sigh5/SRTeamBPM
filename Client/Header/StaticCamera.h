@@ -19,15 +19,28 @@ public:
 	virtual _int Update_Object(const _float& fTimeDelta) override;
 
 	virtual void LateUpdate_Object(void) override;
+	_int			Get_BillBoardDir()override { return m_iBillBoardDir; }
+
+	void		Set_Shaking();
 
 private:
 	void		Key_Input(const _float& fTimeDelta);
 	void		Target_Renewal(void);
+	void		Mouse_Move(const _float& fTimeDelta);
+	void		Mouse_Fix();
 
 private:
-	_float			m_fDistance = 10.f;
-	_float			m_fSpeed = 10.f;
+	_float			m_fDistance = 4.f;
+	_float			m_fSpeed = 5.f;
 	_float			m_fAngle = 0.f;
+	_float			m_fCameraHeight = 0.5f;
+
+
+	_int			m_iBillBoardDir = 0;	// 0 ¿ÞÂÊ 1 ¿À¸¥ÂÊ
+
+	_bool			m_bPlayerHit = false;
+	_float			m_fFrame = 0.f;
+	_int			m_itemp = -1;
 
 public:
 	static CStaticCamera*		Create(LPDIRECT3DDEVICE9 pGraphicDev,

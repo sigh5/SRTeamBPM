@@ -22,6 +22,8 @@ public:
 	HRESULT				Set_Raw_Value(D3DXHANDLE hHandle, void *pData, _uint iLength);
 	HRESULT				Set_Texture(D3DXHANDLE hHandle, IDirect3DBaseTexture9* pTexture);
 	HRESULT				Set_Bool(D3DXHANDLE hHandle, const _bool& bEvent);
+	HRESULT				Set_ArrayRange(D3DXHANDLE hHandle, int* pData, _uint iLength);
+
 
 public:
 	static CShader*		Create(LPDIRECT3DDEVICE9 pGraphicDev, const _tchar* pShaderFilePath);

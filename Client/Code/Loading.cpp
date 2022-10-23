@@ -134,14 +134,14 @@ _uint CLoading::Loading_ForStage(void)
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Dash_UI_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Dash_Icon1.png", TEX_NORMAL)), E_FAIL);
 	
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Inventory_UI_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Inventory_UI.png", TEX_NORMAL)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Shop_UI_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Shop_UI.png", TEX_NORMAL)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Shop_UI_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Shop_UI1.png", TEX_NORMAL)), E_FAIL);
 
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Chim_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Chim_Binpole.png", TEX_NORMAL)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Skill_ScreenTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Gun_Output/Skill_Screen/spellhand_storm_%d.png", TEX_NORMAL, 5)), E_FAIL);
 
 	
 	// \Bin\Resource\Texture\UI
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UI_Frame_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/UI_Frame.png", TEX_NORMAL)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_UI_Frame_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/UI_Frame1.png", TEX_NORMAL)), E_FAIL);
 
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ChangeScene_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Logo/Change_Scene/Change_Scene%d.png", TEX_NORMAL, 7)), E_FAIL);
 	// \Bin\Resource\Texture\UI
@@ -165,6 +165,14 @@ _uint CLoading::Loading_ForStage(void)
 	
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Skill_Icon_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Skill_Icon.png", TEX_NORMAL)), E_FAIL);
 
+																										// \Bin\Resource\Texture\UI\Shop_Thunder
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Shop_Sold_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Shop_Thunder/Thunder_Sold%d.png", TEX_NORMAL, 2)), E_FAIL);
+	
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_BloodScreen_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Blood_Screen1.png", TEX_NORMAL)), E_FAIL);
+																												// \Bin\Resource\Texture\UI\Shop_Helmet
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Helmet_Sold_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Shop_Helmet/Helmet_Sold%d.png", TEX_NORMAL, 2)), E_FAIL);
+	
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Minigame1Pic_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Shop_Chim/Chim_Icon%d.png", TEX_NORMAL, 2)), E_FAIL);
 	// ~UI
 
 	// Box
@@ -183,7 +191,7 @@ _uint CLoading::Loading_ForStage(void)
 
 
 	// CubeMap
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MapCubeTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/CubeMap/Cube%d.dds", TEX_CUBE, 50)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MapCubeTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/CubeMap/Cube%d.dds", TEX_CUBE, 62)), E_FAIL);
 
 	// ~CubeMap
 
@@ -196,7 +204,7 @@ _uint CLoading::Loading_ForStage(void)
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Equip_YetiTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Equipment/Equip_Pet/Equip_Yeti.png", TEX_NORMAL)), E_FAIL);
 
 	// Helmet1
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Helmet1Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Equipment/Equip_HelMet/Helmet1.png", TEX_NORMAL, 1)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Helmet1Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Equipment/Equip_HelMet/Helmet3.png", TEX_NORMAL, 1)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Helmet2Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Equipment/Equip_HelMet/Helmet2.png", TEX_NORMAL, 1)), E_FAIL);
 
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ThunderTexCom", CThunderTex::Create(m_pGraphicDev)), E_FAIL);
@@ -360,7 +368,7 @@ _uint CLoading::Loading_For_ToolScene()
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_CubeCom", CCubeTex::Create(m_pGraphicDev)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_TerrainTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Terrain/Grass_%d.tga", TEX_NORMAL)), E_FAIL);
 	//FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MapCubeTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/SkyBox/Cube%d.dds", TEX_CUBE, 5)), E_FAIL);
-	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MapCubeTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/CubeMap/Cube%d.dds", TEX_CUBE, 50)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MapCubeTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/CubeMap/Cube%d.dds", TEX_CUBE, 62)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_CubeTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/SkyBox/burger%d.dds", TEX_CUBE, 6)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_SphereTexCom", CSphereTex::Create(m_pGraphicDev)), E_FAIL);
 	//FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_CubeMapTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/CubeMap/Cube1.dds", TEX_CUBE)), E_FAIL);
@@ -391,6 +399,7 @@ _uint CLoading::Loading_For_ToolScene()
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_fetrues_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/features/features_%d.png", TEX_NORMAL, 24)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_CubeNormalTexCom", CCubeNormalTex::Create(m_pGraphicDev)), E_FAIL);
 	// しいけかい
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_ShaderTerrain", CShader::Create(m_pGraphicDev, TEXT("../Bin/ShaderFilesPath/Shader_Terrain.hlsl"))), E_FAIL);
 
 
 	//FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MonsterTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/Monster/Anubis/anubis%d.png", TEX_NORMAL, 8)), E_FAIL);

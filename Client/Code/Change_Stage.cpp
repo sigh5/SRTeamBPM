@@ -7,6 +7,7 @@
 #include "Stage.h"
 #include "MiniStage1.h"
 #include "MiniGame3.h"
+#include "ShopUI.h"
 
 CChange_Stage::CChange_Stage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -90,6 +91,27 @@ _int CChange_Stage::Update_Scene(const _float & fTimeDelta)
 			NULL_CHECK_RETURN(pScene, E_FAIL);
 
 			FAILED_CHECK_RETURN(Engine::Set_Scene(pScene), E_FAIL);
+
+			return 0;
+		}
+		return iResult;
+	}
+
+
+
+	else if (m_iStageIndex == 6)
+	{
+		if (m_iLoadingCount > 100)
+		{
+			CScene* pMiniScene = Get_Scene();
+			CScene* pStage1 = ::Get_SaveScene();
+			CLayer* pLayer = pStage1->GetLayer(L"Layer_GameLogic");
+			CShopUI* pShopUI = dynamic_cast<CShopUI*>(pLayer->Get_GameObject(L"ShopUI"));
+			pShopUI->Set_ForceScene(0);
+			pStage1->Set_SceneChane(false);
+
+			
+			Load_SaveScene(pMiniScene);
 
 			return 0;
 		}

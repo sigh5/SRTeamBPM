@@ -29,6 +29,11 @@ private:
 
 
 public:
+	void			InitScaleAndPos(_vec3* vScale, _vec3* vPos, _bool bisPaDo = false);
+
+
+
+private:
 	CTerrainMoveTex*		m_pBufferCom = nullptr;
 	CTransform*				m_pTransCom = nullptr;
 	CTexture*				m_pTextureCom = nullptr;
@@ -43,7 +48,7 @@ public:
 
 	_float				m_fTime = 0.f;
 	_bool				m_bTest = false;
-
+	_bool				m_bPado = false;
 public:
 	static CMiniTerrain*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
 	virtual void	Free(void);

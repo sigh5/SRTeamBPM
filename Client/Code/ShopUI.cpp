@@ -12,6 +12,8 @@
 #include "QuestProcessing_UI.h"
 #include "ThunderHand.h"
 #include "Skill_UI.h"
+#include "ThunderPic.h"
+#include "MiniGame1Pic.h"
 
 
 CShopUI::CShopUI(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -45,7 +47,7 @@ HRESULT CShopUI::Ready_Object()
 	m_pTransCom->Set_Scale(&vScale);
 
 	m_pTransCom->Set_Pos(m_fX - WINCX * 0.5f,
-		(-m_fY + WINCY * 0.5f), 0.0f);
+		(-m_fY + WINCY * 0.5f), 0.08f);
 	m_pTransCom->Update_Component(1.f);
 
 	return S_OK;
@@ -148,17 +150,45 @@ void CShopUI::Picking_Rect_Index()
 			{
 				if (i == 0 && !m_bShopingEnd[0])
 				{
-					CThunderHand* pHand = dynamic_cast<CThunderHand*>(::Get_GameObject(L"Layer_UI", L"SkillHand"));
-					pHand->Set_BuySkill(true);
+					CCharacterInfo* pInfo = dynamic_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
+					// 구매 제한
+					if (pInfo->Get_InfoRef()._iCoin < 40)
+					{
+						return;
+					}
 
-					CSkill_UI* pSkill_UI = dynamic_cast<CSkill_UI*>(Engine::Get_GameObject(L"Layer_Icon", L"Skill_UI"));
-					pSkill_UI->Set_m_bRB(true);
+					else
+					{
+						CThunderHand* pHand = dynamic_cast<CThunderHand*>(::Get_GameObject(L"Layer_UI", L"SkillHand"));
+						pHand->Set_BuySkill(true);
+
+						CSkill_UI* pSkill_UI = dynamic_cast<CSkill_UI*>(Engine::Get_GameObject(L"Layer_Icon", L"Skill_UI"));
+						pSkill_UI->Set_m_bRB(true);
+
+						CThunderPic* pThunderPic = dynamic_cast<CThunderPic*>(Engine::Get_GameObject(L"Layer_Icon", L"ThunderPic"));
+						pThunderPic->Set_SoldOut(false);
+
+						pInfo->Get_InfoRef()._iCoin -= 40;
+					}					
 
 					m_bShopingEnd[0] = true;
-
-
 				}
+
 				else if (i == 1)
+				{
+					CScene*pScene = ::Get_Scene();
+					CLayer * pLayer = pScene->GetLayer(L"Layer_UI");
+					NULL_CHECK_RETURN(pLayer, );
+					/*pLayer = pScene->GetLayer(L"Layer_UI");*/
+
+
+					CQuestProcessing_UI* pQuestProcessing_UI =
+						dynamic_cast<CQuestProcessing_UI*>(pLayer->Get_GameObject(L"QuestProcessing_UI"));
+					if (pQuestProcessing_UI != nullptr)
+						pQuestProcessing_UI->Set_Quest_Claer(Quest_Index_TWO, true);
+				}
+
+				else if (i == 2)
 				{
 					CScene*pScene = ::Get_Scene();
 					pScene->Set_SceneChane(true);
@@ -178,24 +208,12 @@ void CShopUI::Picking_Rect_Index()
 						static_cast<CQuestProcessing_UI*>(pLayer->Get_GameObject(L"QuestProcessing_UI"));
 					pQuestProcessing_UI->Set_Quest_Claer(Quest_Index_ONE, true);
 
-					return;
-				}
+					return;	
 
-				else if (i == 2)
-				{
-					CScene*pScene = ::Get_Scene();
-					CLayer * pLayer = pScene->GetLayer(L"Layer_UI");
-					NULL_CHECK_RETURN(pLayer, );
-					/*pLayer = pScene->GetLayer(L"Layer_UI");*/
-
-
-					CQuestProcessing_UI* pQuestProcessing_UI =
-						dynamic_cast<CQuestProcessing_UI*>(pLayer->Get_GameObject(L"QuestProcessing_UI"));
-					if (pQuestProcessing_UI != nullptr)
-						pQuestProcessing_UI->Set_Quest_Claer(Quest_Index_TWO, true);
+					m_bSelect[2] = true;
 
 				}
-				else if (i == 3)
+				else if (i == 3 && !m_bSelect[3])
 				{
 					CScene*pScene = ::Get_Scene();
 					pScene->Set_SceneChane(true);
@@ -212,53 +230,87 @@ void CShopUI::Picking_Rect_Index()
 
 					::Change_Scene(pScene, pChangeScene);
 					m_iForceSceneReturn = SCENE_CHANGE_RETRURN;
+					m_bSelect[3] = true;
 					return;				
 				}
-				else if (i == 4 && !m_bSelect[4] )
+				/*else if (i == 4 && !m_bSelect[4] )
 				{
 					m_iEquipIndex = 4;
 					m_bSelect[4] = true;
 					return;
-				}
-				else if (i == 5 && !m_bSelect[5])
+				}*/
+				/*else if (i == 5 && !m_bSelect[5])
 				{
 					m_iEquipIndex = 5;
 					m_bSelect[5] = true;
 					return;
+				}*/
+				else if (i == 4 && !m_bShopingEnd[4])
+				{
+					CCharacterInfo* pInfo = dynamic_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
+					// 구매 제한
+					if (pInfo->Get_InfoRef()._iCoin < 40)					
+						return;				
+
+					else
+					{
+						CHelmet* pHelmet = static_cast<CHelmet*>(Get_GameObject(L"Layer_GameLogic", L"Helmet1"));
+						pHelmet->Shop_Goods();
+
+						pInfo->Get_InfoRef()._iCoin -= 40;
+					}
+						m_bShopingEnd[4] = true;
 				}
 
+				else if (i == 5 && !m_bShopingEnd[5])
+				{
+					CCharacterInfo* pInfo = dynamic_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
+					// 구매 제한
+
+					if (pInfo->Get_InfoRef()._iCoin < 20)
+						return;
+
+					else
+					{
+						CEquipYeti* pYeti = static_cast<CEquipYeti*>(Get_GameObject(L"Layer_GameLogic", L"EquipYeti"));
+						pYeti->Shop_Goods();
+
+						pInfo->Get_InfoRef()._iCoin -= 20;
+					}
+					m_bShopingEnd[5] = true;					
+				}
 
 			}
 		}
 	}
 	
-	if (m_bSelect[5] && !m_bShopingEnd[5])
-	{
-		CPlayer* pPlayer = static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"));
-		CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(pPlayer->Get_Component(L"Proto_CharacterInfoCom", ID_STATIC));
-		_int iCoin = pPlayerInfo->Get_InfoRef()._iCoin -=1;		// 나중에 가격적으면됌
+	//if (m_bSelect[5] && !m_bShopingEnd[5])
+	//{
+	//	CPlayer* pPlayer = static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"));
+	//	CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(pPlayer->Get_Component(L"Proto_CharacterInfoCom", ID_STATIC));
+	//	_int iCoin = pPlayerInfo->Get_InfoRef()._iCoin -=40;		// 나중에 가격적으면됌
 
-		m_bShopingEnd[5] = true;
+	//
+	//	m_bShopingEnd[5] = true;
 
-		CEquipYeti* pYeti = static_cast<CEquipYeti*>(Get_GameObject(L"Layer_GameLogic", L"EquipYeti"));
-		pYeti->Shop_Goods();
+	//	
+	//	CEquipYeti* pYeti = static_cast<CEquipYeti*>(Get_GameObject(L"Layer_GameLogic", L"EquipYeti"));
+	//	pYeti->Shop_Goods();		
+	//	
+	//}
 
-	}
+	//if (m_bSelect[4] && !m_bShopingEnd[4])
+	//{
+	//	CPlayer* pPlayer = static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"));
+	//	CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(pPlayer->Get_Component(L"Proto_CharacterInfoCom", ID_STATIC));
+	//	_int iCoin = pPlayerInfo->Get_InfoRef()._iCoin -= 40;		// 나중에 가격적으면됌
 
-	if (m_bSelect[4] && !m_bShopingEnd[4])
-	{
-		CPlayer* pPlayer = static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"));
-		CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(pPlayer->Get_Component(L"Proto_CharacterInfoCom", ID_STATIC));
-		_int iCoin = pPlayerInfo->Get_InfoRef()._iCoin -= 3;		// 나중에 가격적으면됌
+	//	m_bShopingEnd[4] = true;	
 
-		m_bShopingEnd[4] = true;
-
-		CHelmet* pHelmet = static_cast<CHelmet*>(Get_GameObject(L"Layer_GameLogic", L"Helmet1"));
-		pHelmet->Shop_Goods();
-	}
-
-
-
+	//	CHelmet* pHelmet = static_cast<CHelmet*>(Get_GameObject(L"Layer_GameLogic", L"Helmet1"));
+	//	pHelmet->Shop_Goods();
+	
+	//}
 
 }
 

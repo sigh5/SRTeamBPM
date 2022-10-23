@@ -77,41 +77,116 @@ void CWallCube::Render_Obejct(void)
 {
 	/*if (m_bWireFrame)
 		m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);*/
-	Set_Light_Obj();
 	
-	// Hit Box 
-	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, TRUE);
-	m_pGraphicDev->LightEnable(0, TRUE);
-	m_pGraphicDev->LightEnable(1, TRUE);
-	m_pGraphicDev->LightEnable(2, FALSE);
-	m_pGraphicDev->LightEnable(3, FALSE);
-	
+	CScene* pScene = Get_Scene();
 
-	if (m_iOption == CUBE_COLLISION_WALL)
+	if (pScene->Get_SceneType() != SCENE_TOOLTEST)
 	{
-		CScene* pScene = Get_Scene();
-		if (pScene->Get_SceneType() == SCENE_TOOLTEST)
+
+		Set_Light_Obj();
+
+		// Hit Box 
+		m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, TRUE);
+		m_pGraphicDev->LightEnable(0, TRUE);
+		m_pGraphicDev->LightEnable(1, TRUE);
+		m_pGraphicDev->LightEnable(2, FALSE);
+		m_pGraphicDev->LightEnable(3, FALSE);
+
+
+		if (m_iOption == CUBE_COLLISION_WALL)
 		{
-			m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
-			m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-			m_pTextureCom->Set_Texture(m_iTexIndex);
-			m_pBufferCom->Render_Buffer();
-			m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pColliderCom->HitBoxWolrdmat());
-			m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-			m_pColliderCom->Render_Buffer();
-			m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-			m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+			CScene* pScene = Get_Scene();
+			if (pScene->Get_SceneType() == SCENE_TOOLTEST)
+			{
+				m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
+				m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+				m_pTextureCom->Set_Texture(m_iTexIndex);
+				m_pBufferCom->Render_Buffer();
+				m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pColliderCom->HitBoxWolrdmat());
+				m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+				m_pColliderCom->Render_Buffer();
+				m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+				m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+			}
+			else
+			{
+				return;
+			}
 		}
-		else
+
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
+
+		/*if (m_bWireFrame)
 		{
-			return;
-		}
+			m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+			m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(150, 0, 0, 0));
+			m_pGraphicDev->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
+			m_pGraphicDev->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+			m_pGraphicDev->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_TFACTOR);
+			m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+			m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+			m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, (DWORD)0x00000001);
+			m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+			m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+		}*/
+
+		m_pTextureCom->Set_Texture(m_iTexIndex);
+		/*
+		if (m_bWireFrame)
+		{
+			m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
+
+		}*/
+		FAILED_CHECK_RETURN(SetUp_Material(), );
+		m_pBufferCom->Render_Buffer();
+
+		//// HitBox
+		m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+		m_pColliderCom->Render_Buffer();
+		m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+		//// ~Hit Box 
+		//
+		//if (m_bWireFrame)
+		//{
+		//	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+		//	m_pBufferCom->Render_Buffer();
+		//	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
+		//	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+		//	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+		//}
+
+		m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
+		m_pGraphicDev->LightEnable(0, FALSE);
+		m_pGraphicDev->LightEnable(1, FALSE);
+		m_pGraphicDev->LightEnable(2, FALSE);
+		m_pGraphicDev->LightEnable(3, FALSE);
+
 	}
-	
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
-	
-	/*if (m_bWireFrame)
+	else
 	{
+		if (m_iOption == CUBE_COLLISION_WALL)
+		{
+			CScene* pScene = Get_Scene();
+			if (pScene->Get_SceneType() == SCENE_TOOLTEST)
+			{
+				m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
+				m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+				m_pTextureCom->Set_Texture(m_iTexIndex);
+				m_pBufferCom->Render_Buffer();
+				m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pColliderCom->HitBoxWolrdmat());
+				m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+				m_pColliderCom->Render_Buffer();
+				m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+				m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+			}
+			else
+			{
+				return;
+			}
+		}
+		m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
+		if (m_bWireFrame)
+		{
 		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 		m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(150, 0, 0, 0));
 		m_pGraphicDev->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
@@ -122,40 +197,29 @@ void CWallCube::Render_Obejct(void)
 		m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, (DWORD)0x00000001);
 		m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 		m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-	}*/
+		}
 
-	m_pTextureCom->Set_Texture(m_iTexIndex);
-	/*
-	if (m_bWireFrame)
-	{
-		m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
+			
+		
+		m_pTextureCom->Set_Texture(m_iTexIndex);
+		
+		if (m_bWireFrame)
+		{
+			m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
 
-	}*/
-	FAILED_CHECK_RETURN(SetUp_Material(), );
-	m_pBufferCom->Render_Buffer();
-
-	//// HitBox
-	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-	m_pColliderCom->Render_Buffer();
-	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-	//// ~Hit Box 
-	//
-	//if (m_bWireFrame)
-	//{
-	//	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-	//	m_pBufferCom->Render_Buffer();
-	//	m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
-	//	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-	//	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-	//}
-
-	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
-	m_pGraphicDev->LightEnable(0, FALSE);
-	m_pGraphicDev->LightEnable(1, FALSE);
-	m_pGraphicDev->LightEnable(2, FALSE);
-	m_pGraphicDev->LightEnable(3, FALSE);
+		}
+		m_pBufferCom->Render_Buffer();
 
 
+		if (m_bWireFrame)
+		{
+			m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+			m_pBufferCom->Render_Buffer();
+			m_pGraphicDev->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(255, 255, 255, 255));
+			m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+			m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+		}
+	}
 
 }
 

@@ -123,7 +123,6 @@ void CSkillParticle::resetParticle(Attribute* attribute)
 
 	attribute->_position = { x, y, z };
 
-	float frand;
 
 	if (0 == rand() % 2)
 	{

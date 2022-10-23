@@ -26,6 +26,10 @@ public:
 	virtual void	Render_Obejct(void) override;
 	virtual void	Collision_Event();
 
+public:
+	void			Set_MonsterKillCount() { m_iKillMonster += 1; }
+	const _int&		Get_MonsterKillCount() { return m_iKillMonster; }
+
 private:
 	HRESULT				Add_Component(void);
 	void				Key_Input(const _float& fTimeDelta);
@@ -43,11 +47,25 @@ private:
 	CCollider*			m_pColliderCom = nullptr;
 
 
+	_bool				m_bDash = false;
+	_uint				m_iCountDash = 15;
+	TYPING_TYPE			m_tpType;					// 어느 방향으로 가는 중인가에 따라 대쉬 방향을 정하기 위한 구조체 변수
+	_float				m_fDashPower = 0.f;		//대쉬 시 가속력
+	_float				m_fBuffDashPower = 0.f; //가중된 가속력
+	_float				m_fDashTimer = 0.f;
+	_bool				m_bIsDash = false;
+
+public:
+	_int				m_iCreateBulletTime = 3;
+
 private:		
 	_vec3				m_vDirection;
 	_vec3				m_vUp;
 	_vec3				m_vPos;
 	_float				m_fFrame = 0.f;
+
+
+	_int				m_iKillMonster = 0;
 
 public:
 	static CMiniPlayer*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
