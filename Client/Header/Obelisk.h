@@ -13,6 +13,8 @@ public:
 	virtual void		Render_Obejct(void) override;
 	virtual void		Collision_Event()override;
 
+	virtual void		Get_BackOriginPos(void);
+
 	bool			Get_Dead() { return m_bDead; }
 	bool			Get_Hit() { return m_bHit; }
 
@@ -37,7 +39,7 @@ private:
 	CTexture* m_pTextureCom = nullptr;
 	CRcTex* m_pBufferCom = nullptr;
 	bool	m_bSpawnSound = nullptr;
-
+	_vec3	m_vOriginScale;
 
 };
 

@@ -41,7 +41,7 @@ CPlayer::~CPlayer()
 
 HRESULT CPlayer::Ready_Object(void)
 {
-
+	
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
@@ -53,7 +53,7 @@ HRESULT CPlayer::Ready_Object(void)
 	m_pDynamicTransCom->Set_Pos(vPos.x, vPos.y, vPos.z);
 	_vec3 vScale = { 0.1f, 0.1f, 0.1f };
 	m_pDynamicTransCom->Set_Scale(&vScale);
-
+	
 	m_pColliderCom->Set_HitRadiuos(1.1f);
 	m_pColliderCom->Set_vCenter(&vPos, &vScale);
 
@@ -69,14 +69,14 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 {
 	CHelmet* pHelmet = static_cast<CHelmet*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Helmet1"));
 	CAnimation* pHpBarAnimation = dynamic_cast<CAnimation*>(Engine::Get_Component(L"Layer_Icon", L"HpBar", L"Proto_AnimationCom", ID_DYNAMIC));
-	
+
 	if (m_bDead)
 		m_bDeadTimer += 1.0f* fTimeDelta;
-
+	
 	if (m_bDeadTimer >= 5.f)
 	{
 		//Random_ResurrectionRoom();
-
+		
 		m_bDeadTimer = 0.f;
 		m_bDead = false;
 	}
@@ -166,9 +166,9 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 	m_pDynamicTransCom->Set_Y(2.f);
 	m_pColliderCom->Set_HitBoxMatrix(&(m_pDynamicTransCom->m_matWorld));
 	Engine::CGameObject::Update_Object(fTimeDelta);
-	
+
 	Add_RenderGroup(RENDER_ALPHA, this);
-	
+
 	return 0;
 }
 
@@ -181,14 +181,14 @@ void CPlayer::LateUpdate_Object(void)
 		CLayer* pLayer = pScene->GetLayer(L"Layer_Environment");
 
 		CMyCamera *pCam = dynamic_cast<CMyCamera*> (pLayer->Get_GameObject(L"CMyCamera"));
-
+		
 		if (pCam != nullptr)
-			pCam->Set_PlayerHit(true);		
-
+			 pCam->Set_PlayerHit(true);	
+		
 		CHit_Screen* pHitScreen = static_cast<CHit_Screen*>(Engine::Get_GameObject(L"Layer_UI", L"HitScreen"));
 		pHitScreen->Set_Render(true);		
 	}
-
+	
 	CGameObject::LateUpdate_Object();
 }
 
@@ -207,7 +207,7 @@ void CPlayer::Render_Obejct(void)
 	//
 	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	//m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-
+	
 }
 
 HRESULT CPlayer::Add_Component(void)
@@ -264,7 +264,7 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 
 		if (m_bWalkS)
 			Engine::PlaySoundW(L"Walk.mp3", SOUND_WALK, 1.f);
-
+		
 	}
 
 	if (Get_DIKeyState(DIK_A) & 0X80)
@@ -303,7 +303,7 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 
 		if (m_bWalkD)
 			Engine::PlaySoundW(L"Walk.mp3", SOUND_WALK, 1.f);
-
+		
 	}
 
 	if (Key_Down(DIK_T))
@@ -317,7 +317,7 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 
 		CScene* pScene = Get_Scene();
 		CLayer* pLayer = pScene->GetLayer(L"Layer_Room");
-
+		
 		for (auto iter : pLayer->Get_ControlRoomList())
 		{
 			static_cast<CControlRoom*>(iter)->Area_of_Effect(true);
@@ -338,8 +338,8 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
 
 	}
-
-	if (::Key_Down(DIK_LSHIFT))
+	
+		if (::Key_Down(DIK_LSHIFT))
 	{
 		Engine::StopSound(SOUND_WALK);
 
@@ -350,7 +350,7 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 
 		m_bDash = true;
 		m_bDashSound = true;
-
+		
 		_uint iToggle = rand() % 3;
 
 		CScene* pScene = ::Get_Scene();
@@ -365,9 +365,9 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		NULL_CHECK_RETURN(pMyScene, );*/
 		CLayer* pMyLayer = pScene->GetLayer(L"Layer_Icon");
 		NULL_CHECK_RETURN(pMyLayer, );
-		CDashUI* pDashUI = nullptr;
-		pDashUI = dynamic_cast<CDashUI*>(pMyLayer->Get_GameObject(L"DashUI"));
-		pDashUI->Set_Lshift(true);
+		CDashUI* pDashUI = nullptr;		
+		pDashUI = dynamic_cast<CDashUI*>(pMyLayer->Get_GameObject(L"DashUI"));		
+		pDashUI->Set_Lshift(true);		
 
 		if (m_bDashSound)
 		{
@@ -405,30 +405,30 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 
 	if (m_bSkillCool)
 	{
-		if (::Mouse_Down(DIM_RB)) // Picking
-		{
-			/*CScene  *pScene = ::Get_Scene();
-			CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
-			_vec3 vPos;
-			m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
-			vPos.y += 40.f;
-			CGameObject* pFireworks = CFireWorks::Create(m_pGraphicDev, vPos);
-			pLayer->Add_GameObjectList(pFireworks);*/
+	if (::Mouse_Down(DIM_RB)) // Picking
+	{
+		/*CScene  *pScene = ::Get_Scene();
+		CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+		_vec3 vPos;
+		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+		vPos.y += 40.f;
+		CGameObject* pFireworks = CFireWorks::Create(m_pGraphicDev, vPos);
+		pLayer->Add_GameObjectList(pFireworks);*/
 
-			CScene  *pScene = ::Get_Scene();
-			CLayer * pLayer = pScene->GetLayer(L"Layer_UI");
-			CThunderHand* pThunderHand = dynamic_cast<CThunderHand*>(pLayer->Get_GameObject(L"SkillHand"));
+		CScene  *pScene = ::Get_Scene();
+		CLayer * pLayer = pScene->GetLayer(L"Layer_UI");
+		CThunderHand* pThunderHand = dynamic_cast<CThunderHand*>(pLayer->Get_GameObject(L"SkillHand"));
+	
+		if (pThunderHand == nullptr) //|| !pThunderHand->Player_BuySkill())
+			return;
 
-			if (pThunderHand == nullptr) //|| !pThunderHand->Player_BuySkill())
-				return;
+		pThunderHand->Set_Active(true);
 
-			pThunderHand->Set_Active(true);
-
-			CLayer* pMyLayer = pScene->GetLayer(L"Layer_Icon");
-			NULL_CHECK_RETURN(pMyLayer, );
-			CSkill_UI* pSkill_UI = nullptr;
-			pSkill_UI = dynamic_cast<CSkill_UI*>(pMyLayer->Get_GameObject(L"Skill_UI"));
-			pSkill_UI->Set_mbRshift(true);
+		CLayer* pMyLayer = pScene->GetLayer(L"Layer_Icon");
+		NULL_CHECK_RETURN(pMyLayer, );
+		CSkill_UI* pSkill_UI = nullptr;
+		pSkill_UI = dynamic_cast<CSkill_UI*>(pMyLayer->Get_GameObject(L"Skill_UI"));
+		pSkill_UI->Set_mbRshift(true);
 			m_bSkillCool = false;
 		}
 	}
@@ -516,7 +516,7 @@ void CPlayer::EquipItem_Add_Stat(_int _iAttack, _int _iHp, _int iCoin, _int _iKe
 {
 	m_pInfoCom->Get_InfoRef()._iAttackPower = _iAttack + 10;		// iOrginAttack =10
 	m_pInfoCom->Get_InfoRef()._iHp += _iHp;		// iOrginAttack =10
-
+	
 	m_pInfoCom->Get_InfoRef()._iDefense += iDefense;
 	//_int iHp = _iArmor + m_pInfoCom->Get_InfoRef()._iAttackPower;
 	//m_pInfoCom->Get_InfoRef()._iHp = iHp;
@@ -536,7 +536,7 @@ void CPlayer::Excution_Motion()
 {
 	static_cast<CMyCamera*>(::Get_GameObject(L"Layer_Environment", L"CMyCamera"))->Set_Excution(true);
 	static_cast<CGun_Screen*>(pEquipItem)->Set_Active(true);
-
+	
 	static_cast<CAx*>(::Get_GameObject(L"Layer_UI", L"AX"))->Set_Active(true);
 }
 

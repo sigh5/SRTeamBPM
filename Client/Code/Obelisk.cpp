@@ -41,8 +41,9 @@ HRESULT CObelisk::Ready_Object(float Posx, float Posy)
 
 	m_fAttackDelay = 5.f;
 
-	
+
 	m_pDynamicTransCom->Set_Scale(&_vec3(2.f, 6.f, 2.f));
+	m_vOriginScale = m_pDynamicTransCom->m_vScale;
 	if (Posx == 0 && Posy == 0) {}
 	else
 	{
@@ -197,6 +198,14 @@ void CObelisk::Collision_Event()
 		cout << "Obelisk " << m_pInfoCom->Get_InfoRef()._iHp << endl;
 		static_cast<CGun_Screen*>(pGameObject)->Set_Shoot(false);
 	}
+}
+
+void CObelisk::Get_BackOriginPos(void)
+{
+	m_pDynamicTransCom->Set_Pos(m_vOriginPos.x, m_vOriginPos.y, m_vOriginPos.z);
+	m_pInfoCom->Add_Hp(m_iOriginHp - m_pInfoCom->Get_Hp());
+	m_bDead = false;
+	m_pDynamicTransCom->Set_Scale(&m_vOriginScale);
 }
 
 HRESULT CObelisk::SetUp_Material(void)
