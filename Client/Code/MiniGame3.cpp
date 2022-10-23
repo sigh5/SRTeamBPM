@@ -6,6 +6,7 @@
 #include "MiniStage3PreHeader.h"
 #include "FileIOMgr.h"
 #include "UI_Timer.h"
+#include "Change_Stage.h"
 
 CMiniGame3::CMiniGame3(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -41,15 +42,13 @@ _int CMiniGame3::Update_Scene(const _float & fTimeDelta)
 	CLayer* pLayer = GetLayer(L"Layer_UI");
 	CUI_Timer* pTimer = static_cast<CUI_Timer*>(pLayer->Get_GameObject(L"Timer"));
 
-	if (pTimer->Get_Time() >= 2000.f) //120초로 바꾸기
+	if (pTimer->Get_Time() >= 120.f) //120초로 바꾸기
 	{
-		CScene* pStage1 = ::Get_SaveScene();
-		CLayer* pLayer = pStage1->GetLayer(L"Layer_GameLogic");
-		CShopUI* pShopUI = dynamic_cast<CShopUI*>(pLayer->Get_GameObject(L"ShopUI"));
-		pShopUI->Set_ForceScene(0);
-		pStage1->Set_SceneChane(false);
+		CScene*		pChangeScene = CChange_Stage::Create(m_pGraphicDev, 6);
+		NULL_CHECK_RETURN(pChangeScene, -1);
 
-		Load_SaveScene(this);
+		FAILED_CHECK_RETURN(Engine::Set_Scene(pChangeScene), -1);
+		Engine::StopSound(SOUND_BGM);
 		return -1;
 	}
 
