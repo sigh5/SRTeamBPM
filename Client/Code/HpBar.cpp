@@ -84,7 +84,7 @@ void CHpBar::Render_Obejct(void)
 {
 	CPlayer_Dead_UI* pDead_UI = static_cast<CPlayer_Dead_UI*>(Engine::Get_GameObject(L"Layer_UI", L"Dead_UI"));
 	CShopUI* pShopUI = static_cast<CShopUI*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShopUI"));
-
+	CCharacterInfo* pInfo = dynamic_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
 
 	if (pDead_UI->Get_Render() == false)
 	{
@@ -113,13 +113,14 @@ void CHpBar::Render_Obejct(void)
 		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 		m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 		m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-
-		_uint iHpFont = dynamic_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._iHp;
+	
+		if(pInfo->Get_InfoRef()._iDefense == 0)
+		m_iHpFont = dynamic_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._iHp;
 
 		//cout << "ÆùÆ® : " << iHpFont << endl;
 
 		_tchar	tPlayerHp[MAX_PATH];
-		swprintf_s(tPlayerHp, L"%d / 100", iHpFont);
+		swprintf_s(tPlayerHp, L"%d / 100", m_iHpFont);
 		m_szPlayerHp = L"";
 		m_szPlayerHp += tPlayerHp;
 

@@ -98,7 +98,7 @@ void CAnubisStormBall::LateUpdate_Object(void)
 
 	_matrix      matScale, matTrans;
 	D3DXMatrixScaling(&matScale, m_pTransCom->m_vScale.x, m_pTransCom->m_vScale.y, m_pTransCom->m_vScale.z);
-
+	
 	_matrix      matRot;
 	D3DXMatrixIdentity(&matRot);
 	D3DXMatrixRotationY(&matRot, (_float)pCamera->Get_BillBoardDir());

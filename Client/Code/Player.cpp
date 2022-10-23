@@ -93,13 +93,12 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 	NULL_CHECK_RETURN(pEquipItem, -1);
 	m_iOriginHP = m_pInfoCom->Get_Hp();
 	m_iOriginDef = m_pInfoCom->Get_InfoRef()._iDefense;
-
-	if (pHelmet->Get_EquipCheck() == true)
+	
+	if (!m_bDefenseOn)
 	{
-		//m_bDefenseOn = true;
-
-		if (!m_bDefenseOn)
+		if (pHelmet->Get_EquipCheck() == true)
 		{
+			//m_bDefenseOn = true;
 			if (m_bDefenseToHp)
 			{
 				m_pInfoCom->Add_Hp(10);
@@ -114,7 +113,14 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 			if (m_pInfoCom->Get_InfoRef()._iDefense == 0)
 				m_bDefenseOn = true;
 		}
+
+		else
+		{
+			m_bDefenseToHp = false;
+		}
 	}
+
+	
 
 	if (m_pInfoCom->Get_Hp() <= 0)
 	{
@@ -450,11 +456,12 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 		}
 	}
 
-	if (Get_DIKeyState(DIK_P) & 0X80)
-	{
+	if (Engine::Key_Down(DIK_P))
+	{		
 		_vec3	vcurrentPos;
 		m_pDynamicTransCom->Get_Info(INFO_POS, &vcurrentPos);
 	}
+	Engine::Key_InputReset();
 
 	if (Engine::Key_Down(DIK_L))
 	{
