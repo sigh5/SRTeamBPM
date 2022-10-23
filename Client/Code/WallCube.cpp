@@ -262,6 +262,21 @@ void CWallCube::Collision_Event()
 	}
 }
 
+void CWallCube::AddPos()
+{
+	_vec3 vPos;
+
+	m_pTransCom->Get_Info(INFO_POS, &vPos);
+
+
+	vPos.x += 500.f;
+	vPos.z += 500.f;
+
+
+	m_pTransCom->Set_Info(INFO_POS, &vPos);
+
+}
+
 void CWallCube::init_For_Collistion_vector()
 {
 	_vec3 vPos, vScale;

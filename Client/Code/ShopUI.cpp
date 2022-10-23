@@ -250,20 +250,29 @@ void CShopUI::Picking_Rect_Index()
 				else if (i == 3 && !m_bSelect[3])
 				{
 					CScene*pScene = ::Get_Scene();
-					pScene->Set_SceneChane(true);
-					::Set_SaveScene(pScene);
 					CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
 					NULL_CHECK_RETURN(pLayer, );
+					CPlayer* pPlayer = dynamic_cast<CPlayer*>(pLayer->Get_GameObject(L"Player"));
+					CCharacterInfo* pPlayerInfo = dynamic_cast<CCharacterInfo*>(pLayer->Get_Component(L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
+					pPlayerInfo->Get_InfoRef()._iCoin += 50;
+
+				
+					pScene->Set_SceneChane(true);
+					::Set_SaveScene(pScene);
 					pLayer = pScene->GetLayer(L"Layer_UI");
 					CQuestProcessing_UI* pQuestProcessing_UI =
 						dynamic_cast<CQuestProcessing_UI*>(pLayer->Get_GameObject(L"QuestProcessing_UI"));
 					if (pQuestProcessing_UI != nullptr)
-						pQuestProcessing_UI->Set_Quest_Claer(Quest_Index_THREE, true);
+						pQuestProcessing_UI->Set_Quest_Claer(Quest_Index_TWO, true);
+					
 					CScene*		pChangeScene = CChange_Stage::Create(m_pGraphicDev, 3);
 					NULL_CHECK_RETURN(pScene, );
 
 					::Change_Scene(pScene, pChangeScene);
 					m_iForceSceneReturn = SCENE_CHANGE_RETRURN;
+
+				
+
 					m_bSelect[3] = true;
 					return;				
 				}

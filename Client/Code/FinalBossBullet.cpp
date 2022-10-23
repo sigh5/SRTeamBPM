@@ -5,6 +5,7 @@
 #include "AbstractFactory.h"
 #include "ObjectMgr.h"
 #include "MyCamera.h"
+#include "FinalBoss.h"
 
 CFinalBossBullet::CFinalBossBullet(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CBaseBullet(pGraphicDev)
@@ -52,7 +53,8 @@ _int CFinalBossBullet::Update_Object(const _float & fTimeDelta)
 	if (false == m_bChargeSound)
 	{
 		::StopSound(SOUND_EXPLOSION);
-		::PlaySoundW(L"Teleporter_Staticloop.wav", SOUND_EXPLOSION, 0.4f);
+		::PlaySoundW(L"Teleporter_Staticloop.wav", SOUND_EXPLOSION, g_fSound + 0.3f);
+		m_bChargeSound = true;
 	}
 	if (false == m_bStopGo)
 	{
@@ -60,18 +62,19 @@ _int CFinalBossBullet::Update_Object(const _float & fTimeDelta)
 		
 		if (0.5f > m_fPlusSize)
 		{
-			m_fPlusSize += 0.0015f;
+			m_fPlusSize += 0.015f;
 		}
 		else
 		{
-			m_pTransCom->Add_Y(0.0075f);
-			m_fPlusSize += 0.015f;
+			m_pTransCom->Add_Y(0.02f);
+			m_fPlusSize += 0.04f;
 		}
 		if (10.f < m_fPlusSize)
 		{
 			m_MoveDir = pPlayerTransformCom->m_vInfo[INFO_POS] - m_pTransCom->m_vInfo[INFO_POS];
 			D3DXVec3Normalize(&m_MoveDir, &m_MoveDir);
 			m_bStopGo = true;
+			static_cast<CFinalBoss*>(m_pMaster)->Set_OnekiokGo();
 		}
 	}
 
@@ -85,7 +88,7 @@ _int CFinalBossBullet::Update_Object(const _float & fTimeDelta)
 
 		float fDistance = sqrtf((powf(vPos.x - vPlayerPos.x, 2) + powf(vPos.y - vPlayerPos.y, 2) + powf(vPos.z - vPlayerPos.z, 2)));
 
-		if (fDistance < 1.5f && false == m_bHitPlayer)
+		if (fDistance < 7.f && false == m_bHitPlayer)
 		{
 			pPlayerInfo->Receive_Damage(30);
 			m_bHitPlayer = true;
@@ -97,7 +100,7 @@ _int CFinalBossBullet::Update_Object(const _float & fTimeDelta)
 			if (false == m_bExplosionSound)
 			{
 				::StopSound(SOUND_EXPLOSION);
-				::PlaySoundW(L"HugeExplosion.wav", SOUND_EXPLOSION, 0.4f);
+				::PlaySoundW(L"HugeExplosion.wav", SOUND_EXPLOSION, g_fSound + 0.4f);
 				dynamic_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"))->Set_ShakeCheck(true);
 				m_bExplosionSound = true;
 			}
@@ -171,7 +174,7 @@ void CFinalBossBullet::Render_Obejct(void)
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-	if (m_pTransCom->m_vInfo[INFO_POS].y <= m_vScale.y * 0.4f)
+	if (0!=m_pDeadAnimationCom->m_iMotion)
 	{
 		m_pDeadTextureCom->Set_Texture(m_pDeadAnimationCom->m_iMotion);
 	}

@@ -162,6 +162,19 @@ void CMonsterMini::Collision_Event()
 	}
 }
 
+_vec3 CMonsterMini::Get_Pos()
+{
+	_vec3 vPos;
+	m_pTransCom->Get_Info(INFO_POS, &vPos);
+
+	return vPos;
+}
+
+void CMonsterMini::Move_Pos(_vec3 _move)
+{
+	m_pTransCom->Move_Pos(&_move);
+}
+
 void CMonsterMini::Judge_Active(const _float& fTimeDelta)
 {
 	CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
@@ -188,11 +201,6 @@ void CMonsterMini::Judge_Active(const _float& fTimeDelta)
 	}
 }
 
-void CMonsterMini::Active_Attack()
-{
-	
-
-}
 
 _int CMonsterMini::CalCulate_Distacne(CTransform* pPlayerTransCom,const _float& fTimeDelta)
 {
@@ -216,7 +224,7 @@ _int CMonsterMini::CalCulate_Distacne(CTransform* pPlayerTransCom,const _float& 
 		return 1; //attack
 	}
 
-	m_pTransCom->Chase_Target_notRot(&vPlayerPos, 2.f, fTimeDelta);
+	m_pTransCom->Chase_Target_notRot(&vPlayerPos, 1.1f, fTimeDelta);
 	return 0;	// chase
 }
 

@@ -57,7 +57,7 @@ _int CEarthSpike::Update_Object(const _float & fTimeDelta)
 	}
 	m_pTransform->Set_Y(m_pTransform->m_vScale.y * 0.5f);
 	m_fWaitTimeCounter += fTimeDelta;
-	if (1.5f > m_fToPlayerDistance && m_bHitPlayer)
+	if (1.5f > m_fToPlayerDistance && false == m_bHitPlayer)
 	{
 		pPlayerInfo->Receive_Damage(5);
 		pPlayer->Set_DefenseToHp(true);

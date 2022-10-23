@@ -9,6 +9,7 @@ class CTransform;
 class CTexture;
 class CCubeTex;
 class CCollider;
+class CRcTex;
 END
 
 class CBullet : public CBaseBullet
@@ -32,7 +33,8 @@ private:
 private:
 	CTransform*			m_pTransCom = nullptr;
 	CTexture*			m_pTextureCom = nullptr;
-	CCubeTex*			m_pCubeTexCom = nullptr;
+	CRcTex*				m_pBufferCom = nullptr;
+	//CCubeTex*			m_pCubeTexCom = nullptr;
 	CCollider*			m_pColliderCom = nullptr;
 
 	_float				m_fBulletSpeed = 30.f;

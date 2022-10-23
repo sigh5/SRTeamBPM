@@ -64,6 +64,14 @@ _int CBulletShell::Update_Object(const _float & fTimeDelta)
 			}
 		}
 	}
+	else
+	{
+		if (m_fSpinTimeCount > 10.f)
+		{
+			m_bDead = true;
+			return OBJ_DEAD;
+		}
+	}
 	if (m_pTransCom->m_vScale.y * 0.5f > m_pTransCom->m_vInfo[INFO_POS].y && m_iDropGround < 3)
 	{
 		
@@ -74,15 +82,15 @@ _int CBulletShell::Update_Object(const _float & fTimeDelta)
 			{
 			case 0:
 				::StopSound(SOUND_OBJECT);
-				::PlaySoundW(L"case_pistol_1.wav", SOUND_OBJECT, g_fSound * 2.f);
+				::PlaySoundW(L"case_pistol_1.wav", SOUND_OBJECT, g_fSound + 0.3f);
 				break;
 			case 1:
 				::StopSound(SOUND_OBJECT);
-				::PlaySoundW(L"case_pistol_2.wav", SOUND_OBJECT, g_fSound * 2.f);
+				::PlaySoundW(L"case_pistol_2.wav", SOUND_OBJECT, g_fSound  + 0.3f);
 				break;
 			case 2:
 				::StopSound(SOUND_OBJECT);
-				::PlaySoundW(L"case_pistol_3.wav", SOUND_OBJECT, g_fSound * 2.f);
+				::PlaySoundW(L"case_pistol_3.wav", SOUND_OBJECT, g_fSound + 0.3f);
 				break;
 			}
 		}
@@ -92,15 +100,15 @@ _int CBulletShell::Update_Object(const _float & fTimeDelta)
 			{
 			case 0:
 				::StopSound(SOUND_OBJECT);
-				::PlaySoundW(L"shell_shotgun_1.wav", SOUND_OBJECT, g_fSound * 2.f);
+				::PlaySoundW(L"shell_shotgun_1.wav", SOUND_OBJECT, g_fSound + 0.3f);
 				break;
 			case 1:
 				::StopSound(SOUND_OBJECT);
-				::PlaySoundW(L"shell_shotgun_2.wav", SOUND_OBJECT, g_fSound * 2.f);
+				::PlaySoundW(L"shell_shotgun_2.wav", SOUND_OBJECT, g_fSound+ 0.3f);
 				break;
 			case 2:
 				::StopSound(SOUND_OBJECT);
-				::PlaySoundW(L"shell_shotgun_3.wav", SOUND_OBJECT, g_fSound * 2.f);
+				::PlaySoundW(L"shell_shotgun_3.wav", SOUND_OBJECT, g_fSound + 0.3f);
 				break;
 			}
 		}

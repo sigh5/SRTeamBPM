@@ -4,7 +4,8 @@
 #include "Export_Function.h"
 
 #include "Stage1PreHeader.h"
-
+#include "BossStage.h"
+#include "RealSnowFall.h"
 
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -24,7 +25,6 @@ HRESULT CStage::Ready_Scene(void)
 	m_SceneType = SCENE_STAGE;
 
 	FAILED_CHECK_RETURN(Ready_Proto(), E_FAIL);
-
 	FAILED_CHECK_RETURN(Ready_Light(), E_FAIL);
 
 	FAILED_CHECK_RETURN(Ready_Layer_CubeCollsion(L"Layer_CubeCollsion"), E_FAIL);
@@ -79,6 +79,7 @@ _int CStage::Update_Scene(const _float & fTimeDelta)
 	
 
 	TeleportCubeUpdate(fTimeDelta);
+
 
 	return Engine::CScene::Update_Scene(fTimeDelta);
 }
@@ -170,6 +171,7 @@ HRESULT CStage::Ready_Layer_Environment(const _tchar * pLayerTag)
 	
 	READY_LAYER(pGameObject, CSkyBox, pLayer, m_pGraphicDev, L"SkyBox");
 	READY_LAYER(pGameObject, CSnowfall, pLayer, m_pGraphicDev, L"Snowfall");
+	READY_LAYER(pGameObject, CRealSnowFall, pLayer, m_pGraphicDev, L"RealSnowfall");
 
 	m_mapLayer.insert({ pLayerTag, pLayer });
 

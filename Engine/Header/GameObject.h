@@ -35,6 +35,9 @@ public:
 
 	const _bool&			Get_ObjDead() { return m_bDead; }
 	void					Set_ObjDead(_bool bDead) { m_bDead = bDead; }
+	virtual		_vec3		Get_Pos() { return _vec3(0, 0, 0); }
+	virtual		void		Move_Pos(_vec3 _move) {}
+
 
 private:
 	CComponent*		Find_Component(const _tchar* pComponentTag, COMPONENTID eID);

@@ -137,8 +137,9 @@ void CMyCamera::Mouse_Move(const _float& fTimeDelta)
 		return;
 
 	CTransform*	pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
- 	NULL_CHECK(pPlayerTransform);
-
+ 
+	if (pPlayerTransform == nullptr)
+		return;
 
 	_long		dwMouseMove = 0;
 	
@@ -213,8 +214,8 @@ void CMyCamera::Key_Input(const _float & fTimeDelta)
 void CMyCamera::Target_Renewal(const _float& fTimeDelta)
 {
 	CTransform*	pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
-	NULL_CHECK(pPlayerTransform);
-
+	if (pPlayerTransform == nullptr)
+		return;
 	_vec3	vLook;
 	pPlayerTransform->Get_Info(INFO_LOOK, &vLook);
 
@@ -244,7 +245,8 @@ void CMyCamera::CameraReset()
 {
 	m_fDeadTimer = 0;
 	CTransform*	pPlayerTransform = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
-	NULL_CHECK_RETURN(pPlayerTransform, );
+	if (pPlayerTransform == nullptr)
+		return;
 
 	pPlayerTransform->Rotation(ROT_X, -m_fOriginAngle);
 

@@ -30,10 +30,11 @@ public:
 	virtual void	Collision_Event()override;
 
 	void	Set_Dead(_bool bEvent) { m_bDead = bEvent; }
-
+	virtual		_vec3		Get_Pos();
+	virtual		void		Move_Pos(_vec3 _move);
 private:
 	void			Judge_Active(const _float& fTimeDelta);
-	void			Active_Attack();	
+
 	_int			CalCulate_Distacne(CTransform* pPlayerTransCom, const _float& fTimeDelta);	// 0 chase 1 attack 2 stop
 
 public:
