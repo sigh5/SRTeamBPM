@@ -401,6 +401,16 @@
     <ClCompile Include="..\Code\FinalBossBullet.cpp">
       <Filter>02. GameObject\01. For_Stage\02. Monster\10. FinalBos</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\Hit_Screen.cpp" />
+    <ClCompile Include="..\Code\MagneticField.cpp" />
+    <ClCompile Include="..\Code\MiniGame1Pic.cpp" />
+    <ClCompile Include="..\Code\MonsterMini.cpp" />
+    <ClCompile Include="..\Code\StageTerrain.cpp" />
+    <ClCompile Include="..\Code\ThunderPic.cpp" />
+    <ClCompile Include="..\Code\UI_Timer.cpp" />
+    <ClCompile Include="..\Code\RealSnowFall.cpp">
+      <Filter>02. GameObject\02. For_public\04. SnowFall</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -823,6 +833,16 @@
     <ClInclude Include="..\Header\FinalBossBullet.h">
       <Filter>02. GameObject\01. For_Stage\02. Monster\10. FinalBos</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Hit_Screen.h" />
+    <ClInclude Include="..\Header\MagneticField.h" />
+    <ClInclude Include="..\Header\MiniGame1Pic.h" />
+    <ClInclude Include="..\Header\MonsterMini.h" />
+    <ClInclude Include="..\Header\StageTerrain.h" />
+    <ClInclude Include="..\Header\ThunderPic.h" />
+    <ClInclude Include="..\Header\UI_Timer.h" />
+    <ClInclude Include="..\Header\RealSnowFall.h">
+      <Filter>02. GameObject\02. For_public\04. SnowFall</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1061,9 +1081,6 @@
     <Filter Include="97. Mgr\04. MouseMgr">
       <UniqueIdentifier>{f550c436-df26-4176-8520-97598fca7da0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. For_Stage\16. NPC">
-      <UniqueIdentifier>{fa29e488-f8f2-422d-a2b6-e8beec8ee713}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\01. For_Stage\10. UI\95. ShopUI">
       <UniqueIdentifier>{94af1454-ec4c-460d-a294-689d9e4dfec9}</UniqueIdentifier>
     </Filter>
@@ -1159,6 +1176,9 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\14. Equipment\02. Pet">
       <UniqueIdentifier>{ce2111e0-7f46-414f-9ae3-1fb08de0345f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\16. NPC">
+      <UniqueIdentifier>{fa29e488-f8f2-422d-a2b6-e8beec8ee713}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

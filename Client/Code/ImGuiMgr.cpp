@@ -940,7 +940,7 @@ void CImGuiMgr::TerrainTool(LPDIRECT3DDEVICE9 pGrahicDev, CCamera* pCam, CScene*
 
 
 	if (ImGui::Button("Save"))
-		CFileIOMgr::GetInstance()->Save_FileData(pScene, L"TerrainLayer", L"../../Data/", L"Stage1Room.dat", OBJ_ROOM);
+		CFileIOMgr::GetInstance()->Save_FileData(pScene, L"TerrainLayer", L"../../Data/", L"Stage2Room.dat", OBJ_ROOM);
 	ImGui::SameLine();
 
 	if (ImGui::Button("Load"))
@@ -952,6 +952,13 @@ void CImGuiMgr::TerrainTool(LPDIRECT3DDEVICE9 pGrahicDev, CCamera* pCam, CScene*
 			L"Stage1Room.dat",
 			L"StageRoom",
 			OBJ_ROOM);*/
+		CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev,
+			pScene,
+			L"TerrainLayer",
+			L"../../Data/",
+			L"Stage2Room.dat",
+			L"StageRoom",
+			OBJ_ROOM);
 	}
 
 	if ((Get_DIKeyState(DIK_Z) & 0x80))
