@@ -37,8 +37,6 @@ HRESULT CNpc::Ready_Object(void)
 
 _int CNpc::Update_Object(const _float & fTimeDelta)
 {
-	m_pAnimationCom->Move_Animation(fTimeDelta);
-
 	_uint iResult = Engine::CGameObject::Update_Object(fTimeDelta);
 
 	m_pAnimationCom->Move_Animation(fTimeDelta);

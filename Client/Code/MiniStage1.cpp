@@ -57,7 +57,8 @@ _int CMiniStage1::Update_Scene(const _float & fTimeDelta)
 			pShopUI->Set_ForceScene(0);
 			pStage1->Set_SceneChane(false);
 
-			CMiniGame1Pic* pMinigamePic = dynamic_cast<CMiniGame1Pic*>(Engine::Get_GameObject(L"Layer_Icon", L"Minigame1"));
+			CLayer* pMyLayer = pStage1->GetLayer(L"Layer_Icon");
+			CMiniGame1Pic* pMinigamePic = dynamic_cast<CMiniGame1Pic*>(pMyLayer->Get_GameObject(L"Minigame1"));
 			pMinigamePic->Set_GameClear(false);
 
 			Load_SaveScene(this);

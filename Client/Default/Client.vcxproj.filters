@@ -1174,6 +1174,9 @@
     <Filter Include="02. GameObject\01. For_Stage\10. UI\95. ShopUI\01. MiniGame1Pic">
       <UniqueIdentifier>{1ae0c2fe-7017-47e9-ae6e-5c4bc40212b8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\95. ShopUI\02. HelmetPic">
+      <UniqueIdentifier>{556d317c-89df-4ddf-9262-db8de5242930}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
