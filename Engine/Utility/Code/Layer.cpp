@@ -301,6 +301,14 @@ void		CLayer::Clear_ColliderMonster(void)
 {
 	m_vecColliderMonster.clear();
 }
+void CLayer::Reset_DropItemList(void)
+{
+	for (auto iter : m_DropItemList)
+	{
+		Safe_Release(iter);
+	}
+	m_DropItemList.clear();
+}
 void		CLayer::Add_DropItemList(CGameObject* pItem)
 {
 	m_DropItemList.push_back(pItem);

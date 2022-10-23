@@ -39,7 +39,7 @@ HRESULT CSoldier::Ready_Object(float Posx, float Posz)
 	m_pAttackAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_STATIC);
 
 	m_iMonsterIndex = MONSTER_SOLDIER;
-	m_fAttackDelay = 1.f;
+	m_fAttackDelay = 1.5f;
 	m_pInfoCom->Ready_CharacterInfo(1, 10, 4.f);
 	m_pAnimationCom->Ready_Animation(6, 1, 0.3f);
 	m_pAttackAnimationCom->Ready_Animation(11, 0, 0.2f);

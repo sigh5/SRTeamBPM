@@ -38,7 +38,7 @@ HRESULT CHarpoonGuy::Ready_Object(float Posx, float Posz)
 
 	m_iMonsterIndex = MONSTER_HARPOONGUY;
 	m_pInfoCom->Ready_CharacterInfo(1, 10, 4.f);
-	m_fAttackDelay = 0.4f;
+	m_fAttackDelay = 1.f;
 	m_pAnimationCom->Ready_Animation(6, 1, 0.2f);
 	m_pAttackAnimationCom->Ready_Animation(12, 0, 0.2f);
 	m_pDeadAnimationCom->Ready_Animation(8, 0, 0.2f);
@@ -366,8 +366,14 @@ void CHarpoonGuy::Attack(const _float & fTimeDelta)
 		::StopSound(SOUND_EFFECT2);
 		::PlaySoundW(L"LaserGun.wav", SOUND_EFFECT2, g_fSound);
 	}
+	if (6 == m_pAttackAnimationCom->m_iMotion && 1> m_iRepeatShot)
+	{
+		m_iRepeatShot++;
+		m_pAttackAnimationCom->m_iMotion = 3;
+	}
 	if (m_pAttackAnimationCom->m_iMotion >= m_pAttackAnimationCom->m_iMaxMotion)
 	{
+		m_iRepeatShot = 0;
 		m_bAttack = false;
 		m_bAttackSound = false;
 		m_bAttackSound2 = false;
