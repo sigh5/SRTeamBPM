@@ -43,7 +43,7 @@ _int CStatus_UI::Update_Object(const _float & fTimeDelta)
 
 	m_iPlayerSpeed = (_uint)static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._fSpeed;
 
-	m_iPlayerRange = MAX_CROSSROAD + (_uint)g_fRange;
+	m_iPlayerRange = (_uint)MAX_CROSSROAD + (_uint)(g_fRange);
 
 	m_iPlayerDef = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._iDefense;
 

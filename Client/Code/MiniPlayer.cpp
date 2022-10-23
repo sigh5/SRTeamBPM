@@ -64,7 +64,7 @@ _int CMiniPlayer::Update_Object(const _float & fTimeDelta)
 	m_pDynamicTransCom->Set_Y(1.f);
 
 	if (m_iKillMonster >= 100)
-		m_iCreateBulletTime = 2.f;
+		m_iCreateBulletTime = 2;
 
 	m_fFrame += 1.f*fTimeDelta;
 

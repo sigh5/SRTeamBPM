@@ -179,8 +179,12 @@ void CTeleCube::Collision_Event()
 			pLayer = pScene->GetLayer(L"Layer_CubeCollsion");
 
 			if (pLayer->m_iRestRoom < 0)
+			{
+				// 여기서 최종맵으로 가는 코드 넣으면됀다
+				//pTransform->Set_Pos(30.f, 0.f, 30.f);
+				
 				return;
-
+			}
 			vector<CGameObject*> temp = *pLayer->GetRestCube();
 			_int iCurrentRoomIndex = pLayer->m_iRoomIndex;
 			_int iRandomNum = pLayer->m_iRestRoom--; //rand() %
@@ -206,11 +210,11 @@ void CTeleCube::Collision_Event()
 			}
 			m_bCollisionCheck = true;
 
-			if (pLayer->m_iRestRoom == 0)
+			/*if (pLayer->m_iRestRoom == 0)
 			{
 				pTransform->Set_Pos(30.f, 0.f, 30.f);
 			}
-
+*/
 
 		}
 	}

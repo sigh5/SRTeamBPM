@@ -124,7 +124,7 @@ void CStaticCamera::Mouse_Move(const _float & fTimeDelta)
 	if (dwMouseMove = Engine::Get_DIMouseMove(DIMS_X))
 	{
 		pPlayerTransform->Rotation(ROT_Y, D3DXToRadian(dwMouseMove / 10.f));
-		m_iBillBoardDir = (_int)(dwMouseMove / 10.f) *fTimeDelta;
+		m_iBillBoardDir = (_int)((dwMouseMove / 10.f) *fTimeDelta);
 	}
 
 	if (dwMouseMove = Engine::Get_DIMouseMove(DIMS_Y))
