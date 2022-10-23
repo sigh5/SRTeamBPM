@@ -65,6 +65,7 @@ _int CMiniGame3::Update_Scene(const _float & fTimeDelta)
 
 void CMiniGame3::LateUpdate_Scene(void)
 {
+
 	CLayer *pLayer = GetLayer(L"Layer_GameLogic");
 
 	for (auto iter = pLayer->Get_GameObjectMap().begin(); iter != pLayer->Get_GameObjectMap().end(); ++iter)
@@ -90,6 +91,15 @@ void CMiniGame3::LateUpdate_Scene(void)
 	}
 
 	pLayer = GetLayer(L"Layer_Monster");
+	
+	pLayer->ClearActivevecListColliderMonster();
+
+	for (auto iter : pLayer->Get_EffectList())
+	{
+		pLayer->Add_m_vecColiderMiniMonster(iter);
+	}
+
+	pLayer->ActivevecListColliderMonster();
 
 	for (auto iter = pLayer->Get_EffectList().begin(); iter != pLayer->Get_EffectList().end(); ++iter)
 	{
@@ -209,7 +219,8 @@ HRESULT CMiniGame3::Ready_Layer_UI(const _tchar * pLayerTag)
 HRESULT CMiniGame3::Ready_Proto(void)
 {
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_TerrainMoveTexCom", CTerrainMoveTex::Create(m_pGraphicDev, VTXCNTX, VTXCNTZ, VTXITV)), E_FAIL);
-
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MiniPlayerTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/NPC/GuitarMan/GuitarMan%d.png", TEX_NORMAL, 22)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Bullet_Guita_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/NPC/Bullet_Guita.png", TEX_NORMAL)), E_FAIL);
 
 	return S_OK;
 }

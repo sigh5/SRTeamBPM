@@ -181,6 +181,7 @@
     <ClInclude Include="..\Header\BackGround.h" />
     <ClInclude Include="..\Header\BGMDownBtn.h" />
     <ClInclude Include="..\Header\BGMUpBtn.h" />
+    <ClInclude Include="..\Header\BossStage.h" />
     <ClInclude Include="..\Header\Box.h" />
     <ClInclude Include="..\Header\Bullet.h" />
     <ClInclude Include="..\Header\BulletShell.h" />
@@ -234,6 +235,8 @@
     <ClInclude Include="..\Header\MetronomeUI.h" />
     <ClInclude Include="..\Header\MiniGame1Pic.h" />
     <ClInclude Include="..\Header\MiniGame3.h" />
+    <ClInclude Include="..\Header\MiniMonster2.h" />
+    <ClInclude Include="..\Header\MiniMonster3.h" />
     <ClInclude Include="..\Header\MiniPlayer.h" />
     <ClInclude Include="..\Header\MiniStage1.h" />
     <ClInclude Include="..\Header\MiniStage3PreHeader.h" />
@@ -328,6 +331,7 @@
     <ClCompile Include="..\Code\BackGround.cpp" />
     <ClCompile Include="..\Code\BGMDownBtn.cpp" />
     <ClCompile Include="..\Code\BGMUpBtn.cpp" />
+    <ClCompile Include="..\Code\BossStage.cpp" />
     <ClCompile Include="..\Code\Box.cpp" />
     <ClCompile Include="..\Code\Bullet.cpp" />
     <ClCompile Include="..\Code\BulletShell.cpp" />
@@ -380,6 +384,8 @@
     <ClCompile Include="..\Code\MetronomeSmallUI.cpp" />
     <ClCompile Include="..\Code\MiniGame1Pic.cpp" />
     <ClCompile Include="..\Code\MiniGame3.cpp" />
+    <ClCompile Include="..\Code\MiniMonster2.cpp" />
+    <ClCompile Include="..\Code\MiniMonster3.cpp" />
     <ClCompile Include="..\Code\MiniPlayer.cpp" />
     <ClCompile Include="..\Code\MiniStage1.cpp" />
     <ClCompile Include="..\Code\MiniTerrain.cpp" />

@@ -22,8 +22,8 @@ HRESULT CQuestProcessing_UI::Ready_Object()
 	m_fSizeX = 200.f;
 	m_fSizeY = 300.f;
 
-	m_fX = WINCX / 2.f +530;
-	m_fY = WINCY / 2.f -350;
+	m_fX = WINCX / 2.f +500;
+	m_fY = WINCY / 2.f -150;
 
 	_vec3 vScale = { m_fSizeX, m_fSizeY, 1.f };
 	m_pTransCom->Set_Scale(&vScale);
@@ -47,7 +47,7 @@ _int CQuestProcessing_UI::Update_Object(const _float & fTimeDelta)
 		return OBJ_DEAD;
 	}
 
-	if (m_bMini_Game_Clear_Check[0] && m_bMini_Game_Clear_Check[1] && m_bMini_Game_Clear_Check[2])
+	if (m_bMini_Game_Clear_Check[0] && m_bMini_Game_Clear_Check[1] )
 	{
 		m_bQuestClear = true;
 	}
@@ -90,21 +90,17 @@ void CQuestProcessing_UI::Render_Obejct(void)
 
 	m_pBufferCom->Render_Buffer();
 
-	Render_Font(L"DalseoHealingBold", L"미니게임1\n보상 100골드", &_vec2(_float(WINCX / 2 + 440), _float(WINCY /2.f - 480.f)), D3DXCOLOR(0.f, 1.f, 0.f, 1.f));
+	Render_Font(L"DalseoHealingBold", L"미니게임1\n보상 100골드", &_vec2(_float(WINCX / 2 + 400), _float(WINCY /2.f - 280.f)), D3DXCOLOR(0.f, 1.f, 0.f, 1.f));
 	if(m_bMini_Game_Clear_Check[Quest_Index_ONE])
-		Render_Font(L"DalseoHealingBold", L"------\n---------", &_vec2(_float(WINCX / 2 + 440), _float(WINCY / 2.f - 480.f)), D3DXCOLOR(1.f, 0.f, 0.f, 1.f));
+		Render_Font(L"DalseoHealingBold", L"------\n---------", &_vec2(_float(WINCX / 2 + 400), _float(WINCY / 2.f - 280.f)), D3DXCOLOR(1.f, 0.f, 0.f, 1.f));
 	
-	Render_Font(L"DalseoHealingBold", L"미니게임2\n 보상 100골드", &_vec2(_float(WINCX / 2 + 440), _float(WINCY / 2.f - 430.f)), D3DXCOLOR(1.f, 0.f, 0.f, 1.f));
+	Render_Font(L"DalseoHealingBold", L"미니게임2\n 보상 100골드", &_vec2(_float(WINCX / 2 + 400), _float(WINCY / 2.f - 240.f)), D3DXCOLOR(1.f, 0.f, 0.f, 1.f));
 	if (m_bMini_Game_Clear_Check[Quest_Index_TWO])
-		Render_Font(L"DalseoHealingBold", L"------\n---------", &_vec2(_float(WINCX / 2 + 440), _float(WINCY / 2.f - 430.f)), D3DXCOLOR(0.f, 0.f, 1.f, 1.f));
+		Render_Font(L"DalseoHealingBold", L"------\n---------", &_vec2(_float(WINCX / 2 + 400), _float(WINCY / 2.f - 240.f)), D3DXCOLOR(0.f, 0.f, 1.f, 1.f));
 
-
-	Render_Font(L"DalseoHealingBold", L"미니게임3\n 보상 100골드", &_vec2(_float(WINCX / 2 + 440), _float(WINCY /2.f -380.f)), D3DXCOLOR(0.f, 0.f, 1.f, 1.f));
-	if (m_bMini_Game_Clear_Check[Quest_Index_THREE])
-		Render_Font(L"DalseoHealingBold", L"------\n---------", &_vec2(_float(WINCX / 2 + 440), _float(WINCY / 2.f - 380.f)), D3DXCOLOR(0.f, 1.f, 0.f, 1.f));
 
 	if(m_bQuestClear)
-		Render_Font(L"DalseoHealingBold", L"퀘스트클리어!!\n다시 말걸기", &_vec2(_float(WINCX / 2 + 440), _float(WINCY / 2.f - 330.f)), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+		Render_Font(L"DalseoHealingBold", L"퀘스트클리어!!\n다시 말걸기", &_vec2(_float(WINCX / 2 + 400), _float(WINCY / 2.f - 200.f)), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 
 
 
@@ -117,7 +113,7 @@ void CQuestProcessing_UI::Render_Obejct(void)
 
  _bool  CQuestProcessing_UI::MiniGameCheck()
 {
-	if (m_bMini_Game_Clear_Check[0] && m_bMini_Game_Clear_Check[1] && m_bMini_Game_Clear_Check[2])
+	if (m_bMini_Game_Clear_Check[0] && m_bMini_Game_Clear_Check[1])
 		return true;
 
 	return false;

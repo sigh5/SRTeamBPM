@@ -4,7 +4,7 @@
 #include "Export_Function.h"
 
 #include "Stage1PreHeader.h"
-
+#include "BossStage.h"
 
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -24,7 +24,6 @@ HRESULT CStage::Ready_Scene(void)
 	m_SceneType = SCENE_STAGE;
 
 	FAILED_CHECK_RETURN(Ready_Proto(), E_FAIL);
-
 	FAILED_CHECK_RETURN(Ready_Light(), E_FAIL);
 
 	FAILED_CHECK_RETURN(Ready_Layer_CubeCollsion(L"Layer_CubeCollsion"), E_FAIL);
@@ -79,6 +78,7 @@ _int CStage::Update_Scene(const _float & fTimeDelta)
 	
 
 	TeleportCubeUpdate(fTimeDelta);
+
 
 	return Engine::CScene::Update_Scene(fTimeDelta);
 }

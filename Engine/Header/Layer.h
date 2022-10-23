@@ -53,6 +53,10 @@ public:
 	void					Reset_Monster();	//맵 오브젝트 내 몬스터 위치 체력 초기화
 	void					Delete_GhulList(void);		//구울 리스트 삭제
 	void					ActivevecColliderMonster(void);
+	
+	void					ActivevecListColliderMonster(void);
+
+	
 	void					Clear_ColliderMonster(void);
 	//구울 리스트 가져오기
 	list<CGameObject*>&		Get_GhulList() { return m_GhulList; }
@@ -65,10 +69,11 @@ public:
 	void					Add_ControlRoomList(CGameObject* pControlRoom) { m_ControlRoomList.push_back(pControlRoom); }
 	void					Add_EffectList(CGameObject* pEffectObject) { m_EffectList.push_back(pEffectObject); }
 
+	void					Add_m_vecColiderMiniMonster(CGameObject* pMonster) { m_vecColiderMiniMonster.push_back(pMonster); }
 
-
-
-
+	void					ClearActivevecListColliderMonster();
+	
+	vector<CGameObject*>&	Get_vecColiderMiniMonster() { return m_vecColiderMiniMonster; }
 	
 private:
 	map<const _tchar*, CGameObject*>			m_mapObject;
@@ -86,6 +91,8 @@ private:
 	list<CGameObject*>  m_ControlRoomList;
 	list<CGameObject*>	m_DropItemList;
 
+
+	vector<CGameObject*> m_vecColiderMiniMonster;
 
 	list<_tchar* > NameList;
 

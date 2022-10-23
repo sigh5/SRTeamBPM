@@ -13,6 +13,8 @@
 #include "StageTerrain.h"
 #include "MiniPlayer.h"
 #include "MonsterMini.h"
+#include "MiniMonster2.h"
+#include "MiniMonster3.h"
 
 CMagneticField::CMagneticField(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -61,22 +63,66 @@ _int CMagneticField::Update_Object(const _float & fTimeDelta)
 		if (m_iMonsterMaxNum < 100)
 		{
 			m_fMonsterSpawnTimer += 1.f *fTimeDelta;
+			
+			_int iMonsterIndex = rand() % 3;
 
-			if (m_fMonsterSpawnTimer >= 5.f)
+
+			if (iMonsterIndex == 0)
 			{
-				_vec3 vPos;
-				m_pTransCom->Get_Info(INFO_POS, &vPos);
-				CScene* pScene = Get_Scene();
-				CLayer*		pLayer = pScene->GetLayer(L"Layer_Monster");
-				CGameObject*		pGameObject = nullptr;
+				if (m_fMonsterSpawnTimer >= 5.f)
+				{
+					_vec3 vPos;
+					m_pTransCom->Get_Info(INFO_POS, &vPos);
+					CScene* pScene = Get_Scene();
+					CLayer*		pLayer = pScene->GetLayer(L"Layer_Monster");
+					CGameObject*		pGameObject = nullptr;
 
-				pGameObject = CMonsterMini::Create(m_pGraphicDev);
-				pLayer->Add_EffectList(pGameObject);
-				static_cast<CMonsterMini*>(pGameObject)->Set_Pos(vPos);
+					pGameObject = CMonsterMini::Create(m_pGraphicDev);
+					pLayer->Add_EffectList(pGameObject);
+					static_cast<CMonsterMini*>(pGameObject)->Set_Pos(vPos);
 
-				m_fMonsterSpawnTimer = 0.f;
-				++m_iMonsterMaxNum;
+					m_fMonsterSpawnTimer = 0.f;
+					++m_iMonsterMaxNum;
+				}
 			}
+			else if (iMonsterIndex  == 1)
+			{
+				if (m_fMonsterSpawnTimer >= 5.f)
+				{
+					_vec3 vPos;
+					m_pTransCom->Get_Info(INFO_POS, &vPos);
+					CScene* pScene = Get_Scene();
+					CLayer*		pLayer = pScene->GetLayer(L"Layer_Monster");
+					CGameObject*		pGameObject = nullptr;
+
+					pGameObject = CMiniMonster3::Create(m_pGraphicDev);
+					pLayer->Add_EffectList(pGameObject);
+					static_cast<CMiniMonster3*>(pGameObject)->Set_Pos(vPos);
+
+					m_fMonsterSpawnTimer = 0.f;
+					++m_iMonsterMaxNum;
+				}
+			}
+
+			else if (iMonsterIndex  == 2)
+			{
+				if (m_fMonsterSpawnTimer >= 5.f)
+				{
+					_vec3 vPos;
+					m_pTransCom->Get_Info(INFO_POS, &vPos);
+					CScene* pScene = Get_Scene();
+					CLayer*		pLayer = pScene->GetLayer(L"Layer_Monster");
+					CGameObject*		pGameObject = nullptr;
+
+					pGameObject = CMiniMonster2::Create(m_pGraphicDev);
+					pLayer->Add_EffectList(pGameObject);
+					static_cast<CMiniMonster2*>(pGameObject)->Set_Pos(vPos);
+
+					m_fMonsterSpawnTimer = 0.f;
+					++m_iMonsterMaxNum;
+				}
+			}
+
 		}
 		
 	}

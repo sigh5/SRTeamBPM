@@ -812,6 +812,18 @@ void CImGuiMgr::CreateObject(LPDIRECT3DDEVICE9 pGrahicDev, CScene* pScene, CCame
 		}
 	}
 
+	if (ImGui::Button("500 500"))
+	{
+		CLayer* MyLayer = pScene->GetLayer(L"MapCubeLayer");
+		
+		for (auto iter : MyLayer->Get_GameObjectMap())
+		{
+			static_cast<CWallCube*>(iter.second)->AddPos();
+		}
+
+	}
+
+
 	if (m_bCubeSelcetCheck)
 	{
 		if ((Get_DIKeyState(DIK_N) & 0x80))
@@ -941,17 +953,28 @@ void CImGuiMgr::TerrainTool(LPDIRECT3DDEVICE9 pGrahicDev, CCamera* pCam, CScene*
 
 	if (ImGui::Button("Save"))
 		CFileIOMgr::GetInstance()->Save_FileData(pScene, L"TerrainLayer", L"../../Data/", L"Stage1Room.dat", OBJ_ROOM);
-	ImGui::SameLine();
+		//CFileIOMgr::GetInstance()->Save_FileData(pScene, L"TerrainLayer", L"../../Data/", L"Stage2Room.dat", OBJ_ROOM); 
+		
+		
+		ImGui::SameLine();
 
 	if (ImGui::Button("Load"))
 	{
-	/*	CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev,
+			CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev,
 			pScene,
 			L"TerrainLayer",
 			L"../../Data/",
 			L"Stage1Room.dat",
-			L"StageRoom",
-			OBJ_ROOM);*/
+			L"StageRoom3",
+			OBJ_ROOM);
+
+			//CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev,
+			//pScene,
+			//L"TerrainLayer",
+			//L"../../Data/",
+			//L"Stage2Room.dat",
+			//L"StageRoom",
+			//OBJ_ROOM);
 	}
 
 	if ((Get_DIKeyState(DIK_Z) & 0x80))
@@ -1466,9 +1489,18 @@ void CImGuiMgr::Load_CubeMap(LPDIRECT3DDEVICE9 pGrahicDev, CScene *pScene)
 			pScene,
 			L"MapCubeLayer",
 			L"../../Data/",
-			L"MiniStage2.dat",
+			L"Stage1Map.dat",
 			L"TestCube",
 			OBJ_CUBE);
+
+		/*CFileIOMgr::GetInstance()->Load_FileData(pGrahicDev,
+			pScene,
+			L"MapCubeLayer",
+			L"../../Data/",
+			L"Stage2Map.dat",
+			L"TestCube",
+			OBJ_CUBE);
+*/
 
 		m_iIndex = CFileIOMgr::GetInstance()->Get_Index();
 		++m_iIndex;
@@ -1495,6 +1527,43 @@ void CImGuiMgr::Load_CubeMap(LPDIRECT3DDEVICE9 pGrahicDev, CScene *pScene)
 		break;
 	}
 }
+
+
+
+void CImGuiMgr::Save_CubeMap(CScene *pScene)
+{
+	switch (m_CurrentUser)
+	{
+	case USER_HHW:
+			CFileIOMgr::GetInstance()->Save_FileData(pScene, L"MapCubeLayer",
+		L"../../Data/",
+		L"Stage1Map.dat", OBJ_CUBE);
+
+		/*CFileIOMgr::GetInstance()->Save_FileData(pScene, L"MapCubeLayer",
+			L"../../Data/",
+			L"Stage2Map.dat", OBJ_CUBE);
+*/
+
+
+		break;
+
+	case USER_BIH:
+		CFileIOMgr::GetInstance()->Save_FileData(pScene, L"MapCubeLayer", L"../../Data/", L"Stage2Map.dat", OBJ_CUBE);
+		break;
+
+	case USER_PJW:
+		CFileIOMgr::GetInstance()->Save_FileData(pScene, L"MapCubeLayer", L"../../Data/", L"Stage3Map.dat", OBJ_CUBE);
+		break;
+
+	}
+}
+
+
+
+
+
+
+
 
 void CImGuiMgr::Create_Sphere(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCamera * pCam, wstring pObjectName)
 {
@@ -1534,26 +1603,7 @@ void CImGuiMgr::Create_Sphere(LPDIRECT3DDEVICE9 pGrahicDev, CScene * pScene, CCa
 
 
 
-void CImGuiMgr::Save_CubeMap(CScene *pScene)
-{
-	switch (m_CurrentUser)
-	{
-	case USER_HHW:
-		CFileIOMgr::GetInstance()->Save_FileData(pScene, L"MapCubeLayer",
-			L"../../Data/",
-			L"MiniStage2.dat", OBJ_CUBE);
-		break;
 
-	case USER_BIH:
-		CFileIOMgr::GetInstance()->Save_FileData(pScene, L"MapCubeLayer", L"../../Data/", L"Stage2Map.dat", OBJ_CUBE);
-		break;
-
-	case USER_PJW:
-		CFileIOMgr::GetInstance()->Save_FileData(pScene, L"MapCubeLayer", L"../../Data/", L"Stage3Map.dat", OBJ_CUBE);
-		break;
-
-	}
-}
 
 void CImGuiMgr::Free()
 {

@@ -297,6 +297,39 @@ void		CLayer::ActivevecColliderMonster(void)
 	}
 
 }
+void CLayer::ActivevecListColliderMonster(void)
+{
+	int vecend = 0;
+	vecend = m_vecColiderMiniMonster.size();
+	float f_iRadius, f_jRadius, fDistance;
+	_vec3 v_iPos, v_jPos;
+	for (int i = 0; i < vecend; ++i)
+	{
+		for (int j = i + 1; j < vecend; ++j)
+		{
+			f_iRadius = 1.f;
+			f_jRadius = 1.f;
+			v_iPos = m_vecColiderMiniMonster[i]->Get_Pos();
+			v_jPos = m_vecColiderMiniMonster[j]->Get_Pos();
+			fDistance = sqrtf((powf(v_jPos.x - v_iPos.x, 2) + powf(v_jPos.y - v_iPos.y, 2) + powf(v_jPos.z - v_iPos.z, 2)));
+
+			if (f_iRadius + f_jRadius > fDistance)
+			{
+				_vec3 viToj, vjToi;
+				vjToi = v_iPos - v_jPos;
+				viToj = v_jPos - v_iPos;
+				m_vecColiderMiniMonster[i]->Move_Pos(vjToi * (((f_iRadius + f_jRadius) - fDistance)* 0.2f));
+				m_vecColiderMiniMonster[j]->Move_Pos(viToj * (((f_iRadius + f_jRadius) - fDistance)* 0.2f));
+			}
+		}
+	}
+}
+void		CLayer::ClearActivevecListColliderMonster(void)
+{
+	m_vecColiderMiniMonster.clear();
+}
+
+
 void		CLayer::Clear_ColliderMonster(void)
 {
 	m_vecColliderMonster.clear();

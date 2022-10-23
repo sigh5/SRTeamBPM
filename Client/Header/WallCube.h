@@ -23,6 +23,9 @@ public:
 	virtual void		Render_Obejct(void) override;
 	virtual void		Collision_Event() override;
 
+
+	void				AddPos();
+
 public:
 	void				init_For_Collistion_vector();
 

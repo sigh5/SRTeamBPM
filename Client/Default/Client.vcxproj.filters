@@ -360,8 +360,6 @@
       <Filter>02. GameObject\02. For_public\07. SkillParticle</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Helmet2.cpp" />
-    <ClCompile Include="..\Code\QuestNpc.cpp" />
-    <ClCompile Include="..\Code\QuestTalkingFrame.cpp" />
     <ClCompile Include="..\Code\WrongPicFind.cpp" />
     <ClCompile Include="..\Code\Tentacle.cpp">
       <Filter>02. GameObject\01. For_Stage\02. Monster\10. FinalBos</Filter>
@@ -373,7 +371,6 @@
     <ClCompile Include="..\Code\Currect_Answer.cpp" />
     <ClCompile Include="..\Code\DefBar.cpp" />
     <ClCompile Include="..\Code\Gacha_Machine.cpp" />
-    <ClCompile Include="..\Code\QuestProcessing_UI.cpp" />
     <ClCompile Include="..\Code\Skill_UI.cpp" />
     <ClCompile Include="..\Code\ThunderHand.cpp" />
     <ClCompile Include="..\Code\YetiTalk.cpp">
@@ -419,9 +416,25 @@
     <ClCompile Include="..\Code\MiniTerrain.cpp">
       <Filter>01. Scene\02. MiniStage\Mini3</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\MonsterMini.cpp">
-      <Filter>01. Scene\02. MiniStage\Mini3</Filter>
+    <ClCompile Include="..\Code\QuestProcessing_UI.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\15. Quest</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\QuestTalkingFrame.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\15. Quest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\QuestNpc.cpp">
+      <Filter>02. GameObject\01. For_Stage\16. NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MonsterMini.cpp">
+      <Filter>01. Scene\02. MiniStage\Mini3\Monster\Monster1</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MiniMonster2.cpp">
+      <Filter>01. Scene\02. MiniStage\Mini3\Monster\Monster2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MiniMonster3.cpp">
+      <Filter>01. Scene\02. MiniStage\Mini3\Monster\Monster3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\BossStage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -802,8 +815,6 @@
       <Filter>02. GameObject\02. For_public\07. SkillParticle</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Helmet2.h" />
-    <ClInclude Include="..\Header\QuestNpc.h" />
-    <ClInclude Include="..\Header\QuestTalkingFrame.h" />
     <ClInclude Include="..\Header\WrongPicFind.h" />
     <ClInclude Include="..\Header\Tentacle.h">
       <Filter>02. GameObject\01. For_Stage\02. Monster\10. FinalBos</Filter>
@@ -816,7 +827,6 @@
     <ClInclude Include="..\Header\DefBar.h" />
     <ClInclude Include="..\Header\Gacha_Machine.h" />
     <ClInclude Include="..\Header\MiniStage3PreHeader.h" />
-    <ClInclude Include="..\Header\QuestProcessing_UI.h" />
     <ClInclude Include="..\Header\Skill_UI.h" />
     <ClInclude Include="..\Header\ThunderHand.h" />
     <ClInclude Include="..\Header\YetiTalk.h">
@@ -862,9 +872,25 @@
     <ClInclude Include="..\Header\MiniTerrain.h">
       <Filter>01. Scene\02. MiniStage\Mini3</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\MonsterMini.h">
-      <Filter>01. Scene\02. MiniStage\Mini3</Filter>
+    <ClInclude Include="..\Header\QuestProcessing_UI.h">
+      <Filter>02. GameObject\01. For_Stage\10. UI\15. Quest</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\QuestTalkingFrame.h">
+      <Filter>02. GameObject\01. For_Stage\10. UI\15. Quest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\QuestNpc.h">
+      <Filter>02. GameObject\01. For_Stage\16. NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\MonsterMini.h">
+      <Filter>01. Scene\02. MiniStage\Mini3\Monster\Monster1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\MiniMonster2.h">
+      <Filter>01. Scene\02. MiniStage\Mini3\Monster\Monster2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\MiniMonster3.h">
+      <Filter>01. Scene\02. MiniStage\Mini3\Monster\Monster3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\BossStage.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1213,6 +1239,24 @@
     </Filter>
     <Filter Include="01. Scene\02. MiniStage\Mini3\Player">
       <UniqueIdentifier>{c1dbb3c7-8d0c-4076-b707-2e313906f92d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\15. Quest">
+      <UniqueIdentifier>{dd61cdef-165a-4f6b-b20f-b247508cf607}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\02. MiniStage\Mini3\Monster">
+      <UniqueIdentifier>{d0c78392-8b9c-4c5d-98eb-1b1bbf62b5d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\02. MiniStage\Mini3\Monster\Monster1">
+      <UniqueIdentifier>{457abdc5-5f8f-4242-8876-17e2ce57dbe2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\02. MiniStage\Mini3\Monster\Monster2">
+      <UniqueIdentifier>{092cf91e-8f2b-4d90-8335-c0c33c43789f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\02. MiniStage\Mini3\Monster\Monster3">
+      <UniqueIdentifier>{4ed66af5-4c91-4fa6-9e53-a3631ee142b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\02. BossStage">
+      <UniqueIdentifier>{292536ac-bc31-4d39-83d3-413db90b7e06}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

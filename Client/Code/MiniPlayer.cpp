@@ -25,11 +25,15 @@ HRESULT CMiniPlayer::Ready_Object(void)
 
 	m_pDynamicTransCom->Set_Pos(vPos.x, vPos.y, vPos.z);
 	
-	_vec3 vScale = { 0.1f,0.1f,0.1f };
+	_vec3 vScale = { 0.5f,0.5f,0.5f };
 	
 	m_pColliderCom->Set_vCenter(&vPos, &vScale);
 	m_pColliderCom->Set_HitRadiuos(0.1f);
+	
+	m_pDynamicTransCom->Set_Scale(&vScale);
 	m_pDynamicTransCom->Update_Component(1.f);
+
+	m_pAnimationCom->Ready_Animation(21, 0, 0.2f);
 	return S_OK;
 }
 
@@ -45,6 +49,9 @@ _int CMiniPlayer::Update_Object(const _float & fTimeDelta)
 
 	Key_InputReset();
 	
+
+	m_pAnimationCom->Move_Animation(fTimeDelta);
+
 	if(m_iKillMonster >50)
 	{ 
 		if (m_bDash) // 대쉬 시간 제한
@@ -104,39 +111,39 @@ void CMiniPlayer::LateUpdate_Object(void)
 {
 	//Set_OnTerrain();
 
-	//CStaticCamera* pCamera = static_cast<CStaticCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
-	//NULL_CHECK(pCamera);
+	/*CStaticCamera* pCamera = static_cast<CStaticCamera*>(Get_GameObject(L"Layer_Environment", L"StaticCamera"));
+	NULL_CHECK(pCamera);
 
-	//_matrix		matWorld, matView, matBill;
+	_matrix		matWorld, matView, matBill;
 
-	//m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
-	//D3DXMatrixIdentity(&matBill);
-	//memcpy(&matBill, &matView, sizeof(_matrix));
-	//memset(&matBill._41, 0, sizeof(_vec3));
-	//D3DXMatrixInverse(&matBill, 0, &matBill);
+	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
+	D3DXMatrixIdentity(&matBill);
+	memcpy(&matBill, &matView, sizeof(_matrix));
+	memset(&matBill._41, 0, sizeof(_vec3));
+	D3DXMatrixInverse(&matBill, 0, &matBill);
 
-	//_matrix      matScale, matTrans;
-	//D3DXMatrixScaling(&matScale, m_pDynamicTransCom->m_vScale.x, m_pDynamicTransCom->m_vScale.y, m_pDynamicTransCom->m_vScale.z);
+	_matrix      matScale, matTrans;
+	D3DXMatrixScaling(&matScale, m_pDynamicTransCom->m_vScale.x, m_pDynamicTransCom->m_vScale.y, m_pDynamicTransCom->m_vScale.z);
 
-	//_matrix      matRot;
-	//D3DXMatrixIdentity(&matRot);
-	//D3DXMatrixRotationY(&matRot, (_float)pCamera->Get_BillBoardDir());
+	_matrix      matRot;
+	D3DXMatrixIdentity(&matRot);
+	D3DXMatrixRotationY(&matRot, (_float)pCamera->Get_BillBoardDir());
 
-	//_vec3 vPos;
-	//m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+	_vec3 vPos;
+	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
 
-	//D3DXMatrixTranslation(&matTrans,
-	//	vPos.x,
-	//	vPos.y,
-	//	vPos.z);
+	D3DXMatrixTranslation(&matTrans,
+		vPos.x,
+		vPos.y,
+		vPos.z);
 
-	//D3DXMatrixIdentity(&matWorld);
-	//matWorld = matScale* matRot * matBill * matTrans;
-	//m_pDynamicTransCom->Set_WorldMatrix(&(matWorld));
+	D3DXMatrixIdentity(&matWorld);
+	matWorld = matScale* matRot * matBill * matTrans;
+	m_pDynamicTransCom->Set_WorldMatrix(&(matWorld));*/
 
-	//// 빌보드 에러 해결
-	//Add_ColliderMonsterlist();
-	//Engine::CGameObject::LateUpdate_Object();
+	// 빌보드 에러 해결
+	
+	Engine::CGameObject::LateUpdate_Object();
 
 
 
@@ -147,16 +154,31 @@ void CMiniPlayer::LateUpdate_Object(void)
 void CMiniPlayer::Render_Obejct(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pDynamicTransCom->Get_WorldMatrixPointer());
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0x10);
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 
-	m_pTextureCom->Set_Texture(m_iTexIndex);
+
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+	m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);
 	m_pBufferCom->Render_Buffer();
 
-	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pColliderCom->HitBoxWolrdmat());
-	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-	m_pColliderCom->Render_Buffer();
-	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+
+	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
+
+
+
+	//m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pColliderCom->HitBoxWolrdmat());
+	//m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	////m_pColliderCom->Render_Buffer();
+	//m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	//m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 
 }
 
@@ -168,7 +190,7 @@ HRESULT CMiniPlayer::Add_Component(void)
 {
 	CComponent* pComponent = nullptr;
 
-	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_PlayerTexture", m_mapComponent, ID_STATIC);
+	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_MiniPlayerTexture", m_mapComponent, ID_STATIC);
 	m_pDynamicTransCom = CAbstractFactory<CDynamic_Transform>::Clone_Proto_Component(L"Proto_DynamicTransformCom", m_mapComponent, ID_DYNAMIC);
 	m_pCalculatorCom = CAbstractFactory<CCalculator>::Clone_Proto_Component(L"Proto_CalculatorCom", m_mapComponent, ID_STATIC);
 	m_pAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_STATIC);

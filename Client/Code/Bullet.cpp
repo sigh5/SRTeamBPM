@@ -4,6 +4,7 @@
 
 #include "AbstractFactory.h"
 #include "MiniPlayer.h"
+#include "StaticCamera.h"
 
 CBullet::CBullet(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CBaseBullet(pGraphicDev)
@@ -19,7 +20,7 @@ HRESULT CBullet::Ready_Object(_vec3 vPos)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	
-	_vec3 vScale = { 0.1f, 0.1f, 0.1f};
+	_vec3 vScale = { 1.f, 1.0f, 1.f};
 	m_pTransCom->Set_Scale(&vScale);
 
 	CTransform* pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
@@ -88,11 +89,43 @@ _int CBullet::Update_Object(const _float & fTimeDelta)
 
 void CBullet::LateUpdate_Object(void)
 {
+
+	CStaticCamera* pCamera = static_cast<CStaticCamera*>(Get_GameObject(L"Layer_Environment", L"StaticCamera"));
+	NULL_CHECK(pCamera);
+
+	_matrix		matWorld, matView, matBill;
+
+	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
+	D3DXMatrixIdentity(&matBill);
+	memcpy(&matBill, &matView, sizeof(_matrix));
+	memset(&matBill._41, 0, sizeof(_vec3));
+	D3DXMatrixInverse(&matBill, 0, &matBill);
+
+	_matrix      matScale, matTrans;
+	D3DXMatrixScaling(&matScale, m_pTransCom->m_vScale.x, m_pTransCom->m_vScale.y, m_pTransCom->m_vScale.z);
+
+	_matrix      matRot;
+	D3DXMatrixIdentity(&matRot);
+	D3DXMatrixRotationY(&matRot, (_float)pCamera->Get_BillBoardDir());
+
+	_vec3 vPos;
+	m_pTransCom->Get_Info(INFO_POS, &vPos);
+
+	D3DXMatrixTranslation(&matTrans,
+		vPos.x,
+		vPos.y,
+		vPos.z);
+
+	D3DXMatrixIdentity(&matWorld);
+	matWorld = matScale* matRot * matBill * matTrans;
+	m_pTransCom->Set_WorldMatrix(&(matWorld));
+
 	Engine::CGameObject::LateUpdate_Object();
 }
 
 void CBullet::Render_Obejct(void)
 {
+	m_pGraphicDev->SetRenderState(D3DRS_LIGHTING, FALSE);
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
 
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
@@ -104,7 +137,7 @@ void CBullet::Render_Obejct(void)
 	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
 	m_pTextureCom->Set_Texture(0);
-	m_pCubeTexCom->Render_Buffer();
+	m_pBufferCom->Render_Buffer();
 
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
@@ -169,9 +202,12 @@ void CBullet::Set_Bullet_Dir(_int iDir)
 HRESULT CBullet::Add_Component(void)
 {
 
-	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_BulletTexture", m_mapComponent, ID_STATIC);
+	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Bullet_Guita_Texture", m_mapComponent, ID_STATIC);
 	m_pTransCom = CAbstractFactory<CTransform>::Clone_Proto_Component(L"Proto_TransformCom", m_mapComponent, ID_DYNAMIC);
-	m_pCubeTexCom = CAbstractFactory<CCubeTex>::Clone_Proto_Component(L"Proto_CubeTexCom", m_mapComponent, ID_STATIC);
+	//m_pCubeTexCom = CAbstractFactory<CCubeTex>::Clone_Proto_Component(L"Proto_CubeTexCom", m_mapComponent, ID_STATIC);
+	
+	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
+	
 	m_pColliderCom = CAbstractFactory<CCollider>::Clone_Proto_Component(L"Proto_ColliderCom", m_mapComponent, ID_STATIC);
 
 

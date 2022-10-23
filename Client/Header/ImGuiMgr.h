@@ -206,7 +206,7 @@ CGameObject* CImGuiMgr::SelectObject(CLayer* pLayer,wstring* currentObjectName,C
 	{
 		if (dynamic_cast<T*>(iter->second)->Set_SelectGizmo())
 		{
-			//if (dynamic_cast<CWallCube*>(iter->second)->Get_Option() == 4 ) // Only Collsion
+			if (dynamic_cast<CWallCube*>(iter->second)->Get_Option() == 4 ) // Only Collsion
 			{
 				float fMtoPDistance; // 몬스터와 플레이어 간의 거리
 
