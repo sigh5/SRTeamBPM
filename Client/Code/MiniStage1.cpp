@@ -50,20 +50,21 @@ _int CMiniStage1::Update_Scene(const _float & fTimeDelta)
 		++m_iCount;
 
 		if (m_iCount > 30)
-		{
+		{			
 			CScene* pStage1 = ::Get_SaveScene();
-			CLayer* pLayer = pStage1->GetLayer(L"Layer_GameLogic");
-			CShopUI* pShopUI = dynamic_cast<CShopUI*>(pLayer->Get_GameObject(L"ShopUI"));
-			pShopUI->Set_ForceScene(0);
-			pStage1->Set_SceneChane(false);
-
 			CLayer* pMyLayer = pStage1->GetLayer(L"Layer_Icon");
 			CMiniGame1Pic* pMinigamePic = dynamic_cast<CMiniGame1Pic*>(pMyLayer->Get_GameObject(L"Minigame1"));
 			pMinigamePic->Set_GameClear(false);
+			
+			CScene* pChange = CChange_Stage::Create(m_pGraphicDev, 7);
+			NULL_CHECK_RETURN(pChange, -1);
 
-			Load_SaveScene(this);
+			FAILED_CHECK_RETURN(Engine::Set_Scene(pChange), -1);
+				
+
 			return -1;
 		}		
+		//	Load_SaveScene(this);
 	}
 
 	_int iResult = Engine::CScene::Update_Scene(fTimeDelta);

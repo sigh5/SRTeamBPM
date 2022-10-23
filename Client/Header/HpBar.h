@@ -51,6 +51,7 @@ private:
 	
 	wstring				m_szPlayerHp = L"";
 
+
 public:
 	static CHpBar*		Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* pPlayer);
 	virtual void Free();

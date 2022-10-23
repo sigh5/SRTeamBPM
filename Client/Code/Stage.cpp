@@ -5,6 +5,7 @@
 
 #include "Stage1PreHeader.h"
 #include "BossStage.h"
+#include "RealSnowFall.h"
 #include "TeleCube.h"
 
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -186,6 +187,7 @@ HRESULT CStage::Ready_Layer_Environment(const _tchar * pLayerTag)
 	
 	READY_LAYER(pGameObject, CSkyBox, pLayer, m_pGraphicDev, L"SkyBox");
 	READY_LAYER(pGameObject, CSnowfall, pLayer, m_pGraphicDev, L"Snowfall");
+	READY_LAYER(pGameObject, CRealSnowFall, pLayer, m_pGraphicDev, L"RealSnowfall");
 
 	m_mapLayer.insert({ pLayerTag, pLayer });
 
@@ -357,6 +359,14 @@ HRESULT CStage::Ready_Layer_Icon(const _tchar * pLayerTag)
 	pGameObject = CMiniGame1Pic::Create(m_pGraphicDev);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Minigame1", pGameObject), E_FAIL);
+
+	pGameObject = CHelmetPic::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"HelmetPic", pGameObject), E_FAIL);
+
+	pGameObject = CPetPic::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"PetPic", pGameObject), E_FAIL);
 	
 	m_mapLayer.insert({ pLayerTag, pLayer });
 

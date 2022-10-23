@@ -78,6 +78,8 @@ public:
 	
 	void				Set_Skill_CoolTime(_bool _bSkillCool) { m_bSkillCool = _bSkillCool; }
 
+	void				Set_Skill_Unlock(_bool _bSkillUnlock) { m_bSkill_Unlock = _bSkillUnlock; }
+
 	void				Random_ResurrectionRoom();
 
 private:
@@ -166,6 +168,7 @@ private:		// Jw
 	
 	// Skill_CollTime
 	_bool				m_bSkillCool = true;
+	_bool				m_bSkill_Unlock = false;
 	// ~Skill_CollTime
 
 	// HitScreen

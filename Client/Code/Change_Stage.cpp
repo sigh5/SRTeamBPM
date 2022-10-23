@@ -118,6 +118,24 @@ _int CChange_Stage::Update_Scene(const _float & fTimeDelta)
 		return iResult;
 	}
 
+	else if (m_iStageIndex == 7)
+	{
+		if (m_iLoadingCount > 100)
+		{
+			CScene* pMiniScene = Get_Scene();
+			CScene* pStage1 = ::Get_SaveScene();
+			CLayer* pLayer = pStage1->GetLayer(L"Layer_GameLogic");
+			CShopUI* pShopUI = dynamic_cast<CShopUI*>(pLayer->Get_GameObject(L"ShopUI"));
+			pShopUI->Set_ForceScene(0);
+			pStage1->Set_SceneChane(false);
+
+
+			Load_SaveScene(pMiniScene);
+
+			return 0;
+		}
+		return iResult;
+	}
 
 
 

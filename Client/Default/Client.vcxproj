@@ -216,6 +216,7 @@
     <ClInclude Include="..\Header\HealthPotion.h" />
     <ClInclude Include="..\Header\Helmet.h" />
     <ClInclude Include="..\Header\Helmet2.h" />
+    <ClInclude Include="..\Header\HelmetPic.h" />
     <ClInclude Include="..\Header\HitBlood.h" />
     <ClInclude Include="..\Header\HitEffect.h" />
     <ClInclude Include="..\Header\Hit_Screen.h" />
@@ -252,6 +253,7 @@
     <ClInclude Include="..\Header\ObeliskWreck.h" />
     <ClInclude Include="..\Header\ObjectMgr.h" />
     <ClInclude Include="..\Header\Obstacle.h" />
+    <ClInclude Include="..\Header\PetPic.h" />
     <ClInclude Include="..\Header\PetYeti.h" />
     <ClInclude Include="..\Header\Player.h" />
     <ClInclude Include="..\Header\Player_Dead_UI.h" />
@@ -259,6 +261,7 @@
     <ClInclude Include="..\Header\QuestProcessing_UI.h" />
     <ClInclude Include="..\Header\QuestTalkingFrame.h" />
     <ClInclude Include="..\Header\QuizBox.h" />
+    <ClInclude Include="..\Header\RealSnowFall.h" />
     <ClInclude Include="..\Header\SettingButton.h" />
     <ClInclude Include="..\Header\Setting_BackGround.h" />
     <ClInclude Include="..\Header\Setting_Stage.h" />
@@ -366,6 +369,7 @@
     <ClCompile Include="..\Code\HealthPotion.cpp" />
     <ClCompile Include="..\Code\Helmet.cpp" />
     <ClCompile Include="..\Code\Helmet2.cpp" />
+    <ClCompile Include="..\Code\HelmetPic.cpp" />
     <ClCompile Include="..\Code\HitBlood.cpp" />
     <ClCompile Include="..\Code\HitEffect.cpp" />
     <ClCompile Include="..\Code\Hit_Screen.cpp" />
@@ -401,6 +405,7 @@
     <ClCompile Include="..\Code\ObeliskWreck.cpp" />
     <ClCompile Include="..\Code\ObjectMgr.cpp" />
     <ClCompile Include="..\Code\Obstacle.cpp" />
+    <ClCompile Include="..\Code\PetPic.cpp" />
     <ClCompile Include="..\Code\PetYeti.cpp" />
     <ClCompile Include="..\Code\Player.cpp" />
     <ClCompile Include="..\Code\Player_Dead_UI.cpp" />
@@ -408,6 +413,7 @@
     <ClCompile Include="..\Code\QuestProcessing_UI.cpp" />
     <ClCompile Include="..\Code\QuestTalkingFrame.cpp" />
     <ClCompile Include="..\Code\QuizBox.cpp" />
+    <ClCompile Include="..\Code\RealSnowFall.cpp" />
     <ClCompile Include="..\Code\SettingButton.cpp" />
     <ClCompile Include="..\Code\Setting_BackGround.cpp" />
     <ClCompile Include="..\Code\Setting_Stage.cpp" />

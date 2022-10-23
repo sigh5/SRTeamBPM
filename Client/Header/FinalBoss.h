@@ -60,6 +60,8 @@ private:
 	CAnimation*		m_pThingy_AnimatiionCom = nullptr;
 
 	bool			m_bCamouflage = true;
+	float			m_fCamouAttackDelay = 1.f;
+	float			m_fCamouMoveSpeed = 4.f;
 	bool			m_bMorphFinish = false;
 	bool			m_bMorphSound = false;
 

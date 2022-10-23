@@ -47,6 +47,9 @@ _int CStatus_UI::Update_Object(const _float & fTimeDelta)
 
 	m_iPlayerDef = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._iDefense;
 
+	if(m_bWeapon == true)
+	m_iWeaponAtk = dynamic_cast<CEquipmentBase*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"))->Get_EquipInfoRef()._iAddAttack;
+
 	Engine::CGameObject::Update_Object(fTimeDelta);
 
 	Add_RenderGroup(RENDER_UI, this);
@@ -153,9 +156,20 @@ void CStatus_UI::Render_Obejct(void)
 
 		// Player's Critical
 
-		_tchar szCritical[128] = L"크리티컬";
+		_tchar szFront[128] = L"무기";
 
-		Render_Font(L"DalseoHealingBold", szCritical, &_vec2(917.f, 469.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+		Render_Font(L"DalseoHealingBold", szFront, &_vec2(945.f, 439.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+
+		_tchar szCritical[128] = L"공격력";
+
+		Render_Font(L"DalseoHealingBold", szCritical, &_vec2(935.f, 469.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+
+		_tchar	tWeapon[MAX_PATH];
+		swprintf_s(tWeapon, L"%d", m_iWeaponAtk);
+		m_szCritical = L"";
+		m_szCritical += tWeapon;
+
+		Render_Font(L"BMYEONSUNG", m_szCritical.c_str(), &_vec2(949.f, 499.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 
 		// ~Player's Critical
 	}

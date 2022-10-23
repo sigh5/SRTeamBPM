@@ -7,6 +7,8 @@
 #include "Player.h"
 #include "ThunderPic.h"
 #include "MiniGame1Pic.h"
+#include "HelmetPic.h"
+#include "PetPic.h"
 
 #include "ObjectMgr.h"
 #include "Stage.h"
@@ -139,6 +141,8 @@ void CNpc::Collision_Event()
 			dynamic_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"))->Set_ShopUIActive(m_fShopUICheck);
 			dynamic_cast<CThunderPic*>(Engine::Get_GameObject(L"Layer_Icon", L"ThunderPic"))->Set_PicRender(m_fShopUICheck);
 			dynamic_cast<CMiniGame1Pic*>(Engine::Get_GameObject(L"Layer_Icon", L"Minigame1"))->Set_PicRender(m_fShopUICheck);
+			dynamic_cast<CHelmetPic*>(Engine::Get_GameObject(L"Layer_Icon", L"HelmetPic"))->Set_PicRender(m_fShopUICheck);
+			dynamic_cast<CPetPic*>(Engine::Get_GameObject(L"Layer_Icon", L"PetPic"))->Set_PicRender(m_fShopUICheck);
 		}
 	}
 }

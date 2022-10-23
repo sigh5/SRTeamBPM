@@ -9,6 +9,7 @@
 #include "Status_UI.h"
 #include "Gun_Screen.h"
 #include "Player.h"
+#include "Status_UI.h"
 
 CShotGun::CShotGun(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CEquipmentBase(pGraphicDev)
@@ -226,6 +227,9 @@ void CShotGun::Change_Equip()
 
 	CPlayer* pPlayer = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
 	pPlayer->EquipItem_Add_Stat(m_EquipInfo._iAddAttack);
+
+	CStatus_UI* pStat = static_cast<CStatus_UI*>(Engine::Get_GameObject(L"Layer_UI", L"Status_UI"));
+	pStat->Set_Weapon(true);
 
 	g_fRange += 10.f;
 

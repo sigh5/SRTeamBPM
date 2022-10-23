@@ -235,7 +235,7 @@ void CFinalBoss::Render_Obejct(void)
 		break;
 
 	case Attack_C:
-		if ( false == m_bTentacleAnimation)
+		if (false == m_bTentacleAnimation)
 		{
 			m_pThingy_AttackBTextureCom->Set_Texture(m_pThingy_AttackB_AnimationCom->m_iMotion);
 		}
@@ -402,6 +402,7 @@ void CFinalBoss::Camouflage_Cancle(const _float & fTimeDelta)
 	}
 	if (m_pMorphAnimationCom->m_iMaxMotion == m_pMorphAnimationCom->m_iMotion)
 	{
+		m_bCamouflage = false;
 		m_bMorphFinish = true;
 		m_bState = Thingy_Walk;
 	}
@@ -412,13 +413,25 @@ void CFinalBoss::AttackJudge(const _float & fTimeDelta)
 	if (m_bAttack == false)
 	{
 		m_fAttackDelayTime += fTimeDelta;
-		
-		if (m_fAttackDelay <= m_fAttackDelayTime)
+		if (m_bCamouflage)
 		{
-			m_bAttack = true;
-			m_iAttackPattern = rand() % 5; //rand
-			
-			m_fAttackDelayTime = 0.f;
+			if (m_fCamouAttackDelay <= m_fAttackDelayTime)
+			{
+				m_bAttack = true;
+				//m_iAttackPattern = rand() % 5; //rand
+
+				m_fAttackDelayTime = 0.f;
+			}
+		}
+		else
+		{
+			if (m_fAttackDelay <= m_fAttackDelayTime)
+			{
+				m_bAttack = true;
+				m_iAttackPattern = rand() % 4; //rand
+
+				m_fAttackDelayTime = 0.f;
+			}
 		}
 	}
 	if (true == m_bCamouflage)
@@ -476,7 +489,7 @@ void CFinalBoss::BattleLoop(const _float & fTimeDelta)
 		if (fMtoPDistance > 10.f && m_bAttacking == false)
 		{
 			m_bState = Camouflage_Walk;
-			m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_pInfoCom->Get_InfoRef()._fSpeed, fTimeDelta);
+			m_pDynamicTransCom->Chase_Target_notRot(&m_vPlayerPos, m_fCamouMoveSpeed, fTimeDelta);
 
 			m_pAnimationCom->Move_Animation(fTimeDelta);
 		}

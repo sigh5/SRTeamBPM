@@ -214,7 +214,7 @@ void CHelmet2::Change_Equip()
 	pInven->Set_CurrentEquipHelmet(this);
 
 	CPlayer* pPlayer = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
-	pPlayer->EquipItem_Add_Stat(0, 10);	//체력올림
+	//pPlayer->EquipItem_Add_Stat(0, 10);	//체력올림
 
 }
 

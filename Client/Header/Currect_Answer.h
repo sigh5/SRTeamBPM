@@ -2,12 +2,13 @@
 #include "UI_Base.h"
 #include "Engine_Include.h"
 
+// 이 클래스는 폐기되었음 쓰지 마시오.
+
 BEGIN(Engine)
 
 class CRcTex;
 class CTransform;
 class CTexture;
-class CAnimation;
 
 END
 
@@ -31,7 +32,6 @@ private:
 	CRcTex*						m_pBufferCom = nullptr;
 	CTransform*					m_pTransCom = nullptr;
 	CTexture*					m_pTextureCom = nullptr;
-	CAnimation*					m_pAnimationCom = nullptr;
 
 private:
 	_bool						m_bRender = false;
