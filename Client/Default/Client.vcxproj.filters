@@ -370,7 +370,6 @@
     <ClCompile Include="..\Code\ThingySpike.cpp">
       <Filter>02. GameObject\01. For_Stage\02. Monster\10. FinalBos</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\FinalBossBullet.cpp" />
     <ClCompile Include="..\Code\Click_Particle.cpp" />
     <ClCompile Include="..\Code\Currect_Answer.cpp" />
     <ClCompile Include="..\Code\DefBar.cpp" />
@@ -398,6 +397,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Flare.cpp">
       <Filter>02. GameObject\01. For_Stage\09. Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FinalBossBullet.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. Monster\10. FinalBos</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -789,7 +791,6 @@
     <ClInclude Include="..\Header\ThingySpike.h">
       <Filter>02. GameObject\01. For_Stage\02. Monster\10. FinalBos</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\FinalBossBullet.h" />
     <ClInclude Include="..\Header\Click_Particle.h" />
     <ClInclude Include="..\Header\Currect_Answer.h" />
     <ClInclude Include="..\Header\DefBar.h" />
@@ -818,6 +819,9 @@
     </ClInclude>
     <ClInclude Include="..\Header\FireWorks.h">
       <Filter>02. GameObject\01. For_Stage\09. Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\FinalBossBullet.h">
+      <Filter>02. GameObject\01. For_Stage\02. Monster\10. FinalBos</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
