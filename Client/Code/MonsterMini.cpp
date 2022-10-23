@@ -47,8 +47,10 @@ _int CMonsterMini::Update_Object(const _float & fTimeDelta)
 			return OBJ_DEAD;
 
 		pLayer->Add_EffectList(pGameObject);
+
 		static_cast<CSpecial_Effect*>(pGameObject)->Set_Effect_INFO(OWNER_PALYER, 0, 17, 0.2f);
-		
+		::StopSound(SOUND_MONSTER);
+		::PlaySoundW(L"zombie_death_01.wav", SOUND_MONSTER, g_fSound + 0.7f);
 		return OBJ_DEAD;
 	}
 	m_fFrame = fTimeDelta;
