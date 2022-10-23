@@ -49,7 +49,7 @@ private:
 	_float				m_fFrame = 0.f; // WinZero  µµÂø½Ã°£
 
 	_bool		m_bStopBGM = false;
-
+	_bool				m_bOnce = false;
 public:
 	static CStage*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
 

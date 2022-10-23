@@ -33,7 +33,7 @@ public:
 	void				Area_of_Effect(_bool bAX=false);
 
 
-
+	
 private:
 	HRESULT				Add_Component(void);
 

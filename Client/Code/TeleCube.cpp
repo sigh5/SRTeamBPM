@@ -25,6 +25,7 @@ HRESULT CTeleCube::Ready_Object()
 	m_pColliderCom->Set_HitRadiuos(2.f);
 	m_pColliderCom->Set_vCenter(&vPos, &vScale);
 
+
 	return S_OK;
 }
 
@@ -49,10 +50,21 @@ _int CTeleCube::Update_Object(const _float & fTimeDelta)
 
 	if (m_fActiveTimer >= 5.f)
 	{
-		//m_bSetActive = false;
 		m_bCollisionCheck = false;
 		m_fActiveTimer = 0.f;
 	}
+
+
+
+	m_fAlphaTimer += 1.f*fTimeDelta;
+
+	if (m_fActiveTimer >= 1.f)
+	{
+		m_bAlpha = !m_bAlpha;
+		m_fActiveTimer = 0.f;
+	}
+
+
 
 	CGameObject::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_PRIORITY, this);
@@ -61,8 +73,23 @@ _int CTeleCube::Update_Object(const _float & fTimeDelta)
 
 }
 
+void CTeleCube::LateUpdate_Object()
+{
+	if (!m_bOnce)
+	{
+		m_bSetActive = true;
+		m_bOnce = true;
+	}
+
+}
+
 void CTeleCube::Render_Obejct(void)
 {
+	if (m_bSetActive == true)
+		return;
+
+
+
 	if (m_iOption == (_int)CUBE_START_TELE)
 	{
 		//m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
@@ -90,14 +117,27 @@ void CTeleCube::Render_Obejct(void)
 	else if (m_iOption == _int(CUBE_END_TELE))
 	{
 
-		m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
-		//m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-		m_pTextureCom->Set_Texture(m_iTexIndex);
+		_matrix			WorldMatrix, ViewMatrix, ViewMatrixInv, ProjMatrix;
+		m_pTransCom->Get_WorldMatrix(&WorldMatrix);
+		m_pGraphicDev->GetTransform(D3DTS_VIEW, &ViewMatrix);
+		D3DXMatrixInverse(&ViewMatrixInv, nullptr, &ViewMatrix);
+		m_pGraphicDev->GetTransform(D3DTS_PROJECTION, &ProjMatrix);
+		
+		m_pShaderCom->Set_Raw_Value("g_WorldMatrix", D3DXMatrixTranspose(&WorldMatrix, &WorldMatrix), sizeof(_matrix));
+		m_pShaderCom->Set_Raw_Value("g_ViewMatrix", D3DXMatrixTranspose(&ViewMatrix, &ViewMatrix), sizeof(_matrix));
+		m_pShaderCom->Set_Raw_Value("g_ProjMatrix", D3DXMatrixTranspose(&ProjMatrix, &ProjMatrix), sizeof(_matrix));
+		
+		
+		m_pShaderCom->Set_Bool("g_RenderOn", m_bAlpha);
+
+		m_pTextureCom->Set_Texture(m_pShaderCom, "g_DefaultTexture", m_iTexIndex);
+
+		m_pShaderCom->Begin_Shader(0);
+
 		m_pBufferCom->Render_Buffer();
-		// Hit Box 
-	/*	m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pColliderCom->HitBoxWolrdmat());
-		m_pColliderCom->Render_Buffer();*/
-	//	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+
+		m_pShaderCom->End_Shader();
+
 	}
 
 
@@ -181,7 +221,7 @@ void CTeleCube::Collision_Event()
 			if (pLayer->m_iRestRoom < 0)
 			{
 				// 여기서 최종맵으로 가는 코드 넣으면됀다
-				//pTransform->Set_Pos(30.f, 0.f, 30.f);
+				pTransform->Set_Pos(510.f, 2.f, 510.f);
 				return;
 			}
 			vector<CGameObject*> temp = *pLayer->GetRestCube();
@@ -209,11 +249,7 @@ void CTeleCube::Collision_Event()
 			}
 			m_bCollisionCheck = true;
 
-			/*if (pLayer->m_iRestRoom == 0)
-			{
-				pTransform->Set_Pos(30.f, 0.f, 30.f);
-			}
-*/
+		
 
 		}
 	}
@@ -258,6 +294,7 @@ HRESULT CTeleCube::Add_Component(void)
 	m_pTransCom = CAbstractFactory<CTransform>::Clone_Proto_Component(L"Proto_TransformCom", m_mapComponent, ID_DYNAMIC);
 	m_pCalculatorCom = CAbstractFactory<CCalculator>::Clone_Proto_Component(L"Proto_CalculatorCom", m_mapComponent, ID_STATIC);
 	m_pColliderCom = CAbstractFactory<CCollider>::Clone_Proto_Component(L"Proto_ColliderCom", m_mapComponent, ID_STATIC);
+	m_pShaderCom = CAbstractFactory<CShader>::Clone_Proto_Component(L"Proto_ShaderCube", m_mapComponent, ID_DYNAMIC);
 
 	return S_OK;
 }

@@ -528,6 +528,7 @@
     <None Include="Imgui\imgui.ini" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="..\Bin\ShaderFilesPath\ShaderCube.hlsl" />
     <FxCompile Include="..\Bin\ShaderFilesPath\ShaderRect.hlsl" />
     <FxCompile Include="..\Bin\ShaderFilesPath\Shader_Terrain.hlsl" />
   </ItemGroup>

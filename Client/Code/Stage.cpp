@@ -6,6 +6,7 @@
 #include "Stage1PreHeader.h"
 #include "BossStage.h"
 #include "RealSnowFall.h"
+#include "TeleCube.h"
 
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -76,7 +77,17 @@ _int CStage::Update_Scene(const _float & fTimeDelta)
 		}
 		m_fFrame = 0.f;
 	}
-	
+	if (!m_bOnce)
+	{
+		CLayer* pLayer = GetLayer(L"Layer_CubeCollsion");
+
+		for (int i = 0; i < TELEPORT_CUBE_LIST_END; ++i)
+		{
+			for (auto iter : *(pLayer->Get_TeleCubeList(i)))
+				iter->LateUpdate_Object();
+		}
+		m_bOnce = true;
+	}
 
 	TeleportCubeUpdate(fTimeDelta);
 
@@ -149,6 +160,11 @@ void CStage::LateUpdate_Scene(void)
 		Engine::PlaySoundW(L"SamTow.wav", SOUND_BGM, g_fSound); // BGM
 		m_bStopBGM = false;
 	}
+
+
+	
+
+	
 }
 
 void CStage::Render_Scene(void)
@@ -496,6 +512,9 @@ void CStage::Set_Player_StartCubePos()
 	
 	
 	vector<CGameObject*> m_vecCube = *pLayer->GetRestCube();
+
+	
+
 	CGameObject* pFirstCubeObj = m_vecCube[pLayer->m_iRoomIndex];
 
 	CDynamic_Transform *pTransform = dynamic_cast<CDynamic_Transform*>(Get_Component(L"Layer_GameLogic",L"Player",L"Proto_DynamicTransformCom", ID_DYNAMIC));

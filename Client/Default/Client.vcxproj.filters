@@ -281,6 +281,9 @@
     <ClCompile Include="..\Code\Special_Effect.cpp">
       <Filter>02. GameObject\01. For_Stage\07. Effect\Special_Effect</Filter>
     </ClCompile>
+    <ClCompile Include="..\Code\Npc.cpp">
+      <Filter>02. GameObject\01. For_Stage\16. NPC</Filter>
+    </ClCompile>
     <ClCompile Include="..\Code\UI_Effect.cpp">
       <Filter>02. GameObject\01. For_Stage\07. Effect\UI_Effect</Filter>
     </ClCompile>
@@ -361,8 +364,8 @@
     <ClCompile Include="..\Code\Tentacle.cpp">
       <Filter>02. GameObject\01. For_Stage\02. Monster\10. FinalBos</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\MiniStage1.cpp">
-      <Filter>01. Scene\02. MiniGame\00. MiniGame1</Filter>
+    <ClCompile Include="..\Code\ThingySpike.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. Monster\10. FinalBos</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\Click_Particle.cpp" />
     <ClCompile Include="..\Code\Currect_Answer.cpp" />
@@ -374,7 +377,7 @@
       <Filter>02. GameObject\01. For_Stage\17. Pet</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\PetYeti.cpp">
-      <Filter>02. GameObject\01. For_Stage\14. Equipment\02. Pet</Filter>
+      <Filter>02. GameObject\01. For_Stage\17. Pet</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\EquipYeti.cpp">
       <Filter>02. GameObject\01. For_Stage\14. Equipment\02. Pet</Filter>
@@ -382,11 +385,11 @@
     <ClCompile Include="..\Code\HarpoonBullet.cpp">
       <Filter>02. GameObject\01. For_Stage\02. Monster\09. HarpoonGuy</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Npc.cpp">
-      <Filter>02. GameObject\01. For_Stage\16. NPC\ShopNpc</Filter>
+    <ClCompile Include="..\Code\FireWorks.cpp">
+      <Filter>02. GameObject\01. For_Stage\09. Particle</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\QuestNpc.cpp">
-      <Filter>02. GameObject\01. For_Stage\16. NPC\QuestNpc</Filter>
+    <ClCompile Include="..\Code\Flare.cpp">
+      <Filter>02. GameObject\01. For_Stage\09. Particle</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\FinalBossBullet.cpp">
       <Filter>02. GameObject\01. For_Stage\02. Monster\10. FinalBos</Filter>
@@ -432,15 +435,6 @@
       <Filter>01. Scene\02. MiniStage\Mini3\Monster\Monster3</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\BossStage.cpp" />
-    <ClCompile Include="..\Code\RealSnowFall.cpp">
-      <Filter>02. GameObject\02. For_public\04. SnowFall</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\HelmetPic.cpp">
-      <Filter>02. GameObject\01. For_Stage\10. UI\95. ShopUI\02. HelmetPic</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\PetPic.cpp">
-      <Filter>02. GameObject\01. For_Stage\10. UI\95. ShopUI\03. PetPic</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -608,8 +602,8 @@
     <ClInclude Include="..\Header\CoinKeyUI.h">
       <Filter>02. GameObject\01. For_Stage\10. UI\05. CoinUI</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\StaticCamera.h">
-      <Filter>02.GameObject\For_Public\StaticCamera</Filter>
+    <ClInclude Include="..\Header\Box.h">
+      <Filter>02. GameObject\01. For_Stage\11. Item\02. Box</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Player.h">
       <Filter>02. GameObject\01. For_Stage\00. Player</Filter>
@@ -677,8 +671,8 @@
     <ClInclude Include="..\Header\LoadingBackFont.h">
       <Filter>02. GameObject\01. For_Stage\10. UI\10. LoadingFont_BackGround</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\BackGround.h">
-      <Filter>02.GameObject\For_logo\BackGround</Filter>
+    <ClInclude Include="..\Header\TeleCube.h">
+      <Filter>02. GameObject\02. For_public\05. TeleCube</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\EarthShaker.h">
       <Filter>02. GameObject\01. For_Stage\02. Monster\06. EarthShaker</Filter>
@@ -739,6 +733,9 @@
     <ClInclude Include="..\Header\Special_Effect.h">
       <Filter>02. GameObject\01. For_Stage\07. Effect\Special_Effect</Filter>
     </ClInclude>
+    <ClInclude Include="..\Header\Npc.h">
+      <Filter>02. GameObject\01. For_Stage\16. NPC</Filter>
+    </ClInclude>
     <ClInclude Include="..\Header\UI_Effect.h">
       <Filter>02. GameObject\01. For_Stage\07. Effect\UI_Effect</Filter>
     </ClInclude>
@@ -774,7 +771,6 @@
       <Filter>02. GameObject\01. For_Stage\10. UI\14. QuizBox</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Helmet.h" />
-    <ClInclude Include="..\Header\MiniStage1.h" />
     <ClInclude Include="..\Header\BackButton.h">
       <Filter>02. GameObject\00. For_Logo\01. Button\03. BackButton</Filter>
     </ClInclude>
@@ -823,8 +819,8 @@
     <ClInclude Include="..\Header\Tentacle.h">
       <Filter>02. GameObject\01. For_Stage\02. Monster\10. FinalBos</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\MiniStage1.h">
-      <Filter>01. Scene\02. MiniGame\00. MiniGame1</Filter>
+    <ClInclude Include="..\Header\ThingySpike.h">
+      <Filter>02. GameObject\01. For_Stage\02. Monster\10. FinalBos</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\Click_Particle.h" />
     <ClInclude Include="..\Header\Currect_Answer.h" />
@@ -837,7 +833,7 @@
       <Filter>02. GameObject\01. For_Stage\17. Pet</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\PetYeti.h">
-      <Filter>02. GameObject\01. For_Stage\14. Equipment\02. Pet</Filter>
+      <Filter>02. GameObject\01. For_Stage\17. Pet</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\EquipYeti.h">
       <Filter>02. GameObject\01. For_Stage\14. Equipment\02. Pet</Filter>
@@ -845,8 +841,8 @@
     <ClInclude Include="..\Header\HarpoonBullet.h">
       <Filter>02. GameObject\01. For_Stage\02. Monster\09. HarpoonGuy</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\ThunderHand.h">
-      <Filter>02. GameObject\01. For_Stage\13. Gun_Screen\Magic</Filter>
+    <ClInclude Include="..\Header\Flare.h">
+      <Filter>02. GameObject\01. For_Stage\09. Particle</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\FireWorks.h">
       <Filter>02. GameObject\01. For_Stage\09. Particle</Filter>
@@ -895,9 +891,6 @@
       <Filter>01. Scene\02. MiniStage\Mini3\Monster\Monster3</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\BossStage.h" />
-    <ClInclude Include="..\Header\RealSnowFall.h">
-      <Filter>02. GameObject\02. For_public\04. SnowFall</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1265,6 +1258,9 @@
     <Filter Include="01. Scene\02. BossStage">
       <UniqueIdentifier>{292536ac-bc31-4d39-83d3-413db90b7e06}</UniqueIdentifier>
     </Filter>
+    <Filter Include="100. Shader">
+      <UniqueIdentifier>{89930d61-e590-4919-bbab-6597c9f4a03c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -1283,10 +1279,13 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\ShaderFilesPath\ShaderRect.hlsl">
-      <Filter>Shader</Filter>
+      <Filter>100. Shader</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFilesPath\Shader_Terrain.hlsl">
-      <Filter>Shader</Filter>
+      <Filter>100. Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFilesPath\ShaderCube.hlsl">
+      <Filter>100. Shader</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
