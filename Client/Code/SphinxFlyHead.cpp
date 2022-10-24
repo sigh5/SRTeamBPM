@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "Gun_Screen.h"
 #include "Flare.h"
+#include "MonsterHpBar.h"
 
 CSphinxFlyHead::CSphinxFlyHead(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -88,11 +89,14 @@ HRESULT CSphinxFlyHead::Ready_Object(float Posx, float Posy, float Size)
 	m_pColliderCom->Set_HitRadiuos(0.f);
 	m_pDynamicTransCom->Set_CountMovePos(&(-dir * 0.2f));
 	m_pDynamicTransCom->Update_Component(1.f);
+
+
 	return S_OK;
 }
 
 _int CSphinxFlyHead::Update_Object(const _float & fTimeDelta)
 {
+
 	// 맨위에있어야됌 리턴되면 안됌
 	_matrix matWorld;
 	_vec3 vScale;
@@ -100,7 +104,7 @@ _int CSphinxFlyHead::Update_Object(const _float & fTimeDelta)
 	m_pDynamicTransCom->Get_WorldMatrix(&matWorld);
 	m_pColliderCom->Set_HitBoxMatrix_With_Scale(&matWorld, vScale);
 	// 맨위에있어야됌 리턴되면 안됌
-
+	Add_HpBar();
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 	m_fVolume = (100 - fMtoPDistance) * 0.01f * (g_fSound * 2.f);
 	if (Distance_Over())
@@ -224,6 +228,7 @@ void CSphinxFlyHead::Collision_Event()
 	NULL_CHECK_RETURN(pScene, );
 	CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
 	NULL_CHECK_RETURN(pLayer, );
+	CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
 	CGameObject *pGameObject = nullptr;
 	pGameObject = static_cast<CGun_Screen*>(::Get_GameObject(L"Layer_UI", L"Gun"));
 
@@ -234,7 +239,7 @@ void CSphinxFlyHead::Collision_Event()
 	{
 		m_bHit = true;
 		static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"))->Set_ComboCount(1);
-		m_pInfoCom->Receive_Damage(1);
+		m_pInfoCom->Receive_Damage(pPlayerInfo->Get_AttackPower());
 		cout << "Obelisk " << m_pInfoCom->Get_InfoRef()._iHp << endl;
 		static_cast<CGun_Screen*>(pGameObject)->Set_Shoot(false);
 	}
@@ -821,6 +826,22 @@ void		CSphinxFlyHead::Dead_Action(const _float& fTimeDelta)
 		}
 	}
 }
+
+void		CSphinxFlyHead::Add_HpBar()
+{
+	if (false == m_bHpBarCreated)
+	{
+		CScene* pScene = ::Get_Scene();
+		CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+
+		CGameObject* pHpBar = nullptr;
+		pHpBar = CMonsterHpBar::Create(m_pGraphicDev, m_pDynamicTransCom, m_pInfoCom, m_pDynamicTransCom->m_vInfo[INFO_POS].x, m_pDynamicTransCom->m_vInfo[INFO_POS].z);
+
+		pMyLayer->Add_EffectList(pHpBar);
+		m_bHpBarCreated = true;
+	}
+}
+
 
 CSphinxFlyHead * CSphinxFlyHead::Create(LPDIRECT3DDEVICE9 pGraphicDev, float Posx, float Posy, float Size)
 {

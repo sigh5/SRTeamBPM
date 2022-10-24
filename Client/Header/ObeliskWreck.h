@@ -18,5 +18,7 @@ public:
 
 private:
 	int	 m_iTextureNum = 0;
+	float	m_fLifeTime = 0.f;
+	float	m_fLifeTimeCount = 0.f;
 };
 

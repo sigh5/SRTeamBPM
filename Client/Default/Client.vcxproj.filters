@@ -435,6 +435,10 @@
       <Filter>01. Scene\02. MiniStage\Mini3\Monster\Monster3</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\BossStage.cpp" />
+    <ClCompile Include="..\Code\HelmetPic.cpp" />
+    <ClCompile Include="..\Code\PetPic.cpp" />
+    <ClCompile Include="..\Code\RealSnowFall.cpp" />
+    <ClCompile Include="..\Code\MonsterHpBar.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -891,6 +895,10 @@
       <Filter>01. Scene\02. MiniStage\Mini3\Monster\Monster3</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\BossStage.h" />
+    <ClInclude Include="..\Header\HelmetPic.h" />
+    <ClInclude Include="..\Header\PetPic.h" />
+    <ClInclude Include="..\Header\RealSnowFall.h" />
+    <ClInclude Include="..\Header\MonsterHpBar.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">

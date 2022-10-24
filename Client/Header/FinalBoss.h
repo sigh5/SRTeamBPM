@@ -32,6 +32,8 @@ public:
 	void		AttackPettern3(const _float& fTimeDelta);
 	void		AttackPettern4(const _float& fTimeDelta);
 
+	void		Add_HpBar();
+
 public:
 	HRESULT				SetUp_Material(void);
 	void				Set_Light_Obj();
@@ -104,5 +106,8 @@ private:
 
 	float			m_fFlareTimeCount = 0.f;
 	int				m_iFlareCount = 0;
+
+	//~
+	bool	m_bHpBarCreated = false;
 };
 

@@ -220,6 +220,7 @@ void CGhul::Collision_Event()
 	NULL_CHECK_RETURN(pScene, );
 	CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
 	NULL_CHECK_RETURN(pLayer, );
+	CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
 	CGameObject *pGameObject = nullptr;
 	pGameObject = static_cast<CGun_Screen*>(::Get_GameObject(L"Layer_UI", L"Gun"));
 	_vec3	vPos;
@@ -232,7 +233,7 @@ void CGhul::Collision_Event()
 	{
 		m_bHit = true;
 		static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"))->Set_ComboCount(1);
-		m_pInfoCom->Receive_Damage(1);
+		m_pInfoCom->Receive_Damage(pPlayerInfo->Get_AttackPower());
 		cout << "Ghul" << m_pInfoCom->Get_InfoRef()._iHp << endl;
 		static_cast<CGun_Screen*>(pGameObject)->Set_Shoot(false);
 

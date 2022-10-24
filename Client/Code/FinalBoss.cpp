@@ -13,6 +13,7 @@
 #include "ThingySpike.h"
 #include "FinalBossBullet.h"
 #include "Flare.h"
+#include "MonsterHpBar.h"
 
 CFinalBoss::CFinalBoss(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -105,6 +106,7 @@ HRESULT CFinalBoss::Ready_Object(float Posx, float Posy)
 	m_fWaitingTime = 0.35f;
 
 	m_pDynamicTransCom->Update_Component(1.f);
+
 	return S_OK; 
 }
 
@@ -118,6 +120,7 @@ _int CFinalBoss::Update_Object(const _float & fTimeDelta)
 	m_pColliderCom->Set_HitBoxMatrix_With_Scale(&matWorld, vScale);
 	// 맨위에있어야됌 리턴되면 안됌
 
+	Add_HpBar();
 	m_pDynamicTransCom->Set_Y(m_pDynamicTransCom->m_vScale.y * 0.5f);
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 	if (Distance_Over())
@@ -272,6 +275,7 @@ void CFinalBoss::Collision_Event()
 	CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
 	NULL_CHECK_RETURN(pLayer, );
 	CGameObject *pGameObject = nullptr;
+	CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
 	pGameObject = static_cast<CGun_Screen*>(::Get_GameObject(L"Layer_UI", L"Gun"));
 	_vec3	vPos;
 	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
@@ -282,7 +286,7 @@ void CFinalBoss::Collision_Event()
 	{
 		m_bHit = true;
 		static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"))->Set_ComboCount(1);
-		m_pInfoCom->Receive_Damage(1);
+		m_pInfoCom->Receive_Damage(pPlayerInfo->Get_AttackPower());
 		cout << "Spider " << m_pInfoCom->Get_InfoRef()._iHp << endl;
 		static_cast<CGun_Screen*>(pGameObject)->Set_Shoot(false);
 
@@ -700,7 +704,7 @@ void CFinalBoss::AttackPettern4(const _float & fTimeDelta)
 				_vec3 ShakerPos;
 				m_pDynamicTransCom->Get_Info(INFO_POS, &ShakerPos);
 				_vec3 vTempDir = _vec3(0.f, 0.f, 0.f);
-				vTempDir = i * (m_vMonsteFront * m_fFront + m_vMonsterRight * m_fRight + m_vMonsterback * m_fBack + m_vMonsterLeft * m_fLeft);
+				vTempDir = (float)i * (m_vMonsteFront * m_fFront + m_vMonsterRight * m_fRight + m_vMonsterback * m_fBack + m_vMonsterLeft * m_fLeft);
 
 				
 				pTentacle = CThingySpike::Create(m_pGraphicDev, m_fWaitingTime * i, ShakerPos.x + vTempDir.x, ShakerPos.z + vTempDir.z);
@@ -874,6 +878,20 @@ void CFinalBoss::Set_Light_Obj()
 		tLightInfo4.Position = vPos;
 		FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &tLightInfo4, 3), );
 
+	}
+}
+void		CFinalBoss::Add_HpBar()
+{
+	if (false == m_bHpBarCreated)
+	{
+		CScene* pScene = ::Get_Scene();
+		CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+
+		CGameObject* pHpBar = nullptr;
+		pHpBar = CMonsterHpBar::Create(m_pGraphicDev, m_pDynamicTransCom, m_pInfoCom, m_pDynamicTransCom->m_vInfo[INFO_POS].x, m_pDynamicTransCom->m_vInfo[INFO_POS].z);
+
+		pMyLayer->Add_EffectList(pHpBar);
+		m_bHpBarCreated = true;
 	}
 }
 CFinalBoss * CFinalBoss::Create(LPDIRECT3DDEVICE9 pGraphicDev, float Posx, float Posy)

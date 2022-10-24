@@ -12,6 +12,7 @@
 #include "SphinxFlyHead.h"
 #include "Obelisk.h"
 #include "HitEffect.h"
+#include "MonsterHpBar.h"
 
 CSphinx::CSphinx(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -48,6 +49,7 @@ HRESULT CSphinx::Ready_Object(int Posx, int Posy)
 	m_iShootCycle = 0;
 
 
+
 	if (Posx == 0 && Posy == 0) {}
 	else
 	{
@@ -58,6 +60,8 @@ HRESULT CSphinx::Ready_Object(int Posx, int Posy)
 
 	//m_pDynamicTransCom->Rotation(ROT_Y, 90.f);
 	m_pDynamicTransCom->Update_Component(1.f);
+
+
 	return S_OK;
 }
 
@@ -178,6 +182,7 @@ void		CSphinx::Collision_Event()
 	NULL_CHECK_RETURN(pScene, );
 	CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
 	NULL_CHECK_RETURN(pLayer, );
+	CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
 	CGameObject *pGameObject = nullptr;
 	pGameObject = static_cast<CGun_Screen*>(::Get_GameObject(L"Layer_UI", L"Gun"));
 
@@ -191,7 +196,7 @@ void		CSphinx::Collision_Event()
 
 		m_bHit = true;
 		static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"))->Set_ComboCount(1);
-		m_pInfoCom->Receive_Damage(1);
+		m_pInfoCom->Receive_Damage(pPlayerInfo->Get_AttackPower());
 		cout << "Sphinx" << m_pInfoCom->Get_InfoRef()._iHp << endl;
 		static_cast<CGun_Screen*>(pGameObject)->Set_Shoot(false);
 
@@ -458,6 +463,21 @@ void CSphinx::Set_Light_Obj()
 
 	}
 
+}
+
+void		CSphinx::Add_HpBar()
+{
+	if (false == m_bHpBarCreated)
+	{
+		CScene* pScene = ::Get_Scene();
+		CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+
+		CGameObject* pHpBar = nullptr;
+		pHpBar = CMonsterHpBar::Create(m_pGraphicDev, m_pDynamicTransCom, m_pInfoCom, m_pDynamicTransCom->m_vInfo[INFO_POS].x, m_pDynamicTransCom->m_vInfo[INFO_POS].z);
+
+		pMyLayer->Add_EffectList(pHpBar);
+		m_bHpBarCreated = true;
+	}
 }
 
 CSphinx * CSphinx::Create(LPDIRECT3DDEVICE9 pGraphicDev, int Posx, int Posy)

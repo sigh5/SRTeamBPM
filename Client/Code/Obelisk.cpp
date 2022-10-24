@@ -65,7 +65,7 @@ HRESULT CObelisk::Ready_Object(float Posx, float Posy)
 
 _int CObelisk::Update_Object(const _float & fTimeDelta)
 {
-	m_pDynamicTransCom->Set_Y(m_pDynamicTransCom->m_vScale.y * 0.5f);
+
 
 	// Cotrol Room
 	_matrix matWorld;
@@ -99,10 +99,11 @@ _int CObelisk::Update_Object(const _float & fTimeDelta)
 		m_iPreHp = m_pInfoCom->Get_Hp();
 	}
 	
+	
+	
+	
+	m_pDynamicTransCom->Set_Y(m_pDynamicTransCom->m_vScale.y * 0.5f);
 	m_pDynamicTransCom->Update_Component(fTimeDelta);
-	
-	
-	
 	Engine::CMonsterBase::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
 
@@ -284,7 +285,7 @@ bool CObelisk::Dead_Judge(const _float & fTimeDelta)
 		if (false == m_bDead)
 		{
 			m_pAnimationCom->m_iMotion = 4;
-			m_pDynamicTransCom->Add_Y(m_pDynamicTransCom->m_vInfo[INFO_POS].y *-0.35f);
+			//m_pDynamicTransCom->Add_Y(m_pDynamicTransCom->m_vInfo[INFO_POS].y *-0.35f);
 			m_pDynamicTransCom->Set_Scale(&_vec3{ m_pDynamicTransCom->m_vScale.x, m_pDynamicTransCom->m_vScale.y * 0.7f, m_pDynamicTransCom->m_vScale.z });
 			m_bDead = true;
 			Drop_Item(rand() % 3);
@@ -415,7 +416,7 @@ void CObelisk::Hit_Loop(const _float & fTimeDelta)
 	if (1 == m_pInfoCom->Get_Hp())
 	{
 		m_pAnimationCom->m_iMotion = 3;
-		m_pDynamicTransCom->Add_Y(m_pDynamicTransCom->m_vInfo[INFO_POS].y *- 0.5f);
+		
 		m_pDynamicTransCom->Set_Scale(&_vec3{ pScale.x, pScale.y * 0.55f, pScale.z });
 		for (int i = 0; i != 7; ++i)
 		{
