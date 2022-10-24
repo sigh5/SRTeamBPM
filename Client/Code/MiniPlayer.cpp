@@ -5,6 +5,7 @@
 #include "AbstractFactory.h"
 #include "StaticCamera.h"
 #include "Bullet.h"
+#include "PiercingBullet.h"
 
 
 CMiniPlayer::CMiniPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -49,6 +50,7 @@ _int CMiniPlayer::Update_Object(const _float & fTimeDelta)
 
 	Key_InputReset();
 	
+	m_fPiercingBulletTime += fTimeDelta;
 
 	m_pAnimationCom->Move_Animation(fTimeDelta);
 
@@ -66,6 +68,13 @@ _int CMiniPlayer::Update_Object(const _float & fTimeDelta)
 			m_fDashTimer = 0.f;
 
 		}
+		if (m_fPiercingBulletTime > 10.f)
+		{
+			m_iPiercingBulletNum++;
+			m_fPiercingBulletTime = 0.f;
+		}
+		if (false == m_bCanPiercing)
+			m_bCanPiercing = true;
 	}
 
 	m_pDynamicTransCom->Set_Y(1.f);
@@ -82,16 +91,16 @@ _int CMiniPlayer::Update_Object(const _float & fTimeDelta)
 		{
 		case 0:
 			::StopSound(SOUND_EFFECT2);
-			::PlaySoundW(L"Guitar1.wav", SOUND_EFFECT2, g_fSound * 2.f);
+			::PlaySoundW(L"Guitar1.wav", SOUND_EFFECT2, g_fSound * 1.5f);
 			break;
 		case 1:
 			::StopSound(SOUND_EFFECT2);
-			::PlaySoundW(L"Guitar2.wav", SOUND_EFFECT2, g_fSound * 2.f);
+			::PlaySoundW(L"Guitar2.wav", SOUND_EFFECT2, g_fSound * 1.5f);
 			break;
 
 		case 2:
 			::StopSound(SOUND_EFFECT2);
-			::PlaySoundW(L"Guitar3.wav", SOUND_EFFECT2, g_fSound * 2.f);
+			::PlaySoundW(L"Guitar3.wav", SOUND_EFFECT2, g_fSound * 1.5f);
 			break;
 		}
 		_vec3 vPos;
@@ -229,7 +238,7 @@ void CMiniPlayer::Key_Input(const _float & fTimeDelta)
 	{
 		m_tpType = TYPING_W;
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
-		m_pDynamicTransCom->Move_Pos(&(m_vDirection * 2.f * fTimeDelta));
+		m_pDynamicTransCom->Move_Pos(&(m_vDirection * m_fSpeed * fTimeDelta));
 
 	}
 
@@ -237,10 +246,21 @@ void CMiniPlayer::Key_Input(const _float & fTimeDelta)
 	{
 		m_tpType = TYPING_S;
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
-		m_pDynamicTransCom->Move_Pos(&(m_vDirection * -2.f * fTimeDelta));
+		m_pDynamicTransCom->Move_Pos(&(m_vDirection * -m_fSpeed * fTimeDelta));
 
 
 	}
+	if (Get_DIKeyState(DIK_Q) & 0X80)
+	{
+		/*m_tpType = TYPING_S;
+		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
+		m_pDynamicTransCom->Move_Pos(&(m_vDirection * -m_fSpeed * fTimeDelta));
+*/
+		_vec3 vPos;
+		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+		cout << vPos.x<< " " << vPos.z <<endl ;
+	}
+
 
 	if (Get_DIKeyState(DIK_A) & 0X80)
 	{
@@ -249,7 +269,7 @@ void CMiniPlayer::Key_Input(const _float & fTimeDelta)
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
 		D3DXVec3Normalize(&m_vUp, &m_vUp);
 		D3DXVec3Cross(&vRight, &m_vDirection, &m_vUp);
-		m_pDynamicTransCom->Move_Pos(&(vRight * 2.f * fTimeDelta));
+		m_pDynamicTransCom->Move_Pos(&(vRight * m_fSpeed * fTimeDelta));
 
 	}
 
@@ -260,7 +280,7 @@ void CMiniPlayer::Key_Input(const _float & fTimeDelta)
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
 		D3DXVec3Normalize(&m_vUp, &m_vUp);
 		D3DXVec3Cross(&vRight, &m_vDirection, &m_vUp);
-		m_pDynamicTransCom->Move_Pos(&(vRight * -2.f * fTimeDelta));
+		m_pDynamicTransCom->Move_Pos(&(vRight * -m_fSpeed * fTimeDelta));
 
 
 	}
@@ -270,6 +290,20 @@ void CMiniPlayer::Key_Input(const _float & fTimeDelta)
 		m_bDash = true;
 
 	
+	}
+	if (Get_DIKeyState(DIK_SPACE) & 0x80 && 0 < m_iPiercingBulletNum)
+	{
+		m_iPiercingBulletNum--;
+		_vec3 vPos;
+		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+		CScene* pScene = Get_Scene();
+		CLayer*		pLayer = pScene->GetLayer(L"Layer_GameLogic");
+		CGameObject*		pGameObject = nullptr;
+
+		pGameObject = CPiercingBullet::Create(m_pGraphicDev, vPos);
+		::StopSound(SOUND_CRUSHROCK2);
+		::PlaySoundW(L"PiercingBullet.wav", SOUND_CRUSHROCK2, g_fSound * 2.f);
+		pLayer->Add_EffectList(pGameObject);
 	}
 
 

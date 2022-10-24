@@ -244,6 +244,7 @@
     <ClInclude Include="..\Header\MiniStage3PreHeader.h" />
     <ClInclude Include="..\Header\MiniTerrain.h" />
     <ClInclude Include="..\Header\MonsterBullet.h" />
+    <ClInclude Include="..\Header\MonsterHpBar.h" />
     <ClInclude Include="..\Header\MonsterMini.h" />
     <ClInclude Include="..\Header\MonsterToolObject.h" />
     <ClInclude Include="..\Header\MouseMgr.h" />
@@ -256,6 +257,7 @@
     <ClInclude Include="..\Header\Obstacle.h" />
     <ClInclude Include="..\Header\PetPic.h" />
     <ClInclude Include="..\Header\PetYeti.h" />
+    <ClInclude Include="..\Header\PiercingBullet.h" />
     <ClInclude Include="..\Header\Player.h" />
     <ClInclude Include="..\Header\Player_Dead_UI.h" />
     <ClInclude Include="..\Header\QuestNpc.h" />
@@ -397,6 +399,7 @@
     <ClCompile Include="..\Code\MiniTerrain.cpp" />
     <ClCompile Include="..\Code\MonsterBullet.cpp" />
     <ClCompile Include="..\Code\MetronomeUI.cpp" />
+    <ClCompile Include="..\Code\MonsterHpBar.cpp" />
     <ClCompile Include="..\Code\MonsterMini.cpp" />
     <ClCompile Include="..\Code\MonsterToolObject.cpp" />
     <ClCompile Include="..\Code\MouseMgr.cpp" />
@@ -409,6 +412,7 @@
     <ClCompile Include="..\Code\Obstacle.cpp" />
     <ClCompile Include="..\Code\PetPic.cpp" />
     <ClCompile Include="..\Code\PetYeti.cpp" />
+    <ClCompile Include="..\Code\PiercingBullet.cpp" />
     <ClCompile Include="..\Code\Player.cpp" />
     <ClCompile Include="..\Code\Player_Dead_UI.cpp" />
     <ClCompile Include="..\Code\QuestNpc.cpp" />

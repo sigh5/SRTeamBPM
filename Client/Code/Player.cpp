@@ -155,7 +155,7 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 	if (m_bDash) // 대쉬 시간 제한
 	{
 		m_fDashTimer += 1.f*fTimeDelta;
-		m_pDynamicTransCom->Dashing(fTimeDelta, m_pDynamicTransCom, m_vUp, m_vDirection, m_tpType);
+		m_pDynamicTransCom->Dashing(fTimeDelta, m_pDynamicTransCom, m_vUp, m_vDirection, m_tpType,2.f);
 	}
 
 	if (m_fDashTimer >= 0.2f)
@@ -594,6 +594,16 @@ void CPlayer::Random_ResurrectionRoom()
 	m_pInfoCom->Ready_CharacterInfo(200, 10, 5.f);
 
 	m_iComboCount = 0;
+	
+	 pLayer = pScene->GetLayer(L"Layer_CubeCollsion");
+
+	for (int i = 0; i < TELEPORT_CUBE_LIST_END; ++i)
+	{
+		for (auto iter : *(pLayer->Get_TeleCubeList(i)))
+			iter->LateUpdate_Object();
+	}
+
+
 	m_pDynamicTransCom->Update_Component(1.f);
 }
 

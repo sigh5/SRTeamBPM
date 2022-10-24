@@ -34,6 +34,7 @@ public:
 public:
 	HRESULT				SetUp_Material(void);
 	void				Set_Light_Obj();
+	void				Add_HpBar();
 
 	void AttackJudge(const _float& fTimeDelta);
 	// АјАн
@@ -79,5 +80,6 @@ private:
 	bool			m_bCreateOneStormball = false;
 	//~
 
+	bool			m_bHpBarCreated = false;
 };
 

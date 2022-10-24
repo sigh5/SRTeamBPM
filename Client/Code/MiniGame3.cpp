@@ -32,7 +32,7 @@ HRESULT CMiniGame3::Ready_Scene(void)
 	FAILED_CHECK_RETURN(Ready_Layer_Monster(L"Layer_Monster"), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_CubeMap(L"Layer_CubeMap"), E_FAIL);
 	
-
+	::StopSound(SOUND_BGM);
 
 	return S_OK;
 }
@@ -43,7 +43,7 @@ _int CMiniGame3::Update_Scene(const _float & fTimeDelta)
 	CLayer* pLayer = GetLayer(L"Layer_UI");
 	CUI_Timer* pTimer = static_cast<CUI_Timer*>(pLayer->Get_GameObject(L"Timer"));
 
-	if (pTimer->Get_Time() >= 2000.f) //120초로 바꾸기
+	if (pTimer->Get_Time() >= 120.f) //120초로 바꾸기
 	{
 		CScene* pStage1 = ::Get_SaveScene(); 
 		CLayer* pMyLayer = pStage1->GetLayer(L"Layer_Icon");
@@ -61,7 +61,7 @@ _int CMiniGame3::Update_Scene(const _float & fTimeDelta)
 
 
 	// 브금 바꾸기
-	Engine::PlaySoundW(L"Paradox.mp3", SOUND_BGM, 0.1f);
+	Engine::PlaySoundW(L"Canon.wav", SOUND_BGM, g_fSound * 1.5f);
 
 	_int iResult = Engine::CScene::Update_Scene(fTimeDelta);
 
@@ -227,6 +227,7 @@ HRESULT CMiniGame3::Ready_Proto(void)
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_TerrainMoveTexCom", CTerrainMoveTex::Create(m_pGraphicDev, VTXCNTX, VTXCNTZ, VTXITV)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MiniPlayerTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/NPC/GuitarMan/GuitarMan%d.png", TEX_NORMAL, 22)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Bullet_Guita_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/NPC/Bullet_Guita.png", TEX_NORMAL)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Piercing_Bullet_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/NPC/Lute.png", TEX_NORMAL)), E_FAIL);
 
 	return S_OK;
 }

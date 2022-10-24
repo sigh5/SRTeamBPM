@@ -8,6 +8,7 @@
 #include "MiniStage1.h"
 #include "MiniGame3.h"
 #include "ShopUI.h"
+#include "TeleCube.h"
 
 CChange_Stage::CChange_Stage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -137,6 +138,27 @@ _int CChange_Stage::Update_Scene(const _float & fTimeDelta)
 		return iResult;
 	}
 
+
+	else if (m_iStageIndex == 79)
+	{
+		if (m_iLoadingCount > 100)
+		{
+			CScene* pMiniScene = Get_Scene();
+			CScene* pStage1 = ::Get_SaveScene();
+			CLayer* pLayer = pStage1->GetLayer(L"Layer_CubeCollsion");
+			for (int i = 0; i < TELEPORT_CUBE_LIST_END; ++i)
+			{
+				for (auto iter : *(pLayer->Get_TeleCubeList(i)))
+					dynamic_cast<CTeleCube*>(iter)->Set_ForceScene(0);
+			}
+			pStage1->Set_SceneChane(false);
+
+			Load_SaveScene(pMiniScene);
+			return 0;
+		}
+
+		return iResult;
+	}
 
 
 	return iResult;

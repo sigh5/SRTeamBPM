@@ -15,6 +15,7 @@
 #include "AttackEffect.h"
 #include "Coin.h"
 #include "Key.h"
+#include "MonsterHpBar.h"
 
 CAnubis::CAnubis(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -51,7 +52,7 @@ HRESULT CAnubis::Ready_Object(float Posx, float Posy)
 	m_pDynamicTransCom->Set_Scale(&vScale);
 	
 	m_bOldPlayerPos = { 1.0f,1.0f,1.0f };
-	m_pInfoCom->Ready_CharacterInfo(5, 10, 5.f);
+	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
 	m_pAnimationCom->Ready_Animation(6, 1, 0.2f);
 	m_iPreHp = (m_pInfoCom->Get_InfoRef()._iHp);
 	m_pAttackAnimationCom->Ready_Animation(17, 0, 0.3f);
@@ -125,7 +126,7 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 	// 맨위에있어야됌 리턴되면 안됌
 	m_pDynamicTransCom->Set_Y(m_pDynamicTransCom->m_vScale.y * 0.5f);
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
-	
+	Add_HpBar();
 	if (Distance_Over())
 	{
 		m_pAnimationCom->m_iMotion = 0;
@@ -292,6 +293,7 @@ void CAnubis::Collision_Event()
 	NULL_CHECK_RETURN(pScene, );
 	CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
 	NULL_CHECK_RETURN(pLayer, );
+	CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
 	CGameObject *pGameObject = nullptr;
 	pGameObject = static_cast<CGun_Screen*>(::Get_GameObject(L"Layer_UI", L"Gun"));
 	_vec3	vPos;
@@ -303,7 +305,7 @@ void CAnubis::Collision_Event()
 	{
 		m_bHit = true;
 		static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"))->Set_ComboCount(1);
-		m_pInfoCom->Receive_Damage(1);
+		m_pInfoCom->Receive_Damage(pPlayerInfo->Get_AttackPower());
 		cout << "Anubis " << m_pInfoCom->Get_InfoRef()._iHp << endl;
 		static_cast<CGun_Screen*>(pGameObject)->Set_Shoot(false);
 		READY_CREATE_EFFECT_VECTOR(pGameObject, CHitEffect, pLayer, m_pGraphicDev, vPos);
@@ -666,6 +668,20 @@ void	CAnubis::Drop_Item(int ItemType)
 
 	default:
 		break;
+	}
+}
+void		CAnubis::Add_HpBar()
+{
+	if (false == m_bHpBarCreated)
+	{
+		CScene* pScene = ::Get_Scene();
+		CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+
+		CGameObject* pHpBar = nullptr;
+		pHpBar = CMonsterHpBar::Create(m_pGraphicDev, m_pDynamicTransCom, m_pInfoCom, m_pDynamicTransCom->m_vInfo[INFO_POS].x, m_pDynamicTransCom->m_vInfo[INFO_POS].z);
+
+		pMyLayer->Add_EffectList(pHpBar);
+		m_bHpBarCreated = true;
 	}
 }
 

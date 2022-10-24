@@ -27,7 +27,7 @@ private:
 
 	void		Get_ObeliskState();
 
-
+	void		Add_HpBar();
 public:
 	HRESULT				SetUp_Material(void);
 	void				Set_Light_Obj();
@@ -67,5 +67,5 @@ private:
 	CRcTex*			m_pBufferCom = nullptr;
 	CAnimation*		m_pHeadOffAnimationCom = nullptr;
 
-
+	bool			m_bHpBarCreated = false;
 };

@@ -34,7 +34,7 @@ HRESULT CFatBat::Ready_Object(int Posx, int Posy)
 	m_pDeadTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Fatbat_Dead_Texture", m_mapComponent, ID_STATIC);
 
 	m_iMonsterIndex = MONSTER_FATBAT;
-	m_pInfoCom->Ready_CharacterInfo(1, 10, 5.f);
+	m_pInfoCom->Ready_CharacterInfo(10, 10, 5.f);
 	m_pAnimationCom->Ready_Animation(6, 0, 0.2f);
 	m_pDeadAnimationCom->Ready_Animation(14, 0, 0.2f);
 	for (int i = 0; i < 4; ++i)
@@ -126,16 +126,16 @@ bool	CFatBat::Dead_Judge(const _float& fTimeDelta)
 void CFatBat::Excution_Event(_bool bAOE )
 {
 
-	if (bAOE)
+	if (!m_bDead && bAOE)
 	{
-		m_pInfoCom->Receive_Damage(1);
+		m_pInfoCom->Receive_Damage(20);
 		return;
 	}
 
 
-	if(!m_bDead && 1 >= m_pInfoCom->Get_Hp())
+	if(!m_bDead && 10 >= m_pInfoCom->Get_Hp())
 	{
-		m_pInfoCom->Receive_Damage(1);
+		m_pInfoCom->Receive_Damage(10);
 		_vec3	vPos;
 		CGameObject *pGameObject = nullptr;
 		CScene* pScene = Get_Scene();
@@ -405,6 +405,7 @@ void CFatBat::Collision_Event()
 	CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
 	NULL_CHECK_RETURN(pLayer, );
 	CGameObject *pGameObject = nullptr;
+	CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
 	pGameObject = static_cast<CGun_Screen*>(::Get_GameObject(L"Layer_UI", L"Gun"));
 	_vec3	vPos;
 	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
@@ -417,7 +418,7 @@ void CFatBat::Collision_Event()
 	{
 		m_bHit = true;
 		static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"))->Set_ComboCount(1);
-		m_pInfoCom->Receive_Damage(1);
+		m_pInfoCom->Receive_Damage(pPlayerInfo->Get_AttackPower());
 		cout << "FatBat" << m_pInfoCom->Get_InfoRef()._iHp << endl;
 		static_cast<CGun_Screen*>(pGameObject)->Set_Shoot(false);
 

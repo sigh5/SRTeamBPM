@@ -23,6 +23,9 @@ HRESULT CObeliskWreck::Ready_Object(_vec3 vPos, _vec3 vDir)
 
 	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Obelisk_Wreck_Texture", m_mapComponent, ID_STATIC);
 
+	m_fLifeTime = 3.f;
+	
+
 	m_pTransCom->Set_Pos(vPos.x, vPos.y, vPos.z);
 	m_pTransCom->Set_Scale(&_vec3(0.5f, 0.5f, 0.5f));
 
@@ -38,8 +41,16 @@ _int CObeliskWreck::Update_Object(const _float & fTimeDelta)
 	vResult = vDir + vUp;
 	if (!(m_pTransCom->m_vScale.y * 0.5f > m_pTransCom->m_vInfo[INFO_POS].y))
 		m_pTransCom->Move_Pos(&vResult);
+	else
+	{
 
-
+		m_fLifeTimeCount += fTimeDelta;
+		if (m_fLifeTimeCount > m_fLifeTime)
+		{
+			m_bDead = true;
+			return OBJ_DEAD;
+		}
+	}
 	Engine::CGameObject::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
 

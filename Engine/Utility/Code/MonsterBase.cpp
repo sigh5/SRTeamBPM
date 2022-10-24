@@ -203,6 +203,12 @@ void		CMonsterBase::Get_BackOriginPos(void)
 {
 	m_pDynamicTransCom->Set_Pos(m_vOriginPos.x, m_vOriginPos.y, m_vOriginPos.z);
 	m_pInfoCom->Add_Hp(m_iOriginHp - m_pInfoCom->Get_Hp());
+	m_pDeadAnimationCom->m_iMotion = 0;
+	m_pAnimationCom->m_iMotion = 0;
+	m_bAttack = false;
+	m_bAttacking = false;
+
+
 	m_bDead = false;
 }
 float CMonsterBase::Get_Radius(void)

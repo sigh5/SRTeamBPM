@@ -40,7 +40,7 @@ HRESULT CSoldier::Ready_Object(float Posx, float Posz)
 
 	m_iMonsterIndex = MONSTER_SOLDIER;
 	m_fAttackDelay = 1.5f;
-	m_pInfoCom->Ready_CharacterInfo(1, 10, 4.f);
+	m_pInfoCom->Ready_CharacterInfo(10, 10, 4.f);
 	m_pAnimationCom->Ready_Animation(6, 1, 0.3f);
 	m_pAttackAnimationCom->Ready_Animation(11, 0, 0.2f);
 	m_pDeadAnimationCom->Ready_Animation(12, 0, 0.2f);
@@ -205,6 +205,7 @@ void CSoldier::Collision_Event()
 	CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
 	NULL_CHECK_RETURN(pLayer, );
 	CGameObject *pGameObject = nullptr;
+	CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
 	pGameObject = static_cast<CGun_Screen*>(::Get_GameObject(L"Layer_UI", L"Gun"));
 	_vec3	vPos;
 	m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
@@ -215,7 +216,7 @@ void CSoldier::Collision_Event()
 	{
 		m_bHit = true;
 		static_cast<CPlayer*>(Get_GameObject(L"Layer_GameLogic", L"Player"))->Set_ComboCount(1);
-		m_pInfoCom->Receive_Damage(1);
+		m_pInfoCom->Receive_Damage(pPlayerInfo->Get_AttackPower());
 		cout << "Spider " << m_pInfoCom->Get_InfoRef()._iHp << endl;
 		static_cast<CGun_Screen*>(pGameObject)->Set_Shoot(false);
 
@@ -249,16 +250,16 @@ void CSoldier::Collision_Event()
 void CSoldier::Excution_Event(_bool bAOE)
 {
 
-	if (bAOE)
+	if (!m_bDead && bAOE)
 	{
-		m_pInfoCom->Receive_Damage(1);
+		m_pInfoCom->Receive_Damage(20);
 		return;
 	}
 
 
-	if (!m_bDead && 1 >= m_pInfoCom->Get_Hp())
+	if (!m_bDead && 10 >= m_pInfoCom->Get_Hp())
 	{
-		m_pInfoCom->Receive_Damage(1);
+		m_pInfoCom->Receive_Damage(10);
 		_vec3	vPos;
 		CGameObject *pGameObject = nullptr;
 		CScene* pScene = Get_Scene();

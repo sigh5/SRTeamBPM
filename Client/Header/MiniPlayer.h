@@ -30,6 +30,9 @@ public:
 	void			Set_MonsterKillCount() { m_iKillMonster += 1; }
 	const _int&		Get_MonsterKillCount() { return m_iKillMonster; }
 
+
+	_float			m_fSpeed = 2.f;
+
 private:
 	HRESULT				Add_Component(void);
 	void				Key_Input(const _float& fTimeDelta);
@@ -67,6 +70,9 @@ private:
 
 	_int				m_iKillMonster = 0;
 
+	float				m_fPiercingBulletTime = 0.f;
+	int					m_iPiercingBulletNum = 0.f;
+	bool				m_bCanPiercing = false;
 public:
 	static CMiniPlayer*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
 	virtual void			Free(void);

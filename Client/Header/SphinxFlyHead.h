@@ -16,6 +16,7 @@ public:
 	virtual bool		 Dead_Judge(const _float& fTimeDelta);
 
 	void				Dead_Action(const _float& fTimeDelta);
+	void				Add_HpBar(void);
 
 	void		HeadActive(const _float& fTimeDelta);
 	void		 AttackJudge(const _float& fTimeDelta);
@@ -99,5 +100,6 @@ private:
 
 	float  m_fFlareTimeCount = 0.f;
 	int		m_iFlareCount = 0;
+	bool	m_bHpBarCreated = false;
 };
 
