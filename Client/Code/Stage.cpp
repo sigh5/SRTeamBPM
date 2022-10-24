@@ -46,7 +46,57 @@ HRESULT CStage::Ready_Scene(void)
 }
 
 _int CStage::Update_Scene(const _float & fTimeDelta)
-{
+{	
+	CDynamic_Transform* pPlayerTrans = dynamic_cast<CDynamic_Transform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
+	CTransform* pNpcTrans = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"NPC", L"Proto_TransformCom", ID_DYNAMIC));
+	
+	
+	_vec3	vecPlayerPos, vecNpcPos;
+
+	pPlayerTrans->Get_Info(INFO_POS, &vecPlayerPos);
+	pNpcTrans->Get_Info(INFO_POS, &vecNpcPos);
+
+	_vec3 vecDirBGM = vecPlayerPos - vecNpcPos;
+
+	_float fDistanceBGM = D3DXVec3Length(&vecDirBGM);
+	// NPC
+	if (fDistanceBGM <= 50.f)
+	{
+		Engine::StopSound(SOUND_BGM);
+
+		Engine::PlaySoundW(L"Wrong_Image_Find_Game.mp3", SOUND_EFFECT, g_fSound);
+	}
+
+	else
+	{
+		Engine::StopSound(SOUND_EFFECT);
+
+		Engine::PlaySoundW(L"SamTow.wav", SOUND_BGM, g_fSound);
+	}
+
+	// Spinx 
+	if (m_bSpinxBGM == true)
+	{
+		Engine::StopSound(SOUND_BGM);
+
+		Engine::PlaySoundW(L"035 Egyptian - Sphinx.wav", SOUND_EFFECT2, g_fSound);
+	}
+
+	else
+	{
+		Engine::StopSound(SOUND_EFFECT2);
+		
+		Engine::PlaySoundW(L"039 Egyptian - Guilded Tomb.wav", SOUND_OBJECT, g_fSound);
+	}
+
+
+	if (m_bSphinxHeadBGM == true)
+	{
+		Engine::StopSound(SOUND_OBJECT);
+
+		Engine::PlaySoundW(L"SamTow.wav", SOUND_BGM, g_fSound);
+		m_bSphinxHeadBGM = false;
+	}
 
 	m_fFrame += 1.f * fTimeDelta;
 
