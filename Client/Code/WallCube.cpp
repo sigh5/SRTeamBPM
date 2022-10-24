@@ -348,7 +348,7 @@ HRESULT CWallCube::SetUp_Material(void)
 		+ powf(vPlayerPos.y - vPos.y, 2)
 		+ powf(vPlayerPos.z - vPos.z, 2)));
 
-	_float fDistance = ((1.f - fMtoPDistance / 30.f)) + 0.2f;;
+	_float fDistance = ((1.f - fMtoPDistance / 30.f)) + 0.5f;;
 
 	D3DMATERIAL9		tMtrl;
 	ZeroMemory(&tMtrl, sizeof(D3DMATERIAL9));

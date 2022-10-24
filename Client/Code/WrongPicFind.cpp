@@ -186,7 +186,7 @@ HRESULT CWrongPicFind::Create_CurrectMark(_float fX, _float fY) // Æó±â
 
 	CScene*			pScene = Engine::Get_Scene();	
 	CLayer*			pMyLayer = pScene->GetLayer(L"Ready_Layer_Environment");
-	NULL_CHECK_RETURN(pMyLayer, );
+	NULL_CHECK_RETURN(pMyLayer, E_FAIL);
 	
 	CGameObject*	pGameObject = nullptr;
 	pGameObject = CCurrect_Answer::Create(m_pGraphicDev, fX, fY);

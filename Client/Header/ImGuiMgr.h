@@ -232,8 +232,8 @@ CGameObject* CImGuiMgr::SelectObject(CLayer* pLayer,wstring* currentObjectName,C
 				
 				
 				CCamera*		pCamTransform = dynamic_cast<CCamera*>(Engine::Get_GameObject(L"TestLayer", L"DynamicCamera"));
-				NULL_CHECK(pCamTransform);
-
+				if (pCamTransform == nullptr)
+					return nullptr;
 
 				
 				

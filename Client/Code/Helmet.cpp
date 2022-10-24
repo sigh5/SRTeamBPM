@@ -99,7 +99,7 @@ void CHelmet::Render_Obejct(void)
 {
 	if (m_bIsWorld)
 	{
-		m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
+	/*	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransCom->Get_WorldMatrixPointer());
 		m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 		m_pGraphicDev->SetRenderState(D3DRS_ALPHAREF, 0x10);
 		m_pGraphicDev->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
@@ -109,7 +109,7 @@ void CHelmet::Render_Obejct(void)
 		m_pTextureCom->Set_Texture(0);
 		m_pBufferCom->Render_Buffer();
 		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-		m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+		m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);*/
 		return;
 	}
 	else if (m_bIsInventory)

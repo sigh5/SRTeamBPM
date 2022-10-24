@@ -170,7 +170,7 @@ _vec3 CCalculator::PickingOnTerrainCube(HWND hWnd, const CTerrainTex * pTerrainB
 	ZeroMemory(&ViewPort, sizeof(D3DVIEWPORT9));
 	m_pGraphicDev->GetViewport(&ViewPort);
 
-	// ����Ʈ -> ����
+	
 	vPoint.x = ptMouse.x / (ViewPort.Width * 0.5f) - 1.f;
 	vPoint.y = ptMouse.y / -(ViewPort.Height * 0.5f) + 1.f;
 	vPoint.z = 0.f;
