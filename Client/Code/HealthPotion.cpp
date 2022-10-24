@@ -137,14 +137,14 @@ void CHealthPotion::Collision_Event()
 		CCharacterInfo* pInfo   = dynamic_cast<CCharacterInfo*>(pGameObject->Get_Component(L"Proto_CharacterInfoCom", ID_STATIC));
 		CAnimation* pHpBarAnimation = dynamic_cast<CAnimation*>(Engine::Get_Component(L"Layer_Icon", L"HpBar", L"Proto_AnimationCom", ID_DYNAMIC));
 
-		if (pInfo->Get_InfoRef()._iHp == 100)
+		if (pInfo->Get_InfoRef()._iHp == 200)
 		{
 			pHpBarAnimation->Eliminate_Motion(0);
 			pHpBarAnimation->Add_Origin(0);
 			m_bDead = false;
 		}
 
-		else if (pInfo->Get_InfoRef()._iHp >= 90)
+		else if (pInfo->Get_InfoRef()._iHp >= 190)
 		{
 			Engine::PlaySoundW(L"Drink_Potion.mp3", SOUND_EFFECT, 1.f);
 			pInfo->Add_Hp(10);

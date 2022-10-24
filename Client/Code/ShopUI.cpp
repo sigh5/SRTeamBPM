@@ -180,14 +180,14 @@ void CShopUI::Picking_Rect_Index()
 					// 备概 力茄
 					if (pInfo->Get_InfoRef()._iCoin < 40)
 					{
-						Engine::PlaySoundW(L"Moneyless.mp3", SOUND_EFFECT2, 1.f);
+						Engine::PlaySoundW(L"Moneyless.mp3", SOUND_EQUIP, 1.f);
 						m_bBuyFalse = true;
 						return;
 					}
 
 					else
 					{
-						Engine::PlaySoundW(L"Get_ShopItem.mp3", SOUND_EFFECT2, (g_fSound * 3.f));
+						Engine::PlaySoundW(L"Get_ShopItem.mp3", SOUND_EQUIP, 1.f);
 						CThunderHand* pHand = dynamic_cast<CThunderHand*>(::Get_GameObject(L"Layer_UI", L"SkillHand"));
 						pHand->Set_BuySkill(true);
 
@@ -306,14 +306,14 @@ void CShopUI::Picking_Rect_Index()
 					// 备概 力茄
 					if (pInfo->Get_InfoRef()._iCoin < 40)
 					{
-						Engine::PlaySoundW(L"Moneyless.mp3", SOUND_EFFECT2, 1.f);
+						Engine::PlaySoundW(L"Moneyless.mp3", SOUND_EQUIP, 1.f);
 						m_bBuyFalse = true;
 						return;				
 					}
 
 					else
 					{
-						Engine::PlaySoundW(L"Get_ShopItem.mp3", SOUND_EFFECT2, (g_fSound * 3.f));
+						Engine::PlaySoundW(L"Get_ShopItem.mp3", SOUND_EQUIP, 1.f);
 						CHelmet* pHelmet = static_cast<CHelmet*>(Get_GameObject(L"Layer_GameLogic", L"Helmet1"));
 						pHelmet->Shop_Goods();
 
@@ -334,14 +334,14 @@ void CShopUI::Picking_Rect_Index()
 
 					if (pInfo->Get_InfoRef()._iCoin < 20)
 					{
-						Engine::PlaySoundW(L"Moneyless.mp3", SOUND_EFFECT2, 1.f);
+						Engine::PlaySoundW(L"Moneyless.mp3", SOUND_EQUIP, 1.f);
 						m_bBuyFalse = true;
 						return;
 					}
 
 					else
 					{
-						Engine::PlaySoundW(L"Get_ShopItem.mp3", SOUND_EFFECT2, (g_fSound * 3.f));
+						Engine::PlaySoundW(L"Get_ShopItem.mp3", SOUND_EQUIP, 1.f);
 						CEquipYeti* pYeti = static_cast<CEquipYeti*>(Get_GameObject(L"Layer_GameLogic", L"EquipYeti"));
 						pYeti->Shop_Goods();
 

@@ -8,6 +8,7 @@
 #include "Gun_Screen.h"
 #include "Flare.h"
 #include "MonsterHpBar.h"
+#include "Stage.h"
 
 CSphinxFlyHead::CSphinxFlyHead(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -136,6 +137,15 @@ _int CSphinxFlyHead::Update_Object(const _float & fTimeDelta)
 	Add_RenderGroup(RENDER_ALPHA, this);
 	CScene* pScene = ::Get_Scene();
 	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+
+	
+	NULL_CHECK_RETURN(pScene, );
+
+	if (Get_Distance() < 70.f)
+		static_cast<CStage*>(pScene)->Set_SphinxHeadBGM(false);
+
+	else
+		static_cast<CStage*>(pScene)->Set_SphinxHeadBGM(true);
 	//pMyLayer->Add_vecColliderMonster(static_cast<CMonsterBase*>(this));
 	return 0;
 }
@@ -720,6 +730,11 @@ bool		CSphinxFlyHead::Dead_Judge(const _float& fTimeDelta)
 	{
 		Dead_Action(fTimeDelta);
 
+		CScene* pScene = ::Get_Scene();
+		NULL_CHECK_RETURN(pScene, );
+
+		static_cast<CStage*>(pScene)->Set_SphinxHeadBGM(true);
+	
 		m_pDynamicTransCom->Update_Component(fTimeDelta);
 		Engine::CMonsterBase::Update_Object(fTimeDelta);
 		Add_RenderGroup(RENDER_ALPHA, this);

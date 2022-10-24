@@ -52,7 +52,7 @@ _int CHpBar::Update_Object(const _float & fTimeDelta)
 {
 	CPlayer* pPlayer = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
 	
-	m_iPlayerHp = (pPlayer->Get_HpChange()) / 10;
+	m_iPlayerHp = (pPlayer->Get_HpChange()) / 20;
 				// 24/25 = 0.96 // 0/25 = 0
 
 	//m_iHpFont = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._iHp;
@@ -113,6 +113,10 @@ void CHpBar::Render_Obejct(void)
 		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 		m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 		m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+		if(m_bCaught)
+			Render_Font(L"BMJUA_ttf", L"상태:붙잡힘", &_vec2(190.f, 50.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+
 	
 		if(pInfo->Get_InfoRef()._iDefense == 0)
 		m_iHpFont = dynamic_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._iHp;
@@ -120,13 +124,17 @@ void CHpBar::Render_Obejct(void)
 		//cout << "폰트 : " << iHpFont << endl;
 
 		_tchar	tPlayerHp[MAX_PATH];
-		swprintf_s(tPlayerHp, L"%d / 100", m_iHpFont);
+		swprintf_s(tPlayerHp, L"%d / 200", m_iHpFont);
 		m_szPlayerHp = L"";
 		m_szPlayerHp += tPlayerHp;
 
 		if (pShopUI->Get_Active() == false)
 		Render_Font(L"DalseoHealingBold", m_szPlayerHp.c_str(), &_vec2(190.f, 950.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
 		
+		if (pInfo->Get_InfoRef()._iHp > 200)
+			m_pTextureCom->Set_Texture(0);
+
+		else
 		m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);
 
 		//cout << m_pAnimationCom->m_iMotion << endl;

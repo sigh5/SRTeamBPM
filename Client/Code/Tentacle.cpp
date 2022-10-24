@@ -6,6 +6,7 @@
 #include "MyCamera.h"
 #include "FinalBoss.h"
 #include "Player.h"
+#include "HpBar.h"
 
 CTentacle::CTentacle(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CGameObject(pGraphicDev)
@@ -53,6 +54,9 @@ _int CTentacle::Update_Object(const _float & fTimeDelta)
 	Engine::CGameObject::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
 
+	CHpBar* pHpBar = static_cast<CHpBar*>(Engine::Get_GameObject(L"Layer_Icon", L"HpBar"));
+	pHpBar->Set_Caught(false);
+
 	return 0;
 	}
 	if (m_pAnimationCom->m_iMaxMotion == m_pAnimationCom->m_iMotion)
@@ -79,13 +83,17 @@ _int CTentacle::Update_Object(const _float & fTimeDelta)
 	{
 		if (m_fToPlayerDistance < 1.5f && false == m_bHitPlayer)
 		{
+			CHpBar* pHpBar = static_cast<CHpBar*>(Engine::Get_GameObject(L"Layer_Icon", L"HpBar"));
+			pHpBar->Set_Caught(true);
+
 			::StopSound(SOUND_MONSTER3);
 			::PlaySoundW(L"hangman_detect1.wav", SOUND_MONSTER3, g_fSound * 1.6f);
 			pPlayerInfo->Receive_Damage(10);
 			pPlayer->Set_DefenseToHp(true);
 			m_bHitPlayer = true;
-			m_bOneTime = true;
+			m_bOneTime = true;			
 		}
+
 	}
 	if (m_bHitPlayer && false == m_bAttackFinish)
 	{

@@ -13,6 +13,7 @@
 #include "Obelisk.h"
 #include "HitEffect.h"
 #include "MonsterHpBar.h"
+#include "Stage.h"
 
 CSphinx::CSphinx(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -97,6 +98,14 @@ _int CSphinx::Update_Object(const _float & fTimeDelta)
 		BattleLoop(fTimeDelta);
 	}
 
+	CScene* pScene = ::Get_Scene();
+	NULL_CHECK_RETURN(pScene, );
+	
+	if(Get_Distance() < 70.f)
+	static_cast<CStage*>(pScene)->Set_SphinxBGM(true);
+
+	else
+		static_cast<CStage*>(pScene)->Set_SphinxBGM(false);
 
 	Engine::CMonsterBase::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
@@ -372,6 +381,8 @@ void CSphinx::HeadOff_Animation(const _float& fTimeDelta)
 
 		pMyLayer->Add_GameObject(L"Sphinx_FlyHead", pFlyHead);
 		m_bHeadOff_Finish = true;
+		
+		static_cast<CStage*>(pScene)->Set_SphinxBGM(false);
 	}
 }
 void		CSphinx::Get_ObeliskState()

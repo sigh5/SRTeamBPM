@@ -164,7 +164,6 @@ _uint CLoading::Loading_ForStage(void)
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_DefBar_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/HpBar/DefBar/DefBar%d.png", TEX_NORMAL, 11)), E_FAIL);
 	
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Skill_Icon_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Skill_Icon.png", TEX_NORMAL)), E_FAIL);
-
 																										// \Bin\Resource\Texture\UI\Shop_Thunder
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Shop_Sold_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/UI/Shop_Thunder/Thunder_Sold%d.png", TEX_NORMAL, 2)), E_FAIL);
 	

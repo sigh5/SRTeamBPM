@@ -44,7 +44,7 @@ HRESULT CPlayer::Ready_Object(void)
 	
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
+	m_pInfoCom->Ready_CharacterInfo(200, 10, 5.f);
 	m_pInfoCom->Get_InfoRef()._iCoin = 10;
 
 
@@ -111,7 +111,10 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 			}
 
 			if (m_pInfoCom->Get_InfoRef()._iDefense == 0)
+			{
+				m_bDefenseToHp = false;
 				m_bDefenseOn = true;
+			}
 		}
 
 		else
@@ -458,6 +461,7 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 
 	if (Engine::Key_Down(DIK_P))
 	{		
+		m_pInfoCom->Get_InfoRef()._iCoin += 10;
 		_vec3	vcurrentPos;
 		m_pDynamicTransCom->Get_Info(INFO_POS, &vcurrentPos);
 	}
@@ -479,7 +483,7 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 
 	if (Engine::Key_Down(DIK_V))  // ġƮŰ
 	{		
-		m_pInfoCom->Get_InfoRef()._iCoin += 10;
+		m_pInfoCom->Get_InfoRef()._iHp -= 10;
 	}
 	Engine::Key_InputReset();
 }
@@ -587,7 +591,7 @@ void CPlayer::Random_ResurrectionRoom()
 
 	pLayer->Reset_Monster();
 	pLayer->Reset_DropItemList();
-	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
+	m_pInfoCom->Ready_CharacterInfo(200, 10, 5.f);
 
 	m_iComboCount = 0;
 	
