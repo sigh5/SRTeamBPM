@@ -98,6 +98,12 @@ _int CStage::Update_Scene(const _float & fTimeDelta)
 		m_bSphinxHeadBGM = false;
 	}
 
+	if (m_bFinalBGM == true)
+	{
+		Engine::StopSound(SOUND_BGM);
+		Engine::PlaySoundW(L"037 Egyptian - Osiris.wav", SOUND_MONSTER, 1.f);		
+	}
+
 	m_fFrame += 1.f * fTimeDelta;
 
 	if (m_fFrame >= 1.f )

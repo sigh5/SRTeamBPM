@@ -100,6 +100,9 @@ _int CSphinx::Update_Object(const _float & fTimeDelta)
 	if(Get_Distance() < 70.f)
 	static_cast<CStage*>(pScene)->Set_SphinxBGM(true);
 
+	else
+		static_cast<CStage*>(pScene)->Set_SphinxBGM(false);
+
 	Engine::CMonsterBase::Update_Object(fTimeDelta);
 	Add_RenderGroup(RENDER_ALPHA, this);
 

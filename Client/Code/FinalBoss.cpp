@@ -316,6 +316,8 @@ bool CFinalBoss::Dead_Judge(const _float & fTimeDelta)
 	}
 	if (m_bDead)
 	{
+		Engine::StopSound(SOUND_MONSTER);
+
 		if (m_pDeadAnimationCom->m_iMotion<m_pDeadAnimationCom->m_iMaxMotion)
 			m_pDeadAnimationCom->Move_Animation(fTimeDelta);
 

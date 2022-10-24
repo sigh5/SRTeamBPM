@@ -113,6 +113,10 @@ void CHpBar::Render_Obejct(void)
 		m_pGraphicDev->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 		m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 		m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+		if(m_bCaught)
+			Render_Font(L"BMJUA_ttf", L"»óÅÂ:ºÙÀâÈû", &_vec2(190.f, 50.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+
 	
 		if(pInfo->Get_InfoRef()._iDefense == 0)
 		m_iHpFont = dynamic_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC))->Get_InfoRef()._iHp;

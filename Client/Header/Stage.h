@@ -28,6 +28,7 @@ public:
 
 	void			Set_SphinxBGM(_bool _bSphinxBGM) { m_bSpinxBGM = _bSphinxBGM; }
 	void			Set_SphinxHeadBGM(_bool _bSphinxHeadBGM) { m_bSphinxHeadBGM = _bSphinxHeadBGM; }
+	void			Set_FinalBGM(_bool _bFinalBGM) { m_bFinalBGM = _bFinalBGM; }
 private:
 	HRESULT			Ready_Layer_Environment(const _tchar* pLayerTag);
 
@@ -55,6 +56,7 @@ private:
 
 	_bool		m_bSpinxBGM = false;
 	_bool		m_bSphinxHeadBGM = false;
+	_bool		m_bFinalBGM = false;
 
 public:
 	static CStage*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

@@ -27,6 +27,8 @@ public:
 
 	virtual	void		LateUpdate_Object(void);
 	virtual void		Render_Obejct(void) override;
+
+	void				Set_Caught(_bool _bCaught) { m_bCaught = _bCaught; }
 	
 private:
 	HRESULT				Add_Component(void);
@@ -51,7 +53,7 @@ private:
 	
 	wstring				m_szPlayerHp = L"";
 
-
+	_bool				m_bCaught = false;
 public:
 	static CHpBar*		Create(LPDIRECT3DDEVICE9 pGraphicDev, CGameObject* pPlayer);
 	virtual void Free();
