@@ -146,6 +146,7 @@ _int CSphinxFlyHead::Update_Object(const _float & fTimeDelta)
 
 	else
 		static_cast<CStage*>(pScene)->Set_SphinxHeadBGM(true);
+
 	//pMyLayer->Add_vecColliderMonster(static_cast<CMonsterBase*>(this));
 	return 0;
 }

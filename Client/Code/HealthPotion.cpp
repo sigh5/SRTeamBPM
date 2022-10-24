@@ -146,7 +146,7 @@ void CHealthPotion::Collision_Event()
 
 		else if (pInfo->Get_InfoRef()._iHp >= 190)
 		{
-			Engine::PlaySoundW(L"Drink_Potion.mp3", SOUND_EFFECT, 1.f);
+			Engine::PlaySoundW(L"Drink_Potion.mp3", SOUND_DROP, 1.f);
 			pInfo->Add_Hp(10);
 			m_bDead = true;
 
@@ -156,7 +156,7 @@ void CHealthPotion::Collision_Event()
 		
 		else
 		{
-			Engine::PlaySoundW(L"Drink_Potion.mp3", SOUND_EFFECT, 1.f);
+			Engine::PlaySoundW(L"Drink_Potion.mp3", SOUND_DROP, 1.f);
 			pInfo->Add_Hp(20);
 			m_bDead = true;
 

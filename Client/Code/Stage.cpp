@@ -64,12 +64,12 @@ _int CStage::Update_Scene(const _float & fTimeDelta)
 	{
 		Engine::StopSound(SOUND_BGM);
 
-		Engine::PlaySoundW(L"Wrong_Image_Find_Game.mp3", SOUND_EFFECT, g_fSound);
+		Engine::PlaySoundW(L"Wrong_Image_Find_Game.mp3", SOUND_SHOP, g_fSound);
 	}
 
 	else
 	{
-		Engine::StopSound(SOUND_EFFECT);
+		Engine::StopSound(SOUND_SHOP);
 
 		Engine::PlaySoundW(L"SamTow.wav", SOUND_BGM, g_fSound);
 	}
@@ -79,20 +79,20 @@ _int CStage::Update_Scene(const _float & fTimeDelta)
 	{
 		Engine::StopSound(SOUND_BGM);
 
-		Engine::PlaySoundW(L"035 Egyptian - Sphinx.wav", SOUND_EFFECT2, g_fSound);
+		Engine::PlaySoundW(L"035 Egyptian - Sphinx.wav", SOUND_SEMIBOSS, g_fSound);
 	}
 
 	else
 	{
-		Engine::StopSound(SOUND_EFFECT2);
+		Engine::StopSound(SOUND_SEMIBOSS);
 		
-		Engine::PlaySoundW(L"039 Egyptian - Guilded Tomb.wav", SOUND_OBJECT, g_fSound);
+		Engine::PlaySoundW(L"039 Egyptian - Guilded Tomb.wav", SOUND_SEMIBOSS, g_fSound);
 	}
 
 
 	if (m_bSphinxHeadBGM == true)
 	{
-		Engine::StopSound(SOUND_OBJECT);
+		Engine::StopSound(SOUND_SEMIBOSS);
 
 		Engine::PlaySoundW(L"SamTow.wav", SOUND_BGM, g_fSound);
 		m_bSphinxHeadBGM = false;
@@ -101,7 +101,7 @@ _int CStage::Update_Scene(const _float & fTimeDelta)
 	if (m_bFinalBGM == true)
 	{
 		Engine::StopSound(SOUND_BGM);
-		Engine::PlaySoundW(L"037 Egyptian - Osiris.wav", SOUND_MONSTER, 1.f);		
+		Engine::PlaySoundW(L"037 Egyptian - Osiris.wav", SOUND_BOSS, 1.f);		
 	}
 
 	m_fFrame += 1.f * fTimeDelta;

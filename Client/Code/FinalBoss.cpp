@@ -14,6 +14,7 @@
 #include "FinalBossBullet.h"
 #include "Flare.h"
 #include "MonsterHpBar.h"
+#include "Stage.h"
 
 CFinalBoss::CFinalBoss(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -143,6 +144,13 @@ _int CFinalBoss::Update_Object(const _float & fTimeDelta)
 	AttackJudge(fTimeDelta);
 
 	BattleLoop(fTimeDelta);
+
+	CScene* pScene = ::Get_Scene();
+	NULL_CHECK_RETURN(pScene, );
+
+	if (Get_Distance() < 70.f)
+		static_cast<CStage*>(pScene)->Set_FinalBGM(true);
+
 
 	m_pDynamicTransCom->Update_Component(1.f);
 	Engine::CMonsterBase::Update_Object(fTimeDelta);
