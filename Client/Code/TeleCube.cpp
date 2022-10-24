@@ -5,6 +5,7 @@
 #include "Terrain.h"
 #include "AbstractFactory.h"
 #include "ControlRoom.h"
+#include "Change_Stage.h"
 
 CTeleCube::CTeleCube(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -31,6 +32,37 @@ HRESULT CTeleCube::Ready_Object()
 
 _int CTeleCube::Update_Object(const _float & fTimeDelta)
 {
+
+	if (m_iForceSceneReturn == SCENE_CHANGE_RETRURN)
+		return SCENE_CHANGE_RETRURN;
+
+	if (m_bTest)
+	{
+		CScene*pScene = ::Get_Scene();
+		CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+		NULL_CHECK_RETURN(pLayer, );
+		CGameObject *pGameObject = nullptr;
+
+		pGameObject = pLayer->Get_GameObject(L"Player");
+
+		CDynamic_Transform *pTransform = dynamic_cast<CDynamic_Transform*>(pGameObject->Get_Component(L"Proto_DynamicTransformCom", ID_DYNAMIC));
+		pTransform->Set_Pos(510.f, 2.f, 510.f);
+		pTransform->Update_Component(1.f);
+		pScene->Set_SceneChane(true);
+		::Set_SaveScene(pScene);
+		CScene*		pChangeScene = CChange_Stage::Create(m_pGraphicDev, 79);
+		NULL_CHECK_RETURN(pScene, );
+		::Change_Scene(pScene, pChangeScene);
+		m_iForceSceneReturn = SCENE_CHANGE_RETRURN;
+		
+		m_bTest = false;
+		return SCENE_CHANGE_RETRURN;
+	}
+
+	
+	
+
+
 	m_pColliderCom->Set_HitBoxMatrix(&(m_pTransCom->m_matWorld));
 
 
@@ -228,7 +260,13 @@ void CTeleCube::Collision_Event()
 			if (pLayer->m_iRestRoom < 0)
 			{
 				// 여기서 최종맵으로 가는 코드 넣으면됀다
-				pTransform->Set_Pos(510.f, 2.f, 510.f);
+
+				m_bTest = true;
+				for (int i = 0; i < TELEPORT_CUBE_LIST_END; ++i)
+				{
+					for (auto iter : *(pLayer->Get_TeleCubeList(i)))
+						dynamic_cast<CTeleCube*>(iter)->Set_Active(true);
+				}
 				return;
 			}
 			vector<CGameObject*> temp = *pLayer->GetRestCube();
@@ -255,12 +293,17 @@ void CTeleCube::Collision_Event()
 					dynamic_cast<CTeleCube*>(iter)->Set_Active(true);
 			}
 			m_bCollisionCheck = true;
-
-		
-
 		}
 	}
 
+}
+
+void CTeleCube::Set_ForceScene(_int iNum)
+{
+	 m_iForceSceneReturn = iNum; 
+	
+	 if (iNum == 0)
+		m_bTest = false; 
 }
 
 void CTeleCube::Random_ResurrectionRoom()

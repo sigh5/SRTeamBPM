@@ -45,11 +45,25 @@ _int CMagneticField::Update_Object(const _float & fTimeDelta)
 {
 	m_pColliderCom->Set_HitBoxMatrix(&(m_pTransCom->m_matWorld));
 
+	if (m_bSetActive)
+	{
+		m_fFrame += 1.f *fTimeDelta;
+
+		if (m_fFrame >= 5.f)
+		{
+			m_fFrame = 0.f;
+			m_bPlayerInTerrain = false;
+	
+			m_bSetActive = false;
+		}
+	}
+
+
 	if (m_bPlayerInTerrain)
 	{
 		m_fFrame += 1.f *fTimeDelta;
 
-		if (m_fFrame >= 9.f)
+		if (m_fFrame >= 5.f)
 		{
 			m_fFrame = 0.f;
 			m_bPlayerInTerrain = false;
@@ -158,6 +172,8 @@ void CMagneticField::Render_Obejct(void)
 
 void CMagneticField::Collision_Event()
 {
+
+
 	if (!m_bSetActive)
 		return;
 
@@ -165,6 +181,7 @@ void CMagneticField::Collision_Event()
 	CLayer* pLayer = pScene->GetLayer(L"Layer_GameLogic");
 	CGameObject* pPlayer = pLayer->Get_GameObject(L"Player");
 	CCollider* pCollider = dynamic_cast<CCollider*>(pPlayer->Get_Component(L"Proto_ColliderCom", ID_STATIC));
+
 
 	if (m_pColliderCom->Check_CollisonUseCollider(pCollider, m_pColliderCom))
 	{
@@ -190,6 +207,8 @@ void CMagneticField::Collision_Event()
 		}
 
 	}
+
+	
 
 
 }

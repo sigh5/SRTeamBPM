@@ -238,7 +238,7 @@ void CMiniPlayer::Key_Input(const _float & fTimeDelta)
 	{
 		m_tpType = TYPING_W;
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
-		m_pDynamicTransCom->Move_Pos(&(m_vDirection * 2.f * fTimeDelta));
+		m_pDynamicTransCom->Move_Pos(&(m_vDirection * m_fSpeed * fTimeDelta));
 
 	}
 
@@ -246,10 +246,21 @@ void CMiniPlayer::Key_Input(const _float & fTimeDelta)
 	{
 		m_tpType = TYPING_S;
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
-		m_pDynamicTransCom->Move_Pos(&(m_vDirection * -2.f * fTimeDelta));
+		m_pDynamicTransCom->Move_Pos(&(m_vDirection * -m_fSpeed * fTimeDelta));
 
 
 	}
+	if (Get_DIKeyState(DIK_Q) & 0X80)
+	{
+		/*m_tpType = TYPING_S;
+		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
+		m_pDynamicTransCom->Move_Pos(&(m_vDirection * -m_fSpeed * fTimeDelta));
+*/
+		_vec3 vPos;
+		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+		cout << vPos.x<< " " << vPos.z <<endl ;
+	}
+
 
 	if (Get_DIKeyState(DIK_A) & 0X80)
 	{
@@ -258,7 +269,7 @@ void CMiniPlayer::Key_Input(const _float & fTimeDelta)
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
 		D3DXVec3Normalize(&m_vUp, &m_vUp);
 		D3DXVec3Cross(&vRight, &m_vDirection, &m_vUp);
-		m_pDynamicTransCom->Move_Pos(&(vRight * 2.f * fTimeDelta));
+		m_pDynamicTransCom->Move_Pos(&(vRight * m_fSpeed * fTimeDelta));
 
 	}
 
@@ -269,7 +280,7 @@ void CMiniPlayer::Key_Input(const _float & fTimeDelta)
 		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
 		D3DXVec3Normalize(&m_vUp, &m_vUp);
 		D3DXVec3Cross(&vRight, &m_vDirection, &m_vUp);
-		m_pDynamicTransCom->Move_Pos(&(vRight * -2.f * fTimeDelta));
+		m_pDynamicTransCom->Move_Pos(&(vRight * -m_fSpeed * fTimeDelta));
 
 
 	}

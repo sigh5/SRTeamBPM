@@ -24,7 +24,7 @@ public:
 	virtual void		LateUpdate_Object();
 	virtual void		Render_Obejct(void) override;
 	virtual void		Collision_Event() override;
-
+	void				Set_ForceScene(_int iNum);
 public:
 	const _int&			Get_Option() { return m_iOption; }
 	void				Set_Option(CUBE_TYPE eType) { m_iOption = (_int)eType; }
@@ -35,6 +35,7 @@ public:
 	const _bool&		Get_Active() { return m_bSetActive; }
 	
 	
+	_int			m_iForceSceneReturn = 0;
 
 
 private:
@@ -56,7 +57,7 @@ private:
 	_float				m_fActiveTimer = 0;
 	_bool				m_bCollisionCheck = false;
 
-
+	_bool				m_bTest = false;
 	_float				m_fAlphaTimer = 0.f;
 
 public:

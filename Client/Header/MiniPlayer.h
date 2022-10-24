@@ -30,6 +30,9 @@ public:
 	void			Set_MonsterKillCount() { m_iKillMonster += 1; }
 	const _int&		Get_MonsterKillCount() { return m_iKillMonster; }
 
+
+	_float			m_fSpeed = 2.f;
+
 private:
 	HRESULT				Add_Component(void);
 	void				Key_Input(const _float& fTimeDelta);
