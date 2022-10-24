@@ -268,16 +268,16 @@ void CGhul::Collision_Event()
 void CGhul::Excution_Event(_bool bAOE)
 {
 
-	if (bAOE)
+	if (!m_bDead && bAOE)
 	{
-		m_pInfoCom->Receive_Damage(1);
+		m_pInfoCom->Receive_Damage(20);
 		return;
 	}
 
 
-	if (!m_bDead && 1 >= m_pInfoCom->Get_Hp())
+	if (!m_bDead && 10 >= m_pInfoCom->Get_Hp())
 	{
-		m_pInfoCom->Receive_Damage(1);
+		m_pInfoCom->Receive_Damage(10);
 		_vec3	vPos;
 		CGameObject *pGameObject = nullptr;
 		CScene* pScene = Get_Scene();

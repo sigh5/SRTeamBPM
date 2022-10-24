@@ -37,7 +37,7 @@ HRESULT CSpider::Ready_Object(int Posx, int Posy)
 
 	m_iMonsterIndex = MONSTER_SPIDER;
 	m_fAttackDelay = 0.3f;
-	m_pInfoCom->Ready_CharacterInfo(50, 10, 7.f);
+	m_pInfoCom->Ready_CharacterInfo(10, 10, 7.f);
 	m_pAnimationCom->Ready_Animation(4, 1, 0.07f);
 	m_pDeadAnimationCom->Ready_Animation(13, 0, 0.2f);
 	m_pAttackAnimationCom->Ready_Animation(13, 0, 0.2f);
@@ -292,16 +292,16 @@ void CSpider::Collision_Event()
 void CSpider::Excution_Event(_bool bAOE)
 {
 
-	if (bAOE)
+	if (!m_bDead && bAOE)
 	{
-		m_pInfoCom->Receive_Damage(1);
+		m_pInfoCom->Receive_Damage(20);
 		return;
 	}
 
 
-	if (!m_bDead &&  1 >= m_pInfoCom->Get_Hp())
+	if (!m_bDead &&  10 >= m_pInfoCom->Get_Hp())
 	{
-		m_pInfoCom->Receive_Damage(1);
+		m_pInfoCom->Receive_Damage(10);
 		_vec3	vPos;
 		CGameObject *pGameObject = nullptr;
 		CScene* pScene = Get_Scene();
