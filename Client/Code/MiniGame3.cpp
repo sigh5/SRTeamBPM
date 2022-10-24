@@ -227,6 +227,7 @@ HRESULT CMiniGame3::Ready_Proto(void)
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_TerrainMoveTexCom", CTerrainMoveTex::Create(m_pGraphicDev, VTXCNTX, VTXCNTZ, VTXITV)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_MiniPlayerTexture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/NPC/GuitarMan/GuitarMan%d.png", TEX_NORMAL, 22)), E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Bullet_Guita_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/NPC/Bullet_Guita.png", TEX_NORMAL)), E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Proto(L"Proto_Piercing_Bullet_Texture", CTexture::Create(m_pGraphicDev, L"../Bin/Resource/Texture/NPC/Lute.png", TEX_NORMAL)), E_FAIL);
 
 	return S_OK;
 }

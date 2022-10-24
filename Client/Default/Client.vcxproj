@@ -257,6 +257,7 @@
     <ClInclude Include="..\Header\Obstacle.h" />
     <ClInclude Include="..\Header\PetPic.h" />
     <ClInclude Include="..\Header\PetYeti.h" />
+    <ClInclude Include="..\Header\PiercingBullet.h" />
     <ClInclude Include="..\Header\Player.h" />
     <ClInclude Include="..\Header\Player_Dead_UI.h" />
     <ClInclude Include="..\Header\QuestNpc.h" />
@@ -411,6 +412,7 @@
     <ClCompile Include="..\Code\Obstacle.cpp" />
     <ClCompile Include="..\Code\PetPic.cpp" />
     <ClCompile Include="..\Code\PetYeti.cpp" />
+    <ClCompile Include="..\Code\PiercingBullet.cpp" />
     <ClCompile Include="..\Code\Player.cpp" />
     <ClCompile Include="..\Code\Player_Dead_UI.cpp" />
     <ClCompile Include="..\Code\QuestNpc.cpp" />

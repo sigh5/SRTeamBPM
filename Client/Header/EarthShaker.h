@@ -19,6 +19,7 @@ public:
 	virtual void		NoHit_Loop(const _float& fTimeDelta);
 	virtual void		Hit_Loop(const _float& fTimeDelta);
 	virtual void		Excution_Event();
+	void				Add_HpBar();
 private:
 	void		AttackJudge(const _float& fTimeDelta);
 	void		Attack(const _float& fTimeDelta);
@@ -61,5 +62,7 @@ private:
 	float		m_fSoundInterval = 0.f;
 	float		m_fSoundCount = 0.f;
 	int			m_iSoundNumber = 0;
+
+	bool		m_bHpBarCreated = false;
 };
 

@@ -11,6 +11,7 @@
 #include "Special_Effect.h"
 #include "Coin.h"
 #include "Key.h"
+#include "MonsterHpBar.h"
 
 CEarthShaker::CEarthShaker(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -81,7 +82,7 @@ _int CEarthShaker::Update_Object(const _float & fTimeDelta)
 	m_pColliderCom->Set_HitBoxMatrix_With_Scale(&matWorld, vScale);
 	//~Control Room
 
-	
+	Add_HpBar();
 	SpikeUpdateLoop(fTimeDelta);
 	m_pDynamicTransCom->Set_Y(m_pDynamicTransCom->m_vScale.y * 0.5f);
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
@@ -702,6 +703,20 @@ HRESULT CEarthShaker::SetUp_Material(void)
 
 
 	return S_OK;
+}
+void		CEarthShaker::Add_HpBar()
+{
+	if (false == m_bHpBarCreated)
+	{
+		CScene* pScene = ::Get_Scene();
+		CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+
+		CGameObject* pHpBar = nullptr;
+		pHpBar = CMonsterHpBar::Create(m_pGraphicDev, m_pDynamicTransCom, m_pInfoCom, m_pDynamicTransCom->m_vInfo[INFO_POS].x, m_pDynamicTransCom->m_vInfo[INFO_POS].z);
+
+		pMyLayer->Add_EffectList(pHpBar);
+		m_bHpBarCreated = true;
+	}
 }
 
 void CEarthShaker::Set_Light_Obj()

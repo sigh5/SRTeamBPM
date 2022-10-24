@@ -15,6 +15,7 @@
 #include "AttackEffect.h"
 #include "Coin.h"
 #include "Key.h"
+#include "MonsterHpBar.h"
 
 CAnubis::CAnubis(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -125,7 +126,7 @@ _int CAnubis::Update_Object(const _float & fTimeDelta)
 	// 맨위에있어야됌 리턴되면 안됌
 	m_pDynamicTransCom->Set_Y(m_pDynamicTransCom->m_vScale.y * 0.5f);
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
-	
+	Add_HpBar();
 	if (Distance_Over())
 	{
 		m_pAnimationCom->m_iMotion = 0;
@@ -667,6 +668,20 @@ void	CAnubis::Drop_Item(int ItemType)
 
 	default:
 		break;
+	}
+}
+void		CAnubis::Add_HpBar()
+{
+	if (false == m_bHpBarCreated)
+	{
+		CScene* pScene = ::Get_Scene();
+		CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
+
+		CGameObject* pHpBar = nullptr;
+		pHpBar = CMonsterHpBar::Create(m_pGraphicDev, m_pDynamicTransCom, m_pInfoCom, m_pDynamicTransCom->m_vInfo[INFO_POS].x, m_pDynamicTransCom->m_vInfo[INFO_POS].z);
+
+		pMyLayer->Add_EffectList(pHpBar);
+		m_bHpBarCreated = true;
 	}
 }
 

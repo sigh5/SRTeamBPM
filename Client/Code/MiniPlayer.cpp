@@ -5,6 +5,7 @@
 #include "AbstractFactory.h"
 #include "StaticCamera.h"
 #include "Bullet.h"
+#include "PiercingBullet.h"
 
 
 CMiniPlayer::CMiniPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -49,6 +50,7 @@ _int CMiniPlayer::Update_Object(const _float & fTimeDelta)
 
 	Key_InputReset();
 	
+	m_fPiercingBulletTime += fTimeDelta;
 
 	m_pAnimationCom->Move_Animation(fTimeDelta);
 
@@ -66,6 +68,13 @@ _int CMiniPlayer::Update_Object(const _float & fTimeDelta)
 			m_fDashTimer = 0.f;
 
 		}
+		if (m_fPiercingBulletTime > 10.f)
+		{
+			m_iPiercingBulletNum++;
+			m_fPiercingBulletTime = 0.f;
+		}
+		if (false == m_bCanPiercing)
+			m_bCanPiercing = true;
 	}
 
 	m_pDynamicTransCom->Set_Y(1.f);
@@ -270,6 +279,20 @@ void CMiniPlayer::Key_Input(const _float & fTimeDelta)
 		m_bDash = true;
 
 	
+	}
+	if (Get_DIKeyState(DIK_SPACE) & 0x80 && 0 < m_iPiercingBulletNum)
+	{
+		m_iPiercingBulletNum--;
+		_vec3 vPos;
+		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
+		CScene* pScene = Get_Scene();
+		CLayer*		pLayer = pScene->GetLayer(L"Layer_GameLogic");
+		CGameObject*		pGameObject = nullptr;
+
+		pGameObject = CPiercingBullet::Create(m_pGraphicDev, vPos);
+		::StopSound(SOUND_CRUSHROCK2);
+		::PlaySoundW(L"PiercingBullet.wav", SOUND_CRUSHROCK2, g_fSound * 2.f);
+		pLayer->Add_EffectList(pGameObject);
 	}
 
 
