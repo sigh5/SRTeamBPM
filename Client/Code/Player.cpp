@@ -314,7 +314,7 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 	if (Key_Down(DIK_T))
 	{
 		// Test -> Shop 추후수정
-		//m_pDynamicTransCom->Set_Pos(530.f, 2.f, 530.f);
+		m_pDynamicTransCom->Set_Pos(530.f, 2.f, 530.f);
 		//
 		Excution_Motion();
 
@@ -590,6 +590,16 @@ void CPlayer::Random_ResurrectionRoom()
 	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
 
 	m_iComboCount = 0;
+	
+	 pLayer = pScene->GetLayer(L"Layer_CubeCollsion");
+
+	for (int i = 0; i < TELEPORT_CUBE_LIST_END; ++i)
+	{
+		for (auto iter : *(pLayer->Get_TeleCubeList(i)))
+			iter->LateUpdate_Object();
+	}
+
+
 	m_pDynamicTransCom->Update_Component(1.f);
 }
 
