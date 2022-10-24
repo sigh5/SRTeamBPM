@@ -41,7 +41,7 @@ HRESULT CEarthShaker::Ready_Object(float Posx, float Posy)
 	
 	m_pDeadAnimationCom->Ready_Animation(8, 0, 0.4f);
 	
-	m_pInfoCom->Ready_CharacterInfo(4, 10, 3.f);
+	m_pInfoCom->Ready_CharacterInfo(100, 10, 3.f);
 
 	m_fAttackDelay = 0.1f;
 	m_bDead = false;

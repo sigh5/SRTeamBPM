@@ -95,7 +95,7 @@ HRESULT CFinalBoss::Ready_Object(float Posx, float Posy)
 	m_fRight = 1.f;
 	//m_iMonsterIndex
 	m_pDynamicTransCom->Set_Scale(&_vec3(3.f, 3.f, 3.f));
-	m_pInfoCom->Ready_CharacterInfo(5, 10, 0.7f);
+	m_pInfoCom->Ready_CharacterInfo(100, 10, 0.7f);
 	m_iPreHp = m_pInfoCom->Get_Hp();
 	
 	m_fAttackDelay = 3.f;
@@ -120,7 +120,7 @@ _int CFinalBoss::Update_Object(const _float & fTimeDelta)
 	m_pColliderCom->Set_HitBoxMatrix_With_Scale(&matWorld, vScale);
 	// 맨위에있어야됌 리턴되면 안됌
 
-	Add_HpBar();
+
 	m_pDynamicTransCom->Set_Y(m_pDynamicTransCom->m_vScale.y * 0.5f);
 	CMonsterBase::Get_MonsterToPlayer_Distance(&fMtoPDistance);
 	if (Distance_Over())
@@ -303,7 +303,8 @@ bool CFinalBoss::Dead_Judge(const _float & fTimeDelta)
 		if (m_bCamouflage)
 		{
 			m_bCamouflage = false;
-			m_pInfoCom->Add_Hp(4);
+			m_pInfoCom->Add_Hp(250);
+			Add_HpBar();
 		}
 		else
 		{

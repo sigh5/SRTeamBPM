@@ -51,7 +51,7 @@ HRESULT CAnubis::Ready_Object(float Posx, float Posy)
 	m_pDynamicTransCom->Set_Scale(&vScale);
 	
 	m_bOldPlayerPos = { 1.0f,1.0f,1.0f };
-	m_pInfoCom->Ready_CharacterInfo(5, 10, 5.f);
+	m_pInfoCom->Ready_CharacterInfo(100, 10, 5.f);
 	m_pAnimationCom->Ready_Animation(6, 1, 0.2f);
 	m_iPreHp = (m_pInfoCom->Get_InfoRef()._iHp);
 	m_pAttackAnimationCom->Ready_Animation(17, 0, 0.3f);

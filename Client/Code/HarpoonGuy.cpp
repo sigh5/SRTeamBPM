@@ -37,7 +37,7 @@ HRESULT CHarpoonGuy::Ready_Object(float Posx, float Posz)
 	m_pAttackAnimationCom = CAbstractFactory<CAnimation>::Clone_Proto_Component(L"Proto_AnimationCom", m_mapComponent, ID_STATIC);
 
 	m_iMonsterIndex = MONSTER_HARPOONGUY;
-	m_pInfoCom->Ready_CharacterInfo(1, 10, 4.f);
+	m_pInfoCom->Ready_CharacterInfo(50, 10, 4.f);
 	m_fAttackDelay = 1.5f;
 	m_pAnimationCom->Ready_Animation(6, 1, 0.2f);
 	m_pAttackAnimationCom->Ready_Animation(12, 0, 0.2f);

@@ -37,7 +37,7 @@ HRESULT CSpider::Ready_Object(int Posx, int Posy)
 
 	m_iMonsterIndex = MONSTER_SPIDER;
 	m_fAttackDelay = 0.3f;
-	m_pInfoCom->Ready_CharacterInfo(1, 10, 7.f);
+	m_pInfoCom->Ready_CharacterInfo(50, 10, 7.f);
 	m_pAnimationCom->Ready_Animation(4, 1, 0.07f);
 	m_pDeadAnimationCom->Ready_Animation(13, 0, 0.2f);
 	m_pAttackAnimationCom->Ready_Animation(13, 0, 0.2f);
