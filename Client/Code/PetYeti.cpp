@@ -34,7 +34,7 @@ HRESULT CPetYeti::Ready_Object(float Posx, float Posz)
 
 	m_pAnimationCom->Ready_Animation(8, 1, 0.2f);
 	m_pDanceAnimationCom->Ready_Animation(1, 0, 0.2f);
-	m_pTransform->Set_Scale(&_vec3(3.f, 3.f, 3.f));
+	m_pTransform->Set_Scale(&_vec3(1.f, 1.f, 1.f));
 
 	m_iState = 0;
 	m_fDanceDelay = 1.5f;

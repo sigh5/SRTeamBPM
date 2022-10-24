@@ -51,5 +51,7 @@ private:
 
 	bool	m_bDigOutSound = false;
 	bool	m_bAttackSound = false;
+	bool	m_bOneAttack = false;
+	bool	m_bTwoAttack = false;
 };
 

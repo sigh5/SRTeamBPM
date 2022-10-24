@@ -27,8 +27,9 @@ HRESULT CPiercingBullet::Ready_Object(_vec3 vPos)
 
 	m_pTransCom->Set_Pos(vPos.x, vPos.y, vPos.z);
 	pPlayerTransformCom->Get_Info(INFO_LOOK, &m_MoveDir);
+	m_MoveDir.y = 0.f;
 	pPlayerTransformCom->Get_Info(INFO_RIGHT, &m_vRight);
-
+	m_vRight.y = 0.f;
 	m_pColliderCom->Set_vCenter(&vPos, &vScale);
 	m_pColliderCom->Set_HitRadiuos(0.5f);
 

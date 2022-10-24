@@ -421,26 +421,30 @@ void CGhul::Attack(const _float & fTimeDelta)
 			}
 		}
 	}
-	if (6 == m_pAttackAnimationCom->m_iMotion)
+	if (6 == m_pAttackAnimationCom->m_iMotion && false == m_bOneAttack)
 	{
 		if (7.f > Distance)
 		{
 			pPlayer->Set_DefenseToHp(true);
 			pPlayerInfo->Receive_Damage(m_pInfoCom->Get_AttackPower());
+			m_bOneAttack = true;
 		}
 	}
-	if (9 == m_pAttackAnimationCom->m_iMotion)
+	if (9 == m_pAttackAnimationCom->m_iMotion && false == m_bTwoAttack)
 	{
 		if (7.f > Distance)
 		{
 			pPlayer->Set_DefenseToHp(true);
 			pPlayerInfo->Receive_Damage(m_pInfoCom->Get_AttackPower());
+			m_bTwoAttack = true;
 		}
 	}
 
 	if (m_pAttackAnimationCom->m_iMotion >= m_pAttackAnimationCom->m_iMaxMotion)
 	{
 		m_bAttack = false;
+		m_bOneAttack = false;
+		m_bTwoAttack = false;
 	}
 }
 
