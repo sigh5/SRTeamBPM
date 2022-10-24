@@ -903,7 +903,6 @@
     </ClInclude>
     <ClInclude Include="..\Header\Flare.h" />
     <ClInclude Include="..\Header\Npc.h" />
-    <ClInclude Include="..\Header\TeleCube.h" />
     <ClInclude Include="..\Header\ThingySpike.h" />
     <ClInclude Include="..\Header\Box.h">
       <Filter>02. GameObject\01. For_Stage\11. Item\02. Box</Filter>
@@ -935,6 +934,9 @@
     <ClInclude Include="..\Header\MiniStage1.h" />
     <ClInclude Include="..\Header\MiniGame2Pic.h">
       <Filter>01. Scene\02. MiniStage\Mini1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\TeleCube.h">
+      <Filter>02. GameObject\02. For_public\05. TeleCube</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
