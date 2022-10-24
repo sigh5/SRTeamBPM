@@ -82,16 +82,16 @@ _int CMiniPlayer::Update_Object(const _float & fTimeDelta)
 		{
 		case 0:
 			::StopSound(SOUND_EFFECT2);
-			::PlaySoundW(L"Guitar1.wav", SOUND_EFFECT2, g_fSound * 2.f);
+			::PlaySoundW(L"Guitar1.wav", SOUND_EFFECT2, g_fSound * 1.5f);
 			break;
 		case 1:
 			::StopSound(SOUND_EFFECT2);
-			::PlaySoundW(L"Guitar2.wav", SOUND_EFFECT2, g_fSound * 2.f);
+			::PlaySoundW(L"Guitar2.wav", SOUND_EFFECT2, g_fSound * 1.5f);
 			break;
 
 		case 2:
 			::StopSound(SOUND_EFFECT2);
-			::PlaySoundW(L"Guitar3.wav", SOUND_EFFECT2, g_fSound * 2.f);
+			::PlaySoundW(L"Guitar3.wav", SOUND_EFFECT2, g_fSound * 1.5f);
 			break;
 		}
 		_vec3 vPos;

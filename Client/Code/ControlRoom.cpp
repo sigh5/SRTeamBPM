@@ -10,6 +10,7 @@
 #include "FireTrap.h"
 #include "FirePillar.h"
 
+
 CControlRoom::CControlRoom(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
 {
@@ -162,7 +163,14 @@ void CControlRoom::Collision_Event()
 				{
 					m_pCurrentRoomMonster.push_back(iter.second);
 				}
+
+				if (m_iRestMonsterNum == 1)
+					_bool f = false;
+
 			}
+
+			//CSpc
+
 
 		}
 		

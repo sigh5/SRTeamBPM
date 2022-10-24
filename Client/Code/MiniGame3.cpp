@@ -43,7 +43,7 @@ _int CMiniGame3::Update_Scene(const _float & fTimeDelta)
 	CLayer* pLayer = GetLayer(L"Layer_UI");
 	CUI_Timer* pTimer = static_cast<CUI_Timer*>(pLayer->Get_GameObject(L"Timer"));
 
-	if (pTimer->Get_Time() >= 30.f) //120초로 바꾸기
+	if (pTimer->Get_Time() >= 120.f) //120초로 바꾸기
 	{
 		CScene* pStage1 = ::Get_SaveScene(); 
 		CLayer* pMyLayer = pStage1->GetLayer(L"Layer_Icon");
@@ -61,7 +61,7 @@ _int CMiniGame3::Update_Scene(const _float & fTimeDelta)
 
 
 	// 브금 바꾸기
-	Engine::PlaySoundW(L"Paradox.mp3", SOUND_BGM, 0.1f);
+	Engine::PlaySoundW(L"Canon.wav", SOUND_BGM, g_fSound * 1.5f);
 
 	_int iResult = Engine::CScene::Update_Scene(fTimeDelta);
 

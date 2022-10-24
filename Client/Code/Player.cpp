@@ -152,7 +152,7 @@ _int CPlayer::Update_Object(const _float & fTimeDelta)
 	if (m_bDash) // 대쉬 시간 제한
 	{
 		m_fDashTimer += 1.f*fTimeDelta;
-		m_pDynamicTransCom->Dashing(fTimeDelta, m_pDynamicTransCom, m_vUp, m_vDirection, m_tpType);
+		m_pDynamicTransCom->Dashing(fTimeDelta, m_pDynamicTransCom, m_vUp, m_vDirection, m_tpType,2.f);
 	}
 
 	if (m_fDashTimer >= 0.2f)
@@ -314,7 +314,7 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 	if (Key_Down(DIK_T))
 	{
 		// Test -> Shop 추후수정
-		m_pDynamicTransCom->Set_Pos(530.f, 2.f, 530.f);
+		//m_pDynamicTransCom->Set_Pos(530.f, 2.f, 530.f);
 		//
 		Excution_Motion();
 
