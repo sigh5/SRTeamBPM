@@ -6,7 +6,7 @@ namespace Engine
 #define		WINCMAX		480000
 
 #define		WINCX		1280
-#define		WINCY		1024
+#define		WINCY		1024//1024
 
 
 #define		VTXCNTX		129

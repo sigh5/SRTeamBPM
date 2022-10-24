@@ -211,20 +211,30 @@ HRESULT CGacha_Machine::Open_Event(CGameObject * pPlayer)
 
 		CGameObject* pGameObj = nullptr;
 
-		if (rand() % 2 == 0)
+		if (rand() % 4 == 0)
 		{
+			Engine::PlaySoundW(L"Gacha_Success.mp3", SOUND_OBJECT, 1.f);
 			pGameObj = READY_LAYER_POS(pGameObj, CHealthPotion, pMyLayer, m_pGraphicDev, ItemName, (_uint)vPos.x + 3, (_uint)vPos.z);
 		}
-		else if (rand() % 2 == 1)
+		else if (rand() % 4 == 1)
 		{
+			Engine::PlaySoundW(L"Gacha_Success.mp3", SOUND_OBJECT, 1.f);
 			pGameObj = READY_LAYER_POS(pGameObj, CCoin, pMyLayer, m_pGraphicDev, ItemName, (_uint)vPos.x + 3, (_uint)vPos.z);
 		}
-		else if (rand() % 2 == 2)
-		{		// FatBat 1마리만 나오게 하면 꽝 역할로 딱인데 ㅠ
-			CGameObject*	pGameObject = nullptr;
-			pGameObject = CSpider::Create(m_pGraphicDev, (_uint)vPos.x + 3, (_uint)vPos.y);
-			NULL_CHECK_RETURN(pGameObject, E_FAIL);
-			FAILED_CHECK_RETURN(pMonsterLayer->Add_GameObject(BatName, pGameObject), E_FAIL);
+		else if (rand() % 4 == 2)
+		{		
+			Engine::PlaySoundW(L"Gacha_Fail.mp3", SOUND_OBJECT, 1.f);
+			return S_OK;
+		}
+		else if (rand() % 4 == 3)
+		{
+			Engine::PlaySoundW(L"Gacha_Success.mp3", SOUND_OBJECT, 1.f);
+			pGameObj = READY_LAYER_POS(pGameObj, CKey, pMyLayer, m_pGraphicDev, ItemName, (_uint)vPos.x + 3, (_uint)vPos.z);
+		}
+		else if (rand() % 4 == 4)
+		{
+			Engine::PlaySoundW(L"Gacha_Fail.mp3", SOUND_OBJECT, 1.f);
+			return S_OK;
 		}
 	}
 

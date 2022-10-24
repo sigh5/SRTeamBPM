@@ -119,6 +119,7 @@ void CKey::Collision_Event()
 	
 		if (!m_bAddKey && m_pColliderCom->Check_Collision(this, pGameObject, 1, 1))
 		{
+			Engine::PlaySoundW(L"Key_Get.mp3", SOUND_EFFECT, 1.f);
 			m_bAddKey = true;
 			CCharacterInfo *pCharInfo = dynamic_cast<CCharacterInfo*>(pGameObject->Get_Component(L"Proto_CharacterInfoCom", ID_STATIC));
 			pCharInfo->Add_Key();

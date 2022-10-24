@@ -54,6 +54,7 @@ private:
 public:
 	_bool				m_bBoxOpen = true;  // 박스 개방
 
+	_bool				m_bTextRender = false;
 	
 public:
 	static CBox*		Create(LPDIRECT3DDEVICE9 pGraphicDev, _uint iX, _uint iY);

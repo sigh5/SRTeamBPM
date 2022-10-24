@@ -40,6 +40,24 @@ _int CBox::Update_Object(const _float & fTimeDelta)
 
 	_uint iResult = Engine::CGameObject::Update_Object(fTimeDelta);
 
+	CDynamic_Transform* pPlayerTrans = dynamic_cast<CDynamic_Transform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
+
+	_vec3	vecPlayerPos, vecBoxPos;
+
+	pPlayerTrans->Get_Info(INFO_POS, &vecPlayerPos);
+
+	m_pTransCom->Get_Info(INFO_POS, &vecBoxPos);
+
+	_vec3	vecDir = vecPlayerPos - vecBoxPos;
+
+	_float	fDistance = D3DXVec3Length(&vecDir);
+
+	if (fDistance <= 4.f)
+		m_bTextRender = true;
+
+	else
+		m_bTextRender = false;
+
 	
 	Add_RenderGroup(RENDER_ALPHA, this);
 
@@ -99,6 +117,12 @@ void CBox::Render_Obejct(void)
 	m_pGraphicDev->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
+	if (m_bTextRender)
+	{
+		_tchar	tBoxEvent[MAX_PATH] = L"Press 'F' Button (-1 Key)";
+
+		Render_Font(L"LeeSoonSin", tBoxEvent, &_vec2(_float(WINCX / 2 - 240), _float(WINCY / 2 + 200.f)), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+	}
 
 	m_pTextureCom->Set_Texture(m_pAnimationCom->m_iMotion);
 	SetUp_Material();
@@ -125,14 +149,22 @@ void CBox::Collision_Event()
 	
 	if (m_pColliderCom->Check_Collision(this, pGameObject,1,1))
 	{
-		if (Engine::Key_Down(DIK_F))
+		CCharacterInfo* pInfo = dynamic_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
+
+		if (Engine::Key_Down(DIK_F))  
 		{
-			Engine::PlaySoundW(L"Box_Open.mp3", SOUND_OBJECT, 1.f);
-			CAnimation* pBoxAnimation = dynamic_cast<CAnimation*>(pGameObject->Get_Component(L"Proto_AnimationCom", ID_STATIC));
-			Open_Event(pGameObject);
+			if (pInfo->Get_InfoRef()._iKey != 0)
+			{
+				Engine::PlaySoundW(L"Box_Open.mp3", SOUND_OBJECT, 1.f);
+				CAnimation* pBoxAnimation = dynamic_cast<CAnimation*>(pGameObject->Get_Component(L"Proto_AnimationCom", ID_STATIC));
+				Open_Event(pGameObject);
+				pInfo->Get_InfoRef()._iKey -= 1;
+			}
+			
+			else
+				Engine::PlaySoundW(L"Open_Fail.mp3", SOUND_OBJECT, 1.f);
 		}
 	}
-
 }
 
 
@@ -142,6 +174,7 @@ HRESULT CBox::Open_Event(CGameObject * pGameObject)
 	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
 
 	CDynamic_Transform *pTransform = dynamic_cast<CDynamic_Transform*>(pGameObject->Get_Component(L"Proto_DynamicTransformCom", ID_DYNAMIC));
+	CCharacterInfo* pInfo = dynamic_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
 
 	_vec3 vObjPos;
 	_vec3 vPlayerPos;
@@ -149,8 +182,8 @@ HRESULT CBox::Open_Event(CGameObject * pGameObject)
 	pTransform->Get_Info(INFO_POS, &vObjPos);
 	m_pTransCom->Get_Info(INFO_POS, &vPlayerPos);
 
-	if (m_bBoxOpen == true && m_pColliderCom->Check_Sphere_InterSect(vObjPos, vPlayerPos, 1.f, 1.f) == true )
-	{
+	if (m_bBoxOpen == true && m_pColliderCom->Check_Sphere_InterSect(vObjPos, vPlayerPos, 1.f, 1.f) == true)
+	{		
 		m_pAnimationCom->Open_Box_Animation(m_bBoxOpen);
 		m_bBoxOpen = false;
 		_vec3 vPos;
@@ -171,10 +204,19 @@ HRESULT CBox::Open_Event(CGameObject * pGameObject)
 
 		CGameObject* pGameObj = nullptr;
 	
-		static _bool bWeaponOnce = false;
+		static _bool bWeaponOnce = true;
 		
 		// 박스가 돈 힐포션 무기 
 		// 몬스터 열쇠 , 코인 
+
+		if (bWeaponOnce)
+		{
+			//  무기가 들어가면되고
+			// 종욱이형 머지하면 하면됌
+			pGameObj = READY_LAYER_POS(pGameObj, CShotGun, pMyLayer, m_pGraphicDev, L"ShotGun", (_uint)vPos.x + 6, (_uint)vPos.z);
+			bWeaponOnce = false;
+		}
+
 		if (rand() % 3 == 0)
 		{
 			pGameObj = READY_LAYER_POS(pGameObj, CHealthPotion, pMyLayer, m_pGraphicDev, ItemName, (_uint)vPos.x+3, (_uint)vPos.z);
@@ -184,21 +226,21 @@ HRESULT CBox::Open_Event(CGameObject * pGameObject)
 			pGameObj = READY_LAYER_POS(pGameObj, CCoin, pMyLayer, m_pGraphicDev, ItemName, (_uint)vPos.x+3 , (_uint)vPos.z);
 		}
 		
-		else if ( !bWeaponOnce && rand() % 3 == 2)
+		else if ( bWeaponOnce && rand() % 3 == 2)
 		{
 			//  무기가 들어가면되고
 			// 종욱이형 머지하면 하면됌		
 
 			pGameObj = READY_LAYER_POS(pGameObj, CShotGun, pMyLayer, m_pGraphicDev, L"ShotGun", (_uint)vPos.x+3, (_uint)vPos.z);
-			bWeaponOnce = true;
+			bWeaponOnce = false;
 		}
 
-		//else  if (!bWeaponOnce )
+		// if (bWeaponOnce)
 		//{
 		//	//  무기가 들어가면되고
 		//	// 종욱이형 머지하면 하면됌
-		//	pGameObj = READY_LAYER_POS(pGameObj, CShotGun, pMyLayer, m_pGraphicDev, L"ShotGun", (_uint)vPos.x + 3, (_uint)vPos.z);
-		//	bWeaponOnce = true;
+		//	pGameObj = READY_LAYER_POS(pGameObj, CShotGun, pMyLayer, m_pGraphicDev, L"ShotGun", (_uint)vPos.x + 6, (_uint)vPos.z);
+		//	bWeaponOnce = false;
 		//}
 	
 	}

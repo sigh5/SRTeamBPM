@@ -75,7 +75,7 @@ _int CTeleCube::Update_Object(const _float & fTimeDelta)
 
 void CTeleCube::LateUpdate_Object()
 {
-	if (!m_bOnce)
+	//if (!m_bOnce)
 	{
 		m_bSetActive = true;
 		m_bOnce = true;

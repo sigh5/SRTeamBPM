@@ -368,6 +368,10 @@ HRESULT CStage::Ready_Layer_Icon(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"PetPic", pGameObject), E_FAIL);
 	
+	pGameObject = CMiniGame2Pic::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Minigame2", pGameObject), E_FAIL);
+
 	m_mapLayer.insert({ pLayerTag, pLayer });
 
 	return S_OK;

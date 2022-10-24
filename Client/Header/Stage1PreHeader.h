@@ -66,3 +66,4 @@
 #include "MiniGame1Pic.h"
 #include "HelmetPic.h"
 #include "PetPic.h"
+#include "MiniGame2Pic.h"
