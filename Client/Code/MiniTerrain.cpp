@@ -5,6 +5,9 @@
 #include "StaticCamera.h"
 #include "StageTerrain.h"
 
+#include "MiniPlayer.h"
+#include "AbstractFactory.h"
+
 CMiniTerrain::CMiniTerrain(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev), m_vDirection({ 0.f, 0.f, 1.f })
 {
@@ -17,8 +20,12 @@ CMiniTerrain::~CMiniTerrain()
 HRESULT CMiniTerrain::Ready_Object(void)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
+	
+	_vec3 vPos = { 0.f,0.f,0.f };
+	_vec3 vScale = { 1.f,1.f,1.f };
+	m_pColliderCom->Set_vCenter(&vPos, &vScale);
 
-
+	m_pColliderCom->Set_HitRadiuos(2.f);
 
 	return S_OK;
 }
@@ -29,8 +36,15 @@ _int CMiniTerrain::Update_Object(const _float & fTimeDelta)
 
 	m_fTime += 0.1f *fTimeDelta;
 
+	
 
 	m_pBufferCom->Ready_Buffer(VTXCNTX, VTXCNTZ, VTXITV, m_fTime);
+
+	_matrix matWorld;
+	_vec3 vScale;
+	vScale = { 5.f,5.f,5.f };
+	m_pTransCom->Get_WorldMatrix(&matWorld);
+	m_pColliderCom->Set_HitBoxMatrix_With_Scale(&matWorld, vScale);
 
 
 	Add_RenderGroup(RENDER_NONALPHA, this);
@@ -42,6 +56,8 @@ void CMiniTerrain::LateUpdate_Object(void)
 {
 	Engine::CGameObject::LateUpdate_Object();
 }
+
+
 
 void CMiniTerrain::Render_Obejct(void)
 {
@@ -74,6 +90,34 @@ void CMiniTerrain::Render_Obejct(void)
 
 	m_pShaderCom->End_Shader();
 
+	 m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pColliderCom->HitBoxWolrdmat());
+	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	m_pColliderCom->Render_Buffer();
+	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+
+}
+
+void CMiniTerrain::Collision_Event()
+{
+	CScene* pScene = Get_Scene();
+	CLayer* pLayer = pScene->GetLayer(L"Layer_GameLogic");
+	CGameObject* pPlayer = pLayer->Get_GameObject(L"Player");
+	CCollider* pCollider = dynamic_cast<CCollider*>(pPlayer->Get_Component(L"Proto_ColliderCom", ID_STATIC));
+
+	CTransform* pTransfrom = dynamic_cast<CTransform*>(pPlayer->Get_Component(L"Proto_DynamicTransformCom", ID_DYNAMIC));
+	_vec3 vPos;
+	pTransfrom->Get_Info(INFO_POS, &vPos);
+	_vec3 vCenter = { 20.f,1.f,18.f };
+
+	if (m_pColliderCom->Check_Sphere_InterSect(vPos, vCenter,1.f,2.5f))
+	{
+		static_cast<CMiniPlayer*>(pPlayer)->m_fSpeed = 1.1f;
+	}
+	else
+	{
+		static_cast<CMiniPlayer*>(pPlayer)->m_fSpeed = 2.f;
+	}
 	
 
 }
@@ -102,7 +146,7 @@ HRESULT CMiniTerrain::Add_Component(void)
 	NULL_CHECK_RETURN(m_pShaderCom, E_FAIL);
 	m_mapComponent[ID_DYNAMIC].insert({ L"Proto_ShaderTerrain", pComponent });
 
-
+	m_pColliderCom = CAbstractFactory<CCollider>::Clone_Proto_Component(L"Proto_ColliderCom", m_mapComponent, ID_STATIC);
 
 	return S_OK;
 }
@@ -110,9 +154,13 @@ HRESULT CMiniTerrain::Add_Component(void)
 void CMiniTerrain::InitScaleAndPos(_vec3* vScale, _vec3* vPos, _bool bisPaDo)
 {
 	m_pTransCom->Set_Scale(vScale);
-	m_pTransCom->Set_Pos(vPos->x, vPos->y, vPos->z);
+	m_pTransCom->Set_Pos(vPos->x, vPos->y+0.2f, vPos->z);
 
 	m_bPado = bisPaDo;
+
+	m_pColliderCom->Set_vCenter(vPos, vScale);
+	m_pColliderCom->Set_HitRadiuos(2.f);
+
 }
 
 CMiniTerrain * CMiniTerrain::Create(LPDIRECT3DDEVICE9 pGraphicDev)

@@ -379,7 +379,6 @@
     <ClCompile Include="..\Code\FinalBossBullet.cpp">
       <Filter>02. GameObject\01. For_Stage\02. Monster\10. FinalBos</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\StageTerrain.cpp" />
     <ClCompile Include="..\Code\UI_Timer.cpp" />
     <ClCompile Include="..\Code\MiniGame1Pic.cpp">
       <Filter>01. Scene\02. MiniStage\Mini1</Filter>
@@ -452,6 +451,10 @@
     </ClCompile>
     <ClCompile Include="..\Code\MiniGame2Pic.cpp">
       <Filter>01. Scene\02. MiniStage\Mini1</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MonsterHpBar.cpp" />
+    <ClCompile Include="..\Code\StageTerrain.cpp">
+      <Filter>01. Scene\02. MiniStage\Mini3</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -859,7 +862,6 @@
     <ClInclude Include="..\Header\FinalBossBullet.h">
       <Filter>02. GameObject\01. For_Stage\02. Monster\10. FinalBos</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\StageTerrain.h" />
     <ClInclude Include="..\Header\UI_Timer.h" />
     <ClInclude Include="..\Header\MiniGame1Pic.h">
       <Filter>01. Scene\02. MiniStage\Mini1</Filter>
@@ -937,6 +939,10 @@
     </ClInclude>
     <ClInclude Include="..\Header\TeleCube.h">
       <Filter>02. GameObject\02. For_public\05. TeleCube</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\MonsterHpBar.h" />
+    <ClInclude Include="..\Header\StageTerrain.h">
+      <Filter>01. Scene\02. MiniStage\Mini3</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

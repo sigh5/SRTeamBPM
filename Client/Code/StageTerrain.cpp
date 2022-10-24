@@ -116,6 +116,8 @@ void CStageTerrain::Render_Obejct(void)
 	m_pShaderCom->End_Shader();
 }
 
+
+
 HRESULT CStageTerrain::Add_Component(void)
 {
 	CComponent* pComponent = nullptr;
@@ -171,6 +173,7 @@ void CStageTerrain::Create_Once()
 
 	vPos = m_pBufferCom->Get_Center() * 0.3f;
 	pField = CMagneticField::Create(m_pGraphicDev, vPos);
+	pField->m_iOption = 1;
 	pLayer->Add_ControlRoomList(pField);
 
 	vPos.x = m_pBufferCom->Get_Center().x * 0.3f;

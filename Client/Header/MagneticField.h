@@ -30,7 +30,7 @@ public:
 public:
 	void				Init_Setting(_vec3 vPos);
 
-
+	_int				m_iOption = 0;
 public:
 	void				Set_Active(_bool bActive) { m_bSetActive = bActive; }
 	const _bool&		Get_Active() { return m_bSetActive; }

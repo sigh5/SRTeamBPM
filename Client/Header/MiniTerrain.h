@@ -9,6 +9,7 @@ namespace Engine
 	class CShader;
 	class CCalculator;
 	class CTerrainMoveTex;
+	class CCollider;
 }
 
 
@@ -23,7 +24,7 @@ public:
 	virtual _int	Update_Object(const _float& fTimeDelta) override;
 	virtual void	LateUpdate_Object(void) override;
 	virtual void	Render_Obejct(void) override;
-
+	virtual void		Collision_Event() override;
 private:
 	HRESULT				Add_Component(void);
 
@@ -39,7 +40,7 @@ private:
 	CTexture*				m_pTextureCom = nullptr;
 	CCalculator*			m_pCalculatorCom = nullptr;
 	CShader*				m_pShaderCom = nullptr;
-
+	CCollider*				m_pColliderCom = nullptr;
 
 	_bool				m_pCreateControlSphere = false;
 	_bool				m_bWireFrame = false;
