@@ -27,7 +27,7 @@ HRESULT CFireTrap::Ready_Object(float Posx, float Posy)
 	
 	m_pDynamicTransCom->Set_Pos(Posx, 0.001f, Posy);
 	Save_OriginPos();
-	m_pInfoCom->Ready_CharacterInfo(2, 5, 0.f);
+	m_pInfoCom->Ready_CharacterInfo(10, 5, 0.f);
 	m_iPreHp = (m_pInfoCom->Get_InfoRef()._iHp);
 	m_fAttackDelay = 3.f;
 	m_pAnimationCom->Ready_Animation(2, 0, 5.f);

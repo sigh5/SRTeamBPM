@@ -40,7 +40,7 @@ HRESULT CSoldier::Ready_Object(float Posx, float Posz)
 
 	m_iMonsterIndex = MONSTER_SOLDIER;
 	m_fAttackDelay = 1.5f;
-	m_pInfoCom->Ready_CharacterInfo(1, 10, 4.f);
+	m_pInfoCom->Ready_CharacterInfo(50, 10, 4.f);
 	m_pAnimationCom->Ready_Animation(6, 1, 0.3f);
 	m_pAttackAnimationCom->Ready_Animation(11, 0, 0.2f);
 	m_pDeadAnimationCom->Ready_Animation(12, 0, 0.2f);
