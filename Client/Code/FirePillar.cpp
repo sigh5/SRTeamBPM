@@ -4,6 +4,7 @@
 #include "AbstractFactory.h"
 #include "Export_Function.h"
 #include "MyCamera.h"
+#include "Player.h"
 
 CFirePillar::CFirePillar(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -29,6 +30,7 @@ HRESULT CFirePillar::Ready_Object(float Posx, float Posy, float Posz)
 	m_pReadyAnimationCom->Ready_Animation(2, 0, 1.f);
 	m_pAnimationCom->m_iMotion = rand() % 9;
 	m_fLifetime = 3.f;
+	m_bHitPlayer = false;
 
 	m_pTransform->Update_Component(1.f);
 
@@ -41,7 +43,7 @@ _int CFirePillar::Update_Object(const _float & fTimeDelta)
 	if (m_fLifetime < m_fLifetimeCount)
 	{
 		m_bDead = true;
-		::StopSound(SOUND_EFFECT);
+		::StopSound(SOUND_TRAP);
 		return 1;
 	}
 	switch (m_iState)
@@ -57,8 +59,8 @@ _int CFirePillar::Update_Object(const _float & fTimeDelta)
 	{
 		if (false == m_bReadySound)
 		{
-			::StopSound(SOUND_EFFECT);
-			::PlaySoundW(L"Flamethrower_shoot.wav", SOUND_EFFECT, 0.4f);
+			::StopSound(SOUND_TRAP);
+			::PlaySoundW(L"Flamethrower_shoot.wav", SOUND_TRAP, 0.4f);
 			m_bReadySound = true;
 		}
 	}
@@ -71,8 +73,8 @@ _int CFirePillar::Update_Object(const _float & fTimeDelta)
 	{
 		if (false == m_bFlameSound)
 		{
-			::StopSound(SOUND_EFFECT);
-			::PlaySoundW(L"Flamethrowerloop.wav", SOUND_EFFECT, 0.4f);
+			::StopSound(SOUND_TRAP);
+			::PlaySoundW(L"Flamethrowerloop.wav", SOUND_TRAP, 0.4f);
 			m_bFlameSound = true;
 		}
 	}
@@ -80,12 +82,14 @@ _int CFirePillar::Update_Object(const _float & fTimeDelta)
 	CTransform*		pPlayerTransformCom = dynamic_cast<CTransform*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_DynamicTransformCom", ID_DYNAMIC));
 	CCharacterInfo* pPlayerInfo = static_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
 	_vec3 vPlayerPos = pPlayerTransformCom->m_vInfo[INFO_POS];
+	CPlayer* pPlayer = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
 
 	float fDistance = sqrtf((powf(vThunderPos.x - vPlayerPos.x, 2) + powf(vThunderPos.y - vPlayerPos.y, 2) + powf(vThunderPos.z - vPlayerPos.z, 2)));
 
-	if (1 == m_iState &&fDistance < 1.5f && false == m_bHitPlayer)
+	if (1 == m_iState && fDistance < 1.8f && false == m_bHitPlayer)
 	{
 		pPlayerInfo->Receive_Damage(10);
+		pPlayer->Set_DefenseToHp(true);
 		m_bHitPlayer = true;
 	}
 
