@@ -14,6 +14,7 @@
 #include "FinalBossBullet.h"
 #include "Flare.h"
 #include "MonsterHpBar.h"
+#include "Stage.h"
 
 CFinalBoss::CFinalBoss(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -143,6 +144,13 @@ _int CFinalBoss::Update_Object(const _float & fTimeDelta)
 	AttackJudge(fTimeDelta);
 
 	BattleLoop(fTimeDelta);
+
+	CScene* pScene = ::Get_Scene();
+	NULL_CHECK_RETURN(pScene, RETURN_ERR);
+
+	if (Get_Distance() < 70.f)
+		static_cast<CStage*>(pScene)->Set_FinalBGM(true);
+
 
 	m_pDynamicTransCom->Update_Component(1.f);
 	Engine::CMonsterBase::Update_Object(fTimeDelta);
@@ -726,7 +734,7 @@ void CFinalBoss::AttackPettern4(const _float & fTimeDelta)
 				_vec3 ShakerPos;
 				m_pDynamicTransCom->Get_Info(INFO_POS, &ShakerPos);
 				_vec3 vTempDir = _vec3(0.f, 0.f, 0.f);
-				vTempDir = i * (m_vMonsteFront * m_fFront + m_vMonsterRight * m_fRight + m_vMonsterback * m_fBack + m_vMonsterLeft * m_fLeft);
+				vTempDir = (_float)i * (m_vMonsteFront * m_fFront + m_vMonsterRight * m_fRight + m_vMonsterback * m_fBack + m_vMonsterLeft * m_fLeft);
 
 
 				pTentacle = CThingySpike::Create(m_pGraphicDev, m_fWaitingTime * i, ShakerPos.x + vTempDir.z, ShakerPos.z + vTempDir.x);

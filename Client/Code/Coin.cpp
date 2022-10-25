@@ -121,7 +121,7 @@ void CCoin::Collision_Event()
 
 	if (!m_bAddCoin && m_pColliderCom->Check_Collision(this, pGameObject , 1, 1))
 	{
-		Engine::PlaySoundW(L"Get_DropItem.mp3", SOUND_EFFECT, 1.f);
+		Engine::PlaySoundW(L"Get_DropItem.mp3", SOUND_DROP, 1.f);
 		m_bAddCoin = true;	
 		CCharacterInfo *pCharInfo = dynamic_cast<CCharacterInfo*>(pGameObject->Get_Component(L"Proto_CharacterInfoCom", ID_STATIC));
 		pCharInfo->Add_Coin();

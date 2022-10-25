@@ -48,7 +48,7 @@ _int CMonsterHpBar::Update_Object(const _float & fTimeDelta)
 {
 	if (0 < m_pMasterInfoCom->Get_Hp())
 	{
-		m_iHpBarState = m_pMasterInfoCom->Get_Hp() / (m_iMaxHp * 0.1f);
+		m_iHpBarState =(_int)(m_pMasterInfoCom->Get_Hp() / (m_iMaxHp * 0.1f));
 	}
 	else
 	{

@@ -90,11 +90,11 @@ void CMiniTerrain::Render_Obejct(void)
 
 	m_pShaderCom->End_Shader();
 
-	 m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pColliderCom->HitBoxWolrdmat());
+	/* m_pGraphicDev->SetTransform(D3DTS_WORLD, &m_pColliderCom->HitBoxWolrdmat());
 	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	m_pColliderCom->Render_Buffer();
 	m_pGraphicDev->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
-	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	m_pGraphicDev->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);*/
 
 }
 
@@ -108,9 +108,9 @@ void CMiniTerrain::Collision_Event()
 	CTransform* pTransfrom = dynamic_cast<CTransform*>(pPlayer->Get_Component(L"Proto_DynamicTransformCom", ID_DYNAMIC));
 	_vec3 vPos;
 	pTransfrom->Get_Info(INFO_POS, &vPos);
-	_vec3 vCenter = { 20.f,1.f,18.f };
+	_vec3 vCenter = { 19.f,1.f,20.15f };
 
-	if (m_pColliderCom->Check_Sphere_InterSect(vPos, vCenter,1.f,2.5f))
+	if (m_pColliderCom->Check_Sphere_InterSect(vPos, vCenter,1.f,3.f))
 	{
 		static_cast<CMiniPlayer*>(pPlayer)->m_fSpeed = 1.1f;
 	}

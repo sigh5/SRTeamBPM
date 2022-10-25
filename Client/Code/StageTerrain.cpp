@@ -5,7 +5,9 @@
 #include "MiniTerrain.h"
 
 #include "MagneticField.h"
-
+#include "MsgUI.h"
+#include "MiniPlayer.h"
+#include "UI_Timer.h"
 CStageTerrain::CStageTerrain(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
 {
@@ -74,6 +76,80 @@ _int CStageTerrain::Update_Object(const _float & fTimeDelta)
 
 	}
 
+	CScene*pScene = ::Get_Scene();
+	CLayer* pLayer = pScene->GetLayer(L"Layer_GameLogic");
+	CMiniPlayer* pPlayer = static_cast<CMiniPlayer*>(pLayer->Get_GameObject(L"Player"));
+
+	pLayer = pScene->GetLayer(L"Layer_UI");
+	CUI_Timer* pTimer = static_cast<CUI_Timer*>(pLayer->Get_GameObject(L"Timer"));
+	//MSG_BOX("8bit");
+	if (!m_bPlayerGetSkillCheck[0] && pPlayer->Get_MonsterKillCount() >= 50)
+	{
+		Engine::PlaySoundW(L"Currect_Mark.wav", SOUND_EFFECT, 1.f);
+		CMsgUI *pMsgBox = dynamic_cast<CMsgUI*>(pLayer->Get_GameObject(L"MsgUI3"));
+		if (pMsgBox != nullptr)
+		{
+
+			pMsgBox->Set_Active(true);
+			pMsgBox->Set_MsgFrame(WINCX / 2.f, WINCY / 2.f, 600.f, 500.f);
+			pMsgBox->Set_FontMsg(L"50킬!!\n대쉬 해제", WINCX / 2.f - 75.f, WINCY / 2.f - 15.f);
+		}
+		m_bPlayerGetSkillCheck[0] = true;
+	}
+	else 	if (!m_bPlayerGetSkillCheck[1] && pPlayer->Get_MonsterKillCount() >=100)
+	{
+		Engine::PlaySoundW(L"Currect_Mark.wav", SOUND_EFFECT, 1.f);
+		CMsgUI *pMsgBox = dynamic_cast<CMsgUI*>(pLayer->Get_GameObject(L"MsgUI3"));
+		if (pMsgBox != nullptr)
+		{
+
+			pMsgBox->Set_Active(true);
+			pMsgBox->Set_MsgFrame(WINCX / 2.f, WINCY / 2.f, 600.f, 500.f);
+			pMsgBox->Set_FontMsg(L"100킬!!\n총알 생성시간감소", WINCX / 2.f - 100.f, WINCY / 2.f - 15.f);
+		}
+		m_bPlayerGetSkillCheck[1] = true;
+	}
+
+	else 	if (!m_bPlayerGetSkillCheck[2] && pPlayer->Get_MonsterKillCount() >= 75)
+	{
+		Engine::PlaySoundW(L"Currect_Mark.wav", SOUND_EFFECT, 1.f);
+		CMsgUI *pMsgBox = dynamic_cast<CMsgUI*>(pLayer->Get_GameObject(L"MsgUI3"));
+		if (pMsgBox != nullptr)
+		{
+
+			pMsgBox->Set_Active(true);
+			pMsgBox->Set_MsgFrame(WINCX / 2.f, WINCY / 2.f, 600.f, 500.f);
+			pMsgBox->Set_FontMsg(L"75킬!!\n버기탄 사용", WINCX / 2.f - 75.f, WINCY / 2.f -15.f );
+		}
+		m_bPlayerGetSkillCheck[2] = true;
+	}
+	else 	if (!m_bPlayerGetSkillCheck[3] && pTimer->Get_Time() >=60.f)
+	{
+		Engine::PlaySoundW(L"Currect_Mark.wav", SOUND_EFFECT, 1.f);
+		CMsgUI *pMsgBox = dynamic_cast<CMsgUI*>(pLayer->Get_GameObject(L"MsgUI3"));
+		if (pMsgBox != nullptr)
+		{
+
+			pMsgBox->Set_Active(true);
+			pMsgBox->Set_MsgFrame(WINCX / 2.f, WINCY / 2.f, 600.f, 500.f);
+			pMsgBox->Set_FontMsg(L"김포 라이더\n배인희", WINCX / 2.f - 75.f, WINCY / 2.f-10.f );
+		}
+		m_bPlayerGetSkillCheck[3] = true;
+	}
+
+	else 	if (!m_bPlayerGetSkillCheck[4] && pTimer->Get_Time() >= 90.f)
+	{
+		Engine::PlaySoundW(L"Currect_Mark.wav", SOUND_EFFECT, 1.f);
+		CMsgUI *pMsgBox = dynamic_cast<CMsgUI*>(pLayer->Get_GameObject(L"MsgUI3"));
+		if (pMsgBox != nullptr)
+		{
+
+			pMsgBox->Set_Active(true);
+			pMsgBox->Set_MsgFrame(WINCX / 2.f, WINCY / 2.f, 600.f, 500.f);
+			pMsgBox->Set_FontMsg(L"파주 맛돌이\n박종욱", WINCX / 2.f - 75.f, WINCY / 2.f-10.f );
+		}
+		m_bPlayerGetSkillCheck[4] = true;
+	}
 
 
 	Engine::CGameObject::Update_Object(fTimeDelta);

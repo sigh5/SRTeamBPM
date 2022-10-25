@@ -185,9 +185,9 @@ void CTapeWorm::Collision_Event()
 			if (false == m_bDead)
 			{
 				_int Hitsound = rand() % 3;
-				switch (Hitsound)
-				{
-			/*	case 0:
+				//switch (Hitsound)
+				/*	{
+				case 0:
 					::StopSound(SOUND_MONSTER);
 					::PlaySoundW(L"Soldier_Pain_01.wav", SOUND_MONSTER, g_fSound);
 					break;
@@ -200,8 +200,8 @@ void CTapeWorm::Collision_Event()
 				case 2:
 					::StopSound(SOUND_MONSTER);
 					::PlaySoundW(L"Soldier_Pain_03.wav", SOUND_MONSTER, g_fSound);
-					break;*/
-				}
+					break;
+				}*/
 			}
 		}
 	}

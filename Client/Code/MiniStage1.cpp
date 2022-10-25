@@ -12,6 +12,7 @@
 #include "ShopUI.h"
 #include "WrongPicFind.h"
 #include "MiniGame1Pic.h"
+#include "MsgUI.h"
 
 
 
@@ -34,12 +35,13 @@ HRESULT CMiniStage1::Ready_Scene(void)
 	FAILED_CHECK_RETURN(Ready_Proto(), E_FAIL);
 
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(L"Ready_Layer_Environment"), E_FAIL);
-
+	FAILED_CHECK_RETURN(Ready_Layer_UI(L"Ready_Layer_UI"), E_FAIL);
 	Engine::PlaySoundW(L"Wrong_Image_Find_Game.mp3", SOUND_BGM, g_fSound);
 
 	return S_OK;
 
 }
+
 
 _int CMiniStage1::Update_Scene(const _float & fTimeDelta)
 {
@@ -96,6 +98,23 @@ HRESULT CMiniStage1::Ready_Layer_Environment(const _tchar * pLayerTag)
 
 	return S_OK;
 }
+
+HRESULT CMiniStage1::Ready_Layer_UI(const _tchar* pLayerTag)
+{
+	Engine::CLayer*		pMyLayer = Engine::CLayer::Create();
+	NULL_CHECK_RETURN(pMyLayer, E_FAIL);
+
+
+	CGameObject*		pGameObject = nullptr;
+
+	READY_LAYER(pGameObject, CMsgUI, pMyLayer, m_pGraphicDev, L"MsgUI2");
+
+	m_mapLayer.insert({ pLayerTag, pMyLayer });
+
+	return S_OK;
+}
+
+
 
 HRESULT CMiniStage1::Ready_Proto(void)
 {

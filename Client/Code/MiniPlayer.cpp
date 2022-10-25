@@ -71,6 +71,11 @@ _int CMiniPlayer::Update_Object(const _float & fTimeDelta)
 			m_fDashTimer = 0.f;
 
 		}
+		
+	}
+
+	if (m_iKillMonster > 75)
+	{
 		if (m_fPiercingBulletTime > 10.f)
 		{
 			m_iPiercingBulletNum++;

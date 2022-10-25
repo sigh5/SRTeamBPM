@@ -29,8 +29,6 @@ public:
 
 	_vec3		PickingOnTerrain(HWND hWnd, const CTerrainTex* pTerrainBufferCom, const CTransform* pTerrainTransformCom);
 
-
-	
 	//Cal cubePositon
 	_vec3		PickingOnTerrainCube(HWND hWnd, const CTerrainTex* pTerrainBufferCom, const CTransform* pTerrainTransformCom);
 	// Cal CubeRayHit
@@ -38,14 +36,11 @@ public:
 
 	_bool	PickingOnTransform(HWND hWnd, const CCubeNormalTex* pCubeTexBufferCom, const CTransform* pCubeTransCom);
 
-
 	_bool	PickingOnTransform_Monster(HWND hWnd, const CRcTex* pMonsterTexBuffer, const CTransform* pMonsterTransCom);
 	
 	_bool	PickingTerrainObject(HWND hWnd, const CTerrainTex* pTerrainBufferCom, const CTransform* pTerrainTransformCom);
 
-
 	_bool	PickingOnTransform_RcTex(HWND hWnd, const CRcTex* pRcTexCom, const CTransform* pTransform);
-
 
 	_bool	Picking_OrthoUI(HWND hWnd, const CRcTex* pRcTexCom, const CTransform* pUITransform);
 
