@@ -25,7 +25,7 @@ HRESULT CMetronomeRect::Ready_Object(_int iTexIndex)
  
 
 
-	m_pOrthoTransCom->Set_Pos(0.f, 0.f, 0.f);
+	m_pOrthoTransCom->Set_Pos(0.f, 0.f, 0.07f);
 
 	m_iTexIndex = iTexIndex;
 	return S_OK;

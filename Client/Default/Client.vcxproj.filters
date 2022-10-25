@@ -443,20 +443,8 @@
     <ClCompile Include="..\Code\DefBar.cpp">
       <Filter>02. GameObject\01. For_Stage\10. UI\03. HpBar\00. DefBar</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\ThunderPic.cpp">
-      <Filter>02. GameObject\01. For_Stage\10. UI\95. ShopUI\00. ThunderPic</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\HelmetPic.cpp">
-      <Filter>02. GameObject\01. For_Stage\10. UI\95. ShopUI\01. HelmetPic</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\PetPic.cpp">
-      <Filter>02. GameObject\01. For_Stage\10. UI\95. ShopUI\02. PetPic</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\Skill_UI.cpp">
       <Filter>02. GameObject\01. For_Stage\10. UI\16. Skill_UI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\Hit_Screen.cpp">
-      <Filter>02. GameObject\01. For_Stage\10. UI\17. Hit_Screen</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\WrongPicFind.cpp">
       <Filter>01. Scene\02. MiniStage\Mini1</Filter>
@@ -470,6 +458,17 @@
     <ClCompile Include="..\Code\MonsterHpBar.cpp" />
     <ClCompile Include="..\Code\StageTerrain.cpp">
       <Filter>01. Scene\02. MiniStage\Mini3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\HelmetPic.cpp" />
+    <ClCompile Include="..\Code\Hit_Screen.cpp" />
+    <ClCompile Include="..\Code\PetPic.cpp" />
+    <ClCompile Include="..\Code\PiercingBullet.cpp" />
+    <ClCompile Include="..\Code\ThunderPic.cpp" />
+    <ClCompile Include="..\Code\EndingScene.cpp">
+      <Filter>01. Scene\53. EndingScene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\EndingImage.cpp">
+      <Filter>02. GameObject\00. For_Logo\02. EndingImage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -936,20 +935,8 @@
     <ClInclude Include="..\Header\DefBar.h">
       <Filter>02. GameObject\01. For_Stage\10. UI\03. HpBar\00. DefBar</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\ThunderPic.h">
-      <Filter>02. GameObject\01. For_Stage\10. UI\95. ShopUI\00. ThunderPic</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\HelmetPic.h">
-      <Filter>02. GameObject\01. For_Stage\10. UI\95. ShopUI\01. HelmetPic</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\PetPic.h">
-      <Filter>02. GameObject\01. For_Stage\10. UI\95. ShopUI\02. PetPic</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\Skill_UI.h">
       <Filter>02. GameObject\01. For_Stage\10. UI\16. Skill_UI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\Hit_Screen.h">
-      <Filter>02. GameObject\01. For_Stage\10. UI\17. Hit_Screen</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\WrongPicFind.h">
       <Filter>01. Scene\02. MiniStage\Mini1</Filter>
@@ -967,6 +954,17 @@
     <ClInclude Include="..\Header\MonsterHpBar.h" />
     <ClInclude Include="..\Header\StageTerrain.h">
       <Filter>01. Scene\02. MiniStage\Mini3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\HelmetPic.h" />
+    <ClInclude Include="..\Header\Hit_Screen.h" />
+    <ClInclude Include="..\Header\PetPic.h" />
+    <ClInclude Include="..\Header\PiercingBullet.h" />
+    <ClInclude Include="..\Header\ThunderPic.h" />
+    <ClInclude Include="..\Header\EndingScene.h">
+      <Filter>01. Scene\53. EndingScene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\EndingImage.h">
+      <Filter>02. GameObject\00. For_Logo\02. EndingImage</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1337,6 +1335,12 @@
     </Filter>
     <Filter Include="100. Shader">
       <UniqueIdentifier>{89930d61-e590-4919-bbab-6597c9f4a03c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\53. EndingScene">
+      <UniqueIdentifier>{7c25ae93-2531-4866-9577-2823e87f6a05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\00. For_Logo\02. EndingImage">
+      <UniqueIdentifier>{687a5e44-fbf4-4ea7-99b5-c2cd6d8b162a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

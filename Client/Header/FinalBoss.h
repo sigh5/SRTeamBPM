@@ -107,6 +107,8 @@ private:
 	float			m_fFlareTimeCount = 0.f;
 	int				m_iFlareCount = 0;
 
+	_uint			m_iEndingSceneChangeCount = 0;
+
 	//~
 	bool	m_bHpBarCreated = false;
 };
