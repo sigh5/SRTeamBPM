@@ -7,6 +7,7 @@
 #include "Player_Dead_UI.h"
 #include "ShotGun.h"
 #include "ShopUI.h"
+#include "EndingImage.h"
 
 // Work
 
@@ -85,6 +86,7 @@ void CBullet_UI::Render_Obejct(void)
 	CGun_Screen* pGun_Screen = static_cast<CGun_Screen*>(Engine::Get_GameObject(L"Layer_UI", L"Gun"));
 	CShotGun* pShotGun = static_cast<CShotGun*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShotGun"));
 	CShopUI* pShopUI = static_cast<CShopUI*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShopUI"));
+	CEndingImage* pEndingImage = static_cast<CEndingImage*>(Engine::Get_GameObject(L"Layer_UI", L"EndingImage"));
 
 	if (pDead_UI->Get_Render() == false)
 	{
@@ -125,8 +127,12 @@ void CBullet_UI::Render_Obejct(void)
 		m_szMagazine = L"";
 		m_szMagazine += tMagazine;
 
-		if(pShopUI->Get_Active() == false)
-		Render_Font(L"HoengseongHanu", m_szMagazine.c_str(), &_vec2(1112.f, 810.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+		if (pShopUI->Get_Active() == false)
+		{
+			if (pEndingImage->Get_Render() == false)
+				Render_Font(L"HoengseongHanu", m_szMagazine.c_str(), &_vec2(1112.f, 810.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+			
+		}
 		
 		_uint  iComboCount = dynamic_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"))->Get_ComboCount();
 		if (iComboCount != 0)
@@ -135,8 +141,13 @@ void CBullet_UI::Render_Obejct(void)
 			swprintf_s(tCobmoCount, L"%d", iComboCount);
 			m_szComboCount = L"";
 			m_szComboCount += tCobmoCount;
-			Render_Font(L"BMYEONSUNG", L"COMBO", &_vec2(1080.f, 50.f), D3DXCOLOR(1.f, 255.f, 1.f, 1.f));
-			Render_Font(L"LeeSoonSin", m_szComboCount.c_str(), &_vec2(1120.f, 90.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+
+			if (pEndingImage->Get_Render() == false)
+			{
+				Render_Font(L"BMYEONSUNG", L"COMBO", &_vec2(1080.f, 50.f), D3DXCOLOR(1.f, 255.f, 1.f, 1.f));
+
+				Render_Font(L"LeeSoonSin", m_szComboCount.c_str(), &_vec2(1120.f, 90.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+			}
 
 
 		}

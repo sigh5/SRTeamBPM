@@ -7,6 +7,7 @@
 #include "Player_Dead_UI.h"
 #include "CharacterInfo.h"
 #include "ShopUI.h"
+#include "EndingImage.h"
 
 USING(Engine)
 
@@ -51,7 +52,7 @@ HRESULT CHpBar::Ready_Object(CGameObject * pPlayer)
 _int CHpBar::Update_Object(const _float & fTimeDelta)
 {
 	CPlayer* pPlayer = static_cast<CPlayer*>(Engine::Get_GameObject(L"Layer_GameLogic", L"Player"));
-	
+		
 	m_iPlayerHp = (pPlayer->Get_HpChange()) / 20;
 				// 24/25 = 0.96 // 0/25 = 0
 
@@ -85,6 +86,7 @@ void CHpBar::Render_Obejct(void)
 	CPlayer_Dead_UI* pDead_UI = static_cast<CPlayer_Dead_UI*>(Engine::Get_GameObject(L"Layer_UI", L"Dead_UI"));
 	CShopUI* pShopUI = static_cast<CShopUI*>(Engine::Get_GameObject(L"Layer_GameLogic", L"ShopUI"));
 	CCharacterInfo* pInfo = dynamic_cast<CCharacterInfo*>(Engine::Get_Component(L"Layer_GameLogic", L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
+	CEndingImage* pEndingImage = static_cast<CEndingImage*>(Engine::Get_GameObject(L"Layer_UI", L"EndingImage"));
 
 	if (pDead_UI->Get_Render() == false)
 	{
@@ -129,7 +131,13 @@ void CHpBar::Render_Obejct(void)
 		m_szPlayerHp += tPlayerHp;
 
 		if (pShopUI->Get_Active() == false)
-		Render_Font(L"DalseoHealingBold", m_szPlayerHp.c_str(), &_vec2(190.f, 950.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+		{
+			if (pEndingImage->Get_Render() == false)
+			{
+				Render_Font(L"DalseoHealingBold", m_szPlayerHp.c_str(), &_vec2(190.f, 950.f), D3DXCOLOR(1.f, 1.f, 1.f, 1.f));
+
+			}
+		}
 		
 		if (pInfo->Get_InfoRef()._iHp > 200)
 			m_pTextureCom->Set_Texture(0);

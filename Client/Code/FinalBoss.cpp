@@ -15,6 +15,7 @@
 #include "Flare.h"
 #include "MonsterHpBar.h"
 #include "Stage.h"
+#include "EndingImage.h"
 
 CFinalBoss::CFinalBoss(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
@@ -150,6 +151,45 @@ _int CFinalBoss::Update_Object(const _float & fTimeDelta)
 
 	if (Get_Distance() < 70.f)
 		static_cast<CStage*>(pScene)->Set_FinalBGM(true);
+
+
+	//if (m_pDeadAnimationCom->m_iMaxMotion == m_pDeadAnimationCom->m_iMotion)
+	//{
+	//	++m_iEndingSceneChangeCount;
+
+	//	if (m_iEndingSceneChangeCount > 400)
+	//	{
+	//		Engine::StopSound(SOUND_EFFECT);
+	//		Engine::StopSound(SOUND_EFFECT2);
+	//		Engine::StopSound(SOUND_OBJECT);
+	//		Engine::StopSound(SOUND_BGM);
+	//		Engine::StopSound(SOUND_PLAYER);
+	//		Engine::StopSound(SOUND_MONSTER);
+	//		Engine::StopSound(SOUND_MONSTER2);
+	//		Engine::StopSound(SOUND_MONSTER3);
+	//		Engine::StopSound(SOUND_EXPLOSION);
+	//		Engine::StopSound(SOUND_CRUSHROCK);
+	//		Engine::StopSound(SOUND_CRUSHROCK2);
+	//		Engine::StopSound(SOUND_CRUSHROCK3);
+	//		Engine::StopSound(SOUND_GUNFIRE);
+	//		Engine::StopSound(SOUND_GUNREROAD);
+	//		Engine::StopSound(SOUND_WALK);
+	//		Engine::StopSound(SOUND_DASH);
+	//		Engine::StopSound(SOUND_EQUIP);
+	//		Engine::StopSound(SOUND_DROP);
+	//		Engine::StopSound(SOUND_SEMIBOSS);
+	//		Engine::StopSound(SOUND_BOSS);
+	//		Engine::StopSound(SOUND_SHOP);
+	//		Engine::StopSound(SOUND_TRAP);
+
+	//		CScene*		pScene = CEndingScene::Create(m_pGraphicDev);
+	//		NULL_CHECK_RETURN(pScene, E_FAIL);
+
+	//		FAILED_CHECK_RETURN(Engine::Set_Scene(pScene), E_FAIL);
+	//		// ¡Ý
+	//		return 0;
+	//	}
+	//}
 
 
 	m_pDynamicTransCom->Update_Component(1.f);
@@ -336,6 +376,8 @@ bool CFinalBoss::Dead_Judge(const _float & fTimeDelta)
 
 		if (m_pDeadAnimationCom->m_iMaxMotion == m_pDeadAnimationCom->m_iMotion)
 		{
+			++m_iEndingSceneChangeCount;
+
 			m_fFlareTimeCount -= fTimeDelta;
 			if (m_fFlareTimeCount < 0 && m_iFlareCount < 4)
 			{
@@ -380,7 +422,38 @@ bool CFinalBoss::Dead_Judge(const _float & fTimeDelta)
 				}
 
 			}
+		}			
+
+		if (m_iEndingSceneChangeCount > 500)
+		{
+			Engine::StopSound(SOUND_EFFECT);
+			Engine::StopSound(SOUND_EFFECT2);
+			Engine::StopSound(SOUND_OBJECT);
+			Engine::StopSound(SOUND_BGM);
+			Engine::StopSound(SOUND_PLAYER);
+			Engine::StopSound(SOUND_MONSTER);
+			Engine::StopSound(SOUND_MONSTER2);
+			Engine::StopSound(SOUND_MONSTER3);
+			Engine::StopSound(SOUND_EXPLOSION);
+			Engine::StopSound(SOUND_CRUSHROCK);
+			Engine::StopSound(SOUND_CRUSHROCK2);
+			Engine::StopSound(SOUND_CRUSHROCK3);
+			Engine::StopSound(SOUND_GUNFIRE);
+			Engine::StopSound(SOUND_GUNREROAD);
+			Engine::StopSound(SOUND_WALK);
+			Engine::StopSound(SOUND_DASH);
+			Engine::StopSound(SOUND_EQUIP);
+			Engine::StopSound(SOUND_DROP);
+			Engine::StopSound(SOUND_SEMIBOSS);
+			Engine::StopSound(SOUND_BOSS);
+			Engine::StopSound(SOUND_SHOP);
+			Engine::StopSound(SOUND_TRAP);
+
+
+			CEndingImage* pEndingImage = static_cast<CEndingImage*>(Engine::Get_GameObject(L"Layer_UI", L"EndingImage"));
+			pEndingImage->Set_Render(true);
 		}
+
 		Engine::CMonsterBase::Update_Object(fTimeDelta);
 		Add_RenderGroup(RENDER_ALPHA, this);
 		return true;

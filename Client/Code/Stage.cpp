@@ -360,10 +360,15 @@ HRESULT CStage::Ready_Layer_UI(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"HitScreen", pGameObject), E_FAIL);
 
+	pGameObject = CEndingImage::Create(m_pGraphicDev);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"EndingImage", pGameObject), E_FAIL);
+
 	m_mapLayer.insert({ pLayerTag, pLayer });
 
 	READY_LAYER(pGameObject, CThunderHand, pLayer, m_pGraphicDev, L"SkillHand");
 
+	
 
 	return S_OK;
 }

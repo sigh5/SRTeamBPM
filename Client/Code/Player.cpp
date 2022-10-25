@@ -477,7 +477,7 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 	if (Engine::Key_Down(DIK_N))
 	{
 		// Test -> Shop 추후수정
-		m_pDynamicTransCom->Set_Pos(340.f, 2.f, 325.f);
+		m_pDynamicTransCom->Set_Pos(520.f, 2.f, 520.f);
 	}
 
 	Engine::Key_InputReset();

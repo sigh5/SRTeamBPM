@@ -197,6 +197,8 @@
     <ClInclude Include="..\Header\EarthShaker.h" />
     <ClInclude Include="..\Header\EarthSpike.h" />
     <ClInclude Include="..\Header\Effect.h" />
+    <ClInclude Include="..\Header\EndingImage.h" />
+    <ClInclude Include="..\Header\EndingScene.h" />
     <ClInclude Include="..\Header\EquipYeti.h" />
     <ClInclude Include="..\Header\Exit_Button.h" />
     <ClInclude Include="..\Header\FatBat.h" />
@@ -354,6 +356,8 @@
     <ClCompile Include="..\Code\EarthShaker.cpp" />
     <ClCompile Include="..\Code\EarthSpike.cpp" />
     <ClCompile Include="..\Code\Effect.cpp" />
+    <ClCompile Include="..\Code\EndingImage.cpp" />
+    <ClCompile Include="..\Code\EndingScene.cpp" />
     <ClCompile Include="..\Code\EquipYeti.cpp" />
     <ClCompile Include="..\Code\Exit_Button.cpp" />
     <ClCompile Include="..\Code\FatBat.cpp" />
