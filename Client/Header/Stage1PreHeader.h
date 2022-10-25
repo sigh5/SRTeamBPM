@@ -67,4 +67,5 @@
 #include "HelmetPic.h"
 #include "PetPic.h"
 #include "MiniGame2Pic.h"
+#include "MsgUI.h"
 #include "EndingImage.h"

@@ -6,7 +6,7 @@
 #include "StaticCamera.h"
 #include "Bullet.h"
 #include "PiercingBullet.h"
-
+#include "SkillNotice.h"
 
 CMiniPlayer::CMiniPlayer(LPDIRECT3DDEVICE9 pGraphicDev)
 	: CGameObject(pGraphicDev)
@@ -40,6 +40,9 @@ HRESULT CMiniPlayer::Ready_Object(void)
 
 _int CMiniPlayer::Update_Object(const _float & fTimeDelta)
 {
+	CScene* pScene = Get_Scene();
+	CLayer*		pLayer = pScene->GetLayer(L"Layer_GameLogic");
+
 	_matrix matWorld;
 	_vec3 vScale;
 	vScale = m_pDynamicTransCom->Get_Scale();
@@ -68,6 +71,11 @@ _int CMiniPlayer::Update_Object(const _float & fTimeDelta)
 			m_fDashTimer = 0.f;
 
 		}
+		
+	}
+
+	if (m_iKillMonster > 75)
+	{
 		if (m_fPiercingBulletTime > 10.f)
 		{
 			m_iPiercingBulletNum++;
@@ -75,6 +83,13 @@ _int CMiniPlayer::Update_Object(const _float & fTimeDelta)
 		}
 		if (false == m_bCanPiercing)
 			m_bCanPiercing = true;
+		if (false == m_bCreatedNotice)
+		{
+			m_bCreatedNotice = true;
+			CGameObject* pNotice = nullptr;
+			pNotice = CSkillNotice::Create(m_pGraphicDev, m_pDynamicTransCom, m_pDynamicTransCom->m_vInfo[INFO_POS].x, m_pDynamicTransCom->m_vInfo[INFO_POS].z);
+			pLayer->Add_EffectList(pNotice);
+		}
 	}
 
 	m_pDynamicTransCom->Set_Y(1.f);
@@ -105,8 +120,7 @@ _int CMiniPlayer::Update_Object(const _float & fTimeDelta)
 		}
 		_vec3 vPos;
 		m_pDynamicTransCom->Get_Info(INFO_POS, &vPos);
-		CScene* pScene = Get_Scene();
-		CLayer*		pLayer = pScene->GetLayer(L"Layer_GameLogic");
+
 		CGameObject*		pGameObject = nullptr;
 
 		pGameObject = CBullet::Create(m_pGraphicDev,vPos);

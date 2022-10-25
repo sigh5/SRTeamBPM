@@ -214,8 +214,7 @@ HRESULT CMiniGame3::Ready_Layer_UI(const _tchar * pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Timer", pGameObject), E_FAIL);
 
-
-
+	READY_LAYER(pGameObject, CMsgUI, pLayer, m_pGraphicDev, L"MsgUI3");
 
 	m_mapLayer.insert({ pLayerTag, pLayer });
 

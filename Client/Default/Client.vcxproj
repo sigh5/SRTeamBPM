@@ -181,7 +181,6 @@
     <ClInclude Include="..\Header\BackGround.h" />
     <ClInclude Include="..\Header\BGMDownBtn.h" />
     <ClInclude Include="..\Header\BGMUpBtn.h" />
-    <ClInclude Include="..\Header\BossStage.h" />
     <ClInclude Include="..\Header\Box.h" />
     <ClInclude Include="..\Header\Bullet.h" />
     <ClInclude Include="..\Header\BulletShell.h" />
@@ -250,6 +249,7 @@
     <ClInclude Include="..\Header\MonsterMini.h" />
     <ClInclude Include="..\Header\MonsterToolObject.h" />
     <ClInclude Include="..\Header\MouseMgr.h" />
+    <ClInclude Include="..\Header\MsgUI.h" />
     <ClInclude Include="..\Header\MyCamera.h" />
     <ClInclude Include="..\Header\Npc.h" />
     <ClInclude Include="..\Header\Obelisk.h" />
@@ -273,6 +273,7 @@
     <ClInclude Include="..\Header\ShopUI.h" />
     <ClInclude Include="..\Header\ShotGun.h" />
     <ClInclude Include="..\Header\SkillEffct.h" />
+    <ClInclude Include="..\Header\SkillNotice.h" />
     <ClInclude Include="..\Header\SkillParticle.h" />
     <ClInclude Include="..\Header\Skill_UI.h" />
     <ClInclude Include="..\Header\SkyBox.h" />
@@ -339,7 +340,6 @@
     <ClCompile Include="..\Code\BackGround.cpp" />
     <ClCompile Include="..\Code\BGMDownBtn.cpp" />
     <ClCompile Include="..\Code\BGMUpBtn.cpp" />
-    <ClCompile Include="..\Code\BossStage.cpp" />
     <ClCompile Include="..\Code\Box.cpp" />
     <ClCompile Include="..\Code\Bullet.cpp" />
     <ClCompile Include="..\Code\BulletShell.cpp" />
@@ -407,6 +407,7 @@
     <ClCompile Include="..\Code\MonsterMini.cpp" />
     <ClCompile Include="..\Code\MonsterToolObject.cpp" />
     <ClCompile Include="..\Code\MouseMgr.cpp" />
+    <ClCompile Include="..\Code\MsgUI.cpp" />
     <ClCompile Include="..\Code\MyCamera.cpp" />
     <ClCompile Include="..\Code\Npc.cpp" />
     <ClCompile Include="..\Code\Obelisk.cpp" />
@@ -430,6 +431,7 @@
     <ClCompile Include="..\Code\ShopUI.cpp" />
     <ClCompile Include="..\Code\ShotGun.cpp" />
     <ClCompile Include="..\Code\SkillEffct.cpp" />
+    <ClCompile Include="..\Code\SkillNotice.cpp" />
     <ClCompile Include="..\Code\SkillParticle.cpp" />
     <ClCompile Include="..\Code\Skill_UI.cpp" />
     <ClCompile Include="..\Code\SkyBox.cpp" />

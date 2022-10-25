@@ -40,7 +40,7 @@ _int CTeleCube::Update_Object(const _float & fTimeDelta)
 	{
 		CScene*pScene = ::Get_Scene();
 		CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
-		NULL_CHECK_RETURN(pLayer, );
+		NULL_CHECK_RETURN(pLayer, RETURN_ERR);
 		CGameObject *pGameObject = nullptr;
 
 		pGameObject = pLayer->Get_GameObject(L"Player");
@@ -51,7 +51,7 @@ _int CTeleCube::Update_Object(const _float & fTimeDelta)
 		pScene->Set_SceneChane(true);
 		::Set_SaveScene(pScene);
 		CScene*		pChangeScene = CChange_Stage::Create(m_pGraphicDev, 79);
-		NULL_CHECK_RETURN(pScene, );
+		NULL_CHECK_RETURN(pScene, RETURN_ERR);
 		::Change_Scene(pScene, pChangeScene);
 		m_iForceSceneReturn = SCENE_CHANGE_RETRURN;
 		

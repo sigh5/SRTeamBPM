@@ -266,12 +266,6 @@
       <Filter>02. GameObject\02. For_public\06. ControlRoom</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\AnubisStormBall.cpp" />
-    <ClCompile Include="..\Code\BulletShell.cpp">
-      <Filter>02. GameObject\01. For_Stage\09. Particle</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\SphinxHole.cpp">
-      <Filter>02. GameObject\01. For_Stage\02. Monster\03. Sphinx</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\Ax.cpp">
       <Filter>02. GameObject\01. For_Stage\13. Gun_Screen\ax</Filter>
     </ClCompile>
@@ -288,7 +282,7 @@
       <Filter>02. GameObject\01. For_Stage\07. Effect\UI_Effect</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\ShopUI.cpp">
-      <Filter>02. GameObject\01. For_Stage\10. UI\95. ShopUI</Filter>
+      <Filter>02. GameObject\01. For_Stage\10. UI\16. ShopUI</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\FireTrap.cpp">
       <Filter>02. GameObject\01. For_Stage\02. Monster\07. FireTrap</Filter>
@@ -315,7 +309,6 @@
     <ClCompile Include="..\Code\QuizBox.cpp">
       <Filter>02. GameObject\01. For_Stage\10. UI\14. QuizBox</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Helmet.cpp" />
     <ClCompile Include="..\Code\BackButton.cpp">
       <Filter>02. GameObject\00. For_Logo\01. Button\03. BackButton</Filter>
     </ClCompile>
@@ -359,20 +352,12 @@
     <ClCompile Include="..\Code\SkillParticle.cpp">
       <Filter>02. GameObject\02. For_public\07. SkillParticle</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Helmet2.cpp" />
-    <ClCompile Include="..\Code\WrongPicFind.cpp" />
     <ClCompile Include="..\Code\Tentacle.cpp">
       <Filter>02. GameObject\01. For_Stage\02. Monster\10. FinalBos</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\ThingySpike.cpp">
       <Filter>02. GameObject\01. For_Stage\02. Monster\10. FinalBos</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\Click_Particle.cpp" />
-    <ClCompile Include="..\Code\Currect_Answer.cpp" />
-    <ClCompile Include="..\Code\DefBar.cpp" />
-    <ClCompile Include="..\Code\Gacha_Machine.cpp" />
-    <ClCompile Include="..\Code\Skill_UI.cpp" />
-    <ClCompile Include="..\Code\ThunderHand.cpp" />
     <ClCompile Include="..\Code\YetiTalk.cpp">
       <Filter>02. GameObject\01. For_Stage\17. Pet</Filter>
     </ClCompile>
@@ -385,16 +370,9 @@
     <ClCompile Include="..\Code\HarpoonBullet.cpp">
       <Filter>02. GameObject\01. For_Stage\02. Monster\09. HarpoonGuy</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\FireWorks.cpp">
-      <Filter>02. GameObject\01. For_Stage\09. Particle</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\Flare.cpp">
-      <Filter>02. GameObject\01. For_Stage\09. Particle</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\FinalBossBullet.cpp">
       <Filter>02. GameObject\01. For_Stage\02. Monster\10. FinalBos</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\UI_Timer.cpp" />
     <ClCompile Include="..\Code\MiniGame1Pic.cpp">
       <Filter>01. Scene\02. MiniStage\Mini1</Filter>
     </ClCompile>
@@ -406,12 +384,6 @@
     </ClCompile>
     <ClCompile Include="..\Code\MiniStage1.cpp">
       <Filter>01. Scene\02. MiniStage\Mini1</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\MagneticField.cpp">
-      <Filter>01. Scene\02. MiniStage\Mini3</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\MiniTerrain.cpp">
-      <Filter>01. Scene\02. MiniStage\Mini3</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\QuestProcessing_UI.cpp">
       <Filter>02. GameObject\01. For_Stage\10. UI\15. Quest</Filter>
@@ -431,7 +403,6 @@
     <ClCompile Include="..\Code\MiniMonster3.cpp">
       <Filter>01. Scene\02. MiniStage\Mini3\Monster\Monster3</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\BossStage.cpp" />
     <ClCompile Include="..\Code\RealSnowFall.cpp">
       <Filter>02. GameObject\02. For_public\04. SnowFall</Filter>
     </ClCompile>
@@ -440,36 +411,95 @@
     <ClCompile Include="..\Code\Npc.cpp" />
     <ClCompile Include="..\Code\QuestNpc.cpp" />
     <ClCompile Include="..\Code\ThingySpike.cpp" />
-    <ClCompile Include="..\Code\DefBar.cpp">
-      <Filter>02. GameObject\01. For_Stage\10. UI\03. HpBar\00. DefBar</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\Skill_UI.cpp">
-      <Filter>02. GameObject\01. For_Stage\10. UI\16. Skill_UI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\WrongPicFind.cpp">
-      <Filter>01. Scene\02. MiniStage\Mini1</Filter>
-    </ClCompile>
     <ClCompile Include="..\Code\MiniStage1.cpp">
       <Filter>01. Scene\02. MiniStage\Mini1</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\MiniGame2Pic.cpp">
       <Filter>01. Scene\02. MiniStage\Mini1</Filter>
     </ClCompile>
-    <ClCompile Include="..\Code\MonsterHpBar.cpp" />
+    <ClCompile Include="..\Code\Helmet2.cpp">
+      <Filter>02. GameObject\01. For_Stage\14. Equipment\03. Helmet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Helmet.cpp">
+      <Filter>02. GameObject\01. For_Stage\14. Equipment\03. Helmet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\FireWorks.cpp">
+      <Filter>02. GameObject\02. For_public\08. FireWorks</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\DefBar.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\17. DefBar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Skill_UI.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\18. Skill_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\UI_Timer.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\19. UI_Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Hit_Screen.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\20. Hit_Screen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Flare.cpp">
+      <Filter>02. GameObject\02. For_public\08. FireWorks\00. Flare</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\BulletShell.cpp">
+      <Filter>02. GameObject\01. For_Stage\07. Effect\Special_Effect\00. BulletShell</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Click_Particle.cpp">
+      <Filter>02. GameObject\01. For_Stage\09. Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ThunderHand.cpp">
+      <Filter>02. GameObject\01. For_Stage\13. Gun_Screen\Skill_Screen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MonsterHpBar.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\03. HpBar\00. MonsterHpBar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MagneticField.cpp">
+      <Filter>01. Scene\02. MiniStage\Mini3\MagneticField</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MiniTerrain.cpp">
+      <Filter>01. Scene\02. MiniStage\Mini3\MiniTerrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\PiercingBullet.cpp">
+      <Filter>01. Scene\02. MiniStage\Mini3\PiercingBullet</Filter>
+    </ClCompile>
     <ClCompile Include="..\Code\StageTerrain.cpp">
-      <Filter>01. Scene\02. MiniStage\Mini3</Filter>
+      <Filter>01. Scene\02. MiniStage\Mini3\StageTerrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\SphinxHole.cpp">
+      <Filter>02. GameObject\01. For_Stage\02. Monster\03. Sphinx\03. HitEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\PetPic.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\16. ShopUI\00. PickingShop\Pet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\HelmetPic.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\16. ShopUI\00. PickingShop\Helmet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\ThunderPic.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\16. ShopUI\00. PickingShop\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\WrongPicFind.cpp">
+      <Filter>01. Scene\02. MiniStage\Mini1\WrongPicFind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Currect_Answer.cpp">
+      <Filter>01. Scene\02. MiniStage\Mini1\Current_Answer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\Gacha_Machine.cpp">
+      <Filter>02. GameObject\01. For_Stage\12. Gacha_Machine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\DefBar.cpp" />
+    <ClCompile Include="..\Code\Skill_UI.cpp" />
+    <ClCompile Include="..\Code\WrongPicFind.cpp">
+      <Filter>01. Scene\02. MiniStage\Mini1\WrongPicFind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\MsgUI.cpp">
+      <Filter>02. GameObject\01. For_Stage\10. UI\21. MsgUI</Filter>
     </ClCompile>
     <ClCompile Include="..\Code\HelmetPic.cpp" />
     <ClCompile Include="..\Code\Hit_Screen.cpp" />
     <ClCompile Include="..\Code\PetPic.cpp" />
     <ClCompile Include="..\Code\PiercingBullet.cpp" />
     <ClCompile Include="..\Code\ThunderPic.cpp" />
-    <ClCompile Include="..\Code\EndingScene.cpp">
-      <Filter>01. Scene\53. EndingScene</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Code\EndingImage.cpp">
-      <Filter>02. GameObject\00. For_Logo\02. EndingImage</Filter>
-    </ClCompile>
+    <ClCompile Include="..\Code\SkillNotice.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Header\AbstractFactory.h">
@@ -753,12 +783,6 @@
       <Filter>02. GameObject\02. For_public\06. ControlRoom</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\AnubisStormBall.h" />
-    <ClInclude Include="..\Header\BulletShell.h">
-      <Filter>02. GameObject\01. For_Stage\09. Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\SphinxHole.h">
-      <Filter>02. GameObject\01. For_Stage\02. Monster\03. Sphinx</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\Ax.h">
       <Filter>02. GameObject\01. For_Stage\13. Gun_Screen\ax</Filter>
     </ClInclude>
@@ -775,7 +799,7 @@
       <Filter>02. GameObject\01. For_Stage\07. Effect\UI_Effect</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\ShopUI.h">
-      <Filter>02. GameObject\01. For_Stage\10. UI\95. ShopUI</Filter>
+      <Filter>02. GameObject\01. For_Stage\10. UI\16. ShopUI</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\FireTrap.h">
       <Filter>02. GameObject\01. For_Stage\02. Monster\07. FireTrap</Filter>
@@ -805,7 +829,6 @@
     <ClInclude Include="..\Header\QuizBox.h">
       <Filter>02. GameObject\01. For_Stage\10. UI\14. QuizBox</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Helmet.h" />
     <ClInclude Include="..\Header\BackButton.h">
       <Filter>02. GameObject\00. For_Logo\01. Button\03. BackButton</Filter>
     </ClInclude>
@@ -849,21 +872,12 @@
     <ClInclude Include="..\Header\SkillParticle.h">
       <Filter>02. GameObject\02. For_public\07. SkillParticle</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Helmet2.h" />
-    <ClInclude Include="..\Header\WrongPicFind.h" />
     <ClInclude Include="..\Header\Tentacle.h">
       <Filter>02. GameObject\01. For_Stage\02. Monster\10. FinalBos</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\ThingySpike.h">
       <Filter>02. GameObject\01. For_Stage\02. Monster\10. FinalBos</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Click_Particle.h" />
-    <ClInclude Include="..\Header\Currect_Answer.h" />
-    <ClInclude Include="..\Header\DefBar.h" />
-    <ClInclude Include="..\Header\Gacha_Machine.h" />
-    <ClInclude Include="..\Header\MiniStage3PreHeader.h" />
-    <ClInclude Include="..\Header\Skill_UI.h" />
-    <ClInclude Include="..\Header\ThunderHand.h" />
     <ClInclude Include="..\Header\YetiTalk.h">
       <Filter>02. GameObject\01. For_Stage\17. Pet</Filter>
     </ClInclude>
@@ -876,16 +890,9 @@
     <ClInclude Include="..\Header\HarpoonBullet.h">
       <Filter>02. GameObject\01. For_Stage\02. Monster\09. HarpoonGuy</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\Flare.h">
-      <Filter>02. GameObject\01. For_Stage\09. Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\FireWorks.h">
-      <Filter>02. GameObject\01. For_Stage\09. Particle</Filter>
-    </ClInclude>
     <ClInclude Include="..\Header\FinalBossBullet.h">
       <Filter>02. GameObject\01. For_Stage\02. Monster\10. FinalBos</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\UI_Timer.h" />
     <ClInclude Include="..\Header\MiniGame1Pic.h">
       <Filter>01. Scene\02. MiniStage\Mini1</Filter>
     </ClInclude>
@@ -897,12 +904,6 @@
     </ClInclude>
     <ClInclude Include="..\Header\MiniStage1.h">
       <Filter>01. Scene\02. MiniStage\Mini1</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\MagneticField.h">
-      <Filter>01. Scene\02. MiniStage\Mini3</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\MiniTerrain.h">
-      <Filter>01. Scene\02. MiniStage\Mini3</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\QuestProcessing_UI.h">
       <Filter>02. GameObject\01. For_Stage\10. UI\15. Quest</Filter>
@@ -922,7 +923,6 @@
     <ClInclude Include="..\Header\MiniMonster3.h">
       <Filter>01. Scene\02. MiniStage\Mini3\Monster\Monster3</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\BossStage.h" />
     <ClInclude Include="..\Header\RealSnowFall.h">
       <Filter>02. GameObject\02. For_public\04. SnowFall</Filter>
     </ClInclude>
@@ -931,15 +931,6 @@
     <ClInclude Include="..\Header\ThingySpike.h" />
     <ClInclude Include="..\Header\Box.h">
       <Filter>02. GameObject\01. For_Stage\11. Item\02. Box</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\DefBar.h">
-      <Filter>02. GameObject\01. For_Stage\10. UI\03. HpBar\00. DefBar</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\Skill_UI.h">
-      <Filter>02. GameObject\01. For_Stage\10. UI\16. Skill_UI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\WrongPicFind.h">
-      <Filter>01. Scene\02. MiniStage\Mini1</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\MiniStage1.h">
       <Filter>01. Scene\02. MiniStage\Mini1</Filter>
@@ -951,21 +942,92 @@
     <ClInclude Include="..\Header\TeleCube.h">
       <Filter>02. GameObject\02. For_public\05. TeleCube</Filter>
     </ClInclude>
-    <ClInclude Include="..\Header\MonsterHpBar.h" />
+    <ClInclude Include="..\Header\Helmet.h">
+      <Filter>02. GameObject\01. For_Stage\14. Equipment\03. Helmet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Helmet2.h">
+      <Filter>02. GameObject\01. For_Stage\14. Equipment\03. Helmet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\FireWorks.h">
+      <Filter>02. GameObject\02. For_public\08. FireWorks</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\DefBar.h">
+      <Filter>02. GameObject\01. For_Stage\10. UI\17. DefBar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Skill_UI.h">
+      <Filter>02. GameObject\01. For_Stage\10. UI\18. Skill_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\UI_Timer.h">
+      <Filter>02. GameObject\01. For_Stage\10. UI\19. UI_Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Hit_Screen.h">
+      <Filter>02. GameObject\01. For_Stage\10. UI\20. Hit_Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Flare.h">
+      <Filter>02. GameObject\02. For_public\08. FireWorks\00. Flare</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\BulletShell.h">
+      <Filter>02. GameObject\01. For_Stage\07. Effect\Special_Effect\00. BulletShell</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Click_Particle.h">
+      <Filter>02. GameObject\01. For_Stage\09. Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\MiniStage3PreHeader.h">
+      <Filter>99. Default\PreSceneHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\ThunderHand.h">
+      <Filter>02. GameObject\01. For_Stage\13. Gun_Screen\Skill_Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\MonsterHpBar.h">
+      <Filter>02. GameObject\01. For_Stage\10. UI\03. HpBar\00. MonsterHpBar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\MagneticField.h">
+      <Filter>01. Scene\02. MiniStage\Mini3\MagneticField</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\MiniTerrain.h">
+      <Filter>01. Scene\02. MiniStage\Mini3\MiniTerrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\PiercingBullet.h">
+      <Filter>01. Scene\02. MiniStage\Mini3\PiercingBullet</Filter>
+    </ClInclude>
     <ClInclude Include="..\Header\StageTerrain.h">
-      <Filter>01. Scene\02. MiniStage\Mini3</Filter>
+      <Filter>01. Scene\02. MiniStage\Mini3\StageTerrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\SphinxHole.h">
+      <Filter>02. GameObject\01. For_Stage\02. Monster\03. Sphinx\03. HitEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\PetPic.h">
+      <Filter>02. GameObject\01. For_Stage\10. UI\16. ShopUI\00. PickingShop\Pet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\HelmetPic.h">
+      <Filter>02. GameObject\01. For_Stage\10. UI\16. ShopUI\00. PickingShop\Helmet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\ThunderPic.h">
+      <Filter>02. GameObject\01. For_Stage\10. UI\16. ShopUI\00. PickingShop\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\WrongPicFind.h">
+      <Filter>01. Scene\02. MiniStage\Mini1\WrongPicFind</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Currect_Answer.h">
+      <Filter>01. Scene\02. MiniStage\Mini1\Current_Answer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\Gacha_Machine.h">
+      <Filter>02. GameObject\01. For_Stage\12. Gacha_Machine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\DefBar.h" />
+    <ClInclude Include="..\Header\Skill_UI.h" />
+    <ClInclude Include="..\Header\WrongPicFind.h">
+      <Filter>01. Scene\02. MiniStage\Mini1\WrongPicFind</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Header\MsgUI.h">
+      <Filter>02. GameObject\01. For_Stage\10. UI\21. MsgUI</Filter>
     </ClInclude>
     <ClInclude Include="..\Header\HelmetPic.h" />
     <ClInclude Include="..\Header\Hit_Screen.h" />
     <ClInclude Include="..\Header\PetPic.h" />
     <ClInclude Include="..\Header\PiercingBullet.h" />
     <ClInclude Include="..\Header\ThunderPic.h" />
-    <ClInclude Include="..\Header\EndingScene.h">
-      <Filter>01. Scene\53. EndingScene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Header\EndingImage.h">
-      <Filter>02. GameObject\00. For_Logo\02. EndingImage</Filter>
-    </ClInclude>
+    <ClInclude Include="..\Header\SkillNotice.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1024,17 +1086,11 @@
     <Filter Include="02. GameObject\01. For_Stage">
       <UniqueIdentifier>{35e68b47-27c4-4061-9dea-9508b63ef513}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. For_Stage\01. TestPlayer">
-      <UniqueIdentifier>{b06fe9de-49b1-42fd-b9ba-c5aa4b7330f3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\01. For_Stage\03. Terrain">
       <UniqueIdentifier>{d2c3962e-758f-4beb-bc15-1e44a21db582}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\04. SkyBox">
       <UniqueIdentifier>{3118ae25-e5b8-4618-930f-0fbafcc61317}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\01. For_Stage\05. TestCube">
-      <UniqueIdentifier>{763aa063-7a74-4900-b732-03a7dcb77ca2}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\06. Bullet">
       <UniqueIdentifier>{60fc58f9-79ea-4394-8f7f-55ea0bf5d1d4}</UniqueIdentifier>
@@ -1050,9 +1106,6 @@
     </Filter>
     <Filter Include="02. GameObject\01. For_Stage\10. UI\00. MetronomeUI">
       <UniqueIdentifier>{f594112e-a545-4cd0-a034-d8e6d68c1f26}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\01. For_Stage\10. UI\96. TestUI">
-      <UniqueIdentifier>{30a11242-b2c6-4385-94b1-e251f53dd8c9}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. GameObject\02. For_public">
       <UniqueIdentifier>{6fe30055-787d-4b58-9662-32370e2ec84b}</UniqueIdentifier>
@@ -1207,9 +1260,6 @@
     <Filter Include="02. GameObject\01. For_Stage\16. NPC">
       <UniqueIdentifier>{fa29e488-f8f2-422d-a2b6-e8beec8ee713}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\01. For_Stage\10. UI\95. ShopUI">
-      <UniqueIdentifier>{94af1454-ec4c-460d-a294-689d9e4dfec9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\01. For_Stage\07. Effect\UI_Effect">
       <UniqueIdentifier>{42e870e3-f59d-409e-bab6-dbfb859d7528}</UniqueIdentifier>
     </Filter>
@@ -1336,11 +1386,71 @@
     <Filter Include="100. Shader">
       <UniqueIdentifier>{89930d61-e590-4919-bbab-6597c9f4a03c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Scene\53. EndingScene">
-      <UniqueIdentifier>{7c25ae93-2531-4866-9577-2823e87f6a05}</UniqueIdentifier>
+    <Filter Include="02. GameObject\01. For_Stage\14. Equipment\03. Helmet">
+      <UniqueIdentifier>{0004798e-e134-4077-9076-86c0bfa89125}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\00. For_Logo\02. EndingImage">
-      <UniqueIdentifier>{687a5e44-fbf4-4ea7-99b5-c2cd6d8b162a}</UniqueIdentifier>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\16. ShopUI">
+      <UniqueIdentifier>{94af1454-ec4c-460d-a294-689d9e4dfec9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\17. DefBar">
+      <UniqueIdentifier>{1022b9d0-69a3-41d5-9fd0-79ffbd550969}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\18. Skill_UI">
+      <UniqueIdentifier>{87eedc44-c334-41b5-9ffd-de2acfcd167d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\19. UI_Timer">
+      <UniqueIdentifier>{33547936-376e-43f9-a59a-a07e06501cac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\20. Hit_Screen">
+      <UniqueIdentifier>{47abb989-529e-44d8-a066-178ac5b41b51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\02. For_public\08. FireWorks\00. Flare">
+      <UniqueIdentifier>{5beb8742-5bf9-4572-b2fe-b0fe1ea93421}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\07. Effect\Special_Effect\00. BulletShell">
+      <UniqueIdentifier>{4b0c48e3-33a0-4cf9-a146-2c6518902055}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\13. Gun_Screen\Skill_Screen">
+      <UniqueIdentifier>{e4259b0c-111f-4ba2-bb41-27455c508aa1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\03. HpBar\00. MonsterHpBar">
+      <UniqueIdentifier>{3631f68b-018b-40c4-b476-779557e3e437}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\02. MiniStage\Mini3\MagneticField">
+      <UniqueIdentifier>{3f94bd40-d6cd-445b-9ed4-28b5ab28ec0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\02. MiniStage\Mini3\MiniTerrain">
+      <UniqueIdentifier>{87a9b7b5-3d67-4961-9008-f8edcc29b4d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\02. MiniStage\Mini3\PiercingBullet">
+      <UniqueIdentifier>{bf698850-f9b8-404e-897d-be5263949e13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\02. MiniStage\Mini3\StageTerrain">
+      <UniqueIdentifier>{12f0c254-4dec-415b-a6a3-2577bb77ba12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\16. ShopUI\00. PickingShop">
+      <UniqueIdentifier>{7b673022-b21e-4049-a7de-de1237b2c26f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\16. ShopUI\00. PickingShop\Helmet">
+      <UniqueIdentifier>{bdea8f64-02ab-4a2e-a65c-2f0c564e11c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\16. ShopUI\00. PickingShop\Pet">
+      <UniqueIdentifier>{adbab7b5-0a0e-489d-87ab-74838e778d11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\16. ShopUI\00. PickingShop\Skill">
+      <UniqueIdentifier>{30342164-a976-40e9-86e0-35e5f4d62787}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\02. MiniStage\Mini1\WrongPicFind">
+      <UniqueIdentifier>{5026f7e9-2ae4-4f27-b89e-5154677acd3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Scene\02. MiniStage\Mini1\Current_Answer">
+      <UniqueIdentifier>{41eafdd9-fc79-4480-ae34-e9c2ba79179f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\12. Gacha_Machine">
+      <UniqueIdentifier>{6b57513b-fdf0-4832-9267-337fa6a7c0fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\01. For_Stage\10. UI\21. MsgUI">
+      <UniqueIdentifier>{f243f0e8-2d44-480f-b925-ae8595c28c92}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

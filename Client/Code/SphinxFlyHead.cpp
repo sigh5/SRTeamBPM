@@ -139,7 +139,7 @@ _int CSphinxFlyHead::Update_Object(const _float & fTimeDelta)
 	CLayer* pMyLayer = pScene->GetLayer(L"Layer_GameLogic");
 
 	
-	NULL_CHECK_RETURN(pScene, );
+	NULL_CHECK_RETURN(pScene, RETURN_ERR);
 
 	if (Get_Distance() < 70.f)
 		static_cast<CStage*>(pScene)->Set_SphinxHeadBGM(false);
@@ -732,7 +732,7 @@ bool		CSphinxFlyHead::Dead_Judge(const _float& fTimeDelta)
 		Dead_Action(fTimeDelta);
 
 		CScene* pScene = ::Get_Scene();
-		NULL_CHECK_RETURN(pScene, );
+		NULL_CHECK_RETURN(pScene, false);
 
 		static_cast<CStage*>(pScene)->Set_SphinxHeadBGM(true);
 	

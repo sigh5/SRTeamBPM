@@ -99,7 +99,7 @@ _int CSphinx::Update_Object(const _float & fTimeDelta)
 	}
 
 	CScene* pScene = ::Get_Scene();
-	NULL_CHECK_RETURN(pScene, );
+	NULL_CHECK_RETURN(pScene, RETURN_ERR);
 	
 	if(Get_Distance() < 70.f)
 	static_cast<CStage*>(pScene)->Set_SphinxBGM(true);

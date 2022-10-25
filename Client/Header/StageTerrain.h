@@ -53,6 +53,9 @@ private:
 	_int					m_iPreNum = 32;
 
 
+	_bool					m_bPlayerGetSkillCheck[5] = { false, };
+
+
 	CMagneticField*			m_pCurrentField = nullptr;
 
 public:
