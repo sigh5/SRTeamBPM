@@ -73,6 +73,7 @@ private:
 	float				m_fPiercingBulletTime = 0.f;
 	int					m_iPiercingBulletNum = 0.f;
 	bool				m_bCanPiercing = false;
+	bool				m_bCreatedNotice = false;
 public:
 	static CMiniPlayer*		Create(LPDIRECT3DDEVICE9 pGraphicDev);
 	virtual void			Free(void);

@@ -1,64 +1,95 @@
 #include "stdafx.h"
-#include "..\Header\YetiTalk.h"
+#include "..\Header\SkillNotice.h"
 
 #include "Export_Function.h"
 #include "AbstractFactory.h"
 #include "MyCamera.h"
+#include "StaticCamera.h"
 
-
-CYetiTalk::CYetiTalk(LPDIRECT3DDEVICE9 pGraphicDev)
+CSkillNotice::CSkillNotice(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CGameObject(pGraphicDev)
 {
-
 }
 
-CYetiTalk::~CYetiTalk()
+
+CSkillNotice::~CSkillNotice()
 {
 }
 
-HRESULT CYetiTalk::Ready_Object(float Posx, float Posz, CTransform* pMaster)
+HRESULT CSkillNotice::Ready_Object(float Posx, float Posz, CTransform * pMaster)
 {
 	m_pTransform = CAbstractFactory<CTransform>::Clone_Proto_Component(L"Proto_TransformCom", m_mapComponent, ID_STATIC);
 
-	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Yeti_talk_TextureCom", m_mapComponent, ID_STATIC);
+	m_pTextureCom = CAbstractFactory<CTexture>::Clone_Proto_Component(L"Proto_Piercing_Bullet_Texture", m_mapComponent, ID_STATIC);
 
 	m_pBufferCom = CAbstractFactory<CRcTex>::Clone_Proto_Component(L"Proto_RcTexCom", m_mapComponent, ID_STATIC);
 
-	m_pTransform->Set_Pos(Posx, 1.5f , Posz);
+	m_pTransform->Set_Pos(Posx, 1.5f, Posz);
 
 	m_pMasterTransform = pMaster;
 
-	m_bLifetime = 3.f;
+	m_pTransform->Set_Scale(&_vec3(0.5f, 0.5f, 0.5f));
 
-	::StopSound(SOUND_MONSTER3);
-	::PlaySoundW(L"Meow.wav", SOUND_MONSTER3, g_fSound * 1.6f);
+	m_fLifetime = 1.f;
+
 
 	return S_OK;
 }
 
-_int CYetiTalk::Update_Object(const _float & fTimeDelta)
+_int CSkillNotice::Update_Object(const _float & fTimeDelta)
 {
-	m_bLifetime -= fTimeDelta;
+	m_fLifetime -= fTimeDelta;
 
-	if (0 > m_bLifetime)
+
+	if (0 > m_fLifetime)
 	{
-		m_bDead = true;
-		return OBJ_DEAD;
+		if (m_iRenderChange < 4)
+		{
+			switch (m_bRenderOn)
+			{
+			case true:
+				m_bRenderOn = false;
+				break;
+			case false:
+				m_bRenderOn = true;
+				m_bSoundNotice = true;
+				break;
+			}
+			m_iRenderChange++;
+			m_fLifetime = 2.f;
+		}
+		else
+		{
+			m_bDead = true;
+			return OBJ_DEAD;
+		}
 	}
+
+
 	_vec3 vMasterPos;
 	m_pMasterTransform->Get_Info(INFO_POS, &vMasterPos);
 
-	m_pTransform->Set_Pos(vMasterPos.x, m_pMasterTransform->m_vScale.y * 1.2f, vMasterPos.z);
+	m_pTransform->Set_Pos(vMasterPos.x, vMasterPos.y * 1.5f, vMasterPos.z);
 
 	m_pTransform->Update_Component(fTimeDelta);
 	Engine::CGameObject::Update_Object(fTimeDelta);
-	Add_RenderGroup(RENDER_ALPHA, this);
+
+	if (m_bRenderOn)
+	{
+		if (m_bSoundNotice)
+		{
+			::StopSound(SOUND_NOTICE);
+			::PlaySoundW(L"Notice.wav", SOUND_NOTICE, g_fSound * 2.f);
+			m_bSoundNotice = false;
+		}
+		Add_RenderGroup(RENDER_ALPHA, this);
+	}
 	return 0;
 }
 
-void CYetiTalk::LateUpdate_Object(void)
+void CSkillNotice::LateUpdate_Object(void)
 {
-	CMyCamera* pCamera = static_cast<CMyCamera*>(Get_GameObject(L"Layer_Environment", L"CMyCamera"));
+	CStaticCamera* pCamera = static_cast<CStaticCamera*>(Get_GameObject(L"Layer_Environment", L"StaticCamera"));
 	NULL_CHECK(pCamera);
 
 	_matrix		matWorld, matView, matBill;
@@ -96,7 +127,7 @@ void CYetiTalk::LateUpdate_Object(void)
 	Engine::CGameObject::LateUpdate_Object();
 }
 
-void CYetiTalk::Render_Obejct(void)
+void CSkillNotice::Render_Obejct(void)
 {
 	m_pGraphicDev->SetTransform(D3DTS_WORLD, m_pTransform->Get_WorldMatrixPointer());
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
@@ -108,7 +139,7 @@ void CYetiTalk::Render_Obejct(void)
 	m_pGraphicDev->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
 
-		m_pTextureCom->Set_Texture(0);
+	m_pTextureCom->Set_Texture(0);
 
 
 	m_pBufferCom->Render_Buffer();
@@ -116,12 +147,12 @@ void CYetiTalk::Render_Obejct(void)
 	m_pGraphicDev->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 }
 
-CYetiTalk * CYetiTalk::Create(LPDIRECT3DDEVICE9 pGraphicDev, CTransform * pMaster, float Posx, float Posz)
+CSkillNotice * CSkillNotice::Create(LPDIRECT3DDEVICE9 pGraphicDev, CTransform * pMaster, float Posx, float Posz)
 {
-	CYetiTalk*	pInstance = new CYetiTalk(pGraphicDev);
+	CSkillNotice*	pInstance = new CSkillNotice(pGraphicDev);
 
 
-	if (FAILED(pInstance->Ready_Object(Posx, Posz , pMaster)))
+	if (FAILED(pInstance->Ready_Object(Posx, Posz, pMaster)))
 	{
 		Safe_Release(pInstance);
 		return nullptr;
@@ -130,7 +161,7 @@ CYetiTalk * CYetiTalk::Create(LPDIRECT3DDEVICE9 pGraphicDev, CTransform * pMaste
 	return pInstance;
 }
 
-void CYetiTalk::Free(void)
+void CSkillNotice::Free(void)
 {
 	CGameObject::Free();
 }
