@@ -318,7 +318,7 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 	{
 		// Test -> Shop 추후수정
 		//m_pDynamicTransCom->Set_Pos(530.f, 2.f, 530.f);
-		//m_pDynamicTransCom->Set_Pos(320., 2.f, 320.);
+		m_pDynamicTransCom->Set_Pos(320., 2.f, 320.);
 		//
 		Excution_Motion();
 

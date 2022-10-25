@@ -4,7 +4,6 @@
 #include "Export_Function.h"
 
 #include "Stage1PreHeader.h"
-#include "BossStage.h"
 #include "RealSnowFall.h"
 #include "TeleCube.h"
 
@@ -354,7 +353,8 @@ HRESULT CStage::Ready_Layer_UI(const _tchar * pLayerTag)
 	READY_LAYER(pGameObject, CUI_Frame, pLayer, m_pGraphicDev, L"Frame");
 
 	READY_LAYER(pGameObject, CQuestTalkingFrame, pLayer, m_pGraphicDev, L"QuestUIFrame");
-
+	
+	READY_LAYER(pGameObject, CMsgUI, pLayer, m_pGraphicDev, L"MsgUI");
 
 	pGameObject = CPlayer_Dead_UI::Create(m_pGraphicDev, 255);
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);

@@ -7,6 +7,7 @@
 #include "CharacterInfo.h"
 #include "Click_Particle.h"
 #include "Currect_Answer.h"
+#include "MsgUI.h"
 
 
 CWrongPicFind::CWrongPicFind(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -125,11 +126,19 @@ void CWrongPicFind::Picking_WrongPoint(void)
 				if (i == 0 && !m_bSuccess0)
 				{
 					// Event
-
+					CScene*pScene = ::Get_Scene();
+					CLayer * pLayer = pScene->GetLayer(L"Ready_Layer_UI");
 					//MSG_BOX("8bit");
 					m_iCurrect += 1;
 					Engine::PlaySoundW(L"Currect_Mark.wav", SOUND_EFFECT, 1.f);		
-					
+					CMsgUI *pMsgBox = dynamic_cast<CMsgUI*>(pLayer->Get_GameObject(L"MsgUI2"));
+					if (pMsgBox != nullptr)
+					{
+
+						pMsgBox->Set_Active(true);
+						pMsgBox->Set_MsgFrame(WINCX / 2.f, WINCY / 2.f, 600.f, 400.f);
+						pMsgBox->Set_FontMsg(L"8bit!!", WINCX / 2.f - 40.f , WINCY / 2.f - 5.f);
+					}
 					m_bSuccess0 = true;						
 				}		
 
@@ -141,6 +150,21 @@ void CWrongPicFind::Picking_WrongPoint(void)
 					m_iCurrect += 1;
 					Engine::PlaySoundW(L"Currect_Mark.wav", SOUND_EFFECT, 1.f);
 					
+					CScene*pScene = ::Get_Scene();
+					CLayer * pLayer = pScene->GetLayer(L"Ready_Layer_UI");
+					//MSG_BOX("8bit");
+					m_iCurrect += 1;
+					Engine::PlaySoundW(L"Currect_Mark.wav", SOUND_EFFECT, 1.f);
+					CMsgUI *pMsgBox = dynamic_cast<CMsgUI*>(pLayer->Get_GameObject(L"MsgUI2"));
+					if (pMsgBox != nullptr)
+					{
+
+						pMsgBox->Set_Active(true);
+						pMsgBox->Set_MsgFrame(WINCX / 2.f , WINCY / 2.f, 600.f, 400.f);
+						pMsgBox->Set_FontMsg(L"?상남자?!", WINCX / 2.f-50.f , WINCY / 2.f - 5.f);
+					}
+
+
 					m_bSuccess1 = true;
 				}
 
@@ -149,7 +173,20 @@ void CWrongPicFind::Picking_WrongPoint(void)
 					//MSG_BOX("나만의 작은 침");
 					m_iCurrect += 1;
 					Engine::PlaySoundW(L"Currect_Mark.wav", SOUND_EFFECT, 1.f);
-					
+					CScene*pScene = ::Get_Scene();
+					CLayer * pLayer = pScene->GetLayer(L"Ready_Layer_UI");
+					//MSG_BOX("8bit");
+					m_iCurrect += 1;
+					Engine::PlaySoundW(L"Currect_Mark.wav", SOUND_EFFECT, 1.f);
+					CMsgUI *pMsgBox = dynamic_cast<CMsgUI*>(pLayer->Get_GameObject(L"MsgUI2"));
+					if (pMsgBox != nullptr)
+					{
+
+						pMsgBox->Set_Active(true);
+						pMsgBox->Set_MsgFrame(WINCX / 2.f , WINCY / 2.f, 600.f, 400.f);
+						pMsgBox->Set_FontMsg(L"나만의 작은 침..", WINCX / 2.f -100.f, WINCY / 2.f - 5.f);
+					}
+
 					m_bSuccess2 = true;
 				}				
 			}

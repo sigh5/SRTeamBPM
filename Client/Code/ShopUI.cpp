@@ -16,6 +16,7 @@
 #include "MiniGame1Pic.h"
 #include "HelmetPic.h"
 #include "PetPic.h"
+#include "MsgUI.h"
 
 
 CShopUI::CShopUI(LPDIRECT3DDEVICE9 pGraphicDev)
@@ -231,15 +232,18 @@ void CShopUI::Picking_Rect_Index()
 				
 					if (pQuestProcessing_UI == nullptr)
 					{
-						MSG_BOX("퀘스트를 받으세요!!");
+						CMsgUI *pMsgBox = dynamic_cast<CMsgUI*>(pLayer->Get_GameObject(L"MsgUI"));
+						if (pMsgBox != nullptr)
+						{
+							pMsgBox->Set_Active(true);
+							pMsgBox->Set_MsgFrame(WINCX / 2.f-100, WINCY / 2.f, 600.f, 400.f);
+							pMsgBox->Set_FontMsg(L"퀘스트를 받으세요", WINCX / 2.f -200.f , WINCY / 2.f - 5.f);
+						}
 						return;
 					}
 					
 					pQuestProcessing_UI->Set_Quest_Claer(Quest_Index_ONE, true);
 
-					
-
-					
 					pScene->Set_SceneChane(true);
 					::Set_SaveScene(pScene);
 
@@ -262,7 +266,23 @@ void CShopUI::Picking_Rect_Index()
 				else if (i == 3 && !m_bSelect[3])
 				{
 					CScene*pScene = ::Get_Scene();
-					CLayer * pLayer = pScene->GetLayer(L"Layer_GameLogic");
+					CLayer* pLayer = pScene->GetLayer(L"Layer_UI");
+					CQuestProcessing_UI* pQuestProcessing_UI =
+						dynamic_cast<CQuestProcessing_UI*>(pLayer->Get_GameObject(L"QuestProcessing_UI"));
+
+					if (pQuestProcessing_UI == nullptr)
+					{
+						CMsgUI *pMsgBox = dynamic_cast<CMsgUI*>(pLayer->Get_GameObject(L"MsgUI"));
+						if (pMsgBox != nullptr)
+						{
+							pMsgBox->Set_Active(true);
+							pMsgBox->Set_MsgFrame(WINCX / 2.f - 100, WINCY / 2.f, 600.f, 400.f);
+							pMsgBox->Set_FontMsg(L"퀘스트를 받으세요", WINCX / 2.f - 200.f, WINCY / 2.f - 5.f);
+							
+						}
+						return;
+					}
+										pLayer = pScene->GetLayer(L"Layer_GameLogic");
 					NULL_CHECK_RETURN(pLayer, );
 					CPlayer* pPlayer = dynamic_cast<CPlayer*>(pLayer->Get_GameObject(L"Player"));
 					CCharacterInfo* pPlayerInfo = dynamic_cast<CCharacterInfo*>(pLayer->Get_Component(L"Player", L"Proto_CharacterInfoCom", ID_STATIC));
@@ -272,7 +292,7 @@ void CShopUI::Picking_Rect_Index()
 					pScene->Set_SceneChane(true);
 					::Set_SaveScene(pScene);
 					pLayer = pScene->GetLayer(L"Layer_UI");
-					CQuestProcessing_UI* pQuestProcessing_UI =
+					pQuestProcessing_UI =
 						dynamic_cast<CQuestProcessing_UI*>(pLayer->Get_GameObject(L"QuestProcessing_UI"));
 					if (pQuestProcessing_UI != nullptr)
 						pQuestProcessing_UI->Set_Quest_Claer(Quest_Index_TWO, true);
