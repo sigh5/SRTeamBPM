@@ -104,6 +104,8 @@ private:
 	int				m_iRepeatShot = 0;
 
 
+	_bool			m_bFinalCheck = false;
+
 	float			m_fFlareTimeCount = 0.f;
 	int				m_iFlareCount = 0;
 

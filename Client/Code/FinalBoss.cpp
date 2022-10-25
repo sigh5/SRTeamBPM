@@ -17,6 +17,8 @@
 #include "Stage.h"
 #include "EndingImage.h"
 
+#include "Npc.h"
+
 CFinalBoss::CFinalBoss(LPDIRECT3DDEVICE9 pGraphicDev)
 	:CMonsterBase(pGraphicDev)
 {
@@ -422,6 +424,13 @@ bool CFinalBoss::Dead_Judge(const _float & fTimeDelta)
 				}
 
 			}
+			
+			CNpc* pNpc = dynamic_cast<CNpc*>(::Get_GameObject(L"Layer_GameLogic", L"NPC"));
+			if (pNpc != nullptr)
+			{
+				pNpc->Set_ShopUICheck(true);
+			}
+
 		}			
 
 		if (m_iEndingSceneChangeCount > 500)

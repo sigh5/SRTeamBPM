@@ -153,7 +153,7 @@ void CWrongPicFind::Picking_WrongPoint(void)
 					CScene*pScene = ::Get_Scene();
 					CLayer * pLayer = pScene->GetLayer(L"Ready_Layer_UI");
 					//MSG_BOX("8bit");
-					m_iCurrect += 1;
+					
 					Engine::PlaySoundW(L"Currect_Mark.wav", SOUND_EFFECT, 1.f);
 					CMsgUI *pMsgBox = dynamic_cast<CMsgUI*>(pLayer->Get_GameObject(L"MsgUI2"));
 					if (pMsgBox != nullptr)
@@ -175,8 +175,7 @@ void CWrongPicFind::Picking_WrongPoint(void)
 					Engine::PlaySoundW(L"Currect_Mark.wav", SOUND_EFFECT, 1.f);
 					CScene*pScene = ::Get_Scene();
 					CLayer * pLayer = pScene->GetLayer(L"Ready_Layer_UI");
-					//MSG_BOX("8bit");
-					m_iCurrect += 1;
+					
 					Engine::PlaySoundW(L"Currect_Mark.wav", SOUND_EFFECT, 1.f);
 					CMsgUI *pMsgBox = dynamic_cast<CMsgUI*>(pLayer->Get_GameObject(L"MsgUI2"));
 					if (pMsgBox != nullptr)

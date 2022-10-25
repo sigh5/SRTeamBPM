@@ -567,10 +567,10 @@ void CStage::Set_Player_StartCubePos()
 	_int iRandomShuffleNum = rand()%4;
 
 	
-	for(int i=0; i<iRandomShuffleNum; ++i)
+	/*for(int i=0; i<iRandomShuffleNum; ++i)
 		random_shuffle((*pLayer->GetRestCube()).begin(), (*pLayer->GetRestCube()).end());
 	
-	
+	*/
 	
 	vector<CGameObject*> m_vecCube = *pLayer->GetRestCube();
 

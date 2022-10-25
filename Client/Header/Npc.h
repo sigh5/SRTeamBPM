@@ -28,6 +28,7 @@ public:
 
 public:
 	const _bool&	Get_ShopUICheck() { return m_fShopUICheck; }
+	void			Set_ShopUICheck(_bool bShopUICheck) { m_fShopUICheck= bShopUICheck; }
 
 private:
 	HRESULT				Add_Component(void);

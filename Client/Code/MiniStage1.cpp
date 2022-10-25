@@ -36,6 +36,8 @@ HRESULT CMiniStage1::Ready_Scene(void)
 
 	FAILED_CHECK_RETURN(Ready_Layer_Environment(L"Ready_Layer_Environment"), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_UI(L"Ready_Layer_UI"), E_FAIL);
+	StopAll();
+	
 	Engine::PlaySoundW(L"Wrong_Image_Find_Game.mp3", SOUND_BGM, g_fSound);
 
 	return S_OK;

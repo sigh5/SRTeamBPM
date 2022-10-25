@@ -474,11 +474,11 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 
 	}
 
-	if (Engine::Key_Down(DIK_N))
-	{
-		// Test -> Shop 추후수정
-		m_pDynamicTransCom->Set_Pos(520.f, 2.f, 520.f);
-	}
+	//if (Engine::Key_Down(DIK_N))
+	//{
+	//	// Test -> Shop 추후수정
+	//	m_pDynamicTransCom->Set_Pos(520.f, 2.f, 520.f);
+	//}
 
 	Engine::Key_InputReset();
 
@@ -598,6 +598,7 @@ void CPlayer::Random_ResurrectionRoom()
 	
 	 pLayer = pScene->GetLayer(L"Layer_CubeCollsion");
 
+	 StopAll();
 	for (int i = 0; i < TELEPORT_CUBE_LIST_END; ++i)
 	{
 		for (auto iter : *(pLayer->Get_TeleCubeList(i)))

@@ -32,7 +32,7 @@ HRESULT CMiniGame3::Ready_Scene(void)
 	FAILED_CHECK_RETURN(Ready_Layer_Monster(L"Layer_Monster"), E_FAIL);
 	FAILED_CHECK_RETURN(Ready_Layer_CubeMap(L"Layer_CubeMap"), E_FAIL);
 	
-	::StopSound(SOUND_BGM);
+	StopAll();
 
 	return S_OK;
 }
