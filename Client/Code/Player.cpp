@@ -44,9 +44,9 @@ HRESULT CPlayer::Ready_Object(void)
 	
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
-	m_pInfoCom->Ready_CharacterInfo(200, 10, 5.f);
-	m_pInfoCom->Get_InfoRef()._iCoin = 10;
-
+	m_pInfoCom->Ready_CharacterInfo(9500, 10, 5.f);
+	m_pInfoCom->Get_InfoRef()._iCoin = 45;
+	m_pInfoCom->Get_InfoRef()._iKey = 4;
 
 	_vec3 vPos = { 20.f, 6.f, 15.f };
 
@@ -470,21 +470,23 @@ void CPlayer::Key_Input(const _float & fTimeDelta)
 
 	if (Engine::Key_Down(DIK_L))
 	{
-		m_pInfoCom->Get_InfoRef()._iHp += 10000;
-
+		//m_pInfoCom->Get_InfoRef()._iHp += 10000;
+		m_pDynamicTransCom->Set_Pos(530.f, 2.f, 530.f);
+		
 	}
 
-	//if (Engine::Key_Down(DIK_N))
-	//{
-	//	// Test -> Shop 추후수정
-	//	m_pDynamicTransCom->Set_Pos(520.f, 2.f, 520.f);
-	//}
+	if (Engine::Key_Down(DIK_N))
+	{
+		// Test -> Shop 추후수정
+		m_pInfoCom->Get_InfoRef()._iHp -= 10;
+		//m_pDynamicTransCom->Set_Pos(520.f, 2.f, 520.f);
+	}
 
 	Engine::Key_InputReset();
 
 	if (Engine::Key_Down(DIK_V))  // 치트키
-	{		
-		m_pInfoCom->Get_InfoRef()._iHp -= 10;
+	{		m_pDynamicTransCom->Set_Pos(320., 2.f, 320.);
+		
 	}
 	Engine::Key_InputReset();
 }

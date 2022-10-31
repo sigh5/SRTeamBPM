@@ -252,7 +252,8 @@ void CHarpoonGuy::Excution_Event(_bool bAOE)
 
 	if (bAOE)
 	{
-		m_pInfoCom->Receive_Damage(1);
+		m_bHit = true;
+		m_pInfoCom->Receive_Damage(30);
 		return;
 	}
 
